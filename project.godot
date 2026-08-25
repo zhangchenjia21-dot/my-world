@@ -1,6 +1,10 @@
 ; Engine configuration file.
-; G1 Foundation Spike bootstrap project.
-; Do not treat this file as a frozen long-term architecture decision.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
 
 config_version=5
 
