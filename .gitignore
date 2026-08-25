@@ -1,0 +1,16 @@
+# Godot 4 generated/import cache
+.godot/
+
+# Local secrets and provider credentials
+.env
+.env.*
+!.env.example
+
+# OS-local noise
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Temporary files
+*.tmp
+*.temp
