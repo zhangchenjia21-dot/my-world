@@ -1,0 +1,18 @@
+; Engine configuration file.
+; G1 Foundation Spike bootstrap project.
+; Do not treat this file as a frozen long-term architecture decision.
+
+config_version=5
+
+[application]
+
+config/name="my world"
+run/main_scene="res://src/main.tscn"
+config/features=PackedStringArray("4.7")
+
+[display]
+
+window/size/viewport_width=960
+window/size/viewport_height=540
+window/size/window_width_override=960
+window/size/window_height_override=540
