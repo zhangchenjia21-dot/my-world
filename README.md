@@ -13,7 +13,18 @@ This repository contains implementation truth: code, tests, build/runtime config
 - Local engine directory: `D:\AI\Engine`
 - Repository bootstrap started from an empty GitHub repository on 2026-08-25.
 
-Godot `v4.7.2` is the current project-level Foundation candidate. The actual local executable path and Standard vs .NET distribution still require direct Windows verification before this repository adds a committed `project.godot` or chooses GDScript/C# boundaries.
+## Verified local toolchain evidence
+
+The following Windows-local evidence was reported from direct Codex execution on 2026-08-25:
+
+- Godot version: `4.7.2.stable.official.ed1daf0bf`
+- Godot distribution: Standard / non-.NET Windows x64 package
+- GUI executable: `D:\AI\Engine\Godot_v4.7.2-stable_win64.exe`
+- Console executable: `D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe`
+- Git: `git version 2.54.0.windows.1`
+- OS architecture: `X64`
+
+This evidence is sufficient to create a minimal Godot project shape. It does **not** freeze GDScript vs C#, Runtime process boundaries, persistence technology, export behavior, or any downstream architecture decision.
 
 ## Authority
 
@@ -39,14 +50,29 @@ The World / DSH is a reference implementation and evidence source, not a code mi
 
 ## G1-01 bootstrap boundary
 
-The initial GitHub-side bootstrap intentionally contains only the files needed to establish repository governance and hygiene. `project.godot`, source directories, test directories, and build/export structure are added only when supported by real Foundation Spike evidence.
+The repository now contains a deliberately minimal Godot project surface:
 
-Immediate local verification still required:
+- `project.godot`
+- `src/main.tscn`
 
-1. Locate the actual Godot executable under `D:\AI\Engine`.
-2. Run it to confirm version `4.7.2`.
-3. Determine Standard vs .NET distribution.
-4. Record the executable/CLI command and basic Windows environment facts needed by G1.
-5. Only then create and run the minimal Godot project for the next Foundation step.
+The bootstrap scene contains no gameplay architecture and no script-language commitment. It exists only to prove the repository can host and launch a Godot 4.7.2 project before the later Foundation Spike tasks add real test surfaces.
 
-Do not mark local runtime or export checks as passed without real execution evidence.
+No placeholder test tree, persistence layer, provider layer, World Pack schema, or future module hierarchy should be added merely for completeness.
+
+## Local validation still required
+
+After syncing this repository to `D:\AI\Projects\my world`, run the minimal project with the verified executable:
+
+```powershell
+& 'D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe' --path 'D:\AI\Projects\my world'
+```
+
+Expected evidence for G1-01 runtime completion:
+
+1. Godot starts the project without parse/config errors.
+2. A window opens successfully.
+3. The window displays `my world` and `G1 Foundation Spike`.
+4. Closing the window exits normally.
+5. `git status --short` is reviewed so generated `.godot/` cache files are confirmed ignored.
+
+Do not mark the runtime check PASS until those observations come from real Windows execution.
