@@ -23,9 +23,12 @@ Before writing authoritative `main`, re-check current HEAD. Do not silently over
 
 Current phase: `G1 — Foundation & Project Bootstrap`.
 
-Current task: `G1-02 — Godot 4.7.2 Toolchain & Language Confirmation`.
+Current task: `G1-03 — 2D Chinese Long Text / Input Foundation Spike`.
 
-`G1-01 — Repository Bootstrap` is **PASS** based on real Windows runtime evidence.
+Completed:
+
+- `G1-01 — Repository Bootstrap`: **PASS** based on real Windows runtime evidence.
+- `G1-02 — Godot 4.7.2 Toolchain & Language Confirmation`: **PASS** based on local CLI/export-template/ICU verification.
 
 G1 is a Foundation Spike stage. Prefer:
 
@@ -65,16 +68,7 @@ Do not directly copy or recreate as new-project architecture:
 
 The World / DSH may be consulted for product evidence and lessons only when relevant.
 
-## 5. G1 implementation discipline
-
-Until Foundation Spike evidence exists:
-
-- do not freeze the long-term persistence schema;
-- do not freeze the full World Pack schema;
-- do not freeze NPC Runtime architecture;
-- do not freeze the full RPG UI architecture;
-- do not build multiplayer, server backend, cloud accounts/saves, 3D free movement, automatic map generation, universal ECS, whole-world tick simulation, Steam Workshop, local LLM hosting, TTS/STT, a complex script sandbox, or a multi-provider routing platform;
-- do not create speculative empty module trees or universal abstractions.
+## 5. Verified Foundation facts
 
 Verified Windows-local toolchain evidence as of 2026-08-25:
 
@@ -86,27 +80,47 @@ Verified Windows-local toolchain evidence as of 2026-08-25:
 - OS architecture: `X64`
 - Renderer: Vulkan / Forward+
 - GPU: NVIDIA GeForce RTX 4070 Laptop GPU
+- CLI export commands: present
+- Windows x86_64 export templates: installed and verified
+- ICU Data: installed and verified
 
-G1-01 runtime proof also confirmed normal PowerShell write access to Git metadata and Godot `user://`, successful minimal-project launch, expected window contents, exit code `0`, and a clean Git working tree after exit.
+G1-01 runtime proof confirmed normal PowerShell write access to Git metadata and Godot `user://`, successful minimal-project launch, expected window contents, exit code `0`, and a clean working tree after exit.
 
 Earlier write failures observed under Codex were caused by Codex execution sandbox boundaries. Do not modify Windows ACLs or application architecture to work around those sandbox-only errors.
 
-## 6. G1-02 toolchain boundary
+## 6. G1-03 implementation boundary
 
-Current G1-02 facts and provisional decisions:
+G1-03 exists only to prove these Host seams:
 
-- The installed Godot is Standard / non-.NET.
-- The installed Standard build is the current Foundation Spike host.
-- GDScript is the lowest-dependency language candidate for immediate G1 spikes.
-- This is **not** the final GDScript/C#/mixed architecture decision; G1-06 owns that decision.
-- Do not install .NET-enabled Godot or a .NET SDK only for hypothetical future use.
-- If C# becomes a real candidate, introduce the required .NET-enabled Godot editor and .NET SDK explicitly and document the evidence motivating it.
-- Windows Export final functionality belongs to G1-05; G1-02 only verifies that local export templates / CLI tooling are available.
-- An external local runtime process is not a prerequisite for G1-03. Same-process vs local-runtime-process remains open until G1-04/G1-05 evidence and G1-06.
+- Chinese text rendering;
+- long transcript scrolling;
+- incremental append behavior;
+- player text input;
+- text selection / copy;
+- usable UI under materially larger text volume.
 
-Do not start G1-03 implementation until G1-02's export-tooling check is recorded PASS or a concrete blocker is identified.
+The current implementation may use GDScript because it is the lowest-dependency provisional spike language. This is **not** the final GDScript/C#/mixed decision; G1-06 owns that decision.
 
-## 7. Repository shape
+For this spike:
+
+- `SystemFont` may prefer Windows CJK fonts such as Microsoft YaHei to test the local Host seam;
+- this does not define the final shipping-font/asset strategy;
+- timer-driven local append may simulate continuous text growth;
+- simulated append does **not** count as Provider streaming evidence;
+- do not add API clients, secrets, Provider abstractions, persistence, World Pack schema, domain architecture, or formal RPG UI architecture;
+- do not create `export_presets.cfg` or perform the G1-05 Windows functional-export proof early unless a new current decision explicitly moves it forward.
+
+G1-03 is not PASS until real Windows-local manual evidence covers rendering, scrolling, append, Chinese input, selection/copy, responsiveness, normal exit, and clean Git state.
+
+## 7. Future G1 boundaries
+
+- G1-04 owns the real Provider stream / cancel / non-freezing network proof.
+- G1-05 owns local IO, dynamic images, and functional Windows export proof.
+- G1-06 owns Godot Host, Standard/.NET, GDScript/C#/mixed, and same-process vs local-runtime-process architecture decisions.
+
+Do not pull these decisions forward merely because G1-03 uses one convenient implementation technique.
+
+## 8. Repository shape
 
 Create only files and directories that have immediate use:
 
@@ -119,9 +133,7 @@ Create only files and directories that have immediate use:
 
 Do not add placeholder directories solely for future architecture.
 
-The initial `src/main.tscn` is a language-neutral bootstrap scene. Its presence is not approval to build G2+ application architecture during G1.
-
-## 8. Validation and evidence
+## 9. Validation and evidence
 
 Never claim Windows-local, Godot, export, or Provider success without real execution evidence.
 
@@ -134,6 +146,6 @@ For changes that require local Godot validation, report separately:
 
 G1-GATE cannot pass from repository structure alone. It requires real executable proof for Godot runtime, long Chinese text/input, real provider streaming/cancel, non-freezing background work, local IO, dynamic images, Windows export, and the Runtime boundary decision.
 
-## 9. Security and secrets
+## 10. Security and secrets
 
 Never commit provider API keys, tokens, credentials, local secrets, or `.env` files containing secrets. Prefer environment variables or local untracked configuration, with sanitized examples where needed.
