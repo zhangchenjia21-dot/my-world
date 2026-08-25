@@ -9,7 +9,7 @@ This repository contains implementation truth: code, tests, build/runtime config
 - Phase: `G1 — Foundation & Project Bootstrap`
 - Current task: `G1-01 — Repository Bootstrap`
 - Foundation candidate: Godot `v4.7.2`
-- Local project directory: `D:\AI\Projects\my world`
+- Local project directory: `D:\AI\Projects\my-world`
 - Local engine directory: `D:\AI\Engine`
 - Repository bootstrap started from an empty GitHub repository on 2026-08-25.
 
@@ -61,10 +61,10 @@ No placeholder test tree, persistence layer, provider layer, World Pack schema, 
 
 ## Local validation still required
 
-After syncing this repository to `D:\AI\Projects\my world`, run the minimal project with the verified executable:
+After syncing this repository to `D:\AI\Projects\my-world`, run the minimal project with the verified executable:
 
 ```powershell
-& 'D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe' --path 'D:\AI\Projects\my world'
+& 'D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe' --path 'D:\AI\Projects\my-world'
 ```
 
 Expected evidence for G1-01 runtime completion:
@@ -75,4 +75,4 @@ Expected evidence for G1-01 runtime completion:
 4. Closing the window exits normally.
 5. `git status --short` is reviewed so generated `.godot/` cache files are confirmed ignored.
 
-Do not mark the runtime check PASS until those observations come from real Windows execution.
+Current local blocker observed on 2026-08-25: the execution environment could not write `.git/FETCH_HEAD` and Godot could not create `user://logs` / `user://vulkan` cache directories. Treat this as a Windows/local execution-permission blocker until filesystem write access is verified. Do not mark the runtime check PASS before that is resolved.
