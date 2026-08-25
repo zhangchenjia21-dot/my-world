@@ -7,15 +7,15 @@ This repository contains implementation truth: code, tests, build/runtime config
 ## Current status
 
 - Phase: `G1 — Foundation & Project Bootstrap`
-- Current task: `G1-01 — Repository Bootstrap`
+- Current task: `G1-02 — Godot 4.7.2 Toolchain & Language Confirmation`
+- `G1-01 — Repository Bootstrap`: **PASS**
 - Foundation candidate: Godot `v4.7.2`
 - Local project directory: `D:\AI\Projects\my-world`
 - Local engine directory: `D:\AI\Engine`
-- Repository bootstrap started from an empty GitHub repository on 2026-08-25.
 
 ## Verified local toolchain evidence
 
-The following Windows-local evidence was reported from direct Codex execution on 2026-08-25:
+Windows-local evidence confirmed on 2026-08-25:
 
 - Godot version: `4.7.2.stable.official.ed1daf0bf`
 - Godot distribution: Standard / non-.NET Windows x64 package
@@ -23,8 +23,19 @@ The following Windows-local evidence was reported from direct Codex execution on
 - Console executable: `D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe`
 - Git: `git version 2.54.0.windows.1`
 - OS architecture: `X64`
+- Renderer: Vulkan / Forward+
+- GPU: NVIDIA GeForce RTX 4070 Laptop GPU
 
-This evidence is sufficient to create a minimal Godot project shape. It does **not** freeze GDScript vs C#, Runtime process boundaries, persistence technology, export behavior, or any downstream architecture decision.
+G1-01 runtime verification also confirmed:
+
+- normal Windows PowerShell can write Git metadata and Godot `user://`;
+- `git pull --ff-only` works;
+- the minimal Godot project launches successfully;
+- the window displays `my world` and `G1 Foundation Spike`;
+- Godot exits normally with exit code `0`;
+- `git status --short` is clean afterward.
+
+Earlier write failures under Codex (`.git/FETCH_HEAD`, `user://logs`, `user://vulkan`, shader cache) were isolated to the Codex execution sandbox, not to Windows ACLs or the project.
 
 ## Authority
 
@@ -48,31 +59,34 @@ The World / DSH is a reference implementation and evidence source, not a code mi
 - UI projects game truth; it does not become a second truth source.
 - Do not prebuild G2–G9 architecture during G1.
 
-## G1-01 bootstrap boundary
+## G1-01 result
 
-The repository now contains a deliberately minimal Godot project surface:
+The repository contains a deliberately minimal Godot project surface:
 
 - `project.godot`
 - `src/main.tscn`
 
-The bootstrap scene contains no gameplay architecture and no script-language commitment. It exists only to prove the repository can host and launch a Godot 4.7.2 project before the later Foundation Spike tasks add real test surfaces.
+The bootstrap scene contains no gameplay architecture and no script-language commitment. G1-01 is complete and passed.
 
-No placeholder test tree, persistence layer, provider layer, World Pack schema, or future module hierarchy should be added merely for completeness.
+## G1-02 scope
 
-## Local validation still required
+G1-02 confirms the minimum first-spike toolchain without freezing the final G1 architecture.
 
-After syncing this repository to `D:\AI\Projects\my-world`, run the minimal project with the verified executable:
+Already confirmed:
 
-```powershell
-& 'D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe' --path 'D:\AI\Projects\my-world'
-```
+- Standard / non-.NET Godot 4.7.2 Windows x64;
+- GUI and console executables / CLI work;
+- the currently installed Standard build does not provide C# support;
+- GDScript is therefore the lowest-dependency language candidate for the immediate Foundation Spikes.
 
-Expected evidence for G1-01 runtime completion:
+Provisional does not mean final: GDScript vs C# vs mixed boundaries remain a G1-06 decision after real spike evidence.
 
-1. Godot starts the project without parse/config errors.
-2. A window opens successfully.
-3. The window displays `my world` and `G1 Foundation Spike`.
-4. Closing the window exits normally.
-5. `git status --short` is reviewed so generated `.godot/` cache files are confirmed ignored.
+Do not install a .NET-enabled Godot editor or .NET SDK merely for hypothetical future needs. If C# becomes a real comparison candidate, add that toolchain deliberately and record why.
 
-Current local blocker observed on 2026-08-25: the execution environment could not write `.git/FETCH_HEAD` and Godot could not create `user://logs` / `user://vulkan` cache directories. Treat this as a Windows/local execution-permission blocker until filesystem write access is verified. Do not mark the runtime check PASS before that is resolved.
+Remaining G1-02 local check:
+
+- confirm Godot 4.7.2 Windows export templates / export CLI tooling are available locally.
+
+The full functional Windows export proof remains G1-05 after the IO/image spike surface exists.
+
+External local runtime process is not a prerequisite for G1-03. Same-process vs local-runtime-process remains open until G1-04/G1-05 provide evidence and G1-06 records the architecture decision.
