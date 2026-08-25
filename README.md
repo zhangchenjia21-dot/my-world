@@ -7,14 +7,15 @@ This repository contains implementation truth: code, tests, build/runtime config
 ## Current status
 
 - Phase: `G1 — Foundation & Project Bootstrap`
-- Current task: `G1-03 — 2D Chinese Long Text / Input Foundation Spike`
+- Current task: `G1-04 — Real Provider Streaming / Cancel Foundation Spike`
 - `G1-01 — Repository Bootstrap`: **PASS**
 - `G1-02 — Godot 4.7.2 Toolchain & Language Confirmation`: **PASS**
+- `G1-03 — 2D Chinese Long Text / Input Foundation Spike`: **PASS** based on real Windows manual UAT
 - Foundation candidate: Godot `v4.7.2`
 - Local project directory: `D:\AI\Projects\my-world`
 - Local engine directory: `D:\AI\Engine`
 
-## Verified local toolchain evidence
+## Verified Foundation evidence
 
 Windows-local evidence confirmed on 2026-08-25:
 
@@ -30,11 +31,13 @@ Windows-local evidence confirmed on 2026-08-25:
 - Godot 4.7.2 Windows x86_64 export templates: installed and locally verified
 - ICU Data: installed and locally verified
 
-G1-01 runtime verification confirmed normal Windows PowerShell write access to Git metadata and Godot `user://`, successful minimal-project launch, expected window contents, exit code `0`, and a clean Git working tree after exit. Earlier write failures under Codex were isolated to the Codex execution sandbox, not Windows ACLs or the project.
+G1-01 runtime proof confirmed normal Windows PowerShell write access to Git metadata and Godot `user://`, successful launch/exit, expected window contents, and a clean working tree.
+
+G1-03 manual UAT confirmed Chinese rendering, long-text scrolling, bulk append, continuous append responsiveness, Chinese input, selection/copy, normal exit, and clean Git state. The local simulated append used by G1-03 is not Provider evidence; G1-04 now replaces it with a real network stream.
 
 ## Authority
 
-Before implementation work, read the current sources on GitHub `main` in this order:
+Before implementation work, read current GitHub `main` in this order:
 
 1. The user's current explicit instruction.
 2. `zhangchenjia21-dot/Vibe-Coding/AGENTS.md`.
@@ -54,38 +57,51 @@ The World / DSH is a reference implementation and evidence source, not a code mi
 - UI projects game truth; it does not become a second truth source.
 - Do not prebuild G2–G9 architecture during G1.
 
-## G1-02 result
+## G1-04 exploratory provider choice
 
-G1-02 is complete and passed.
+G1-04 needs one real Provider, not a multi-provider platform. For this Foundation Spike the concrete exploratory Provider is **DeepSeek Chat Completions**:
 
-The immediate Foundation Spike language candidate is **GDScript** because the installed host is Standard / non-.NET Godot and GDScript adds no extra toolchain dependency. This is provisional only: G1-06 still owns the final GDScript / C# / mixed decision.
+```text
+POST https://api.deepseek.com/chat/completions
+stream = true
+model = deepseek-v4-pro   # default; locally overridable for the spike
+```
 
-Do not install .NET-enabled Godot or a .NET SDK merely for hypothetical future needs. If C# becomes a real comparison candidate, add that toolchain deliberately and record the evidence motivating it.
+This is an execution choice for G1-04, **not** the final product Provider decision. G1-06 still owns the broader Foundation Architecture Decision.
 
-Windows export tooling/templates are ready, but the actual functional Windows build proof remains G1-05.
-
-## G1-03 spike surface
-
-G1-03 adds only the minimum executable surface needed to test text/input Host seams:
+The current surface is intentionally narrow:
 
 - `src/main.tscn`
-- `src/g1_03_text_input_spike.gd`
+- `src/g1_04_provider_stream_spike.gd`
+- Godot `HTTPClient` in its default non-blocking mode
+- `poll()` on the main loop and incremental `read_response_body_chunk()` reads
+- SSE parsing for `data: {...}` and `data: [DONE]`
+- real streamed text appended into the existing Godot reading surface
+- explicit Cancel by closing the active transport
+- UI heartbeat + manual response counter during network activity
+- deterministic connection-failure path using `127.0.0.1:1` with **no credentials**
 
-The scene provides:
+This is not a production Provider abstraction, retry platform, routing layer, or final Runtime boundary.
 
-- Windows system-font lookup preferring Microsoft YaHei / CJK fonts for this local spike;
-- a `RichTextLabel` with scrolling, selection, context menu, and `Ctrl+C` support;
-- seeded Chinese long-form text;
-- one-paragraph and 300-paragraph append controls;
-- timer-driven simulated incremental append to stress continuous text updates;
-- a multiline player `TextEdit` with Chinese input and `Ctrl+Enter` submission;
-- live character / paragraph counts.
+## Secrets
 
-The system-font choice is **not** the final shipping font strategy. The timer-driven append is **not** evidence for real Provider streaming; G1-04 owns that proof.
+Never commit or paste API keys into repository files. G1-04 reads the key only from the process environment:
 
-## Local G1-03 validation
+```text
+DEEPSEEK_API_KEY
+```
 
-Sync and launch in ordinary Windows PowerShell:
+Optional spike-only model override:
+
+```text
+MY_WORLD_G1_04_MODEL
+```
+
+The UI reports only whether the key exists; it never displays the key value.
+
+## Local G1-04 validation
+
+Use ordinary Windows PowerShell. Do **not** send the API key in chat.
 
 ```powershell
 Set-Location 'D:\AI\Projects\my-world'
@@ -93,19 +109,30 @@ git pull --ff-only origin main
 git rev-parse HEAD
 git status --short
 
+$env:DEEPSEEK_API_KEY = '<your key locally>'
+# Optional; the default is deepseek-v4-pro
+# $env:MY_WORLD_G1_04_MODEL = 'deepseek-v4-pro'
+
 & 'D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe' --path 'D:\AI\Projects\my-world'
 ```
 
-Manual PASS evidence required before G1-03 can close:
+Manual PASS evidence required before G1-04 can close:
 
-1. Chinese title, seeded paragraphs, buttons, placeholder, and status text render without obvious missing-glyph boxes or corruption.
-2. The seeded transcript scrolls normally.
-3. `追加 300 段` materially increases the transcript and scrolling remains usable.
-4. `开始模拟持续追加` continuously appends text while the window remains responsive; it can also be stopped.
-5. Chinese text can be entered into the player input area and appended with the button or `Ctrl+Enter`.
-6. Transcript text can be selected with the mouse and copied with `Ctrl+C` into another app.
-7. Repeated burst/stream operations do not cause obvious layout collapse, lock-up, or severe interaction failure.
-8. Closing the window exits normally.
-9. `git status --short` is clean afterward (`.godot/` remains ignored).
+1. The UI reports `DEEPSEEK_API_KEY: 已设置` without displaying its value.
+2. `发送真实请求` reaches the real Provider and HTTP 2xx is observed.
+3. GM text appears incrementally while generation is still in progress, not only as one final body.
+4. While streaming, the `UI heartbeat` keeps increasing and `UI 响应 +1` remains clickable.
+5. `Cancel` stops an in-progress generation promptly and the UI remains usable.
+6. A new real request can be started after cancellation.
+7. `连接失败测试` produces a clear handled failure message and does not freeze the UI.
+8. Provider/API failures are surfaced as readable errors rather than silently hanging.
+9. Closing the window exits normally.
+10. `git status --short` is clean afterward (`.godot/` remains ignored).
 
-Do not mark G1-03 PASS from repository structure alone. Real local observation is required.
+Do not mark G1-04 PASS from repository structure or simulated data. A real Provider request and real cancel observation are required.
+
+## Later G1 boundaries
+
+- G1-05 owns local IO, dynamic portrait/scene/map-style image loading, and functional Windows export proof.
+- G1-06 owns the final first-generation Host/toolchain/language/runtime-boundary decision.
+- Same-process Godot networking in this spike is evidence, not a final same-process Runtime commitment.
