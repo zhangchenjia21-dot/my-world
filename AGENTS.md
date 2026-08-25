@@ -74,7 +74,16 @@ Until Foundation Spike evidence exists:
 - do not build multiplayer, server backend, cloud accounts/saves, 3D free movement, automatic map generation, universal ECS, whole-world tick simulation, Steam Workshop, local LLM hosting, TTS/STT, a complex script sandbox, or a multi-provider routing platform;
 - do not create speculative empty module trees or universal abstractions.
 
-Godot `v4.7.2` is the current Foundation candidate. Standard vs .NET distribution, executable path, GDScript/C# boundary, Windows export behavior, and same-process vs local-runtime-process architecture require real local evidence before being treated as facts.
+Verified Windows-local toolchain evidence as of 2026-08-25:
+
+- Godot: `4.7.2.stable.official.ed1daf0bf`
+- Distribution: Standard / non-.NET Windows x64 package
+- GUI executable: `D:\AI\Engine\Godot_v4.7.2-stable_win64.exe`
+- Console executable: `D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe`
+- Git: `2.54.0.windows.1`
+- OS architecture: `X64`
+
+These facts permit a minimal `project.godot` Foundation surface. They do not decide GDScript/C#, Windows export viability, or same-process vs local-runtime-process architecture.
 
 ## 6. Repository shape
 
@@ -83,10 +92,13 @@ Create only files and directories that have immediate use. During bootstrap the 
 - `README.md`
 - `AGENTS.md`
 - `.gitignore`
-- `project.godot` only after the local Godot project shape is verified
-- `src/`, `tests/`, and `docs/` only when real implementation or validation needs them
+- `project.godot`
+- `src/` only for immediately runnable Foundation content
+- `tests/` and `docs/` only when real validation or implementation needs them
 
 Do not add placeholder directories solely for future architecture.
+
+The initial `src/main.tscn` is a language-neutral bootstrap scene. Do not interpret its presence as approval to build G2+ application architecture during G1-01.
 
 ## 7. Validation and evidence
 
