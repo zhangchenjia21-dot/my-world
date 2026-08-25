@@ -23,7 +23,9 @@ Before writing authoritative `main`, re-check current HEAD. Do not silently over
 
 Current phase: `G1 — Foundation & Project Bootstrap`.
 
-Current task at repository initialization: `G1-01 — Repository Bootstrap`.
+Current task: `G1-02 — Godot 4.7.2 Toolchain & Language Confirmation`.
+
+`G1-01 — Repository Bootstrap` is **PASS** based on real Windows runtime evidence.
 
 G1 is a Foundation Spike stage. Prefer:
 
@@ -82,12 +84,31 @@ Verified Windows-local toolchain evidence as of 2026-08-25:
 - Console executable: `D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe`
 - Git: `2.54.0.windows.1`
 - OS architecture: `X64`
+- Renderer: Vulkan / Forward+
+- GPU: NVIDIA GeForce RTX 4070 Laptop GPU
 
-These facts permit a minimal `project.godot` Foundation surface. They do not decide GDScript/C#, Windows export viability, or same-process vs local-runtime-process architecture.
+G1-01 runtime proof also confirmed normal PowerShell write access to Git metadata and Godot `user://`, successful minimal-project launch, expected window contents, exit code `0`, and a clean Git working tree after exit.
 
-## 6. Repository shape
+Earlier write failures observed under Codex were caused by Codex execution sandbox boundaries. Do not modify Windows ACLs or application architecture to work around those sandbox-only errors.
 
-Create only files and directories that have immediate use. During bootstrap the expected surface is intentionally small:
+## 6. G1-02 toolchain boundary
+
+Current G1-02 facts and provisional decisions:
+
+- The installed Godot is Standard / non-.NET.
+- The installed Standard build is the current Foundation Spike host.
+- GDScript is the lowest-dependency language candidate for immediate G1 spikes.
+- This is **not** the final GDScript/C#/mixed architecture decision; G1-06 owns that decision.
+- Do not install .NET-enabled Godot or a .NET SDK only for hypothetical future use.
+- If C# becomes a real candidate, introduce the required .NET-enabled Godot editor and .NET SDK explicitly and document the evidence motivating it.
+- Windows Export final functionality belongs to G1-05; G1-02 only verifies that local export templates / CLI tooling are available.
+- An external local runtime process is not a prerequisite for G1-03. Same-process vs local-runtime-process remains open until G1-04/G1-05 evidence and G1-06.
+
+Do not start G1-03 implementation until G1-02's export-tooling check is recorded PASS or a concrete blocker is identified.
+
+## 7. Repository shape
+
+Create only files and directories that have immediate use:
 
 - `README.md`
 - `AGENTS.md`
@@ -98,11 +119,11 @@ Create only files and directories that have immediate use. During bootstrap the 
 
 Do not add placeholder directories solely for future architecture.
 
-The initial `src/main.tscn` is a language-neutral bootstrap scene. Do not interpret its presence as approval to build G2+ application architecture during G1-01.
+The initial `src/main.tscn` is a language-neutral bootstrap scene. Its presence is not approval to build G2+ application architecture during G1.
 
-## 7. Validation and evidence
+## 8. Validation and evidence
 
-Never claim Windows-local or Godot execution success without real execution evidence.
+Never claim Windows-local, Godot, export, or Provider success without real execution evidence.
 
 For changes that require local Godot validation, report separately:
 
@@ -113,6 +134,6 @@ For changes that require local Godot validation, report separately:
 
 G1-GATE cannot pass from repository structure alone. It requires real executable proof for Godot runtime, long Chinese text/input, real provider streaming/cancel, non-freezing background work, local IO, dynamic images, Windows export, and the Runtime boundary decision.
 
-## 8. Security and secrets
+## 9. Security and secrets
 
 Never commit provider API keys, tokens, credentials, local secrets, or `.env` files containing secrets. Prefer environment variables or local untracked configuration, with sanitized examples where needed.
