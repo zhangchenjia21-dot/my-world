@@ -99,20 +99,21 @@ The UI may show only `已设置 / 未设置`; it must never display key values.
 
 Use ordinary Windows PowerShell. Do **not** send either API key in chat.
 
+For local launch, create the ignored secret file and use the repository launcher:
+
+1. Copy `.env.example` to `.env.local`.
+2. Fill in `DEEPSEEK_API_KEY` and `MOONSHOT_API_KEY` locally.
+3. Run `.\run-local.ps1`.
+
+`.env.local` is local-only and ignored by Git. `run-local.ps1` only injects variables into the launched Godot process.
+
 ```powershell
 Set-Location 'D:\AI\Projects\my-world'
 git pull --ff-only origin main
 git rev-parse HEAD
 git status --short
 
-$env:DEEPSEEK_API_KEY = '<DeepSeek key locally>'
-$env:MOONSHOT_API_KEY = '<Kimi key locally>'
-
-# Optional model overrides only if needed:
-# $env:MY_WORLD_G1_04_DEEPSEEK_MODEL = 'deepseek-v4-pro'
-# $env:MY_WORLD_G1_04_KIMI_MODEL = 'kimi-k3'
-
-& 'D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe' --path 'D:\AI\Projects\my-world'
+.\run-local.ps1
 ```
 
 Manual PASS evidence required before G1-04 can close:
