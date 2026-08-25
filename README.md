@@ -76,6 +76,7 @@ Already confirmed:
 
 - Standard / non-.NET Godot 4.7.2 Windows x64;
 - GUI and console executables / CLI work;
+- CLI exposes `--export-release`, `--export-debug`, and `--export-pack`;
 - the currently installed Standard build does not provide C# support;
 - GDScript is therefore the lowest-dependency language candidate for the immediate Foundation Spikes.
 
@@ -83,9 +84,13 @@ Provisional does not mean final: GDScript vs C# vs mixed boundaries remain a G1-
 
 Do not install a .NET-enabled Godot editor or .NET SDK merely for hypothetical future needs. If C# becomes a real comparison candidate, add that toolchain deliberately and record why.
 
-Remaining G1-02 local check:
+Current G1-02 blocker / remaining local setup:
 
-- confirm Godot 4.7.2 Windows export templates / export CLI tooling are available locally.
+- `%APPDATA%\Godot\export_templates\4.7.2.stable` is absent;
+- `windows_debug_x86_64.exe` is absent;
+- `windows_release_x86_64.exe` is absent;
+- install the Godot 4.7.2 Windows x86_64 export templates before G1-02 can PASS;
+- install ICU Data at the same time because later Foundation validation includes Chinese text.
 
 The full functional Windows export proof remains G1-05 after the IO/image spike surface exists.
 
