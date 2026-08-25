@@ -7,8 +7,9 @@ This repository contains implementation truth: code, tests, build/runtime config
 ## Current status
 
 - Phase: `G1 — Foundation & Project Bootstrap`
-- Current task: `G1-02 — Godot 4.7.2 Toolchain & Language Confirmation`
+- Current task: `G1-03 — 2D Chinese Long Text / Input Foundation Spike`
 - `G1-01 — Repository Bootstrap`: **PASS**
+- `G1-02 — Godot 4.7.2 Toolchain & Language Confirmation`: **PASS**
 - Foundation candidate: Godot `v4.7.2`
 - Local project directory: `D:\AI\Projects\my-world`
 - Local engine directory: `D:\AI\Engine`
@@ -25,17 +26,11 @@ Windows-local evidence confirmed on 2026-08-25:
 - OS architecture: `X64`
 - Renderer: Vulkan / Forward+
 - GPU: NVIDIA GeForce RTX 4070 Laptop GPU
+- CLI export commands: `--export-release`, `--export-debug`, `--export-pack`
+- Godot 4.7.2 Windows x86_64 export templates: installed and locally verified
+- ICU Data: installed and locally verified
 
-G1-01 runtime verification also confirmed:
-
-- normal Windows PowerShell can write Git metadata and Godot `user://`;
-- `git pull --ff-only` works;
-- the minimal Godot project launches successfully;
-- the window displays `my world` and `G1 Foundation Spike`;
-- Godot exits normally with exit code `0`;
-- `git status --short` is clean afterward.
-
-Earlier write failures under Codex (`.git/FETCH_HEAD`, `user://logs`, `user://vulkan`, shader cache) were isolated to the Codex execution sandbox, not to Windows ACLs or the project.
+G1-01 runtime verification confirmed normal Windows PowerShell write access to Git metadata and Godot `user://`, successful minimal-project launch, expected window contents, exit code `0`, and a clean Git working tree after exit. Earlier write failures under Codex were isolated to the Codex execution sandbox, not Windows ACLs or the project.
 
 ## Authority
 
@@ -47,7 +42,7 @@ Before implementation work, read the current sources on GitHub `main` in this or
 4. `Vibe-Coding/my world/MY_WORLD_总体规划路线图_CURRENT.md`.
 5. `Vibe-Coding/my world/MY_WORLD_独立版Preflight与第一阶段计划_v1.0_2026-08-25.md`.
 6. `Vibe-Coding/my world/MY_WORLD_DSH经验继承矩阵_v1.0_2026-08-25.md`.
-7. This repository's current code, tests, and HEAD.
+7. This repository's current implementation, tests, and HEAD.
 
 The World / DSH is a reference implementation and evidence source, not a code migration template.
 
@@ -59,39 +54,58 @@ The World / DSH is a reference implementation and evidence source, not a code mi
 - UI projects game truth; it does not become a second truth source.
 - Do not prebuild G2–G9 architecture during G1.
 
-## G1-01 result
+## G1-02 result
 
-The repository contains a deliberately minimal Godot project surface:
+G1-02 is complete and passed.
 
-- `project.godot`
+The immediate Foundation Spike language candidate is **GDScript** because the installed host is Standard / non-.NET Godot and GDScript adds no extra toolchain dependency. This is provisional only: G1-06 still owns the final GDScript / C# / mixed decision.
+
+Do not install .NET-enabled Godot or a .NET SDK merely for hypothetical future needs. If C# becomes a real comparison candidate, add that toolchain deliberately and record the evidence motivating it.
+
+Windows export tooling/templates are ready, but the actual functional Windows build proof remains G1-05.
+
+## G1-03 spike surface
+
+G1-03 adds only the minimum executable surface needed to test text/input Host seams:
+
 - `src/main.tscn`
+- `src/g1_03_text_input_spike.gd`
 
-The bootstrap scene contains no gameplay architecture and no script-language commitment. G1-01 is complete and passed.
+The scene provides:
 
-## G1-02 scope
+- Windows system-font lookup preferring Microsoft YaHei / CJK fonts for this local spike;
+- a `RichTextLabel` with scrolling, selection, context menu, and `Ctrl+C` support;
+- seeded Chinese long-form text;
+- one-paragraph and 300-paragraph append controls;
+- timer-driven simulated incremental append to stress continuous text updates;
+- a multiline player `TextEdit` with Chinese input and `Ctrl+Enter` submission;
+- live character / paragraph counts.
 
-G1-02 confirms the minimum first-spike toolchain without freezing the final G1 architecture.
+The system-font choice is **not** the final shipping font strategy. The timer-driven append is **not** evidence for real Provider streaming; G1-04 owns that proof.
 
-Already confirmed:
+## Local G1-03 validation
 
-- Standard / non-.NET Godot 4.7.2 Windows x64;
-- GUI and console executables / CLI work;
-- CLI exposes `--export-release`, `--export-debug`, and `--export-pack`;
-- the currently installed Standard build does not provide C# support;
-- GDScript is therefore the lowest-dependency language candidate for the immediate Foundation Spikes.
+Sync and launch in ordinary Windows PowerShell:
 
-Provisional does not mean final: GDScript vs C# vs mixed boundaries remain a G1-06 decision after real spike evidence.
+```powershell
+Set-Location 'D:\AI\Projects\my-world'
+git pull --ff-only origin main
+git rev-parse HEAD
+git status --short
 
-Do not install a .NET-enabled Godot editor or .NET SDK merely for hypothetical future needs. If C# becomes a real comparison candidate, add that toolchain deliberately and record why.
+& 'D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe' --path 'D:\AI\Projects\my-world'
+```
 
-Current G1-02 blocker / remaining local setup:
+Manual PASS evidence required before G1-03 can close:
 
-- `%APPDATA%\Godot\export_templates\4.7.2.stable` is absent;
-- `windows_debug_x86_64.exe` is absent;
-- `windows_release_x86_64.exe` is absent;
-- install the Godot 4.7.2 Windows x86_64 export templates before G1-02 can PASS;
-- install ICU Data at the same time because later Foundation validation includes Chinese text.
+1. Chinese title, seeded paragraphs, buttons, placeholder, and status text render without obvious missing-glyph boxes or corruption.
+2. The seeded transcript scrolls normally.
+3. `追加 300 段` materially increases the transcript and scrolling remains usable.
+4. `开始模拟持续追加` continuously appends text while the window remains responsive; it can also be stopped.
+5. Chinese text can be entered into the player input area and appended with the button or `Ctrl+Enter`.
+6. Transcript text can be selected with the mouse and copied with `Ctrl+C` into another app.
+7. Repeated burst/stream operations do not cause obvious layout collapse, lock-up, or severe interaction failure.
+8. Closing the window exits normally.
+9. `git status --short` is clean afterward (`.godot/` remains ignored).
 
-The full functional Windows export proof remains G1-05 after the IO/image spike surface exists.
-
-External local runtime process is not a prerequisite for G1-03. Same-process vs local-runtime-process remains open until G1-04/G1-05 provide evidence and G1-06 records the architecture decision.
+Do not mark G1-03 PASS from repository structure alone. Real local observation is required.
