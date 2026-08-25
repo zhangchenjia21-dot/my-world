@@ -15,7 +15,7 @@ For every new formal task, resolve current authority from GitHub `main` in this 
 6. `Vibe-Coding/my world/MY_WORLD_DSH经验继承矩阵_v1.0_2026-08-25.md`.
 7. This repository's current implementation, tests, and HEAD.
 
-If a current decision changes the stage, task, prerequisite, architecture boundary, contract timing, or task DAG, propagate that decision before continuing old work.
+If a current decision changes stage, task, prerequisite, architecture boundary, contract timing, ownership, task validity, or the task DAG, propagate that decision before continuing old work.
 
 Before authoritative `main` writes, re-check current HEAD. Do not silently overwrite changes made after the task base.
 
@@ -27,11 +27,13 @@ Current task: `G1-04 — Real Provider Streaming / Cancel Foundation Spike`.
 
 Completed:
 
-- `G1-01 — Repository Bootstrap`: **PASS** based on real Windows runtime evidence.
-- `G1-02 — Godot 4.7.2 Toolchain & Language Confirmation`: **PASS** based on local CLI/export-template/ICU verification.
+- `G1-01 — Repository Bootstrap`: **PASS**.
+- `G1-02 — Godot 4.7.2 Toolchain & Language Confirmation`: **PASS**.
 - `G1-03 — 2D Chinese Long Text / Input Foundation Spike`: **PASS** based on real Windows manual UAT.
 
-G1 is a Foundation Spike stage. Prefer:
+Current G1-04 scope is explicitly **DeepSeek + Kimi**. Both real Provider paths must be proven before G1-04 can PASS.
+
+G1 remains a Foundation Spike stage:
 
 ```text
 focused exploration
@@ -73,90 +75,112 @@ The World / DSH may be consulted for product evidence and lessons only when rele
 
 Verified Windows-local evidence as of 2026-08-25:
 
-- Godot: `4.7.2.stable.official.ed1daf0bf`
-- Distribution: Standard / non-.NET Windows x64
-- GUI: `D:\AI\Engine\Godot_v4.7.2-stable_win64.exe`
-- Console: `D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe`
-- Git: `2.54.0.windows.1`
-- OS architecture: `X64`
-- Renderer: Vulkan / Forward+
-- GPU: NVIDIA GeForce RTX 4070 Laptop GPU
-- Windows x86_64 export templates: installed and verified
-- ICU Data: installed and verified
+- Godot `4.7.2.stable.official.ed1daf0bf`
+- Standard / non-.NET Windows x64
+- Vulkan / Forward+
+- NVIDIA GeForce RTX 4070 Laptop GPU
+- Git `2.54.0.windows.1`
+- Windows x86_64 export templates installed and verified
+- ICU Data installed and verified
 
-G1-01 proved normal local write/runtime behavior. Earlier Codex write failures were sandbox-only.
+G1-01 proved normal Windows-local Git/Godot writes, launch, exit, and clean Git state. Earlier Codex write failures were sandbox-only.
 
-G1-03 manual UAT proved Chinese rendering, long scrolling, bulk/continuous append behavior, Chinese input, selection/copy, UI responsiveness, normal exit, and clean Git state.
+G1-03 manual UAT proved Chinese rendering, long scrolling, bulk/continuous append, Chinese input, selection/copy, UI responsiveness, normal exit, and clean Git state.
 
 ## 6. G1-04 implementation boundary
 
 G1-04 exists only to prove:
 
-- a real Provider request can be made from the Godot Foundation surface;
-- real output arrives incrementally;
-- cancel works during generation;
-- network/API failures have explicit user-visible states;
-- the UI main loop remains responsive during the request.
+- real Provider requests from the Godot Foundation surface;
+- real incremental output;
+- cancel during generation;
+- explicit network/API failure states;
+- UI main-loop responsiveness during network activity;
+- the same narrow seam can support both required Providers without becoming a generic AI platform.
 
-The concrete exploratory Provider for this spike is DeepSeek Chat Completions:
+### Required Provider A — DeepSeek
 
 ```text
-POST https://api.deepseek.com/chat/completions
-stream = true
+host = api.deepseek.com
+path = /chat/completions
+default model = deepseek-v4-pro
+key env = DEEPSEEK_API_KEY
+optional model override = MY_WORLD_G1_04_DEEPSEEK_MODEL
 ```
 
-Default model for this spike: `deepseek-v4-pro`, locally overridable through `MY_WORLD_G1_04_MODEL` if needed.
+### Required Provider B — Kimi / Moonshot AI
 
-This is **not** a final Provider product decision and is **not** approval to build a multi-provider platform.
+```text
+host = api.moonshot.ai
+path = /v1/chat/completions
+default model = kimi-k3
+key env = MOONSHOT_API_KEY
+optional model override = MY_WORLD_G1_04_KIMI_MODEL
+```
+
+Both are OpenAI-compatible chat-completions/SSE shapes for this spike, so reuse the small common HTTP/SSE parsing path where reality permits. Keep provider-specific host/path/key/model explicit.
+
+Do **not** expand this into:
+
+- automatic provider routing;
+- fallback meshes;
+- load balancing;
+- account systems;
+- generic provider registries/plugin frameworks;
+- retry orchestration platforms;
+- product-level model selection architecture.
 
 Implementation constraints:
 
-- use the provisional GDScript surface only because it is the current lowest-dependency spike language;
-- use Godot `HTTPClient` non-blocking polling and incremental response-body reads;
-- parse only the SSE shape required for this concrete spike;
-- cancellation may close the active HTTP transport; do not invent production turn/cancel domain semantics yet;
-- same-process networking is evidence only, not the G1-06 Runtime-boundary decision;
-- keep Provider logic inside the spike surface rather than creating a large adapter hierarchy;
-- do not add persistence, World Pack schema, formal Game/Turn domain architecture, retry meshes, routing, fallback meshes, telemetry platforms, or account systems.
+- use provisional GDScript because it remains the lowest-dependency spike language;
+- use Godot `HTTPClient` in non-blocking mode with main-loop `poll()`;
+- read response bodies incrementally;
+- parse only the SSE/OpenAI-compatible shape required by the two current Providers;
+- cancellation may close the active transport; do not invent final Turn/Cancel domain semantics;
+- use a UI heartbeat/manual response counter to prove non-freezing behavior;
+- deterministic connection-failure test must not transmit Provider credentials;
+- same-process networking is evidence only, not the G1-06 Runtime-boundary decision.
 
 ## 7. Security and secrets
 
 Never commit provider API keys, tokens, credentials, cookies, or local secrets.
 
-For G1-04 specifically:
+For G1-04:
 
-- read the DeepSeek key only from `DEEPSEEK_API_KEY` in the local process environment;
-- never display the key value in UI or logs;
-- never add the key to `project.godot`, `.tscn`, `.gd`, README examples, screenshots, commits, or chat messages;
-- the deterministic connection-failure test must not transmit credentials and currently targets `127.0.0.1:1`.
-
-If local secret configuration is missing, report that as a local prerequisite; do not commit a workaround secret.
+- DeepSeek key comes only from `DEEPSEEK_API_KEY`;
+- Kimi key comes only from `MOONSHOT_API_KEY`;
+- UI may show only whether each variable is set;
+- never display/log either key value;
+- never place keys in `.gd`, `.tscn`, `project.godot`, README examples, screenshots, commits, or chat;
+- deterministic failure testing must not carry `Authorization` headers.
 
 ## 8. Validation boundary
 
-G1-04 is not PASS until real Windows-local observation proves all of the following:
+G1-04 is not PASS until real Windows-local observation proves:
 
-- real Provider HTTP success;
-- real incremental streamed content;
-- UI heartbeat/manual interaction continues while streaming;
-- cancel stops a real active generation and the UI recovers;
-- a subsequent request can run after cancel;
-- connection/API failure states are explicit and non-freezing;
+- DeepSeek real HTTP 2xx + incremental stream;
+- Kimi real HTTP 2xx + incremental stream;
+- UI heartbeat/manual interaction continue during each Provider request;
+- a real active generation can be cancelled and UI promptly recovers;
+- at least one real request succeeds after cancellation;
+- Provider can be switched while idle without app restart;
+- deterministic connection failure is explicit and non-freezing;
+- Provider/API errors are readable, not silent hangs;
 - normal exit;
-- clean Git working tree.
+- clean Git state.
 
-Repository structure, mocked chunks, G1-03 timer append, or static code review cannot substitute for the real Provider evidence.
+Repository structure, static code review, mocked chunks, or G1-03 timer append cannot substitute for the real Provider evidence.
 
 ## 9. Later G1 boundaries
 
 - G1-05 owns local IO, dynamic images, and functional Windows export proof.
-- G1-06 owns Godot Host, Standard/.NET, GDScript/C#/mixed, persistence candidate range, and same-process vs local-runtime-process architecture decisions.
+- G1-06 owns Godot Host, Standard/.NET, GDScript/C#/mixed, persistence candidate range, Provider/product configuration boundary, and same-process vs local-runtime-process architecture decisions.
 
 Do not pull those decisions into G1-04.
 
 ## 10. Repository shape
 
-Create only files and directories with immediate use. During G1 keep the surface small:
+Create only files/directories with immediate use. Keep G1 small:
 
 - `README.md`
 - `AGENTS.md`
@@ -171,7 +195,7 @@ Do not create speculative empty module trees.
 
 Never claim Windows-local, Godot, Provider, export, or network success without real execution evidence.
 
-For local validation, always separate:
+For local validation, separate:
 
 - GitHub-side implementation complete;
 - exact local command/action;

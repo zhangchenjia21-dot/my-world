@@ -28,9 +28,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 18
-theme_override_constants/margin_top = 12
+theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 18
-theme_override_constants/margin_bottom = 12
+theme_override_constants/margin_bottom = 10
 
 [node name="Layout" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
@@ -38,23 +38,39 @@ theme_override_constants/separation = 5
 
 [node name="Title" type="Label" parent="Margin/Layout"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "my world · G1-04 真实 Provider Stream / Cancel Spike"
+theme_override_font_sizes/font_size = 21
+text = "my world · G1-04 DeepSeek + Kimi Real Provider Spike"
 
 [node name="Hint" type="Label" parent="Margin/Layout"]
 layout_mode = 2
-text = "DeepSeek exploratory provider。发送真实 SSE 后观察逐步输出；生成期间看 heartbeat 并点击 UI 响应按钮；Cancel 必须立即恢复可操作。"
+text = "两家 Provider 都必须真实跑通 stream；生成期间观察 heartbeat / UI 响应，并实际验证 Cancel。"
 autowrap_mode = 3
 
-[node name="ConfigLabel" type="Label" parent="Margin/Layout"]
+[node name="ProviderRow" type="HBoxContainer" parent="Margin/Layout"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="ProviderLabel" type="Label" parent="Margin/Layout/ProviderRow"]
+layout_mode = 2
+text = "Provider："
+vertical_alignment = 1
+
+[node name="ProviderSelect" type="OptionButton" parent="Margin/Layout/ProviderRow"]
 unique_name_in_owner = true
 layout_mode = 2
+custom_minimum_size = Vector2(150, 0)
+
+[node name="ConfigLabel" type="Label" parent="Margin/Layout/ProviderRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
 text = "读取本地 Provider 配置…"
 autowrap_mode = 3
+vertical_alignment = 1
 
 [node name="Transcript" type="RichTextLabel" parent="Margin/Layout"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 175)
+custom_minimum_size = Vector2(0, 155)
 layout_mode = 2
 size_flags_vertical = 3
 selection_enabled = true
@@ -66,11 +82,11 @@ autowrap_mode = 3
 
 [node name="InputLabel" type="Label" parent="Margin/Layout"]
 layout_mode = 2
-text = "玩家行动（Ctrl+Enter 发送真实请求）："
+text = "玩家行动（Ctrl+Enter 发送当前 Provider 的真实请求）："
 
 [node name="PlayerInput" type="TextEdit" parent="Margin/Layout"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 66)
+custom_minimum_size = Vector2(0, 62)
 layout_mode = 2
 text = "我推开茶馆后门，冒雨走进巷子，先观察有没有人跟踪，再问少女那枚铜牌究竟代表什么。"
 placeholder_text = "输入一段自然语言玩家行动。"

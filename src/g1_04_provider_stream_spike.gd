@@ -6,17 +6,38 @@ enum RequestMode {
 	FAILURE_TEST,
 }
 
-const PROVIDER_HOST := "api.deepseek.com"
-const PROVIDER_PORT := 443
-const PROVIDER_PATH := "/chat/completions"
-const API_KEY_ENV := "DEEPSEEK_API_KEY"
-const MODEL_ENV := "MY_WORLD_G1_04_MODEL"
-const DEFAULT_MODEL := "deepseek-v4-pro"
-const SYSTEM_PROMPT := "你是 my world 的 G1-04 Foundation Spike 测试 GM。请只用中文输出 3 到 5 段连续叙事，每段 2 到 4 句。不要解释测试本身，不要使用 Markdown 标题。输出应足够长，以便观察真实流式文本和中途取消。"
+enum ProviderId {
+	DEEPSEEK,
+	KIMI,
+}
+
+const PROVIDER_CONFIGS := {
+	ProviderId.DEEPSEEK: {
+		"name": "DeepSeek",
+		"host": "api.deepseek.com",
+		"port": 443,
+		"path": "/chat/completions",
+		"api_key_env": "DEEPSEEK_API_KEY",
+		"model_env": "MY_WORLD_G1_04_DEEPSEEK_MODEL",
+		"default_model": "deepseek-v4-pro",
+	},
+	ProviderId.KIMI: {
+		"name": "Kimi",
+		"host": "api.moonshot.ai",
+		"port": 443,
+		"path": "/v1/chat/completions",
+		"api_key_env": "MOONSHOT_API_KEY",
+		"model_env": "MY_WORLD_G1_04_KIMI_MODEL",
+		"default_model": "kimi-k3",
+	},
+}
+
+const SYSTEM_PROMPT := "你是 my world 的 G1-04 Foundation Spike 测试 GM。请只用中文输出 6 到 8 段连续叙事，每段 2 到 4 句。不要解释测试本身，不要使用 Markdown 标题。保持具体场景、人物行动与可继续游玩的悬念，让输出足够长以观察真实流式文本和中途取消。"
 const FAILURE_HOST := "127.0.0.1"
 const FAILURE_PORT := 1
 const MAX_ERROR_BODY_CHARS := 2000
 
+@onready var provider_select: OptionButton = %ProviderSelect
 @onready var config_label: Label = %ConfigLabel
 @onready var transcript: RichTextLabel = %Transcript
 @onready var player_input: TextEdit = %PlayerInput
@@ -30,14 +51,21 @@ const MAX_ERROR_BODY_CHARS := 2000
 
 var http_client := HTTPClient.new()
 var request_mode: RequestMode = RequestMode.NONE
+var provider_id: ProviderId = ProviderId.DEEPSEEK
 var request_active := false
 var request_sent := false
 var response_started := false
 var response_code := 0
 var pending_sse_bytes := PackedByteArray()
 var error_body_bytes := PackedByteArray()
+var provider_name := "DeepSeek"
+var provider_host := "api.deepseek.com"
+var provider_port := 443
+var provider_path := "/chat/completions"
+var api_key_env := "DEEPSEEK_API_KEY"
+var model_env := "MY_WORLD_G1_04_DEEPSEEK_MODEL"
 var api_key := ""
-var model_name := DEFAULT_MODEL
+var model_name := "deepseek-v4-pro"
 var request_started_msec := 0
 var first_content_msec := -1
 var output_characters := 0
@@ -49,6 +77,8 @@ var last_heartbeat_msec := 0
 
 func _ready() -> void:
 	http_client.read_chunk_size = 4096
+	_build_provider_selector()
+	provider_select.item_selected.connect(_on_provider_selected)
 	send_button.pressed.connect(_start_provider_request)
 	cancel_button.pressed.connect(_cancel_provider_request)
 	failure_button.pressed.connect(_start_failure_test)
@@ -59,7 +89,7 @@ func _ready() -> void:
 	_reload_local_configuration()
 	_seed_transcript()
 	_update_controls()
-	_update_status("就绪")
+	_update_status("就绪：请分别测试 DeepSeek 与 Kimi。")
 	player_input.grab_focus()
 
 
@@ -76,7 +106,7 @@ func _process(_delta: float) -> void:
 	var status := http_client.get_status()
 	if status != last_http_status:
 		last_http_status = status
-		_update_status(_http_status_text(status))
+		_update_status("%s ｜ %s" % [provider_name, _http_status_text(status)])
 
 	match status:
 		HTTPClient.STATUS_RESOLVING, HTTPClient.STATUS_CONNECTING, HTTPClient.STATUS_REQUESTING:
@@ -97,27 +127,54 @@ func _process(_delta: float) -> void:
 			_handle_disconnected_status()
 
 
-func _reload_local_configuration() -> void:
-	api_key = OS.get_environment(API_KEY_ENV).strip_edges()
-	var configured_model := OS.get_environment(MODEL_ENV).strip_edges()
-	model_name = configured_model if not configured_model.is_empty() else DEFAULT_MODEL
+func _build_provider_selector() -> void:
+	provider_select.clear()
+	provider_select.add_item("DeepSeek", ProviderId.DEEPSEEK)
+	provider_select.add_item("Kimi", ProviderId.KIMI)
+	provider_select.select(0)
 
-	var key_state := "未设置"
-	if not api_key.is_empty():
-		key_state = "已设置"
-	config_label.text = "Provider: DeepSeek https://api.deepseek.com/chat/completions ｜ Model: %s ｜ %s: %s" % [
+
+func _on_provider_selected(_index: int) -> void:
+	if request_active:
+		return
+	_reload_local_configuration()
+	_update_status("已选择 %s；等待发送。" % provider_name)
+
+
+func _reload_local_configuration() -> void:
+	provider_id = provider_select.get_selected_id() as ProviderId
+	var config: Dictionary = PROVIDER_CONFIGS.get(provider_id, PROVIDER_CONFIGS[ProviderId.DEEPSEEK])
+	provider_name = String(config.get("name", "Unknown"))
+	provider_host = String(config.get("host", ""))
+	provider_port = int(config.get("port", 443))
+	provider_path = String(config.get("path", "/chat/completions"))
+	api_key_env = String(config.get("api_key_env", ""))
+	model_env = String(config.get("model_env", ""))
+	var default_model := String(config.get("default_model", ""))
+	api_key = OS.get_environment(api_key_env).strip_edges()
+	var configured_model := OS.get_environment(model_env).strip_edges()
+	model_name = configured_model if not configured_model.is_empty() else default_model
+
+	config_label.text = "当前：%s ｜ Model: %s ｜ %s: %s ｜ DEEPSEEK_API_KEY: %s ｜ MOONSHOT_API_KEY: %s" % [
+		provider_name,
 		model_name,
-		API_KEY_ENV,
-		key_state,
+		api_key_env,
+		_key_state(api_key_env),
+		_key_state("DEEPSEEK_API_KEY"),
+		_key_state("MOONSHOT_API_KEY"),
 	]
+
+
+func _key_state(env_name: String) -> String:
+	return "已设置" if not OS.get_environment(env_name).strip_edges().is_empty() else "未设置"
 
 
 func _seed_transcript() -> void:
 	transcript.clear()
-	transcript.add_text("G1-04 真实 Provider stream / cancel / UI 非冻结 Foundation Spike\n\n")
-	transcript.add_text("本轮只验证真实网络 seam。API key 仅从当前进程环境变量 DEEPSEEK_API_KEY 读取，不会显示或写入文件。\n")
-	transcript.add_text("发送后观察文字是否逐步出现；生成期间持续观察右下角 UI heartbeat，并点击“UI 响应 +1”。\n")
-	transcript.add_text("“连接失败测试”只连接本机 127.0.0.1:1，不携带任何凭据，用于确认失败路径有明确反馈且 UI 不冻结。\n\n")
+	transcript.add_text("G1-04 DeepSeek + Kimi 真实 Provider stream / cancel / UI 非冻结 Foundation Spike\n\n")
+	transcript.add_text("Provider 下拉框必须分别跑通 DeepSeek 与 Kimi。凭据只从 DEEPSEEK_API_KEY / MOONSHOT_API_KEY 读取，UI 只显示是否设置，不显示值。\n")
+	transcript.add_text("发送后观察文字是否逐步出现；生成期间持续观察 heartbeat，并点击“UI 响应 +1”。\n")
+	transcript.add_text("“连接失败测试”只连接本机 127.0.0.1:1，不携带任何 Provider 凭据。\n\n")
 
 
 func _start_provider_request() -> void:
@@ -126,7 +183,7 @@ func _start_provider_request() -> void:
 
 	_reload_local_configuration()
 	if api_key.is_empty():
-		_update_status("缺少 %s；请在启动 Godot 的同一个 PowerShell 会话中设置环境变量。" % API_KEY_ENV)
+		_update_status("缺少 %s；请在启动 Godot 的同一个 PowerShell 会话中设置。" % api_key_env)
 		return
 
 	var prompt := player_input.text.strip_edges()
@@ -138,13 +195,13 @@ func _start_provider_request() -> void:
 	request_mode = RequestMode.PROVIDER
 	request_active = true
 	request_started_msec = Time.get_ticks_msec()
-	transcript.add_text("【玩家】\n%s\n\n【GM · real stream】\n" % prompt)
+	transcript.add_text("【玩家】\n%s\n\n【%s · %s · real stream】\n" % [prompt, provider_name, model_name])
 	_update_controls()
-	_update_status("连接 DeepSeek…")
+	_update_status("连接 %s…" % provider_name)
 
-	var connect_error := http_client.connect_to_host(PROVIDER_HOST, PROVIDER_PORT, TLSOptions.client())
+	var connect_error := http_client.connect_to_host(provider_host, provider_port, TLSOptions.client())
 	if connect_error != OK:
-		_finish_failure("connect_to_host() 失败，错误码 %d。" % connect_error)
+		_finish_failure("%s connect_to_host() 失败，错误码 %d。" % [provider_name, connect_error])
 
 
 func _start_failure_test() -> void:
@@ -180,7 +237,7 @@ func _handle_connected_status() -> void:
 		if response_code < 200 or response_code >= 300:
 			_finish_http_error()
 		else:
-			_finish_failure("HTTP 连接在收到 data: [DONE] 之前结束。")
+			_finish_failure("%s HTTP 连接在收到 data: [DONE] 之前结束。" % provider_name)
 
 
 func _send_provider_request() -> void:
@@ -192,6 +249,9 @@ func _send_provider_request() -> void:
 		],
 		"stream": true,
 	}
+	if provider_id == ProviderId.KIMI and model_name == "kimi-k3":
+		payload["reasoning_effort"] = "low"
+
 	var body := JSON.stringify(payload)
 	var body_bytes := body.to_utf8_buffer()
 	var headers := PackedStringArray([
@@ -203,16 +263,16 @@ func _send_provider_request() -> void:
 
 	var request_error := http_client.request(
 		HTTPClient.METHOD_POST,
-		PROVIDER_PATH,
+		provider_path,
 		headers,
 		body,
 	)
 	if request_error != OK:
-		_finish_failure("HTTP request() 失败，错误码 %d。" % request_error)
+		_finish_failure("%s HTTP request() 失败，错误码 %d。" % [provider_name, request_error])
 		return
 
 	request_sent = true
-	_update_status("请求已发送，等待 HTTP 响应…")
+	_update_status("%s 请求已发送，等待 HTTP 响应…" % provider_name)
 
 
 func _consume_response_body() -> void:
@@ -220,9 +280,9 @@ func _consume_response_body() -> void:
 		response_started = true
 		response_code = http_client.get_response_code()
 		if response_code >= 200 and response_code < 300:
-			_update_status("HTTP %d；正在接收真实 SSE…" % response_code)
+			_update_status("%s HTTP %d；正在接收真实 SSE…" % [provider_name, response_code])
 		else:
-			_update_status("HTTP %d；正在读取错误响应…" % response_code)
+			_update_status("%s HTTP %d；正在读取错误响应…" % [provider_name, response_code])
 
 	for _index in range(32):
 		var chunk := http_client.read_response_body_chunk()
@@ -271,7 +331,7 @@ func _handle_sse_line(line: String) -> void:
 
 	var decoded := JSON.parse_string(payload)
 	if typeof(decoded) != TYPE_DICTIONARY:
-		_finish_failure("收到无法解析的 SSE JSON 数据。")
+		_finish_failure("%s 收到无法解析的 SSE JSON 数据。" % provider_name)
 		return
 
 	var data: Dictionary = decoded
@@ -312,9 +372,9 @@ func _cancel_provider_request() -> void:
 	http_client.close()
 	request_active = false
 	request_mode = RequestMode.NONE
-	transcript.add_text("\n\n【已取消】收到 %d 个字符，用时 %.2f 秒。\n\n" % [output_characters, elapsed / 1000.0])
+	transcript.add_text("\n\n【%s 已取消】收到 %d 个字符，用时 %.2f 秒。\n\n" % [provider_name, output_characters, elapsed / 1000.0])
 	_update_controls()
-	_update_status("已取消；可以立即发起下一次请求。")
+	_update_status("%s 已取消；可以切换 Provider 或立即重试。" % provider_name)
 
 
 func _finish_success() -> void:
@@ -326,13 +386,14 @@ func _finish_success() -> void:
 	http_client.close()
 	request_active = false
 	request_mode = RequestMode.NONE
-	transcript.add_text("\n\n【完成】真实 SSE 完成；字符 %d；首段内容延迟 %s；总用时 %.2f 秒。\n\n" % [
+	transcript.add_text("\n\n【%s 完成】真实 SSE 完成；字符 %d；首段内容延迟 %s；总用时 %.2f 秒。\n\n" % [
+		provider_name,
 		output_characters,
 		first_token_text,
 		elapsed / 1000.0,
 	])
 	_update_controls()
-	_update_status("真实 Provider 流式请求完成。")
+	_update_status("%s 真实 Provider 流式请求完成。" % provider_name)
 
 
 func _finish_http_error() -> void:
@@ -341,14 +402,14 @@ func _finish_http_error() -> void:
 		error_text = error_text.left(MAX_ERROR_BODY_CHARS) + "…"
 	if error_text.is_empty():
 		error_text = "<empty body>"
-	_finish_failure("Provider 返回 HTTP %d：%s" % [response_code, error_text])
+	_finish_failure("%s 返回 HTTP %d：%s" % [provider_name, response_code, error_text])
 
 
 func _finish_transport_error(message: String) -> void:
 	if request_mode == RequestMode.FAILURE_TEST:
 		_finish_expected_failure(message)
 	else:
-		_finish_failure(message)
+		_finish_failure("%s：%s" % [provider_name, message])
 
 
 func _finish_expected_failure(message: String) -> void:
@@ -377,7 +438,7 @@ func _handle_disconnected_status() -> void:
 		if response_started and (response_code < 200 or response_code >= 300):
 			_finish_http_error()
 		else:
-			_finish_failure("Provider 连接在完成前断开。")
+			_finish_failure("%s 连接在完成前断开。" % provider_name)
 
 
 func _reset_transport_state() -> void:
@@ -397,12 +458,12 @@ func _reset_transport_state() -> void:
 
 func _on_ui_ping() -> void:
 	ui_ping_count += 1
-	_update_status("UI 响应计数 = %d；网络状态：%s" % [ui_ping_count, _http_status_text(http_client.get_status())])
+	_update_status("UI 响应计数 = %d；当前 Provider = %s；网络状态 = %s" % [ui_ping_count, provider_name, _http_status_text(http_client.get_status())])
 
 
 func _clear_transcript() -> void:
 	if request_active:
-		_update_status("请求进行中时不清空；可先取消。")
+		_update_status("请求进行中时不清空；可先 Cancel。")
 		return
 	_seed_transcript()
 	_update_status("文本已清空。")
@@ -417,6 +478,7 @@ func _on_player_input_gui_input(event: InputEvent) -> void:
 
 
 func _update_controls() -> void:
+	provider_select.disabled = request_active
 	send_button.disabled = request_active
 	cancel_button.disabled = not request_active or request_mode != RequestMode.PROVIDER
 	failure_button.disabled = request_active
@@ -432,14 +494,14 @@ func _update_heartbeat() -> void:
 	var mode_text := "idle"
 	if request_active:
 		mode_text = "network active"
-	heartbeat_label.text = "UI heartbeat: %d ｜ %s ｜ UI ping: %d" % [heartbeat_count, mode_text, ui_ping_count]
+	heartbeat_label.text = "UI heartbeat: %d ｜ %s ｜ Provider: %s ｜ UI ping: %d" % [heartbeat_count, mode_text, provider_name, ui_ping_count]
 
 
 func _update_stream_metrics() -> void:
 	var first_token_text := "等待首段内容"
 	if first_content_msec >= 0:
 		first_token_text = "first content %d ms" % (first_content_msec - request_started_msec)
-	status_label.text = "真实 SSE：%d 字符 ｜ %s ｜ HTTP %d" % [output_characters, first_token_text, response_code]
+	status_label.text = "%s 真实 SSE：%d 字符 ｜ %s ｜ HTTP %d" % [provider_name, output_characters, first_token_text, response_code]
 
 
 func _update_status(message: String) -> void:
