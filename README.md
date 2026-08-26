@@ -186,19 +186,19 @@ G1-04 的 same-process networking 是后来 G1-06 选择第一代 same-process R
 
 真实 Provider Key 只保存在本地，不得提交 Git，也不要粘贴到聊天、Issue、截图或日志中。
 
-本地 `.env.local` 使用：
+G2 起正式产品路径只需要 DeepSeek（默认模型 `deepseek-v4-pro`）。本地 `.env.local` 使用：
 
 ```text
 DEEPSEEK_API_KEY
-KIMI_CODE_API_KEY
 ```
 
 可选模型覆盖：
 
 ```text
-MY_WORLD_G1_04_DEEPSEEK_MODEL
-MY_WORLD_G1_04_KIMI_MODEL
+MY_WORLD_DEEPSEEK_MODEL
 ```
+
+G1-04 时期的 `KIMI_CODE_API_KEY` 与 `MY_WORLD_G1_04_*` 已退休，当前启动路径不再读取。
 
 第一次配置时：
 
