@@ -60,9 +60,18 @@ Completed:
 - G2-01 Application / Game Shell: **PASS — Owner UAT**, implementation `4a13deb29a2e9c354530843d23eb48422957033c`.
 - G2-02 Provider Adapter v0.1: **ENGINEERING PASS**, implementation `ec0617195cbd71ba49e9c3e4ff834aee83e82fd3`.
 
-G2-01 visual roughness is deferred polish/non-blocking.
+G2-03 implementation history:
 
-A G2-03 implementation commit may exist on current `main`; repository presence alone does not equal Product PASS. G2-03 remains current until its required engineering evidence and Owner UAT are explicitly closed.
+- initial implementation `d736ac9389c2bf23f7f71b0270d6fd8f72db8461`;
+- IR-01 completed-regenerate duplicate-player repair `774ab522e48ef1026d622f89e7903e9cb7bab64c` — **PASS** on independent re-review;
+- current task remains **RETURNED**, not Product PASS.
+
+Current blockers/returns are owned by `Vibe-Coding/my world/MY_WORLD_CURRENT_STATUS.md`:
+
+1. **IR-02** — completed-turn Regenerate followed by Cancel/Fail and then direct new Send can leave provisional history/context inconsistent because the old assistant is removed before successful replacement.
+2. **Owner UAT layout return** — default/maximized wide-screen behavior gives almost all new horizontal space to Narrative while side Hosts remain too narrow; side text can become cramped/overflow-prone.
+
+Owner should not be asked to repeat UAT until these repairs are complete.
 
 Do not implement later G2 tasks or G3–G9 early without their current Task Packet.
 
@@ -163,7 +172,23 @@ Center Narrative Host
 Right  World Surface Host
 ```
 
-Wide windows may show three hosts; narrow windows keep Narrative primary and collapse/hide side hosts.
+Current wide-screen rule:
+
+> **Narrative First != Narrative Only.**
+
+All three Hosts participate in horizontal expansion on wide/maximized windows. First-generation tuning baseline is approximately:
+
+```text
+Player Host      ~18%
+Narrative Host   ~60%
+World Host       ~22%
+```
+
+Side Hosts also need usable minimum widths, approximately `Player ~250px` and `World ~310px` as first-pass G2 tuning targets. If the window cannot satisfy usable widths, collapse side Hosts instead of squeezing them into informationless strips.
+
+Current desktop player launch should default to **Maximized Window**, not Exclusive Fullscreen. Keep `1280x720` as normal-window regression and `960x540` as narrow responsive regression.
+
+All side-host labels/content must wrap/constrain correctly and never overflow into adjacent Hosts. Narrative Host may expand, but long-form readable text should not become an arbitrarily long single-line column on ultrawide displays.
 
 Stage sequence:
 
@@ -218,14 +243,44 @@ NarrativeHost
 WorldSurfaceHost
 ```
 
-Rules:
+Current repair scope must remain narrow:
 
-- Narrative is the visual/interaction center, not a generic chat bubble list.
+### IR-02 history/context integrity
+
+For a previously completed turn, Regenerate must not destroy the stable provisional completed pair before a replacement successfully completes in a way that makes Cancel/Fail + direct new Send inconsistent.
+
+Required outcome:
+
+```text
+turn1 completed
+→ regenerate
+→ cancel/fail
+→ directly send turn2 without retry
+→ provider context contains turn1 exactly once and turn2 exactly once
+→ no half-pair / duplicate user
+→ successful turn2 ends in valid completed pairs
+```
+
+A minimal safe approach is to keep the previous completed assistant as stable active provisional context until the replacement generation completes successfully, then atomically replace it; an equivalent small implementation is allowed. Do not turn this into G2-04 Turn Domain or a generic Session framework.
+
+### Owner UAT layout repair
+
+- default exported-player launch = Maximized Window;
+- wide/maximized three Hosts all expand horizontally;
+- approximate first-pass ratio `18 / 60 / 22`;
+- side Host minimum usable widths protected;
+- narrow windows collapse side Hosts rather than squeeze them;
+- side text wraps/constrains without overflow;
+- preserve Narrative as visual/interaction center;
+- no large visual-polish redesign.
+
+Other rules:
+
 - Side hosts use honest empty states until real Character/World projections exist; no fake stats/world/save/tabs.
 - Provisional in-memory UI/session state and minimal GM system message are allowed only for this vertical proof; they are not G2-04/G2-05 contracts.
 - Active generation exposes Cancel; latest generation may expose Regenerate/Retry.
 - No Save/Timeline/World/NPC semantics or generalized Declarative Renderer in G2-03.
-- G2-03 is product-facing: engineering completion may report only `READY FOR OWNER UAT`; Product PASS requires real Owner use.
+- G2-03 remains product-facing: after repair, engineering may report only `READY FOR OWNER UAT`; Product PASS requires real Owner use.
 
 ## 11. Evidence / execution discipline
 
