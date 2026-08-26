@@ -13,6 +13,7 @@ enum ShellState {
 
 ## 窄窗口阈值：低于该宽度时左右 Host 折叠为 TopBar toggle，Narrative 保持主角（DEC-02）。
 const NARROW_BREAKPOINT := 1100.0
+const G3_01_EXPORT_SPIKE_FEATURE := "g3_01_persistence_spike"
 
 @onready var status_label: Label = %StatusLabel
 @onready var exit_button: Button = %ExitButton
@@ -26,6 +27,9 @@ var _narrow := false
 
 
 func _ready() -> void:
+	if OS.has_feature(G3_01_EXPORT_SPIKE_FEATURE):
+		_run_g3_01_export_spike()
+		return
 	exit_button.pressed.connect(_request_exit)
 	player_toggle.toggled.connect(_on_player_toggle)
 	world_toggle.toggled.connect(_on_world_toggle)
@@ -33,6 +37,19 @@ func _ready() -> void:
 	shell_state = ShellState.READY
 	status_label.text = "状态：就绪"
 	print("[shell] state=ready")
+
+
+## 仅由 G3-01 专用 export preset 编译启用；正式 Windows Desktop preset 不含此 feature。
+## 该入口只证明 GDExtension 随 exported EXE 打包后的 open/write/reopen，不承载产品 Save flow。
+func _run_g3_01_export_spike() -> void:
+	var database_path := ""
+	for argument: String in OS.get_cmdline_user_args():
+		if argument.begins_with("--db="):
+			database_path = argument.trim_prefix("--db=")
+			break
+	var spike_script: Script = load("res://tests/g3_01/导出持久化冒烟.gd")
+	var succeeded: bool = spike_script.new().run(database_path)
+	get_tree().quit(0 if succeeded else 1)
 
 
 ## Windows 窗口关闭与界面“退出”按钮走同一条正式退出路径。
