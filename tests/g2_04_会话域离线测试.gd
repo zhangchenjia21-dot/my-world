@@ -6,14 +6,16 @@ extends SceneTree
 ## - T01 AC-01：正常 completed turn（信号顺序、accepted 原子生效、streaming context）；
 ## - T02 AC-02：cancel → retry（同一 turn identity，draft 保留展示，不进 context）；
 ## - T03 AC-03：fail → retry；
-## - T04 AC-04：completed → regenerate 成功（同一 identity、player 恰好一次、原子替换、
-##   替换期间旧 assistant 仍是稳定 provisional context）；
+## - T04 AC-04 + IR-03：completed → regenerate 成功（同一 identity、player 恰好一次、
+##   replacement request 以 user 结束且不含旧 assistant、Domain accepted 稳定、原子替换）；
 ## - T05 AC-05：regenerate → cancel / fail 回滚 → 直接新 Turn 不错位（IR-02 语义域化）；
 ## - T06 AC-06：≥3 turns 顺序与 identity；
 ## - T07 AC-07：latest-turn correction 成功（原子替换 player text + GM）；
 ## - T08 AC-08：correction cancel / fail 回滚，随后新 Turn 不错位；
 ## - T09 防御：非法调用（STREAMING 中 begin_turn、空 correction 等）不破坏状态；
-## - T10 correction 作用于从未 completed 的 latest：同一 identity 换文本 retry。
+## - T10 correction 作用于从未 completed 的 latest：同一 identity 换文本 retry；
+## - T11 IR-03 多 Turn：regenerate 最新 completed Turn 的 request == previous accepted pairs
+##   + current user（当前旧 assistant 不在 request，previous assistant 保留）。
 
 const Conversation := preload("res://src/domain/会话.gd")
 
@@ -117,10 +119,12 @@ func _run() -> void:
 	c4.complete_generation()
 	var t4r: RefCounted = c4.retry_or_regenerate_latest()
 	_check(t4r == t4 and t4.turn_index == 0, "T04 regenerate 同一 turn identity")
-	# 替换成功前：旧 accepted 仍是稳定 provisional context。
+	# 替换成功前：旧 accepted 在 Domain 内保持稳定，但不进入 replacement request（IR-03）。
 	var regen_msgs: Array = c4.build_provider_messages("SYS")
-	_check(_roles(regen_msgs) == ["system", "user", "assistant"], "T04 regenerate 期间 context 含旧 assistant")
+	_check(_roles(regen_msgs) == ["system", "user"], "T04(IR-03) 单 Turn regenerate request == [system, user]")
+	_check(_count_msg(regen_msgs, "assistant", "GM 甲") == 0, "T04(IR-03) 旧 accepted assistant 不在 request")
 	_check(_count_msg(regen_msgs, "user", "第一行动") == 1, "T04 regenerate 期间 player input 恰好一次")
+	_check(String((regen_msgs[-1] as Dictionary).get("role", "")) == "user", "T04(IR-03) request 以 user 结束")
 	_check(String(t4.accepted_gm_text) == "GM 甲", "T04 替换成功前旧 accepted 未被破坏")
 	c4.append_delta("GM 甲改")
 	c4.complete_generation()
@@ -249,6 +253,25 @@ func _run() -> void:
 	c10.append_delta("GM改")
 	c10.complete_generation()
 	_check(String(t10.player_text) == "改正行动" and String(t10.accepted_gm_text) == "GM改", "T10 同一 identity 完成 accepted")
+
+	# ---- T11（IR-03 多 Turn）：regenerate 最新 completed Turn 的 request == previous pairs + current user ----
+	var c11: RefCounted = Conversation.new()
+	c11.begin_turn("行动一")
+	c11.append_delta("GM一")
+	c11.complete_generation()
+	c11.begin_turn("行动二")
+	c11.append_delta("GM二")
+	c11.complete_generation()
+	c11.retry_or_regenerate_latest()
+	var msgs11: Array = c11.build_provider_messages("SYS")
+	_check(_roles(msgs11) == ["system", "user", "assistant", "user"], "T11(IR-03) previous pairs 保留且 request 以 current user 结束")
+	_check(_count_msg(msgs11, "user", "行动二") == 1, "T11 current player input 恰好一次")
+	_check(_count_msg(msgs11, "assistant", "GM二") == 0, "T11 当前 Turn 旧 accepted assistant 不在 request")
+	_check(_count_msg(msgs11, "assistant", "GM一") == 1, "T11 previous accepted assistant 正常保留")
+	_check(String(c11.latest_turn().accepted_gm_text) == "GM二", "T11 Domain accepted 替换前仍稳定")
+	c11.append_delta("GM二改")
+	c11.complete_generation()
+	_check(String(c11.latest_turn().accepted_gm_text) == "GM二改" and c11.latest_turn().turn_index == 1, "T11 同 identity 原子替换为新 GM")
 
 	print("[g2-04-domain] done failures=%d" % _failures)
 	quit(1 if _failures > 0 else 0)

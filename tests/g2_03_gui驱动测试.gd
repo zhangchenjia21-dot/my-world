@@ -265,6 +265,11 @@ func _run() -> void:
 	var last_messages: Array = _sent_contexts[-1]
 	_check(_count_msg(last_messages, "user", second_player_text) == 1, "IR-01 该 player input 在 Provider context 中严格一次")
 	_check(_count_role(last_messages, "user") == 2, "IR-01 regenerate context 恰好含两条 user 消息")
+	# IR-03：replacement request 以 user 结束，当前 Turn 旧 accepted assistant 不条件化新 generation；
+	# previous accepted pair 正常保留。
+	_check(String((last_messages[-1] as Dictionary).get("role", "")) == "user", "IR-03 regenerate request 以 user 结束")
+	_check(not old_second_gm.is_empty() and _count_msg(last_messages, "assistant", old_second_gm) == 0, "IR-03 当前 Turn 旧 accepted assistant 不在 request")
+	_check(_count_role(last_messages, "assistant") == 1, "IR-03 仅前一对 accepted assistant 保留在 request")
 	_check(adapter.output_chars >= 100, "Narrative richness：真实 GM 输出充分展开、无 UI/适配器截断（chars=%d）" % adapter.output_chars)
 	print("[g2-03-gui] IR-01 old_gm_chars=%d new_gm_chars=%d" % [old_second_gm.length(), String(accepted[1].get("gm_text", "")).length() if accepted.size() == 2 else -1])
 	await _shot("07_regenerate_completed")

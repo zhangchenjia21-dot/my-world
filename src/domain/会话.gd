@@ -9,8 +9,8 @@ extends RefCounted
 ## 拥有的不变量：
 ## - Turn ordering / identity：turns 顺序即回合顺序，turn_index 进程内稳定，只增不减；
 ## - accepted truth 原子替换：只有 generation 成功 completed 才把 pending -> accepted；
-##   regenerate / correction 成功前旧 accepted 仍是稳定 provisional context，
-##   cancel / fail 自动回滚（G2-03 IR-02 语义域化）；
+##   regenerate / correction 成功前旧 accepted 在 Domain 内保持稳定（不再进入 Provider
+##   replacement request，IR-03），cancel / fail 自动回滚（G2-03 IR-02 语义域化）；
 ## - latest-turn correction 只限最新 Turn；
 ## - 从未 completed 的 turn（被放弃的 cancelled / failed attempt）不进入后续 Provider context。
 ##
@@ -173,9 +173,9 @@ func get_accepted_entries() -> Array:
 
 
 ## G2-04 临时适配：system + accepted pairs + 当前 attempt user。
-## - 当前 attempt（STREAMING）：发 pending_player_text 的 user；若与 accepted player_text 相同
-##   （regenerate，非 correction）且已有 accepted 回应，则追加旧 assistant，
-##   保持替换成功前 provisional context 稳定；
+## - 当前 attempt（STREAMING）：只发 pending_player_text 的 user，request 以 user 结束（IR-03）。
+##   旧 accepted assistant 留在 Domain 内作为稳定 accepted truth（cancel / fail 回滚依据），
+##   但不进入 replacement request —— 它不应条件化同一 player action 的新 GM generation；
 ## - 已 accepted 的非 active turn：user + assistant 对；
 ## - 从未 completed 且非 active 的 turn（被放弃的 cancelled / failed）：完全不进 context。
 func build_provider_messages(system_prompt: String) -> Array:
@@ -183,8 +183,6 @@ func build_provider_messages(system_prompt: String) -> Array:
 	for turn: RefCounted in turns:
 		if turn == _active_turn:
 			messages.append({"role": "user", "content": turn.pending_player_text})
-			if turn.has_accepted_response and turn.pending_player_text == turn.player_text:
-				messages.append({"role": "assistant", "content": turn.accepted_gm_text})
 		elif turn.has_accepted_response:
 			messages.append({"role": "user", "content": turn.player_text})
 			messages.append({"role": "assistant", "content": turn.accepted_gm_text})
