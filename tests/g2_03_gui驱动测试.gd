@@ -58,6 +58,8 @@ func _run() -> void:
 	var inst: Node = packed.instantiate()
 	root.add_child(inst)
 
+	# 工程测试显式控制窗口模式；产品默认（project.godot window/size/mode=2）为 Maximized。
+	root.mode = Window.MODE_WINDOWED
 	root.size = Vector2i(1280, 720)
 	for i in range(10):
 		await process_frame
@@ -77,6 +79,42 @@ func _run() -> void:
 	adapter.completed.connect(func() -> void: _terminal_count += 1)
 	adapter.cancelled.connect(func() -> void: _terminal_count += 1)
 	adapter.failed.connect(func(_c: String, _m: String) -> void: _terminal_count += 1)
+
+	var host_layout: Control = inst.get_node("Margin/Layout/HostLayout")
+	var player_empty: Label = player_panel_host.get_node("PlayerPanelMargin/PlayerPanelColumn/PlayerEmpty")
+	var world_empty: Label = world_surface_host.get_node("WorldPanelMargin/WorldPanelColumn/WorldEmpty")
+	var entries_node: Control = inst.get_node("%Entries")
+
+	# ---- Maximized 三栏比例（Owner UAT 布局修复：三 Host 全部横向 expand）----
+	root.mode = Window.MODE_MAXIMIZED
+	for i in range(15):
+		await process_frame
+	var total_w := host_layout.size.x
+	var player_w := player_panel_host.size.x
+	var narrative_w: float = view.size.x
+	var world_w := world_surface_host.size.x
+	print("[g2-03-gui] maximized widths: window=%d total=%d player=%d narrative=%d world=%d" % [root.size.x, int(total_w), int(player_w), int(narrative_w), int(world_w)])
+	_check(root.size.x > 1280, "Maximized 窗口实际宽于 1280 基准")
+	_check(player_w >= 250.0, "Maximized Player Host >= 250px 最小可用宽度")
+	_check(world_w >= 310.0, "Maximized World Host >= 310px 最小可用宽度")
+	var player_ratio := player_w / total_w
+	var narrative_ratio: float = narrative_w / total_w
+	var world_ratio := world_w / total_w
+	print("[g2-03-gui] maximized ratios: player=%.3f narrative=%.3f world=%.3f" % [player_ratio, narrative_ratio, world_ratio])
+	_check(player_ratio >= 0.12 and player_ratio <= 0.24, "Maximized Player 比例 ~18% 量级")
+	_check(narrative_ratio >= 0.50 and narrative_ratio <= 0.70, "Maximized Narrative 比例 ~60% 量级")
+	_check(world_ratio >= 0.16 and world_ratio <= 0.28, "Maximized World 比例 ~22% 量级")
+	_check(player_empty.size.x <= player_panel_host.size.x and world_empty.size.x <= world_surface_host.size.x, "Maximized 侧栏文字无跨 Host 溢出")
+	_check(entries_node.size.x <= 921.0, "Maximized 正文列 readable-width 约束生效")
+	await _shot("00_maximized")
+
+	# ---- 回到 1280x720 windowed 回归 ----
+	root.mode = Window.MODE_WINDOWED
+	root.size = Vector2i(1280, 720)
+	for i in range(12):
+		await process_frame
+	print("[g2-03-gui] 1280 widths: player=%d narrative=%d world=%d" % [int(player_panel_host.size.x), int(view.size.x), int(world_surface_host.size.x)])
+	_check(player_panel_host.size.x >= 250.0 and world_surface_host.size.x >= 310.0, "1280 windowed 侧栏保持最小可用宽度")
 
 	# ---- 宽窗口布局（AC：三 Host，Narrative 主角）----
 	_check(player_panel_host.visible and world_surface_host.visible, "宽窗口左右 Host 可见")
@@ -181,6 +219,35 @@ func _run() -> void:
 	print("[g2-03-gui] IR-01 old_gm_chars=%d new_gm_chars=%d" % [old_second_gm.length(), String(history[3].get("content", "")).length() if history.size() == 4 else -1])
 	await _shot("07_regenerate_completed")
 
+	# ---- IR-02 真实路径：completed → regenerate → cancel → 不 Retry 直接发送新行动 ----
+	regenerate_button.pressed.emit()
+	var regen3_stream := await _wait_until(func() -> bool: return adapter.delta_count >= 2 or _terminal_count >= 5, 90000, "IR-02 regenerate 流启动")
+	_check(regen3_stream and adapter.delta_count >= 2, "IR-02 regenerate 真实流式中")
+	cancel_button.pressed.emit()
+	var ir02_cancel_ok := await _wait_until(func() -> bool: return _terminal_count >= 5, 10000, "IR-02 cancelled 终态")
+	_check(ir02_cancel_ok and view.get_gen_state() == VIEW.GenState.CANCELLED, "IR-02 regenerate 生成中 Cancel")
+	history = view.get_provisional_history()
+	_check(history.size() == 4, "IR-02 cancel 后旧 completed 对保持完整（无半对 history）")
+	if history.size() == 4:
+		var roles_ir02: Array = history.map(func(m: Dictionary) -> String: return String(m.get("role", "")))
+		_check(roles_ir02 == ["user", "assistant", "user", "assistant"], "IR-02 cancel 后 history 仍是两对合法对")
+	var third_player_text := "我推开那扇窄木门，侧身闪了进去。"
+	player_input.text = third_player_text
+	send_button.pressed.emit()
+	var ir02_ctx: Array = view.get_last_request_messages()
+	_check(ir02_ctx.filter(func(m: Dictionary) -> bool: return String(m.get("role", "")) == "user" and String(m.get("content", "")) == second_player_text).size() == 1, "IR-02 新请求 context 中 turn2 恰好一次")
+	_check(ir02_ctx.filter(func(m: Dictionary) -> bool: return String(m.get("role", "")) == "user" and String(m.get("content", "")) == third_player_text).size() == 1, "IR-02 新行动已进入 Provider context 恰好一次")
+	_check(ir02_ctx.filter(func(m: Dictionary) -> bool: return String(m.get("role", "")) == "user").size() == 3, "IR-02 context 恰好三条 user 消息")
+	var ir02_done := await _wait_until(func() -> bool: return _terminal_count >= 6, 180000, "IR-02 新行动 completed")
+	_check(ir02_done and view.get_gen_state() == VIEW.GenState.COMPLETED, "IR-02 直接新行动真实完成")
+	history = view.get_provisional_history()
+	_check(history.size() == 6, "IR-02 完成后 history == 三对 player/GM")
+	if history.size() == 6:
+		var roles_final: Array = history.map(func(m: Dictionary) -> String: return String(m.get("role", "")))
+		_check(roles_final == ["user", "assistant", "user", "assistant", "user", "assistant"], "IR-02 最终 roles 合法交错")
+	_check(history.filter(func(m: Dictionary) -> bool: return String(m.get("role", "")) == "user" and String(m.get("content", "")) == third_player_text).size() == 1, "IR-02 新行动在 history 中恰好一次")
+	await _shot("08_ir02_direct_send")
+
 	var metrics := {
 		"ttft_ms": ttft_ms,
 		"cancel_ms": cancel_ms,
@@ -198,7 +265,7 @@ func _run() -> void:
 		return
 	player_input.text = "我沿着巷子继续往前走。"
 	send_button.pressed.emit()
-	var exit_stream_ok := await _wait_until(func() -> bool: return adapter.delta_count >= 2 or _terminal_count >= 5, 90000, "退出测试流启动")
+	var exit_stream_ok := await _wait_until(func() -> bool: return adapter.delta_count >= 2 or _terminal_count >= 7, 90000, "退出测试流启动")
 	if not exit_stream_ok:
 		_failures += 1
 		printerr("[g2-03-gui] FAIL: 退出测试流未能启动")

@@ -97,8 +97,10 @@ theme_override_constants/separation = 12
 
 [node name="PlayerPanelHost" type="PanelContainer" parent="Margin/Layout/HostLayout"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(190, 0)
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 18.0
 
 [node name="PlayerPanelMargin" type="MarginContainer" parent="Margin/Layout/HostLayout/PlayerPanelHost"]
 layout_mode = 2
@@ -128,6 +130,7 @@ autowrap_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
+size_flags_stretch_ratio = 60.0
 script = ExtResource("2_view")
 
 [node name="NarrativeMargin" type="MarginContainer" parent="Margin/Layout/HostLayout/NarrativeHost"]
@@ -146,10 +149,13 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Entries" type="VBoxContainer" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll"]
-unique_name_in_owner = true
+[node name="EntriesCenter" type="CenterContainer" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll"]
 layout_mode = 2
 size_flags_horizontal = 3
+
+[node name="Entries" type="VBoxContainer" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter"]
+unique_name_in_owner = true
+layout_mode = 2
 theme_override_constants/separation = 16
 
 [node name="ErrorLabel" type="Label" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn"]
@@ -203,8 +209,10 @@ text = "↻ 重新生成"
 
 [node name="WorldSurfaceHost" type="PanelContainer" parent="Margin/Layout/HostLayout"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(190, 0)
+custom_minimum_size = Vector2(310, 0)
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 22.0
 
 [node name="WorldPanelMargin" type="MarginContainer" parent="Margin/Layout/HostLayout/WorldSurfaceHost"]
 layout_mode = 2

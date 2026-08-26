@@ -8,12 +8,16 @@ extends PanelContainer
 ## - _history 只保存 completed player/GM 消息对，仅存在于内存，不落盘；
 ## - cancelled / failed 的不完整 GM 输出不进入后续 Provider context；
 ## - regenerate 替换最近一次 GM generation，不制造第二个 player turn；
+## - regenerate 成功前旧 GM 输出仍是稳定 provisional context，成功后才原子替换（IR-02）；
 ## - 这不是 authoritative Conversation / Timeline / Save。
 ##
 ## Provisional GM system message（DEC-07）：最小化，不含 Narrative 白名单 / Regex / Confirmation。
 const PROVISIONAL_SYSTEM_PROMPT := "你是 my world 的 AI GM。把玩家输入视为游戏中的自由行动或意图，以自然、沉浸的中文 RPG 叙事回应，自由推进场景、人物与世界。不要输出工程说明，不要解释自己是 AI 或测试程序。"
 
 const ADAPTER := preload("res://src/provider/deepseek流式适配器.gd")
+
+## 长正文 readable-width 上限（px）：宽屏/最大化下避免单行无限拉长；居中由 EntriesCenter 负责。
+const READABLE_MAX_WIDTH := 920.0
 
 enum GenState {
 	IDLE,
@@ -46,6 +50,10 @@ var _follow_scroll := true
 ## 已存在，completed 时不得再 append 一次（IR-01）；新发送或 cancelled/failed retry 的
 ## turn 尚未入 history，completed 时才补写。
 var _current_turn_in_history := false
+## 是否正在替换一个已入 history 的 completed GM generation（IR-02）。
+## 替换成功前旧 assistant 保持为稳定 provisional context；completed 时原子替换；
+## cancel / fail / 直接新发送都中止本次替换，history 不留半对。
+var _replacing_recorded_turn := false
 ## 最近一次请求实际发给 Provider 的 messages，只读测试 seam（验证 player input 只出现一次）。
 var _last_messages: Array = []
 
@@ -66,7 +74,9 @@ func _ready() -> void:
 	player_input.gui_input.connect(_on_player_input_gui)
 
 	narrative_scroll.get_v_scroll_bar().value_changed.connect(_on_narrative_scroll_changed)
+	narrative_scroll.resized.connect(_update_readable_width)
 	_update_controls()
+	_update_readable_width.call_deferred()
 
 
 ## G2-03 provisional 只读 seam，供 focused tests 断言；不是公开 Domain contract。
@@ -89,8 +99,9 @@ func _on_send_pressed() -> void:
 		return
 
 	_last_player_text = text
-	# 新 player turn 必然尚未入 history；之前的 completed 对保持不变。
+	# 新 player turn 必然尚未入 history；之前的 completed 对保持不变，任何未完成替换中止。
 	_current_turn_in_history = false
+	_replacing_recorded_turn = false
 	_append_player_entry(text)
 	_begin_gm_entry()
 	player_input.clear()
@@ -108,10 +119,14 @@ func _on_regenerate_pressed() -> void:
 	if _gen_state == GenState.STREAMING or _last_player_text.is_empty():
 		return
 
-	# 只有 regenerate 已入 history 的 completed turn 才丢弃旧 GM 输出；
-	# cancelled / failed 的 retry 该 turn 从未入 history，不得误删上一对。
-	if _current_turn_in_history and not _history.is_empty() and String((_history[-1] as Dictionary).get("role", "")) == "assistant":
-		_history.pop_back()
+	# 替换已入 history 的 completed turn：旧 assistant 保持为稳定 provisional context，
+	# 直到新 generation 成功 completed 才原子替换（IR-02）；
+	# cancelled / failed 的 retry 该 turn 从未入 history，不进入替换模式。
+	_replacing_recorded_turn = (
+		_current_turn_in_history
+		and not _history.is_empty()
+		and String((_history[-1] as Dictionary).get("role", "")) == "assistant"
+	)
 
 	if _current_gm_content != null:
 		_current_gm_content.clear()
@@ -131,11 +146,11 @@ func _start_request() -> void:
 		push_warning("G2-03: adapter busy on start_stream")
 
 
-## provisional in-memory messages：system + completed pairs + 当前 player（若 history 末位不是它）。
+## provisional in-memory messages：system + completed pairs + 当前 player（若尚未入 history）。
 func _build_messages(player_text: String) -> Array:
 	var messages: Array = [{"role": "system", "content": PROVISIONAL_SYSTEM_PROMPT}]
 	messages.append_array(_history)
-	if _history.is_empty() or String((_history[-1] as Dictionary).get("role", "")) == "assistant":
+	if not _current_turn_in_history:
 		messages.append({"role": "user", "content": player_text})
 	return messages
 
@@ -194,8 +209,13 @@ func _on_text_delta(text: String) -> void:
 
 func _on_completed() -> void:
 	# 只有 completed 的 player/GM 对进入 provisional history。
-	# Regenerate 同一 completed turn 时 player entry 已在 history 中（IR-01 修复），只补新 GM。
-	if not _current_turn_in_history:
+	# IR-02：替换模式下新 generation 成功后才原子移除旧 assistant；
+	# IR-01：regenerate 同一 completed turn 时 player entry 已在 history 中，不重复 append。
+	if _replacing_recorded_turn:
+		if not _history.is_empty() and String((_history[-1] as Dictionary).get("role", "")) == "assistant":
+			_history.pop_back()
+		_replacing_recorded_turn = false
+	elif not _current_turn_in_history:
 		_history.append({"role": "user", "content": _last_player_text})
 		_current_turn_in_history = true
 	_history.append({"role": "assistant", "content": _current_gm_text})
@@ -203,6 +223,8 @@ func _on_completed() -> void:
 
 
 func _on_cancelled() -> void:
+	# 替换中止：旧 completed 对仍是稳定 provisional context，不留半对（IR-02）。
+	_replacing_recorded_turn = false
 	# partial Narrative 保留在屏幕上，但明确标记，且不进入后续 context。
 	if _current_gm_marker != null:
 		_current_gm_marker.text = "已取消 —— 本次内容不会带入后续叙事"
@@ -210,6 +232,8 @@ func _on_cancelled() -> void:
 
 
 func _on_failed(code: String, _message: String) -> void:
+	# 同 cancel：替换中止，旧 completed 对不被破坏（IR-02）。
+	_replacing_recorded_turn = false
 	if _current_gm_marker != null:
 		_current_gm_marker.text = "生成失败 —— 可点击「重新生成」重试"
 	_show_error(_friendly_error(code))
@@ -259,6 +283,11 @@ func _on_player_input_gui(event: InputEvent) -> void:
 		if key_event.pressed and not key_event.echo and key_event.ctrl_pressed and key_event.keycode == KEY_ENTER:
 			_on_send_pressed()
 			player_input.accept_event()
+
+
+## 正文列宽随窗口收窄铺满，超过 READABLE_MAX_WIDTH 后由 CenterContainer 居中限宽。
+func _update_readable_width() -> void:
+	entries.custom_minimum_size.x = minf(narrative_scroll.size.x, READABLE_MAX_WIDTH)
 
 
 ## 用户仍在底部附近时跟随最新文本；用户主动向上阅读时不强行拉回。

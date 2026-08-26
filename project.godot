@@ -20,3 +20,6 @@ window/size/viewport_width=1280
 window/size/viewport_height=720
 window/size/window_width_override=1280
 window/size/window_height_override=720
+; G2-03 Owner UAT repair：默认玩家启动为 Maximized Window（2），不是 Exclusive Fullscreen。
+; 1280x720 保留为普通 windowed 回归基准。
+window/size/mode=2
