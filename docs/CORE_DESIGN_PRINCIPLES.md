@@ -1,10 +1,11 @@
 ---
 title: my world｜核心设计原则（实现仓库导读）
 status: current-repository-reference
-version: 1.0
+version: 1.1
 created: 2026-08-26
 updated: 2026-08-26
 canonical_source: Vibe-Coding/my world/MY_WORLD_核心设计原则_CURRENT.md
+canonical_timeline_source: Vibe-Coding/my world/MY_WORLD_时间线存档与可逆性架构_CURRENT.md
 ---
 
 # my world｜核心设计原则
@@ -15,11 +16,15 @@ canonical_source: Vibe-Coding/my world/MY_WORLD_核心设计原则_CURRENT.md
 
 `zhangchenjia21-dot/Vibe-Coding/main/my world/MY_WORLD_核心设计原则_CURRENT.md`
 
+Save / Restore / Timeline / Reversibility 的更具体 canonical supporting architecture 位于：
+
+`zhangchenjia21-dot/Vibe-Coding/main/my world/MY_WORLD_时间线存档与可逆性架构_CURRENT.md`
+
 本文件不建立第二套产品真相；发生冲突时，以用户当前指令和上述 canonical 文件为准。
 
 它汇总了 SillyTavern 新版主体时期的 World OS / FC2 / Context / Save-Restore / Runtime World Materialization、The World / DSH 长局经验，以及当前 `my world` Owner 裁定中真正要继承的设计。
 
-## 1. 五条最高层原则
+## 1. 最高层原则
 
 > **Model freedom first.**
 >
@@ -30,6 +35,8 @@ canonical_source: Vibe-Coding/my world/MY_WORLD_核心设计原则_CURRENT.md
 > **Context stays bounded.**
 >
 > **Player owns the timeline.**
+>
+> **Reversibility ≠ frictionless arbitrary rewind.**
 
 中文：
 
@@ -42,6 +49,8 @@ canonical_source: Vibe-Coding/my world/MY_WORLD_核心设计原则_CURRENT.md
 > **世界可以不断增长，但单轮模型工作集必须保持有界。**
 >
 > **玩家拥有时间线的最终决定权。**
+>
+> **局部错误应低成本纠正，但重大历史恢复必须表达明确玩家意图。**
 
 ## 2. Reversibility over Prevention
 
@@ -55,15 +64,20 @@ canonical_source: Vibe-Coding/my world/MY_WORLD_核心设计原则_CURRENT.md
 - 世界设定或规则偶发不一致；
 - 玩家单纯不喜欢这一轮的发展。
 
-优先解决方式：
+优先解决方式按风险分层：
 
 ```text
-regenerate / retry
-撤回最近一轮
-edit-and-retry
-rewind
-restore
-branch
+active generation
+→ cancel
+
+latest generation
+→ regenerate / retry
+
+latest turn correction
+→ edit-and-retry（正式 Turn / persistence 语义成立后）
+
+important historical recovery
+→ explicit Save / Load / Restore
 ```
 
 不要默认走：
@@ -74,6 +88,14 @@ branch
 → 新增 Confirmation
 → 新增 Narrative whitelist / validator
 → Prompt 与状态机继续膨胀
+```
+
+也不要把 `Reversibility over Prevention` 错误解释成：
+
+```text
+每个历史 Turn
+→ 永久显示“一键回到这里”
+→ 任意历史位置无成本切换
 ```
 
 只有真实高频、严重破坏产品价值的问题，才值得增加专门限制。
@@ -92,7 +114,7 @@ Narrative 不应被程序压成只能复述已批准结果的模板层。
 
 Player Agency 的最高保护不是“模型一句都不能替玩家补”，而是：
 
-> **玩家可以决定最终保留哪条 Timeline。**
+> **玩家可以决定最终保留哪条游戏历史，但高影响历史恢复必须是有意识的操作。**
 
 ## 4. 修正旧的 Program / Model 边界
 
@@ -219,38 +241,69 @@ Timer、cooldown、简单资源变化、确定性 bookkeeping 等，能由 Runti
 
 把模型能力留给真正需要开放语义、人物选择、世界创造和 Narrative 的地方。
 
-## 11. Timeline 是 AI 游戏的容错基础设施
+## 11. Timeline 是容错基础设施，但不是公开调试器
 
-Save / Restore / Timeline 不只是传统存档功能。
+Save / Restore / Timeline 是 AI RPG 的重要基础设施，但必须区分：
 
-它们要支持：
+```text
+Save Point
+!= Timeline Node
+```
 
-- retry；
-- rewind；
-- edit-and-retry；
+### 玩家高频直接操作
+
+```text
+Cancel
+Regenerate / Retry latest generation
+```
+
+### 玩家明确历史恢复操作
+
+```text
+Save important progress
+Load / Restore a chosen Save Point
+```
+
+### Runtime 内部能力
+
+Timeline 可以拥有比 Save 更细的 durable turn / commit / checkpoint / snapshot anchor，用于：
+
+- persistence correctness；
+- crash recovery；
 - restore；
-- branch；
-- future-memory isolation。
+- future-memory isolation；
+- 必要时保留旧 current future；
+- internal branch/recovery semantics。
+
+但：
+
+> **内部 Timeline Node 不自动等于玩家可点击 Load Point。**
+
+当前明确 Deferred：
+
+```text
+每个历史 Turn 都显示“回到这里”
+任意历史节点一键 rewind
+把 Timeline 当成随手可操作的 debugger
+```
 
 Save 捕获 stable committed world，而不是半执行 Provider 请求。
 
-Restore 应由 Runtime 原子恢复世界，并重建对应 Agent Context；不能靠“把旧聊天重发给模型”猜回来。
+Restore 应由 Runtime 原子恢复世界并重建对应 Agent Context；不能靠“把旧聊天重发给模型”猜回来。
+
+读取旧 Save 时，设计目标是不要立刻物理销毁当前未来。G3 应评估最小可靠的 recovery checkpoint / old-head / internal-branch 等方式，让误读档本身也尽量可恢复。
 
 ## 12. No Phantom 的新定位
 
 `No Phantom World Change` 仍可作为 Narrative / state 一致性的质量观测，但不再是默认 Narrative hard gate。
 
-出现偶发偏差时：
+出现偶发偏差时优先：
 
 ```text
-reconcile / retry / rewind
+reconcile / retry / latest-turn correction / explicit restore
 ```
 
-优先于：
-
-```text
-增加更多创作限制
-```
+而不是自动增加更多创作限制。
 
 真正持久化的 Turn 仍必须由 Runtime 保证原子与可恢复，不能留下物理半提交。
 
@@ -281,8 +334,10 @@ G2 开始后：
 - 优先保护真实模型输出质量；
 - streaming / cancel / retry 要自然；
 - 不因 prevention-first 规则把 GM 变得机械；
-- regenerate / retry 是最早的可逆能力；
-- G3 再把 rewind / restore / branch 建成正式 Timeline 能力；
+- G2-03 只需要 Cancel / Regenerate，不实现历史 Rewind；
+- G2-04 冻结 Turn / Conversation 与 latest-turn retry 语义；
+- G3 优先建立 reliable persistence、Save、Load/Restore、Context rebuild 与误读档 recovery；
+- arbitrary per-turn rewind 当前是 Deferred，不是 G3 的默认交付要求；
 - G5 让 NPC / Faction 成为真正独立历史行动者；
 - G7 保证长期世界增长时模型 working set 仍有界。
 
