@@ -40,16 +40,23 @@ Completed:
 - G2-01 Application / Game Shell: **PASS — Owner UAT**.
 - G2-02 Provider Adapter v0.1: **ENGINEERING PASS**.
 - G2-03 Narrative Conversation View: **PASS — Owner UAT**.
+- G2-04 Turn / Conversation Domain v0.1: **PASS — Independent Review**.
 
-G2-03 final implementation line includes `81e7ce0dc7e60094f65b09c428649f49446cb49a` and proves the real DeepSeek Narrative UI, Cancel/Regenerate/failure recovery, wide/narrow Host layout, responsive Composer and Narrative-richness baseline.
+G2-04 final implementation line:
+
+```text
+0bf1f012366db7271664a192c1c30e60947cc5c9  base Turn/Conversation Domain
+
+d0d5d47f487fdb75f31de5349894517a830a51e8  IR-03 regenerate request-context repair
+
+d1acd2a58e00fd99b73ab98bc3ccdc3c79762951  IR-04 empty-completion integrity repair
+```
 
 Current task:
 
-> **G2-04 — Turn / Conversation Domain v0.1**
+> **G2-05 — Context Assembly v0.1**
 
-G2-05 Context Assembly and G3+ are not authorized until G2-04 review closes.
-
-Known non-blocking carry-forward from G2-03 Owner UAT: the whole page typography is still too small. G2-04 must make one bounded adjustment to a medium-readable default font baseline. Do not turn this into a Settings/Theme framework; player-selectable font size is deferred to the later RPG Experience / UI Preference stage.
+G2-06 Owner Playtest and G3+ are not authorized until G2-05 Independent Review closes.
 
 ## 4. Core product/runtime invariants
 
@@ -85,8 +92,6 @@ JSON/files for config/source
 SQLite = G3 preferred persistence evaluation candidate
 ```
 
-Domain stays independent from Scene/Node/Resource lifecycles where practical: use plain GDScript data/domain objects rather than making game semantics depend on SceneTree lifetime.
-
 Current Provider Adapter remains thin:
 
 ```text
@@ -98,13 +103,13 @@ failed(code, message)
 is_busy()
 ```
 
-Do not put Turn/Conversation/World semantics or Context Assembly inside the Provider Adapter.
+Provider Adapter receives already-assembled request messages. Do not put Turn/Conversation/World semantics, retrieval or Context Assembly inside it.
 
 Never commit/display/log provider secrets or Authorization values.
 
-## 6. UI Host / typography boundary
+## 6. UI / typography boundary
 
-Long-term skeleton:
+Long-term skeleton remains:
 
 ```text
 Left   Player Host
@@ -112,54 +117,70 @@ Center Narrative Host
 Right  World Surface Host
 ```
 
-Wide/maximized first-pass layout remains approximately `18 / 60 / 22`, with usable side minimum widths; narrow windows collapse side Hosts rather than squeezing them into unusable strips. Desktop player launch remains Maximized Window, not Exclusive Fullscreen.
+Wide/maximized first-pass layout remains approximately `18 / 60 / 22`; narrow windows collapse side Hosts. Desktop player launch remains Maximized Window. G2-04 established the medium-readable typography baseline; player-selectable font size is deferred to later UI Preference work.
 
-G2-04 typography carry-forward:
+Do not turn G2-05 into UI redesign.
 
-- raise the overall default to a medium-readable desktop baseline;
-- keep hierarchy between title/body/secondary text/buttons;
-- validate maximized, 1280×720 and 960×540 without overflow/regression;
-- no font-size selector, persistence, custom-font manager or broad Theme rewrite now.
+## 7. G2-04 Conversation boundary — now established
 
-Future supported font-size/UI-scale choice is a UI Preference, not World/Timeline state.
-
-## 7. G2-04 domain boundary
-
-G2-04 exists because G2-03 interaction truth is still largely maintained by UI-local provisional arrays/flags. G2-05 must not depend on UI-private truth.
-
-G2-04 must establish a minimal formal in-memory Conversation Domain that owns:
+Conversation Domain owns:
 
 ```text
-Player Turn
-GM generation / accepted response
-Conversation ordering / entry projection
+Turn ordering / identity
+accepted player + GM truth
 Generation State
-Retry
-Regenerate
-latest-turn correction semantics
+Retry / Regenerate / latest-turn correction
+atomic accepted replacement / rollback semantics
 ```
+
+Important closed invariants that G2-05 must preserve:
+
+- `Transcript != Timeline`.
+- Regenerate/correction keep old accepted truth until a non-empty replacement succeeds.
+- Current Turn's old assistant is excluded from Regenerate replacement requests.
+- zero/whitespace-only completion is `empty_generation`, not accepted truth; any non-whitespace content remains allowed.
+- UI does not own a second conversation history truth.
+
+Do not move these semantics back into UI or Provider.
+
+## 8. G2-05 Context Assembly boundary
+
+G2-05 exists to remove the remaining provisional request-assembly responsibility from Conversation and establish a small, explicit Context Assembly owner.
 
 Required ownership split:
 
 ```text
-Conversation Domain → conversation/turn truth and generation lifecycle semantics
-Narrative UI        → input + rendering/projection + player actions
-Provider Adapter    → HTTP/SSE transport only
-G2-05               → system instructions + Context Assembly + working-set selection
+Conversation Domain
+→ authoritative in-memory Turn / accepted truth
+→ exposes read-only derived context projection
+
+Context Assembly
+→ system / GM instructions composition
+→ bounded Conversation working-set selection
+→ current minimal Game Context material inclusion
+→ produces Provider messages
+
+Narrative UI
+→ player input + rendering + action dispatch
+
+Provider Adapter
+→ transport only
 ```
 
-Important semantics:
+Rules:
 
-- `Transcript != Timeline`.
-- No Persistence / Save / Branch / arbitrary historical rewind.
-- Completed Regenerate keeps the previous accepted result stable until replacement succeeds; cancel/fail must preserve the previous stable result.
-- Latest-turn correction is limited to the latest logical turn; it must not silently become arbitrary historical editing. A corrected completed latest turn should follow the same atomic replacement principle: old accepted pair remains stable until corrected generation succeeds; cancel/fail rolls back to it.
-- UI must not retain a second authoritative `_history`/generation truth after migration; rendering references are fine, duplicated semantic state is not.
-- Domain does not choose system prompts, trim context, retrieve world facts or build a long-memory platform. G2-05 owns those concerns.
+- Context/Provider messages are **derived request material**, never canonical World or Conversation truth.
+- `Context stays bounded, not starved.` First G2 policy should be simple and explicit (recent complete Turns + current attempt), not unbounded full transcript and not complex retrieval.
+- Preserve whole Turn boundaries; do not truncate individual player/GM text merely to hit an arbitrary character target in G2-05.
+- Do not build summarization, embeddings, vector search, semantic retrieval, token-budget platform or long-memory infrastructure; G7 owns that evolution.
+- Current Game Context input may be an honest small text/projection seam plus deterministic fixtures. Do not invent fake authoritative Character/World/NPC state just to populate Context before those domains exist.
+- Game Context input is data/material supplied to Context Assembly; Context Assembly does not become its canonical owner.
+- Regenerate/correction request semantics from G2-04 must remain correct after migration.
+- `Narrative richness over artificial brevity` remains independent from input-context boundedness. Do not add output-length caps.
 
-Do not introduce EventBus/DI/service forests, generic command frameworks, persistence abstractions or speculative interfaces merely to make the module look complete.
+Do not introduce EventBus/DI/service forests, generic command frameworks or speculative context-provider plugin systems.
 
-## 8. Save / Timeline boundary
+## 9. Save / Timeline boundary
 
 Current priority after G2 is still:
 
@@ -171,9 +192,9 @@ reliable current persistence / resume
 → recovery
 ```
 
-Do not expose every historical Turn as `回到这里` by default. Arbitrary per-turn rewind is Deferred.
+No Persistence / Save / Timeline / Branch is authorized in G2-05. Arbitrary per-turn rewind remains Deferred.
 
-## 9. Evidence / execution discipline
+## 10. Evidence / execution discipline
 
 Never claim Windows-local, Godot, Provider, export, network or UI success without real execution evidence.
 
