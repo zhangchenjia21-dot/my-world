@@ -203,7 +203,14 @@ G1-04 时期的 `KIMI_CODE_API_KEY` 与 `MY_WORLD_G1_04_*` 已退休，当前启
 第一次配置时：
 
 1. 复制 `.env.example` 为 `.env.local`；
-2. 只在本机填写真实 Key；
+2. 只在本机填写真实 Key。
+
+玩家路径（运行导出的游戏）：
+
+3. 双击 `run-game.cmd`，或在 PowerShell 中运行 `.\run-game.ps1`。它启动 `build\windows\my-world.exe`；若导出不存在会明确提示需要先导出。
+
+开发者路径（打开 Godot Editor）：
+
 3. 双击 `run-local.cmd`，或在 PowerShell 中运行 `.\run-local.ps1`。
 
 `.env.local` 已被 Git 忽略。启动脚本只把变量临时注入 Godot 子进程，不会把 Key 写入项目文件。
@@ -212,7 +219,8 @@ PowerShell 启动示例：
 
 ```powershell
 Set-Location 'D:\AI\Projects\my-world'
-.\run-local.ps1
+.\run-game.ps1   # 玩家：运行导出的游戏
+.\run-local.ps1  # 开发者：打开 Godot Editor
 ```
 
 ## G1-05 Closeout

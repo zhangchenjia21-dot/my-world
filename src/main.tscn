@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
-[ext_resource type="Script" path="res://src/应用壳.gd" id="1_script"]
+[ext_resource type="Script" path="res://src/应用壳.gd" id="1_shell"]
+[ext_resource type="Script" path="res://src/ui/叙事对话视图.gd" id="2_view"]
 
 [sub_resource type="SystemFont" id="SystemFont_shell"]
 font_names = PackedStringArray("Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", "SimSun")
@@ -17,7 +18,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_shell")
-script = ExtResource("1_script")
+script = ExtResource("1_shell")
 
 [node name="Background" type="ColorRect" parent="."]
 layout_mode = 1
@@ -35,17 +36,18 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 28
-theme_override_constants/margin_top = 16
-theme_override_constants/margin_right = 28
-theme_override_constants/margin_bottom = 14
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 12
 
 [node name="Layout" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 10
 
 [node name="TopBar" type="HBoxContainer" parent="Margin/Layout"]
 layout_mode = 2
+theme_override_constants/separation = 8
 
 [node name="TitleBox" type="VBoxContainer" parent="Margin/Layout/TopBar"]
 layout_mode = 2
@@ -53,7 +55,7 @@ layout_mode = 2
 [node name="Title" type="Label" parent="Margin/Layout/TopBar/TitleBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.937255, 0.937255, 0.94902, 1)
-theme_override_font_sizes/font_size = 28
+theme_override_font_sizes/font_size = 26
 text = "my world"
 
 [node name="Subtitle" type="Label" parent="Margin/Layout/TopBar/TitleBox"]
@@ -66,37 +68,166 @@ text = "自然语言 AI 角色扮演"
 layout_mode = 2
 size_flags_horizontal = 3
 
+[node name="PlayerToggle" type="Button" parent="Margin/Layout/TopBar"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+toggle_mode = true
+text = "主角"
+
+[node name="WorldToggle" type="Button" parent="Margin/Layout/TopBar"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_vertical = 4
+toggle_mode = true
+text = "世界"
+
 [node name="ExitButton" type="Button" parent="Margin/Layout/TopBar"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 text = "退出"
 
-[node name="ContentPanel" type="PanelContainer" parent="Margin/Layout"]
+[node name="HostLayout" type="HBoxContainer" parent="Margin/Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+
+[node name="PlayerPanelHost" type="PanelContainer" parent="Margin/Layout/HostLayout"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+
+[node name="PlayerPanelMargin" type="MarginContainer" parent="Margin/Layout/HostLayout/PlayerPanelHost"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="PlayerPanelColumn" type="VBoxContainer" parent="Margin/Layout/HostLayout/PlayerPanelHost/PlayerPanelMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PlayerHeader" type="Label" parent="Margin/Layout/HostLayout/PlayerPanelHost/PlayerPanelMargin/PlayerPanelColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.839216, 0.847059, 0.878431, 1)
+theme_override_font_sizes/font_size = 18
+text = "主角"
+
+[node name="PlayerEmpty" type="Label" parent="Margin/Layout/HostLayout/PlayerPanelHost/PlayerPanelMargin/PlayerPanelColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.556863, 0.580392, 0.631373, 1)
+theme_override_font_sizes/font_size = 13
+text = "主角信息将在新游戏与角色状态成立后显示。"
+autowrap_mode = 2
+
+[node name="NarrativeHost" type="PanelContainer" parent="Margin/Layout/HostLayout"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+script = ExtResource("2_view")
+
+[node name="NarrativeMargin" type="MarginContainer" parent="Margin/Layout/HostLayout/NarrativeHost"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 12
+
+[node name="NarrativeColumn" type="VBoxContainer" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="NarrativeScroll" type="ScrollContainer" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn"]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Center" type="CenterContainer" parent="Margin/Layout/ContentPanel"]
+[node name="Entries" type="VBoxContainer" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 16
+
+[node name="ErrorLabel" type="Label" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.521569, 0.462745, 1)
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 2
+
+[node name="ComposerRow" type="HBoxContainer" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="PlayerInput" type="TextEdit" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "输入你的行动……（Ctrl+Enter 发送）"
+wrap_mode = 1
+
+[node name="ComposerButtons" type="VBoxContainer" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="SendButton" type="Button" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "发送"
+
+[node name="CancelButton" type="Button" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "取消"
+
+[node name="TurnFooter" type="HBoxContainer" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn"]
 layout_mode = 2
 
-[node name="EmptyState" type="VBoxContainer" parent="Margin/Layout/ContentPanel/Center"]
+[node name="FooterSpacer" type="Control" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter"]
 layout_mode = 2
-theme_override_constants/separation = 10
-alignment = 1
+size_flags_horizontal = 3
 
-[node name="EmptyTitle" type="Label" parent="Margin/Layout/ContentPanel/Center/EmptyState"]
+[node name="RegenerateButton" type="Button" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "↻ 重新生成"
+
+[node name="WorldSurfaceHost" type="PanelContainer" parent="Margin/Layout/HostLayout"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+
+[node name="WorldPanelMargin" type="MarginContainer" parent="Margin/Layout/HostLayout/WorldSurfaceHost"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
+
+[node name="WorldPanelColumn" type="VBoxContainer" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="WorldHeader" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.839216, 0.847059, 0.878431, 1)
-theme_override_font_sizes/font_size = 20
-text = "世界尚未开始"
-horizontal_alignment = 1
+theme_override_font_sizes/font_size = 18
+text = "世界"
 
-[node name="EmptyBody" type="Label" parent="Margin/Layout/ContentPanel/Center/EmptyState"]
-custom_minimum_size = Vector2(420, 0)
+[node name="WorldEmpty" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.556863, 0.580392, 0.631373, 1)
-text = "一段由 AI 主持的长期冒险将从这里展开。"
-horizontal_alignment = 1
+theme_override_font_sizes/font_size = 13
+text = "世界信息将在游戏状态成立后显示。"
 autowrap_mode = 2
 
 [node name="BottomBar" type="HBoxContainer" parent="Margin/Layout"]
