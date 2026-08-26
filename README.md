@@ -4,7 +4,7 @@
 
 这个仓库保存项目的**实现事实**：代码、测试、构建 / 运行配置，以及项目本地的 Agent 开发规则。长期产品定义、路线图和治理决策位于 `zhangchenjia21-dot/Vibe-Coding` 的 `my world/` 目录。
 
-项目不是把前代 `The World / DSH` 原样搬进 Godot，而是继承长期试玩已经验证的产品经验，并重新设计真正属于独立游戏的世界状态、时间线、存档、AI GM、NPC、World Pack 与 RPG 表现层。
+项目不是把前代 SillyTavern / The World / DSH 原样搬进 Godot，而是继承多轮开发与长期试玩已经验证的产品设计，并重新实现真正属于独立游戏的世界状态、时间线、存档、AI GM、NPC、World Pack 与 RPG 表现层。
 
 > **迁移经验，不迁移宿主债务。**
 
@@ -28,10 +28,12 @@
 如果是为了理解项目，而不是执行代码任务，建议优先阅读：
 
 - **本 README**：项目定位、当前进展、关键原则和运行方式。
+- [`docs/CORE_DESIGN_PRINCIPLES.md`](docs/CORE_DESIGN_PRINCIPLES.md)：SillyTavern / World OS / FC2、The World / DSH 与当前 Owner 裁定汇总出的核心设计导读，重点解释模型自由、可逆性、世界事实、Context、Timeline 与 NPC 自主性。
 - [`docs/DSH_TEST_CARRY_FORWARD_REQUIREMENTS.md`](docs/DSH_TEST_CARRY_FORWARD_REQUIREMENTS.md)：前代 The World / DSH 长局测试留下的经验、失败模式，以及 `my world` 在 G1–G9 必须承接的跨阶段要求。
 - `Vibe-Coding/my world/MY_WORLD_项目启动总纲_CURRENT.md`：当前产品定义与核心原则。
+- `Vibe-Coding/my world/MY_WORLD_核心设计原则_CURRENT.md`：**canonical 核心设计原则**；当旧项目规则、旧经验文档与当前方向冲突时，以这里的最新裁定为准。
 - `Vibe-Coding/my world/MY_WORLD_总体规划路线图_CURRENT.md`：G1–G9 总体开发路径、阶段目标和 Gate。
-- `Vibe-Coding/my world/MY_WORLD_Foundation架构决策_v1.0_2026-08-26.md`：第一代 Host、语言、Runtime、Persistence、Provider 与工程路径的 canonical 决策。
+- `Vibe-Coding/my world/MY_WORLD_Foundation架构决策_v1.0_2026-08-26.md`：第一代 Host、语言、Runtime、Persistence、Provider 与工程路径的 canonical 技术决策。
 - `Vibe-Coding/my world/MY_WORLD_DSH经验继承矩阵_v1.0_2026-08-25.md`：哪些经验应继承、哪些 DSH 宿主实现明确不应迁移。
 
 `AGENTS.md` 属于 AI / Agent 的项目开发与执行规则，不是面向普通读者的项目介绍，因此保留为开发指令文件。
@@ -59,15 +61,16 @@ G1-03 已通过真实 Windows UAT，证明中文显示、长文本滚动、大�
 1. 用户当前明确指令；
 2. `zhangchenjia21-dot/Vibe-Coding/AGENTS.md`；
 3. `Vibe-Coding/my world/MY_WORLD_项目启动总纲_CURRENT.md`；
-4. `Vibe-Coding/my world/MY_WORLD_总体规划路线图_CURRENT.md`；
-5. `Vibe-Coding/my world/MY_WORLD_Foundation架构决策_v1.0_2026-08-26.md`；
-6. `Vibe-Coding/my world/MY_WORLD_独立版Preflight与第一阶段计划_v1.0_2026-08-25.md`；
-7. `Vibe-Coding/my world/MY_WORLD_DSH经验继承矩阵_v1.0_2026-08-25.md`；
-8. 本仓库当前实现、测试与 HEAD。
+4. `Vibe-Coding/my world/MY_WORLD_核心设计原则_CURRENT.md`；
+5. `Vibe-Coding/my world/MY_WORLD_总体规划路线图_CURRENT.md`；
+6. `Vibe-Coding/my world/MY_WORLD_Foundation架构决策_v1.0_2026-08-26.md`；
+7. `Vibe-Coding/my world/MY_WORLD_独立版Preflight与第一阶段计划_v1.0_2026-08-25.md`；
+8. `Vibe-Coding/my world/MY_WORLD_DSH经验继承矩阵_v1.0_2026-08-25.md`；
+9. 本仓库当前实现、测试与 HEAD。
 
-The World / DSH 是产品证据和经验参考实现，不是代码迁移模板。
+SillyTavern / The World / DSH 是设计证据、踩坑经验和参考实现，不是代码迁移模板。
 
-## Foundation 核心原则
+## 核心设计原则
 
 ### 成熟基础能力优先，游戏语义自己掌握
 
@@ -106,11 +109,36 @@ World Pack / Source 提供开局前的世界参考、人物、历史和惯性。
 
 Source 的后续更新不能静默覆盖已经发生的本局历史。
 
-### 模型提出候选，程序提交现实
+### 模型自由优先，可逆性优先于预防
 
-> **Model authors candidates; Program commits reality.**
+> **Model freedom first. Reversibility over prevention.**
 
-模型适合做自然语言理解、叙事、开放内容创造和行动候选；身份、权限、RNG、权威 mutation、持久化、Save / Restore 与 Timeline 等确定性事实必须由程序 / Domain Owner 控制。
+`my world` 不以“让模型永不犯错”为架构目标。普通游戏语义错误、Narrative 偏差、偶发知识错误、低风险的玩家动作补写或玩家单纯不喜欢这一轮结果，优先通过：
+
+```text
+regenerate / retry
+撤回最近一轮
+edit-and-retry
+rewind
+restore
+branch
+```
+
+解决，而不是每发现一种错误就增加 Regex、Confirmation、Narrative whitelist 或全局 Validator。
+
+旧式的：
+
+> `Program owns facts; Model writes prose.`
+
+不再作为全局创作限制。当前更准确的边界是：
+
+> **Model authors the world; Runtime makes it durable; Player owns the timeline.**
+
+模型可以广泛参与 Narrative、NPC / Faction 行动、世界事件、新人物地点物品与 game-local 世界演化；Runtime / Program 的硬职责集中在 stable identity、原子持久化、Save / Restore / Timeline 技术正确性、Secret、文件 / 数据库完整性和不可逆外部副作用边界。
+
+模型自由不意味着允许 API Key 泄露、任意 OS / filesystem 权限、物理存档损坏或半提交。
+
+完整原则见 [`docs/CORE_DESIGN_PRINCIPLES.md`](docs/CORE_DESIGN_PRINCIPLES.md) 与 canonical `Vibe-Coding/my world/MY_WORLD_核心设计原则_CURRENT.md`。
 
 ## G1-04 已完成的真实 Provider 验证
 
@@ -213,15 +241,23 @@ G1-06 已完成并使 G1-GATE **PASS**。Canonical 决策位于 `Vibe-Coding/my 
 - **Provider/config**：保持极薄 `send / stream / cancel` adapter，endpoint/model 与 key 分离；G2 初始只运行 DeepSeek `deepseek-v4-pro`，Kimi Code 是已验证 alternate，不是自动 fallback；
 - **Engineering**：Godot headless parse、按真实确定性逻辑增加最小 focused tests、`user://logs/` 有界脱敏日志、tracked `export_presets.cfg`、ignored `build/`、Agent 承担 routine build/Git/debug/QA，Owner 只做最终产品 UAT。
 
+G1-06 文档中较早的“模型候选 / Program 提交现实”措辞，只在它被解释为普通 Narrative / 游戏语义的硬审查机制时被新的核心设计原则修正；Godot、GDScript、same-process、Persistence、Provider、安全、事务与工程路径等技术裁定继续有效。
+
 G2-01 只能按新的 current Task Packet 开始；G1-06 closeout 本身没有实现任何 G2 功能。
 
-## 前代 The World / DSH 长局经验
+## 前代 SillyTavern / The World / DSH 设计与长局经验
 
-DSH 长局实验已经基本完成。其完整跨阶段要求见：
+前代资产不仅包含 DSH 长局总结。SillyTavern 新版主体时期已经积累了 World OS、FC2、Canonical Ownership、Context Orchestration、Save / Restore、Branch、Game-local World Materialization 等大量核心设计；`my world` 继承这些**经过验证的语义**，但不迁移旧 TypeScript / Web / SillyTavern Host 实现。
+
+DSH 长局实验的完整跨阶段要求见：
 
 [`docs/DSH_TEST_CARRY_FORWARD_REQUIREMENTS.md`](docs/DSH_TEST_CARRY_FORWARD_REQUIREMENTS.md)
 
-最重要的新结论不是“世界需要记忆”，而是：
+更完整的跨前代核心设计收口见：
+
+[`docs/CORE_DESIGN_PRINCIPLES.md`](docs/CORE_DESIGN_PRINCIPLES.md)
+
+最重要的新结论之一不是“世界需要记忆”，而是：
 
 > **持久世界是必要条件，但持久世界不等于自主演化世界。**
 
@@ -233,16 +269,18 @@ DSH 长局实验已经基本完成。其完整跨阶段要求见：
 
 - Save / Restore 真正恢复同一条 Timeline，模型不会记得被回滚的未来；
 - Source 只定义起点和历史惯性，不把未来变成事件时间表；
+- 动态 NPC / 地点 / 物品可以成为有 stable identity 的 game-local reality；
 - NPC / Faction 在玩家离屏后仍能根据自身目标行动；
 - 关键历史改变会向有利益关系的远方 Actor / Faction 传播；
 - 世界难度来自世界因果，而不是机械抬高 DC；
 - 长局 Context 和状态维护不会再次无界膨胀；
 - RPG UI、地图、立绘和场景增强游戏体验，但不成为第二状态源；
+- 玩家能够通过 regenerate / rewind / restore / branch 对 AI 错误和不满意的剧情低成本恢复；
 - 最终 Alpha 必须通过真实长局 Product Owner UAT，而不能只靠工程测试宣布成功。
 
-## 明确不从 DSH 直接迁移的实现
+## 明确不从前代直接迁移的实现
 
-以下内容属于前代宿主债务或 workaround，不应作为新项目架构模板直接复制：
+以下内容属于前代宿主债务、过度防错路线或 workaround，不应作为新项目架构模板直接复制：
 
 - DSH Session workaround；
 - Restore 后新建 Session 的恢复 seam；
@@ -253,7 +291,10 @@ DSH 长局实验已经基本完成。其完整跨阶段要求见：
 - Markdown 默认充当权威 gameplay DB；
 - 通用 Agent Workspace 的目录结构直接决定玩家 UI；
 - Active Context 长期携带 Source future-event checklist；
-- “玩家改变、NPC 回应、历史继续播放”的主角因果垄断模式。
+- “玩家改变、NPC 回应、历史继续播放”的主角因果垄断模式；
+- 每发现一种自然语言误解就增加 Regex / Confirmation 的防错循环；
+- 把 `No Phantom` 实现成对普通 Narrative 的硬审查器；
+- 为追求模型“永不犯错”而持续扩大 Prompt / Validator / 状态机。
 
 应该继承的是这些失败方案背后暴露出的**需求和经验**，而不是 workaround 本身。
 
@@ -285,12 +326,14 @@ G9  独立版 Alpha / 发布验证
 启动游戏
 → 进入一个世界
 → 与 AI GM 自然语言互动
+→ 模型充分发挥叙事与世界创造能力
 → 世界产生真实、持久的变化
+→ 玩家可以低成本 regenerate / retry
 → 退出并重新进入
-→ Save / Restore
-→ 世界继续演化
+→ Save / Restore / rewind / branch
 → 被回滚的未来不再影响 AI
+→ NPC / Faction 自己创造历史
 → 长局仍然自然、快速、好玩
 ```
 
-如果工程越来越复杂，但核心 AI RPG 体验反而明显弱于简单模型聊天或前代 DSH 基线，就不能用“架构更完整”宣布成功。
+如果工程越来越复杂，但核心 AI RPG 体验反而明显弱于简单模型聊天或前代基线，就不能用“架构更完整”宣布成功。
