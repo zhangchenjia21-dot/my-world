@@ -14,3 +14,6 @@ Desktop.ini
 # Temporary files
 *.tmp
 *.temp
+
+# Windows export output (G1-05); presets stay tracked, binaries do not
+build/

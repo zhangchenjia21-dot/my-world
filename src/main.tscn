@@ -1,37 +1,29 @@
-[gd_scene format=3 uid="uid://dk6ai417khaa6"]
+[gd_scene load_steps=3 format=3]
 
-[ext_resource type="Script" uid="uid://drrd65axg3i3m" path="res://src/g1_04_provider_stream_spike.gd" id="1_script"]
+[ext_resource type="Script" path="res://src/g1_05_本地IO图片导出探针.gd" id="1_script"]
 
-[sub_resource type="SystemFont" id="SystemFont_g104"]
+[sub_resource type="SystemFont" id="SystemFont_g105"]
 font_names = PackedStringArray("Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", "SimSun")
 
-[sub_resource type="Theme" id="Theme_g104"]
-default_font = SubResource("SystemFont_g104")
+[sub_resource type="Theme" id="Theme_g105"]
+default_font = SubResource("SystemFont_g105")
 default_font_size = 16
 
-[node name="Main" type="Control" unique_id=398688262]
+[node name="Main" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -132.0
-offset_top = -237.0
-offset_right = -132.0
-offset_bottom = -237.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = SubResource("Theme_g104")
+theme = SubResource("Theme_g105")
 script = ExtResource("1_script")
 
-[node name="Margin" type="MarginContainer" parent="." unique_id=419950852]
+[node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 144.0
-offset_top = 239.0
-offset_right = 144.0
-offset_bottom = 239.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 18
@@ -39,102 +31,101 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 18
 theme_override_constants/margin_bottom = 10
 
-[node name="Layout" type="VBoxContainer" parent="Margin" unique_id=1945719264]
+[node name="Layout" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
-theme_override_constants/separation = 5
+theme_override_constants/separation = 6
 
-[node name="Title" type="Label" parent="Margin/Layout" unique_id=1979982129]
+[node name="Title" type="Label" parent="Margin/Layout"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 21
-text = "my world · G1-04 DeepSeek + Kimi Real Provider Spike"
+text = "my world · G1-05 本地 IO / 动态图片 / Windows Export Spike"
 
-[node name="Hint" type="Label" parent="Margin/Layout" unique_id=1460668797]
+[node name="Hint" type="Label" parent="Margin/Layout"]
 layout_mode = 2
-text = "两家 Provider 都必须真实跑通 stream；生成期间观察 heartbeat / UI 响应，并实际验证 Cancel。"
+text = "证明 user:// 跨启动 probe、三类图片“写文件 → 从文件重新 decode → 显示”、Editor 与导出 EXE 两种运行形态。不做正式 Save / World Pack。"
 autowrap_mode = 3
 
-[node name="ProviderRow" type="HBoxContainer" parent="Margin/Layout" unique_id=725479991]
+[node name="RuntimeLabel" type="Label" parent="Margin/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "运行形态: 检测中…"
+
+[node name="IOStatusLabel" type="Label" parent="Margin/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "Local IO: 检测中…"
+
+[node name="PathLabel" type="Label" parent="Margin/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "probe 路径…"
+autowrap_mode = 3
+
+[node name="MarkerLabel" type="Label" parent="Margin/Layout"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "marker…"
+autowrap_mode = 3
+
+[node name="ImagesRow" type="HBoxContainer" parent="Margin/Layout"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="PortraitColumn" type="VBoxContainer" parent="Margin/Layout/ImagesRow"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="PortraitStatus" type="Label" parent="Margin/Layout/ImagesRow/PortraitColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Portrait image: 检测中…"
+
+[node name="PortraitTexture" type="TextureRect" parent="Margin/Layout/ImagesRow/PortraitColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+
+[node name="SceneColumn" type="VBoxContainer" parent="Margin/Layout/ImagesRow"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SceneStatus" type="Label" parent="Margin/Layout/ImagesRow/SceneColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Scene image: 检测中…"
+
+[node name="SceneTexture" type="TextureRect" parent="Margin/Layout/ImagesRow/SceneColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+
+[node name="MapColumn" type="VBoxContainer" parent="Margin/Layout/ImagesRow"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="MapStatus" type="Label" parent="Margin/Layout/ImagesRow/MapColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Map image: 检测中…"
+
+[node name="MapTexture" type="TextureRect" parent="Margin/Layout/ImagesRow/MapColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+
+[node name="Controls" type="HBoxContainer" parent="Margin/Layout"]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="ProviderLabel" type="Label" parent="Margin/Layout/ProviderRow" unique_id=1544513492]
-layout_mode = 2
-text = "Provider："
-vertical_alignment = 1
-
-[node name="ProviderSelect" type="OptionButton" parent="Margin/Layout/ProviderRow" unique_id=337319525]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-
-[node name="ConfigLabel" type="Label" parent="Margin/Layout/ProviderRow" unique_id=922791975]
+[node name="RerunIOButton" type="Button" parent="Margin/Layout/Controls"]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-text = "读取本地 Provider 配置…"
-vertical_alignment = 1
-autowrap_mode = 3
+text = "Re-run IO"
 
-[node name="Transcript" type="RichTextLabel" parent="Margin/Layout" unique_id=217767557]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 155)
-layout_mode = 2
-size_flags_vertical = 3
-focus_mode = 2
-scroll_following = true
-context_menu_enabled = true
-selection_enabled = true
-
-[node name="InputLabel" type="Label" parent="Margin/Layout" unique_id=1896099306]
-layout_mode = 2
-text = "玩家行动（Ctrl+Enter 发送当前 Provider 的真实请求）："
-
-[node name="PlayerInput" type="TextEdit" parent="Margin/Layout" unique_id=1601683168]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 62)
-layout_mode = 2
-text = "我推开茶馆后门，冒雨走进巷子，先观察有没有人跟踪，再问少女那枚铜牌究竟代表什么。"
-placeholder_text = "输入一段自然语言玩家行动。"
-wrap_mode = 1
-caret_blink = true
-
-[node name="Controls" type="HBoxContainer" parent="Margin/Layout" unique_id=471536966]
-layout_mode = 2
-theme_override_constants/separation = 7
-
-[node name="SendButton" type="Button" parent="Margin/Layout/Controls" unique_id=565339482]
+[node name="ReloadImagesButton" type="Button" parent="Margin/Layout/Controls"]
 unique_name_in_owner = true
 layout_mode = 2
-text = "发送真实请求"
-
-[node name="CancelButton" type="Button" parent="Margin/Layout/Controls" unique_id=1867967684]
-unique_name_in_owner = true
-layout_mode = 2
-disabled = true
-text = "Cancel"
-
-[node name="FailureButton" type="Button" parent="Margin/Layout/Controls" unique_id=363136320]
-unique_name_in_owner = true
-layout_mode = 2
-text = "连接失败测试"
-
-[node name="PingButton" type="Button" parent="Margin/Layout/Controls" unique_id=2006990209]
-unique_name_in_owner = true
-layout_mode = 2
-text = "UI 响应 +1"
-
-[node name="ClearButton" type="Button" parent="Margin/Layout/Controls" unique_id=1355000103]
-unique_name_in_owner = true
-layout_mode = 2
-text = "清空"
-
-[node name="StatusLabel" type="Label" parent="Margin/Layout" unique_id=1890067456]
-unique_name_in_owner = true
-layout_mode = 2
-text = "等待初始化…"
-autowrap_mode = 3
-
-[node name="HeartbeatLabel" type="Label" parent="Margin/Layout" unique_id=170483299]
-unique_name_in_owner = true
-layout_mode = 2
-text = "UI heartbeat: 0"
+text = "Reload Images"
