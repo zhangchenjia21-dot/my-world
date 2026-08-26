@@ -11,11 +11,12 @@ For every new formal task, resolve current authority from GitHub `main` in this 
 2. `zhangchenjia21-dot/Vibe-Coding/AGENTS.md`.
 3. `Vibe-Coding/my world/MY_WORLD_项目启动总纲_CURRENT.md`.
 4. `Vibe-Coding/my world/MY_WORLD_核心设计原则_CURRENT.md`.
-5. `Vibe-Coding/my world/MY_WORLD_总体规划路线图_CURRENT.md`.
-6. `Vibe-Coding/my world/MY_WORLD_Foundation架构决策_v1.0_2026-08-26.md`.
-7. `Vibe-Coding/my world/MY_WORLD_独立版Preflight与第一阶段计划_v1.0_2026-08-25.md`.
-8. `Vibe-Coding/my world/MY_WORLD_DSH经验继承矩阵_v1.0_2026-08-25.md`.
-9. This repository's current implementation, tests, and HEAD.
+5. `Vibe-Coding/my world/MY_WORLD_G2_CURRENT_STATUS.md` for current G2 task / PASS / UAT status only.
+6. `Vibe-Coding/my world/MY_WORLD_总体规划路线图_CURRENT.md`.
+7. `Vibe-Coding/my world/MY_WORLD_Foundation架构决策_v1.0_2026-08-26.md`.
+8. `Vibe-Coding/my world/MY_WORLD_独立版Preflight与第一阶段计划_v1.0_2026-08-25.md`.
+9. `Vibe-Coding/my world/MY_WORLD_DSH经验继承矩阵_v1.0_2026-08-25.md`.
+10. This repository's current implementation, tests, and HEAD.
 
 Repository-local `docs/CORE_DESIGN_PRINCIPLES.md` is the implementation-facing projection of the canonical core-design document. It does not create a second authority source.
 
@@ -27,7 +28,7 @@ Before authoritative `main` writes, re-check current HEAD. Do not silently overw
 
 Current phase: `G2 — AI Conversation Spine`.
 
-Current task: `G2-01 — Application / Game Shell`.
+Current task: `G2-02 — Provider Adapter v0.1`.
 
 Completed:
 
@@ -38,12 +39,15 @@ Completed:
 - `G1-05 — Local IO / Image / Windows Export Foundation Spike`: **PASS** based on real exported-executable Owner UAT.
 - `G1-06 — Foundation Architecture Decision`: **PASS**.
 - `G1-GATE — Foundation Gate`: **PASS**.
+- `G2-01 — Application / Game Shell`: **PASS** based on real exported-executable Owner UAT at `4a13deb29a2e9c354530843d23eb48422957033c`.
+
+G2-01 Owner observation: the shell is functionally acceptable but still visually rough. This is **deferred visual polish / non-blocking** and must not delay the G2 Conversation Spine. A later explicit UI-polish task may assign this work to KimiCode.
 
 G1-04 proved **DeepSeek + Kimi Code** real HTTP success, incremental streaming, active cancellation, successful post-cancel requests, idle Provider switching, explicit deterministic failure handling, and UI responsiveness.
 
 G1-05 proved a tiny cross-launch `user://` probe, real filesystem image loading for portrait/scene/map roles, Windows export, direct exported-executable execution, and persistence across exported-app relaunch. It did not define the production persistence architecture, asset pipeline, World Pack schema, or Save system.
 
-G1 is closed. Every G2 task requires its own current Task Packet; the G1-06 closeout does not authorize implementation of G2-01.
+G1 is closed. Every G2 task requires its own current Task Packet; a passed earlier task does not authorize later G2 implementation.
 
 The delivery rhythm remains:
 
@@ -209,7 +213,9 @@ The Foundation decision's older candidate/commit wording is superseded **only wh
 
 ## 10. Current G2 boundary
 
-G2-01 owns only the Application / Game Shell defined by its future current Task Packet. Do not infer its implementation contract from the roadmap summary, and do not prebuild Provider routing, persistence schema, World Pack, autonomous-world, or long-session platforms.
+G2-02 owns only **Provider Adapter v0.1**. It may implement the production-facing DeepSeek transport seam and focused test/harness evidence needed to prove `send / stream / cancel / explicit failure`, but it must not implement the G2-03 Narrative Conversation View, G2-04 Turn / Conversation Domain, G2-05 Context Assembly, persistence, World Pack, NPC/world simulation, generic provider routing, or UI visual polish.
+
+G1-04 Provider code is legacy implementation evidence, not current product code. Reuse proven narrow HTTP/SSE techniques where useful, but do not restore the old spike UI or dual-provider selector. G2-02 product-facing Provider is DeepSeek `deepseek-v4-pro`; Kimi Code remains only a verified alternate unless a later explicit decision promotes it.
 
 When G2 Conversation/Turn work begins, protect model output quality and natural-language freedom. `regenerate / retry` are the earliest reversibility primitives; do not prebuild G3 Timeline, but do not introduce prevention-first Narrative restrictions that would conflict with it.
 
