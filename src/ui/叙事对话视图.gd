@@ -227,6 +227,8 @@ func _friendly_error(code: String) -> String:
 			return "暂时无法连接 DeepSeek 服务。请检查网络后点击「重新生成」重试。"
 		"malformed_stream":
 			return "收到了无法识别的响应数据。可点击「重新生成」重试。"
+		"empty_generation":
+			return "本次没有生成有效叙事，可点击「重新生成」重试。"
 		_:
 			if code.begins_with("http_"):
 				return "DeepSeek 服务返回错误（%s）。可稍后点击「重新生成」重试。" % code

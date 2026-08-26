@@ -15,7 +15,9 @@ extends SceneTree
 ## - T09 防御：非法调用（STREAMING 中 begin_turn、空 correction 等）不破坏状态；
 ## - T10 correction 作用于从未 completed 的 latest：同一 identity 换文本 retry；
 ## - T11 IR-03 多 Turn：regenerate 最新 completed Turn 的 request == previous accepted pairs
-##   + current user（当前旧 assistant 不在 request，previous assistant 保留）。
+##   + current user（当前旧 assistant 不在 request，previous assistant 保留）；
+## - T12 IR-04：empty / whitespace-only completion 转为 failed-equivalent（empty_generation），
+##   不得成为 accepted GM truth；旧 accepted 对不动、可 retry、无最小字数。
 
 const Conversation := preload("res://src/domain/会话.gd")
 
@@ -235,12 +237,13 @@ func _run() -> void:
 	_check(c9.begin_turn("第二条") == null, "T09 STREAMING 中 begin_turn 拒绝")
 	_check(c9.retry_or_regenerate_latest() == null, "T09 STREAMING 中 retry 拒绝")
 	_check(c9.turns.size() == 1, "T09 未制造多余 turn")
+	c9.append_delta("有效GM")
 	c9.complete_generation()
 	_check(c9.get_accepted_entries().size() == 1, "T09 complete 后仍只有一条 accepted")
 	c9.complete_generation()
-	_check(String(c9.latest_turn().accepted_gm_text) == "", "T09 非 STREAMING complete 为空操作")
+	_check(String(c9.latest_turn().accepted_gm_text) == "有效GM", "T09 非 STREAMING complete 为空操作")
 	c9.append_delta("孤儿delta")
-	_check(String(c9.latest_turn().draft_text) == "", "T09 非 STREAMING delta 被忽略")
+	_check(String(c9.latest_turn().draft_text) == "有效GM", "T09 非 STREAMING delta 被忽略")
 
 	# ---- T10：correction 作用于从未 completed 的 latest（同一 identity 换文本 retry）----
 	var c10: RefCounted = Conversation.new()
@@ -272,6 +275,56 @@ func _run() -> void:
 	c11.append_delta("GM二改")
 	c11.complete_generation()
 	_check(String(c11.latest_turn().accepted_gm_text) == "GM二改" and c11.latest_turn().turn_index == 1, "T11 同 identity 原子替换为新 GM")
+
+	# ---- T12（IR-04）：empty / whitespace-only completion 不得成为 accepted GM truth ----
+	# A. new turn → zero-delta complete → failed-equivalent、无 accepted、可 retry；非空 retry → accepted。
+	var c12: RefCounted = Conversation.new()
+	var fail12: Array = []
+	c12.generation_failed.connect(func(_t: RefCounted, code: String) -> void: fail12.append(code))
+	var t12: RefCounted = c12.begin_turn("空回应行动")
+	c12.complete_generation()
+	_check(c12.generation_state == Conversation.GenerationState.FAILED, "T12a zero-delta complete → FAILED")
+	_check(fail12 == ["empty_generation"], "T12a failure code == empty_generation")
+	_check(not t12.has_accepted_response and c12.get_accepted_entries().is_empty(), "T12a 无 accepted entry")
+	var t12r: RefCounted = c12.retry_or_regenerate_latest()
+	_check(t12r == t12 and c12.is_generating(), "T12a 同一 identity 可 retry")
+	c12.append_delta("一")
+	c12.complete_generation()
+	_check(t12.has_accepted_response and String(t12.accepted_gm_text) == "一", "T12a retry 后 1 个非空白字符也正常 accepted（无最小字数）")
+
+	# B. new turn → whitespace-only draft → complete → failed-equivalent、无 accepted。
+	var c12b: RefCounted = Conversation.new()
+	var t12b: RefCounted = c12b.begin_turn("空白回应行动")
+	c12b.append_delta("  \n\t ")
+	c12b.complete_generation()
+	_check(c12b.generation_state == Conversation.GenerationState.FAILED, "T12b whitespace-only draft → FAILED")
+	_check(not t12b.has_accepted_response and c12b.get_accepted_entries().is_empty(), "T12b 无 accepted entry、可 retry")
+
+	# C. completed turn → regenerate → zero-delta complete → 旧 accepted 对不动；再次非空 regenerate → 原子替换。
+	var c12c: RefCounted = Conversation.new()
+	var t12c: RefCounted = c12c.begin_turn("原行动")
+	c12c.append_delta("GM原")
+	c12c.complete_generation()
+	c12c.retry_or_regenerate_latest()
+	c12c.complete_generation()
+	_check(c12c.generation_state == Conversation.GenerationState.FAILED, "T12c regenerate empty → FAILED 可重试")
+	_check(String(t12c.player_text) == "原行动" and String(t12c.accepted_gm_text) == "GM原", "T12c 旧 accepted 对不被空完成覆盖")
+	c12c.retry_or_regenerate_latest()
+	c12c.append_delta("GM新")
+	c12c.complete_generation()
+	_check(String(t12c.accepted_gm_text) == "GM新" and t12c.turn_index == 0, "T12c 再次 regenerate 非空 → 同 identity 原子替换")
+
+	# D. completed latest → correction → whitespace complete → 旧 player + GM 不动、corrected pending 不被接受。
+	var c12d: RefCounted = Conversation.new()
+	var t12d: RefCounted = c12d.begin_turn("旧文本")
+	c12d.append_delta("GM旧")
+	c12d.complete_generation()
+	c12d.correct_latest("新文本")
+	c12d.append_delta("   ")
+	c12d.complete_generation()
+	_check(c12d.generation_state == Conversation.GenerationState.FAILED, "T12d correction whitespace → FAILED")
+	_check(String(t12d.player_text) == "旧文本" and String(t12d.accepted_gm_text) == "GM旧", "T12d 旧 accepted player + GM 不动")
+	_check(String(t12d.pending_player_text) == "旧文本", "T12d corrected pending 回滚、未部分接受")
 
 	print("[g2-04-domain] done failures=%d" % _failures)
 	quit(1 if _failures > 0 else 0)

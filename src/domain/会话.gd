@@ -111,8 +111,14 @@ func append_delta(text: String) -> void:
 ## 新 turn：pending -> player_text，draft -> accepted_gm_text；
 ## regenerate：同一 turn identity 上原子替换 GM 回应，player 不产生第二条；
 ## correction：原子替换玩家文本 + GM 回应。
+## IR-04：zero-length / whitespace-only draft 不产生可接受的 GM Narrative ——
+## 转为 failed-equivalent（code == empty_generation），accepted truth 不动、可 retry；
+## 任何非空白内容（哪怕 1 个字符）都允许成为模型输出，不设最小字数。
 func complete_generation() -> void:
 	if not is_generating() or _active_turn == null:
+		return
+	if String(_active_turn.draft_text).strip_edges().is_empty():
+		_end_attempt(GenerationState.FAILED, "empty_generation")
 		return
 	var turn: RefCounted = _active_turn
 	turn.player_text = turn.pending_player_text

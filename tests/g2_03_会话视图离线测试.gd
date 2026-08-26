@@ -230,9 +230,24 @@ func _run() -> void:
 		var t7_last_messages: Array = t7_calls[-1]
 		var t7_last_user: Dictionary = t7_last_messages[-1]
 		_check(String(t7_last_user.get("content", "")) == multiline_action, "T7 多行中文行动原文进入 Provider context")
+	stub.text_delta.emit("GM 戊")
 	stub.simulate_completed()
 	accepted = conversation.get_accepted_entries()
 	_check(accepted.size() == 5, "T7 Ctrl+Enter turn 完成后 accepted == 五对")
+
+	# ---- T8（IR-04 UI 接线）：zero-delta completed → 玩家可读提示，Regenerate 恢复 ----
+	player_input.text = "第五行动。"
+	send_button.pressed.emit()
+	stub.simulate_completed()
+	_check(conversation.generation_state == CONVERSATION.GenerationState.FAILED, "T8 zero-delta completed → FAILED")
+	_check(error_label.visible and error_label.text.contains("有效叙事"), "T8 玩家可读 empty_generation 提示可见")
+	_check(conversation.get_accepted_entries().size() == 5, "T8 空完成不产生 accepted entry")
+	_check(regenerate_button.visible, "T8 失败后 Regenerate 可见")
+	regenerate_button.pressed.emit()
+	stub.text_delta.emit("GM 己")
+	stub.simulate_completed()
+	accepted = conversation.get_accepted_entries()
+	_check(accepted.size() == 6, "T8 retry 后 accepted == 六对")
 
 	print("[g2-03-offline] done failures=%d" % _failures)
 	quit(1 if _failures > 0 else 0)
