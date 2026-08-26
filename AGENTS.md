@@ -11,9 +11,10 @@ For every new formal task, resolve current authority from GitHub `main` in this 
 2. `zhangchenjia21-dot/Vibe-Coding/AGENTS.md`.
 3. `Vibe-Coding/my world/MY_WORLD_项目启动总纲_CURRENT.md`.
 4. `Vibe-Coding/my world/MY_WORLD_总体规划路线图_CURRENT.md`.
-5. `Vibe-Coding/my world/MY_WORLD_独立版Preflight与第一阶段计划_v1.0_2026-08-25.md`.
-6. `Vibe-Coding/my world/MY_WORLD_DSH经验继承矩阵_v1.0_2026-08-25.md`.
-7. This repository's current implementation, tests, and HEAD.
+5. `Vibe-Coding/my world/MY_WORLD_Foundation架构决策_v1.0_2026-08-26.md`.
+6. `Vibe-Coding/my world/MY_WORLD_独立版Preflight与第一阶段计划_v1.0_2026-08-25.md`.
+7. `Vibe-Coding/my world/MY_WORLD_DSH经验继承矩阵_v1.0_2026-08-25.md`.
+8. This repository's current implementation, tests, and HEAD.
 
 If a current decision changes stage, task, prerequisite, architecture boundary, contract timing, ownership, task validity, or the task DAG, propagate that decision before continuing old work.
 
@@ -21,9 +22,9 @@ Before authoritative `main` writes, re-check current HEAD. Do not silently overw
 
 ## 2. Current stage boundary
 
-Current phase: `G1 — Foundation & Project Bootstrap`.
+Current phase: `G2 — AI Conversation Spine`.
 
-Current task: `G1-05 — Local IO / Image / Windows Export Foundation Spike`.
+Current task: `G2-01 — Application / Game Shell`.
 
 Completed:
 
@@ -31,12 +32,17 @@ Completed:
 - `G1-02 — Godot 4.7.2 Toolchain & Language Confirmation`: **PASS**.
 - `G1-03 — 2D Chinese Long Text / Input Foundation Spike`: **PASS** based on real Windows manual UAT.
 - `G1-04 — Real Provider Streaming / Cancel Foundation Spike`: **PASS** based on real Windows Owner UAT.
+- `G1-05 — Local IO / Image / Windows Export Foundation Spike`: **PASS** based on real exported-executable Owner UAT.
+- `G1-06 — Foundation Architecture Decision`: **PASS**.
+- `G1-GATE — Foundation Gate`: **PASS**.
 
 G1-04 proved **DeepSeek + Kimi Code** real HTTP success, incremental streaming, active cancellation, successful post-cancel requests, idle Provider switching, explicit deterministic failure handling, and UI responsiveness.
 
-G1-05 is now unblocked and current. It is limited to local IO, a tiny cross-launch probe, real filesystem image loading for portrait/scene/map roles, Windows export, and direct exported-executable runtime proof. It must not freeze the production persistence architecture, asset pipeline, World Pack schema, or Save system.
+G1-05 proved a tiny cross-launch `user://` probe, real filesystem image loading for portrait/scene/map roles, Windows export, direct exported-executable execution, and persistence across exported-app relaunch. It did not define the production persistence architecture, asset pipeline, World Pack schema, or Save system.
 
-G1 remains a Foundation Spike stage:
+G1 is closed. Every G2 task requires its own current Task Packet; the G1-06 closeout does not authorize implementation of G2-01.
+
+The delivery rhythm remains:
 
 ```text
 focused exploration
@@ -47,7 +53,7 @@ focused exploration
 → next task
 ```
 
-Do not implement large portions of G2–G9 early.
+Do not implement later G2 tasks or G3–G9 early.
 
 ## 3. Foundation invariants
 
@@ -176,27 +182,38 @@ Real Windows-local observation proved:
 
 G1-04 is therefore PASS. Repository structure, static code review, mocked chunks, or G1-03 timer append were not used as substitutes for the real Provider evidence.
 
-## 9. Current and later G1 boundaries
+## 9. First-generation Foundation architecture
 
-- G1-05 is current and owns local IO, dynamic images, and functional Windows export proof.
-- G1-06 owns Godot Host, Standard/.NET, GDScript/C#/mixed, persistence candidate range, Provider/product configuration boundary, and same-process vs local-runtime-process architecture decisions.
+The canonical record is `Vibe-Coding/my world/MY_WORLD_Foundation架构决策_v1.0_2026-08-26.md`.
 
-Do not pull G1-06 decisions into G1-05, and do not reopen or optimize the passed G1-04 Provider seam.
+- Host: Godot `4.7.2`.
+- Distribution: Standard / non-.NET Windows x64.
+- Language: GDScript for the first generation. Domain code must remain independent from Scene/Node/Resource lifecycles. Revisit C#/.NET or mixed only when G3/G5/G7 produces concrete testability, performance, or mature-library evidence.
+- Runtime: same-process Godot Runtime for the first generation. Keep Domain, Provider, and Persistence boundaries explicit so a later local process extraction remains possible; do not build IPC now.
+- Persistence candidate range: JSON/files for configuration, small local metadata, and portable Source inputs; SQLite is the preferred G3 evaluation candidate for authoritative World/Timeline state; Event Log/Snapshot are semantic patterns that may be combined with it. Do not treat Markdown, transcript, UI state, or Godot Resource as the authoritative gameplay database.
+- Provider/config: keep a thin `send / stream / cancel` adapter; separate endpoint/model configuration from secrets; keep secrets local and out of Git/log/UI. G2 begins with one concrete Provider, DeepSeek `deepseek-v4-pro`; Kimi Code remains a verified Foundation alternate, not an automatic fallback.
+- Engineering path: headless parse plus the smallest focused automated test form needed by real deterministic logic; bounded redacted local logs under `user://logs/`; tracked `export_presets.cfg`; ignored `build/`; Agent-owned routine build/Git/debug/QA and Owner-owned final product UAT.
 
-## 10. Repository shape
+Business modules follow `L3 -> L2 -> L1 -> L0`; downward layer skips are allowed, upward dependencies are not. Cross-module calls must use the other module's L3 public boundary. Bootstrap remains the composition root. Do not create empty layers or speculative wrappers.
 
-Create only files/directories with immediate use. Keep G1 small:
+## 10. Current G2 boundary
+
+G2-01 owns only the Application / Game Shell defined by its future current Task Packet. Do not infer its implementation contract from the roadmap summary, and do not prebuild Provider routing, persistence schema, World Pack, autonomous-world, or long-session platforms.
+
+## 11. Repository shape
+
+Create only files/directories with immediate use. Keep each stage small:
 
 - `README.md`
 - `AGENTS.md`
 - `.gitignore`
 - `project.godot`
-- `src/` for the current runnable Foundation spike
+- `src/` for current runnable product work
 - `tests/` / `docs/` only when a real validation need exists
 
 Do not create speculative empty module trees.
 
-## 11. Evidence discipline
+## 12. Evidence discipline
 
 Never claim Windows-local, Godot, Provider, export, or network success without real execution evidence.
 
@@ -207,9 +224,9 @@ For local validation, separate:
 - expected observable evidence;
 - PASS / FAIL / NOT VERIFIED.
 
-G1-GATE cannot pass until all G1 real-execution seams have evidence.
+G1-GATE passed only because all G1 real-execution seams had evidence. Future gates retain the same evidence standard.
 
-## 12. DSH long-play carry-forward reference
+## 13. DSH long-play carry-forward reference
 
 The DSH long-play experiment is now substantially complete. Its cross-stage findings are summarized in:
 
@@ -219,7 +236,7 @@ The underlying experiment closure reference is:
 
 `zhangchenjia21-dot/the-world/docs/DSH_GAME_TEST_LESSONS_CORE.md`
 
-This repository-local carry-forward document is **not** a Task Packet and does not authorize prebuilding G2–G9 during G1. It becomes mandatory reading whenever a task touches:
+This repository-local carry-forward document is **not** a Task Packet and does not authorize prebuilding later stages. It becomes mandatory reading whenever a task touches:
 
 - G3 persistence / Timeline / Save / Restore;
 - G4 World Pack / Source / local reality;

@@ -10,13 +10,16 @@
 
 ## 当前状态
 
-- 当前阶段：`G1 — Foundation & Project Bootstrap（基础能力与项目启动）`
-- 当前任务：`G1-05 — 本地 IO / 动态图片 / Windows Export Foundation Spike`
+- 当前阶段：`G2 — AI Conversation Spine（AI 对话主干）`
+- 当前任务：`G2-01 — Application / Game Shell`
 - `G1-01 — 实现仓库初始化`：**PASS**
 - `G1-02 — Godot 4.7.2 工具链与语言确认`：**PASS**
 - `G1-03 — 中文长文本 / 输入 Foundation Spike`：**PASS**，已通过真实 Windows 人工 UAT
 - `G1-04 — 真实 Provider Streaming / Cancel Foundation Spike`：**PASS**，已通过真实 Windows Owner UAT
-- 当前 Foundation 候选：Godot `v4.7.2`
+- `G1-05 — 本地 IO / 动态图片 / Windows Export Foundation Spike`：**PASS**，已通过导出 EXE 的真实 Windows Owner UAT
+- `G1-06 — Foundation Architecture Decision`：**PASS**
+- `G1-GATE — Foundation Gate`：**PASS**
+- 第一代 Host：Godot `v4.7.2`
 - 本地项目目录：`D:\AI\Projects\my-world`
 - 本地引擎目录：`D:\AI\Engine`
 
@@ -28,6 +31,7 @@
 - [`docs/DSH_TEST_CARRY_FORWARD_REQUIREMENTS.md`](docs/DSH_TEST_CARRY_FORWARD_REQUIREMENTS.md)：前代 The World / DSH 长局测试留下的经验、失败模式，以及 `my world` 在 G1–G9 必须承接的跨阶段要求。
 - `Vibe-Coding/my world/MY_WORLD_项目启动总纲_CURRENT.md`：当前产品定义与核心原则。
 - `Vibe-Coding/my world/MY_WORLD_总体规划路线图_CURRENT.md`：G1–G9 总体开发路径、阶段目标和 Gate。
+- `Vibe-Coding/my world/MY_WORLD_Foundation架构决策_v1.0_2026-08-26.md`：第一代 Host、语言、Runtime、Persistence、Provider 与工程路径的 canonical 决策。
 - `Vibe-Coding/my world/MY_WORLD_DSH经验继承矩阵_v1.0_2026-08-25.md`：哪些经验应继承、哪些 DSH 宿主实现明确不应迁移。
 
 `AGENTS.md` 属于 AI / Agent 的项目开发与执行规则，不是面向普通读者的项目介绍，因此保留为开发指令文件。
@@ -56,9 +60,10 @@ G1-03 已通过真实 Windows UAT，证明中文显示、长文本滚动、大�
 2. `zhangchenjia21-dot/Vibe-Coding/AGENTS.md`；
 3. `Vibe-Coding/my world/MY_WORLD_项目启动总纲_CURRENT.md`；
 4. `Vibe-Coding/my world/MY_WORLD_总体规划路线图_CURRENT.md`；
-5. `Vibe-Coding/my world/MY_WORLD_独立版Preflight与第一阶段计划_v1.0_2026-08-25.md`；
-6. `Vibe-Coding/my world/MY_WORLD_DSH经验继承矩阵_v1.0_2026-08-25.md`；
-7. 本仓库当前实现、测试与 HEAD。
+5. `Vibe-Coding/my world/MY_WORLD_Foundation架构决策_v1.0_2026-08-26.md`；
+6. `Vibe-Coding/my world/MY_WORLD_独立版Preflight与第一阶段计划_v1.0_2026-08-25.md`；
+7. `Vibe-Coding/my world/MY_WORLD_DSH经验继承矩阵_v1.0_2026-08-25.md`；
+8. 本仓库当前实现、测试与 HEAD。
 
 The World / DSH 是产品证据和经验参考实现，不是代码迁移模板。
 
@@ -147,7 +152,7 @@ optional model env = MY_WORLD_G1_04_KIMI_MODEL
 
 两家在本轮长输出测试中的完整生成时间都约为 30 秒。这个现象不阻塞 G1-04；后续在 G2 再分别测量 TTFT（首字延迟）和生成吞吐，不在 Foundation 阶段提前优化 Provider 性能。
 
-same-process networking 目前也只算 Foundation 证据。最终 Runtime boundary 仍由 G1-06 决定。
+G1-04 的 same-process networking 是后来 G1-06 选择第一代 same-process Runtime 的一项正向证据；它不把 Runtime 永久绑定在 Godot 进程中。
 
 ## API Key 与本地启动
 
@@ -182,9 +187,9 @@ Set-Location 'D:\AI\Projects\my-world'
 .\run-local.ps1
 ```
 
-## 当前 G1-05 边界
+## G1-05 Closeout
 
-G1-05 仍然只是 Foundation exploration，需要证明：
+G1-05 的真实 Windows Owner UAT 已证明：
 
 - 一个极小的本地 probe 可以写入、关闭、重新启动后读回，并跨应用启动保留；
 - portrait / scene / map 三类图片能从真实 filesystem 文件中动态解码并显示；
@@ -193,20 +198,22 @@ G1-05 仍然只是 Foundation exploration，需要证明：
 - 导出程序中本地 IO 和三类动态图片仍然正常；
 - 导出程序关闭再打开后，本地 probe 仍然存在。
 
-G1-05 **不是**正式 Save Schema、持久化架构、最终 Asset Pipeline、World Pack Schema 或 Mod Loader 的冻结阶段，也不应重新重构已经通过的 Provider seam。
+G1-05 因此为 **PASS**。该证据只证明 Host 的 IO / image / export seam，不是正式 Save Schema、持久化架构、最终 Asset Pipeline、World Pack Schema 或 Mod Loader。
 
-## 下一项 G1 架构边界
+## 第一代 Foundation Architecture
 
-G1-06 负责最终第一代 Foundation Architecture Decision，包括：
+G1-06 已完成并使 G1-GATE **PASS**。Canonical 决策位于 `Vibe-Coding/my world/MY_WORLD_Foundation架构决策_v1.0_2026-08-26.md`：
 
-- Godot 是否正式成为第一代 Host；
-- Standard / .NET；
-- GDScript / C# / mixed 边界；
-- persistence 技术候选范围；
-- Provider / product configuration boundary；
-- same-process Runtime 还是 Godot Client + Local Runtime Process。
+- **Host**：Godot `4.7.2`；
+- **Distribution**：Standard / non-.NET Windows x64；
+- **Language**：第一代使用 GDScript；Domain 不得依赖 Scene / Node / Resource 生命周期，只有 G3/G5/G7 的真实证据才能触发 C#/.NET/mixed 重审；
+- **Runtime**：第一代采用 Godot same-process Runtime，但 Domain / Provider / Persistence 保持显式边界；当前不实现 IPC；
+- **Persistence candidate**：JSON/files 用于配置、少量本地元数据与可移植 Source；SQLite 是 G3 authoritative World/Timeline 的首选评估候选；Event Log/Snapshot 是可组合的语义模式，不默认全量 event sourcing；
+- **Authority prohibition**：Markdown、Transcript、UI state、Godot Resource 不得成为 authoritative gameplay database；
+- **Provider/config**：保持极薄 `send / stream / cancel` adapter，endpoint/model 与 key 分离；G2 初始只运行 DeepSeek `deepseek-v4-pro`，Kimi Code 是已验证 alternate，不是自动 fallback；
+- **Engineering**：Godot headless parse、按真实确定性逻辑增加最小 focused tests、`user://logs/` 有界脱敏日志、tracked `export_presets.cfg`、ignored `build/`、Agent 承担 routine build/Git/debug/QA，Owner 只做最终产品 UAT。
 
-这些决定不应提前塞进 G1-05。
+G2-01 只能按新的 current Task Packet 开始；G1-06 closeout 本身没有实现任何 G2 功能。
 
 ## 前代 The World / DSH 长局经验
 
