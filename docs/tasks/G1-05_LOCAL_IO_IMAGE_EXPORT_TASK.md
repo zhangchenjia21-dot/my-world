@@ -1,10 +1,10 @@
 # TASK｜G1-05｜本地 IO / 动态图片 / Windows Export Foundation Spike
 
-Type: exploration / implementation / UAT-support  
-Owner: KimiCode K3  
-Repository: `zhangchenjia21-dot/my-world`  
-Branch: `main`  
-Formal Code Base SHA: `ee60f7cebf8d059e125278d8dabed578fd09dcbf`  
+Type: exploration / implementation / UAT-support
+Owner: KimiCode K3
+Repository: `zhangchenjia21-dot/my-world`
+Branch: `main`
+Formal Code Base SHA: `ee60f7cebf8d059e125278d8dabed578fd09dcbf`
 Governance Base SHA: `zhangchenjia21-dot/Vibe-Coding@0ba35cf2ead5e3644c2a9ea8bbe96075da53ab94`
 
 ## Outcome
