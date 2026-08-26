@@ -329,28 +329,28 @@ func _handle_sse_line(line: String) -> void:
 	if payload.is_empty():
 		return
 
-	var decoded := JSON.parse_string(payload)
+	var decoded: Variant = JSON.parse_string(payload)
 	if typeof(decoded) != TYPE_DICTIONARY:
 		_finish_failure("%s 收到无法解析的 SSE JSON 数据。" % provider_name)
 		return
 
 	var data: Dictionary = decoded
-	var choices_value := data.get("choices", [])
+	var choices_value: Variant = data.get("choices", [])
 	if typeof(choices_value) != TYPE_ARRAY:
 		return
 	var choices: Array = choices_value
 	if choices.is_empty():
 		return
 
-	var first_choice_value := choices[0]
+	var first_choice_value: Variant = choices[0]
 	if typeof(first_choice_value) != TYPE_DICTIONARY:
 		return
 	var first_choice: Dictionary = first_choice_value
-	var delta_value := first_choice.get("delta", {})
+	var delta_value: Variant = first_choice.get("delta", {})
 	if typeof(delta_value) != TYPE_DICTIONARY:
 		return
 	var delta: Dictionary = delta_value
-	var content_value := delta.get("content", "")
+	var content_value: Variant = delta.get("content", "")
 	if typeof(content_value) != TYPE_STRING:
 		return
 	var content: String = content_value

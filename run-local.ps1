@@ -87,8 +87,11 @@ try {
         Set-Item -Path ('Env:{0}' -f $name) -Value $value
     }
 
-    & $godotExecutable --editor --path $projectRoot
-    $godotExitCode = if ($null -eq $LASTEXITCODE) { 0 } else { [int]$LASTEXITCODE }
+    $godotProcess = Start-Process -FilePath $godotExecutable `
+        -ArgumentList @('--editor', '--path', $projectRoot) `
+        -Wait `
+        -PassThru
+    $godotExitCode = [int]$godotProcess.ExitCode
 }
 finally {
     foreach ($name in $allowedVariables) {
