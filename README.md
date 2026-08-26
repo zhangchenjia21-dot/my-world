@@ -11,7 +11,7 @@ This repository contains implementation truth: code, tests, build/runtime config
 - `G1-01 — Repository Bootstrap`: **PASS**
 - `G1-02 — Godot 4.7.2 Toolchain & Language Confirmation`: **PASS**
 - `G1-03 — 2D Chinese Long Text / Input Foundation Spike`: **PASS** based on real Windows manual UAT
-- G1-04 required real Providers: **DeepSeek + Kimi**
+- G1-04 required real Providers: **DeepSeek + Kimi Code**
 - Foundation candidate: Godot `v4.7.2`
 - Local project directory: `D:\AI\Projects\my-world`
 - Local engine directory: `D:\AI\Engine`
@@ -68,17 +68,17 @@ API key env = DEEPSEEK_API_KEY
 optional model env = MY_WORLD_G1_04_DEEPSEEK_MODEL
 ```
 
-### Kimi / Moonshot AI
+### Kimi Code API
 
 ```text
-POST https://api.moonshot.ai/v1/chat/completions
+POST https://api.kimi.com/coding/v1/chat/completions
 stream = true
-default model = kimi-k3
-API key env = MOONSHOT_API_KEY
+default model = k3
+API key env = KIMI_CODE_API_KEY
 optional model env = MY_WORLD_G1_04_KIMI_MODEL
 ```
 
-The scene exposes an explicit DeepSeek/Kimi selector. Both paths reuse the same small OpenAI-compatible HTTP/SSE seam where possible, but host/path/key/model remain separate. There is no automatic routing, fallback mesh, load balancing, provider registry, or account system.
+The scene exposes an explicit DeepSeek/Kimi Code selector. Both paths reuse the same small OpenAI-compatible HTTP/SSE seam where possible, but host/path/key/model remain separate. Kimi Code replaces the superseded Kimi configuration; there is no compatibility fallback, automatic routing, fallback mesh, load balancing, provider registry, or account system.
 
 Godot uses non-blocking `HTTPClient`, main-loop `poll()`, incremental response-body reads, SSE `data:` parsing, `[DONE]` completion, explicit transport close for Cancel, a UI heartbeat/manual response counter, and a deterministic credential-free failure test against `127.0.0.1:1`.
 
@@ -90,7 +90,7 @@ Never commit or paste Provider API keys into repository files or chat. G1-04 rea
 
 ```text
 DEEPSEEK_API_KEY
-MOONSHOT_API_KEY
+KIMI_CODE_API_KEY
 ```
 
 The UI may show only `已设置 / 未设置`; it must never display key values.
@@ -102,7 +102,7 @@ Use ordinary Windows PowerShell. Do **not** send either API key in chat.
 For local launch, create the ignored secret file and use the repository launcher:
 
 1. Copy `.env.example` to `.env.local`.
-2. Fill in `DEEPSEEK_API_KEY` and `MOONSHOT_API_KEY` locally.
+2. Fill in `DEEPSEEK_API_KEY` and `KIMI_CODE_API_KEY` locally.
 3. Run `.\run-local.ps1`.
 
 `.env.local` is local-only and ignored by Git. `run-local.ps1` only injects variables into the launched Godot process.
@@ -120,16 +120,16 @@ Manual PASS evidence required before G1-04 can close:
 
 1. UI reports both API-key variables as set without revealing either value.
 2. Select **DeepSeek**: real HTTP 2xx and incremental streamed GM content are observed.
-3. Select **Kimi**: real HTTP 2xx and incremental streamed GM content are observed.
+3. Select **Kimi Code**: real HTTP 2xx and incremental streamed GM content are observed.
 4. During each Provider request, `UI heartbeat` keeps increasing and `UI 响应 +1` remains clickable.
 5. Cancel an active real generation and verify prompt recovery; run at least one real post-cancel request successfully.
-6. Switch between DeepSeek and Kimi while idle without restarting the app.
+6. Switch between DeepSeek and Kimi Code while idle without restarting the app.
 7. `连接失败测试` produces a clear handled failure and does not freeze UI.
 8. Provider/API failures surface readable errors rather than silent hangs.
 9. Closing the window exits normally.
 10. `git status --short` is clean afterward.
 
-Do not mark G1-04 PASS unless **both** DeepSeek and Kimi have real network/stream evidence. Mocked chunks or G1-03 timer output do not count.
+Do not mark G1-04 PASS unless **both** DeepSeek and Kimi Code have real network/stream evidence. Mocked chunks or G1-03 timer output do not count. The current result after implementation/configuration correction is READY FOR OWNER UAT, not PASS.
 
 ## Later G1 boundaries
 

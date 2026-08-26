@@ -31,7 +31,9 @@ Completed:
 - `G1-02 — Godot 4.7.2 Toolchain & Language Confirmation`: **PASS**.
 - `G1-03 — 2D Chinese Long Text / Input Foundation Spike`: **PASS** based on real Windows manual UAT.
 
-Current G1-04 scope is explicitly **DeepSeek + Kimi**. Both real Provider paths must be proven before G1-04 can PASS.
+Current G1-04 scope is explicitly **DeepSeek + Kimi Code**. Both real Provider paths must be proven before G1-04 can PASS.
+
+Current evidence status: DeepSeek real stream / cancel / retry is PASS; Kimi Code implementation is awaiting Owner UAT. Therefore G1-04 remains NOT PASS and G1-05 remains blocked.
 
 G1 remains a Foundation Spike stage:
 
@@ -108,17 +110,17 @@ key env = DEEPSEEK_API_KEY
 optional model override = MY_WORLD_G1_04_DEEPSEEK_MODEL
 ```
 
-### Required Provider B — Kimi / Moonshot AI
+### Required Provider B — Kimi Code API
 
 ```text
-host = api.moonshot.ai
-path = /v1/chat/completions
-default model = kimi-k3
-key env = MOONSHOT_API_KEY
+host = api.kimi.com
+path = /coding/v1/chat/completions
+default model = k3
+key env = KIMI_CODE_API_KEY
 optional model override = MY_WORLD_G1_04_KIMI_MODEL
 ```
 
-Both are OpenAI-compatible chat-completions/SSE shapes for this spike, so reuse the small common HTTP/SSE parsing path where reality permits. Keep provider-specific host/path/key/model explicit.
+Both are OpenAI-compatible chat-completions/SSE shapes for this spike, so reuse the small common HTTP/SSE parsing path where reality permits. Keep provider-specific host/path/key/model explicit. Kimi Code replaces the superseded Kimi configuration; do not retain a compatibility fallback.
 
 Do **not** expand this into:
 
@@ -148,7 +150,7 @@ Never commit provider API keys, tokens, credentials, cookies, or local secrets.
 For G1-04:
 
 - DeepSeek key comes only from `DEEPSEEK_API_KEY`;
-- Kimi key comes only from `MOONSHOT_API_KEY`;
+- Kimi Code key comes only from `KIMI_CODE_API_KEY`;
 - UI may show only whether each variable is set;
 - never display/log either key value;
 - never place keys in `.gd`, `.tscn`, `project.godot`, README examples, screenshots, commits, or chat;
@@ -159,7 +161,7 @@ For G1-04:
 G1-04 is not PASS until real Windows-local observation proves:
 
 - DeepSeek real HTTP 2xx + incremental stream;
-- Kimi real HTTP 2xx + incremental stream;
+- Kimi Code real HTTP 2xx + incremental stream;
 - UI heartbeat/manual interaction continue during each Provider request;
 - a real active generation can be cancelled and UI promptly recovers;
 - at least one real request succeeds after cancellation;

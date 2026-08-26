@@ -9,13 +9,13 @@ $envFile = Join-Path $projectRoot '.env.local'
 $godotExecutable = 'D:\AI\Engine\Godot_v4.7.2-stable_win64.exe'
 $allowedVariables = @(
     'DEEPSEEK_API_KEY'
-    'MOONSHOT_API_KEY'
+    'KIMI_CODE_API_KEY'
     'MY_WORLD_G1_04_DEEPSEEK_MODEL'
     'MY_WORLD_G1_04_KIMI_MODEL'
 )
 $requiredVariables = @(
     'DEEPSEEK_API_KEY'
-    'MOONSHOT_API_KEY'
+    'KIMI_CODE_API_KEY'
 )
 
 if (-not (Test-Path -LiteralPath $envFile -PathType Leaf)) {

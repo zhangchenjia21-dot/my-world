@@ -22,13 +22,13 @@ const PROVIDER_CONFIGS := {
 		"default_model": "deepseek-v4-pro",
 	},
 	ProviderId.KIMI: {
-		"name": "Kimi",
-		"host": "api.moonshot.ai",
+		"name": "Kimi Code",
+		"host": "api.kimi.com",
 		"port": 443,
-		"path": "/v1/chat/completions",
-		"api_key_env": "MOONSHOT_API_KEY",
+		"path": "/coding/v1/chat/completions",
+		"api_key_env": "KIMI_CODE_API_KEY",
 		"model_env": "MY_WORLD_G1_04_KIMI_MODEL",
-		"default_model": "kimi-k3",
+		"default_model": "k3",
 	},
 }
 
@@ -89,7 +89,7 @@ func _ready() -> void:
 	_reload_local_configuration()
 	_seed_transcript()
 	_update_controls()
-	_update_status("就绪：请分别测试 DeepSeek 与 Kimi。")
+	_update_status("就绪：请分别测试 DeepSeek 与 Kimi Code。")
 	player_input.grab_focus()
 
 
@@ -130,7 +130,7 @@ func _process(_delta: float) -> void:
 func _build_provider_selector() -> void:
 	provider_select.clear()
 	provider_select.add_item("DeepSeek", ProviderId.DEEPSEEK)
-	provider_select.add_item("Kimi", ProviderId.KIMI)
+	provider_select.add_item("Kimi Code", ProviderId.KIMI)
 	provider_select.select(0)
 
 
@@ -155,13 +155,13 @@ func _reload_local_configuration() -> void:
 	var configured_model := OS.get_environment(model_env).strip_edges()
 	model_name = configured_model if not configured_model.is_empty() else default_model
 
-	config_label.text = "当前：%s ｜ Model: %s ｜ %s: %s ｜ DEEPSEEK_API_KEY: %s ｜ MOONSHOT_API_KEY: %s" % [
+	config_label.text = "当前：%s ｜ Model: %s ｜ %s: %s ｜ DEEPSEEK_API_KEY: %s ｜ KIMI_CODE_API_KEY: %s" % [
 		provider_name,
 		model_name,
 		api_key_env,
 		_key_state(api_key_env),
 		_key_state("DEEPSEEK_API_KEY"),
-		_key_state("MOONSHOT_API_KEY"),
+		_key_state("KIMI_CODE_API_KEY"),
 	]
 
 
@@ -171,8 +171,8 @@ func _key_state(env_name: String) -> String:
 
 func _seed_transcript() -> void:
 	transcript.clear()
-	transcript.add_text("G1-04 DeepSeek + Kimi 真实 Provider stream / cancel / UI 非冻结 Foundation Spike\n\n")
-	transcript.add_text("Provider 下拉框必须分别跑通 DeepSeek 与 Kimi。凭据只从 DEEPSEEK_API_KEY / MOONSHOT_API_KEY 读取，UI 只显示是否设置，不显示值。\n")
+	transcript.add_text("G1-04 DeepSeek + Kimi Code 真实 Provider stream / cancel / UI 非冻结 Foundation Spike\n\n")
+	transcript.add_text("Provider 下拉框必须分别跑通 DeepSeek 与 Kimi Code。凭据只从 DEEPSEEK_API_KEY / KIMI_CODE_API_KEY 读取，UI 只显示是否设置，不显示值。\n")
 	transcript.add_text("发送后观察文字是否逐步出现；生成期间持续观察 heartbeat，并点击“UI 响应 +1”。\n")
 	transcript.add_text("“连接失败测试”只连接本机 127.0.0.1:1，不携带任何 Provider 凭据。\n\n")
 
@@ -249,7 +249,7 @@ func _send_provider_request() -> void:
 		],
 		"stream": true,
 	}
-	if provider_id == ProviderId.KIMI and model_name == "kimi-k3":
+	if provider_id == ProviderId.KIMI and (model_name == "k3" or model_name == "k3-256k"):
 		payload["reasoning_effort"] = "low"
 
 	var body := JSON.stringify(payload)
