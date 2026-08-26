@@ -28,42 +28,28 @@ Project governance follows:
 
 > **Root is map; subfolders are depth.**
 
-Do not create new top-level `*_CURRENT.md` files for every phase or observation. Current task state stays in the fixed governance `MY_WORLD_CURRENT_STATUS.md`; deep architecture belongs under existing `architecture/`; repository-native execution/UAT packets belong under `docs/tasks/`.
+Do not create new top-level `*_CURRENT.md` files for every phase or observation. Current task state stays in the fixed governance `MY_WORLD_CURRENT_STATUS.md`; deep architecture belongs under existing `architecture/`; repository-native execution packets belong under `docs/tasks/`.
 
 ## 3. Current stage
 
-Current phase: `G2 — AI Conversation Spine`.
-
 Completed:
 
-- G1-01...G1-06 and G1-GATE: **PASS**.
-- G2-01 Application / Game Shell: **PASS — Owner UAT**.
-- G2-02 Provider Adapter v0.1: **ENGINEERING PASS**.
-- G2-03 Narrative Conversation View: **PASS — Owner UAT**.
-- G2-04 Turn / Conversation Domain v0.1: **PASS — Independent Review**.
-- G2-05 Context Assembly v0.1: **PASS — Independent Review**.
+- G1 Foundation & Project Bootstrap: **PASS / CLOSED**.
+- G2 AI Conversation Spine: **PASS / CLOSED**.
+- G2-06 First Owner Playtest: **PASS — Owner UAT**.
+- G2-GATE: **PASS**.
 
-G2-04 final implementation line:
+Current phase:
 
-```text
-0bf1f012366db7271664a192c1c30e60947cc5c9  base Turn/Conversation Domain
-
-d0d5d47f487fdb75f31de5349894517a830a51e8  IR-03 regenerate request-context repair
-
-d1acd2a58e00fd99b73ab98bc3ccdc3c79762951  IR-04 empty-completion integrity repair
-```
-
-G2-05 implementation:
-
-```text
-9c577811fd71d19f514ca4e9455e02321f0aa34d  bounded Context Assembly v0.1
-```
+> **G3 — Persistent Game / Save / Timeline Foundation**
 
 Current task:
 
-> **G2-06 — First Owner Playtest**
+> **G3-01 — Persistence Domain Architecture**
 
-This is a product reality check, not an engineering implementation task. Do not begin G3+ until G2-06 / G2-GATE close.
+G3-02+ are not authorized until G3-01 Independent Review closes.
+
+G2 established the current conversation backbone: real DeepSeek streaming, Turn/Conversation Domain, Context Assembly, Cancel/Retry/Regenerate/latest-turn correction, bounded recent-12 working set, responsive Narrative UI and medium-readable typography. Do not regress or redesign those foundations during G3-01.
 
 ## 4. Core product/runtime invariants
 
@@ -84,49 +70,25 @@ This is a product reality check, not an engineering implementation task. Do not 
 - **Host capability first; external asset protocol second.**
 - Real secret leakage, OS/filesystem authority leakage, physical DB/save corruption, non-atomic writes, arbitrary Mod execution and unrecoverable external side effects remain hard boundaries.
 
-Legacy wording such as `Program owns facts; Model writes prose`, `Model authors candidates; Program commits reality`, or `No Phantom World Change` must not be interpreted as global Narrative censorship.
+## 5. Foundation baseline
 
-## 5. Foundation / Provider boundary
-
-Current baseline:
+Current first-generation baseline:
 
 ```text
-Godot 4.7.2 Standard / non-.NET Windows x64
-GDScript
-same-process Godot Runtime
-DeepSeek deepseek-v4-pro
-JSON/files for config/source
-SQLite = G3 preferred persistence evaluation candidate
+Host                         Godot 4.7.2
+Distribution                 Standard / non-.NET Windows x64
+Language                     GDScript
+Runtime                      same-process Godot Runtime
+Provider                     DeepSeek deepseek-v4-pro
+Config/source                JSON/files where appropriate
+Persistence candidate        SQLite evaluation + Event Log/Snapshot semantics
 ```
 
-Current Provider Adapter remains thin:
+SQLite is a **G3 preferred evaluation candidate**, not a mandatory conclusion. G3-01 may reject it if real Windows/Godot evidence proves an unacceptable binding, packaging, transaction, backup or recovery cost.
 
-```text
-start_stream(messages)
-text_delta(text)
-completed()
-cancel() / cancelled()
-failed(code, message)
-is_busy()
-```
+Do not silently switch to .NET/C#, an external process, a server, or a generic persistence platform merely because a library is easier there. If the current Foundation becomes a real blocker, return evidence and reopen the architecture decision explicitly.
 
-Provider Adapter receives already-assembled request messages. Never move Conversation, World, retrieval or Context semantics into it.
-
-Never commit/display/log provider secrets or Authorization values.
-
-## 6. UI / typography boundary
-
-Long-term skeleton remains:
-
-```text
-Left   Player Host
-Center Narrative Host
-Right  World Surface Host
-```
-
-Wide/maximized first-pass layout remains approximately `18 / 60 / 22`; narrow windows collapse side Hosts. Desktop player launch remains Maximized Window. Medium-readable typography baseline is established; player-selectable font size is deferred to later UI Preference work.
-
-## 7. Conversation boundary — established
+## 6. Established G2 boundaries
 
 Conversation Domain owns:
 
@@ -138,95 +100,125 @@ Retry / Regenerate / latest-turn correction
 atomic accepted replacement / rollback semantics
 ```
 
+Context Assembly owns:
+
+```text
+GM/system instructions
+bounded recent Conversation working set
+optional derived Game Context material
+Provider request messages
+```
+
+Provider Adapter remains transport-only.
+
 Closed invariants:
 
-- `Transcript != Timeline`.
 - Regenerate/correction keep old accepted truth until a non-empty replacement succeeds.
-- Current Turn's old assistant is excluded from Regenerate replacement requests.
-- zero/whitespace-only completion is `empty_generation`, not accepted truth; any non-whitespace content remains allowed.
-- UI does not own a second conversation history truth.
+- Current Turn's old assistant is excluded from replacement requests.
+- zero/whitespace-only completion is `empty_generation`, not accepted truth; any non-whitespace output is allowed.
+- UI does not own a second conversation/context truth.
+- `Conversation.get_context_projection()` and Context messages are derived read material.
 
-## 8. Context Assembly boundary — established
+G3-01 must not move these semantics into Persistence or redefine Conversation as Timeline.
 
-G2-05 established:
+## 7. G3 persistence/reversibility boundary
 
-```text
-Conversation Domain
-→ authoritative Turn / accepted truth
-→ get_context_projection() derived read model
-
-Context Assembly
-→ owns GM/system instructions composition
-→ owns bounded recent working-set selection
-→ accepts optional derived Game Context material
-→ produces Provider messages
-
-Narrative UI
-→ passes projection/material and dispatches request
-
-Provider Adapter
-→ transport only
-```
-
-Current first-pass policy:
+G3 must distinguish at minimum:
 
 ```text
-recent 12 complete accepted Turns
-+ current active attempt
+Game
+World State
+Timeline
+Save Point
+Conversation
+Agent Context
+UI Preference
 ```
 
-Rules:
+Product semantics already frozen:
 
-- whole Turn boundaries only; no per-entry truncation in G2;
-- current attempt is never dropped;
-- Regenerate/Correction exclude current old accepted pair and end request with current user;
-- cancelled/failed drafts do not enter Context;
-- optional `game_context_text` is derived material, not World truth;
-- production currently has no formal World/NPC state and therefore honestly passes empty Game Context;
-- no retrieval, embeddings, summarization, vector search or long-memory platform before evidence justifies G7 work;
-- bounded input Context does not imply short output Narrative.
+```text
+Cancel / Regenerate / latest correction
+= local, low-friction recovery
 
-## 9. G2-06 Owner Playtest boundary
+Save Point
+= explicit player-named long-term recovery intent
 
-G2-06 asks the Product Owner to play the exported game and judge the current **Conversation Spine**, not future World/Persistence capabilities.
+Load / Restore
+= explicit high-impact operation that changes active future
 
-Owner should evaluate:
+Timeline Node
+= finer Runtime durable anchor; not automatically player-facing
+```
 
-- natural-language input comfort;
-- multi-turn continuity over a short play session;
-- streaming readability and Narrative quality/length;
-- Cancel / Regenerate / Retry friction;
-- medium typography / Composer / three-Host usability;
-- whether this is a sound interaction foundation for the later AI RPG.
+Do not expose every historical Turn as `回到这里`. Arbitrary per-turn rewind remains Deferred.
 
-Owner should **not** be asked to judge features that do not exist yet:
+Restore direction:
 
-- durable World / Save / Timeline;
-- formal Character/NPC/Faction state;
+> Loading an old Save should not immediately and irreversibly destroy the current future.
+
+G3-01 chooses architecture boundaries needed to make that possible; it does not build the final Save UI or arbitrary branching UX.
+
+## 8. G3-01 specific boundary
+
+G3-01 is **architecture + real technical spike**, not production feature completion.
+
+It must establish evidence for:
+
+```text
+Authoritative ownership
+→ what is durable truth vs projection/cache
+
+Durable mutation transaction
+→ what changes atomically together
+
+Storage route
+→ real SQLite path on current Godot/Windows Foundation, or evidence-backed alternative
+
+Timeline/checkpoint/snapshot role
+→ minimum semantics, not full event sourcing by default
+
+Migration/version boundary
+→ how persisted structure evolves safely
+
+Interrupted-write/recovery boundary
+→ what failure modes are detected and how last good state survives
+
+Future integration seams
+→ enough for G3-02..G3-06 without speculative framework forests
+```
+
+Use small realistic fixtures. Do not invent the full World/NPC schema before G5.
+
+G3-01 must not implement:
+
+- full durable World mutation runtime;
+- reopen/resume product flow;
+- Save/Load/Restore UI;
+- arbitrary Timeline browser/rewind;
 - World Pack;
-- long-session retrieval;
-- complete RPG mechanics;
-- whether the game already feels like a finished AI RPG.
+- NPC/Faction/World semantics;
+- generic repository/ORM/DI/EventBus/service framework.
 
-Routine tests, logs, Git checks and engineering verification remain Agent work.
+A minimal spike implementation, test database and focused recovery fixtures are allowed when necessary to prove architecture.
 
-## 10. Save / Timeline boundary
+## 9. Persistence hard boundaries
 
-Current priority after G2 remains:
+Persistence engineering is a hard-integrity area. Required principles:
 
-```text
-reliable current persistence / resume
-→ explicit Save
-→ explicit Load / Restore
-→ Context future isolation
-→ recovery
-```
+- authoritative writes must be atomic at the chosen persistence boundary;
+- crash/interruption must not silently leave half-new/half-old accepted game state;
+- migration failure must not silently corrupt the only copy;
+- cache/projection/transcript/UI cannot become fallback authoritative truth;
+- stable identities must survive persistence/reopen once introduced;
+- recovery design must distinguish logical game mistakes from physical storage corruption;
+- tests may intentionally simulate failures, but never destroy unrelated user files or existing real games.
 
-No Persistence / Save / Timeline / Branch is authorized until G2 closes and the roadmap advances. Arbitrary per-turn rewind remains Deferred.
+Use isolated test paths under safe project/user test locations. Never experiment against an unknown real player database.
 
-## 11. Evidence / execution discipline
+## 10. Evidence / execution discipline
 
-Never claim Windows-local, Godot, Provider, export, network or UI success without real execution evidence.
+Never claim Windows-local, Godot, SQLite, export, filesystem or crash-recovery success without real execution evidence.
 
 Separate implementation, validation action, observable evidence and PASS/FAIL/NOT VERIFIED.
 
