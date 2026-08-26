@@ -11,12 +11,13 @@ For every new formal task, resolve current authority from GitHub `main` in this 
 2. `zhangchenjia21-dot/Vibe-Coding/AGENTS.md`.
 3. `Vibe-Coding/my world/MY_WORLD_项目启动总纲_CURRENT.md`.
 4. `Vibe-Coding/my world/MY_WORLD_核心设计原则_CURRENT.md`.
-5. `Vibe-Coding/my world/MY_WORLD_G2_CURRENT_STATUS.md` for current G2 task / PASS / UAT status only.
-6. `Vibe-Coding/my world/MY_WORLD_总体规划路线图_CURRENT.md`.
-7. `Vibe-Coding/my world/MY_WORLD_Foundation架构决策_v1.0_2026-08-26.md`.
-8. `Vibe-Coding/my world/MY_WORLD_独立版Preflight与第一阶段计划_v1.0_2026-08-25.md`.
-9. `Vibe-Coding/my world/MY_WORLD_DSH经验继承矩阵_v1.0_2026-08-25.md`.
-10. This repository's current implementation, tests, and HEAD.
+5. `Vibe-Coding/my world/MY_WORLD_声明式UIHost架构_CURRENT.md` when the task touches G2-03+, RPG UI, Host Slots, UI projection, World Surface, G6, or G8 Mod UI.
+6. `Vibe-Coding/my world/MY_WORLD_G2_CURRENT_STATUS.md` for current G2 task / PASS / UAT status only.
+7. `Vibe-Coding/my world/MY_WORLD_总体规划路线图_CURRENT.md`.
+8. `Vibe-Coding/my world/MY_WORLD_Foundation架构决策_v1.0_2026-08-26.md`.
+9. `Vibe-Coding/my world/MY_WORLD_独立版Preflight与第一阶段计划_v1.0_2026-08-25.md`.
+10. `Vibe-Coding/my world/MY_WORLD_DSH经验继承矩阵_v1.0_2026-08-25.md`.
+11. This repository's current implementation, tests, and HEAD.
 
 Repository-local `docs/CORE_DESIGN_PRINCIPLES.md` is the implementation-facing projection of the canonical core-design document. It does not create a second authority source.
 
@@ -74,9 +75,11 @@ Do not implement later G2 tasks or G3–G9 early.
 - **Model authors the world; Runtime makes it durable; Player owns the timeline.** Model output may broadly author Narrative, NPC/world actions, dynamic entities, semantic consequences, and game-local evolution. Runtime/Program owns stable identity, atomic durability, persistence, Save/Restore/Timeline integrity, secrets, filesystem/database safety, and irreversible external-system boundaries.
 - Ordinary lore, knowledge, characterization, rule-judgment, low-risk player-action interpolation, or Narrative/state mistakes are not automatically hard failures. Prefer better context plus regenerate/retry/rewind/restore/branch over adding permanent global restrictions.
 - Legacy wording such as `Program owns facts; Model writes prose`, `Model authors candidates; Program commits reality`, or `No Phantom World Change` must not be interpreted as a global Narrative censorship architecture. `No Phantom` is a consistency quality target; durable writes must remain atomic and recoverable.
-- Real secret leakage, OS/filesystem authority leakage, physical save/database corruption, non-atomic partial writes, and unrecoverable external side effects remain hard boundaries.
+- **Host capability first; external asset protocol second.** Prove real fixed UI / Host Slots and internal declarative Host capability before allowing World Pack / Mod schemas to declare it.
+- Declarative UI Definition may declare information architecture, placement, safe component kinds and bounded Action Intent; it must not execute arbitrary GDScript, query arbitrary Runtime paths, or become a second state owner.
+- Real secret leakage, OS/filesystem authority leakage, physical save/database corruption, non-atomic partial writes, arbitrary Mod execution, and unrecoverable external side effects remain hard boundaries.
 
-## 4. DSH migration prohibition
+## 4. DSH / SillyTavern migration prohibition
 
 Do not directly copy or recreate as new-project architecture:
 
@@ -87,13 +90,14 @@ Do not directly copy or recreate as new-project architecture:
 - DELTAS plus bulk Markdown edits as the runtime state database;
 - Markdown as the authoritative gameplay database by default;
 - DSH plugin lifecycle assumptions;
-- UI/ownership structures designed around a generic Agent Workspace host.
+- UI/ownership structures designed around a generic Agent Workspace host;
+- old SillyTavern React/Browser/HTTP UI Host implementation as production code.
 
-The World / DSH and SillyTavern may be consulted for product evidence and lessons only when relevant. Inherit validated semantics, not their host-specific TypeScript/Web/Workspace implementation shapes.
+SillyTavern's G8 Runtime-extensible UI Host is valid **historical architecture evidence**. Inherit its proven semantics — safe component vocabulary, Surface ownership/contribution, declarative structure vs live data, bounded Action Intent, source identity, Host-owned rendering — but reimplement them incrementally with Godot when the current roadmap reaches those capabilities.
 
 ## 5. Verified Foundation facts
 
-Verified Windows-local evidence as of 2026-08-25:
+Verified Windows-local evidence:
 
 - Godot `4.7.2.stable.official.ed1daf0bf`
 - Standard / non-.NET Windows x64
@@ -103,169 +107,165 @@ Verified Windows-local evidence as of 2026-08-25:
 - Windows x86_64 export templates installed and verified
 - ICU Data installed and verified
 
-G1-01 proved normal Windows-local Git/Godot writes, launch, exit, and clean Git state. Earlier Codex write failures were sandbox-only.
-
-G1-03 manual UAT proved Chinese rendering, long scrolling, bulk/continuous append, Chinese input, selection/copy, UI responsiveness, normal exit, and clean Git state.
+G1-01 proved normal Windows-local Git/Godot writes, launch, exit, and clean Git state. G1-03 proved Chinese rendering, long scrolling, bulk/continuous append, Chinese input, selection/copy, UI responsiveness, and normal exit.
 
 ## 6. G1-04 proven implementation boundary
 
-G1-04 exists only to prove:
+G1-04 proved:
 
-- real Provider requests from the Godot Foundation surface;
+- real Provider requests from Godot;
 - real incremental output;
-- cancel during generation;
+- active cancel and post-cancel recovery;
 - explicit network/API failure states;
-- UI main-loop responsiveness during network activity;
-- the same narrow seam can support both required Providers without becoming a generic AI platform.
+- UI main-loop responsiveness;
+- two concrete Providers can share a narrow OpenAI-compatible HTTP/SSE seam without a generic Provider platform.
 
-### Required Provider A — DeepSeek
+Historical Provider A — DeepSeek:
 
 ```text
 host = api.deepseek.com
 path = /chat/completions
 default model = deepseek-v4-pro
 key env = DEEPSEEK_API_KEY
-optional model override = MY_WORLD_G1_04_DEEPSEEK_MODEL
 ```
 
-### Required Provider B — Kimi Code API
+Historical Provider B — Kimi Code:
 
 ```text
 host = api.kimi.com
 path = /coding/v1/chat/completions
 default model = k3
 key env = KIMI_CODE_API_KEY
-optional model override = MY_WORLD_G1_04_KIMI_MODEL
 ```
 
-Both are OpenAI-compatible chat-completions/SSE shapes for this spike, so reuse the small common HTTP/SSE parsing path where reality permits. Keep provider-specific host/path/key/model explicit. Kimi Code replaces the superseded Kimi configuration; do not retain a compatibility fallback.
-
-Do **not** expand this into:
-
-- automatic provider routing;
-- fallback meshes;
-- load balancing;
-- account systems;
-- generic provider registries/plugin frameworks;
-- retry orchestration platforms;
-- product-level model selection architecture.
-
-Implementation constraints:
-
-- use provisional GDScript because it remains the lowest-dependency spike language;
-- use Godot `HTTPClient` in non-blocking mode with main-loop `poll()`;
-- read response bodies incrementally;
-- parse only the SSE/OpenAI-compatible shape required by the two current Providers;
-- cancellation may close the active transport; do not invent final Turn/Cancel domain semantics;
-- use a UI heartbeat/manual response counter to prove non-freezing behavior;
-- deterministic connection-failure test must not transmit Provider credentials;
-- same-process networking is evidence only, not the G1-06 Runtime-boundary decision.
-
-Owner Windows UAT closed this boundary as PASS on 2026-08-26. Both Providers passed full generation, cancel, and post-cancel request; heartbeat/manual UI response remained active; idle switching, deterministic connection failure, normal exit, and clean Git state also passed. The observed roughly 30-second complete long-output duration is not a G1-04 blocker; later performance work must separate TTFT from generation throughput in G2.
+G2 product-facing Provider is DeepSeek only unless a later explicit decision changes that. Do not restore Provider switching, automatic routing, fallback meshes, account systems, generic registries, or retry orchestration platforms.
 
 ## 7. Security and secrets
 
 Never commit provider API keys, tokens, credentials, cookies, or local secrets.
 
-For G1-04:
+Current G2 product launch uses:
 
-- DeepSeek key comes only from `DEEPSEEK_API_KEY`;
-- Kimi Code key comes only from `KIMI_CODE_API_KEY`;
-- UI may show only whether each variable is set;
-- never display/log either key value;
-- never place keys in `.gd`, `.tscn`, `project.godot`, README examples, screenshots, commits, or chat;
-- deterministic failure testing must not carry `Authorization` headers.
+```text
+DEEPSEEK_API_KEY
+optional: MY_WORLD_DEEPSEEK_MODEL
+```
 
-Model-freedom principles never authorize access to secrets, arbitrary OS/filesystem execution, or irreversible external effects.
+G1-04-only `KIMI_CODE_API_KEY` and `MY_WORLD_G1_04_*` variables are historical unless a specific historical validation needs them.
 
-## 8. G1-04 validation record
+Never display/log secret values. Deterministic failure tests must not transmit credentials. Model-freedom principles never authorize access to secrets, arbitrary OS/filesystem execution, or irreversible external effects.
 
-Real Windows-local observation proved:
+## 8. First-generation Foundation architecture
 
-- DeepSeek real HTTP 2xx + incremental stream;
-- Kimi Code real HTTP 2xx + incremental stream;
-- UI heartbeat/manual interaction continue during each Provider request;
-- a real active generation can be cancelled and UI promptly recovers;
-- at least one real request succeeds after cancellation;
-- Provider can be switched while idle without app restart;
-- deterministic connection failure is explicit and non-freezing;
-- Provider/API errors are readable, not silent hangs;
-- normal exit;
-- clean Git state.
+Canonical record: `Vibe-Coding/my world/MY_WORLD_Foundation架构决策_v1.0_2026-08-26.md`.
 
-G1-04 is therefore PASS. Repository structure, static code review, mocked chunks, or G1-03 timer append were not used as substitutes for the real Provider evidence.
+- Host: Godot `4.7.2` Standard / non-.NET Windows x64.
+- Language: GDScript first generation; Domain code stays independent from Scene/Node/Resource lifecycles.
+- Runtime: same-process Godot Runtime; keep Domain / Provider / Persistence boundaries explicit, no IPC now.
+- Persistence candidate range: JSON/files for config/small metadata/portable Source; SQLite preferred G3 evaluation candidate for authoritative World/Timeline state; Event Log/Snapshot are semantic patterns.
+- Provider/config: thin `send / stream / cancel`; endpoint/model separate from secrets; G2 starts with DeepSeek `deepseek-v4-pro`.
+- Engineering: headless parse, smallest focused tests, bounded redacted logs, tracked export preset, ignored build output, Agent-owned routine QA and Owner-owned product UAT.
 
-## 9. First-generation Foundation architecture
+Business modules follow `L3 -> L2 -> L1 -> L0`; downward skips are allowed, upward dependencies are not. Cross-module calls use the other module's L3 public boundary. Bootstrap is composition root. Do not create empty layers or speculative wrappers.
 
-The canonical record is `Vibe-Coding/my world/MY_WORLD_Foundation架构决策_v1.0_2026-08-26.md`.
+## 9. Declarative UI Host supporting architecture
 
-- Host: Godot `4.7.2`.
-- Distribution: Standard / non-.NET Windows x64.
-- Language: GDScript for the first generation. Domain code must remain independent from Scene/Node/Resource lifecycles. Revisit C#/.NET or mixed only when G3/G5/G7 produces concrete testability, performance, or mature-library evidence.
-- Runtime: same-process Godot Runtime for the first generation. Keep Domain, Provider, and Persistence boundaries explicit so a later local process extraction remains possible; do not build IPC now.
-- Persistence candidate range: JSON/files for configuration, small local metadata, and portable Source inputs; SQLite is the preferred G3 evaluation candidate for authoritative World/Timeline state; Event Log/Snapshot are semantic patterns that may be combined with it. Do not treat Markdown, transcript, UI state, or Godot Resource as the authoritative gameplay database.
-- Provider/config: keep a thin `send / stream / cancel` adapter; separate endpoint/model configuration from secrets; keep secrets local and out of Git/log/UI. G2 begins with one concrete Provider, DeepSeek `deepseek-v4-pro`; Kimi Code remains a verified Foundation alternate, not an automatic fallback.
-- Engineering path: headless parse plus the smallest focused automated test form needed by real deterministic logic; bounded redacted local logs under `user://logs/`; tracked `export_presets.cfg`; ignored `build/`; Agent-owned routine build/Git/debug/QA and Owner-owned final product UAT.
+Canonical record: `Vibe-Coding/my world/MY_WORLD_声明式UIHost架构_CURRENT.md`.
 
-Business modules follow `L3 -> L2 -> L1 -> L0`; downward layer skips are allowed, upward dependencies are not. Cross-module calls must use the other module's L3 public boundary. Bootstrap remains the composition root. Do not create empty layers or speculative wrappers.
+Long-term desktop skeleton:
 
-The Foundation decision's older candidate/commit wording is superseded **only where it would be used to restrict ordinary model-authored game semantics or Narrative**. Its technical integrity, persistence, Host, language, process, Provider, logging, and packaging decisions remain current.
+```text
+Left   Player Host
+Center Narrative Host
+Right  World Surface Host
+```
+
+Responsive rule:
+
+```text
+wide window  → three hosts visible
+narrow window→ Narrative stays primary; side hosts collapse/drawer/overlay
+```
+
+Stage sequencing:
+
+```text
+G2    fixed UI + stable Host Slots
+G3–G5 real Domain/player-safe projections
+G6    Internal Declarative UI Host vertical proof
+G8    external World Pack / Mod declarative UI contract
+```
+
+Do not build the generalized renderer or external schema early.
 
 ## 10. Current G2 boundary
 
-G2-02 owns only **Provider Adapter v0.1**. It may implement the production-facing DeepSeek transport seam and focused test/harness evidence needed to prove `send / stream / cancel / explicit failure`, but it must not implement the G2-03 Narrative Conversation View, G2-04 Turn / Conversation Domain, G2-05 Context Assembly, persistence, World Pack, NPC/world simulation, generic provider routing, or UI visual polish.
+Current task remains **G2-02 Provider Adapter v0.1**. The new UI Host architecture does **not** invalidate or expand G2-02.
 
-G1-04 Provider code is legacy implementation evidence, not current product code. Reuse proven narrow HTTP/SSE techniques where useful, but do not restore the old spike UI or dual-provider selector. G2-02 product-facing Provider is DeepSeek `deepseek-v4-pro`; Kimi Code remains only a verified alternate unless a later explicit decision promotes it.
+G2-02 may implement the production-facing DeepSeek transport seam and focused evidence needed to prove `send / stream / cancel / explicit failure`. It must not implement G2-03 UI, Turn Domain, Context Assembly, persistence, World Pack, NPC/world simulation, generic routing, or UI polish.
 
-When G2 Conversation/Turn work begins, protect model output quality and natural-language freedom. `regenerate / retry` are the earliest reversibility primitives; do not prebuild G3 Timeline, but do not introduce prevention-first Narrative restrictions that would conflict with it.
+When G2-03 begins, its Task Packet must read `MY_WORLD_声明式UIHost架构_CURRENT.md` and establish stable Host Slots:
+
+```text
+PlayerPanelHost
+NarrativeHost
+WorldSurfaceHost
+```
+
+G2-03 still uses fixed handwritten Godot UI. It must **not** implement a generalized Declarative Renderer, external World Pack UI schema, arbitrary extension scripting, or fake future surfaces. Narrative remains the visual center. `regenerate / retry` are the earliest reversibility primitives; G3 later owns rewind/branch/Timeline semantics.
 
 ## 11. Repository shape
 
-Create only files/directories with immediate use. Keep each stage small:
+Create only files/directories with immediate use:
 
 - `README.md`
 - `AGENTS.md`
 - `.gitignore`
 - `project.godot`
 - `src/` for current runnable product work
-- `tests/` / `docs/` only when a real validation need exists
+- `tests/` / `docs/` only for real validation or execution needs
 
 Do not create speculative empty module trees.
 
 ## 12. Evidence discipline
 
-Never claim Windows-local, Godot, Provider, export, or network success without real execution evidence.
+Never claim Windows-local, Godot, Provider, export, network, or UI behavior success without real execution evidence.
 
-For local validation, separate:
+Separate:
 
-- GitHub-side implementation complete;
-- exact local command/action;
-- expected observable evidence;
+- implementation complete;
+- exact validation action;
+- observable evidence;
 - PASS / FAIL / NOT VERIFIED.
 
-G1-GATE passed only because all G1 real-execution seams had evidence. Future gates retain the same evidence standard.
+Automated tests cannot replace Product Owner judgment for Narrative quality, UI usability, game feel, or "want to continue".
 
-Product-value evidence must not be replaced by safety-rule counts or validator coverage. If new guardrails make the AI RPG materially more mechanical, slower, or less expressive, treat that as a product regression even when engineering checks pass.
+## 13. Cross-stage carry-forward references
 
-## 13. Long-play and predecessor carry-forward references
-
-Canonical cross-stage core design:
+Canonical core design:
 
 `Vibe-Coding/my world/MY_WORLD_核心设计原则_CURRENT.md`
 
-Repository-local implementation projection:
+Canonical UI Host architecture:
+
+`Vibe-Coding/my world/MY_WORLD_声明式UIHost架构_CURRENT.md`
+
+Repository-local core-design projection:
 
 `docs/CORE_DESIGN_PRINCIPLES.md`
 
-DSH long-play cross-stage findings:
+DSH long-play findings:
 
 `docs/DSH_TEST_CARRY_FORWARD_REQUIREMENTS.md`
 
-Underlying DSH experiment closure reference:
+UI Host architecture becomes mandatory reading for:
 
-`zhangchenjia21-dot/the-world/docs/DSH_GAME_TEST_LESSONS_CORE.md`
+- G2-03 Narrative Conversation View / Host Slots;
+- G5 Runtime → UI Projection work;
+- G6 RPG UI / Internal Declarative Host;
+- G8 World Pack / Mod external UI declaration.
 
-The repository-local DSH carry-forward document is **not** a Task Packet and does not authorize prebuilding later stages. It becomes mandatory reading whenever a task touches:
+DSH carry-forward becomes mandatory when tasks touch:
 
 - G3 persistence / Timeline / Save / Restore;
 - G4 World Pack / Source / local reality;
@@ -275,12 +275,12 @@ The repository-local DSH carry-forward document is **not** a Task Packet and doe
 - G8 Mod / authoring semantics;
 - G9 long-play Product Value UAT.
 
-The most important confirmed DSH failure to avoid is **Protagonist Causal Monopoly**: a persistent world can still feel dead if Source history and player actions are the only real causes of new history while NPCs/factions mainly react. Future world semantics must preserve:
+The most important DSH world failure to avoid is **Protagonist Causal Monopoly**:
 
 > **Source provides inertia, actors create history.**
-
+>
 > **Off-screen != Inactive.**
-
+>
 > **Players may change history, but they are not the only creators of history.**
 
-Do not solve this by building a universal per-NPC tick simulator or by mechanically increasing DCs. G5 must find a bounded, event/priority-driven autonomous world-evolution approach and prove it with Player Absence, Counterfactual Propagation, and Independent Actor tests.
+Do not solve it with a universal per-NPC tick simulator or by mechanically increasing DCs.
