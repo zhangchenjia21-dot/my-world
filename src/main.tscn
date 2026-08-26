@@ -172,7 +172,7 @@ theme_override_constants/separation = 8
 
 [node name="PlayerInput" type="TextEdit" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 108)
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "输入你的行动……（Ctrl+Enter 发送）"

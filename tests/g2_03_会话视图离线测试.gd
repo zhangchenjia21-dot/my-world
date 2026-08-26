@@ -8,7 +8,8 @@ extends SceneTree
 ## - T3 dummy key + DNS .invalid 确定性 transport 失败 → regenerate 路径可恢复、仍不污染 history；
 ## - T4 IR-01 回归：completed → regenerate → 成功替换，不重复 player entry；
 ## - T5 IR-02 cancel 路径：completed → regenerate → cancel → 不 Retry 直接发送；
-## - T6 IR-02 fail 路径：completed → regenerate → fail → 不 Retry 直接发送。
+## - T6 IR-02 fail 路径：completed → regenerate → fail → 不 Retry 直接发送；
+## - T7 Ctrl+Enter 发送 + 中文多行输入（裸 Enter 不发送，保护输入法）。
 ##
 ## T1–T3 用真实 adapter（验证与 G2-02 seam 的真实集成）；T4–T6 换用 tests/g2_03_桩适配器.gd，
 ## 专注 view 的 provisional history/context 记账，避免真实 start_stream 副作用干扰模拟。
@@ -187,6 +188,30 @@ func _run() -> void:
 	if history.size() == 8:
 		var roles_t6: Array = history.map(func(m: Dictionary) -> String: return String(m.get("role", "")))
 		_check(roles_t6 == ["user", "assistant", "user", "assistant", "user", "assistant", "user", "assistant"], "T6 最终 roles 合法交错")
+
+	# ---- T7：Ctrl+Enter 发送 + 中文多行输入 ----
+	# T6 结束 state == COMPLETED，history 八条（四对）。
+	var multiline_action := "第一行：观察四周。\n第二行：握紧短刀。\n第三行：计划与态度。"
+	player_input.text = multiline_action
+	var plain_enter := InputEventKey.new()
+	plain_enter.pressed = true
+	plain_enter.keycode = KEY_ENTER
+	player_input.gui_input.emit(plain_enter)
+	_check(view.get_gen_state() == VIEW.GenState.COMPLETED, "T7 裸 Enter 不触发发送（保护输入法）")
+	var ctrl_enter := InputEventKey.new()
+	ctrl_enter.pressed = true
+	ctrl_enter.ctrl_pressed = true
+	ctrl_enter.keycode = KEY_ENTER
+	player_input.gui_input.emit(ctrl_enter)
+	_check(view.get_gen_state() == VIEW.GenState.STREAMING, "T7 Ctrl+Enter 触发发送")
+	var t7_calls: Array = stub.start_calls
+	if not t7_calls.is_empty():
+		var t7_last_messages: Array = t7_calls[-1]
+		var t7_last_user: Dictionary = t7_last_messages[-1]
+		_check(String(t7_last_user.get("content", "")) == multiline_action, "T7 多行中文行动原文进入 Provider context")
+	stub.simulate_completed()
+	history = view.get_provisional_history()
+	_check(history.size() == 10, "T7 Ctrl+Enter turn 完成后 history == 五对")
 
 	print("[g2-03-offline] done failures=%d" % _failures)
 	quit(1 if _failures > 0 else 0)

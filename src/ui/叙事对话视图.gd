@@ -11,13 +11,20 @@ extends PanelContainer
 ## - regenerate 成功前旧 GM 输出仍是稳定 provisional context，成功后才原子替换（IR-02）；
 ## - 这不是 authoritative Conversation / Timeline / Save。
 ##
-## Provisional GM system message（DEC-07）：最小化，不含 Narrative 白名单 / Regex / Confirmation。
-const PROVISIONAL_SYSTEM_PROMPT := "你是 my world 的 AI GM。把玩家输入视为游戏中的自由行动或意图，以自然、沉浸的中文 RPG 叙事回应，自由推进场景、人物与世界。不要输出工程说明，不要解释自己是 AI 或测试程序。"
+## Provisional GM system message（DEC-07 + UX-02）：最小化，不含 Narrative 白名单 / Regex / Confirmation；
+## 正向鼓励充分展开，不设任何篇幅硬下限或硬上限，篇幅由模型、场景与 Context 自然决定。
+const PROVISIONAL_SYSTEM_PROMPT := "你是 my world 的 AI GM。把玩家输入视为游戏中的自由行动或意图，以自然、沉浸的中文 RPG 叙事回应，自由推进场景、人物与世界。充分展开对当前场景有价值的环境、人物、行动、对话与后果，不必刻意简短；根据场景节奏自然决定叙事篇幅。不要输出工程说明，不要解释自己是 AI 或测试程序。"
 
 const ADAPTER := preload("res://src/provider/deepseek流式适配器.gd")
 
 ## 长正文 readable-width 上限（px）：宽屏/最大化下避免单行无限拉长；居中由 EntriesCenter 负责。
 const READABLE_MAX_WIDTH := 920.0
+
+## Composer 高度响应式规则（UX-01）：随窗口高度适度增高并 clamp，约 3-4 行自然语言行动起步。
+## 简单 clamp 规则，不做 auto-growing editor / Splitter / UI preference framework。
+const COMPOSER_HEIGHT_FACTOR := 0.15
+const COMPOSER_MIN_HEIGHT := 104.0
+const COMPOSER_MAX_HEIGHT := 160.0
 
 enum GenState {
 	IDLE,
@@ -75,8 +82,10 @@ func _ready() -> void:
 
 	narrative_scroll.get_v_scroll_bar().value_changed.connect(_on_narrative_scroll_changed)
 	narrative_scroll.resized.connect(_update_readable_width)
+	get_tree().root.size_changed.connect(_update_composer_height)
 	_update_controls()
 	_update_readable_width.call_deferred()
+	_update_composer_height()
 
 
 ## G2-03 provisional 只读 seam，供 focused tests 断言；不是公开 Domain contract。
@@ -288,6 +297,16 @@ func _on_player_input_gui(event: InputEvent) -> void:
 ## 正文列宽随窗口收窄铺满，超过 READABLE_MAX_WIDTH 后由 CenterContainer 居中限宽。
 func _update_readable_width() -> void:
 	entries.custom_minimum_size.x = minf(narrative_scroll.size.x, READABLE_MAX_WIDTH)
+
+
+## UX-01：Composer 高度 = clamp(窗口高度 * 0.15, 104, 160)。
+## 720p ≈ 108px（3-4 行），1080p+/Maximized ≈ 160px 封顶，960x540 窄窗口保持 104px 可用。
+func _update_composer_height() -> void:
+	player_input.custom_minimum_size.y = clampf(
+		float(get_tree().root.size.y) * COMPOSER_HEIGHT_FACTOR,
+		COMPOSER_MIN_HEIGHT,
+		COMPOSER_MAX_HEIGHT
+	)
 
 
 ## 用户仍在底部附近时跟随最新文本；用户主动向上阅读时不强行拉回。

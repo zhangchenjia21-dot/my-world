@@ -106,6 +106,9 @@ func _run() -> void:
 	_check(world_ratio >= 0.16 and world_ratio <= 0.28, "Maximized World 比例 ~22% 量级")
 	_check(player_empty.size.x <= player_panel_host.size.x and world_empty.size.x <= world_surface_host.size.x, "Maximized 侧栏文字无跨 Host 溢出")
 	_check(entries_node.size.x <= 921.0, "Maximized 正文列 readable-width 约束生效")
+	var composer_h_max := player_input.size.y
+	print("[g2-03-gui] maximized composer height=%d" % int(composer_h_max))
+	_check(composer_h_max >= 130.0 and composer_h_max <= 165.0, "Maximized Composer 高度 130-160px 量级")
 	await _shot("00_maximized")
 
 	# ---- 回到 1280x720 windowed 回归 ----
@@ -115,6 +118,9 @@ func _run() -> void:
 		await process_frame
 	print("[g2-03-gui] 1280 widths: player=%d narrative=%d world=%d" % [int(player_panel_host.size.x), int(view.size.x), int(world_surface_host.size.x)])
 	_check(player_panel_host.size.x >= 250.0 and world_surface_host.size.x >= 310.0, "1280 windowed 侧栏保持最小可用宽度")
+	var composer_h_1280 := player_input.size.y
+	print("[g2-03-gui] 1280 composer height=%d" % int(composer_h_1280))
+	_check(composer_h_1280 >= 100.0 and composer_h_1280 <= 125.0, "1280 Composer 高度 100-120px 量级（约 3-4 行）")
 
 	# ---- 宽窗口布局（AC：三 Host，Narrative 主角）----
 	_check(player_panel_host.visible and world_surface_host.visible, "宽窗口左右 Host 可见")
@@ -123,14 +129,17 @@ func _run() -> void:
 	await _shot("01_wide_1280")
 
 	# ---- 窄窗口布局（Narrative 优先，侧 Host 折叠，输入保留）----
-	player_input.text = "这条文本在窗口缩放后必须保留。"
+	player_input.text = "这条文本在窗口缩放后必须保留。\n第二行：中文多行输入。\n第三行：计划与态度。"
 	root.size = Vector2i(960, 540)
 	for i in range(10):
 		await process_frame
 	_check(not player_panel_host.visible and not world_surface_host.visible, "窄窗口侧 Host 折叠")
 	_check(player_toggle.visible and world_toggle.visible, "窄窗口 toggle 可见")
 	_check(view.visible, "窄窗口 Narrative 仍可见（主角）")
-	_check(player_input.text.contains("必须保留"), "窄窗口输入文本保留")
+	_check(player_input.text.contains("必须保留") and player_input.text.contains("第三行"), "窄窗口多行输入文本保留")
+	_check(player_input.size.y >= 96.0, "960 窄窗口 Composer 保持可用高度")
+	var narrative_scroll_node: ScrollContainer = inst.get_node("%NarrativeScroll")
+	_check(narrative_scroll_node.size.y > 120.0, "960 窄窗口 Narrative 阅读区仍可用")
 	player_toggle.button_pressed = true
 	await process_frame
 	_check(player_panel_host.visible, "窄窗口主角 toggle 可展开侧栏")
@@ -151,7 +160,13 @@ func _run() -> void:
 		return
 
 	player_input.text = "我推开茶馆后门，冒雨走进漆黑的巷子，握紧短刀，仔细听四周的动静。"
-	send_button.pressed.emit()
+	# 真实发送走 Ctrl+Enter 路径（UX-01：玩家多行输入后的主要发送方式）。
+	var ctrl_enter := InputEventKey.new()
+	ctrl_enter.pressed = true
+	ctrl_enter.ctrl_pressed = true
+	ctrl_enter.keycode = KEY_ENTER
+	player_input.gui_input.emit(ctrl_enter)
+	_check(view.get_gen_state() == VIEW.GenState.STREAMING, "Ctrl+Enter 真实触发发送")
 	var stream_ok := await _wait_until(func() -> bool: return adapter.delta_count >= 5 or _terminal_count > 0, 90000, "首批 stream delta")
 	_check(stream_ok and adapter.delta_count >= 5, "真实 stream 收到 >=5 个增量 delta")
 	var ttft_ms: int = adapter.first_delta_msec - adapter.started_msec
@@ -216,6 +231,7 @@ func _run() -> void:
 	var last_messages: Array = view.get_last_request_messages()
 	_check(last_messages.filter(func(m: Dictionary) -> bool: return String(m.get("role", "")) == "user" and String(m.get("content", "")) == second_player_text).size() == 1, "IR-01 该 player input 在 Provider context 中严格一次")
 	_check(last_messages.filter(func(m: Dictionary) -> bool: return String(m.get("role", "")) == "user").size() == 2, "IR-01 regenerate context 恰好含两条 user 消息")
+	_check(adapter.output_chars >= 100, "Narrative richness：真实 GM 输出充分展开、无 UI/适配器截断（chars=%d）" % adapter.output_chars)
 	print("[g2-03-gui] IR-01 old_gm_chars=%d new_gm_chars=%d" % [old_second_gm.length(), String(history[3].get("content", "")).length() if history.size() == 4 else -1])
 	await _shot("07_regenerate_completed")
 
