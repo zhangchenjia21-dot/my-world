@@ -88,5 +88,44 @@ func _run() -> void:
 	_check(regenerate_button.visible, "T3 失败后 Regenerate 仍可见")
 	_check(view.get_provisional_history().is_empty(), "T3 transport 失败仍不污染 history")
 
+	# ---- T4（IR-01 回归）：completed turn → regenerate → 不得重复 player entry ----
+	# 通过 adapter 信号模拟 completed generation（view session 逻辑单元测试，不触网）；
+	# 真实 Provider completed→regenerate 证据在 tests/g2_03_gui驱动测试.gd。
+	OS.set_environment("DEEPSEEK_API_KEY", "")
+	adapter.test_host_override = ""
+
+	player_input.text = "第一行动。"
+	send_button.pressed.emit()  # missing_key 同步 failed；随后模拟 adapter 流式完成
+	adapter.text_delta.emit("GM 甲")
+	adapter.completed.emit()
+	var history: Array = view.get_provisional_history()
+	_check(history.size() == 2, "T4 first turn completed 后 history == 2")
+	if history.size() == 2:
+		_check(String(history[0].get("role", "")) == "user" and String(history[1].get("role", "")) == "assistant", "T4 first turn roles == [user, assistant]")
+
+	# regenerate completed turn：再次模拟新 generation。
+	regenerate_button.pressed.emit()
+	_check(view.get_last_request_messages().filter(func(m: Dictionary) -> bool: return String(m.get("role", "")) == "user" and String(m.get("content", "")) == "第一行动。").size() == 1, "T4 regenerate 请求 context 中该 player input 恰好一次")
+	adapter.text_delta.emit("GM 甲改")
+	adapter.completed.emit()
+	history = view.get_provisional_history()
+	_check(history.size() == 2, "T4 completed→regenerate 后 history 仍 == 2")
+	_check(history.filter(func(m: Dictionary) -> bool: return String(m.get("role", "")) == "user" and String(m.get("content", "")) == "第一行动。").size() == 1, "T4 同一 player input 在 history 中恰好一次")
+	if history.size() == 2:
+		_check(String(history[0].get("role", "")) == "user" and String(history[1].get("role", "")) == "assistant", "T4 regenerate 后 roles == [user, assistant]")
+		_check(String(history[1].get("content", "")) == "GM 甲改", "T4 regenerated assistant 为新输出且非空")
+
+	# 第二个 player turn completed → history == 4。
+	player_input.text = "第二行动。"
+	send_button.pressed.emit()
+	adapter.text_delta.emit("GM 乙")
+	adapter.completed.emit()
+	history = view.get_provisional_history()
+	_check(history.size() == 4, "T4 第二 turn completed 后 history == 4")
+	if history.size() == 4:
+		var roles: Array = history.map(func(m: Dictionary) -> String: return String(m.get("role", "")))
+		_check(roles == ["user", "assistant", "user", "assistant"], "T4 最终 roles == [user, assistant, user, assistant]")
+	_check(view.get_last_request_messages().filter(func(m: Dictionary) -> bool: return String(m.get("role", "")) == "user").size() == 2, "T4 第二 turn context 中两条 player input 各一次")
+
 	print("[g2-03-offline] done failures=%d" % _failures)
 	quit(1 if _failures > 0 else 0)

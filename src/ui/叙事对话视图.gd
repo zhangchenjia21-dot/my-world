@@ -42,6 +42,12 @@ var _current_gm_text := ""
 var _current_gm_content: RichTextLabel = null
 var _current_gm_marker: Label = null
 var _follow_scroll := true
+## 当前 player turn 是否已写入 _history。Regenerate 同一个 completed turn 时 player entry
+## 已存在，completed 时不得再 append 一次（IR-01）；新发送或 cancelled/failed retry 的
+## turn 尚未入 history，completed 时才补写。
+var _current_turn_in_history := false
+## 最近一次请求实际发给 Provider 的 messages，只读测试 seam（验证 player input 只出现一次）。
+var _last_messages: Array = []
 
 
 func _ready() -> void:
@@ -72,12 +78,19 @@ func get_gen_state() -> GenState:
 	return _gen_state
 
 
+## 最近一次发给 Provider 的 messages（provisional 只读 seam）。
+func get_last_request_messages() -> Array:
+	return _last_messages.duplicate(true)
+
+
 func _on_send_pressed() -> void:
 	var text := player_input.text.strip_edges()
 	if text.is_empty() or _gen_state == GenState.STREAMING:
 		return
 
 	_last_player_text = text
+	# 新 player turn 必然尚未入 history；之前的 completed 对保持不变。
+	_current_turn_in_history = false
 	_append_player_entry(text)
 	_begin_gm_entry()
 	player_input.clear()
@@ -95,8 +108,9 @@ func _on_regenerate_pressed() -> void:
 	if _gen_state == GenState.STREAMING or _last_player_text.is_empty():
 		return
 
-	# completed generation：旧 GM 输出从 provisional history 丢弃，player turn 保留。
-	if not _history.is_empty() and String((_history[-1] as Dictionary).get("role", "")) == "assistant":
+	# 只有 regenerate 已入 history 的 completed turn 才丢弃旧 GM 输出；
+	# cancelled / failed 的 retry 该 turn 从未入 history，不得误删上一对。
+	if _current_turn_in_history and not _history.is_empty() and String((_history[-1] as Dictionary).get("role", "")) == "assistant":
 		_history.pop_back()
 
 	if _current_gm_content != null:
@@ -110,7 +124,8 @@ func _on_regenerate_pressed() -> void:
 func _start_request() -> void:
 	_current_gm_text = ""
 	_set_gen_state(GenState.STREAMING)
-	var start_error: Error = adapter.start_stream(_build_messages(_last_player_text))
+	_last_messages = _build_messages(_last_player_text)
+	var start_error: Error = adapter.start_stream(_last_messages)
 	if start_error == ERR_BUSY:
 		# UI 已防止 double-submit；此处只是防御，不制造额外 UI 状态。
 		push_warning("G2-03: adapter busy on start_stream")
@@ -179,7 +194,10 @@ func _on_text_delta(text: String) -> void:
 
 func _on_completed() -> void:
 	# 只有 completed 的 player/GM 对进入 provisional history。
-	_history.append({"role": "user", "content": _last_player_text})
+	# Regenerate 同一 completed turn 时 player entry 已在 history 中（IR-01 修复），只补新 GM。
+	if not _current_turn_in_history:
+		_history.append({"role": "user", "content": _last_player_text})
+		_current_turn_in_history = true
 	_history.append({"role": "assistant", "content": _current_gm_text})
 	_set_gen_state(GenState.COMPLETED)
 

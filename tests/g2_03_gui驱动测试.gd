@@ -161,6 +161,26 @@ func _run() -> void:
 	_check(history.size() == 4, "两条行动后 history == 两对 player/GM")
 	await _shot("06_second_turn")
 
+	# ---- IR-01 回归：completed turn → 真实 Regenerate → 不得重复 player entry ----
+	var second_player_text := "我蹲下身，检查地上刚才那个黑影留下的痕迹。"
+	var old_second_gm := String(history[1].get("content", "")) if history.size() >= 2 else ""
+	regenerate_button.pressed.emit()
+	var regen2_ok := await _wait_until(func() -> bool: return _terminal_count >= 4, 180000, "completed turn regenerate completed")
+	_check(regen2_ok and view.get_gen_state() == VIEW.GenState.COMPLETED, "IR-01 completed turn Regenerate 真实完成")
+	history = view.get_provisional_history()
+	_check(history.size() == 4, "IR-01 completed→regenerate 后 history 仍 == 4")
+	if history.size() == 4:
+		var roles: Array = history.map(func(m: Dictionary) -> String: return String(m.get("role", "")))
+		_check(roles == ["user", "assistant", "user", "assistant"], "IR-01 roles == [user, assistant, user, assistant]")
+		_check(String(history[2].get("content", "")) == second_player_text, "IR-01 被重新生成的 player turn 原样保留")
+		_check(not String(history[3].get("content", "")).is_empty(), "IR-01 新 GM 输出非空")
+	_check(history.filter(func(m: Dictionary) -> bool: return String(m.get("role", "")) == "user" and String(m.get("content", "")) == second_player_text).size() == 1, "IR-01 该 player input 在 history 中严格一次")
+	var last_messages: Array = view.get_last_request_messages()
+	_check(last_messages.filter(func(m: Dictionary) -> bool: return String(m.get("role", "")) == "user" and String(m.get("content", "")) == second_player_text).size() == 1, "IR-01 该 player input 在 Provider context 中严格一次")
+	_check(last_messages.filter(func(m: Dictionary) -> bool: return String(m.get("role", "")) == "user").size() == 2, "IR-01 regenerate context 恰好含两条 user 消息")
+	print("[g2-03-gui] IR-01 old_gm_chars=%d new_gm_chars=%d" % [old_second_gm.length(), String(history[3].get("content", "")).length() if history.size() == 4 else -1])
+	await _shot("07_regenerate_completed")
+
 	var metrics := {
 		"ttft_ms": ttft_ms,
 		"cancel_ms": cancel_ms,
@@ -178,7 +198,7 @@ func _run() -> void:
 		return
 	player_input.text = "我沿着巷子继续往前走。"
 	send_button.pressed.emit()
-	var exit_stream_ok := await _wait_until(func() -> bool: return adapter.delta_count >= 2 or _terminal_count >= 4, 90000, "退出测试流启动")
+	var exit_stream_ok := await _wait_until(func() -> bool: return adapter.delta_count >= 2 or _terminal_count >= 5, 90000, "退出测试流启动")
 	if not exit_stream_ok:
 		_failures += 1
 		printerr("[g2-03-gui] FAIL: 退出测试流未能启动")
