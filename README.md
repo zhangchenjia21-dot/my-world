@@ -1,62 +1,115 @@
 # my world
 
-`my world` is a standalone, local-first, single-player 2D conversational AI RPG project.
+`my world` 是一个独立、本地优先、长期单人游玩的 2D 对话式 AI RPG 项目。
 
-This repository contains implementation truth: code, tests, build/runtime configuration, and project-local agent instructions. Long-lived product/governance decisions live in `zhangchenjia21-dot/Vibe-Coding` under `my world/`.
+这个仓库保存项目的**实现事实**：代码、测试、构建 / 运行配置，以及项目本地的 Agent 开发规则。长期产品定义、路线图和治理决策位于 `zhangchenjia21-dot/Vibe-Coding` 的 `my world/` 目录。
 
-## Current status
+项目不是把前代 `The World / DSH` 原样搬进 Godot，而是继承长期试玩已经验证的产品经验，并重新设计真正属于独立游戏的世界状态、时间线、存档、AI GM、NPC、World Pack 与 RPG 表现层。
 
-- Phase: `G1 — Foundation & Project Bootstrap`
-- Current task: `G1-05 — Local IO / Image / Windows Export Foundation Spike`
-- `G1-01 — Repository Bootstrap`: **PASS**
-- `G1-02 — Godot 4.7.2 Toolchain & Language Confirmation`: **PASS**
-- `G1-03 — 2D Chinese Long Text / Input Foundation Spike`: **PASS** based on real Windows manual UAT
-- `G1-04 — Real Provider Streaming / Cancel Foundation Spike`: **PASS** based on real Windows Owner UAT
-- Foundation candidate: Godot `v4.7.2`
-- Local project directory: `D:\AI\Projects\my-world`
-- Local engine directory: `D:\AI\Engine`
+> **迁移经验，不迁移宿主债务。**
 
-## Verified Foundation evidence
+## 当前状态
 
-Windows-local evidence confirmed on 2026-08-25:
+- 当前阶段：`G1 — Foundation & Project Bootstrap（基础能力与项目启动）`
+- 当前任务：`G1-05 — 本地 IO / 动态图片 / Windows Export Foundation Spike`
+- `G1-01 — 实现仓库初始化`：**PASS**
+- `G1-02 — Godot 4.7.2 工具链与语言确认`：**PASS**
+- `G1-03 — 中文长文本 / 输入 Foundation Spike`：**PASS**，已通过真实 Windows 人工 UAT
+- `G1-04 — 真实 Provider Streaming / Cancel Foundation Spike`：**PASS**，已通过真实 Windows Owner UAT
+- 当前 Foundation 候选：Godot `v4.7.2`
+- 本地项目目录：`D:\AI\Projects\my-world`
+- 本地引擎目录：`D:\AI\Engine`
 
-- Godot version: `4.7.2.stable.official.ed1daf0bf`
-- Distribution: Standard / non-.NET Windows x64
-- Renderer: Vulkan / Forward+
-- GPU: NVIDIA GeForce RTX 4070 Laptop GPU
-- Git: `2.54.0.windows.1`
-- Windows x86_64 export templates: installed and verified
-- ICU Data: installed and verified
+## 面向人的文档导航
 
-G1-01 proved normal Windows runtime/write behavior and clean exit. Earlier Codex write failures were sandbox-only.
+如果是为了理解项目，而不是执行代码任务，建议优先阅读：
 
-G1-03 manual UAT proved Chinese rendering, long-text scrolling, bulk append, continuous append responsiveness, Chinese input, selection/copy, normal exit, and clean Git state.
+- **本 README**：项目定位、当前进展、关键原则和运行方式。
+- [`docs/DSH_TEST_CARRY_FORWARD_REQUIREMENTS.md`](docs/DSH_TEST_CARRY_FORWARD_REQUIREMENTS.md)：前代 The World / DSH 长局测试留下的经验、失败模式，以及 `my world` 在 G1–G9 必须承接的跨阶段要求。
+- `Vibe-Coding/my world/MY_WORLD_项目启动总纲_CURRENT.md`：当前产品定义与核心原则。
+- `Vibe-Coding/my world/MY_WORLD_总体规划路线图_CURRENT.md`：G1–G9 总体开发路径、阶段目标和 Gate。
+- `Vibe-Coding/my world/MY_WORLD_DSH经验继承矩阵_v1.0_2026-08-25.md`：哪些经验应继承、哪些 DSH 宿主实现明确不应迁移。
 
-## Authority
+`AGENTS.md` 属于 AI / Agent 的项目开发与执行规则，不是面向普通读者的项目介绍，因此保留为开发指令文件。
 
-Before implementation work, read current GitHub `main` in this order:
+## 已验证的 Foundation 环境
 
-1. The user's current explicit instruction.
-2. `zhangchenjia21-dot/Vibe-Coding/AGENTS.md`.
-3. `Vibe-Coding/my world/MY_WORLD_项目启动总纲_CURRENT.md`.
-4. `Vibe-Coding/my world/MY_WORLD_总体规划路线图_CURRENT.md`.
-5. `Vibe-Coding/my world/MY_WORLD_独立版Preflight与第一阶段计划_v1.0_2026-08-25.md`.
-6. `Vibe-Coding/my world/MY_WORLD_DSH经验继承矩阵_v1.0_2026-08-25.md`.
-7. This repository's current implementation, tests, and HEAD.
+截至 2026-08-25，Windows 本机已经验证：
 
-The World / DSH is a reference implementation and evidence source, not a code migration template.
+- Godot：`4.7.2.stable.official.ed1daf0bf`
+- 发行版：Standard / 非 .NET Windows x64
+- 渲染器：Vulkan / Forward+
+- GPU：NVIDIA GeForce RTX 4070 Laptop GPU
+- Git：`2.54.0.windows.1`
+- Windows x86_64 Export Templates：已安装并验证
+- ICU Data：已安装并验证
 
-## Foundation rules
+G1-01 已证明普通 Windows 环境中的 Git / Godot 写入、启动和正常退出没有项目级权限问题。早期 Codex 遇到的写入失败属于执行 sandbox 限制，不是 Windows ACL 或 Godot blocker。
 
-- Migrate product experience, not DSH host debt.
-- Prefer mature commodity foundation capabilities; own game semantics explicitly.
-- Be engine-native without coupling `Game`, `World`, `Timeline`, `Save`, `NPC`, `Agent Context`, or `World Pack` semantics to Godot Scene/Node/Resource concepts.
-- UI projects game truth; it does not become a second truth source.
-- Do not prebuild G2–G9 architecture during G1.
+G1-03 已通过真实 Windows UAT，证明中文显示、长文本滚动、大量文本追加、持续追加期间 UI 响应、中文输入、文本选择 / 复制和正常退出可用。
 
-## G1-04 closeout
+## 项目权威来源
 
-G1-04 used **two** real Providers as a narrow Foundation Spike, not as a generic provider-platform commitment.
+正式开发任务开始前，以 GitHub `main` 的 current 文件为准。默认权威顺序：
+
+1. 用户当前明确指令；
+2. `zhangchenjia21-dot/Vibe-Coding/AGENTS.md`；
+3. `Vibe-Coding/my world/MY_WORLD_项目启动总纲_CURRENT.md`；
+4. `Vibe-Coding/my world/MY_WORLD_总体规划路线图_CURRENT.md`；
+5. `Vibe-Coding/my world/MY_WORLD_独立版Preflight与第一阶段计划_v1.0_2026-08-25.md`；
+6. `Vibe-Coding/my world/MY_WORLD_DSH经验继承矩阵_v1.0_2026-08-25.md`；
+7. 本仓库当前实现、测试与 HEAD。
+
+The World / DSH 是产品证据和经验参考实现，不是代码迁移模板。
+
+## Foundation 核心原则
+
+### 成熟基础能力优先，游戏语义自己掌握
+
+> **Commodity Foundation, Owned Game Semantics.**
+
+窗口、2D、字体、输入、音频、动画、资源管线、平台打包等通用能力优先使用成熟方案；但以下产品概念由 `my world` 自己定义：
+
+- Game
+- World
+- Timeline
+- Save Point
+- Agent Context
+- Conversation
+- NPC
+- Knowledge
+- Relationship
+- Faction
+- World Event
+- World Pack / Mod
+
+这些概念不能因为使用 Godot，就被直接等同为 Scene / Node / Resource。
+
+### UI 只投影游戏真相
+
+> **UI 是游戏权威状态的投影，不是第二份真相。**
+
+未来的人物、关系、任务、物品、地图和机制 UI 都只能展示或通过正式 mutation path 改变游戏状态，不能自行拥有另一份互相冲突的 gameplay state。
+
+### Source 定义起点，本局创造历史
+
+World Pack / Source 提供开局前的世界参考、人物、历史和惯性。
+
+游戏开始之后：
+
+> **game-local reality > source default trajectory**
+
+Source 的后续更新不能静默覆盖已经发生的本局历史。
+
+### 模型提出候选，程序提交现实
+
+> **Model authors candidates; Program commits reality.**
+
+模型适合做自然语言理解、叙事、开放内容创造和行动候选；身份、权限、RNG、权威 mutation、持久化、Save / Restore 与 Timeline 等确定性事实必须由程序 / Domain Owner 控制。
+
+## G1-04 已完成的真实 Provider 验证
+
+G1-04 使用两个真实 Provider，只为了证明 Godot Foundation surface 能稳定支持联网请求、增量输出、Cancel、错误处理以及 UI 非冻结；这不代表第一代产品已经冻结最终 Provider 架构。
 
 ### DeepSeek
 
@@ -78,50 +131,159 @@ API key env = KIMI_CODE_API_KEY
 optional model env = MY_WORLD_G1_04_KIMI_MODEL
 ```
 
-The scene exposes an explicit DeepSeek/Kimi Code selector. Both paths reuse the same small OpenAI-compatible HTTP/SSE seam where possible, but host/path/key/model remain separate. Kimi Code replaces the superseded Kimi configuration; there is no compatibility fallback, automatic routing, fallback mesh, load balancing, provider registry, or account system.
+两条路径尽量复用同一个很薄的 OpenAI-compatible HTTP / SSE seam，但 host / path / key / model 明确分离。
 
-Godot uses non-blocking `HTTPClient`, main-loop `poll()`, incremental response-body reads, SSE `data:` parsing, `[DONE]` completion, explicit transport close for Cancel, a UI heartbeat/manual response counter, and a deterministic credential-free failure test against `127.0.0.1:1`.
+真实 Windows Owner UAT 已证明：
 
-Owner Windows UAT proved real HTTP success, incremental streaming, active cancellation, successful post-cancel requests, idle Provider switching, deterministic connection failure, UI heartbeat/manual responsiveness, normal exit, and clean Git state for the required boundary. G1-04 is **PASS**.
+- 两个 Provider 都能获得真实 HTTP 成功响应；
+- 文本会增量流式进入 UI；
+- 活动生成可以 Cancel；
+- Cancel 后可以再次成功请求；
+- 空闲时可切换 Provider；
+- deterministic 连接失败能够明确处理；
+- 生成期间 heartbeat 和手动 UI 响应仍然工作；
+- 正常退出；
+- Git 状态干净。
 
-Both Providers took roughly 30 seconds to complete the observed long outputs. This is not a G1-04 blocker. G2 may later measure TTFT and generation throughput separately; this closeout does not optimize Provider latency. Same-process networking remains Foundation evidence only, and G1-06 still owns the Runtime-boundary decision.
+两家在本轮长输出测试中的完整生成时间都约为 30 秒。这个现象不阻塞 G1-04；后续在 G2 再分别测量 TTFT（首字延迟）和生成吞吐，不在 Foundation 阶段提前优化 Provider 性能。
 
-## Secrets
+same-process networking 目前也只算 Foundation 证据。最终 Runtime boundary 仍由 G1-06 决定。
 
-Never commit or paste Provider API keys into repository files or chat. G1-04 reads keys only from the launching process environment:
+## API Key 与本地启动
+
+真实 Provider Key 只保存在本地，不得提交 Git，也不要粘贴到聊天、Issue、截图或日志中。
+
+本地 `.env.local` 使用：
 
 ```text
 DEEPSEEK_API_KEY
 KIMI_CODE_API_KEY
 ```
 
-The UI may show only `已设置 / 未设置`; it must never display key values.
+可选模型覆盖：
 
-## Current G1-05 boundary
+```text
+MY_WORLD_G1_04_DEEPSEEK_MODEL
+MY_WORLD_G1_04_KIMI_MODEL
+```
 
-G1-05 is a Foundation exploration that must prove:
+第一次配置时：
 
-- a tiny local probe can be written, closed, reopened, read back, and retained across application launches;
-- portrait-like, scene-like, and map-like images are decoded from real filesystem files and displayed;
-- a Windows export succeeds and the exported executable launches without the Godot Editor;
-- local IO and all three dynamic image roles still work in the exported executable, including after close/reopen.
+1. 复制 `.env.example` 为 `.env.local`；
+2. 只在本机填写真实 Key；
+3. 双击 `run-local.cmd`，或在 PowerShell 中运行 `.\run-local.ps1`。
 
-This is not the production Save schema, persistence architecture, final asset pipeline, World Pack schema, or mod loader. Do not refactor the passed Provider seam.
+`.env.local` 已被 Git 忽略。启动脚本只把变量临时注入 Godot 子进程，不会把 Key 写入项目文件。
 
-## Later G1 boundary
+PowerShell 启动示例：
 
-- G1-06 owns the final first-generation Host/toolchain/language/runtime-boundary decision.
+```powershell
+Set-Location 'D:\AI\Projects\my-world'
+.\run-local.ps1
+```
 
-## DSH long-play carry-forward
+## 当前 G1-05 边界
 
-The DSH long-play experiment is now substantially complete. Its actionable lessons for this project are summarized in:
+G1-05 仍然只是 Foundation exploration，需要证明：
+
+- 一个极小的本地 probe 可以写入、关闭、重新启动后读回，并跨应用启动保留；
+- portrait / scene / map 三类图片能从真实 filesystem 文件中动态解码并显示；
+- Windows Export 成功；
+- 导出的 EXE 不依赖 Godot Editor 即可直接启动；
+- 导出程序中本地 IO 和三类动态图片仍然正常；
+- 导出程序关闭再打开后，本地 probe 仍然存在。
+
+G1-05 **不是**正式 Save Schema、持久化架构、最终 Asset Pipeline、World Pack Schema 或 Mod Loader 的冻结阶段，也不应重新重构已经通过的 Provider seam。
+
+## 下一项 G1 架构边界
+
+G1-06 负责最终第一代 Foundation Architecture Decision，包括：
+
+- Godot 是否正式成为第一代 Host；
+- Standard / .NET；
+- GDScript / C# / mixed 边界；
+- persistence 技术候选范围；
+- Provider / product configuration boundary；
+- same-process Runtime 还是 Godot Client + Local Runtime Process。
+
+这些决定不应提前塞进 G1-05。
+
+## 前代 The World / DSH 长局经验
+
+DSH 长局实验已经基本完成。其完整跨阶段要求见：
 
 [`docs/DSH_TEST_CARRY_FORWARD_REQUIREMENTS.md`](docs/DSH_TEST_CARRY_FORWARD_REQUIREMENTS.md)
 
-This is a cross-stage reference, not a current implementation task. It becomes especially important for G3–G9 and records the major proven requirements around Timeline/Restore, World Pack semantics, autonomous NPC/faction behavior, counterfactual propagation, long-session performance, authored maps, and final long-play UAT.
+最重要的新结论不是“世界需要记忆”，而是：
 
-Key product lesson:
+> **持久世界是必要条件，但持久世界不等于自主演化世界。**
 
-> **Persistent World is necessary, but Persistent World is not the same as an Autonomous Evolving World.**
+> **史料提供惯性，行动者创造历史。**
 
-> **Source provides inertia, actors create history.**
+前代测试暴露了一个必须避免的问题：**主角因果垄断（Protagonist Causal Monopoly）**。即世界虽然能长期记住状态，但如果只有 Source 历史和玩家行动会真正创造新历史，而 NPC / Faction 主要只是响应玩家，那么这个世界依然会显得“不够活”。
+
+因此未来 G3–G9 必须逐步证明：
+
+- Save / Restore 真正恢复同一条 Timeline，模型不会记得被回滚的未来；
+- Source 只定义起点和历史惯性，不把未来变成事件时间表；
+- NPC / Faction 在玩家离屏后仍能根据自身目标行动；
+- 关键历史改变会向有利益关系的远方 Actor / Faction 传播；
+- 世界难度来自世界因果，而不是机械抬高 DC；
+- 长局 Context 和状态维护不会再次无界膨胀；
+- RPG UI、地图、立绘和场景增强游戏体验，但不成为第二状态源；
+- 最终 Alpha 必须通过真实长局 Product Owner UAT，而不能只靠工程测试宣布成功。
+
+## 明确不从 DSH 直接迁移的实现
+
+以下内容属于前代宿主债务或 workaround，不应作为新项目架构模板直接复制：
+
+- DSH Session workaround；
+- Restore 后新建 Session 的恢复 seam；
+- `fs.watch` Restore workaround；
+- DSH Plugin Lifecycle；
+- 周期性模型 consolidation 作为主要状态一致性机制；
+- DELTAS + 批量 Markdown edit 作为 Runtime 数据库；
+- Markdown 默认充当权威 gameplay DB；
+- 通用 Agent Workspace 的目录结构直接决定玩家 UI；
+- Active Context 长期携带 Source future-event checklist；
+- “玩家改变、NPC 回应、历史继续播放”的主角因果垄断模式。
+
+应该继承的是这些失败方案背后暴露出的**需求和经验**，而不是 workaround 本身。
+
+## 总体开发路径
+
+```text
+G1  基础能力与项目启动
+↓
+G2  AI 对话主干
+↓
+G3  持久游戏与时间线
+↓
+G4  World Pack 与本地内容基础
+↓
+G5  世界语义与 GM Runtime
+↓
+G6  RPG 体验与 2D 表现
+↓
+G7  长局上下文与性能
+↓
+G8  Mod / 创作生态
+↓
+G9  独立版 Alpha / 发布验证
+```
+
+项目真正的关键路径不是“功能越来越多”，而是逐步证明：
+
+```text
+启动游戏
+→ 进入一个世界
+→ 与 AI GM 自然语言互动
+→ 世界产生真实、持久的变化
+→ 退出并重新进入
+→ Save / Restore
+→ 世界继续演化
+→ 被回滚的未来不再影响 AI
+→ 长局仍然自然、快速、好玩
+```
+
+如果工程越来越复杂，但核心 AI RPG 体验反而明显弱于简单模型聊天或前代 DSH 基线，就不能用“架构更完整”宣布成功。
