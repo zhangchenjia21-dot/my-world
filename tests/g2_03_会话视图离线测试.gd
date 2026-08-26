@@ -1,8 +1,8 @@
 extends SceneTree
 
 ## G2-03 离线 focused 测试（headless，不触网、不需要真实 Provider key）。
-## G2-04 起 provisional truth 由 Domain Conversation（src/domain/会话.gd）拥有，
-## 本测试断言 view.conversation，UI 不再持有第二套 history。
+## G2-04 起 truth 由 Domain Conversation（src/domain/会话.gd）拥有；G2-05 起 Provider
+## messages 由 Context Assembly 组装。本测试断言 UI 不持有第二套 history/context truth。
 ##
 ## 覆盖：
 ## - T1 空输入不发送；
@@ -73,6 +73,7 @@ func _run() -> void:
 	var error_label: Label = inst.get_node("%ErrorLabel")
 	var entries: VBoxContainer = inst.get_node("%Entries")
 	var adapter: Node = view.adapter
+	_check(String(view.game_context_text).is_empty(), "production 默认 Game Context material 为空")
 
 	# ---- T1：空输入不发送 ----
 	_check(send_button.disabled, "T1 空输入时发送按钮禁用")

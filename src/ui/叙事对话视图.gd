@@ -8,13 +8,10 @@ extends PanelContainer
 ## 本视图只消费 conversation 信号做渲染，并把 adapter 事件翻译成 conversation 调用。
 ##
 ## 直接消费 src/provider/deepseek流式适配器.gd（G-02 seam），不重写 HTTP/SSE transport。
-##
-## Provisional GM system message（DEC-07 + UX-02）：最小化，不含 Narrative 白名单 / Regex /
-## Confirmation；正向鼓励充分展开，不设任何篇幅硬下限或硬上限，篇幅由模型、场景与 Context 自然决定。
-const PROVISIONAL_SYSTEM_PROMPT := "你是 my world 的 AI GM。把玩家输入视为游戏中的自由行动或意图，以自然、沉浸的中文 RPG 叙事回应，自由推进场景、人物与世界。充分展开对当前场景有价值的环境、人物、行动、对话与后果，不必刻意简短；根据场景节奏自然决定叙事篇幅。不要输出工程说明，不要解释自己是 AI 或测试程序。"
 
 const ADAPTER := preload("res://src/provider/deepseek流式适配器.gd")
 const Conversation := preload("res://src/domain/会话.gd")
+const ContextAssembler := preload("res://src/context/上下文组装器.gd")
 
 ## 长正文 readable-width 上限（px）：宽屏/最大化下避免单行无限拉长；居中由 EntriesCenter 负责。
 const READABLE_MAX_WIDTH := 920.0
@@ -40,6 +37,13 @@ var adapter: Node
 ## authoritative Conversation（G2-04 Domain）。UI 只是它的 projection。
 var conversation: RefCounted
 
+## Context Assembly 是 derived Provider request 的 owner；UI 只提供输入 material 并转交结果。
+var context_assembler: RefCounted
+
+## 未来 Game/World owner 的最小接入 seam。当前 production 没有正式 Game Context，保持空值；
+## focused tests 可以注入 fixture，但 UI 不拥有或解释该 material。
+var game_context_text := ""
+
 ## 以下为纯渲染引用：当前 streaming GM block 的 content / marker，以及滚动跟随状态。
 var _current_gm_content: RichTextLabel = null
 var _current_gm_marker: Label = null
@@ -48,6 +52,7 @@ var _follow_scroll := true
 
 func _ready() -> void:
 	conversation = Conversation.new()
+	context_assembler = ContextAssembler.new()
 	conversation.turn_started.connect(_on_turn_started)
 	conversation.attempt_started.connect(_on_attempt_started)
 	conversation.draft_appended.connect(_on_draft_appended)
@@ -108,7 +113,10 @@ func _on_regenerate_pressed() -> void:
 
 func _start_request() -> void:
 	var start_error: Error = adapter.start_stream(
-		conversation.build_provider_messages(PROVISIONAL_SYSTEM_PROMPT)
+		context_assembler.assemble_messages(
+			conversation.get_context_projection(),
+			game_context_text
+		)
 	)
 	if start_error == ERR_BUSY:
 		# UI 已防止 double-submit；此处只是防御，不制造额外 UI 状态。

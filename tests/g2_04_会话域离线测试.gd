@@ -2,7 +2,7 @@ extends SceneTree
 
 ## G2-04 会话域离线测试（headless，纯 Domain，不加载场景、不触网、不需要 Provider key）。
 ##
-## 覆盖 Task Packet AC-01..AC-08 与 build_provider_messages 临时适配规则：
+## 覆盖 G2-04 Task Packet AC-01..AC-08，并经 G2-05 Context Assembly 回归 request 语义：
 ## - T01 AC-01：正常 completed turn（信号顺序、accepted 原子生效、streaming context）；
 ## - T02 AC-02：cancel → retry（同一 turn identity，draft 保留展示，不进 context）；
 ## - T03 AC-03：fail → retry；
@@ -20,8 +20,10 @@ extends SceneTree
 ##   不得成为 accepted GM truth；旧 accepted 对不动、可 retry、无最小字数。
 
 const Conversation := preload("res://src/domain/会话.gd")
+const ContextAssembler := preload("res://src/context/上下文组装器.gd")
 
 var _failures := 0
+var _context_assembler: RefCounted = ContextAssembler.new()
 
 
 func _init() -> void:
@@ -53,6 +55,10 @@ func _roles(messages: Array) -> Array:
 	return out
 
 
+func _assemble(conversation: RefCounted) -> Array:
+	return _context_assembler.assemble_messages(conversation.get_context_projection())
+
+
 func _run() -> void:
 	# ---- T01（AC-01）：正常 completed turn ----
 	var c: RefCounted = Conversation.new()
@@ -69,8 +75,8 @@ func _run() -> void:
 	var t1: RefCounted = c.begin_turn("行动一")
 	_check(t1 != null and t1.turn_index == 0, "T01 begin_turn 返回 turn_index == 0")
 	_check(c.is_generating(), "T01 begin 后 STREAMING")
-	_check(_roles(c.build_provider_messages("SYS")) == ["system", "user"], "T01 streaming context == [system, user]")
-	_check(_count_msg(c.build_provider_messages("SYS"), "user", "行动一") == 1, "T01 streaming 中 player input 恰好一次")
+	_check(_roles(_assemble(c)) == ["system", "user"], "T01 streaming context == [system, user]")
+	_check(_count_msg(_assemble(c), "user", "行动一") == 1, "T01 streaming 中 player input 恰好一次")
 	c.append_delta("GM")
 	c.append_delta("甲")
 	_check(String(t1.draft_text) == "GM甲", "T01 draft 累积")
@@ -89,11 +95,11 @@ func _run() -> void:
 	_check(c2.generation_state == Conversation.GenerationState.CANCELLED, "T02 cancel 后 CANCELLED")
 	_check(not t2.has_accepted_response, "T02 cancel 后无 accepted")
 	_check(String(t2.draft_text) == "半路", "T02 cancel 后 draft 保留展示")
-	_check(c2.build_provider_messages("SYS").size() == 1, "T02 未完成的 turn 不进后续 context（仅 system）")
+	_check(_assemble(c2).size() == 1, "T02 未完成的 turn 不进后续 context（仅 system）")
 	var t2r: RefCounted = c2.retry_or_regenerate_latest()
 	_check(t2r == t2, "T02 retry 复用同一 turn identity")
 	_check(c2.is_generating(), "T02 retry 后 STREAMING")
-	_check(_count_msg(c2.build_provider_messages("SYS"), "user", "行动A") == 1, "T02 retry context player 恰好一次")
+	_check(_count_msg(_assemble(c2), "user", "行动A") == 1, "T02 retry context player 恰好一次")
 	c2.append_delta("GM-A")
 	c2.complete_generation()
 	_check(String(t2.player_text) == "行动A" and String(t2.accepted_gm_text) == "GM-A", "T02 retry 成功 accepted 正确")
@@ -122,7 +128,7 @@ func _run() -> void:
 	var t4r: RefCounted = c4.retry_or_regenerate_latest()
 	_check(t4r == t4 and t4.turn_index == 0, "T04 regenerate 同一 turn identity")
 	# 替换成功前：旧 accepted 在 Domain 内保持稳定，但不进入 replacement request（IR-03）。
-	var regen_msgs: Array = c4.build_provider_messages("SYS")
+	var regen_msgs: Array = _assemble(c4)
 	_check(_roles(regen_msgs) == ["system", "user"], "T04(IR-03) 单 Turn regenerate request == [system, user]")
 	_check(_count_msg(regen_msgs, "assistant", "GM 甲") == 0, "T04(IR-03) 旧 accepted assistant 不在 request")
 	_check(_count_msg(regen_msgs, "user", "第一行动") == 1, "T04 regenerate 期间 player input 恰好一次")
@@ -146,7 +152,7 @@ func _run() -> void:
 	var t5: RefCounted = c5.latest_turn()
 	_check(String(t5.accepted_gm_text) == "GM一" and t5.has_accepted_response, "T05a cancel 回滚后旧 accepted 完整")
 	c5.begin_turn("回合二")
-	var msgs5: Array = c5.build_provider_messages("SYS")
+	var msgs5: Array = _assemble(c5)
 	_check(_roles(msgs5) == ["system", "user", "assistant", "user"], "T05a 直接新发送 context 合法交错")
 	_check(_count_msg(msgs5, "user", "回合一") == 1 and _count_msg(msgs5, "user", "回合二") == 1, "T05a 两 player input 各恰好一次")
 	c5.append_delta("GM二")
@@ -163,7 +169,7 @@ func _run() -> void:
 	c5b.fail_generation("transport")
 	_check(String(c5b.latest_turn().accepted_gm_text) == "GM一", "T05b regenerate fail 回滚后旧 accepted 完整")
 	c5b.begin_turn("回合二")
-	var msgs5b: Array = c5b.build_provider_messages("SYS")
+	var msgs5b: Array = _assemble(c5b)
 	_check(_roles(msgs5b) == ["system", "user", "assistant", "user"], "T05b fail 后直接新发送 context 合法交错")
 	c5b.append_delta("GM二")
 	c5b.complete_generation()
@@ -184,7 +190,7 @@ func _run() -> void:
 		if int(entries6[i].get("turn_index", -1)) != i or String(entries6[i].get("player_text", "")) != "行动%d" % i:
 			order_ok = false
 	_check(order_ok, "T06 entries 顺序与 identity 稳定")
-	_check(_roles(c6.build_provider_messages("SYS")) == ["system", "user", "assistant", "user", "assistant", "user", "assistant"], "T06 三对完整 context 顺序")
+	_check(_roles(_assemble(c6)) == ["system", "user", "assistant", "user", "assistant", "user", "assistant"], "T06 三对完整 context 顺序")
 
 	# ---- T07（AC-07）：latest-turn correction 成功 ----
 	var c7: RefCounted = Conversation.new()
@@ -194,7 +200,7 @@ func _run() -> void:
 	var t7c: RefCounted = c7.correct_latest("新行动")
 	_check(t7c == t7, "T07 correction 复用同一 turn identity")
 	_check(c7.is_generating(), "T07 correction 后 STREAMING")
-	var msgs7: Array = c7.build_provider_messages("SYS")
+	var msgs7: Array = _assemble(c7)
 	_check(_roles(msgs7) == ["system", "user"], "T07 correction context 只发新 player text（不附带旧 assistant）")
 	_check(_count_msg(msgs7, "user", "新行动") == 1, "T07 新文本恰好一次")
 	_check(String(t7.player_text) == "旧行动", "T07 成功前 accepted 未被破坏")
@@ -213,7 +219,7 @@ func _run() -> void:
 	_check(c8.generation_state == Conversation.GenerationState.CANCELLED, "T08a correction cancel 后 CANCELLED")
 	_check(String(t8.player_text) == "原行动" and String(t8.accepted_gm_text) == "GM原", "T08a 回滚后 accepted 原对完整")
 	c8.begin_turn("下一条行动")
-	var msgs8: Array = c8.build_provider_messages("SYS")
+	var msgs8: Array = _assemble(c8)
 	_check(_roles(msgs8) == ["system", "user", "assistant", "user"], "T08a 回滚后新 Turn context 合法交错")
 	_check(_count_msg(msgs8, "user", "原行动") == 1 and _count_msg(msgs8, "user", "下一条行动") == 1, "T08a 两 input 各一次")
 	c8.append_delta("GM下")
@@ -251,8 +257,8 @@ func _run() -> void:
 	c10.cancel_generation()
 	var t10c: RefCounted = c10.correct_latest("改正行动")
 	_check(t10c == t10, "T10 未 completed latest 的 correction 同一 identity")
-	_check(_count_msg(c10.build_provider_messages("SYS"), "user", "改正行动") == 1, "T10 改正文本进入 context 恰好一次")
-	_check(_count_msg(c10.build_provider_messages("SYS"), "user", "错字行动") == 0, "T10 旧文本不进 context")
+	_check(_count_msg(_assemble(c10), "user", "改正行动") == 1, "T10 改正文本进入 context 恰好一次")
+	_check(_count_msg(_assemble(c10), "user", "错字行动") == 0, "T10 旧文本不进 context")
 	c10.append_delta("GM改")
 	c10.complete_generation()
 	_check(String(t10.player_text) == "改正行动" and String(t10.accepted_gm_text) == "GM改", "T10 同一 identity 完成 accepted")
@@ -266,7 +272,7 @@ func _run() -> void:
 	c11.append_delta("GM二")
 	c11.complete_generation()
 	c11.retry_or_regenerate_latest()
-	var msgs11: Array = c11.build_provider_messages("SYS")
+	var msgs11: Array = _assemble(c11)
 	_check(_roles(msgs11) == ["system", "user", "assistant", "user"], "T11(IR-03) previous pairs 保留且 request 以 current user 结束")
 	_check(_count_msg(msgs11, "user", "行动二") == 1, "T11 current player input 恰好一次")
 	_check(_count_msg(msgs11, "assistant", "GM二") == 0, "T11 当前 Turn 旧 accepted assistant 不在 request")

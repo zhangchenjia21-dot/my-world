@@ -14,9 +14,6 @@ extends RefCounted
 ## - latest-turn correction 只限最新 Turn；
 ## - 从未 completed 的 turn（被放弃的 cancelled / failed attempt）不进入后续 Provider context。
 ##
-## build_provider_messages 只是 G2-04 临时适配 seam：顺序拼接 system + accepted pairs +
-## 当前 attempt user；不做 G2-05 retrieval / summarization / selection。
-##
 ## 不是 Save / Timeline / Persistence；进程内存即全部生命周期。
 
 const Turn := preload("res://src/domain/对话回合.gd")
@@ -178,18 +175,30 @@ func get_accepted_entries() -> Array:
 	return entries_out
 
 
-## G2-04 临时适配：system + accepted pairs + 当前 attempt user。
-## - 当前 attempt（STREAMING）：只发 pending_player_text 的 user，request 以 user 结束（IR-03）。
-##   旧 accepted assistant 留在 Domain 内作为稳定 accepted truth（cancel / fail 回滚依据），
-##   但不进入 replacement request —— 它不应条件化同一 player action 的新 GM generation；
-## - 已 accepted 的非 active turn：user + assistant 对；
-## - 从未 completed 且非 active 的 turn（被放弃的 cancelled / failed）：完全不进 context。
-func build_provider_messages(system_prompt: String) -> Array:
-	var messages: Array = [{"role": "system", "content": system_prompt}]
+## Context Assembly 的只读输入契约。
+##
+## 返回值是从 authoritative Turn truth 派生的新 Dictionary/Array；调用方可以裁剪、排序或
+## 修改该 read model，但不能借此反向改写 Conversation。active_attempt 只暴露当前实际将发给
+## Provider 的 pending player text；replacement 期间旧 accepted pair 仍留在 accepted_turns，
+## 由 Context Assembly 按相同 turn_index 排除，维持 G2-04 的原子替换/回滚不变量。
+func get_context_projection() -> Dictionary:
+	var accepted_turns: Array = []
 	for turn: RefCounted in turns:
-		if turn == _active_turn:
-			messages.append({"role": "user", "content": turn.pending_player_text})
-		elif turn.has_accepted_response:
-			messages.append({"role": "user", "content": turn.player_text})
-			messages.append({"role": "assistant", "content": turn.accepted_gm_text})
-	return messages
+		if turn.has_accepted_response:
+			accepted_turns.append({
+				"turn_index": turn.turn_index,
+				"player_text": turn.player_text,
+				"gm_text": turn.accepted_gm_text,
+			})
+
+	var active_attempt: Variant = null
+	if _active_turn != null:
+		active_attempt = {
+			"turn_index": _active_turn.turn_index,
+			"player_text": _active_turn.pending_player_text,
+		}
+
+	return {
+		"accepted_turns": accepted_turns,
+		"active_attempt": active_attempt,
+	}

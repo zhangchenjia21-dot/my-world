@@ -26,7 +26,7 @@ var _failures := 0
 var _terminal_count := 0
 var _shot_dir := "user://g2_03_shots"
 ## 每次 attempt 实际发给 Provider 的 messages 快照（attempt_started 时 Domain 状态已是 STREAMING，
-## 与 view._start_request 所用的 build_provider_messages 输入一致）。
+## 与 view._start_request 随后使用的 Context Assembly 输入一致）。
 var _sent_contexts: Array = []
 
 
@@ -105,7 +105,12 @@ func _run() -> void:
 	var adapter: Node = view.adapter
 
 	conversation.attempt_started.connect(
-		func(_t: RefCounted) -> void: _sent_contexts.append(conversation.build_provider_messages(VIEW.PROVISIONAL_SYSTEM_PROMPT))
+		func(_t: RefCounted) -> void: _sent_contexts.append(
+			view.context_assembler.assemble_messages(
+				conversation.get_context_projection(),
+				view.game_context_text
+			)
+		)
 	)
 	adapter.completed.connect(func() -> void: _terminal_count += 1)
 	adapter.cancelled.connect(func() -> void: _terminal_count += 1)

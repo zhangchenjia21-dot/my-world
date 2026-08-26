@@ -2,7 +2,7 @@ extends Node
 
 ## G2-03 离线测试专用 adapter double（桩）：只实现 G2-02 seam 的最小表面
 ## —— 同名信号 + start_stream/cancel/is_busy，完全不触网、不读 key。
-## 用途：T4–T6 专注验证叙事视图的 provisional history/context 记账逻辑；
+## 用途：T4–T6 专注验证叙事视图、Conversation 与 Context Assembly 的接线；
 ## 真实 transport 行为由 T2/T3（真实 adapter）与 tests/g2_02_适配器冒烟测试.gd 覆盖。
 
 signal text_delta(text: String)
