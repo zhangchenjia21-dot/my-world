@@ -29,7 +29,7 @@ Before authoritative `main` writes, re-check current HEAD. Do not silently overw
 
 Current phase: `G2 — AI Conversation Spine`.
 
-Current task: `G2-02 — Provider Adapter v0.1`.
+Current task: `G2-03 — Narrative Conversation View`.
 
 Completed:
 
@@ -41,12 +41,11 @@ Completed:
 - `G1-06 — Foundation Architecture Decision`: **PASS**.
 - `G1-GATE — Foundation Gate`: **PASS**.
 - `G2-01 — Application / Game Shell`: **PASS** based on real exported-executable Owner UAT at `4a13deb29a2e9c354530843d23eb48422957033c`.
+- `G2-02 — Provider Adapter v0.1`: **ENGINEERING PASS** at `ec0617195cbd71ba49e9c3e4ff834aee83e82fd3`; Task Packet explicitly did not require Owner UAT after all engineering evidence passed.
 
 G2-01 Owner observation: the shell is functionally acceptable but still visually rough. This is **deferred visual polish / non-blocking** and must not delay the G2 Conversation Spine. A later explicit UI-polish task may assign this work to KimiCode.
 
-G1-04 proved **DeepSeek + Kimi Code** real HTTP success, incremental streaming, active cancellation, successful post-cancel requests, idle Provider switching, explicit deterministic failure handling, and UI responsiveness.
-
-G1-05 proved a tiny cross-launch `user://` probe, real filesystem image loading for portrait/scene/map roles, Windows export, direct exported-executable execution, and persistence across exported-app relaunch. It did not define the production persistence architecture, asset pipeline, World Pack schema, or Save system.
+G2-02 proved the formal DeepSeek Provider Adapter seam with real incremental stream, cancel, post-cancel recovery, explicit missing-key/transport failure, non-blocking Godot main loop, current secret/config cleanup, and no Shell regression.
 
 G1 is closed. Every G2 task requires its own current Task Packet; a passed earlier task does not authorize later G2 implementation.
 
@@ -109,7 +108,7 @@ Verified Windows-local evidence:
 
 G1-01 proved normal Windows-local Git/Godot writes, launch, exit, and clean Git state. G1-03 proved Chinese rendering, long scrolling, bulk/continuous append, Chinese input, selection/copy, UI responsiveness, and normal exit.
 
-## 6. G1-04 proven implementation boundary
+## 6. Provider boundary
 
 G1-04 proved:
 
@@ -139,6 +138,21 @@ key env = KIMI_CODE_API_KEY
 ```
 
 G2 product-facing Provider is DeepSeek only unless a later explicit decision changes that. Do not restore Provider switching, automatic routing, fallback meshes, account systems, generic registries, or retry orchestration platforms.
+
+Current formal adapter: `src/provider/deepseek流式适配器.gd`.
+
+Its G2-02 public seam is intentionally thin and may be consumed directly by G2-03 as a provisional UI integration:
+
+```text
+start_stream(messages)
+text_delta(text)
+completed()
+cancel() / cancelled()
+failed(code, message)
+is_busy()
+```
+
+Do not expand the Provider adapter into Turn/Conversation/World semantics.
 
 ## 7. Security and secrets
 
@@ -200,11 +214,19 @@ Do not build the generalized renderer or external schema early.
 
 ## 10. Current G2 boundary
 
-Current task remains **G2-02 Provider Adapter v0.1**. The new UI Host architecture does **not** invalidate or expand G2-02.
+Current task is **G2-03 Narrative Conversation View**.
 
-G2-02 may implement the production-facing DeepSeek transport seam and focused evidence needed to prove `send / stream / cancel / explicit failure`. It must not implement G2-03 UI, Turn Domain, Context Assembly, persistence, World Pack, NPC/world simulation, generic routing, or UI polish.
+G2-03 must establish the real product interaction:
 
-When G2-03 begins, its Task Packet must read `MY_WORLD_声明式UIHost架构_CURRENT.md` and establish stable Host Slots:
+```text
+player natural-language input
+→ DeepSeek real streaming
+→ readable GM Narrative
+→ cancel / failure recovery
+→ regenerate / retry latest generation
+```
+
+It must also establish stable fixed Host Slots:
 
 ```text
 PlayerPanelHost
@@ -212,7 +234,16 @@ NarrativeHost
 WorldSurfaceHost
 ```
 
-G2-03 still uses fixed handwritten Godot UI. It must **not** implement a generalized Declarative Renderer, external World Pack UI schema, arbitrary extension scripting, or fake future surfaces. Narrative remains the visual center. `regenerate / retry` are the earliest reversibility primitives; G3 later owns rewind/branch/Timeline semantics.
+Rules:
+
+- Narrative is the visual and interaction center, not a generic chat-app bubble list.
+- Wide windows may show three hosts; narrow windows preserve Narrative and collapse/hide side hosts with a simple host-owned toggle/drawer/overlay behavior.
+- Player/World side hosts may show only honest minimal empty states until real Character/World projections exist. Do not invent fake stats, fake world facts, fake Timeline, or dead future tabs.
+- G2-03 may use explicitly provisional in-memory UI/session state and a minimal provisional GM system message only to prove the vertical product path. These do not become G2-04 Turn/Conversation Domain or G2-05 Context Assembly contracts.
+- Latest GM generation may expose lightweight `regenerate / retry`; active generation exposes `cancel`.
+- `rewind / 回到这里 / edit-and-retry / branch / Timeline navigation` remain G3 work; do not fake them in G2-03.
+- Do not implement generalized Declarative Renderer, external World Pack UI schema, arbitrary extension scripting, Persistence, Save, Timeline, World/NPC semantics, or long-session Context.
+- G2-03 is product-facing. Engineering success may report only `READY FOR OWNER UAT`; Product PASS requires real Owner use of the runnable Windows product path.
 
 ## 11. Repository shape
 
@@ -239,6 +270,8 @@ Separate:
 - PASS / FAIL / NOT VERIFIED.
 
 Automated tests cannot replace Product Owner judgment for Narrative quality, UI usability, game feel, or "want to continue".
+
+GUI automation safety: identify the exact Godot/game executable and PID. Never target a process only by fuzzy window title, and never terminate an identity-ambiguous process. The prior Chrome mis-target incident must not recur.
 
 ## 13. Cross-stage carry-forward references
 
