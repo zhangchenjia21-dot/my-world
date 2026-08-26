@@ -23,17 +23,18 @@ Before authoritative `main` writes, re-check current HEAD. Do not silently overw
 
 Current phase: `G1 — Foundation & Project Bootstrap`.
 
-Current task: `G1-04 — Real Provider Streaming / Cancel Foundation Spike`.
+Current task: `G1-05 — Local IO / Image / Windows Export Foundation Spike`.
 
 Completed:
 
 - `G1-01 — Repository Bootstrap`: **PASS**.
 - `G1-02 — Godot 4.7.2 Toolchain & Language Confirmation`: **PASS**.
 - `G1-03 — 2D Chinese Long Text / Input Foundation Spike`: **PASS** based on real Windows manual UAT.
+- `G1-04 — Real Provider Streaming / Cancel Foundation Spike`: **PASS** based on real Windows Owner UAT.
 
-Current G1-04 scope is explicitly **DeepSeek + Kimi Code**. Both real Provider paths must be proven before G1-04 can PASS.
+G1-04 proved **DeepSeek + Kimi Code** real HTTP success, incremental streaming, active cancellation, successful post-cancel requests, idle Provider switching, explicit deterministic failure handling, and UI responsiveness.
 
-Current evidence status: DeepSeek real stream / cancel / retry is PASS; Kimi Code implementation is awaiting Owner UAT. Therefore G1-04 remains NOT PASS and G1-05 remains blocked.
+G1-05 is now unblocked and current. It is limited to local IO, a tiny cross-launch probe, real filesystem image loading for portrait/scene/map roles, Windows export, and direct exported-executable runtime proof. It must not freeze the production persistence architecture, asset pipeline, World Pack schema, or Save system.
 
 G1 remains a Foundation Spike stage:
 
@@ -89,7 +90,7 @@ G1-01 proved normal Windows-local Git/Godot writes, launch, exit, and clean Git 
 
 G1-03 manual UAT proved Chinese rendering, long scrolling, bulk/continuous append, Chinese input, selection/copy, UI responsiveness, normal exit, and clean Git state.
 
-## 6. G1-04 implementation boundary
+## 6. G1-04 proven implementation boundary
 
 G1-04 exists only to prove:
 
@@ -143,6 +144,8 @@ Implementation constraints:
 - deterministic connection-failure test must not transmit Provider credentials;
 - same-process networking is evidence only, not the G1-06 Runtime-boundary decision.
 
+Owner Windows UAT closed this boundary as PASS on 2026-08-26. Both Providers passed full generation, cancel, and post-cancel request; heartbeat/manual UI response remained active; idle switching, deterministic connection failure, normal exit, and clean Git state also passed. The observed roughly 30-second complete long-output duration is not a G1-04 blocker; later performance work must separate TTFT from generation throughput in G2.
+
 ## 7. Security and secrets
 
 Never commit provider API keys, tokens, credentials, cookies, or local secrets.
@@ -156,9 +159,9 @@ For G1-04:
 - never place keys in `.gd`, `.tscn`, `project.godot`, README examples, screenshots, commits, or chat;
 - deterministic failure testing must not carry `Authorization` headers.
 
-## 8. Validation boundary
+## 8. G1-04 validation record
 
-G1-04 is not PASS until real Windows-local observation proves:
+Real Windows-local observation proved:
 
 - DeepSeek real HTTP 2xx + incremental stream;
 - Kimi Code real HTTP 2xx + incremental stream;
@@ -171,14 +174,14 @@ G1-04 is not PASS until real Windows-local observation proves:
 - normal exit;
 - clean Git state.
 
-Repository structure, static code review, mocked chunks, or G1-03 timer append cannot substitute for the real Provider evidence.
+G1-04 is therefore PASS. Repository structure, static code review, mocked chunks, or G1-03 timer append were not used as substitutes for the real Provider evidence.
 
-## 9. Later G1 boundaries
+## 9. Current and later G1 boundaries
 
-- G1-05 owns local IO, dynamic images, and functional Windows export proof.
+- G1-05 is current and owns local IO, dynamic images, and functional Windows export proof.
 - G1-06 owns Godot Host, Standard/.NET, GDScript/C#/mixed, persistence candidate range, Provider/product configuration boundary, and same-process vs local-runtime-process architecture decisions.
 
-Do not pull those decisions into G1-04.
+Do not pull G1-06 decisions into G1-05, and do not reopen or optimize the passed G1-04 Provider seam.
 
 ## 10. Repository shape
 
