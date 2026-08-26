@@ -28,7 +28,7 @@ Project governance follows:
 
 > **Root is map; subfolders are depth.**
 
-Do not create new top-level `*_CURRENT.md` files for every phase or observation. Current task state stays in the fixed governance `MY_WORLD_CURRENT_STATUS.md`; deep architecture belongs under existing `architecture/`; repository-native execution packets belong under `docs/tasks/`.
+Do not create new top-level `*_CURRENT.md` files for every phase or observation. Current task state stays in the fixed governance `MY_WORLD_CURRENT_STATUS.md`; deep architecture belongs under existing `architecture/`; repository-native execution/UAT packets belong under `docs/tasks/`.
 
 ## 3. Current stage
 
@@ -41,6 +41,7 @@ Completed:
 - G2-02 Provider Adapter v0.1: **ENGINEERING PASS**.
 - G2-03 Narrative Conversation View: **PASS — Owner UAT**.
 - G2-04 Turn / Conversation Domain v0.1: **PASS — Independent Review**.
+- G2-05 Context Assembly v0.1: **PASS — Independent Review**.
 
 G2-04 final implementation line:
 
@@ -52,11 +53,17 @@ d0d5d47f487fdb75f31de5349894517a830a51e8  IR-03 regenerate request-context repai
 d1acd2a58e00fd99b73ab98bc3ccdc3c79762951  IR-04 empty-completion integrity repair
 ```
 
+G2-05 implementation:
+
+```text
+9c577811fd71d19f514ca4e9455e02321f0aa34d  bounded Context Assembly v0.1
+```
+
 Current task:
 
-> **G2-05 — Context Assembly v0.1**
+> **G2-06 — First Owner Playtest**
 
-G2-06 Owner Playtest and G3+ are not authorized until G2-05 Independent Review closes.
+This is a product reality check, not an engineering implementation task. Do not begin G3+ until G2-06 / G2-GATE close.
 
 ## 4. Core product/runtime invariants
 
@@ -103,7 +110,7 @@ failed(code, message)
 is_busy()
 ```
 
-Provider Adapter receives already-assembled request messages. Do not put Turn/Conversation/World semantics, retrieval or Context Assembly inside it.
+Provider Adapter receives already-assembled request messages. Never move Conversation, World, retrieval or Context semantics into it.
 
 Never commit/display/log provider secrets or Authorization values.
 
@@ -117,11 +124,9 @@ Center Narrative Host
 Right  World Surface Host
 ```
 
-Wide/maximized first-pass layout remains approximately `18 / 60 / 22`; narrow windows collapse side Hosts. Desktop player launch remains Maximized Window. G2-04 established the medium-readable typography baseline; player-selectable font size is deferred to later UI Preference work.
+Wide/maximized first-pass layout remains approximately `18 / 60 / 22`; narrow windows collapse side Hosts. Desktop player launch remains Maximized Window. Medium-readable typography baseline is established; player-selectable font size is deferred to later UI Preference work.
 
-Do not turn G2-05 into UI redesign.
-
-## 7. G2-04 Conversation boundary — now established
+## 7. Conversation boundary — established
 
 Conversation Domain owns:
 
@@ -133,7 +138,7 @@ Retry / Regenerate / latest-turn correction
 atomic accepted replacement / rollback semantics
 ```
 
-Important closed invariants that G2-05 must preserve:
+Closed invariants:
 
 - `Transcript != Timeline`.
 - Regenerate/correction keep old accepted truth until a non-empty replacement succeeds.
@@ -141,48 +146,73 @@ Important closed invariants that G2-05 must preserve:
 - zero/whitespace-only completion is `empty_generation`, not accepted truth; any non-whitespace content remains allowed.
 - UI does not own a second conversation history truth.
 
-Do not move these semantics back into UI or Provider.
+## 8. Context Assembly boundary — established
 
-## 8. G2-05 Context Assembly boundary
-
-G2-05 exists to remove the remaining provisional request-assembly responsibility from Conversation and establish a small, explicit Context Assembly owner.
-
-Required ownership split:
+G2-05 established:
 
 ```text
 Conversation Domain
-→ authoritative in-memory Turn / accepted truth
-→ exposes read-only derived context projection
+→ authoritative Turn / accepted truth
+→ get_context_projection() derived read model
 
 Context Assembly
-→ system / GM instructions composition
-→ bounded Conversation working-set selection
-→ current minimal Game Context material inclusion
+→ owns GM/system instructions composition
+→ owns bounded recent working-set selection
+→ accepts optional derived Game Context material
 → produces Provider messages
 
 Narrative UI
-→ player input + rendering + action dispatch
+→ passes projection/material and dispatches request
 
 Provider Adapter
 → transport only
 ```
 
+Current first-pass policy:
+
+```text
+recent 12 complete accepted Turns
++ current active attempt
+```
+
 Rules:
 
-- Context/Provider messages are **derived request material**, never canonical World or Conversation truth.
-- `Context stays bounded, not starved.` First G2 policy should be simple and explicit (recent complete Turns + current attempt), not unbounded full transcript and not complex retrieval.
-- Preserve whole Turn boundaries; do not truncate individual player/GM text merely to hit an arbitrary character target in G2-05.
-- Do not build summarization, embeddings, vector search, semantic retrieval, token-budget platform or long-memory infrastructure; G7 owns that evolution.
-- Current Game Context input may be an honest small text/projection seam plus deterministic fixtures. Do not invent fake authoritative Character/World/NPC state just to populate Context before those domains exist.
-- Game Context input is data/material supplied to Context Assembly; Context Assembly does not become its canonical owner.
-- Regenerate/correction request semantics from G2-04 must remain correct after migration.
-- `Narrative richness over artificial brevity` remains independent from input-context boundedness. Do not add output-length caps.
+- whole Turn boundaries only; no per-entry truncation in G2;
+- current attempt is never dropped;
+- Regenerate/Correction exclude current old accepted pair and end request with current user;
+- cancelled/failed drafts do not enter Context;
+- optional `game_context_text` is derived material, not World truth;
+- production currently has no formal World/NPC state and therefore honestly passes empty Game Context;
+- no retrieval, embeddings, summarization, vector search or long-memory platform before evidence justifies G7 work;
+- bounded input Context does not imply short output Narrative.
 
-Do not introduce EventBus/DI/service forests, generic command frameworks or speculative context-provider plugin systems.
+## 9. G2-06 Owner Playtest boundary
 
-## 9. Save / Timeline boundary
+G2-06 asks the Product Owner to play the exported game and judge the current **Conversation Spine**, not future World/Persistence capabilities.
 
-Current priority after G2 is still:
+Owner should evaluate:
+
+- natural-language input comfort;
+- multi-turn continuity over a short play session;
+- streaming readability and Narrative quality/length;
+- Cancel / Regenerate / Retry friction;
+- medium typography / Composer / three-Host usability;
+- whether this is a sound interaction foundation for the later AI RPG.
+
+Owner should **not** be asked to judge features that do not exist yet:
+
+- durable World / Save / Timeline;
+- formal Character/NPC/Faction state;
+- World Pack;
+- long-session retrieval;
+- complete RPG mechanics;
+- whether the game already feels like a finished AI RPG.
+
+Routine tests, logs, Git checks and engineering verification remain Agent work.
+
+## 10. Save / Timeline boundary
+
+Current priority after G2 remains:
 
 ```text
 reliable current persistence / resume
@@ -192,9 +222,9 @@ reliable current persistence / resume
 → recovery
 ```
 
-No Persistence / Save / Timeline / Branch is authorized in G2-05. Arbitrary per-turn rewind remains Deferred.
+No Persistence / Save / Timeline / Branch is authorized until G2 closes and the roadmap advances. Arbitrary per-turn rewind remains Deferred.
 
-## 10. Evidence / execution discipline
+## 11. Evidence / execution discipline
 
 Never claim Windows-local, Godot, Provider, export, network or UI success without real execution evidence.
 
