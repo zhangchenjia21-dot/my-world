@@ -135,3 +135,17 @@ Do not mark G1-04 PASS unless **both** DeepSeek and Kimi Code have real network/
 
 - G1-05 owns local IO, dynamic portrait/scene/map-style image loading, and functional Windows export proof.
 - G1-06 owns the final first-generation Host/toolchain/language/runtime-boundary decision.
+
+## DSH long-play carry-forward
+
+The DSH long-play experiment is now substantially complete. Its actionable lessons for this project are summarized in:
+
+[`docs/DSH_TEST_CARRY_FORWARD_REQUIREMENTS.md`](docs/DSH_TEST_CARRY_FORWARD_REQUIREMENTS.md)
+
+This is a cross-stage reference, not a current implementation task. It becomes especially important for G3–G9 and records the major proven requirements around Timeline/Restore, World Pack semantics, autonomous NPC/faction behavior, counterfactual propagation, long-session performance, authored maps, and final long-play UAT.
+
+Key product lesson:
+
+> **Persistent World is necessary, but Persistent World is not the same as an Autonomous Evolving World.**
+
+> **Source provides inertia, actors create history.**
