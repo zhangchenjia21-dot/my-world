@@ -8,7 +8,7 @@ font_names = PackedStringArray("Microsoft YaHei UI", "Microsoft YaHei", "Noto Sa
 
 [sub_resource type="Theme" id="Theme_shell"]
 default_font = SubResource("SystemFont_shell")
-default_font_size = 16
+default_font_size = 18
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -55,13 +55,13 @@ layout_mode = 2
 [node name="Title" type="Label" parent="Margin/Layout/TopBar/TitleBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.937255, 0.937255, 0.94902, 1)
-theme_override_font_sizes/font_size = 26
+theme_override_font_sizes/font_size = 28
 text = "my world"
 
 [node name="Subtitle" type="Label" parent="Margin/Layout/TopBar/TitleBox"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.627451, 0.65098, 0.698039, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 14
 text = "自然语言 AI 角色扮演"
 
 [node name="TopSpacer" type="Control" parent="Margin/Layout/TopBar"]
@@ -116,13 +116,13 @@ theme_override_constants/separation = 8
 [node name="PlayerHeader" type="Label" parent="Margin/Layout/HostLayout/PlayerPanelHost/PlayerPanelMargin/PlayerPanelColumn"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.839216, 0.847059, 0.878431, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 20
 text = "主角"
 
 [node name="PlayerEmpty" type="Label" parent="Margin/Layout/HostLayout/PlayerPanelHost/PlayerPanelMargin/PlayerPanelColumn"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.556863, 0.580392, 0.631373, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 14
 text = "主角信息将在新游戏与角色状态成立后显示。"
 autowrap_mode = 2
 
@@ -163,7 +163,7 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_override_colors/font_color = Color(0.898039, 0.521569, 0.462745, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 14
 autowrap_mode = 2
 
 [node name="ComposerRow" type="HBoxContainer" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn"]
@@ -172,7 +172,7 @@ theme_override_constants/separation = 8
 
 [node name="PlayerInput" type="TextEdit" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 108)
+custom_minimum_size = Vector2(0, 112)
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "输入你的行动……（Ctrl+Enter 发送）"
@@ -228,13 +228,13 @@ theme_override_constants/separation = 8
 [node name="WorldHeader" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.839216, 0.847059, 0.878431, 1)
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 20
 text = "世界"
 
 [node name="WorldEmpty" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.556863, 0.580392, 0.631373, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 14
 text = "世界信息将在游戏状态成立后显示。"
 autowrap_mode = 2
 
@@ -245,5 +245,5 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0.556863, 0.580392, 0.631373, 1)
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 14
 text = "状态：启动中…"

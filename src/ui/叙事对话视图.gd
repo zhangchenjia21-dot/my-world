@@ -1,21 +1,20 @@
 extends PanelContainer
 
-## G2-03 Narrative Conversation View —— 中央 NarrativeHost 的正式玩家界面。
+## G2-04 Narrative Conversation View —— 中央 NarrativeHost 的玩家界面，
+## Domain Conversation（src/domain/会话.gd）的 projection。
 ##
-## 直接消费 src/provider/deepseek流式适配器.gd（G2-02 seam），不重写 HTTP/SSE transport。
+## UI 不再持有第二套 history / generation flags（AC-09）：Turn ordering、accepted truth、
+## Generation State、retry / regenerate / correction 全部由 conversation 拥有；
+## 本视图只消费 conversation 信号做渲染，并把 adapter 事件翻译成 conversation 调用。
 ##
-## Provisional 边界（DEC-06，明确不是 G2-04/G2-05 contract）：
-## - _history 只保存 completed player/GM 消息对，仅存在于内存，不落盘；
-## - cancelled / failed 的不完整 GM 输出不进入后续 Provider context；
-## - regenerate 替换最近一次 GM generation，不制造第二个 player turn；
-## - regenerate 成功前旧 GM 输出仍是稳定 provisional context，成功后才原子替换（IR-02）；
-## - 这不是 authoritative Conversation / Timeline / Save。
+## 直接消费 src/provider/deepseek流式适配器.gd（G-02 seam），不重写 HTTP/SSE transport。
 ##
-## Provisional GM system message（DEC-07 + UX-02）：最小化，不含 Narrative 白名单 / Regex / Confirmation；
-## 正向鼓励充分展开，不设任何篇幅硬下限或硬上限，篇幅由模型、场景与 Context 自然决定。
+## Provisional GM system message（DEC-07 + UX-02）：最小化，不含 Narrative 白名单 / Regex /
+## Confirmation；正向鼓励充分展开，不设任何篇幅硬下限或硬上限，篇幅由模型、场景与 Context 自然决定。
 const PROVISIONAL_SYSTEM_PROMPT := "你是 my world 的 AI GM。把玩家输入视为游戏中的自由行动或意图，以自然、沉浸的中文 RPG 叙事回应，自由推进场景、人物与世界。充分展开对当前场景有价值的环境、人物、行动、对话与后果，不必刻意简短；根据场景节奏自然决定叙事篇幅。不要输出工程说明，不要解释自己是 AI 或测试程序。"
 
 const ADAPTER := preload("res://src/provider/deepseek流式适配器.gd")
+const Conversation := preload("res://src/domain/会话.gd")
 
 ## 长正文 readable-width 上限（px）：宽屏/最大化下避免单行无限拉长；居中由 EntriesCenter 负责。
 const READABLE_MAX_WIDTH := 920.0
@@ -23,16 +22,8 @@ const READABLE_MAX_WIDTH := 920.0
 ## Composer 高度响应式规则（UX-01）：随窗口高度适度增高并 clamp，约 3-4 行自然语言行动起步。
 ## 简单 clamp 规则，不做 auto-growing editor / Splitter / UI preference framework。
 const COMPOSER_HEIGHT_FACTOR := 0.15
-const COMPOSER_MIN_HEIGHT := 104.0
+const COMPOSER_MIN_HEIGHT := 112.0
 const COMPOSER_MAX_HEIGHT := 160.0
-
-enum GenState {
-	IDLE,
-	STREAMING,
-	COMPLETED,
-	CANCELLED,
-	FAILED,
-}
 
 @onready var narrative_scroll: ScrollContainer = %NarrativeScroll
 @onready var entries: VBoxContainer = %Entries
@@ -46,26 +37,24 @@ enum GenState {
 ## focused tests 可在首次请求前注入 adapter.test_host_override。
 var adapter: Node
 
-var _history: Array = []
-var _gen_state: GenState = GenState.IDLE
-var _last_player_text := ""
-var _current_gm_text := ""
+## authoritative Conversation（G2-04 Domain）。UI 只是它的 projection。
+var conversation: RefCounted
+
+## 以下为纯渲染引用：当前 streaming GM block 的 content / marker，以及滚动跟随状态。
 var _current_gm_content: RichTextLabel = null
 var _current_gm_marker: Label = null
 var _follow_scroll := true
-## 当前 player turn 是否已写入 _history。Regenerate 同一个 completed turn 时 player entry
-## 已存在，completed 时不得再 append 一次（IR-01）；新发送或 cancelled/failed retry 的
-## turn 尚未入 history，completed 时才补写。
-var _current_turn_in_history := false
-## 是否正在替换一个已入 history 的 completed GM generation（IR-02）。
-## 替换成功前旧 assistant 保持为稳定 provisional context；completed 时原子替换；
-## cancel / fail / 直接新发送都中止本次替换，history 不留半对。
-var _replacing_recorded_turn := false
-## 最近一次请求实际发给 Provider 的 messages，只读测试 seam（验证 player input 只出现一次）。
-var _last_messages: Array = []
 
 
 func _ready() -> void:
+	conversation = Conversation.new()
+	conversation.turn_started.connect(_on_turn_started)
+	conversation.attempt_started.connect(_on_attempt_started)
+	conversation.draft_appended.connect(_on_draft_appended)
+	conversation.generation_completed.connect(_on_generation_completed)
+	conversation.generation_cancelled.connect(_on_generation_cancelled)
+	conversation.generation_failed.connect(_on_generation_failed)
+
 	adapter = ADAPTER.new()
 	adapter.name = "DeepSeekProviderAdapter"
 	add_child(adapter)
@@ -88,80 +77,100 @@ func _ready() -> void:
 	_update_composer_height()
 
 
-## G2-03 provisional 只读 seam，供 focused tests 断言；不是公开 Domain contract。
-func get_provisional_history() -> Array:
-	return _history.duplicate(true)
-
-
-func get_gen_state() -> GenState:
-	return _gen_state
-
-
-## 最近一次发给 Provider 的 messages（provisional 只读 seam）。
-func get_last_request_messages() -> Array:
-	return _last_messages.duplicate(true)
-
-
 func _on_send_pressed() -> void:
 	var text := player_input.text.strip_edges()
-	if text.is_empty() or _gen_state == GenState.STREAMING:
+	if text.is_empty() or conversation.is_generating():
 		return
 
-	_last_player_text = text
-	# 新 player turn 必然尚未入 history；之前的 completed 对保持不变，任何未完成替换中止。
-	_current_turn_in_history = false
-	_replacing_recorded_turn = false
-	_append_player_entry(text)
-	_begin_gm_entry()
+	if conversation.begin_turn(text) == null:
+		return
 	player_input.clear()
 	_hide_error()
 	_start_request()
 
 
 func _on_cancel_pressed() -> void:
-	if _gen_state == GenState.STREAMING:
+	if conversation.is_generating():
 		adapter.cancel()
 
 
-## Regenerate / Retry（DEC-10）：复用同一玩家输入，替换同一逻辑 GM block。
+## Regenerate / Retry：Domain 决定语义（completed latest = regenerate，否则 retry），
+## UI 只触发并发起新请求。
 func _on_regenerate_pressed() -> void:
-	if _gen_state == GenState.STREAMING or _last_player_text.is_empty():
+	if conversation.is_generating() or conversation.latest_turn() == null:
 		return
 
-	# 替换已入 history 的 completed turn：旧 assistant 保持为稳定 provisional context，
-	# 直到新 generation 成功 completed 才原子替换（IR-02）；
-	# cancelled / failed 的 retry 该 turn 从未入 history，不进入替换模式。
-	_replacing_recorded_turn = (
-		_current_turn_in_history
-		and not _history.is_empty()
-		and String((_history[-1] as Dictionary).get("role", "")) == "assistant"
-	)
-
-	if _current_gm_content != null:
-		_current_gm_content.clear()
-	if _current_gm_marker != null:
-		_current_gm_marker.text = ""
+	if conversation.retry_or_regenerate_latest() == null:
+		return
 	_hide_error()
 	_start_request()
 
 
 func _start_request() -> void:
-	_current_gm_text = ""
-	_set_gen_state(GenState.STREAMING)
-	_last_messages = _build_messages(_last_player_text)
-	var start_error: Error = adapter.start_stream(_last_messages)
+	var start_error: Error = adapter.start_stream(
+		conversation.build_provider_messages(PROVISIONAL_SYSTEM_PROMPT)
+	)
 	if start_error == ERR_BUSY:
 		# UI 已防止 double-submit；此处只是防御，不制造额外 UI 状态。
-		push_warning("G2-03: adapter busy on start_stream")
+		push_warning("G2-04: adapter busy on start_stream")
 
 
-## provisional in-memory messages：system + completed pairs + 当前 player（若尚未入 history）。
-func _build_messages(player_text: String) -> Array:
-	var messages: Array = [{"role": "system", "content": PROVISIONAL_SYSTEM_PROMPT}]
-	messages.append_array(_history)
-	if not _current_turn_in_history:
-		messages.append({"role": "user", "content": player_text})
-	return messages
+## ---- adapter 事件 -> Domain 调用 ----
+
+func _on_text_delta(text: String) -> void:
+	conversation.append_delta(text)
+
+
+func _on_completed() -> void:
+	conversation.complete_generation()
+
+
+func _on_cancelled() -> void:
+	conversation.cancel_generation()
+
+
+func _on_failed(code: String, _message: String) -> void:
+	conversation.fail_generation(code)
+
+
+## ---- Domain 信号 -> 渲染 ----
+
+func _on_turn_started(turn: RefCounted) -> void:
+	_append_player_entry(String(turn.pending_player_text))
+	_begin_gm_entry()
+
+
+## retry / regenerate / correction：复用同一 GM block，清空上一轮展示内容。
+func _on_attempt_started(_turn: RefCounted) -> void:
+	if _current_gm_content != null:
+		_current_gm_content.clear()
+	if _current_gm_marker != null:
+		_current_gm_marker.text = ""
+	_update_controls()
+
+
+func _on_draft_appended(text: String) -> void:
+	if _current_gm_content != null:
+		_current_gm_content.add_text(text)
+		_follow_scroll_if_needed()
+
+
+func _on_generation_completed(_turn: RefCounted) -> void:
+	_update_controls()
+
+
+func _on_generation_cancelled(_turn: RefCounted) -> void:
+	# partial Narrative 保留在屏幕上，但明确标记，且不进入后续 context。
+	if _current_gm_marker != null:
+		_current_gm_marker.text = "已取消 —— 本次内容不会带入后续叙事"
+	_update_controls()
+
+
+func _on_generation_failed(_turn: RefCounted, code: String) -> void:
+	if _current_gm_marker != null:
+		_current_gm_marker.text = "生成失败 —— 可点击「重新生成」重试"
+	_show_error(_friendly_error(code))
+	_update_controls()
 
 
 func _append_player_entry(text: String) -> void:
@@ -170,7 +179,7 @@ func _append_player_entry(text: String) -> void:
 
 	var header := Label.new()
 	header.text = "你的行动"
-	header.add_theme_font_size_override("font_size", 13)
+	header.add_theme_font_size_override("font_size", 14)
 	header.add_theme_color_override("font_color", Color(0.63, 0.68, 0.78))
 	box.add_child(header)
 
@@ -190,12 +199,12 @@ func _begin_gm_entry() -> void:
 	var header_row := HBoxContainer.new()
 	var title := Label.new()
 	title.text = "GM"
-	title.add_theme_font_size_override("font_size", 13)
+	title.add_theme_font_size_override("font_size", 14)
 	title.add_theme_color_override("font_color", Color(0.78, 0.72, 0.55))
 	header_row.add_child(title)
 
 	_current_gm_marker = Label.new()
-	_current_gm_marker.add_theme_font_size_override("font_size", 13)
+	_current_gm_marker.add_theme_font_size_override("font_size", 14)
 	_current_gm_marker.add_theme_color_override("font_color", Color(0.85, 0.55, 0.45))
 	header_row.add_child(_current_gm_marker)
 	box.add_child(header_row)
@@ -203,50 +212,10 @@ func _begin_gm_entry() -> void:
 	_current_gm_content = RichTextLabel.new()
 	_current_gm_content.fit_content = true
 	_current_gm_content.selection_enabled = true
-	_current_gm_content.add_theme_font_size_override("normal_font_size", 17)
+	_current_gm_content.add_theme_font_size_override("normal_font_size", 20)
 	box.add_child(_current_gm_content)
 
 	entries.add_child(box)
-
-
-func _on_text_delta(text: String) -> void:
-	_current_gm_text += text
-	if _current_gm_content != null:
-		_current_gm_content.add_text(text)
-		_follow_scroll_if_needed()
-
-
-func _on_completed() -> void:
-	# 只有 completed 的 player/GM 对进入 provisional history。
-	# IR-02：替换模式下新 generation 成功后才原子移除旧 assistant；
-	# IR-01：regenerate 同一 completed turn 时 player entry 已在 history 中，不重复 append。
-	if _replacing_recorded_turn:
-		if not _history.is_empty() and String((_history[-1] as Dictionary).get("role", "")) == "assistant":
-			_history.pop_back()
-		_replacing_recorded_turn = false
-	elif not _current_turn_in_history:
-		_history.append({"role": "user", "content": _last_player_text})
-		_current_turn_in_history = true
-	_history.append({"role": "assistant", "content": _current_gm_text})
-	_set_gen_state(GenState.COMPLETED)
-
-
-func _on_cancelled() -> void:
-	# 替换中止：旧 completed 对仍是稳定 provisional context，不留半对（IR-02）。
-	_replacing_recorded_turn = false
-	# partial Narrative 保留在屏幕上，但明确标记，且不进入后续 context。
-	if _current_gm_marker != null:
-		_current_gm_marker.text = "已取消 —— 本次内容不会带入后续叙事"
-	_set_gen_state(GenState.CANCELLED)
-
-
-func _on_failed(code: String, _message: String) -> void:
-	# 同 cancel：替换中止，旧 completed 对不被破坏（IR-02）。
-	_replacing_recorded_turn = false
-	if _current_gm_marker != null:
-		_current_gm_marker.text = "生成失败 —— 可点击「重新生成」重试"
-	_show_error(_friendly_error(code))
-	_set_gen_state(GenState.FAILED)
 
 
 ## 玩家可读错误（DEC-11）：不泄露 key / Authorization，不向玩家倾倒原始 payload。
@@ -264,16 +233,11 @@ func _friendly_error(code: String) -> String:
 			return "出现未知错误。可点击「重新生成」重试。"
 
 
-func _set_gen_state(state: GenState) -> void:
-	_gen_state = state
-	_update_controls()
-
-
 func _update_controls() -> void:
-	var streaming := _gen_state == GenState.STREAMING
+	var streaming: bool = conversation.is_generating()
 	send_button.disabled = streaming or player_input.text.strip_edges().is_empty()
 	cancel_button.disabled = not streaming
-	regenerate_button.visible = not streaming and not _last_player_text.is_empty()
+	regenerate_button.visible = not streaming and conversation.latest_turn() != null
 
 
 func _show_error(text: String) -> void:
@@ -299,8 +263,8 @@ func _update_readable_width() -> void:
 	entries.custom_minimum_size.x = minf(narrative_scroll.size.x, READABLE_MAX_WIDTH)
 
 
-## UX-01：Composer 高度 = clamp(窗口高度 * 0.15, 104, 160)。
-## 720p ≈ 108px（3-4 行），1080p+/Maximized ≈ 160px 封顶，960x540 窄窗口保持 104px 可用。
+## UX-01：Composer 高度 = clamp(窗口高度 * 0.15, 112, 160)。
+## 720p ≈ 112px（3-4 行），1080p+/Maximized ≈ 160px 封顶，960x540 窄窗口保持可用。
 func _update_composer_height() -> void:
 	player_input.custom_minimum_size.y = clampf(
 		float(get_tree().root.size.y) * COMPOSER_HEIGHT_FACTOR,

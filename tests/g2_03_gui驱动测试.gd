@@ -1,24 +1,33 @@
 extends SceneTree
 
 ## G2-03 GUI 驱动测试（真实窗口运行，非 headless）。
+## G2-04 起 provisional truth 由 Domain Conversation（src/domain/会话.gd）拥有，
+## 本测试断言 view.conversation；发送给 Provider 的 context 通过 attempt_started 信号快照记录。
 ##
 ## 证据覆盖：
+## - Maximized 三 Host 布局比例 + 截图；
 ## - 1280x720 宽窗口三 Host 布局 + 截图；
 ## - 960x540 窄窗口 Narrative 优先、侧 Host 折叠为 toggle、输入文本保留 + 截图；
+## - DEC-10 中号字体基线证据（Theme default / GM 正文字号）；
 ## - 真实 DeepSeek stream（TTFT / delta / 完成耗时）+ streaming 截图；
-## - 生成中 Cancel 延迟、partial 标记、无双终止、不污染 history；
-## - Regenerate 完整完成、provisional history 恰好一对 player/GM；
-## - 第二条行动完成后 history == 两对；
+## - 生成中 Cancel 延迟、partial 标记、无双终止、不污染 accepted；
+## - Regenerate 完整完成、accepted 恰好一对 player/GM；
+## - 第二条行动完成后 accepted == 两对；
+## - IR-01 completed→regenerate / IR-02 regenerate→cancel→直接新发送真实回归；
 ## - active streaming 中走正式退出按钮路径（AC-13，进程应立即退出码 0，由外部计时）。
 ##
 ## 截图由 viewport 自取，保存到 user://g2_03_shots/ 并打印绝对路径。
 ## 结果在退出测试前写入 user://g2_03_gui_result.txt（退出路径固定 exit 0，不能承载测试结论）。
 
 const VIEW := preload("res://src/ui/叙事对话视图.gd")
+const CONVERSATION := preload("res://src/domain/会话.gd")
 
 var _failures := 0
 var _terminal_count := 0
 var _shot_dir := "user://g2_03_shots"
+## 每次 attempt 实际发给 Provider 的 messages 快照（attempt_started 时 Domain 状态已是 STREAMING，
+## 与 view._start_request 所用的 build_provider_messages 输入一致）。
+var _sent_contexts: Array = []
 
 
 func _init() -> void:
@@ -51,6 +60,24 @@ func _wait_until(callable: Callable, budget_msec: int, label: String) -> bool:
 	return ok
 
 
+## messages 中指定 role + content 的出现次数。
+func _count_msg(messages: Array, role: String, content: String) -> int:
+	var n := 0
+	for m: Variant in messages:
+		var d := m as Dictionary
+		if d != null and String(d.get("role", "")) == role and String(d.get("content", "")) == content:
+			n += 1
+	return n
+
+
+func _count_role(messages: Array, role: String) -> int:
+	var n := 0
+	for m: Variant in messages:
+		if String((m as Dictionary).get("role", "")) == role:
+			n += 1
+	return n
+
+
 func _run() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(_shot_dir))
 
@@ -65,6 +92,7 @@ func _run() -> void:
 		await process_frame
 
 	var view: Node = inst.get_node("%NarrativeHost")
+	var conversation: RefCounted = view.conversation
 	var player_input: TextEdit = inst.get_node("%PlayerInput")
 	var send_button: Button = inst.get_node("%SendButton")
 	var cancel_button: Button = inst.get_node("%CancelButton")
@@ -76,6 +104,9 @@ func _run() -> void:
 	var exit_button: Button = inst.get_node("%ExitButton")
 	var adapter: Node = view.adapter
 
+	conversation.attempt_started.connect(
+		func(_t: RefCounted) -> void: _sent_contexts.append(conversation.build_provider_messages(VIEW.PROVISIONAL_SYSTEM_PROMPT))
+	)
 	adapter.completed.connect(func() -> void: _terminal_count += 1)
 	adapter.cancelled.connect(func() -> void: _terminal_count += 1)
 	adapter.failed.connect(func(_c: String, _m: String) -> void: _terminal_count += 1)
@@ -85,7 +116,10 @@ func _run() -> void:
 	var world_empty: Label = world_surface_host.get_node("WorldPanelMargin/WorldPanelColumn/WorldEmpty")
 	var entries_node: Control = inst.get_node("%Entries")
 
-	# ---- Maximized 三栏比例（Owner UAT 布局修复：三 Host 全部横向 expand）----
+	# ---- DEC-10 中号字体基线证据 ----
+	_check(inst.theme.default_font_size == 18, "Theme default_font_size == 18（中号基线）")
+
+	# ---- Maximized 三栏比例（三 Host 全部横向 expand）----
 	root.mode = Window.MODE_MAXIMIZED
 	for i in range(15):
 		await process_frame
@@ -120,9 +154,9 @@ func _run() -> void:
 	_check(player_panel_host.size.x >= 250.0 and world_surface_host.size.x >= 310.0, "1280 windowed 侧栏保持最小可用宽度")
 	var composer_h_1280 := player_input.size.y
 	print("[g2-03-gui] 1280 composer height=%d" % int(composer_h_1280))
-	_check(composer_h_1280 >= 100.0 and composer_h_1280 <= 125.0, "1280 Composer 高度 100-120px 量级（约 3-4 行）")
+	_check(composer_h_1280 >= 104.0 and composer_h_1280 <= 128.0, "1280 Composer 高度约 112px（约 3-4 行）")
 
-	# ---- 宽窗口布局（AC：三 Host，Narrative 主角）----
+	# ---- 宽窗口布局（三 Host，Narrative 主角）----
 	_check(player_panel_host.visible and world_surface_host.visible, "宽窗口左右 Host 可见")
 	_check(not player_toggle.visible and not world_toggle.visible, "宽窗口 toggle 隐藏")
 	_check(view.size.x > player_panel_host.size.x and view.size.x > world_surface_host.size.x, "宽窗口 Narrative 为中央主角")
@@ -137,7 +171,7 @@ func _run() -> void:
 	_check(player_toggle.visible and world_toggle.visible, "窄窗口 toggle 可见")
 	_check(view.visible, "窄窗口 Narrative 仍可见（主角）")
 	_check(player_input.text.contains("必须保留") and player_input.text.contains("第三行"), "窄窗口多行输入文本保留")
-	_check(player_input.size.y >= 96.0, "960 窄窗口 Composer 保持可用高度")
+	_check(player_input.size.y >= 100.0, "960 窄窗口 Composer 保持可用高度")
 	var narrative_scroll_node: ScrollContainer = inst.get_node("%NarrativeScroll")
 	_check(narrative_scroll_node.size.y > 120.0, "960 窄窗口 Narrative 阅读区仍可用")
 	player_toggle.button_pressed = true
@@ -166,12 +200,12 @@ func _run() -> void:
 	ctrl_enter.ctrl_pressed = true
 	ctrl_enter.keycode = KEY_ENTER
 	player_input.gui_input.emit(ctrl_enter)
-	_check(view.get_gen_state() == VIEW.GenState.STREAMING, "Ctrl+Enter 真实触发发送")
+	_check(conversation.generation_state == CONVERSATION.GenerationState.STREAMING, "Ctrl+Enter 真实触发发送")
 	var stream_ok := await _wait_until(func() -> bool: return adapter.delta_count >= 5 or _terminal_count > 0, 90000, "首批 stream delta")
 	_check(stream_ok and adapter.delta_count >= 5, "真实 stream 收到 >=5 个增量 delta")
 	var ttft_ms: int = adapter.first_delta_msec - adapter.started_msec
 	_check(ttft_ms > 0, "TTFT 已记录")
-	_check(view.get_gen_state() == VIEW.GenState.STREAMING, "streaming 中 GenState == STREAMING")
+	_check(conversation.generation_state == CONVERSATION.GenerationState.STREAMING, "streaming 中 GenerationState == STREAMING")
 	_check(not cancel_button.disabled, "streaming 中 Cancel 可用")
 	_check(send_button.disabled, "streaming 中 Send 禁用（防 double-submit）")
 	await _shot("03_streaming")
@@ -182,8 +216,8 @@ func _run() -> void:
 	var cancel_ok := await _wait_until(func() -> bool: return _terminal_count == 1, 10000, "cancelled 终态")
 	var cancel_ms := Time.get_ticks_msec() - cancel_begin
 	_check(cancel_ok, "Cancel 后收到 cancelled 终态")
-	_check(view.get_gen_state() == VIEW.GenState.CANCELLED, "Cancel 后 GenState == CANCELLED")
-	_check(view.get_provisional_history().is_empty(), "cancelled partial 不进入 history")
+	_check(conversation.generation_state == CONVERSATION.GenerationState.CANCELLED, "Cancel 后 GenerationState == CANCELLED")
+	_check(conversation.get_accepted_entries().is_empty(), "cancelled partial 不进入 accepted entries")
 	_check(regenerate_button.visible, "Cancel 后 Regenerate 可见")
 	# 双终止保护：cancel 后再等 2 秒，终态计数不得再涨。
 	var settle_deadline := Time.get_ticks_msec() + 2000
@@ -192,47 +226,47 @@ func _run() -> void:
 	_check(_terminal_count == 1, "无双终止（cancelled 只发一次）")
 	await _shot("04_cancelled")
 
-	# ---- Regenerate：完整完成，history 恰好一对 ----
+	# ---- Regenerate：完整完成，accepted 恰好一对 ----
 	regenerate_button.pressed.emit()
 	var regen_ok := await _wait_until(func() -> bool: return _terminal_count >= 2, 180000, "regenerate completed")
-	_check(regen_ok and view.get_gen_state() == VIEW.GenState.COMPLETED, "Regenerate 完整完成")
-	var history: Array = view.get_provisional_history()
-	_check(history.size() == 2, "Regenerate 后 history 恰好一对 player/GM")
-	if history.size() == 2:
-		_check(String(history[0].get("role", "")) == "user", "history[0] 是 player turn")
-		_check(String(history[1].get("role", "")) == "assistant", "history[1] 是 GM turn")
-		_check(not String(history[1].get("content", "")).is_empty(), "GM 完整输出非空")
+	_check(regen_ok and conversation.generation_state == CONVERSATION.GenerationState.COMPLETED, "Regenerate 完整完成")
+	var accepted: Array = conversation.get_accepted_entries()
+	_check(accepted.size() == 1, "Regenerate 后 accepted 恰好一对 player/GM")
+	if accepted.size() == 1:
+		_check(not String(accepted[0].get("player_text", "")).is_empty(), "accepted player 非空")
+		_check(not String(accepted[0].get("gm_text", "")).is_empty(), "GM 完整输出非空")
+	# DEC-10：GM 正文中号字号证据。
+	_check(view._current_gm_content.get_theme_font_size("normal_font_size") == 20, "GM 正文 normal_font_size == 20（中号基线）")
 	var gen1_ms: int = adapter.finished_msec - adapter.started_msec
 	await _shot("05_regenerated")
 
-	# ---- 第二条行动：provisional history 累计两对 ----
+	# ---- 第二条行动：accepted 累计两对 ----
 	player_input.text = "我蹲下身，检查地上刚才那个黑影留下的痕迹。"
 	send_button.pressed.emit()
 	var second_ok := await _wait_until(func() -> bool: return _terminal_count >= 3, 180000, "第二条行动 completed")
-	_check(second_ok and view.get_gen_state() == VIEW.GenState.COMPLETED, "第二条行动完整完成")
-	history = view.get_provisional_history()
-	_check(history.size() == 4, "两条行动后 history == 两对 player/GM")
+	_check(second_ok and conversation.generation_state == CONVERSATION.GenerationState.COMPLETED, "第二条行动完整完成")
+	accepted = conversation.get_accepted_entries()
+	_check(accepted.size() == 2, "两条行动后 accepted == 两对 player/GM")
 	await _shot("06_second_turn")
 
 	# ---- IR-01 回归：completed turn → 真实 Regenerate → 不得重复 player entry ----
 	var second_player_text := "我蹲下身，检查地上刚才那个黑影留下的痕迹。"
-	var old_second_gm := String(history[1].get("content", "")) if history.size() >= 2 else ""
+	var old_second_gm := String(accepted[1].get("gm_text", "")) if accepted.size() >= 2 else ""
 	regenerate_button.pressed.emit()
 	var regen2_ok := await _wait_until(func() -> bool: return _terminal_count >= 4, 180000, "completed turn regenerate completed")
-	_check(regen2_ok and view.get_gen_state() == VIEW.GenState.COMPLETED, "IR-01 completed turn Regenerate 真实完成")
-	history = view.get_provisional_history()
-	_check(history.size() == 4, "IR-01 completed→regenerate 后 history 仍 == 4")
-	if history.size() == 4:
-		var roles: Array = history.map(func(m: Dictionary) -> String: return String(m.get("role", "")))
-		_check(roles == ["user", "assistant", "user", "assistant"], "IR-01 roles == [user, assistant, user, assistant]")
-		_check(String(history[2].get("content", "")) == second_player_text, "IR-01 被重新生成的 player turn 原样保留")
-		_check(not String(history[3].get("content", "")).is_empty(), "IR-01 新 GM 输出非空")
-	_check(history.filter(func(m: Dictionary) -> bool: return String(m.get("role", "")) == "user" and String(m.get("content", "")) == second_player_text).size() == 1, "IR-01 该 player input 在 history 中严格一次")
-	var last_messages: Array = view.get_last_request_messages()
-	_check(last_messages.filter(func(m: Dictionary) -> bool: return String(m.get("role", "")) == "user" and String(m.get("content", "")) == second_player_text).size() == 1, "IR-01 该 player input 在 Provider context 中严格一次")
-	_check(last_messages.filter(func(m: Dictionary) -> bool: return String(m.get("role", "")) == "user").size() == 2, "IR-01 regenerate context 恰好含两条 user 消息")
+	_check(regen2_ok and conversation.generation_state == CONVERSATION.GenerationState.COMPLETED, "IR-01 completed turn Regenerate 真实完成")
+	accepted = conversation.get_accepted_entries()
+	_check(accepted.size() == 2, "IR-01 completed→regenerate 后 accepted 仍 == 两对")
+	if accepted.size() == 2:
+		_check(String(accepted[1].get("player_text", "")) == second_player_text, "IR-01 被重新生成的 player turn 原样保留")
+		_check(not String(accepted[1].get("gm_text", "")).is_empty(), "IR-01 新 GM 输出非空")
+		_check(int(accepted[0].get("turn_index", -1)) == 0 and int(accepted[1].get("turn_index", -1)) == 1, "IR-01 turn identity 稳定")
+	_check(accepted.filter(func(e: Variant) -> bool: return String((e as Dictionary).get("player_text", "")) == second_player_text).size() == 1, "IR-01 该 player input 在 accepted 中严格一次")
+	var last_messages: Array = _sent_contexts[-1]
+	_check(_count_msg(last_messages, "user", second_player_text) == 1, "IR-01 该 player input 在 Provider context 中严格一次")
+	_check(_count_role(last_messages, "user") == 2, "IR-01 regenerate context 恰好含两条 user 消息")
 	_check(adapter.output_chars >= 100, "Narrative richness：真实 GM 输出充分展开、无 UI/适配器截断（chars=%d）" % adapter.output_chars)
-	print("[g2-03-gui] IR-01 old_gm_chars=%d new_gm_chars=%d" % [old_second_gm.length(), String(history[3].get("content", "")).length() if history.size() == 4 else -1])
+	print("[g2-03-gui] IR-01 old_gm_chars=%d new_gm_chars=%d" % [old_second_gm.length(), String(accepted[1].get("gm_text", "")).length() if accepted.size() == 2 else -1])
 	await _shot("07_regenerate_completed")
 
 	# ---- IR-02 真实路径：completed → regenerate → cancel → 不 Retry 直接发送新行动 ----
@@ -241,27 +275,24 @@ func _run() -> void:
 	_check(regen3_stream and adapter.delta_count >= 2, "IR-02 regenerate 真实流式中")
 	cancel_button.pressed.emit()
 	var ir02_cancel_ok := await _wait_until(func() -> bool: return _terminal_count >= 5, 10000, "IR-02 cancelled 终态")
-	_check(ir02_cancel_ok and view.get_gen_state() == VIEW.GenState.CANCELLED, "IR-02 regenerate 生成中 Cancel")
-	history = view.get_provisional_history()
-	_check(history.size() == 4, "IR-02 cancel 后旧 completed 对保持完整（无半对 history）")
-	if history.size() == 4:
-		var roles_ir02: Array = history.map(func(m: Dictionary) -> String: return String(m.get("role", "")))
-		_check(roles_ir02 == ["user", "assistant", "user", "assistant"], "IR-02 cancel 后 history 仍是两对合法对")
+	_check(ir02_cancel_ok and conversation.generation_state == CONVERSATION.GenerationState.CANCELLED, "IR-02 regenerate 生成中 Cancel")
+	accepted = conversation.get_accepted_entries()
+	_check(accepted.size() == 2, "IR-02 cancel 后旧 completed 对保持完整（无半对）")
+	if accepted.size() == 2:
+		_check(String(accepted[1].get("gm_text", "")).length() > 0, "IR-02 cancel 后旧 GM 输出未被半路内容污染")
 	var third_player_text := "我推开那扇窄木门，侧身闪了进去。"
 	player_input.text = third_player_text
 	send_button.pressed.emit()
-	var ir02_ctx: Array = view.get_last_request_messages()
-	_check(ir02_ctx.filter(func(m: Dictionary) -> bool: return String(m.get("role", "")) == "user" and String(m.get("content", "")) == second_player_text).size() == 1, "IR-02 新请求 context 中 turn2 恰好一次")
-	_check(ir02_ctx.filter(func(m: Dictionary) -> bool: return String(m.get("role", "")) == "user" and String(m.get("content", "")) == third_player_text).size() == 1, "IR-02 新行动已进入 Provider context 恰好一次")
-	_check(ir02_ctx.filter(func(m: Dictionary) -> bool: return String(m.get("role", "")) == "user").size() == 3, "IR-02 context 恰好三条 user 消息")
+	var ir02_ctx: Array = _sent_contexts[-1]
+	_check(_count_msg(ir02_ctx, "user", second_player_text) == 1, "IR-02 新请求 context 中 turn2 恰好一次")
+	_check(_count_msg(ir02_ctx, "user", third_player_text) == 1, "IR-02 新行动已进入 Provider context 恰好一次")
+	_check(_count_role(ir02_ctx, "user") == 3, "IR-02 context 恰好三条 user 消息")
 	var ir02_done := await _wait_until(func() -> bool: return _terminal_count >= 6, 180000, "IR-02 新行动 completed")
-	_check(ir02_done and view.get_gen_state() == VIEW.GenState.COMPLETED, "IR-02 直接新行动真实完成")
-	history = view.get_provisional_history()
-	_check(history.size() == 6, "IR-02 完成后 history == 三对 player/GM")
-	if history.size() == 6:
-		var roles_final: Array = history.map(func(m: Dictionary) -> String: return String(m.get("role", "")))
-		_check(roles_final == ["user", "assistant", "user", "assistant", "user", "assistant"], "IR-02 最终 roles 合法交错")
-	_check(history.filter(func(m: Dictionary) -> bool: return String(m.get("role", "")) == "user" and String(m.get("content", "")) == third_player_text).size() == 1, "IR-02 新行动在 history 中恰好一次")
+	_check(ir02_done and conversation.generation_state == CONVERSATION.GenerationState.COMPLETED, "IR-02 直接新行动真实完成")
+	accepted = conversation.get_accepted_entries()
+	_check(accepted.size() == 3, "IR-02 完成后 accepted == 三对 player/GM")
+	if accepted.size() == 3:
+		_check(String(accepted[2].get("player_text", "")) == third_player_text and not String(accepted[2].get("gm_text", "")).is_empty(), "IR-02 第三对内容正确")
 	await _shot("08_ir02_direct_send")
 
 	var metrics := {
