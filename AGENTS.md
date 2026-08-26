@@ -10,11 +10,14 @@ For every new formal task, resolve current authority from GitHub `main` in this 
 1. The user's current explicit instruction.
 2. `zhangchenjia21-dot/Vibe-Coding/AGENTS.md`.
 3. `Vibe-Coding/my world/MY_WORLD_项目启动总纲_CURRENT.md`.
-4. `Vibe-Coding/my world/MY_WORLD_总体规划路线图_CURRENT.md`.
-5. `Vibe-Coding/my world/MY_WORLD_Foundation架构决策_v1.0_2026-08-26.md`.
-6. `Vibe-Coding/my world/MY_WORLD_独立版Preflight与第一阶段计划_v1.0_2026-08-25.md`.
-7. `Vibe-Coding/my world/MY_WORLD_DSH经验继承矩阵_v1.0_2026-08-25.md`.
-8. This repository's current implementation, tests, and HEAD.
+4. `Vibe-Coding/my world/MY_WORLD_核心设计原则_CURRENT.md`.
+5. `Vibe-Coding/my world/MY_WORLD_总体规划路线图_CURRENT.md`.
+6. `Vibe-Coding/my world/MY_WORLD_Foundation架构决策_v1.0_2026-08-26.md`.
+7. `Vibe-Coding/my world/MY_WORLD_独立版Preflight与第一阶段计划_v1.0_2026-08-25.md`.
+8. `Vibe-Coding/my world/MY_WORLD_DSH经验继承矩阵_v1.0_2026-08-25.md`.
+9. This repository's current implementation, tests, and HEAD.
+
+Repository-local `docs/CORE_DESIGN_PRINCIPLES.md` is the implementation-facing projection of the canonical core-design document. It does not create a second authority source.
 
 If a current decision changes stage, task, prerequisite, architecture boundary, contract timing, ownership, task validity, or the task DAG, propagate that decision before continuing old work.
 
@@ -55,15 +58,19 @@ focused exploration
 
 Do not implement later G2 tasks or G3–G9 early.
 
-## 3. Foundation invariants
+## 3. Foundation and core-design invariants
 
-- Migrate experience from The World / DSH; do not migrate DSH host debt.
+- Migrate experience from SillyTavern / The World / DSH; do not migrate host debt.
 - Prefer mature commodity foundation capabilities while keeping game semantics owned by `my world`.
 - Be engine-native, not engine-semantic-coupled.
 - `Game`, `World`, `Timeline`, `Save Point`, `Agent Context`, `Conversation`, `NPC`, `Knowledge`, `Relationship`, `Faction`, `World Event`, and `World Pack` are product/domain concepts, not aliases for Godot Scene/Node/Resource types.
 - UI is a projection of authoritative game truth, not a second durable truth source.
 - World Pack Source defines reusable starting material; after game creation, game-local reality is authoritative.
-- Model output may author candidates; deterministic program/domain ownership commits authoritative reality.
+- **Model freedom first. Reversibility over prevention.** Do not add global Narrative whitelists, regex authorization tables, confirmation layers, or validators merely to prevent ordinary model/game semantic mistakes.
+- **Model authors the world; Runtime makes it durable; Player owns the timeline.** Model output may broadly author Narrative, NPC/world actions, dynamic entities, semantic consequences, and game-local evolution. Runtime/Program owns stable identity, atomic durability, persistence, Save/Restore/Timeline integrity, secrets, filesystem/database safety, and irreversible external-system boundaries.
+- Ordinary lore, knowledge, characterization, rule-judgment, low-risk player-action interpolation, or Narrative/state mistakes are not automatically hard failures. Prefer better context plus regenerate/retry/rewind/restore/branch over adding permanent global restrictions.
+- Legacy wording such as `Program owns facts; Model writes prose`, `Model authors candidates; Program commits reality`, or `No Phantom World Change` must not be interpreted as a global Narrative censorship architecture. `No Phantom` is a consistency quality target; durable writes must remain atomic and recoverable.
+- Real secret leakage, OS/filesystem authority leakage, physical save/database corruption, non-atomic partial writes, and unrecoverable external side effects remain hard boundaries.
 
 ## 4. DSH migration prohibition
 
@@ -78,7 +85,7 @@ Do not directly copy or recreate as new-project architecture:
 - DSH plugin lifecycle assumptions;
 - UI/ownership structures designed around a generic Agent Workspace host.
 
-The World / DSH may be consulted for product evidence and lessons only when relevant.
+The World / DSH and SillyTavern may be consulted for product evidence and lessons only when relevant. Inherit validated semantics, not their host-specific TypeScript/Web/Workspace implementation shapes.
 
 ## 5. Verified Foundation facts
 
@@ -165,6 +172,8 @@ For G1-04:
 - never place keys in `.gd`, `.tscn`, `project.godot`, README examples, screenshots, commits, or chat;
 - deterministic failure testing must not carry `Authorization` headers.
 
+Model-freedom principles never authorize access to secrets, arbitrary OS/filesystem execution, or irreversible external effects.
+
 ## 8. G1-04 validation record
 
 Real Windows-local observation proved:
@@ -196,9 +205,13 @@ The canonical record is `Vibe-Coding/my world/MY_WORLD_Foundation架构决策_v1
 
 Business modules follow `L3 -> L2 -> L1 -> L0`; downward layer skips are allowed, upward dependencies are not. Cross-module calls must use the other module's L3 public boundary. Bootstrap remains the composition root. Do not create empty layers or speculative wrappers.
 
+The Foundation decision's older candidate/commit wording is superseded **only where it would be used to restrict ordinary model-authored game semantics or Narrative**. Its technical integrity, persistence, Host, language, process, Provider, logging, and packaging decisions remain current.
+
 ## 10. Current G2 boundary
 
 G2-01 owns only the Application / Game Shell defined by its future current Task Packet. Do not infer its implementation contract from the roadmap summary, and do not prebuild Provider routing, persistence schema, World Pack, autonomous-world, or long-session platforms.
+
+When G2 Conversation/Turn work begins, protect model output quality and natural-language freedom. `regenerate / retry` are the earliest reversibility primitives; do not prebuild G3 Timeline, but do not introduce prevention-first Narrative restrictions that would conflict with it.
 
 ## 11. Repository shape
 
@@ -226,17 +239,27 @@ For local validation, separate:
 
 G1-GATE passed only because all G1 real-execution seams had evidence. Future gates retain the same evidence standard.
 
-## 13. DSH long-play carry-forward reference
+Product-value evidence must not be replaced by safety-rule counts or validator coverage. If new guardrails make the AI RPG materially more mechanical, slower, or less expressive, treat that as a product regression even when engineering checks pass.
 
-The DSH long-play experiment is now substantially complete. Its cross-stage findings are summarized in:
+## 13. Long-play and predecessor carry-forward references
+
+Canonical cross-stage core design:
+
+`Vibe-Coding/my world/MY_WORLD_核心设计原则_CURRENT.md`
+
+Repository-local implementation projection:
+
+`docs/CORE_DESIGN_PRINCIPLES.md`
+
+DSH long-play cross-stage findings:
 
 `docs/DSH_TEST_CARRY_FORWARD_REQUIREMENTS.md`
 
-The underlying experiment closure reference is:
+Underlying DSH experiment closure reference:
 
 `zhangchenjia21-dot/the-world/docs/DSH_GAME_TEST_LESSONS_CORE.md`
 
-This repository-local carry-forward document is **not** a Task Packet and does not authorize prebuilding later stages. It becomes mandatory reading whenever a task touches:
+The repository-local DSH carry-forward document is **not** a Task Packet and does not authorize prebuilding later stages. It becomes mandatory reading whenever a task touches:
 
 - G3 persistence / Timeline / Save / Restore;
 - G4 World Pack / Source / local reality;
@@ -246,7 +269,7 @@ This repository-local carry-forward document is **not** a Task Packet and does n
 - G8 Mod / authoring semantics;
 - G9 long-play Product Value UAT.
 
-The most important newly confirmed DSH failure to avoid is **Protagonist Causal Monopoly**: a persistent world can still feel dead if Source history and player actions are the only real causes of new history while NPCs/factions mainly react. Future world semantics must preserve:
+The most important confirmed DSH failure to avoid is **Protagonist Causal Monopoly**: a persistent world can still feel dead if Source history and player actions are the only real causes of new history while NPCs/factions mainly react. Future world semantics must preserve:
 
 > **Source provides inertia, actors create history.**
 
