@@ -205,3 +205,33 @@ For local validation, separate:
 - PASS / FAIL / NOT VERIFIED.
 
 G1-GATE cannot pass until all G1 real-execution seams have evidence.
+
+## 12. DSH long-play carry-forward reference
+
+The DSH long-play experiment is now substantially complete. Its cross-stage findings are summarized in:
+
+`docs/DSH_TEST_CARRY_FORWARD_REQUIREMENTS.md`
+
+The underlying experiment closure reference is:
+
+`zhangchenjia21-dot/the-world/docs/DSH_GAME_TEST_LESSONS_CORE.md`
+
+This repository-local carry-forward document is **not** a Task Packet and does not authorize prebuilding G2–G9 during G1. It becomes mandatory reading whenever a task touches:
+
+- G3 persistence / Timeline / Save / Restore;
+- G4 World Pack / Source / local reality;
+- G5 NPC / Faction / GM Runtime / World Evolution;
+- G6 RPG UI / map / presentation truth projection;
+- G7 long-session context / performance;
+- G8 Mod / authoring semantics;
+- G9 long-play Product Value UAT.
+
+The most important newly confirmed DSH failure to avoid is **Protagonist Causal Monopoly**: a persistent world can still feel dead if Source history and player actions are the only real causes of new history while NPCs/factions mainly react. Future world semantics must preserve:
+
+> **Source provides inertia, actors create history.**
+
+> **Off-screen != Inactive.**
+
+> **Players may change history, but they are not the only creators of history.**
+
+Do not solve this by building a universal per-NPC tick simulator or by mechanically increasing DCs. G5 must find a bounded, event/priority-driven autonomous world-evolution approach and prove it with Player Absence, Counterfactual Propagation, and Independent Actor tests.
