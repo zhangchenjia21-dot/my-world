@@ -1,25 +1,28 @@
 ---
-title: my world｜G2-04 IR-03 Regenerate Provider Context Repair
-task_id: G2-04-IR-03
+title: my world｜G2-04 Final Repair｜IR-03 closed + IR-04 empty completion integrity
+task_id: G2-04-FINAL-REPAIR
 type: implementation-repair
 owner: KimiCode K3
 status: current-repair-packet
 created: 2026-08-26
-base: 0bf1f012366db7271664a192c1c30e60947cc5c9
+updated: 2026-08-26
+base: d0d5d47f487fdb75f31de5349894517a830a51e8
 supersedes_for_repair: docs/tasks/G2-04_TURN_CONVERSATION_DOMAIN_V0_1_TASK.md
 ---
 
-# TASK｜G2-04-IR-03｜Regenerate Provider Context Repair
+# TASK｜G2-04 Final Repair｜IR-04 Empty Completion Integrity
 
-## Outcome
+## 1. Current Review Result
 
-修正 G2-04 Independent Review 发现的唯一 blocking defect：**completed latest Turn 的 Regenerate 请求不能把该 Turn 的旧 accepted assistant 一起发送给 Provider。**
+IR-03 已通过 Independent Review：completed latest Turn 的 Regenerate request 现在正确为 previous accepted pairs + current user，当前旧 accepted assistant 不再进入 replacement request。
 
-Domain 仍需保留旧 accepted assistant 作为稳定 accepted truth，直到 replacement 成功；但 replacement request 必须以当前 player user 结束，真正请求同一 player action 的新 GM response。
+当前唯一 blocking defect：
+
+> **IR-04｜empty / whitespace-only completion must not become accepted GM truth.**
 
 完成后最高状态：`READY FOR INDEPENDENT REVIEW`。不得开始 G2-05。
 
-## Read First
+## 2. Read First
 
 先 fetch / fast-forward 最新 `origin/main`，记录 HEAD / status，然后读取：
 
@@ -27,221 +30,274 @@ Domain 仍需保留旧 accepted assistant 作为稳定 accepted truth，直到 r
 2. 本文件
 3. `docs/tasks/G2-04_TURN_CONVERSATION_DOMAIN_V0_1_TASK.md`
 4. `src/domain/会话.gd`
-5. `tests/g2_04_会话域离线测试.gd`
-6. `tests/g2_03_gui驱动测试.gd`
+5. `src/ui/叙事对话视图.gd`
+6. `tests/g2_04_会话域离线测试.gd`
+7. `tests/g2_03_gui驱动测试.gd`
 
-本 repair packet 只在 IR-03 冲突点上覆盖原 Task Packet；其余 G2-04 invariants / scope / acceptance 继续有效。
+其余 G2-04 invariants / scope 继续有效。
 
-## IR-03 Root Cause
+## 3. IR-04 Root Cause
 
-当前 `Conversation.build_provider_messages()` 对 active completed Turn 的 Regenerate 使用：
+真实 IR-03 GUI 回归已观察到一次 Provider 快速正常结束但没有产生可接受正文 delta 的情况。
+
+当前 Adapter 遇到 `[DONE]` 会发 `completed()`，即使本次没有任何非空 content delta。随后 UI 调用：
 
 ```text
-if turn == _active_turn:
-    append current user
-    if has_accepted_response and pending_player_text == player_text:
-        append old accepted assistant
+conversation.complete_generation()
 ```
 
-于是第一次 completed Turn regenerate 的 Provider messages 为：
+而当前 Domain 无条件把：
 
 ```text
-[system, user(current), assistant(old)]
+pending_player_text → player_text
+draft_text          → accepted_gm_text
+has_accepted_response = true
 ```
 
-多 Turn 情况为：
+所以 zero/whitespace draft 会成为正式 accepted GM。
+
+这会导致：
 
 ```text
-[system,
- previous user, previous assistant,
- current user, current old assistant]
+new turn + empty completion
+→ accepted [player, ""]
 ```
 
-这把两个不同概念混在一起了：
+以及更严重的：
 
 ```text
-Accepted Domain Truth stability
-!=
-Regenerate Provider Request content
+completed turn
+→ regenerate / correction
+→ empty completion
+→ old accepted GM 被 "" 覆盖
 ```
 
-旧 assistant 应在 Domain 内保持稳定，供 Cancel/Fail rollback；但它不应条件化当前 replacement generation。
+现有 T09 还把“没有任何 delta 仍 complete 成 accepted 空 GM”编码成合法行为，必须修正。
 
-不要通过 DeepSeek beta prefix continuation / `prefix=true` 修补。当前正式 Adapter 不改。
+## 4. Product Boundary
 
-## Required Semantics
+不要把本修复做成 Narrative 长度限制。
 
-### Regenerate completed latest Turn
-
-假设：
+正式语义：
 
 ```text
-turn1 = accepted user1 + assistant1
-turn2 = accepted user2 + assistant2   # latest
+任何非空白内容，包括很短的 1 个字符
+→ 允许成为模型输出
+
+zero-length / whitespace-only
+→ 没有产生 GM Narrative
+→ generation attempt 不能成为 accepted completion
 ```
 
-开始 regenerate turn2 后：
+禁止：
 
-Domain accepted truth 仍是：
+- minimum chars；
+- minimum words；
+- Narrative quality classifier；
+- “至少写 N 字”；
+- 因此新增 `max_tokens` 或其它长度平台。
+
+`Narrative richness over artificial brevity` 保持不变。
+
+## 5. Required Semantics
+
+### A. New Turn empty completion
 
 ```text
-turn1 user1 + assistant1
-turn2 user2 + assistant2
+begin turn
+→ provider completed
+→ draft empty/whitespace
 ```
 
-但 Provider request 必须是：
+必须：
 
 ```text
-system
-user1
-assistant1
-user2
+GenerationState = FAILED-equivalent
+has_accepted_response = false
+no accepted entry
+same logical turn remains retryable
 ```
 
-要求：
-
-- `user2` 恰好一次；
-- `assistant2` occurrence == 0；
-- last role == `user`；
-- replacement draft 与 old accepted assistant 分离；
-- completed 后 same turn identity 原子把 `assistant2` 替换为新 GM；
-- Cancel/Fail 后 old `assistant2` 保持 accepted。
-
-对于只有一个 Turn：
+Retry 后若有任意非空白 content：
 
 ```text
-[system, user1]
+same turn identity
+→ accepted normally
 ```
 
-### Correction
-
-latest-turn correction 继续保持：
+### B. Completed Turn Regenerate empty completion
 
 ```text
-previous accepted pairs
-+ corrected current user
-```
-
-不得带 current Turn 的 old accepted assistant；Cancel/Fail rollback 语义保持不变。
-
-### New Turn / Retry
-
-不得破坏现有：
-
-- new Turn context；
-- cancelled/failed first-attempt Retry；
-- IR-01 duplicate-player protection；
-- IR-02 regenerate abort → direct new Send；
-- accepted ordering / identity。
-
-## Required Regression Changes
-
-### Focused Domain Test
-
-修正当前 T04 中错误断言：不得再期待 regenerate context `[system,user,assistant]`。
-
-至少断言：
-
-```text
-first completed turn
+old accepted user + GM
 → regenerate
-→ provider roles == [system, user]
-→ old accepted assistant count == 0
-→ current player count == 1
-→ last role == user
-→ Domain accepted_gm_text still == old GM before completion
-→ new completion atomically replaces accepted_gm_text
+→ empty/whitespace completion
 ```
 
-再增加 / 强化多 Turn regenerate：
+必须：
 
 ```text
-previous accepted pairs preserved
-current latest user exactly once
-current latest old assistant absent
-last role == user
+old accepted player unchanged
+old accepted GM unchanged
+same turn identity
+attempt becomes failed/retryable
 ```
 
-### Real DeepSeek GUI
+再次 Regenerate 成功后才原子替换 GM。
 
-在现有 completed→Regenerate 真实路径上，对 `_sent_contexts[-1]` 增加：
+### C. Completed latest Correction empty completion
 
-- last role == `user`；
-- 当前 Turn old GM assistant 不在 request；
-- previous completed pairs 正常保留；
-- 当前 player input 恰好一次；
-- real generation completed；
-- accepted same turn identity + new GM。
+```text
+old accepted player + GM
+→ correct_latest(new player text)
+→ empty/whitespace completion
+```
 
-“Provider 返回了非空文本”单独不能证明 Regenerate 正确。
+必须：
 
-## Validation
+```text
+old accepted player unchanged
+old accepted GM unchanged
+corrected pending text not partially accepted
+attempt failed/retryable
+```
 
-按 focused → full：
+### D. Failure signal / UX
 
-1. Godot headless parse。
-2. G2-04 domain focused tests。
-3. G2-03 offline regression。
-4. G2-02 adapter smoke（adapter 不应修改）。
-5. Real DeepSeek GUI completed→Regenerate，带新增 request-context assertions。
-6. IR-01 / IR-02 / correction regressions。
-7. typography / responsive smoke 保持通过。
-8. Windows export + `run-game.cmd` smoke。
-9. `git diff --check`、secret / Authorization hygiene、clean status。
+推荐由 Conversation Domain 在 completion acceptance 时检查：
 
-GUI automation继续使用 exact executable + PID。
+```text
+draft_text.strip_edges().is_empty()
+```
 
-## Scope
+若为空，转为明确 failed-equivalent，并发 domain failure code，例如：
+
+```text
+empty_generation
+```
+
+等价命名可接受。
+
+UI 给该 code 一个正常玩家可读提示，例如：
+
+> 本次没有生成有效叙事，可点击「重新生成」重试。
+
+不要显示工程细节。
+
+Adapter 默认不改：它可以继续表示 HTTP/SSE/API 正常结束；Domain 决定该 attempt 是否产生可接受的游戏 GM response。
+
+## 6. Required Tests
+
+确定性 Domain tests 必须覆盖：
+
+```text
+new turn → zero-delta complete
+→ no accepted entry
+→ failed/retryable
+→ retry same identity → non-empty complete → accepted
+```
+
+```text
+new turn → whitespace-only draft → complete
+→ no accepted entry
+→ failed/retryable
+```
+
+```text
+completed turn → regenerate → zero/whitespace complete
+→ old accepted pair unchanged
+→ same identity
+→ retry/regenerate non-empty → atomic replacement
+```
+
+```text
+completed latest → correction → zero/whitespace complete
+→ old accepted player + GM unchanged
+→ corrected text not accepted
+```
+
+同时修改现有 T09：不得再把 empty completion 视为合法 accepted completion。
+
+必须保持：
+
+- IR-03 one-turn / multi-turn request context assertions；
+- IR-01 duplicate-player regression；
+- IR-02 regenerate-abort direct-send regression；
+- AC-07/08 correction rollback；
+- multiple-turn ordering；
+- typography / responsive；
+- G2-03 / G2-02 regressions。
+
+真实 DeepSeek：不要求强行复现偶发 empty response。正常 completed→Regenerate smoke + IR-03 request assertion通过即可；empty path 用 deterministic Domain test 证明。
+
+## 7. Allowed / Prohibited Scope
 
 Allowed：
 
-- `src/domain/会话.gd` 的最小 context assembly repair；
-- 直接相关 G2-04 / G2-03 tests。
-
-默认不应需要修改 UI / scene / typography；若确实需要，Final Report 解释原因。
+- `src/domain/会话.gd` 最小 completion acceptance repair；
+- `src/ui/叙事对话视图.gd` 增加 empty-generation 玩家提示；
+- 直接相关 tests。
 
 Prohibited：
 
-- 修改 Provider Adapter 来做 prefix completion；
-- G2-05 Context Assembly / retrieval / summarization / token budgeting；
+- 修改 Provider Adapter，除非发现新的独立 transport bug；若发现先返回说明；
+- 字数阈值 / quality classifier；
+- automatic multi-retry platform；
+- G2-05 Context Assembly；
 - G3 Persistence / Save / Timeline；
-- 新 Provider platform；
 - 大规模重构。
 
-## Git
+## 8. Validation
 
-- base = 当前最新 main（至少包含 `0bf1f012...` 与本 repair packet）；
+focused → full：
+
+1. Godot headless parse；
+2. G2-04 Domain tests（含 IR-04）；
+3. G2-03 offline regression；
+4. G2-02 adapter smoke；
+5. real DeepSeek GUI normal + completed→Regenerate + IR-03 context assertions；
+6. IR-01 / IR-02 / correction regressions；
+7. typography / responsive smoke；
+8. Windows export + `run-game.cmd` smoke；
+9. `git diff --check` + secret / Authorization hygiene + clean status。
+
+GUI automation继续使用 exact executable + PID。
+
+## 9. Git
+
+- start from latest `origin/main`（至少包含 `d0d5d47...` 与本更新 packet）；
 - pre-push freshness revalidation；
 - fast-forward push；
 - no force push；
 - 不覆盖未知 dirty worktree。
 
-## Final Report
+## 10. Final Report
 
 ```text
 Result
 READY FOR INDEPENDENT REVIEW | BLOCKED
 
-IR-03 Fix
+IR-04 Fix
 - root cause
-- exact build_provider_messages change
+- exact Domain acceptance behavior
+- empty/whitespace failure code
 
-Provider Context Evidence
-- one-turn regenerate roles
-- multi-turn regenerate roles
-- current old assistant occurrence
-- last role
-- real DeepSeek request assertion
+Deterministic Evidence
+- new-turn empty → retry
+- whitespace-only
+- regenerate empty preserves old pair
+- correction empty preserves old pair
 
 Regression
-- IR-01
-- IR-02
+- IR-03
+- IR-01 / IR-02
 - correction
+- real DeepSeek smoke
 - G2-03 / G2-02
 
 Scope Check
-- no G2-05 / G3
+- no length threshold
 - adapter unchanged
+- no G2-05 / G3
 
 Git
 - start HEAD
