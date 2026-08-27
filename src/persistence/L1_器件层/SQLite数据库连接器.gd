@@ -56,10 +56,16 @@ func execute(sql: String, bindings: Array = []) -> bool:
 	return succeeded
 
 
-func query_rows(sql: String, bindings: Array = []) -> Array:
+## 返回显式 query outcome，使上层只在 ok=true 后解释空 rows 为“记录不存在”。
+## SQLite failure 保留原始 error；禁止再用空 Array 同时表达失败与成功零行。
+func query_rows(sql: String, bindings: Array = []) -> Dictionary:
 	if not execute(sql, bindings):
-		return []
-	return (_database.query_result as Array).duplicate(true)
+		return {"ok": false, "rows": [], "error": _last_error}
+	return {
+		"ok": true,
+		"rows": (_database.query_result as Array).duplicate(true),
+		"error": "",
+	}
 
 
 func begin_immediate() -> bool:
@@ -75,10 +81,10 @@ func rollback() -> bool:
 
 
 func changed_rows() -> int:
-	var rows := query_rows("SELECT changes() AS changed_rows;")
-	if rows.is_empty():
+	var outcome := query_rows("SELECT changes() AS changed_rows;")
+	if not outcome.ok or outcome.rows.is_empty():
 		return -1
-	return int((rows[0] as Dictionary).get("changed_rows", -1))
+	return int((outcome.rows[0] as Dictionary).get("changed_rows", -1))
 
 
 func last_error() -> String:

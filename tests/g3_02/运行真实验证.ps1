@@ -26,6 +26,7 @@ function Invoke-GodotScript {
 
 $slashRoot = $testRoot.Replace('\', '/')
 Invoke-GodotScript -Script 'res://tests/g3_02/世界持久化流程测试.gd' -UserArguments @(('--root={0}' -f $slashRoot)) -LogName 'focused.log'
+Invoke-GodotScript -Script 'res://tests/g3_02/查询失败传播测试.gd' -UserArguments @(('--root={0}' -f $slashRoot)) -LogName 'query-failure.log'
 
 $lostAckDatabase = (Join-Path $testRoot 'lost-ack.sqlite').Replace('\', '/')
 $marker = Join-Path $testRoot 'post-commit.marker'

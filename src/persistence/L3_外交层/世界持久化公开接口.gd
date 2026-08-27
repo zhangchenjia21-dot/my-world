@@ -28,15 +28,18 @@ func commit_world_mutation(game_id: String, mutation_id: String, expected_head_i
 	return _flow.commit_world_mutation(game_id, mutation_id, expected_head_id, node_id, next_world_state, created_at)
 
 
-## 读取唯一 current World 投影；它是当前 authoritative materialization，不是 historical snapshot。
+## 读取唯一 current World 投影；成功零行返回 not_found，底层 SELECT 失败返回 storage_failure。
+## current World 是 authoritative materialization，不是 historical snapshot。
 func get_current_game(game_id: String) -> Dictionary:
 	return _flow.get_current_game(game_id)
 
 
-## 读取 immutable historical recovery anchor；此接口没有历史修改能力。
+## 读取 immutable historical recovery anchor；成功零行与底层 SELECT failure 保持可观察区分。
+## 此接口没有历史修改能力。
 func get_timeline_node(game_id: String, node_id: String) -> Dictionary:
 	return _flow.get_timeline_node(game_id, node_id)
 
 
+## 返回稳定计数结果；底层 query failure 返回 storage_failure，不以空 rows 或 runtime error 代替。
 func timeline_node_count(game_id: String) -> Dictionary:
 	return _flow.timeline_node_count(game_id)
