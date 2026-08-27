@@ -159,16 +159,47 @@ func get_completion_candidate() -> Dictionary:
 func restore_accepted_entries(entries: Array) -> Dictionary:
 	if not turns.is_empty() or is_generating():
 		return {"ok": false, "error": "Conversation must be empty before rehydration"}
-	var restored: Array = []
-	for index: int in range(entries.size()):
-		var value: Variant = entries[index]
+	return _apply_validated_entries(entries)
+
+
+## Save/Restore 的 non-mutating validation seam。它与 rehydration/replace 共用同一规则，
+## 但不触碰 live turns、generation state 或 active attempt。
+func validate_accepted_entries(entries: Variant) -> Dictionary:
+	if typeof(entries) != TYPE_ARRAY:
+		return {"ok": false, "error": "accepted entries must be an Array", "accepted_entries": []}
+	var validated: Array = []
+	for index: int in range((entries as Array).size()):
+		var value: Variant = (entries as Array)[index]
 		if typeof(value) != TYPE_DICTIONARY:
-			return {"ok": false, "error": "accepted entry %d must be a Dictionary" % index}
+			return {"ok": false, "error": "accepted entry %d must be a Dictionary" % index, "accepted_entries": []}
 		var entry := value as Dictionary
 		if typeof(entry.get("player_text")) != TYPE_STRING or typeof(entry.get("gm_text")) != TYPE_STRING:
-			return {"ok": false, "error": "accepted entry %d must contain String player_text/gm_text" % index}
+			return {"ok": false, "error": "accepted entry %d must contain String player_text/gm_text" % index, "accepted_entries": []}
 		if String(entry.gm_text).strip_edges().is_empty():
-			return {"ok": false, "error": "accepted entry %d contains empty GM truth" % index}
+			return {"ok": false, "error": "accepted entry %d contains empty GM truth" % index, "accepted_entries": []}
+		validated.append({
+			"turn_index": index,
+			"player_text": String(entry.player_text),
+			"gm_text": String(entry.gm_text),
+		})
+	return {"ok": true, "error": "", "accepted_entries": validated}
+
+
+## Durable Restore COMMIT 后替换 current accepted truth。调用前必须已用
+## validate_accepted_entries() 预检；active generation 期间拒绝替换，避免旧 callback 回写。
+func replace_accepted_entries(entries: Array) -> Dictionary:
+	if is_generating():
+		return {"ok": false, "error": "Conversation cannot be replaced during active generation"}
+	return _apply_validated_entries(entries)
+
+
+func _apply_validated_entries(entries: Array) -> Dictionary:
+	var validation := validate_accepted_entries(entries)
+	if not validation.ok:
+		return validation
+	var restored: Array = []
+	for index: int in range(validation.accepted_entries.size()):
+		var entry := validation.accepted_entries[index] as Dictionary
 		var turn: RefCounted = Turn.new()
 		turn.turn_index = index
 		turn.player_text = String(entry.player_text)

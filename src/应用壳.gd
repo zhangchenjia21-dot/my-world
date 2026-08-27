@@ -23,11 +23,18 @@ const G3_01_EXPORT_SPIKE_FEATURE := "g3_01_persistence_spike"
 @onready var world_surface_host: PanelContainer = %WorldSurfaceHost
 @onready var player_toggle: Button = %PlayerToggle
 @onready var world_toggle: Button = %WorldToggle
+@onready var save_name_input: LineEdit = %SaveNameInput
+@onready var create_save_button: Button = %CreateSaveButton
+@onready var save_selector: OptionButton = %SaveSelector
+@onready var load_save_button: Button = %LoadSaveButton
+@onready var save_result_label: Label = %SaveResultLabel
+@onready var load_confirmation: ConfirmationDialog = %LoadConfirmation
 
 var shell_state: ShellState = ShellState.STARTING
 var _narrow := false
 ## Application composition root 唯一持有的 current Game runtime；UI 只绑定引用。
 var session_runtime: Variant = null
+var _pending_load_save_id := ""
 
 
 func _enter_tree() -> void:
@@ -50,6 +57,10 @@ func _ready() -> void:
 	exit_button.pressed.connect(_request_exit)
 	player_toggle.toggled.connect(_on_player_toggle)
 	world_toggle.toggled.connect(_on_world_toggle)
+	create_save_button.pressed.connect(_on_create_save_pressed)
+	load_save_button.pressed.connect(_on_load_save_pressed)
+	load_confirmation.confirmed.connect(_on_load_confirmed)
+	save_name_input.text_changed.connect(_on_save_name_changed)
 	_update_responsive_layout()
 	if session_runtime != null and not session_runtime.is_ready():
 		shell_state = ShellState.STARTING
@@ -59,6 +70,9 @@ func _ready() -> void:
 		shell_state = ShellState.READY
 		status_label.text = "状态：就绪"
 		print("[shell] state=ready")
+		_connect_save_runtime()
+		_refresh_save_points()
+	_update_save_controls()
 
 
 ## 仅由 G3-01 专用 export preset 编译启用；正式 Windows Desktop preset 不含此 feature。
@@ -95,6 +109,106 @@ func _request_exit() -> void:
 
 func get_session_runtime() -> Variant:
 	return session_runtime
+
+
+func _connect_save_runtime() -> void:
+	if session_runtime == null:
+		return
+	if session_runtime.has_signal("save_points_changed"):
+		session_runtime.save_points_changed.connect(_on_save_points_changed)
+	if session_runtime.has_signal("restore_completed"):
+		session_runtime.restore_completed.connect(_on_restore_completed)
+	var conversation: Variant = session_runtime.conversation
+	conversation.attempt_started.connect(_on_generation_state_changed)
+	conversation.generation_completed.connect(_on_generation_state_changed)
+	conversation.generation_cancelled.connect(_on_generation_state_changed)
+	conversation.generation_failed.connect(_on_generation_failed_state_changed)
+
+
+func _refresh_save_points() -> void:
+	if session_runtime == null or not session_runtime.is_ready():
+		return
+	var listed: Dictionary = session_runtime.list_save_points()
+	if not listed.success:
+		_show_save_result("无法读取存档列表。", true)
+		return
+	_on_save_points_changed(listed.save_points)
+
+
+func _on_save_points_changed(save_points: Array) -> void:
+	save_selector.clear()
+	for save_value: Variant in save_points:
+		var save := save_value as Dictionary
+		save_selector.add_item(String(save.display_name))
+		save_selector.set_item_metadata(save_selector.item_count - 1, String(save.save_id))
+	_update_save_controls()
+
+
+func _on_create_save_pressed() -> void:
+	if session_runtime == null:
+		return
+	var result: Dictionary = session_runtime.create_save_point(save_name_input.text)
+	if not result.success:
+		_show_save_result(String(result.message), true)
+		_update_save_controls()
+		return
+	save_name_input.clear()
+	_show_save_result("已保存当前进度：%s" % String(result.display_name), false)
+	_update_save_controls()
+
+
+func _on_load_save_pressed() -> void:
+	if save_selector.selected < 0 or save_selector.item_count == 0:
+		return
+	_pending_load_save_id = String(save_selector.get_item_metadata(save_selector.selected))
+	var display_name := save_selector.get_item_text(save_selector.selected)
+	load_confirmation.title = "读取存档「%s」" % display_name
+	load_confirmation.dialog_text = "读取将切换当前进度到「%s」。若希望以后回到现在，请先保存当前进度。" % display_name
+	load_confirmation.popup_centered()
+
+
+func _on_load_confirmed() -> void:
+	if session_runtime == null or _pending_load_save_id.is_empty():
+		return
+	var result: Dictionary = session_runtime.restore_save_point(_pending_load_save_id)
+	_pending_load_save_id = ""
+	if not result.success:
+		_show_save_result(String(result.message), true)
+		_update_save_controls()
+		return
+	_show_save_result("已读取存档：%s" % String(result.display_name), false)
+	status_label.text = "状态：已读取存档"
+	_update_save_controls()
+
+
+func _on_restore_completed(_result: Dictionary) -> void:
+	_update_save_controls()
+
+
+func _on_generation_state_changed(_turn: RefCounted) -> void:
+	_update_save_controls()
+
+
+func _on_generation_failed_state_changed(_turn: RefCounted, _code: String) -> void:
+	_update_save_controls()
+
+
+func _on_save_name_changed(_text: String) -> void:
+	_update_save_controls()
+
+
+func _update_save_controls() -> void:
+	var ready: bool = session_runtime != null and bool(session_runtime.is_ready())
+	var generating: bool = ready and bool(session_runtime.conversation.is_generating())
+	save_name_input.editable = ready and not generating
+	create_save_button.disabled = not ready or generating or save_name_input.text.strip_edges().is_empty()
+	save_selector.disabled = not ready or generating or save_selector.item_count == 0
+	load_save_button.disabled = not ready or generating or save_selector.item_count == 0
+
+
+func _show_save_result(message: String, is_error: bool) -> void:
+	save_result_label.text = message
+	save_result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46) if is_error else Color(0.58, 0.78, 0.62))
 
 
 func _product_database_path() -> String:

@@ -238,6 +238,50 @@ theme_override_font_sizes/font_size = 14
 text = "世界信息将在游戏状态成立后显示。"
 autowrap_mode = 2
 
+[node name="SaveSeparator" type="HSeparator" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+layout_mode = 2
+
+[node name="SaveHeader" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "进度存档"
+
+[node name="SaveHint" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.627451, 0.65098, 0.698039, 1)
+theme_override_font_sizes/font_size = 13
+text = "为重要进度命名保存；读取旧存档会切换当前进度。"
+autowrap_mode = 2
+
+[node name="SaveNameInput" type="LineEdit" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "输入存档名称"
+
+[node name="CreateSaveButton" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "保存当前进度"
+
+[node name="SaveSelector" type="OptionButton" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+tooltip_text = "选择要读取的存档"
+
+[node name="LoadSaveButton" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+text = "读取所选存档"
+
+[node name="SaveResultLabel" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 2
+
 [node name="BottomBar" type="HBoxContainer" parent="Margin/Layout"]
 layout_mode = 2
 
@@ -247,3 +291,8 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.556863, 0.580392, 0.631373, 1)
 theme_override_font_sizes/font_size = 14
 text = "状态：启动中…"
+
+[node name="LoadConfirmation" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+ok_button_text = "确认读取"
+cancel_button_text = "取消"

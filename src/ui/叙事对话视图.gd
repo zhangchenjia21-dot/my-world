@@ -64,6 +64,8 @@ func _ready() -> void:
 	if session_runtime != null:
 		conversation = session_runtime.conversation
 		_startup_ready = session_runtime.is_ready()
+		if session_runtime.has_signal("restore_completed"):
+			session_runtime.restore_completed.connect(_on_runtime_restore_completed)
 	else:
 		conversation = Conversation.new()
 	context_assembler = ContextAssembler.new()
@@ -198,6 +200,13 @@ func _on_generation_failed(_turn: RefCounted, code: String) -> void:
 	if _current_gm_marker != null:
 		_current_gm_marker.text = "生成失败 —— 可点击「重新生成」重试"
 	_show_error(_friendly_error(code))
+	_update_controls()
+
+
+func _on_runtime_restore_completed(_result: Dictionary) -> void:
+	# Restore 后 UI 必须从新的 Domain projection 全量重建，不能逐条 patch 旧 future blocks。
+	redraw_from_conversation()
+	_hide_error()
 	_update_controls()
 
 
@@ -341,3 +350,14 @@ func _render_restored_entries() -> void:
 		_append_player_entry(String(entry.player_text))
 		_begin_gm_entry()
 		_current_gm_content.add_text(String(entry.gm_text))
+
+
+func redraw_from_conversation() -> void:
+	for child: Node in entries.get_children():
+		entries.remove_child(child)
+		child.queue_free()
+	_current_gm_content = null
+	_current_gm_marker = null
+	_render_restored_entries()
+	_follow_scroll = true
+	_follow_scroll_if_needed()

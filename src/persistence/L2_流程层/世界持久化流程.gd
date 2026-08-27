@@ -4,7 +4,7 @@ const Result := preload("res://src/persistence/L0_公理层/持久化操作结�
 const Encoder := preload("res://src/persistence/L1_器件层/规范化文档编码器.gd")
 const Connector := preload("res://src/persistence/L1_器件层/SQLite数据库连接器.gd")
 
-const SCHEMA_VERSION := 2
+const SCHEMA_VERSION := 3
 
 var _connection: Variant = null
 
@@ -134,6 +134,139 @@ func write_current_conversation(game_id: String, accepted_entries: Variant, upda
 	})
 
 
+func create_save_point(game_id: String, save_id: String, display_name: String, created_at: String) -> Dictionary:
+	var identity_error := _identity_error({"game_id": game_id, "save_id": save_id, "created_at": created_at})
+	if not identity_error.is_empty():
+		return Result.make(Result.INVALID_INPUT, identity_error)
+	if display_name.strip_edges().is_empty():
+		return Result.make(Result.INVALID_INPUT, "display_name must be non-empty")
+	if not _require_open():
+		return Result.make(Result.NOT_OPEN, "database connection is not open")
+	if not _connection.begin_immediate():
+		return _storage_failure("begin Save Point creation")
+	# Save 从同一 durable transaction 读取 head 与 accepted Conversation；UI/memory draft
+	# 不参与捕获，因此得到的是一个 coherent committed moment。
+	var current_query: Dictionary = _connection.query_rows("SELECT g.active_head_id, c.accepted_turns_json FROM games g JOIN conversation_materializations c ON c.game_id = g.game_id WHERE g.game_id = ?;", [game_id])
+	if not current_query.ok:
+		return _rollback_storage_failure("query current Save material")
+	if current_query.rows.is_empty():
+		_connection.rollback()
+		return Result.make(Result.NOT_FOUND, "game_id was not found", {"game_id": game_id})
+	if current_query.rows.size() != 1:
+		return _rollback_storage_failure("query unique current Save material")
+	var current := current_query.rows[0] as Dictionary
+	if not _connection.execute("INSERT INTO save_points(game_id, save_id, display_name, timeline_node_id, accepted_turns_json, created_at) VALUES (?, ?, ?, ?, ?, ?);", [game_id, save_id, display_name, String(current.active_head_id), String(current.accepted_turns_json), created_at]):
+		return _rollback_storage_failure("insert Save Point")
+	if not _connection.commit():
+		return _rollback_storage_failure("commit Save Point")
+	return Result.make(Result.COMMITTED, "Save Point committed", {
+		"game_id": game_id,
+		"save_id": save_id,
+		"display_name": display_name,
+		"timeline_node_id": String(current.active_head_id),
+		"created_at": created_at,
+	})
+
+
+func list_save_points(game_id: String) -> Dictionary:
+	if game_id.strip_edges().is_empty():
+		return Result.make(Result.INVALID_INPUT, "game_id must be non-empty")
+	if not _require_open():
+		return Result.make(Result.NOT_OPEN, "database connection is not open")
+	var query: Dictionary = _connection.query_rows("SELECT save_id, display_name, timeline_node_id, created_at FROM save_points WHERE game_id = ? ORDER BY created_at, save_id;", [game_id])
+	if not query.ok:
+		return _storage_failure("list Save Points")
+	var save_points: Array = []
+	for row_value: Variant in query.rows:
+		var row := row_value as Dictionary
+		save_points.append({
+			"save_id": String(row.save_id),
+			"display_name": String(row.display_name),
+			"timeline_node_id": String(row.timeline_node_id),
+			"created_at": String(row.created_at),
+		})
+	return Result.make(Result.FOUND, "", {"game_id": game_id, "save_points": save_points})
+
+
+func get_save_point(game_id: String, save_id: String) -> Dictionary:
+	var identity_error := _identity_error({"game_id": game_id, "save_id": save_id})
+	if not identity_error.is_empty():
+		return Result.make(Result.INVALID_INPUT, identity_error)
+	if not _require_open():
+		return Result.make(Result.NOT_OPEN, "database connection is not open")
+	var query: Dictionary = _connection.query_rows("SELECT display_name, timeline_node_id, accepted_turns_json, created_at FROM save_points WHERE game_id = ? AND save_id = ?;", [game_id, save_id])
+	if not query.ok:
+		return _storage_failure("query Save Point")
+	if query.rows.is_empty():
+		return Result.make(Result.NOT_FOUND, "Save Point was not found", {"game_id": game_id, "save_id": save_id})
+	if query.rows.size() != 1:
+		return Result.make(Result.STORAGE_FAILURE, "Save Point query returned multiple rows")
+	var row := query.rows[0] as Dictionary
+	var accepted_entries: Variant = JSON.parse_string(String(row.accepted_turns_json))
+	if typeof(accepted_entries) != TYPE_ARRAY:
+		return Result.make(Result.STORAGE_FAILURE, "saved accepted Conversation is not a valid JSON Array")
+	return Result.make(Result.FOUND, "", {
+		"game_id": game_id,
+		"save_id": save_id,
+		"display_name": String(row.display_name),
+		"timeline_node_id": String(row.timeline_node_id),
+		"accepted_entries": accepted_entries,
+		"created_at": String(row.created_at),
+	})
+
+
+func restore_save_point(game_id: String, save_id: String, validated_accepted_entries: Variant, updated_at: String) -> Dictionary:
+	var identity_error := _identity_error({"game_id": game_id, "save_id": save_id, "updated_at": updated_at})
+	if not identity_error.is_empty():
+		return Result.make(Result.INVALID_INPUT, identity_error)
+	var encoded := Encoder.encode_json_value(validated_accepted_entries)
+	if not encoded.ok or typeof(encoded.value) != TYPE_ARRAY:
+		return Result.make(Result.INVALID_INPUT, encoded.get("error", "validated accepted entries must be a JSON Array"))
+	if not _require_open():
+		return Result.make(Result.NOT_OPEN, "database connection is not open")
+	if not _connection.begin_immediate():
+		return _storage_failure("begin Save Point Restore")
+	var save_query: Dictionary = _connection.query_rows("SELECT display_name, timeline_node_id, accepted_turns_json FROM save_points WHERE game_id = ? AND save_id = ?;", [game_id, save_id])
+	if not save_query.ok:
+		return _rollback_storage_failure("query Restore Save Point")
+	if save_query.rows.is_empty():
+		_connection.rollback()
+		return Result.make(Result.NOT_FOUND, "Save Point was not found", {"game_id": game_id, "save_id": save_id})
+	var save := save_query.rows[0] as Dictionary
+	# Save immutable；Runtime 预检过的 Domain material 必须仍与 transaction 内记录 exact 一致。
+	if String(save.accepted_turns_json) != String(encoded.json):
+		_connection.rollback()
+		return Result.make(Result.INVALID_INPUT, "validated Conversation does not match immutable Save Point")
+	var node_query: Dictionary = _connection.query_rows("SELECT world_snapshot_json FROM timeline_nodes WHERE game_id = ? AND node_id = ?;", [game_id, String(save.timeline_node_id)])
+	if not node_query.ok:
+		return _rollback_storage_failure("query Restore Timeline anchor")
+	if node_query.rows.size() != 1:
+		return _rollback_storage_failure("Restore Save Point has no unique Timeline anchor")
+	var world_json := String((node_query.rows[0] as Dictionary).world_snapshot_json)
+	var world_state: Variant = JSON.parse_string(world_json)
+	if typeof(world_state) != TYPE_DICTIONARY:
+		_connection.rollback()
+		return Result.make(Result.STORAGE_FAILURE, "Restore Timeline snapshot is not a valid World object")
+	# 三个 current materialization 写入同一 transaction。测试 trigger 可在后两步中止，
+	# 证明先前 World/head 写入不会形成半恢复。
+	if not _connection.execute("UPDATE world_materializations SET head_id = ?, materialization_json = ?, updated_at = ? WHERE game_id = ?;", [String(save.timeline_node_id), world_json, updated_at, game_id]) or _connection.changed_rows() != 1:
+		return _rollback_storage_failure("restore current World")
+	if not _connection.execute("UPDATE games SET active_head_id = ?, updated_at = ? WHERE game_id = ?;", [String(save.timeline_node_id), updated_at, game_id]) or _connection.changed_rows() != 1:
+		return _rollback_storage_failure("restore Game active head")
+	if not _connection.execute("UPDATE conversation_materializations SET accepted_turns_json = ?, revision = revision + 1, updated_at = ? WHERE game_id = ?;", [encoded.json, updated_at, game_id]) or _connection.changed_rows() != 1:
+		return _rollback_storage_failure("restore current Conversation")
+	if not _connection.commit():
+		return _rollback_storage_failure("commit Save Point Restore")
+	return Result.make(Result.COMMITTED, "Save Point restored", {
+		"game_id": game_id,
+		"save_id": save_id,
+		"display_name": String(save.display_name),
+		"head_id": String(save.timeline_node_id),
+		"world_state": (world_state as Dictionary).duplicate(true),
+		"accepted_entries": encoded.value,
+	})
+
+
 func commit_world_mutation(game_id: String, mutation_id: String, expected_head_id: String, node_id: String, next_world_state: Variant, created_at: String) -> Dictionary:
 	var identity_error := _identity_error({"game_id": game_id, "mutation_id": mutation_id, "expected_head_id": expected_head_id, "node_id": node_id, "created_at": created_at})
 	if not identity_error.is_empty():
@@ -241,7 +374,7 @@ func _ensure_schema() -> Dictionary:
 		"CREATE TABLE IF NOT EXISTS games(game_id TEXT PRIMARY KEY, active_head_id TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL);",
 		"CREATE TABLE IF NOT EXISTS timeline_nodes(game_id TEXT NOT NULL, node_id TEXT NOT NULL, parent_node_id TEXT, sequence_number INTEGER NOT NULL CHECK(sequence_number >= 0), mutation_id TEXT NOT NULL, intent_fingerprint TEXT NOT NULL, world_snapshot_json TEXT NOT NULL, created_at TEXT NOT NULL, PRIMARY KEY(game_id, node_id), UNIQUE(game_id, mutation_id), FOREIGN KEY(game_id) REFERENCES games(game_id) ON DELETE RESTRICT, FOREIGN KEY(game_id, parent_node_id) REFERENCES timeline_nodes(game_id, node_id) DEFERRABLE INITIALLY DEFERRED);",
 		"CREATE TABLE IF NOT EXISTS world_materializations(game_id TEXT PRIMARY KEY, head_id TEXT NOT NULL, materialization_json TEXT NOT NULL, updated_at TEXT NOT NULL, FOREIGN KEY(game_id) REFERENCES games(game_id) ON DELETE RESTRICT, FOREIGN KEY(game_id, head_id) REFERENCES timeline_nodes(game_id, node_id) DEFERRABLE INITIALLY DEFERRED);",
-		"INSERT OR IGNORE INTO persistence_schema(singleton, schema_version) VALUES (1, 2);",
+		"INSERT OR IGNORE INTO persistence_schema(singleton, schema_version) VALUES (1, 3);",
 	]
 	for sql: String in statements:
 		if not _connection.execute(sql):
@@ -255,7 +388,16 @@ func _ensure_schema() -> Dictionary:
 		_connection.rollback()
 		return Result.make(Result.SCHEMA_MISMATCH, "production schema version source is invalid")
 	var version := int((versions[0] as Dictionary).schema_version)
-	if version == 1:
+	if meta_inserted == 1:
+		var new_schema_statements := [
+			"CREATE TABLE conversation_materializations(game_id TEXT PRIMARY KEY, accepted_turns_json TEXT NOT NULL, revision INTEGER NOT NULL DEFAULT 0 CHECK(revision >= 0), updated_at TEXT NOT NULL, FOREIGN KEY(game_id) REFERENCES games(game_id) ON DELETE RESTRICT);",
+			"CREATE TABLE save_points(game_id TEXT NOT NULL, save_id TEXT NOT NULL, display_name TEXT NOT NULL, timeline_node_id TEXT NOT NULL, accepted_turns_json TEXT NOT NULL, created_at TEXT NOT NULL, PRIMARY KEY(game_id, save_id), FOREIGN KEY(game_id) REFERENCES games(game_id) ON DELETE RESTRICT, FOREIGN KEY(game_id, timeline_node_id) REFERENCES timeline_nodes(game_id, node_id) ON DELETE RESTRICT);",
+			"CREATE INDEX save_points_game_created_idx ON save_points(game_id, created_at, save_id);",
+		]
+		for sql: String in new_schema_statements:
+			if not _connection.execute(sql):
+				return _rollback_storage_failure("create production schema v3 tables")
+	elif version == 1:
 		# v1→v2 是单笔 additive migration；test-only trigger 可在 version UPDATE 中止，
 		# 从而证明 table/seed/version 全部 rollback，既有 Game/World/Timeline 不受影响。
 		var migration_statements := [
@@ -266,23 +408,33 @@ func _ensure_schema() -> Dictionary:
 		for sql: String in migration_statements:
 			if not _connection.execute(sql):
 				return _rollback_storage_failure("migrate production schema v1 to v2")
+		version = 2
+	if meta_inserted != 1 and version == 2:
+		# v2→v3 只增加 immutable Save Point recovery material；任何建表/索引/version
+		# failure 都与旧 current Game/World/Conversation 一起 rollback 到可继续打开的 v2。
+		var save_migration_statements := [
+			"CREATE TABLE save_points(game_id TEXT NOT NULL, save_id TEXT NOT NULL, display_name TEXT NOT NULL, timeline_node_id TEXT NOT NULL, accepted_turns_json TEXT NOT NULL, created_at TEXT NOT NULL, PRIMARY KEY(game_id, save_id), FOREIGN KEY(game_id) REFERENCES games(game_id) ON DELETE RESTRICT, FOREIGN KEY(game_id, timeline_node_id) REFERENCES timeline_nodes(game_id, node_id) ON DELETE RESTRICT);",
+			"CREATE INDEX save_points_game_created_idx ON save_points(game_id, created_at, save_id);",
+			"UPDATE persistence_schema SET schema_version = 3 WHERE singleton = 1 AND schema_version = 2;",
+		]
+		for sql: String in save_migration_statements:
+			if not _connection.execute(sql):
+				return _rollback_storage_failure("migrate production schema v2 to v3")
 		version = SCHEMA_VERSION
-	elif version == SCHEMA_VERSION and meta_inserted == 1:
-		if not _connection.execute("CREATE TABLE conversation_materializations(game_id TEXT PRIMARY KEY, accepted_turns_json TEXT NOT NULL, revision INTEGER NOT NULL DEFAULT 0 CHECK(revision >= 0), updated_at TEXT NOT NULL, FOREIGN KEY(game_id) REFERENCES games(game_id) ON DELETE RESTRICT);"):
-			return _rollback_storage_failure("create production schema v2 Conversation table")
-	elif version == SCHEMA_VERSION:
-		var table_query: Dictionary = _connection.query_rows("SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'conversation_materializations';")
-		if not table_query.ok:
-			return _rollback_storage_failure("verify production schema v2")
-		if table_query.rows.size() != 1:
-			_connection.rollback()
-			return Result.make(Result.SCHEMA_MISMATCH, "production schema v2 Conversation table is missing")
+	if version == SCHEMA_VERSION:
+		for required_table: String in ["conversation_materializations", "save_points"]:
+			var table_query: Dictionary = _connection.query_rows("SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?;", [required_table])
+			if not table_query.ok:
+				return _rollback_storage_failure("verify production schema v3")
+			if table_query.rows.size() != 1:
+				_connection.rollback()
+				return Result.make(Result.SCHEMA_MISMATCH, "production schema v3 table is missing: %s" % required_table)
 	else:
 		_connection.rollback()
 		return Result.make(Result.SCHEMA_MISMATCH, "unsupported production schema version %d" % version)
 	if not _connection.commit():
-		return _rollback_storage_failure("commit production schema v2")
-	return Result.make(Result.READY, "production schema v2 ready", {"schema_version": SCHEMA_VERSION})
+		return _rollback_storage_failure("commit production schema v3")
+	return Result.make(Result.READY, "production schema v3 ready", {"schema_version": SCHEMA_VERSION})
 
 
 func _decoded_found(head_id: String, json_text: String, details: Dictionary) -> Dictionary:

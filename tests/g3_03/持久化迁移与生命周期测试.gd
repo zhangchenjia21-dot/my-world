@@ -41,9 +41,9 @@ func _test_migration_success() -> bool:
 	if count.node_count != 2 or conversation.status != "found" or not conversation.accepted_entries.is_empty():
 		return _fail("migration nodes/Conversation mismatch: count=%s conversation=%s" % [count, conversation])
 	var proof := _raw_schema_proof(path)
-	if proof.version != 2 or proof.conversation_tables != 1:
+	if proof.version != 3 or proof.conversation_tables != 1 or proof.save_tables != 1:
 		return _fail("migration schema proof: %s" % proof)
-	print("G3-03 PASS | production v1->v2 preserves H1/W1/2 nodes and seeds empty Conversation")
+	print("G3-03 PASS | production v1->current preserves H1/W1/2 nodes and seeds empty Conversation")
 	return true
 
 
@@ -249,12 +249,14 @@ func _raw_schema_proof(path: String) -> Dictionary:
 	var version := int(db.query_result[0].schema_version)
 	db.query("SELECT COUNT(*) AS count FROM sqlite_master WHERE type = 'table' AND name = 'conversation_materializations';")
 	var table_count := int(db.query_result[0].count)
+	db.query("SELECT COUNT(*) AS count FROM sqlite_master WHERE type = 'table' AND name = 'save_points';")
+	var save_table_count := int(db.query_result[0].count)
 	db.query("SELECT active_head_id FROM games WHERE game_id = '%s';" % V1_GAME)
 	var head := String(db.query_result[0].active_head_id)
 	db.query("SELECT materialization_json FROM world_materializations WHERE game_id = '%s';" % V1_GAME)
 	var world_json := String(db.query_result[0].materialization_json)
 	db.close_db()
-	return {"version": version, "conversation_tables": table_count, "head": head, "world_json": world_json}
+	return {"version": version, "conversation_tables": table_count, "save_tables": save_table_count, "head": head, "world_json": world_json}
 
 
 func _install_conversation_abort_trigger(path: String) -> bool:

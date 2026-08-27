@@ -5,7 +5,7 @@ const Flow := preload("res://src/persistence/L2_流程层/世界持久化流程.
 var _flow: Variant = Flow.new()
 
 
-## 打开调用方明确指定的数据库并验证 production schema v1。
+## 打开调用方明确指定的数据库并验证/迁移 production schema。
 ## 不扫描 user://、不选择最近 Game，也不暴露 SQLite connection/row。
 func open_database(database_path: String) -> Dictionary:
 	return _flow.open(database_path)
@@ -37,6 +37,28 @@ func get_current_conversation(game_id: String) -> Dictionary:
 ## prospective projection；COMMIT 前不得在 Domain/UI 宣布 accepted success。
 func write_current_conversation(game_id: String, accepted_entries: Variant, updated_at: String) -> Dictionary:
 	return _flow.write_current_conversation(game_id, accepted_entries, updated_at)
+
+
+## 在一个 transaction 内从 durable current head + accepted Conversation 创建 immutable
+## Save Point。display_name 只用于玩家展示，stable save_id 才是 identity。
+func create_save_point(game_id: String, save_id: String, display_name: String, created_at: String) -> Dictionary:
+	return _flow.create_save_point(game_id, save_id, display_name, created_at)
+
+
+## 返回 player-facing Save read model；不返回 accepted snapshot 或 SQLite row。
+func list_save_points(game_id: String) -> Dictionary:
+	return _flow.list_save_points(game_id)
+
+
+## 返回单个 Save 的恢复候选，供 Conversation Domain 在 durable mutation 前 non-mutating validate。
+func get_save_point(game_id: String, save_id: String) -> Dictionary:
+	return _flow.get_save_point(game_id, save_id)
+
+
+## 原子恢复 current World/head/accepted Conversation。validated_accepted_entries 必须来自
+## Conversation Domain validation，且必须 exact 匹配 immutable Save recovery material。
+func restore_save_point(game_id: String, save_id: String, validated_accepted_entries: Variant, updated_at: String) -> Dictionary:
+	return _flow.restore_save_point(game_id, save_id, validated_accepted_entries, updated_at)
 
 
 ## 在一个 transaction 中提交 immutable node snapshot、current World 与 active head。

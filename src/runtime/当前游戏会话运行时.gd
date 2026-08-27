@@ -3,13 +3,16 @@ extends RefCounted
 ## current Game 的最小 application composition owner。
 ##
 ## 本对象组合 Persistence L3 与 Conversation Domain，负责 one-current-Game startup、
-## rehydration、persist-before-accept 和资源关闭；它不解释 World JSON、不组装 Provider
-## messages，也不实现 Save/Load/Restore 或多 Game picker。
+## rehydration、persist-before-accept、explicit Save/Restore 与资源关闭；它不解释 World
+## JSON、不组装 Provider messages，也不实现 G3-05 recovery / 多 Game picker。
 
 const Persistence := preload("res://src/persistence/L3_外交层/世界持久化公开接口.gd")
 const Conversation := preload("res://src/domain/会话.gd")
 
 const DEFAULT_DATABASE_PATH := "user://my-world/current-game.sqlite"
+
+signal save_points_changed(save_points)
+signal restore_completed(result)
 
 var persistence: RefCounted = Persistence.new()
 var conversation: RefCounted = Conversation.new()
@@ -19,6 +22,7 @@ var active_head_id := ""
 var root_node_id := ""
 var world_state: Dictionary = {}
 var startup_result: Dictionary = {"status": "not_started", "success": false, "message": ""}
+var _reopen_required := false
 
 
 ## 打开明确路径的 one-current-Game。只有调用前 DB 文件真实不存在时才允许 mint Game；
@@ -112,8 +116,64 @@ func complete_active_generation_durably() -> Dictionary:
 	}
 
 
+## 只在 stable non-generating current state 创建 Save。Persistence 在自己的 transaction
+## 中读取 durable head + Conversation，Runtime 不把 UI/memory draft 当恢复材料。
+func create_save_point(display_name: String) -> Dictionary:
+	if not is_ready():
+		return {"status": "startup_failure", "success": false, "message": "当前游戏尚未就绪。"}
+	if conversation.is_generating():
+		return {"status": "generation_active", "success": false, "message": "请先等待生成完成或取消本次生成，再保存当前进度。"}
+	if display_name.strip_edges().is_empty():
+		return {"status": "invalid_input", "success": false, "message": "请输入存档名称。"}
+	var saved: Dictionary = persistence.create_save_point(game_id, _generate_identity("save"), display_name, _now_utc())
+	if not saved.success:
+		return {"status": saved.status, "success": false, "message": "保存失败，当前进度没有改变。可稍后重试。", "engineering_cause": saved.message}
+	var listed := list_save_points()
+	if listed.success:
+		save_points_changed.emit(listed.save_points.duplicate(true))
+	return saved
+
+
+func list_save_points() -> Dictionary:
+	if not is_ready():
+		return {"status": "startup_failure", "success": false, "message": "当前游戏尚未就绪。", "save_points": []}
+	return persistence.list_save_points(game_id)
+
+
+## Restore ordering：Domain non-mutating validation → durable transaction COMMIT → Runtime
+## head/world apply → in-memory Conversation replace → UI full redraw signal。
+func restore_save_point(save_id: String) -> Dictionary:
+	if not is_ready():
+		return {"status": "startup_failure", "success": false, "message": "当前游戏尚未就绪。"}
+	if conversation.is_generating():
+		return {"status": "generation_active", "success": false, "message": "请先等待生成完成或取消本次生成，再读取存档。"}
+	var candidate: Dictionary = persistence.get_save_point(game_id, save_id)
+	if not candidate.success:
+		return {"status": candidate.status, "success": false, "message": "无法找到或读取所选存档，当前进度没有改变。", "engineering_cause": candidate.message}
+	var validation: Dictionary = conversation.validate_accepted_entries(candidate.accepted_entries)
+	if not validation.ok:
+		return {"status": "invalid_conversation", "success": false, "message": "所选存档的叙事记录无效，当前进度没有改变。", "engineering_cause": validation.error}
+	var restored: Dictionary = persistence.restore_save_point(game_id, save_id, validation.accepted_entries, _now_utc())
+	if not restored.success:
+		return {"status": restored.status, "success": false, "message": "读取失败，当前进度没有改变。可稍后重试。", "engineering_cause": restored.message}
+
+	active_head_id = String(restored.head_id)
+	world_state = (restored.world_state as Dictionary).duplicate(true)
+	var replaced: Dictionary = conversation.replace_accepted_entries(restored.accepted_entries)
+	if not replaced.ok:
+		# Durable truth 已成功切换，旧 memory 不得继续对着新 DB 运行；reopen 是唯一安全恢复。
+		_reopen_required = true
+		startup_result.success = false
+		startup_result.status = "reopen_required"
+		startup_result.message = "存档已读取，但界面状态无法安全刷新。请立即重新打开游戏。"
+		return {"status": "reopen_required", "success": false, "committed": true, "message": startup_result.message, "engineering_cause": replaced.error}
+	restored["accepted_count"] = int(replaced.accepted_count)
+	restore_completed.emit(restored.duplicate(true))
+	return restored
+
+
 func is_ready() -> bool:
-	return bool(startup_result.get("success", false)) and persistence != null
+	return bool(startup_result.get("success", false)) and persistence != null and not _reopen_required
 
 
 ## accepted truth 已在每次 completion 前 durable；close 只放弃 non-accepted attempt 并释放连接，
