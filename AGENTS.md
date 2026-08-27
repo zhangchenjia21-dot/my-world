@@ -38,11 +38,13 @@ Completed:
 - G2 AI Conversation Spine: **PASS / CLOSED**.
 - G2-GATE: **PASS**.
 - G3-01 Persistence Domain Architecture: **PASS — Independent Review**.
+- G3-02 Durable World Mutation Path: **PASS — Independent Review**.
 
-G3-01 implementation/spike:
+G3-02 implementation line:
 
 ```text
-1fc1cba76ade63a05e4b7ba9009264696ad45b1a
+bda2a8877297c51365cd6581536875b68c81cb85
+ee768ca6ec8abdb2d65c994da4e7287886153bff  IR-01 query-failure propagation repair
 ```
 
 Current phase:
@@ -51,9 +53,9 @@ Current phase:
 
 Current task:
 
-> **G3-02 — Durable World Mutation Path**
+> **G3-03 — Game Reopen / Resume**
 
-G3-03+ are not authorized until G3-02 Independent Review closes.
+G3-04+ are not authorized until G3-03 Engineering + Independent Review closes; Owner UAT is required for the real restart/resume path before G3-03 product closeout.
 
 ## 4. Core product/runtime invariants
 
@@ -88,7 +90,7 @@ Persistence                  SQLite — ACCEPTED for G3 v0.1
 SQLite binding               2shady4u/godot-sqlite v4.9
 ```
 
-G3-01 proved the current route on real Windows/Godot/exported EXE evidence: open/reopen, parameter bindings, COMMIT/ROLLBACK, pre-COMMIT process termination/reopen, migration success/failure rollback, corrupt fail-loud and packaged GDExtension operation.
+G3-01 proved the SQLite route on real Windows/Godot/exported EXE evidence. G3-02 added the production kernel: atomic Game/World/Timeline mutation, expected-head CAS, replay-safe mutation identity, immutable historical snapshots, explicit storage failure propagation and query-failure/zero-row separation.
 
 Vendored Windows x86_64 debug/release binaries, MIT license and provenance are under `addons/godot-sqlite/`.
 
@@ -115,7 +117,7 @@ Context Assembly
 → derived model request material
 
 Persistence
-→ SQLite representation
+→ SQLite durable representation
 → transaction / schema version / migration / backup / corruption recovery mechanics
 ```
 
@@ -139,7 +141,7 @@ Closed invariants:
 - UI does not own a second conversation/context truth.
 - Context/messages are derived and rebuildable.
 
-G3-02 must not persist Context messages as authoritative truth or redefine Conversation as Timeline.
+G3-03 may add explicit Conversation rehydration/durable materialization seams, but must not move Conversation semantics into SQLite or persist Provider messages/Context as authoritative truth.
 
 ## 8. G3 persistence / reversibility boundary
 
@@ -173,39 +175,38 @@ Timeline Node
 
 Load old Save should not immediately and irreversibly destroy current future. Arbitrary per-turn rewind remains Deferred.
 
-## 9. G3-02 specific boundary
+## 9. G3-03 specific boundary
 
-G3-02 turns the proven SQLite route into the first production durable mutation kernel.
+G3-03 establishes **current Game resume**, not historical Restore.
 
-Required direction:
+Required product spine:
 
 ```text
-Game-local World mutation input
-→ stable mutation identity
-→ authoritative current World materialization change
-→ new Timeline Node
-→ Game.active_head change
-→ one SQLite transaction
-→ publish success only after COMMIT
+first run/open current Game
+→ accepted Conversation becomes durable
+→ normal exit
+→ next process opens the same Game identity
+→ current World restores exactly
+→ accepted Conversation rehydrates exactly
+→ Context is rebuilt from restored truth
+→ player can continue a new Turn
 ```
 
 Critical invariants:
 
-- no half-new/half-old visible state;
-- caller supplies/derives an expected current head so stale writes cannot silently attach to the wrong future;
-- crash-after-COMMIT but before caller receives success must be replay-safe: the same durable mutation identity cannot create a duplicate Timeline Node/effect;
-- Snapshot/checkpoint remains recovery/performance material, not second live truth;
-- production schema stays minimal and generic enough not to pre-freeze G5 NPC/Faction/Item semantics;
-- G3-01 `g3_fixture_*` schema is spike-only and must not be copied blindly into production;
-- no Resume, Save UI, Restore flow, Timeline browser or Conversation persistence yet.
-
-Do not introduce ORM, EventBus, DI/service locator, generic repository forest or full event sourcing.
+- only accepted Conversation truth is resume-authoritative; streaming draft / cancelled / failed partial attempts are not restored as accepted history;
+- Context / Provider messages remain derived and are rebuilt after resume; do not persist them as fallback truth;
+- current opaque World JSON is storage material, not a prompt format; do not dump raw persistence JSON into model context merely because it is available;
+- durable Conversation write failure must be fail-loud and must not silently let UI/product continue as if the accepted turn were resume-safe;
+- Resume must distinguish missing/new state from storage/corruption/schema failure; never create an empty replacement Game on physical read failure;
+- current Conversation persistence for G3-03 must not pre-freeze G3-04 historical visibility/Save schema; prefer a minimal current materialization seam;
+- multi-Game picker, explicit Save/Load/Restore, future-memory isolation, arbitrary Timeline browsing and G5 World semantics remain out of scope.
 
 ## 10. Persistence hard boundaries
 
-- authoritative durable writes must be atomic;
+- authoritative durable writes must be atomic at their declared boundary;
 - stable identities survive reopen once introduced;
-- transaction failure or interruption cannot silently leave partial accepted game state;
+- transaction/query failure cannot silently become normal absence or partial accepted state;
 - migration failure cannot silently corrupt the only copy;
 - cache/projection/transcript/UI cannot become fallback authoritative truth;
 - test failure injection uses isolated paths only and never unknown player data;
@@ -213,7 +214,7 @@ Do not introduce ORM, EventBus, DI/service locator, generic repository forest or
 
 ## 11. Evidence / execution discipline
 
-Never claim Windows-local, Godot, SQLite, export, filesystem or crash-recovery success without real execution evidence.
+Never claim Windows-local, Godot, SQLite, export, filesystem, resume or crash-recovery success without real execution evidence.
 
 Separate implementation, validation action, observable evidence and PASS/FAIL/NOT VERIFIED.
 
