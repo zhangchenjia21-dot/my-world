@@ -13,6 +13,9 @@ const ADAPTER := preload("res://src/provider/deepseek流式适配器.gd")
 const Conversation := preload("res://src/domain/会话.gd")
 const ContextAssembler := preload("res://src/context/上下文组装器.gd")
 
+## 一次性 derived request 的观测 seam；测试可捕获，UI 不保存或持久化 messages。
+signal request_messages_assembled(messages)
+
 ## 长正文 readable-width 上限（px）：宽屏/最大化下避免单行无限拉长；居中由 EntriesCenter 负责。
 const READABLE_MAX_WIDTH := 920.0
 
@@ -37,6 +40,11 @@ var adapter: Node
 ## authoritative Conversation（G2-04 Domain）。UI 只是它的 projection。
 var conversation: RefCounted
 
+## Application Shell 注入的 current Game runtime。production 必须提供；仅 `--script`
+## focused tests 保留无 Persistence 的 Conversation fallback，避免测试触碰真实 user:// DB。
+var session_runtime: Variant = null
+var _startup_ready := true
+
 ## Context Assembly 是 derived Provider request 的 owner；UI 只提供输入 material 并转交结果。
 var context_assembler: RefCounted
 
@@ -51,7 +59,13 @@ var _follow_scroll := true
 
 
 func _ready() -> void:
-	conversation = Conversation.new()
+	if session_runtime == null:
+		session_runtime = _find_session_runtime()
+	if session_runtime != null:
+		conversation = session_runtime.conversation
+		_startup_ready = session_runtime.is_ready()
+	else:
+		conversation = Conversation.new()
 	context_assembler = ContextAssembler.new()
 	conversation.turn_started.connect(_on_turn_started)
 	conversation.attempt_started.connect(_on_attempt_started)
@@ -77,6 +91,9 @@ func _ready() -> void:
 	narrative_scroll.get_v_scroll_bar().value_changed.connect(_on_narrative_scroll_changed)
 	narrative_scroll.resized.connect(_update_readable_width)
 	get_tree().root.size_changed.connect(_update_composer_height)
+	_render_restored_entries()
+	if not _startup_ready:
+		_show_error("无法恢复当前游戏。为保护已有数据，本次不会创建空白新局；请查看日志或稍后重试。")
 	_update_controls()
 	_update_readable_width.call_deferred()
 	_update_composer_height()
@@ -84,7 +101,7 @@ func _ready() -> void:
 
 func _on_send_pressed() -> void:
 	var text := player_input.text.strip_edges()
-	if text.is_empty() or conversation.is_generating():
+	if not _startup_ready or text.is_empty() or conversation.is_generating():
 		return
 
 	if conversation.begin_turn(text) == null:
@@ -102,7 +119,7 @@ func _on_cancel_pressed() -> void:
 ## Regenerate / Retry：Domain 决定语义（completed latest = regenerate，否则 retry），
 ## UI 只触发并发起新请求。
 func _on_regenerate_pressed() -> void:
-	if conversation.is_generating() or conversation.latest_turn() == null:
+	if not _startup_ready or conversation.is_generating() or conversation.latest_turn() == null:
 		return
 
 	if conversation.retry_or_regenerate_latest() == null:
@@ -112,12 +129,12 @@ func _on_regenerate_pressed() -> void:
 
 
 func _start_request() -> void:
-	var start_error: Error = adapter.start_stream(
-		context_assembler.assemble_messages(
-			conversation.get_context_projection(),
-			game_context_text
-		)
+	var messages: Array = context_assembler.assemble_messages(
+		conversation.get_context_projection(),
+		game_context_text
 	)
+	request_messages_assembled.emit(messages.duplicate(true))
+	var start_error: Error = adapter.start_stream(messages)
 	if start_error == ERR_BUSY:
 		# UI 已防止 double-submit；此处只是防御，不制造额外 UI 状态。
 		push_warning("G2-04: adapter busy on start_stream")
@@ -130,7 +147,10 @@ func _on_text_delta(text: String) -> void:
 
 
 func _on_completed() -> void:
-	conversation.complete_generation()
+	if session_runtime != null:
+		session_runtime.complete_active_generation_durably()
+	else:
+		conversation.complete_generation()
 
 
 func _on_cancelled() -> void:
@@ -237,6 +257,8 @@ func _friendly_error(code: String) -> String:
 			return "收到了无法识别的响应数据。可点击「重新生成」重试。"
 		"empty_generation":
 			return "本次没有生成有效叙事，可点击「重新生成」重试。"
+		"persistence_failure":
+			return "叙事未能安全保存，因此没有正式接受本次结果。请检查磁盘后点击「重新生成」重试。"
 		_:
 			if code.begins_with("http_"):
 				return "DeepSeek 服务返回错误（%s）。可稍后点击「重新生成」重试。" % code
@@ -245,9 +267,9 @@ func _friendly_error(code: String) -> String:
 
 func _update_controls() -> void:
 	var streaming: bool = conversation.is_generating()
-	send_button.disabled = streaming or player_input.text.strip_edges().is_empty()
-	cancel_button.disabled = not streaming
-	regenerate_button.visible = not streaming and conversation.latest_turn() != null
+	send_button.disabled = not _startup_ready or streaming or player_input.text.strip_edges().is_empty()
+	cancel_button.disabled = not _startup_ready or not streaming
+	regenerate_button.visible = _startup_ready and not streaming and conversation.latest_turn() != null
 
 
 func _show_error(text: String) -> void:
@@ -295,3 +317,27 @@ func _follow_scroll_if_needed() -> void:
 	await get_tree().process_frame
 	var bar := narrative_scroll.get_v_scroll_bar()
 	bar.value = bar.max_value
+
+
+## scene-focused tests 可在 add_child 前注入隔离 runtime；production 由 Application Shell 提供。
+func bind_session_runtime(runtime: Variant) -> void:
+	session_runtime = runtime
+
+
+func _find_session_runtime() -> Variant:
+	var ancestor: Node = get_parent()
+	while ancestor != null:
+		if ancestor.has_method("get_session_runtime"):
+			return ancestor.get_session_runtime()
+		ancestor = ancestor.get_parent()
+	return null
+
+
+## UI 从 Domain projection 重建 visual blocks；不保存 `_history` 或 Transcript 副本。
+## 最后一个 restored GM block 留作 regenerate/retry 的复用目标。
+func _render_restored_entries() -> void:
+	for entry_value: Variant in conversation.get_accepted_entries():
+		var entry := entry_value as Dictionary
+		_append_player_entry(String(entry.player_text))
+		_begin_gm_entry()
+		_current_gm_content.add_text(String(entry.gm_text))

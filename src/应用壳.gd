@@ -5,6 +5,8 @@ extends Control
 ## 宽/窄响应式布局；不承载 Game / World / Timeline 领域语义。
 ## Narrative 交互逻辑在 src/ui/叙事对话视图.gd（NarrativeHost 节点）。
 
+const CurrentGameRuntime := preload("res://src/runtime/当前游戏会话运行时.gd")
+
 enum ShellState {
 	STARTING,
 	READY,
@@ -24,6 +26,21 @@ const G3_01_EXPORT_SPIKE_FEATURE := "g3_01_persistence_spike"
 
 var shell_state: ShellState = ShellState.STARTING
 var _narrow := false
+## Application composition root 唯一持有的 current Game runtime；UI 只绑定引用。
+var session_runtime: Variant = null
+
+
+func _enter_tree() -> void:
+	if OS.has_feature(G3_01_EXPORT_SPIKE_FEATURE) or session_runtime != null:
+		return
+	# `--script` 进程默认是隔离测试，不得无意打开/创建真实 user:// Current Game。
+	# G3-03 scene tests 会在 add_child 前显式注入 task-owned runtime。
+	if "--script" in OS.get_cmdline_args():
+		return
+	session_runtime = CurrentGameRuntime.new()
+	var startup: Dictionary = session_runtime.open_current_game(_product_database_path())
+	if not startup.success:
+		push_error("G3-03 startup failure [%s]: %s" % [startup.status, startup.get("engineering_cause", "")])
 
 
 func _ready() -> void:
@@ -34,9 +51,14 @@ func _ready() -> void:
 	player_toggle.toggled.connect(_on_player_toggle)
 	world_toggle.toggled.connect(_on_world_toggle)
 	_update_responsive_layout()
-	shell_state = ShellState.READY
-	status_label.text = "状态：就绪"
-	print("[shell] state=ready")
+	if session_runtime != null and not session_runtime.is_ready():
+		shell_state = ShellState.STARTING
+		status_label.text = "状态：当前游戏恢复失败"
+		print("[shell] state=resume_failed")
+	else:
+		shell_state = ShellState.READY
+		status_label.text = "状态：就绪"
+		print("[shell] state=ready")
 
 
 ## 仅由 G3-01 专用 export preset 编译启用；正式 Windows Desktop preset 不含此 feature。
@@ -66,7 +88,24 @@ func _request_exit() -> void:
 	shell_state = ShellState.EXITING
 	status_label.text = "状态：正在退出…"
 	print("[shell] state=exiting")
+	if session_runtime != null:
+		session_runtime.close()
 	get_tree().quit()
+
+
+func get_session_runtime() -> Variant:
+	return session_runtime
+
+
+func _product_database_path() -> String:
+	for argument: String in OS.get_cmdline_user_args():
+		if argument.begins_with("--current-game-db="):
+			return argument.trim_prefix("--current-game-db=")
+	# 自动化只可显式设置 task-owned path；normal product 未设置时始终使用集中 user:// path。
+	var test_override := OS.get_environment("MY_WORLD_TEST_CURRENT_GAME_DB").strip_edges()
+	if not test_override.is_empty():
+		return test_override
+	return CurrentGameRuntime.default_database_path()
 
 
 func _on_player_toggle(pressed: bool) -> void:

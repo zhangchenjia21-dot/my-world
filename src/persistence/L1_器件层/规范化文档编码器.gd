@@ -10,18 +10,31 @@ const MAX_DEPTH := 64
 
 
 static func encode_document(document: Variant) -> Dictionary:
-	var error := _validation_error(document, "$", 0)
-	if not error.is_empty():
-		return {"ok": false, "error": error}
-	var canonical: Variant = _canonicalize(document)
-	var json_text := JSON.stringify(canonical, "", true, true)
-	var round_trip: Variant = JSON.parse_string(json_text)
-	if typeof(round_trip) != TYPE_DICTIONARY:
+	var encoded := encode_json_value(document)
+	if not encoded.ok:
+		return encoded
+	if typeof(encoded.value) != TYPE_DICTIONARY:
 		return {"ok": false, "error": "World materialization root must be a Dictionary"}
 	return {
 		"ok": true,
+		"json": encoded.json,
+		"document": encoded.value,
+	}
+
+
+## 为非 World 的 current materialization 提供同一 deterministic JSON seam。
+## 只验证 JSON representation；Conversation accepted 语义仍由 Conversation Domain 校验。
+static func encode_json_value(value: Variant) -> Dictionary:
+	var error := _validation_error(value, "$", 0)
+	if not error.is_empty():
+		return {"ok": false, "error": error}
+	var canonical: Variant = _canonicalize(value)
+	var json_text := JSON.stringify(canonical, "", true, true)
+	var round_trip: Variant = JSON.parse_string(json_text)
+	return {
+		"ok": true,
 		"json": json_text,
-		"document": round_trip,
+		"value": round_trip,
 	}
 
 

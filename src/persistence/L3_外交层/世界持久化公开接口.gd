@@ -21,6 +21,24 @@ func create_initial_game(game_id: String, root_node_id: String, initial_world_st
 	return _flow.create_initial_game(game_id, root_node_id, initial_world_state, created_at)
 
 
+## 枚举当前 DB 中的 Game identities，供 one-current-Game runtime 判断 0/1/ambiguous。
+## 本接口不选择最近 Game，也不泄露 games row。
+func list_game_identities() -> Dictionary:
+	return _flow.list_game_identities()
+
+
+## 读取 current accepted Conversation materialization；只返回 accepted pairs 与 revision。
+## 正常 absence 是 not_found，query/corruption failure 是 storage_failure。
+func get_current_conversation(game_id: String) -> Dictionary:
+	return _flow.get_current_conversation(game_id)
+
+
+## 原子替换 current accepted Conversation。调用方必须传入 Conversation Domain 产生的
+## prospective projection；COMMIT 前不得在 Domain/UI 宣布 accepted success。
+func write_current_conversation(game_id: String, accepted_entries: Variant, updated_at: String) -> Dictionary:
+	return _flow.write_current_conversation(game_id, accepted_entries, updated_at)
+
+
 ## 在一个 transaction 中提交 immutable node snapshot、current World 与 active head。
 ## expected_head 防 stale writer；同 mutation_id 的 exact replay 恢复既有成功，冲突复用不写入。
 ## 仅 COMMIT 成功后返回 committed；任一失败都不得留下 partial durable truth。

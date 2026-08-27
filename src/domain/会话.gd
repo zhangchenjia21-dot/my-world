@@ -14,7 +14,8 @@ extends RefCounted
 ## - latest-turn correction 只限最新 Turn；
 ## - 从未 completed 的 turn（被放弃的 cancelled / failed attempt）不进入后续 Provider context。
 ##
-## 不是 Save / Timeline / Persistence；进程内存即全部生命周期。
+## 本对象不执行 Persistence I/O。G3-03 只增加 accepted truth 的 rehydration 与
+## prospective completion read seam；durable ordering 由 application runtime 编排。
 
 const Turn := preload("res://src/domain/对话回合.gd")
 
@@ -127,6 +128,61 @@ func complete_generation() -> void:
 	generation_completed.emit(turn)
 
 
+## 返回当前 completion 成功后将形成的 accepted materialization，但不修改 Domain truth。
+## new / regenerate / correction 继续复用本对象既有 replacement 语义，Runtime 只能先持久化
+## 此 candidate，再调用 complete_generation()；空白 draft 不产生 candidate。
+func get_completion_candidate() -> Dictionary:
+	if not is_generating() or _active_turn == null:
+		return {"ok": false, "code": "no_active_generation", "accepted_entries": []}
+	if String(_active_turn.draft_text).strip_edges().is_empty():
+		return {"ok": false, "code": "empty_generation", "accepted_entries": []}
+	var candidate: Array = get_durable_accepted_entries()
+	var replacement := {
+		"turn_index": 0,
+		"player_text": String(_active_turn.pending_player_text),
+		"gm_text": String(_active_turn.draft_text),
+	}
+	if _active_turn.has_accepted_response:
+		if candidate.is_empty():
+			return {"ok": false, "code": "invalid_accepted_state", "accepted_entries": []}
+		replacement.turn_index = candidate.size() - 1
+		candidate[candidate.size() - 1] = replacement
+	else:
+		replacement.turn_index = candidate.size()
+		candidate.append(replacement)
+	return {"ok": true, "code": "", "accepted_entries": candidate}
+
+
+## current resume 的唯一 rehydration seam。输入必须是完整、有序的 accepted pairs；
+## streaming/cancelled/failed material 不在此契约中。成功后没有 active generation，
+## turn_index 按 durable order 重新建立为 0..N-1。
+func restore_accepted_entries(entries: Array) -> Dictionary:
+	if not turns.is_empty() or is_generating():
+		return {"ok": false, "error": "Conversation must be empty before rehydration"}
+	var restored: Array = []
+	for index: int in range(entries.size()):
+		var value: Variant = entries[index]
+		if typeof(value) != TYPE_DICTIONARY:
+			return {"ok": false, "error": "accepted entry %d must be a Dictionary" % index}
+		var entry := value as Dictionary
+		if typeof(entry.get("player_text")) != TYPE_STRING or typeof(entry.get("gm_text")) != TYPE_STRING:
+			return {"ok": false, "error": "accepted entry %d must contain String player_text/gm_text" % index}
+		if String(entry.gm_text).strip_edges().is_empty():
+			return {"ok": false, "error": "accepted entry %d contains empty GM truth" % index}
+		var turn: RefCounted = Turn.new()
+		turn.turn_index = index
+		turn.player_text = String(entry.player_text)
+		turn.pending_player_text = turn.player_text
+		turn.accepted_gm_text = String(entry.gm_text)
+		turn.has_accepted_response = true
+		restored.append(turn)
+	turns = restored
+	_active_turn = null
+	_correction_pending = false
+	generation_state = GenerationState.COMPLETED if not turns.is_empty() else GenerationState.IDLE
+	return {"ok": true, "accepted_count": turns.size()}
+
+
 ## 当前 attempt 取消：accepted truth 不动；correction 回滚 pending。
 func cancel_generation() -> void:
 	_end_attempt(GenerationState.CANCELLED)
@@ -173,6 +229,20 @@ func get_accepted_entries() -> Array:
 				"gm_text": turn.accepted_gm_text,
 			})
 	return entries_out
+
+
+## Durable current Conversation projection 只包含有序 accepted pair；turn_index 在输出中
+## 规范化为 0..N-1，因此进程内被放弃的未 accepted Turn 不会制造重启后的 identity gap。
+func get_durable_accepted_entries() -> Array:
+	var output: Array = []
+	for turn: RefCounted in turns:
+		if turn.has_accepted_response:
+			output.append({
+				"turn_index": output.size(),
+				"player_text": turn.player_text,
+				"gm_text": turn.accepted_gm_text,
+			})
+	return output
 
 
 ## Context Assembly 的只读输入契约。
