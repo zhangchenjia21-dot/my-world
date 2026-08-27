@@ -40,6 +40,7 @@ Completed:
 - G3-01 Persistence Domain Architecture: **PASS — Independent Review**.
 - G3-02 Durable World Mutation Path: **PASS — Independent Review**.
 - G3-03 Game Reopen / Resume: **PASS — Owner UAT**.
+- G3-04 Explicit Save / Load / Restore + Context Rebuild: **PASS — Owner UAT**.
 
 G3 implementation line:
 
@@ -48,6 +49,7 @@ G3 implementation line:
 bda2a8877297c51365cd6581536875b68c81cb85  G3-02 durable World mutation
 ee768ca6ec8abdb2d65c994da4e7287886153bff  G3-02 IR-01 query failure repair
 929f4ff1e1253a808522d8f559a3cadd01b8d5db  G3-03 current Game resume
+618fa0f2238114cbe4fc0fe790a1d60c43e99b45  G3-04 Save / Load / Restore + Context rebuild
 ```
 
 Current phase:
@@ -56,22 +58,23 @@ Current phase:
 
 Current task:
 
-> **G3-04 — Explicit Save / Load / Restore + Context Rebuild**
+> **G3-05 — Recovery / Timeline Foundation**
 
-G3-05+ are not authorized until G3-04 Engineering + Independent Review + Owner UAT closes.
+G3-06+ are not authorized until G3-05 Engineering + Independent Review + Owner UAT closes.
 
 ## 4. Core product/runtime invariants
 
 - Migrate validated experience from SillyTavern / The World / DSH; do not migrate host debt.
 - **Commodity Foundation, Owned Game Semantics.**
 - **Engine-native, not engine-semantic-coupled.**
-- `Game`, `World`, `Timeline`, `Save Point`, `Agent Context`, `Conversation`, `Turn`, `NPC`, `Knowledge`, `Relationship`, `Faction`, `World Event`, `World Pack` are product/domain concepts, not aliases for Godot Scene/Node/Resource or SQLite rows/tables.
+- `Game`, `World`, `Timeline`, `Save Point`, `Recovery Checkpoint`, `Agent Context`, `Conversation`, `Turn`, `NPC`, `Knowledge`, `Relationship`, `Faction`, `World Event`, `World Pack` are product/domain concepts, not aliases for Godot Scene/Node/Resource or SQLite rows/tables.
 - UI is a projection of authoritative game truth, not a second durable truth source.
 - **Model freedom first. Reversibility over prevention.**
 - **Narrative richness over artificial brevity.** Do not add arbitrary fixed output length, short-answer instructions or convenience `max_tokens` caps.
 - **Model authors the world; Runtime makes it durable; Player owns the timeline.**
 - **Reversibility != frictionless arbitrary rewind.**
 - **Save Point != Timeline Node.**
+- **Recovery Checkpoint != Save Point.**
 - **Source provides inertia; actors create history.**
 - **Off-screen != Inactive.**
 - **World Truth != NPC Knowledge != Player Knowledge.**
@@ -91,11 +94,11 @@ Provider                     DeepSeek deepseek-v4-pro
 Config/source                JSON/files where appropriate
 Persistence                  SQLite — ACCEPTED for G3 v0.1
 SQLite binding               2shady4u/godot-sqlite v4.9
-Production schema            v2 at G3-03 closeout
+Production schema            v3 at G3-04 closeout
 Product DB                    user://my-world/current-game.sqlite
 ```
 
-G3-01 proved the SQLite route on real Windows/Godot/exported EXE evidence. G3-02 added atomic Game/World/Timeline mutation, expected-head CAS, replay-safe mutation identity, immutable historical snapshots and explicit storage failure propagation. G3-03 added transactional v1→v2 migration, one-current-Game lifecycle, current accepted Conversation durability, persist-before-accept completion and real cross-process resume.
+G3-01 proved the SQLite route. G3-02 established atomic Game/World/Timeline mutation, expected-head CAS, replay-safe mutation identity, immutable Timeline snapshots and failure propagation. G3-03 added current Conversation durability and cross-process resume. G3-04 added immutable named Save Points, atomic World/head/Conversation Restore and Context future-memory isolation.
 
 Vendored Windows x86_64 debug/release binaries, MIT license and provenance are under `addons/godot-sqlite/`.
 
@@ -112,8 +115,8 @@ Game Domain / lifecycle
 World Domain
 → game-local authoritative World meaning/state
 
-Timeline / Save Domain
-→ Timeline Node / Save Point / restore semantics
+Timeline / Save / Recovery Domain
+→ Timeline Node / Save Point / Recovery Checkpoint / restore-recover semantics
 
 Conversation Domain
 → accepted conversation truth
@@ -128,11 +131,11 @@ Persistence
 
 **Persisted by SQLite does not make Persistence the business-semantic owner.**
 
-Do not let tables, repository objects, SQLite rows or migration code redefine Game/World/Conversation/Save semantics.
+Do not let tables, repository objects, SQLite rows or migration code redefine Game/World/Conversation/Save/Recovery semantics.
 
 ## 7. Established Conversation / Context boundaries
 
-Conversation Domain owns Turn ordering/identity, accepted player+GM truth, Generation State, Retry/Regenerate/latest correction, rehydration and prospective completion semantics.
+Conversation Domain owns Turn ordering/identity, accepted player+GM truth, Generation State, Retry/Regenerate/latest correction, rehydration, prospective completion and accepted recovery-material validation.
 
 Context Assembly owns GM/system instructions, bounded recent Conversation working set, optional derived Game Context material and Provider request messages.
 
@@ -144,9 +147,10 @@ Closed invariants:
 - Current Turn's old assistant is excluded from replacement requests.
 - zero/whitespace-only completion is `empty_generation`, not accepted truth; any non-whitespace output remains allowed.
 - durable completion order is candidate → SQLite COMMIT → Domain accept.
-- only accepted Conversation truth resumes; partial stream/cancelled/failed attempts do not.
+- only accepted Conversation truth resumes/saves/restores; partial stream/cancelled/failed attempts do not.
 - UI does not own a second conversation/context truth.
 - Context/messages are derived and rebuildable, not persistence truth.
+- Restore future-memory isolation is already Owner-UAT proven for G3-04.
 
 ## 8. G3 persistence / reversibility boundary
 
@@ -157,6 +161,7 @@ Game
 World State
 Timeline
 Save Point
+Recovery Checkpoint
 Conversation
 Agent Context
 UI Preference
@@ -171,49 +176,48 @@ Cancel / Regenerate / latest correction
 Save Point
 = explicit player-named long-term recovery reference
 
-Load / Restore
-= explicit high-impact operation that changes active future
+Load / Restore Save
+= explicit high-impact progress switch
+
+Recovery Checkpoint
+= Runtime-created safety material preserving displaced current progress
 
 Timeline Node
 = Runtime durable recovery anchor, not automatically player-facing
 ```
 
-Load old Save must not delete historical Timeline Nodes. Arbitrary per-turn rewind remains Deferred.
+Historical Timeline Nodes are retained across Restore. Arbitrary per-turn rewind remains Deferred.
 
-## 9. G3-04 specific boundary
+## 9. G3-05 specific boundary
 
-G3-04 establishes the first explicit player Save / Load / Restore path.
+G3-05 establishes recovery of the progress displaced by an explicit Load/Restore, without turning Timeline into a debugger.
 
 Required product spine:
 
 ```text
-current Game
-→ create named Save Point S1
-→ continue later World/Conversation future
-→ explicitly select + Load S1
-→ restore target World/head
-→ restore accepted Conversation at S1
-→ rebuild Context from restored truth
-→ future-only Conversation does not enter next Provider request
-→ continue a new current future
+current progress Fcurrent
+→ player Loads old Save S1
+→ Runtime preserves Fcurrent as internal Recovery Checkpoint in the same durable switch transaction
+→ current becomes S1
+→ player chooses Recover Previous Progress
+→ current World/head/accepted Conversation return to Fcurrent
+→ Context rebuilds from recovered truth
+→ player can continue from recovered future
 ```
 
 Critical invariants:
 
-- **Save Point != Timeline Node.** A Save Point is a stable player-named recovery reference to a Timeline anchor plus the Conversation recovery material needed for exact restore; it is not a copied World database.
-- World restore uses the immutable Timeline snapshot already owned by the durable kernel.
-- Save must capture only accepted Conversation truth. Streaming/cancelled/failed partial material is not Save truth.
-- Restore of `Game.active_head + current World materialization + current accepted Conversation` must be one declared SQLite transaction boundary; partial restore is forbidden.
-- Before durable Restore, Conversation recovery material must be validated through Conversation-owned semantics or an equivalent non-mutating seam. Persistence must not invent Conversation business rules.
-- COMMIT happens before in-memory/UI switch. Crash after COMMIT but before UI refresh must reopen into the restored durable state.
-- Context/Provider messages are rebuilt after Restore; stored Prompt blobs are forbidden.
-- Future-only accepted Conversation must be absent from restored Context. Future-memory isolation is blocking acceptance, not polish.
-- Active generation cannot be silently restored underneath a running Provider request. Save/Load controls should require a stable non-generating state or an equivalently explicit safe transition.
-- Load is a high-impact explicit action. The UI must make the chosen Save obvious and warn that active progress will switch; do not add per-Turn rewind affordances.
-- Historical Timeline Nodes are not physically deleted by Load.
-- Automatic recovery of an unsaved pre-Load current future, branch/recovery UX and old-head recovery semantics belong to G3-05. G3-04 must not claim those are solved.
-
-First-generation storage may use a minimal `save_points` representation that stores stable Save identity/name, target Timeline Node and accepted Conversation snapshot/recovery material. Do not build a full event store, Timeline browser or duplicate World snapshot database.
+- **Recovery Checkpoint != Save Point.** Automatic recovery material is not mixed into the ordinary named Save list and is not user-authored Save identity.
+- Each high-impact progress switch must capture the displaced durable `active head + accepted Conversation` as recovery material in the same transaction that switches to the target. If the switch fails, no orphan recovery checkpoint may appear.
+- Recovery Checkpoint uses an existing immutable Timeline Node as the World anchor and stores only the accepted Conversation recovery material needed for exact recovery; it must not copy a second World database.
+- First-generation implementation may retain recovery checkpoints append-only for safety, while normal UI exposes only the most recent useful “Recover Previous Progress” capability. Do not build a recovery history browser.
+- A successful Recover is itself a high-impact switch and must preserve the progress it displaces, allowing safe back-and-forth recovery without deleting either active future.
+- A no-op switch where target head + accepted Conversation already equal current must not overwrite or manufacture recovery material.
+- After restoring an old Timeline Node, a new durable World mutation may naturally create another child of that historical node. Existing future nodes remain immutable and are not deleted. Do not introduce a branch registry/graph UI just to name this.
+- Retry / Regenerate / latest correction remain Conversation-owned and persist-before-accept. Recovery captures/restores their final accepted durable result, never streaming drafts or failed partial attempts.
+- Active generation blocks Load/Recover; do not switch underneath a Provider callback.
+- Recover must rebuild Context from recovered truth and must not leak content from the displaced current future into the next Provider request.
+- G3-06 owns physical DB corruption/backup/interrupted-write hardening and the still-open double-process/single-instance protection decision. Do not solve them here unless a new blocking dependency proves unavoidable.
 
 ## 10. Persistence hard boundaries
 
@@ -221,7 +225,8 @@ First-generation storage may use a minimal `save_points` representation that sto
 - stable identities survive reopen once introduced;
 - transaction/query failure cannot silently become normal absence or partial accepted state;
 - migration failure cannot silently corrupt the only copy;
-- Restore failure cannot leave head/World/Conversation half-switched;
+- Restore/Recover failure cannot leave head/World/Conversation half-switched;
+- automatic recovery creation cannot succeed independently from the progress switch it protects;
 - cache/projection/transcript/UI cannot become fallback authoritative truth;
 - test failure injection uses isolated paths only and never unknown player data;
 - logical game/Narrative mistakes are not persistence-integrity failures and must not trigger global Narrative validators.
@@ -230,7 +235,7 @@ Known non-blocking follow-up: double-running two product processes against the s
 
 ## 11. Evidence / execution discipline
 
-Never claim Windows-local, Godot, SQLite, export, filesystem, resume, restore or crash-recovery success without real execution evidence.
+Never claim Windows-local, Godot, SQLite, export, filesystem, resume, restore, recovery or crash-recovery success without real execution evidence.
 
 Separate implementation, validation action, observable evidence and PASS/FAIL/NOT VERIFIED.
 
