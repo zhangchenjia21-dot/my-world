@@ -1,0 +1,42 @@
+extends RefCounted
+
+const Flow := preload("res://src/persistence/L2_流程层/世界持久化流程.gd")
+
+var _flow: Variant = Flow.new()
+
+
+## 打开调用方明确指定的数据库并验证 production schema v1。
+## 不扫描 user://、不选择最近 Game，也不暴露 SQLite connection/row。
+func open_database(database_path: String) -> Dictionary:
+	return _flow.open(database_path)
+
+
+func close_database() -> Dictionary:
+	return _flow.close()
+
+
+## 原子创建 Game、root Timeline Node recovery anchor 与唯一 writable current World。
+## 重复 game_id 不覆盖；所有 identity 与 opaque World document 都由上层提供。
+func create_initial_game(game_id: String, root_node_id: String, initial_world_state: Variant, created_at: String) -> Dictionary:
+	return _flow.create_initial_game(game_id, root_node_id, initial_world_state, created_at)
+
+
+## 在一个 transaction 中提交 immutable node snapshot、current World 与 active head。
+## expected_head 防 stale writer；同 mutation_id 的 exact replay 恢复既有成功，冲突复用不写入。
+## 仅 COMMIT 成功后返回 committed；任一失败都不得留下 partial durable truth。
+func commit_world_mutation(game_id: String, mutation_id: String, expected_head_id: String, node_id: String, next_world_state: Variant, created_at: String) -> Dictionary:
+	return _flow.commit_world_mutation(game_id, mutation_id, expected_head_id, node_id, next_world_state, created_at)
+
+
+## 读取唯一 current World 投影；它是当前 authoritative materialization，不是 historical snapshot。
+func get_current_game(game_id: String) -> Dictionary:
+	return _flow.get_current_game(game_id)
+
+
+## 读取 immutable historical recovery anchor；此接口没有历史修改能力。
+func get_timeline_node(game_id: String, node_id: String) -> Dictionary:
+	return _flow.get_timeline_node(game_id, node_id)
+
+
+func timeline_node_count(game_id: String) -> Dictionary:
+	return _flow.timeline_node_count(game_id)
