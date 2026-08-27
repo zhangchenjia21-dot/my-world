@@ -39,12 +39,15 @@ Completed:
 - G2-GATE: **PASS**.
 - G3-01 Persistence Domain Architecture: **PASS — Independent Review**.
 - G3-02 Durable World Mutation Path: **PASS — Independent Review**.
+- G3-03 Game Reopen / Resume: **PASS — Owner UAT**.
 
-G3-02 implementation line:
+G3 implementation line:
 
 ```text
-bda2a8877297c51365cd6581536875b68c81cb85
-ee768ca6ec8abdb2d65c994da4e7287886153bff  IR-01 query-failure propagation repair
+1fc1cba76ade63a05e4b7ba9009264696ad45b1a  G3-01 SQLite route
+bda2a8877297c51365cd6581536875b68c81cb85  G3-02 durable World mutation
+ee768ca6ec8abdb2d65c994da4e7287886153bff  G3-02 IR-01 query failure repair
+929f4ff1e1253a808522d8f559a3cadd01b8d5db  G3-03 current Game resume
 ```
 
 Current phase:
@@ -53,9 +56,9 @@ Current phase:
 
 Current task:
 
-> **G3-03 — Game Reopen / Resume**
+> **G3-04 — Explicit Save / Load / Restore + Context Rebuild**
 
-G3-04+ are not authorized until G3-03 Engineering + Independent Review closes; Owner UAT is required for the real restart/resume path before G3-03 product closeout.
+G3-05+ are not authorized until G3-04 Engineering + Independent Review + Owner UAT closes.
 
 ## 4. Core product/runtime invariants
 
@@ -88,9 +91,11 @@ Provider                     DeepSeek deepseek-v4-pro
 Config/source                JSON/files where appropriate
 Persistence                  SQLite — ACCEPTED for G3 v0.1
 SQLite binding               2shady4u/godot-sqlite v4.9
+Production schema            v2 at G3-03 closeout
+Product DB                    user://my-world/current-game.sqlite
 ```
 
-G3-01 proved the SQLite route on real Windows/Godot/exported EXE evidence. G3-02 added the production kernel: atomic Game/World/Timeline mutation, expected-head CAS, replay-safe mutation identity, immutable historical snapshots, explicit storage failure propagation and query-failure/zero-row separation.
+G3-01 proved the SQLite route on real Windows/Godot/exported EXE evidence. G3-02 added atomic Game/World/Timeline mutation, expected-head CAS, replay-safe mutation identity, immutable historical snapshots and explicit storage failure propagation. G3-03 added transactional v1→v2 migration, one-current-Game lifecycle, current accepted Conversation durability, persist-before-accept completion and real cross-process resume.
 
 Vendored Windows x86_64 debug/release binaries, MIT license and provenance are under `addons/godot-sqlite/`.
 
@@ -123,11 +128,11 @@ Persistence
 
 **Persisted by SQLite does not make Persistence the business-semantic owner.**
 
-Do not let tables, repository objects, SQLite rows or migration code redefine Game/World/Conversation semantics.
+Do not let tables, repository objects, SQLite rows or migration code redefine Game/World/Conversation/Save semantics.
 
-## 7. Established G2 boundaries
+## 7. Established Conversation / Context boundaries
 
-Conversation Domain owns Turn ordering/identity, accepted player+GM truth, Generation State, Retry/Regenerate/latest correction and atomic accepted replacement/rollback semantics.
+Conversation Domain owns Turn ordering/identity, accepted player+GM truth, Generation State, Retry/Regenerate/latest correction, rehydration and prospective completion semantics.
 
 Context Assembly owns GM/system instructions, bounded recent Conversation working set, optional derived Game Context material and Provider request messages.
 
@@ -138,10 +143,10 @@ Closed invariants:
 - Regenerate/correction keep old accepted truth until a non-empty replacement succeeds.
 - Current Turn's old assistant is excluded from replacement requests.
 - zero/whitespace-only completion is `empty_generation`, not accepted truth; any non-whitespace output remains allowed.
+- durable completion order is candidate → SQLite COMMIT → Domain accept.
+- only accepted Conversation truth resumes; partial stream/cancelled/failed attempts do not.
 - UI does not own a second conversation/context truth.
-- Context/messages are derived and rebuildable.
-
-G3-03 may add explicit Conversation rehydration/durable materialization seams, but must not move Conversation semantics into SQLite or persist Provider messages/Context as authoritative truth.
+- Context/messages are derived and rebuildable, not persistence truth.
 
 ## 8. G3 persistence / reversibility boundary
 
@@ -173,34 +178,42 @@ Timeline Node
 = Runtime durable recovery anchor, not automatically player-facing
 ```
 
-Load old Save should not immediately and irreversibly destroy current future. Arbitrary per-turn rewind remains Deferred.
+Load old Save must not delete historical Timeline Nodes. Arbitrary per-turn rewind remains Deferred.
 
-## 9. G3-03 specific boundary
+## 9. G3-04 specific boundary
 
-G3-03 establishes **current Game resume**, not historical Restore.
+G3-04 establishes the first explicit player Save / Load / Restore path.
 
 Required product spine:
 
 ```text
-first run/open current Game
-→ accepted Conversation becomes durable
-→ normal exit
-→ next process opens the same Game identity
-→ current World restores exactly
-→ accepted Conversation rehydrates exactly
-→ Context is rebuilt from restored truth
-→ player can continue a new Turn
+current Game
+→ create named Save Point S1
+→ continue later World/Conversation future
+→ explicitly select + Load S1
+→ restore target World/head
+→ restore accepted Conversation at S1
+→ rebuild Context from restored truth
+→ future-only Conversation does not enter next Provider request
+→ continue a new current future
 ```
 
 Critical invariants:
 
-- only accepted Conversation truth is resume-authoritative; streaming draft / cancelled / failed partial attempts are not restored as accepted history;
-- Context / Provider messages remain derived and are rebuilt after resume; do not persist them as fallback truth;
-- current opaque World JSON is storage material, not a prompt format; do not dump raw persistence JSON into model context merely because it is available;
-- durable Conversation write failure must be fail-loud and must not silently let UI/product continue as if the accepted turn were resume-safe;
-- Resume must distinguish missing/new state from storage/corruption/schema failure; never create an empty replacement Game on physical read failure;
-- current Conversation persistence for G3-03 must not pre-freeze G3-04 historical visibility/Save schema; prefer a minimal current materialization seam;
-- multi-Game picker, explicit Save/Load/Restore, future-memory isolation, arbitrary Timeline browsing and G5 World semantics remain out of scope.
+- **Save Point != Timeline Node.** A Save Point is a stable player-named recovery reference to a Timeline anchor plus the Conversation recovery material needed for exact restore; it is not a copied World database.
+- World restore uses the immutable Timeline snapshot already owned by the durable kernel.
+- Save must capture only accepted Conversation truth. Streaming/cancelled/failed partial material is not Save truth.
+- Restore of `Game.active_head + current World materialization + current accepted Conversation` must be one declared SQLite transaction boundary; partial restore is forbidden.
+- Before durable Restore, Conversation recovery material must be validated through Conversation-owned semantics or an equivalent non-mutating seam. Persistence must not invent Conversation business rules.
+- COMMIT happens before in-memory/UI switch. Crash after COMMIT but before UI refresh must reopen into the restored durable state.
+- Context/Provider messages are rebuilt after Restore; stored Prompt blobs are forbidden.
+- Future-only accepted Conversation must be absent from restored Context. Future-memory isolation is blocking acceptance, not polish.
+- Active generation cannot be silently restored underneath a running Provider request. Save/Load controls should require a stable non-generating state or an equivalently explicit safe transition.
+- Load is a high-impact explicit action. The UI must make the chosen Save obvious and warn that active progress will switch; do not add per-Turn rewind affordances.
+- Historical Timeline Nodes are not physically deleted by Load.
+- Automatic recovery of an unsaved pre-Load current future, branch/recovery UX and old-head recovery semantics belong to G3-05. G3-04 must not claim those are solved.
+
+First-generation storage may use a minimal `save_points` representation that stores stable Save identity/name, target Timeline Node and accepted Conversation snapshot/recovery material. Do not build a full event store, Timeline browser or duplicate World snapshot database.
 
 ## 10. Persistence hard boundaries
 
@@ -208,13 +221,16 @@ Critical invariants:
 - stable identities survive reopen once introduced;
 - transaction/query failure cannot silently become normal absence or partial accepted state;
 - migration failure cannot silently corrupt the only copy;
+- Restore failure cannot leave head/World/Conversation half-switched;
 - cache/projection/transcript/UI cannot become fallback authoritative truth;
 - test failure injection uses isolated paths only and never unknown player data;
 - logical game/Narrative mistakes are not persistence-integrity failures and must not trigger global Narrative validators.
 
+Known non-blocking follow-up: double-running two product processes against the same current Game still requires an explicit single-instance/stale-session protection decision before G3-06/standalone hardening closes.
+
 ## 11. Evidence / execution discipline
 
-Never claim Windows-local, Godot, SQLite, export, filesystem, resume or crash-recovery success without real execution evidence.
+Never claim Windows-local, Godot, SQLite, export, filesystem, resume, restore or crash-recovery success without real execution evidence.
 
 Separate implementation, validation action, observable evidence and PASS/FAIL/NOT VERIFIED.
 
