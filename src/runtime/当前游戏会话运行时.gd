@@ -3,8 +3,8 @@ extends RefCounted
 ## current Game 的最小 application composition owner。
 ##
 ## 本对象组合 Persistence L3 与 Conversation Domain，负责 one-current-Game startup、
-## rehydration、persist-before-accept、explicit Save/Restore 与资源关闭；它不解释 World
-## JSON、不组装 Provider messages，也不实现 G3-05 recovery / 多 Game picker。
+## rehydration、persist-before-accept、protected Save/Load/Recover 与资源关闭；它不解释
+## World JSON、不组装 Provider messages，也不实现 Recovery history / 多 Game picker。
 
 const Persistence := preload("res://src/persistence/L3_外交层/世界持久化公开接口.gd")
 const Conversation := preload("res://src/domain/会话.gd")
@@ -12,6 +12,7 @@ const Conversation := preload("res://src/domain/会话.gd")
 const DEFAULT_DATABASE_PATH := "user://my-world/current-game.sqlite"
 
 signal save_points_changed(save_points)
+signal recovery_availability_changed(recovery)
 signal restore_completed(result)
 
 var persistence: RefCounted = Persistence.new()
@@ -153,23 +154,71 @@ func restore_save_point(save_id: String) -> Dictionary:
 	var validation: Dictionary = conversation.validate_accepted_entries(candidate.accepted_entries)
 	if not validation.ok:
 		return {"status": "invalid_conversation", "success": false, "message": "所选存档的叙事记录无效，当前进度没有改变。", "engineering_cause": validation.error}
-	var restored: Dictionary = persistence.restore_save_point(game_id, save_id, validation.accepted_entries, _now_utc())
+	var restored: Dictionary = persistence.restore_save_point(game_id, save_id, validation.accepted_entries, _now_utc(), _generate_identity("recovery"))
 	if not restored.success:
 		return {"status": restored.status, "success": false, "message": "读取失败，当前进度没有改变。可稍后重试。", "engineering_cause": restored.message}
+	if String(restored.status) == "already_current":
+		return {"status": "already_current", "success": true, "committed": false, "message": "所选存档已经是当前进度。", "display_name": restored.display_name}
 
-	active_head_id = String(restored.head_id)
-	world_state = (restored.world_state as Dictionary).duplicate(true)
-	var replaced: Dictionary = conversation.replace_accepted_entries(restored.accepted_entries)
+	return _apply_committed_progress_switch(restored, "存档已读取，但界面状态无法安全刷新。请立即重新打开游戏。")
+
+
+## UI 只需知道是否存在 latest Recovery 及其玩家可读时间/来源；accepted material
+## 仅留在 Runtime 的 Domain validation 路径，不向 UI 暴露。
+func get_recovery_availability() -> Dictionary:
+	if not is_ready():
+		return {"status": "startup_failure", "success": false, "available": false, "message": "当前游戏尚未就绪。"}
+	var latest: Dictionary = persistence.get_latest_recovery(game_id)
+	if String(latest.status) == "not_found":
+		return {"status": "not_found", "success": true, "available": false, "message": ""}
+	if not latest.success:
+		return {"status": latest.status, "success": false, "available": false, "message": "无法读取上一进度。", "engineering_cause": latest.message}
+	return {
+		"status": "found",
+		"success": true,
+		"available": true,
+		"created_at": String(latest.created_at),
+		"reason": String(latest.reason),
+	}
+
+
+## Recover ordering 与 Load 对称：Domain non-mutating validation → reciprocal capture +
+## durable switch COMMIT → Runtime/Conversation apply → UI full redraw。
+func recover_previous_progress() -> Dictionary:
+	if not is_ready():
+		return {"status": "startup_failure", "success": false, "message": "当前游戏尚未就绪。"}
+	if conversation.is_generating():
+		return {"status": "generation_active", "success": false, "message": "请先等待生成完成或取消本次生成，再恢复上一进度。"}
+	var candidate: Dictionary = persistence.get_latest_recovery(game_id)
+	if not candidate.success:
+		return {"status": candidate.status, "success": false, "message": "当前没有可恢复的上一进度。" if String(candidate.status) == "not_found" else "无法读取上一进度，当前进度没有改变。", "engineering_cause": candidate.message}
+	var validation: Dictionary = conversation.validate_accepted_entries(candidate.accepted_entries)
+	if not validation.ok:
+		return {"status": "invalid_conversation", "success": false, "message": "上一进度的叙事记录无效，当前进度没有改变。", "engineering_cause": validation.error}
+	var recovered: Dictionary = persistence.recover_previous_progress(game_id, String(candidate.recovery_id), validation.accepted_entries, _generate_identity("recovery"), _now_utc())
+	if not recovered.success:
+		return {"status": recovered.status, "success": false, "message": "恢复失败，当前进度没有改变。可稍后重试。", "engineering_cause": recovered.message}
+	if String(recovered.status) == "already_current":
+		return {"status": "already_current", "success": true, "committed": false, "message": "上一进度已经是当前进度。"}
+	return _apply_committed_progress_switch(recovered, "上一进度已恢复，但界面状态无法安全刷新。请立即重新打开游戏。")
+
+
+func _apply_committed_progress_switch(switched: Dictionary, reopen_message: String) -> Dictionary:
+	active_head_id = String(switched.head_id)
+	world_state = (switched.world_state as Dictionary).duplicate(true)
+	var replaced: Dictionary = conversation.replace_accepted_entries(switched.accepted_entries)
 	if not replaced.ok:
 		# Durable truth 已成功切换，旧 memory 不得继续对着新 DB 运行；reopen 是唯一安全恢复。
 		_reopen_required = true
 		startup_result.success = false
 		startup_result.status = "reopen_required"
-		startup_result.message = "存档已读取，但界面状态无法安全刷新。请立即重新打开游戏。"
+		startup_result.message = reopen_message
 		return {"status": "reopen_required", "success": false, "committed": true, "message": startup_result.message, "engineering_cause": replaced.error}
-	restored["accepted_count"] = int(replaced.accepted_count)
-	restore_completed.emit(restored.duplicate(true))
-	return restored
+	switched["accepted_count"] = int(replaced.accepted_count)
+	restore_completed.emit(switched.duplicate(true))
+	var availability := get_recovery_availability()
+	recovery_availability_changed.emit(availability.duplicate(true))
+	return switched
 
 
 func is_ready() -> bool:

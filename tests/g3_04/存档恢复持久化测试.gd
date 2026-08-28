@@ -17,7 +17,7 @@ func _initialize() -> void:
 	if not _test_save_and_restore(): return
 	if not _test_save_failure(): return
 	if not _test_restore_failures(): return
-	print("G3-04 PASS | schema v3 + Save + atomic Restore persistence suite")
+	print("G3-04 PASS | current schema + Save + atomic Restore persistence suite")
 	quit(0)
 
 
@@ -33,7 +33,7 @@ func _test_v2_migration(failing: bool) -> bool:
 	db.path = path
 	db.default_extension = ""
 	if not db.open_db(): return _fail("open v2 downgrade fixture")
-	if not db.query("DROP TABLE save_points;") or not db.query("UPDATE persistence_schema SET schema_version = 2;"):
+	if not db.query("DROP TABLE recovery_checkpoints;") or not db.query("DROP TABLE save_points;") or not db.query("UPDATE persistence_schema SET schema_version = 2;"):
 		return _fail("downgrade fixture to v2: %s" % db.error_message)
 	if failing and not db.query("CREATE TRIGGER abort_v3_version BEFORE UPDATE OF schema_version ON persistence_schema BEGIN SELECT RAISE(ABORT, 'intentional v3 migration failure'); END;"):
 		return _fail("install v3 migration trigger")
@@ -53,9 +53,9 @@ func _test_v2_migration(failing: bool) -> bool:
 	var saves: Dictionary = api.list_save_points(expected_game)
 	api.close_database()
 	var proof := _schema_proof(path)
-	if proof.version != 3 or proof.save_tables != 1 or current.head_id != expected_head or conversation.accepted_entries.size() != 1 or not saves.save_points.is_empty():
+	if proof.version != 4 or proof.save_tables != 1 or current.head_id != expected_head or conversation.accepted_entries.size() != 1 or not saves.save_points.is_empty():
 		return _fail("v2->v3 did not preserve current truth: %s %s %s %s" % [proof, current, conversation, saves])
-	print("G3-04 PASS | v2->v3 additive migration preserves Game/World/Conversation")
+	print("G3-04 PASS | v2->current additive migration preserves Game/World/Conversation")
 	return true
 
 

@@ -9,6 +9,7 @@ const READY := "ready"
 const FOUND := "found"
 const COMMITTED := "committed"
 const REPLAY_SUCCESS := "replay_success"
+const ALREADY_CURRENT := "already_current"
 const ALREADY_EXISTS := "already_exists"
 const STALE_HEAD := "stale_head"
 const MUTATION_CONFLICT := "mutation_conflict"
@@ -22,7 +23,7 @@ const NOT_OPEN := "not_open"
 static func make(status: String, message: String = "", details: Dictionary = {}) -> Dictionary:
 	var result := {
 		"status": status,
-		"success": status in [READY, FOUND, COMMITTED, REPLAY_SUCCESS],
+		"success": status in [READY, FOUND, COMMITTED, REPLAY_SUCCESS, ALREADY_CURRENT],
 		"committed": status == COMMITTED,
 		"replayed": status == REPLAY_SUCCESS,
 		"message": message,

@@ -41,7 +41,7 @@ func _test_migration_success() -> bool:
 	if count.node_count != 2 or conversation.status != "found" or not conversation.accepted_entries.is_empty():
 		return _fail("migration nodes/Conversation mismatch: count=%s conversation=%s" % [count, conversation])
 	var proof := _raw_schema_proof(path)
-	if proof.version != 3 or proof.conversation_tables != 1 or proof.save_tables != 1:
+	if proof.version != 4 or proof.conversation_tables != 1 or proof.save_tables != 1:
 		return _fail("migration schema proof: %s" % proof)
 	print("G3-03 PASS | production v1->current preserves H1/W1/2 nodes and seeds empty Conversation")
 	return true

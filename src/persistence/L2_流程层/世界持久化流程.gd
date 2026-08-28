@@ -4,7 +4,7 @@ const Result := preload("res://src/persistence/L0_公理层/持久化操作结�
 const Encoder := preload("res://src/persistence/L1_器件层/规范化文档编码器.gd")
 const Connector := preload("res://src/persistence/L1_器件层/SQLite数据库连接器.gd")
 
-const SCHEMA_VERSION := 3
+const SCHEMA_VERSION := 4
 
 var _connection: Variant = null
 
@@ -215,8 +215,10 @@ func get_save_point(game_id: String, save_id: String) -> Dictionary:
 	})
 
 
-func restore_save_point(game_id: String, save_id: String, validated_accepted_entries: Variant, updated_at: String) -> Dictionary:
-	var identity_error := _identity_error({"game_id": game_id, "save_id": save_id, "updated_at": updated_at})
+func restore_save_point(game_id: String, save_id: String, validated_accepted_entries: Variant, updated_at: String, recovery_id: String = "") -> Dictionary:
+	if recovery_id.is_empty():
+		recovery_id = _generate_recovery_identity()
+	var identity_error := _identity_error({"game_id": game_id, "save_id": save_id, "updated_at": updated_at, "recovery_id": recovery_id})
 	if not identity_error.is_empty():
 		return Result.make(Result.INVALID_INPUT, identity_error)
 	var encoded := Encoder.encode_json_value(validated_accepted_entries)
@@ -247,8 +249,23 @@ func restore_save_point(game_id: String, save_id: String, validated_accepted_ent
 	if typeof(world_state) != TYPE_DICTIONARY:
 		_connection.rollback()
 		return Result.make(Result.STORAGE_FAILURE, "Restore Timeline snapshot is not a valid World object")
-	# 三个 current materialization 写入同一 transaction。测试 trigger 可在后两步中止，
-	# 证明先前 World/head 写入不会形成半恢复。
+	var current_result := _query_current_switch_material(game_id, "query displaced current progress")
+	if not current_result.success:
+		return current_result
+	if String(current_result.head_id) == String(save.timeline_node_id) and String(current_result.accepted_turns_json) == encoded.json:
+		_connection.rollback()
+		return Result.make(Result.ALREADY_CURRENT, "Save Point is already current", {
+			"game_id": game_id,
+			"save_id": save_id,
+			"display_name": String(save.display_name),
+			"head_id": String(save.timeline_node_id),
+			"world_state": (world_state as Dictionary).duplicate(true),
+			"accepted_entries": encoded.value,
+		})
+	# Recovery capture 与三个 current materialization 写入共享 transaction；任一测试
+	# trigger 中止后，Recovery INSERT 也必须一起 rollback，不能留下 orphan。
+	if not _connection.execute("INSERT INTO recovery_checkpoints(game_id, recovery_id, timeline_node_id, accepted_turns_json, reason, created_at) VALUES (?, ?, ?, ?, ?, ?);", [game_id, recovery_id, String(current_result.head_id), String(current_result.accepted_turns_json), "load_save", updated_at]):
+		return _rollback_storage_failure("insert displaced-current Recovery")
 	if not _connection.execute("UPDATE world_materializations SET head_id = ?, materialization_json = ?, updated_at = ? WHERE game_id = ?;", [String(save.timeline_node_id), world_json, updated_at, game_id]) or _connection.changed_rows() != 1:
 		return _rollback_storage_failure("restore current World")
 	if not _connection.execute("UPDATE games SET active_head_id = ?, updated_at = ? WHERE game_id = ?;", [String(save.timeline_node_id), updated_at, game_id]) or _connection.changed_rows() != 1:
@@ -264,7 +281,110 @@ func restore_save_point(game_id: String, save_id: String, validated_accepted_ent
 		"head_id": String(save.timeline_node_id),
 		"world_state": (world_state as Dictionary).duplicate(true),
 		"accepted_entries": encoded.value,
+		"recovery_id": recovery_id,
 	})
+
+
+## 返回 latest Recovery candidate。sequence 仅用于 durable latest 选择，不作为业务 identity。
+func get_latest_recovery(game_id: String) -> Dictionary:
+	if game_id.strip_edges().is_empty():
+		return Result.make(Result.INVALID_INPUT, "game_id must be non-empty")
+	if not _require_open():
+		return Result.make(Result.NOT_OPEN, "database connection is not open")
+	var query: Dictionary = _connection.query_rows("SELECT recovery_id, timeline_node_id, accepted_turns_json, reason, created_at FROM recovery_checkpoints WHERE game_id = ? ORDER BY recovery_sequence DESC LIMIT 1;", [game_id])
+	if not query.ok:
+		return _storage_failure("query latest Recovery")
+	if query.rows.is_empty():
+		return Result.make(Result.NOT_FOUND, "Recovery Checkpoint was not found", {"game_id": game_id})
+	var row := query.rows[0] as Dictionary
+	var accepted_entries: Variant = JSON.parse_string(String(row.accepted_turns_json))
+	if typeof(accepted_entries) != TYPE_ARRAY:
+		return Result.make(Result.STORAGE_FAILURE, "Recovery accepted Conversation is not a valid JSON Array")
+	return Result.make(Result.FOUND, "", {
+		"game_id": game_id,
+		"recovery_id": String(row.recovery_id),
+		"timeline_node_id": String(row.timeline_node_id),
+		"accepted_entries": accepted_entries,
+		"reason": String(row.reason),
+		"created_at": String(row.created_at),
+	})
+
+
+## Recover 也是 protected progress switch：先捕获被替换 current 为 reciprocal Recovery，
+## 再在同一 transaction 中切换 World/head/Conversation；latest target 不会被 consume/delete。
+func recover_previous_progress(game_id: String, target_recovery_id: String, validated_accepted_entries: Variant, reciprocal_recovery_id: String, updated_at: String) -> Dictionary:
+	var identity_error := _identity_error({"game_id": game_id, "target_recovery_id": target_recovery_id, "reciprocal_recovery_id": reciprocal_recovery_id, "updated_at": updated_at})
+	if not identity_error.is_empty():
+		return Result.make(Result.INVALID_INPUT, identity_error)
+	var encoded := Encoder.encode_json_value(validated_accepted_entries)
+	if not encoded.ok or typeof(encoded.value) != TYPE_ARRAY:
+		return Result.make(Result.INVALID_INPUT, encoded.get("error", "validated accepted entries must be a JSON Array"))
+	if not _require_open():
+		return Result.make(Result.NOT_OPEN, "database connection is not open")
+	if not _connection.begin_immediate():
+		return _storage_failure("begin Recovery switch")
+	# Runtime 预检与 transaction 之间可能有变化；transaction 内重新选 latest 并 exact 比对。
+	var recovery_query: Dictionary = _connection.query_rows("SELECT recovery_id, timeline_node_id, accepted_turns_json FROM recovery_checkpoints WHERE game_id = ? ORDER BY recovery_sequence DESC LIMIT 1;", [game_id])
+	if not recovery_query.ok:
+		return _rollback_storage_failure("query latest Recovery target")
+	if recovery_query.rows.is_empty():
+		_connection.rollback()
+		return Result.make(Result.NOT_FOUND, "Recovery Checkpoint was not found", {"game_id": game_id})
+	var recovery := recovery_query.rows[0] as Dictionary
+	if String(recovery.recovery_id) != target_recovery_id or String(recovery.accepted_turns_json) != encoded.json:
+		_connection.rollback()
+		return Result.make(Result.INVALID_INPUT, "validated Recovery is no longer the exact latest target")
+	var node_query: Dictionary = _connection.query_rows("SELECT world_snapshot_json FROM timeline_nodes WHERE game_id = ? AND node_id = ?;", [game_id, String(recovery.timeline_node_id)])
+	if not node_query.ok:
+		return _rollback_storage_failure("query Recovery Timeline anchor")
+	if node_query.rows.size() != 1:
+		return _rollback_storage_failure("Recovery has no unique Timeline anchor")
+	var world_json := String((node_query.rows[0] as Dictionary).world_snapshot_json)
+	var world_state: Variant = JSON.parse_string(world_json)
+	if typeof(world_state) != TYPE_DICTIONARY:
+		_connection.rollback()
+		return Result.make(Result.STORAGE_FAILURE, "Recovery Timeline snapshot is not a valid World object")
+	var current_result := _query_current_switch_material(game_id, "query reciprocal current progress")
+	if not current_result.success:
+		return current_result
+	if String(current_result.head_id) == String(recovery.timeline_node_id) and String(current_result.accepted_turns_json) == encoded.json:
+		_connection.rollback()
+		return Result.make(Result.ALREADY_CURRENT, "Recovery target is already current", {
+			"game_id": game_id,
+			"recovery_id": target_recovery_id,
+			"head_id": String(recovery.timeline_node_id),
+			"world_state": (world_state as Dictionary).duplicate(true),
+			"accepted_entries": encoded.value,
+		})
+	if not _connection.execute("INSERT INTO recovery_checkpoints(game_id, recovery_id, timeline_node_id, accepted_turns_json, reason, created_at) VALUES (?, ?, ?, ?, ?, ?);", [game_id, reciprocal_recovery_id, String(current_result.head_id), String(current_result.accepted_turns_json), "recover_previous", updated_at]):
+		return _rollback_storage_failure("insert reciprocal Recovery")
+	if not _connection.execute("UPDATE world_materializations SET head_id = ?, materialization_json = ?, updated_at = ? WHERE game_id = ?;", [String(recovery.timeline_node_id), world_json, updated_at, game_id]) or _connection.changed_rows() != 1:
+		return _rollback_storage_failure("recover current World")
+	if not _connection.execute("UPDATE games SET active_head_id = ?, updated_at = ? WHERE game_id = ?;", [String(recovery.timeline_node_id), updated_at, game_id]) or _connection.changed_rows() != 1:
+		return _rollback_storage_failure("recover Game active head")
+	if not _connection.execute("UPDATE conversation_materializations SET accepted_turns_json = ?, revision = revision + 1, updated_at = ? WHERE game_id = ?;", [encoded.json, updated_at, game_id]) or _connection.changed_rows() != 1:
+		return _rollback_storage_failure("recover current Conversation")
+	if not _connection.commit():
+		return _rollback_storage_failure("commit Recovery switch")
+	return Result.make(Result.COMMITTED, "previous progress recovered", {
+		"game_id": game_id,
+		"recovery_id": target_recovery_id,
+		"reciprocal_recovery_id": reciprocal_recovery_id,
+		"head_id": String(recovery.timeline_node_id),
+		"world_state": (world_state as Dictionary).duplicate(true),
+		"accepted_entries": encoded.value,
+	})
+
+
+func recovery_checkpoint_count(game_id: String) -> Dictionary:
+	if not _require_open():
+		return Result.make(Result.NOT_OPEN, "database connection is not open")
+	var query: Dictionary = _connection.query_rows("SELECT COUNT(*) AS recovery_count FROM recovery_checkpoints WHERE game_id = ?;", [game_id])
+	if not query.ok:
+		return _storage_failure("count Recovery Checkpoints")
+	if query.rows.size() != 1:
+		return Result.make(Result.STORAGE_FAILURE, "count Recovery Checkpoints returned an invalid row shape")
+	return Result.make(Result.FOUND, "", {"game_id": game_id, "recovery_count": int((query.rows[0] as Dictionary).recovery_count)})
 
 
 func commit_world_mutation(game_id: String, mutation_id: String, expected_head_id: String, node_id: String, next_world_state: Variant, created_at: String) -> Dictionary:
@@ -374,7 +494,7 @@ func _ensure_schema() -> Dictionary:
 		"CREATE TABLE IF NOT EXISTS games(game_id TEXT PRIMARY KEY, active_head_id TEXT NOT NULL, created_at TEXT NOT NULL, updated_at TEXT NOT NULL);",
 		"CREATE TABLE IF NOT EXISTS timeline_nodes(game_id TEXT NOT NULL, node_id TEXT NOT NULL, parent_node_id TEXT, sequence_number INTEGER NOT NULL CHECK(sequence_number >= 0), mutation_id TEXT NOT NULL, intent_fingerprint TEXT NOT NULL, world_snapshot_json TEXT NOT NULL, created_at TEXT NOT NULL, PRIMARY KEY(game_id, node_id), UNIQUE(game_id, mutation_id), FOREIGN KEY(game_id) REFERENCES games(game_id) ON DELETE RESTRICT, FOREIGN KEY(game_id, parent_node_id) REFERENCES timeline_nodes(game_id, node_id) DEFERRABLE INITIALLY DEFERRED);",
 		"CREATE TABLE IF NOT EXISTS world_materializations(game_id TEXT PRIMARY KEY, head_id TEXT NOT NULL, materialization_json TEXT NOT NULL, updated_at TEXT NOT NULL, FOREIGN KEY(game_id) REFERENCES games(game_id) ON DELETE RESTRICT, FOREIGN KEY(game_id, head_id) REFERENCES timeline_nodes(game_id, node_id) DEFERRABLE INITIALLY DEFERRED);",
-		"INSERT OR IGNORE INTO persistence_schema(singleton, schema_version) VALUES (1, 3);",
+		"INSERT OR IGNORE INTO persistence_schema(singleton, schema_version) VALUES (1, 4);",
 	]
 	for sql: String in statements:
 		if not _connection.execute(sql):
@@ -393,10 +513,12 @@ func _ensure_schema() -> Dictionary:
 			"CREATE TABLE conversation_materializations(game_id TEXT PRIMARY KEY, accepted_turns_json TEXT NOT NULL, revision INTEGER NOT NULL DEFAULT 0 CHECK(revision >= 0), updated_at TEXT NOT NULL, FOREIGN KEY(game_id) REFERENCES games(game_id) ON DELETE RESTRICT);",
 			"CREATE TABLE save_points(game_id TEXT NOT NULL, save_id TEXT NOT NULL, display_name TEXT NOT NULL, timeline_node_id TEXT NOT NULL, accepted_turns_json TEXT NOT NULL, created_at TEXT NOT NULL, PRIMARY KEY(game_id, save_id), FOREIGN KEY(game_id) REFERENCES games(game_id) ON DELETE RESTRICT, FOREIGN KEY(game_id, timeline_node_id) REFERENCES timeline_nodes(game_id, node_id) ON DELETE RESTRICT);",
 			"CREATE INDEX save_points_game_created_idx ON save_points(game_id, created_at, save_id);",
+			"CREATE TABLE IF NOT EXISTS recovery_checkpoints(recovery_sequence INTEGER PRIMARY KEY AUTOINCREMENT, game_id TEXT NOT NULL, recovery_id TEXT NOT NULL, timeline_node_id TEXT NOT NULL, accepted_turns_json TEXT NOT NULL, reason TEXT NOT NULL, created_at TEXT NOT NULL, UNIQUE(game_id, recovery_id), FOREIGN KEY(game_id) REFERENCES games(game_id) ON DELETE RESTRICT, FOREIGN KEY(game_id, timeline_node_id) REFERENCES timeline_nodes(game_id, node_id) ON DELETE RESTRICT);",
+			"CREATE INDEX IF NOT EXISTS recovery_checkpoints_latest_idx ON recovery_checkpoints(game_id, recovery_sequence DESC);",
 		]
 		for sql: String in new_schema_statements:
 			if not _connection.execute(sql):
-				return _rollback_storage_failure("create production schema v3 tables")
+				return _rollback_storage_failure("create production schema v4 tables")
 	elif version == 1:
 		# v1→v2 是单笔 additive migration；test-only trigger 可在 version UPDATE 中止，
 		# 从而证明 table/seed/version 全部 rollback，既有 Game/World/Timeline 不受影响。
@@ -420,21 +542,53 @@ func _ensure_schema() -> Dictionary:
 		for sql: String in save_migration_statements:
 			if not _connection.execute(sql):
 				return _rollback_storage_failure("migrate production schema v2 to v3")
+		version = 3
+	if meta_inserted != 1 and version == 3:
+		# v3→v4 只增加 immutable internal Recovery；table/index/version 共享 transaction。
+		var recovery_migration_statements := [
+			"CREATE TABLE recovery_checkpoints(recovery_sequence INTEGER PRIMARY KEY AUTOINCREMENT, game_id TEXT NOT NULL, recovery_id TEXT NOT NULL, timeline_node_id TEXT NOT NULL, accepted_turns_json TEXT NOT NULL, reason TEXT NOT NULL, created_at TEXT NOT NULL, UNIQUE(game_id, recovery_id), FOREIGN KEY(game_id) REFERENCES games(game_id) ON DELETE RESTRICT, FOREIGN KEY(game_id, timeline_node_id) REFERENCES timeline_nodes(game_id, node_id) ON DELETE RESTRICT);",
+			"CREATE INDEX recovery_checkpoints_latest_idx ON recovery_checkpoints(game_id, recovery_sequence DESC);",
+			"UPDATE persistence_schema SET schema_version = 4 WHERE singleton = 1 AND schema_version = 3;",
+		]
+		for sql: String in recovery_migration_statements:
+			if not _connection.execute(sql):
+				return _rollback_storage_failure("migrate production schema v3 to v4")
 		version = SCHEMA_VERSION
 	if version == SCHEMA_VERSION:
-		for required_table: String in ["conversation_materializations", "save_points"]:
+		for required_table: String in ["conversation_materializations", "save_points", "recovery_checkpoints"]:
 			var table_query: Dictionary = _connection.query_rows("SELECT name FROM sqlite_master WHERE type = 'table' AND name = ?;", [required_table])
 			if not table_query.ok:
-				return _rollback_storage_failure("verify production schema v3")
+				return _rollback_storage_failure("verify production schema v4")
 			if table_query.rows.size() != 1:
 				_connection.rollback()
-				return Result.make(Result.SCHEMA_MISMATCH, "production schema v3 table is missing: %s" % required_table)
+				return Result.make(Result.SCHEMA_MISMATCH, "production schema v4 table is missing: %s" % required_table)
 	else:
 		_connection.rollback()
 		return Result.make(Result.SCHEMA_MISMATCH, "unsupported production schema version %d" % version)
 	if not _connection.commit():
-		return _rollback_storage_failure("commit production schema v3")
-	return Result.make(Result.READY, "production schema v3 ready", {"schema_version": SCHEMA_VERSION})
+		return _rollback_storage_failure("commit production schema v4")
+	return Result.make(Result.READY, "production schema v4 ready", {"schema_version": SCHEMA_VERSION})
+
+
+func _query_current_switch_material(game_id: String, step: String) -> Dictionary:
+	var query: Dictionary = _connection.query_rows("SELECT g.active_head_id, w.head_id, w.materialization_json, c.accepted_turns_json FROM games g JOIN world_materializations w ON w.game_id = g.game_id JOIN conversation_materializations c ON c.game_id = g.game_id WHERE g.game_id = ?;", [game_id])
+	if not query.ok:
+		return _rollback_storage_failure(step)
+	if query.rows.size() != 1:
+		return _rollback_storage_failure("%s unique row" % step)
+	var row := query.rows[0] as Dictionary
+	if String(row.active_head_id) != String(row.head_id):
+		_connection.rollback()
+		return Result.make(Result.STORAGE_FAILURE, "Game head and current World head diverged")
+	return Result.make(Result.FOUND, "", {
+		"head_id": String(row.active_head_id),
+		"world_json": String(row.materialization_json),
+		"accepted_turns_json": String(row.accepted_turns_json),
+	})
+
+
+func _generate_recovery_identity() -> String:
+	return "recovery-%s" % Crypto.new().generate_random_bytes(16).hex_encode()
 
 
 func _decoded_found(head_id: String, json_text: String, details: Dictionary) -> Dictionary:

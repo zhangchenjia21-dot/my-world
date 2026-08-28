@@ -282,6 +282,26 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 13
 autowrap_mode = 2
 
+[node name="RecoverySeparator" type="HSeparator" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="RecoveryHint" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.74, 0.82, 1)
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 2
+
+[node name="RecoverButton" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+disabled = true
+text = "恢复读取前进度"
+
 [node name="BottomBar" type="HBoxContainer" parent="Margin/Layout"]
 layout_mode = 2
 
@@ -295,4 +315,9 @@ text = "状态：启动中…"
 [node name="LoadConfirmation" type="ConfirmationDialog" parent="."]
 unique_name_in_owner = true
 ok_button_text = "确认读取"
+cancel_button_text = "取消"
+
+[node name="RecoverConfirmation" type="ConfirmationDialog" parent="."]
+unique_name_in_owner = true
+ok_button_text = "确认恢复"
 cancel_button_text = "取消"

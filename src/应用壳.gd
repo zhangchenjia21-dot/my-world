@@ -29,6 +29,10 @@ const G3_01_EXPORT_SPIKE_FEATURE := "g3_01_persistence_spike"
 @onready var load_save_button: Button = %LoadSaveButton
 @onready var save_result_label: Label = %SaveResultLabel
 @onready var load_confirmation: ConfirmationDialog = %LoadConfirmation
+@onready var recovery_hint: Label = %RecoveryHint
+@onready var recover_button: Button = %RecoverButton
+@onready var recover_confirmation: ConfirmationDialog = %RecoverConfirmation
+@onready var recovery_separator: HSeparator = %RecoverySeparator
 
 var shell_state: ShellState = ShellState.STARTING
 var _narrow := false
@@ -60,6 +64,8 @@ func _ready() -> void:
 	create_save_button.pressed.connect(_on_create_save_pressed)
 	load_save_button.pressed.connect(_on_load_save_pressed)
 	load_confirmation.confirmed.connect(_on_load_confirmed)
+	recover_button.pressed.connect(_on_recover_pressed)
+	recover_confirmation.confirmed.connect(_on_recover_confirmed)
 	save_name_input.text_changed.connect(_on_save_name_changed)
 	_update_responsive_layout()
 	if session_runtime != null and not session_runtime.is_ready():
@@ -72,6 +78,7 @@ func _ready() -> void:
 		print("[shell] state=ready")
 		_connect_save_runtime()
 		_refresh_save_points()
+		_refresh_recovery_availability()
 	_update_save_controls()
 
 
@@ -118,6 +125,8 @@ func _connect_save_runtime() -> void:
 		session_runtime.save_points_changed.connect(_on_save_points_changed)
 	if session_runtime.has_signal("restore_completed"):
 		session_runtime.restore_completed.connect(_on_restore_completed)
+	if session_runtime.has_signal("recovery_availability_changed"):
+		session_runtime.recovery_availability_changed.connect(_on_recovery_availability_changed)
 	var conversation: Variant = session_runtime.conversation
 	conversation.attempt_started.connect(_on_generation_state_changed)
 	conversation.generation_completed.connect(_on_generation_state_changed)
@@ -163,7 +172,7 @@ func _on_load_save_pressed() -> void:
 	_pending_load_save_id = String(save_selector.get_item_metadata(save_selector.selected))
 	var display_name := save_selector.get_item_text(save_selector.selected)
 	load_confirmation.title = "读取存档「%s」" % display_name
-	load_confirmation.dialog_text = "读取将切换当前进度到「%s」。若希望以后回到现在，请先保存当前进度。" % display_name
+	load_confirmation.dialog_text = "读取将切换当前进度到「%s」。读取前的当前进度会被自动保护，可通过“恢复读取前进度”找回。" % display_name
 	load_confirmation.popup_centered()
 
 
@@ -176,12 +185,52 @@ func _on_load_confirmed() -> void:
 		_show_save_result(String(result.message), true)
 		_update_save_controls()
 		return
+	if String(result.status) == "already_current":
+		_show_save_result(String(result.message), false)
+		_update_save_controls()
+		return
 	_show_save_result("已读取存档：%s" % String(result.display_name), false)
 	status_label.text = "状态：已读取存档"
 	_update_save_controls()
 
 
 func _on_restore_completed(_result: Dictionary) -> void:
+	_update_save_controls()
+
+
+func _refresh_recovery_availability() -> void:
+	if session_runtime == null or not session_runtime.is_ready():
+		_on_recovery_availability_changed({"success": false, "available": false})
+		return
+	_on_recovery_availability_changed(session_runtime.get_recovery_availability())
+
+
+func _on_recovery_availability_changed(recovery: Dictionary) -> void:
+	var available := bool(recovery.get("success", false)) and bool(recovery.get("available", false))
+	recovery_separator.visible = available
+	recovery_hint.visible = available
+	recover_button.visible = available
+	if available:
+		recovery_hint.text = "可恢复：最近一次进度切换前的进度（%s）" % String(recovery.get("created_at", "时间未知"))
+	_update_save_controls()
+
+
+func _on_recover_pressed() -> void:
+	recover_confirmation.title = "恢复上一进度"
+	recover_confirmation.dialog_text = "恢复会切换当前进度；你现在的进度也会被自动保护，因此之后仍可再次恢复回来。"
+	recover_confirmation.popup_centered()
+
+
+func _on_recover_confirmed() -> void:
+	if session_runtime == null:
+		return
+	var result: Dictionary = session_runtime.recover_previous_progress()
+	if not result.success:
+		_show_save_result(String(result.message), true)
+		_update_save_controls()
+		return
+	_show_save_result(String(result.get("message", "已恢复上一进度。")), false)
+	status_label.text = "状态：已恢复上一进度"
 	_update_save_controls()
 
 
@@ -204,6 +253,7 @@ func _update_save_controls() -> void:
 	create_save_button.disabled = not ready or generating or save_name_input.text.strip_edges().is_empty()
 	save_selector.disabled = not ready or generating or save_selector.item_count == 0
 	load_save_button.disabled = not ready or generating or save_selector.item_count == 0
+	recover_button.disabled = not ready or generating or not recover_button.visible
 
 
 func _show_save_result(message: String, is_error: bool) -> void:

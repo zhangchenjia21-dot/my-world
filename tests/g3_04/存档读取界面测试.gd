@@ -60,7 +60,7 @@ func _run() -> void:
 	_check(entries.get_child_count() == 4, "future Narrative appears before Load")
 	selector.select(0)
 	load_button.pressed.emit()
-	_check(confirmation.title.contains("重要节点甲") and confirmation.dialog_text.contains("若希望以后回到现在，请先保存"), "Load identifies target and states high-impact intent")
+	_check(confirmation.title.contains("重要节点甲") and confirmation.dialog_text.contains("读取前的当前进度会被自动保护"), "Load identifies target and states protected high-impact intent")
 	confirmation.confirmed.emit()
 	await process_frame
 	await process_frame

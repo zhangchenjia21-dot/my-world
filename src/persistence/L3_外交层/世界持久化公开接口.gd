@@ -57,8 +57,24 @@ func get_save_point(game_id: String, save_id: String) -> Dictionary:
 
 ## 原子恢复 current World/head/accepted Conversation。validated_accepted_entries 必须来自
 ## Conversation Domain validation，且必须 exact 匹配 immutable Save recovery material。
-func restore_save_point(game_id: String, save_id: String, validated_accepted_entries: Variant, updated_at: String) -> Dictionary:
-	return _flow.restore_save_point(game_id, save_id, validated_accepted_entries, updated_at)
+func restore_save_point(game_id: String, save_id: String, validated_accepted_entries: Variant, updated_at: String, recovery_id: String = "") -> Dictionary:
+	return _flow.restore_save_point(game_id, save_id, validated_accepted_entries, updated_at, recovery_id)
+
+
+## 返回 latest Recovery candidate，供 Conversation Domain 在 Recover transaction 前验证。
+## durable sequence 只在模块内部排序，不作为公开 identity 或 UI 调试信息。
+func get_latest_recovery(game_id: String) -> Dictionary:
+	return _flow.get_latest_recovery(game_id)
+
+
+## 原子捕获 current reciprocal Recovery 并切换到 exact latest Recovery target。
+func recover_previous_progress(game_id: String, target_recovery_id: String, validated_accepted_entries: Variant, reciprocal_recovery_id: String, updated_at: String) -> Dictionary:
+	return _flow.recover_previous_progress(game_id, target_recovery_id, validated_accepted_entries, reciprocal_recovery_id, updated_at)
+
+
+## 测试与治理验证用稳定计数；不返回 SQLite rows 或 Recovery history。
+func recovery_checkpoint_count(game_id: String) -> Dictionary:
+	return _flow.recovery_checkpoint_count(game_id)
 
 
 ## 在一个 transaction 中提交 immutable node snapshot、current World 与 active head。
