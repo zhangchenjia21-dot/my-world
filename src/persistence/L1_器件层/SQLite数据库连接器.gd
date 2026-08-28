@@ -68,6 +68,28 @@ func query_rows(sql: String, bindings: Array = []) -> Dictionary:
 	}
 
 
+## 对当前已打开连接执行 SQLite online backup。source 即使处于 WAL 模式也由
+## SQLite snapshot 语义生成一致目标；调用方负责 staging 验证与发布。
+func backup_to(target_path: String) -> bool:
+	if _database == null:
+		_last_error = "database connection is not open"
+		return false
+	var succeeded: bool = _database.backup_to(target_path)
+	_last_error = "" if succeeded else String(_database.error_message)
+	return succeeded
+
+
+## 把 backup 恢复到当前已打开的 staging connection。该接口绝不选择或覆盖
+## authoritative current path，publish/quarantine 顺序由 L2 recovery flow 决定。
+func restore_from(source_path: String) -> bool:
+	if _database == null:
+		_last_error = "database connection is not open"
+		return false
+	var succeeded: bool = _database.restore_from(source_path)
+	_last_error = "" if succeeded else String(_database.error_message)
+	return succeeded
+
+
 func begin_immediate() -> bool:
 	return execute("BEGIN IMMEDIATE;")
 

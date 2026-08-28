@@ -33,6 +33,8 @@ const G3_01_EXPORT_SPIKE_FEATURE := "g3_01_persistence_spike"
 @onready var recover_button: Button = %RecoverButton
 @onready var recover_confirmation: ConfirmationDialog = %RecoverConfirmation
 @onready var recovery_separator: HSeparator = %RecoverySeparator
+@onready var database_recovery_button: Button = %DatabaseRecoveryButton
+@onready var database_recovery_confirmation: ConfirmationDialog = %DatabaseRecoveryConfirmation
 
 var shell_state: ShellState = ShellState.STARTING
 var _narrow := false
@@ -66,20 +68,29 @@ func _ready() -> void:
 	load_confirmation.confirmed.connect(_on_load_confirmed)
 	recover_button.pressed.connect(_on_recover_pressed)
 	recover_confirmation.confirmed.connect(_on_recover_confirmed)
+	database_recovery_button.pressed.connect(_on_database_recovery_pressed)
+	database_recovery_confirmation.confirmed.connect(_on_database_recovery_confirmed)
 	save_name_input.text_changed.connect(_on_save_name_changed)
 	_update_responsive_layout()
 	if session_runtime != null and not session_runtime.is_ready():
 		shell_state = ShellState.STARTING
-		status_label.text = "状态：当前游戏恢复失败"
+		var startup: Dictionary = session_runtime.startup_result
+		if String(startup.get("status", "")) in ["physical_corruption", "interrupted_recovery"]:
+			status_label.text = "当前游戏数据已损坏，无法安全使用。可恢复到最近安全备份；备份后的进度可能丢失，损坏原件会保留。"
+			database_recovery_button.visible = bool(startup.get("recovery_available", false))
+		else:
+			status_label.text = "状态：%s" % String(startup.get("message", "当前游戏恢复失败"))
 		print("[shell] state=resume_failed")
 	else:
 		shell_state = ShellState.READY
 		status_label.text = "状态：就绪"
+		database_recovery_button.visible = false
 		print("[shell] state=ready")
 		_connect_save_runtime()
 		_refresh_save_points()
 		_refresh_recovery_availability()
 	_update_save_controls()
+	_run_g3_06_export_smoke_if_requested()
 
 
 ## 仅由 G3-01 专用 export preset 编译启用；正式 Windows Desktop preset 不含此 feature。
@@ -93,6 +104,52 @@ func _run_g3_01_export_spike() -> void:
 	var spike_script: Script = load("res://tests/g3_01/导出持久化冒烟.gd")
 	var succeeded: bool = spike_script.new().run(database_path)
 	get_tree().quit(0 if succeeded else 1)
+
+
+## exported EXE 验证仍走正式 Runtime/product startup；仅当显式 task-owned G3-06
+## database 与 smoke mode 同时存在时写 marker/自动确认，绝不指向默认 user:// 数据。
+func _run_g3_06_export_smoke_if_requested() -> void:
+	var mode := ""
+	var ready_path := ""
+	for argument: String in OS.get_cmdline_user_args():
+		if argument.begins_with("--g3-06-smoke-mode="):
+			mode = argument.trim_prefix("--g3-06-smoke-mode=")
+		elif argument.begins_with("--g3-06-ready="):
+			ready_path = argument.trim_prefix("--g3-06-ready=")
+	if mode.is_empty():
+		return
+	var explicit_path := _product_database_path()
+	if explicit_path.find("g3_06") < 0:
+		push_error("G3-06 EXPORT SMOKE FAIL | task-owned database path required")
+		get_tree().quit(1)
+		return
+	match mode:
+		"hold":
+			if session_runtime == null or not session_runtime.is_ready() or ready_path.is_empty():
+				push_error("G3-06 EXPORT SMOKE FAIL | hold did not reach READY")
+				get_tree().quit(1)
+				return
+			var marker := FileAccess.open(ready_path, FileAccess.WRITE)
+			marker.store_string("pid=%d\n" % OS.get_process_id())
+			marker.close()
+			print("G3-06 EXPORT A READY | pid=%d" % OS.get_process_id())
+		"expect_blocked":
+			var blocked := session_runtime != null and String(session_runtime.startup_result.get("status", "")) == "already_running"
+			print("G3-06 EXPORT B PASS | already_running" if blocked else "G3-06 EXPORT B FAIL")
+			get_tree().quit(0 if blocked else 1)
+		"recover":
+			var recovered: Dictionary = session_runtime.recover_damaged_database() if session_runtime != null else {}
+			var okay: bool = String(recovered.get("status", "")) == "reopen_required"
+			print("G3-06 EXPORT RECOVERY PASS | staged replacement published" if okay else "G3-06 EXPORT RECOVERY FAIL")
+			get_tree().quit(0 if okay else 1)
+		"expect_recovered":
+			var okay: bool = session_runtime != null and session_runtime.is_ready()
+			if okay: session_runtime.close()
+			print("G3-06 EXPORT REOPEN PASS | recovered current coherent" if okay else "G3-06 EXPORT REOPEN FAIL")
+			get_tree().quit(0 if okay else 1)
+		_:
+			push_error("G3-06 EXPORT SMOKE FAIL | unknown mode")
+			get_tree().quit(1)
 
 
 ## Windows 窗口关闭与界面“退出”按钮走同一条正式退出路径。
@@ -162,7 +219,7 @@ func _on_create_save_pressed() -> void:
 		_update_save_controls()
 		return
 	save_name_input.clear()
-	_show_save_result("已保存当前进度：%s" % String(result.display_name), false)
+	_show_save_result(String(result.message) if bool(result.get("backup_warning", false)) else "已保存当前进度：%s" % String(result.display_name), bool(result.get("backup_warning", false)))
 	_update_save_controls()
 
 
@@ -232,6 +289,24 @@ func _on_recover_confirmed() -> void:
 	_show_save_result(String(result.get("message", "已恢复上一进度。")), false)
 	status_label.text = "状态：已恢复上一进度"
 	_update_save_controls()
+
+
+func _on_database_recovery_pressed() -> void:
+	database_recovery_confirmation.title = "恢复最近安全备份"
+	database_recovery_confirmation.dialog_text = "当前游戏数据已损坏，无法安全使用。恢复会回到最近一份已验证的安全备份，备份之后的进度可能丢失；损坏原件会保留用于诊断。这不是普通存档读取。"
+	database_recovery_confirmation.popup_centered()
+
+
+func _on_database_recovery_confirmed() -> void:
+	if session_runtime == null:
+		return
+	var result: Dictionary = session_runtime.recover_damaged_database()
+	database_recovery_button.visible = false
+	status_label.text = String(result.message)
+	if result.success or String(result.status) == "reopen_required":
+		status_label.add_theme_color_override("font_color", Color(0.58, 0.78, 0.62))
+	else:
+		status_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
 
 
 func _on_generation_state_changed(_turn: RefCounted) -> void:

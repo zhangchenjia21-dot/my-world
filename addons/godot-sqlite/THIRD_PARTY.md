@@ -11,6 +11,8 @@
 
 本仓库只保留当前 Foundation 所需的 Windows x86_64 debug/release GDExtension 二进制和最小 descriptor；未引入其它平台二进制、EditorPlugin 或 demo。
 
+G3-06 已在 Godot 4.7.2 Standard / Windows x64 对 vendored v4.9 二进制实测：保持 WAL source connection 打开时，`SQLite.backup_to(path)` 与在独立 staging connection 上调用的 `SQLite.restore_from(path)` 均返回 `bool true`，且 restored database 通过 `PRAGMA quick_check` 并保留 exact committed truth。production recovery 不普通复制 open WAL database。
+
 | 文件 | SHA-256 |
 |---|---|
 | `bin/libgdsqlite.windows.template_debug.x86_64.dll` | `E3AE3B46B59EADCD513F8D7D6E7C0C15E173696E145594094D7F4F3CC96C7FE7` |

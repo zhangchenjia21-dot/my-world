@@ -101,7 +101,7 @@ func _test_invalid_existing_states() -> bool:
 	corrupt.store_string("intentional G3-03 corrupt fixture")
 	corrupt.close()
 	var corrupt_runtime := Runtime.new()
-	if corrupt_runtime.open_current_game(corrupt_path).status != "storage_failure": return _fail("corrupt DB became fresh Game")
+	if corrupt_runtime.open_current_game(corrupt_path).status != "physical_corruption": return _fail("corrupt DB was not classified separately or became fresh Game")
 
 	var unsupported_path := _path("unsupported.sqlite")
 	var db := SQLite.new()
@@ -111,7 +111,7 @@ func _test_invalid_existing_states() -> bool:
 		return _fail("unsupported schema fixture")
 	db.close_db()
 	var unsupported_runtime := Runtime.new()
-	if unsupported_runtime.open_current_game(unsupported_path).status != "schema_mismatch": return _fail("unsupported schema fallback")
+	if unsupported_runtime.open_current_game(unsupported_path).status != "unsupported_newer_schema": return _fail("unsupported schema was not classified separately")
 	print("G3-03 PASS | zero/multi/corrupt/unsupported existing DB fail-loud without fresh fallback")
 	return true
 

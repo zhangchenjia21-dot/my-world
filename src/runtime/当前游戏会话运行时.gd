@@ -7,6 +7,7 @@ extends RefCounted
 ## World JSON、不组装 Provider messages，也不实现 Recovery history / 多 Game picker。
 
 const Persistence := preload("res://src/persistence/L3_外交层/世界持久化公开接口.gd")
+const DatabaseSafety := preload("res://src/persistence/L3_外交层/数据库安全公开接口.gd")
 const Conversation := preload("res://src/domain/会话.gd")
 
 const DEFAULT_DATABASE_PATH := "user://my-world/current-game.sqlite"
@@ -16,6 +17,7 @@ signal recovery_availability_changed(recovery)
 signal restore_completed(result)
 
 var persistence: RefCounted = Persistence.new()
+var database_safety: RefCounted = DatabaseSafety.new()
 var conversation: RefCounted = Conversation.new()
 var database_path := ""
 var game_id := ""
@@ -32,12 +34,29 @@ func open_current_game(explicit_database_path: String) -> Dictionary:
 	if explicit_database_path.strip_edges().is_empty():
 		return _startup_failure("invalid_path", "Current Game 数据库路径为空。")
 	database_path = explicit_database_path
+	var ownership: Dictionary = database_safety.acquire_writer(database_path)
+	if not ownership.success:
+		return _startup_failure(String(ownership.status), "另一个游戏实例正在运行。" if String(ownership.status) == "already_running" else "无法取得 Current Game 的安全写入所有权。", ownership.message)
+	var inspection: Dictionary = database_safety.inspect_startup()
+	if String(inspection.status) in ["physical_corruption", "interrupted_recovery"]:
+		var backup: Dictionary = inspection.get("backup", {})
+		return _startup_failure(String(inspection.status), "当前游戏数据已损坏或恢复发布曾被中断。可恢复到最近安全备份；备份之后的进度可能丢失，损坏原件会保留。", inspection.message, {
+			"recovery_available": bool(backup.get("success", false)),
+			"backup_modified_time": int(backup.get("modified_time", 0)),
+		})
+	if not inspection.success and String(inspection.status) != "normal_missing":
+		return _close_after_startup_failure(String(inspection.status), "无法安全打开 Current Game 数据。", inspection.message)
 	var existed_before_open := FileAccess.file_exists(database_path)
 	if not existed_before_open:
 		var parent := database_path.get_base_dir()
 		var directory_error := DirAccess.make_dir_recursive_absolute(parent)
 		if directory_error != OK:
-			return _startup_failure("storage_failure", "无法创建 Current Game 数据目录。")
+			return _close_after_startup_failure("storage_failure", "无法创建 Current Game 数据目录。")
+	elif int(inspection.get("schema_version", 4)) < 4:
+		# schema-changing migration 只有在 online backup 已生成且验证通过后才能开始。
+		var migration_backup: Dictionary = database_safety.refresh_backup()
+		if not migration_backup.success:
+			return _close_after_startup_failure("migration_backup_failed", "升级 Current Game 数据前无法建立安全备份；数据库没有被迁移。", migration_backup.message)
 
 	var opened: Dictionary = persistence.open_database(database_path)
 	if not opened.success:
@@ -85,6 +104,11 @@ func open_current_game(explicit_database_path: String) -> Dictionary:
 		"world_state": world_state.duplicate(true),
 		"accepted_count": int(restored.accepted_count),
 	}
+	var backup: Dictionary = database_safety.backup_availability()
+	if not backup.success:
+		var initial_backup: Dictionary = database_safety.refresh_backup()
+		if not initial_backup.success:
+			return _close_after_startup_failure("initial_backup_failed", "Current Game 已验证，但无法建立第一份安全备份；本次不会进入游戏。", initial_backup.message)
 	return startup_result.duplicate(true)
 
 
@@ -132,7 +156,35 @@ func create_save_point(display_name: String) -> Dictionary:
 	var listed := list_save_points()
 	if listed.success:
 		save_points_changed.emit(listed.save_points.duplicate(true))
+	var backup: Dictionary = database_safety.refresh_backup()
+	if not backup.success:
+		saved["backup_warning"] = true
+		saved["message"] = "存档已保存，但安全备份刷新失败；当前数据库仍是有效进度，旧安全备份已保留。"
+		saved["backup_engineering_cause"] = backup.message
+	else:
+		saved["backup_warning"] = false
 	return saved
+
+
+## 只允许 startup physical-corruption 状态触发 whole-DB recovery。成功发布后旧 Runtime
+## 不继续使用，调用者必须 reopen，以免 memory/UI 与刚替换的 durable current 混用。
+func recover_damaged_database() -> Dictionary:
+	if String(startup_result.get("status", "")) not in ["physical_corruption", "interrupted_recovery"]:
+		return {"status": "invalid_state", "success": false, "message": "当前状态不允许执行数据库灾难恢复。"}
+	if not bool(startup_result.get("recovery_available", false)):
+		return {"status": "no_verified_backup", "success": false, "message": "没有可验证的安全备份；不会创建空白新局。"}
+	var recovered: Dictionary = database_safety.recover_current_from_backup()
+	if not recovered.success:
+		return {"status": recovered.status, "success": false, "message": "安全备份恢复失败；损坏原件和既有备份均已保留。", "engineering_cause": recovered.message}
+	startup_result = {
+		"status": "reopen_required",
+		"success": false,
+		"committed": true,
+		"message": "安全备份已恢复，损坏原件已保留。请重新打开游戏以继续。",
+		"quarantine_path": recovered.quarantine_path,
+	}
+	database_safety.release_writer()
+	return startup_result.duplicate(true)
 
 
 func list_save_points() -> Dictionary:
@@ -230,10 +282,21 @@ func is_ready() -> bool:
 func close() -> Dictionary:
 	if conversation != null and conversation.is_generating():
 		conversation.cancel_generation()
-	if persistence == null:
-		return {"status": "ready", "success": true, "message": ""}
-	var closed: Dictionary = persistence.close_database()
+	var backup_warning := ""
+	if is_ready() and database_safety != null:
+		var backup: Dictionary = database_safety.refresh_backup()
+		if not backup.success:
+			backup_warning = "graceful-close backup refresh failed: %s" % String(backup.message)
+	var closed: Dictionary = {"status": "ready", "success": true, "message": ""}
+	if persistence != null:
+		closed = persistence.close_database()
 	persistence = null
+	if database_safety != null:
+		var released: Dictionary = database_safety.release_writer()
+		if not released.success and closed.success:
+			closed = released
+	if not backup_warning.is_empty():
+		closed["backup_warning"] = backup_warning
 	return closed
 
 
@@ -250,16 +313,20 @@ func _now_utc() -> String:
 
 
 func _close_after_startup_failure(status: String, player_message: String, engineering_cause: String = "") -> Dictionary:
-	persistence.close_database()
+	if persistence != null:
+		persistence.close_database()
 	persistence = null
+	if database_safety != null:
+		database_safety.release_writer()
 	return _startup_failure(status, player_message, engineering_cause)
 
 
-func _startup_failure(status: String, player_message: String, engineering_cause: String = "") -> Dictionary:
+func _startup_failure(status: String, player_message: String, engineering_cause: String = "", details: Dictionary = {}) -> Dictionary:
 	startup_result = {
 		"status": status,
 		"success": false,
 		"message": player_message,
 		"engineering_cause": engineering_cause,
 	}
+	startup_result.merge(details, true)
 	return startup_result.duplicate(true)
