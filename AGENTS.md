@@ -46,13 +46,28 @@ Current phase:
 
 Current task:
 
-> **G4-01 — World Pack v0.1**
+> **G4-01 — Product Entry Shell / Main Menu**
 
-G4-02 is not authorized until G4-01 Independent Review PASS.
+The previous `docs/tasks/G4-01_WORLD_PACK_V0_1_TASK.md` was superseded **before execution** by the Owner-approved G4 route revision. Do not execute it. World Pack Source work is now G4-02.
 
-Current implementation owner for G4-01: **Grok Build**. User authorized Grok Build or KimiCode because current Codex quota is exhausted. Do not lower acceptance standards because the agent changes.
+Recommended implementation owner for current G4-01: **KimiCode K3**, because the work is Godot UI + Windows local lifecycle/navigation. Grok Build remains suitable for G4-02 Source contract/cross-module semantics. Agent choice never lowers acceptance standards.
 
-## 4. Core product/runtime invariants
+## 4. Current G4 sequence
+
+```text
+G4-01 Product Entry Shell / Main Menu
+→ G4-02 World Pack Source v0.1 + Contract Reality Check
+→ G4-03 Game Creation Composition v0.1 + New Game Flow
+→ G4-04 Source → Game-local Instance
+→ G4-05 Local Pack Library + Minimal Game Library
+→ G4-06 Asset Resolution
+→ G4-07 Two-Pack Playable Reality Test
+→ G4-GATE
+```
+
+Do not start G4-02+ until the current G4-01 task is formally issued and closed through its required review/UAT path.
+
+## 5. Core product/runtime invariants
 
 - **Commodity Foundation, Owned Game Semantics.**
 - **Engine-native, not engine-semantic-coupled.**
@@ -67,7 +82,7 @@ Current implementation owner for G4-01: **Grok Build**. User authorized Grok Bui
 
 Hard boundaries remain: secrets/OS/filesystem authority, physical save corruption, non-atomic authoritative writes, unsafe concurrent writer ambiguity, arbitrary Mod execution and unrecoverable external side effects.
 
-## 5. Accepted technical / persistence baseline
+## 6. Accepted technical / persistence baseline
 
 ```text
 Host                         Godot 4.7.2
@@ -78,18 +93,18 @@ Provider                     DeepSeek deepseek-v4-pro
 Persistence                  SQLite — ACCEPTED
 SQLite binding               2shady4u/godot-sqlite v4.9
 Production schema            v4
-Product DB                    user://my-world/current-game.sqlite
+Current G3 product DB         user://my-world/current-game.sqlite
 ```
 
 G3 is closed. Established production capabilities include atomic durable mutation, accepted Conversation durability, reopen/resume, named Save, atomic Load/Restore, future-memory isolation, Recovery Checkpoints, single-writer process safety, SQLite-native verified backup and staged physical-corruption recovery.
 
-Do not modify G3 persistence semantics/schema in G4-01 merely to store World Pack Source. G4-02 will decide the minimal Source → game-local provenance/materialization boundary using current evidence.
+Do not rewrite G3 persistence merely because G4 eventually needs multiple Games. G4-05 will decide the simplest multi-Game physical storage/lifecycle shape when there is a real product consumer.
 
-## 6. Canonical ownership / Source boundary
+## 7. G4 canonical Source / Composition boundary
 
 ```text
-Reusable Source
-World Pack / Character / Expansion
+Reusable World Pack Source Generation
++ Game Creation Composition
 ↓ new-game materialization
 Game-local Canonical Reality
 ↓ Runtime
@@ -98,93 +113,69 @@ Current World State
 
 Formal rule:
 
-> **World Pack Source != Game-local Instance != Runtime World State.**
->
-> **Source defines the pre-game reference/inertia; after creation, game-local reality is authoritative.**
+> **World Pack Source != Game Creation Composition != Game-local Reality != Runtime State.**
 
-A World Pack is reusable read-only source content. It is not a mutable current Game database, not a Save, not a Timeline, and not automatically model-visible Context.
+Source generation must ultimately be identifiable by stable pack identity + author version + exact fingerprint/generation. Source updates may not silently rewrite existing Games.
 
-## 7. G4-01 specific boundary
+Runtime-generated NPC / Place / Item may have only game-local stable identity and `runtime_generated` provenance. A Source character existing/materializing does not automatically mean the player knows that character.
 
-G4-01 freezes and implements the first production **World Pack Source contract + explicit-root loader/validator**. It does **not** materialize Source into the current Game.
+## 8. G4-01 specific boundary — Product Entry Shell / Main Menu
 
-The v0.1 contract must support only the presently needed source categories:
+G4-01 exists because Pack choice / New Game / multi-Game need a stable product entry surface. Do not build a disposable Pack selector first.
 
-```text
-pack metadata / stable pack identity / schema version / author version
-world / GM instructions
-ordered Source lore entries
-initial character Source seeds
-authored map declaration
-portrait / scene / map asset declarations
-necessary mechanic declarations
-```
-
-### Minimal semantic limits
-
-- Pack metadata must have stable `pack_id`, human display name, contract/schema version, and author-controlled pack version label.
-- World instructions and Source lore are authored UTF-8 content. Structural validation must not become Narrative censorship.
-- Initial character entries are **Source seeds**, not the G5 NPC schema. Keep them minimal: stable source identity, display identity, authored source text/reference, optional declared portrait reference. Do not freeze runtime stats, relationships, knowledge, faction state or autonomous-agent schema.
-- Authored map is a Source declaration/reference only. Do not freeze full geographic/topology/runtime map semantics in G4-01.
-- Asset declarations provide stable `asset_id`, a small source kind (`portrait` / `scene` / `map` where needed), and pack-root-relative file reference. G4-04 owns runtime Asset Resolution; G4-01 only proves declaration readability/root confinement and referenced-file existence where required.
-- Mechanic declarations are data/content declarations only. They do not grant executable code, arbitrary GDScript, shell, DLL or OS authority.
-- G4-01 defines no external declarative UI schema. World Pack / Mod UI contract remains G8.
-
-### File / package shape
-
-- First generation uses an explicit local directory root and UTF-8 JSON/text/files.
-- One manifest/index file is the contract entry point; do not build a package archive format yet.
-- The loader receives an **explicit pack root path**. No global discovery/catalog/install in G4-01; that is G4-03.
-- All manifest file references must resolve within the supplied pack root. Reject absolute paths, drive-qualified paths and traversal escaping the root. Do not read arbitrary filesystem paths on behalf of pack content.
-- Unsupported newer contract/schema version fails explicitly; malformed/missing required contract material fails explicitly. Do not silently invent defaults that change pack identity.
-- Stable IDs within one pack must be unambiguous; duplicate source/asset identities are invalid.
-- Unknown authored narrative text is allowed. Validation is for contract integrity/path safety/version/readability, not lore correctness.
-
-### Scope exclusions
-
-G4-01 must not implement:
-
-- G4-02 Source → Game-local Instance / persistence binding;
-- G4-03 Pack discovery/install/catalog/selection UX;
-- G4-04 runtime Asset Resolution service;
-- G4-05 second-pack proof;
-- G5 NPC/Faction/Knowledge/Relationship/World Event gameplay schema;
-- G6 UI redesign or G8 external declarative UI contract;
-- arbitrary scripts/plugins from a World Pack;
-- archive signing/store/cloud/mod marketplace.
-
-A repository-owned task fixture is allowed to prove the complete v0.1 contract. It is evidence, not a second built-in product world.
-
-## 8. Implementation shape / dependency discipline
-
-Prefer a small production module under `src/world_pack/` (or the repository's clearly equivalent naming) with:
-
-- immutable/read-oriented World Pack definition DTO/read model;
-- explicit-root loader + structural/path validator;
-- stable error/status results that do not leak Godot FileAccess objects upward.
-
-Do not create ORM/DI/EventBus/Service Locator or empty L0-L3 forests for formal symmetry. Domain/read-model code must not depend on SceneTree/UI lifetime.
-
-Pack loading must not mutate current Game, SQLite, Conversation or Context.
-
-## 9. G4 Gate direction
-
-G4 sequence:
+First-generation desired flow:
 
 ```text
-G4-01 World Pack v0.1
-→ G4-02 Source → Game-local Instance
-→ G4-03 Pack Discovery / Install / Load
-→ G4-04 Asset Resolution
-→ G4-05 Second Pack Fixture
-→ G4-GATE
+Application Launch
+→ Main Menu
+├─ Continue current Game
+├─ New Game → stable creation surface/host
+└─ Quit
 ```
 
-G4-GATE ultimately requires at least two World Packs to establish independent Games, while later changes to reusable Source cannot silently rewrite already-created game-local reality.
+Also provide safe in-game return to Main Menu and re-entry via Continue.
+
+G4-01 must preserve:
+
+- existing G3 reopen/resume truth;
+- current Game persistence and Save/Load/Recovery behavior;
+- startup physical-corruption / safe-backup recovery discoverability;
+- single-writer discipline and graceful cleanup;
+- in-game `Player Host | Narrative Host | World Surface Host` behavior;
+- Windows maximized / 1280×720 / 960×540 usability.
+
+G4-01 must **not** implement:
+
+- World Pack Source contract/loader (G4-02);
+- real Pack discovery/selection (G4-03/G4-05);
+- multi-Game storage migration/library (G4-05);
+- Asset Resolution (G4-06);
+- G5 world semantics or G6 declarative UI platform;
+- Settings framework, account, cloud, store or online services.
+
+The New Game surface may initially be a real stable product host with later content wiring, not a fake second product or task-only popup.
+
+## 9. UI architecture
+
+Application-level surfaces:
+
+```text
+Main Menu
+New Game flow
+Continue / Game Library (later G4)
+```
+
+In-game surface remains:
+
+```text
+Player Host | Narrative Host | World Surface Host
+```
+
+Main Menu owns navigation/lifecycle intent only. It must not hold a second copy of Game/Save/Pack truth.
 
 ## 10. Evidence / execution discipline
 
-Never claim Windows-local, Godot, filesystem, pack-path safety, parsing, export or runtime compatibility without real execution evidence.
+Never claim Windows-local, Godot, filesystem, export or runtime compatibility without real execution evidence.
 
 Separate implementation, validation action, observable evidence and PASS/FAIL/NOT VERIFIED.
 
