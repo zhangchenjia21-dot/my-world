@@ -35,6 +35,7 @@ Completed:
 - G2-GATE — **PASS**
 - G3 Persistent Game / Save / Timeline Foundation — **PASS / CLOSED**
 - G3-GATE — **PASS**
+- G4-01 Application Shell / Main Menu + Game Session Lifecycle — **PASS / CLOSED**
 
 Current phase:
 
@@ -42,25 +43,25 @@ Current phase:
 
 Current task:
 
-> **G4-01 — Application Shell / Main Menu + Game Session Lifecycle**
-
-All older G4-01 World Pack task packets and any Main-Menu-only handoff are superseded **before execution** by the Owner-approved G4 v3 route. Do not execute them.
+> **G4-02 — World Pack + Character Card Source Contracts v0.1**
 
 Current formal Task Packet:
 
-`docs/tasks/G4-01_APPLICATION_SHELL_GAME_SESSION_LIFECYCLE_TASK.md`
+`docs/tasks/G4-02_WORLD_CHARACTER_SOURCE_CONTRACTS_TASK.md`
 
-Implementation owner: **Codex**. Current implementation commit: `d193268be10082df15ce4d8f610de6ebdc7e58ac`.
+Implementation owner: **Codex**. Task Packet commit: `60a0139c8e7facc019fc63bd6593ef2000261284`.
 
-Independent Review: **PASS**. Current highest state: **READY FOR OWNER UAT**.
+Current state: **ISSUED — waiting Codex implementation → READY FOR INDEPENDENT REVIEW**.
 
-Do not start G4-02+ until Owner UAT passes and G4-01 is formally closed.
+All older G4-01 World Pack task packets and Main-Menu-only handoffs remain superseded. Do not revive them.
+
+Do not start G4-03+ until G4-02 is formally closed.
 
 ## 4. Current G4 sequence
 
 ```text
-G4-01 Application Shell / Main Menu + Game Session Lifecycle
-→ G4-02 World Pack + Character Card Source Contracts v0.1
+G4-01 Application Shell / Main Menu + Game Session Lifecycle — CLOSED
+→ G4-02 World Pack + Character Card Source Contracts v0.1 — CURRENT
 → G4-03 Managed Local Source Library v0.1
 → G4-04 Multi-Game Lifecycle / Game Library Foundation
 → G4-05 Asset-only New Game Wizard v0.1
@@ -72,8 +73,6 @@ G4-01 Application Shell / Main Menu + Game Session Lifecycle
 → G4-11 Two Primary Asset Families Reality Test
 → G4-GATE
 ```
-
-Do not start G4-02+ until current G4-01 is formally closed through its required review/UAT path.
 
 ## 5. First-generation New Game product lock
 
@@ -192,15 +191,13 @@ Drafts or arbitrary mutable external folders are not authoritative Game Source.
 
 ## 8. Application / Game Session lifecycle
 
-G4-01 is not merely a visual Main Menu task.
-
-Formal seam:
+G4-01 established the formal seam:
 
 ```text
 Application Lifetime != Game Session Lifetime
 ```
 
-Required behavior:
+Accepted behavior:
 
 ```text
 Application Launch
@@ -276,28 +273,43 @@ Current G3 product DB         user://my-world/current-game.sqlite
 
 G3 is closed. Do not rewrite G3 persistence merely because G4 needs multiple Games. G4-04 will formally decide the simplest multi-Game physical shape, explicitly checking legacy adoption, single-writer, backup and corruption recovery.
 
-## 12. G4-01 specific boundary
+## 12. G4-02 specific boundary
 
-Current G4-01 must preserve:
+Current G4-02 must establish only World Pack + Character Card v0.1 Source contracts and real contract proof.
 
-- existing G3 reopen/resume truth;
-- current Game persistence and Save/Load/Recovery behavior;
-- startup physical-corruption / safe-backup recovery discoverability;
-- single-writer discipline and graceful cleanup;
-- in-game `Player Host | Narrative Host | World Surface Host` behavior;
-- Windows maximized / 1280×720 / 960×540 usability.
+World Pack must minimally support:
 
-G4-01 must **not** implement:
+- stable identity / schema version;
+- world / GM instructions;
+- ordered Source Lore;
+- `0..N` lightweight Entry / T0 seeds;
+- authored portrait / scene / map declarations;
+- pre-game Source material.
 
-- Source contracts/loader (G4-02);
-- Managed Source Library (G4-03);
+Character Card must minimally support:
+
+- stable/display identity;
+- public profile;
+- GM/private Source profile;
+- portrait reference;
+- player-character eligibility.
+
+Character Source must not own live location, current relationship, current injury/condition, current knowledge, current inventory or player-known state.
+
+Exact Source generation must be content-sensitive, including declared visual/file bytes; stable identity/version alone is insufficient.
+
+G4-02 must **not** implement:
+
+- Managed Source Library / install / publish / inventory (G4-03);
 - multi-Game storage/library (G4-04);
-- real asset selector/composition (G4-05);
-- Asset Resolution (G4-10);
-- G5 world semantics or G6 declarative UI platform;
-- Settings framework, account, cloud, store or online services.
+- real New Game selector/composition (G4-05);
+- Final Create/materialization (G4-06);
+- Expansion Pack contract/runtime (G4-08);
+- Runtime Asset Resolution (G4-10);
+- G5 world semantics or G6/G8 declarative UI/Mod platform;
+- production SQLite schema changes or Provider calls.
 
-The New Game surface may be a stable future host, but must not invent fake Source truth.
+The contract reality check must use real filesystem fixtures through the production loader/validator seam, not only hand-built Dictionaries or docs.
 
 ## 13. Evidence / execution discipline
 
