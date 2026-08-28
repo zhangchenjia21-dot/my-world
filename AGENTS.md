@@ -16,6 +16,10 @@ For every formal task, resolve current authority from GitHub `main` in this orde
 7. `Vibe-Coding/my world/MY_WORLD_CURRENT_STATUS.md`.
 8. This repository's current implementation/tests/HEAD.
 
+For stage planning, task-order audits, Source/Game Creation design, or future-project reuse, also read:
+
+`Vibe-Coding/my world/experience/AI_RPG开发路径与阶段设计经验_v1.0_2026-08-28.md`.
+
 If a current decision changes stage, task, prerequisite, architecture boundary, owner or Task DAG, perform Decision Propagation before continuing old work. Before authoritative writes/pushes, fetch/re-check HEAD and audit any Task Base → Current HEAD increment. Never overwrite unknown dirty or newer work.
 
 ## 2. Documentation shape
@@ -32,42 +36,207 @@ Completed:
 - G3 Persistent Game / Save / Timeline Foundation — **PASS / CLOSED**
 - G3-GATE — **PASS**
 
-G3 closeout line:
-
-```text
-7e2e622f03782a1d66f5f8837d739f900615b775  G3-06 crash / interrupted-write recovery
-4529338728e7db91a2ce73b4dc8eec21c5530d0e  G3-07 persistence reality test + central recovery action
-dbc6167598ecbde3578778e638e2494bffc48244  G3-07 IR-01 real Provider B-marker evidence repair
-```
-
 Current phase:
 
-> **G4 — World Pack & Local Content Foundation**
+> **G4 — Primary Source Assets & Local Game Creation**
 
 Current task:
 
-> **G4-01 — Product Entry Shell / Main Menu**
+> **G4-01 — Application Shell / Main Menu + Game Session Lifecycle**
 
-The previous `docs/tasks/G4-01_WORLD_PACK_V0_1_TASK.md` was superseded **before execution** by the Owner-approved G4 route revision. Do not execute it. World Pack Source work is now G4-02.
+All older G4-01 World Pack task packets and any Main-Menu-only handoff are superseded **before execution** by the Owner-approved G4 v3 route. Do not execute them. A new G4-01 Task Packet must be formally issued from current governance.
 
-Recommended implementation owner for current G4-01: **KimiCode K3**, because the work is Godot UI + Windows local lifecycle/navigation. Grok Build remains suitable for G4-02 Source contract/cross-module semantics. Agent choice never lowers acceptance standards.
+Recommended implementation owner for current G4-01: **KimiCode K3**, because the work is Godot UI + Windows local lifecycle/navigation. Agent choice never lowers acceptance standards.
 
 ## 4. Current G4 sequence
 
 ```text
-G4-01 Product Entry Shell / Main Menu
-→ G4-02 World Pack Source v0.1 + Contract Reality Check
-→ G4-03 Game Creation Composition v0.1 + New Game Flow
-→ G4-04 Source → Game-local Instance
-→ G4-05 Local Pack Library + Minimal Game Library
-→ G4-06 Asset Resolution
-→ G4-07 Two-Pack Playable Reality Test
+G4-01 Application Shell / Main Menu + Game Session Lifecycle
+→ G4-02 World Pack + Character Card Source Contracts v0.1
+→ G4-03 Managed Local Source Library v0.1
+→ G4-04 Multi-Game Lifecycle / Game Library Foundation
+→ G4-05 Asset-only New Game Wizard v0.1
+→ G4-06 Atomic Final Create + World/Character Materialization
+→ G4-07 First Playable A — World + Character Owner UAT
+→ G4-08 Expansion Pack v0.1 + First Real Runtime Vertical
+→ G4-09 First Playable B — Expansion Owner UAT
+→ G4-10 Runtime Asset Resolution
+→ G4-11 Two Primary Asset Families Reality Test
 → G4-GATE
 ```
 
-Do not start G4-02+ until the current G4-01 task is formally issued and closed through its required review/UAT path.
+Do not start G4-02+ until current G4-01 is formally issued and closed through its required review/UAT path.
 
-## 5. Core product/runtime invariants
+## 5. First-generation New Game product lock
+
+The first generation supports **one formal asset-driven creation path only**:
+
+```text
+Main Menu
+→ New Game
+→ Exactly 1 World Pack
+→ Entry / T0
+→ Expansion Pack 0..N, explicit none allowed
+→ Exactly 1 Player Character Card
+→ 0..N Guaranteed NPC Character Cards
+→ minimal settings
+→ Compatibility Review
+→ Atomic Final Create
+```
+
+Minimal settings currently include:
+
+- Game display name;
+- Protagonist Control Mode: `Full | Light | Narrative`;
+- optional opening supplement.
+
+Do not add in G4:
+
+- no-World creation;
+- no-Character local-player fallback;
+- AI blank-world direct creation;
+- Draft/arbitrary external file direct-to-Game;
+- Final Create auto-publish;
+- historical Source version picker;
+- complex Expansion feature/module chooser;
+- Creator product path.
+
+These are deferred product directions, not forgotten requirements.
+
+## 6. Primary Source Trio
+
+First-generation Primary Source Assets:
+
+```text
+World Pack
+Character Card
+Expansion Pack
+```
+
+They may share only the minimal identity seam:
+
+```text
+asset_id
+asset_type
+version
+exact immutable generation / content fingerprint
+```
+
+Do not create a universal giant asset schema merely because the three are Source Assets.
+
+### Character Card
+
+Character Card is reusable Character Source, not a player-only card.
+
+First-generation creation roles:
+
+```text
+Exactly 1 Player Character
+0..N Guaranteed NPC Characters
+```
+
+Guaranteed NPC means the exact selected Character Source is materialized into this Game's canonical cast at Final Create.
+
+It does **not** mean:
+
+```text
+opening appearance
+same scene
+player-known
+relationship
+automatic current Context inclusion
+```
+
+Do not reintroduce `bound_only | opening_character | player_character` as the first-generation player-facing role taxonomy unless a later Owner-approved task explicitly does so.
+
+### Expansion Pack
+
+First generation allows `0..N` Expansion Packs.
+
+G4 sequencing is intentionally staged:
+
+```text
+First Playable A: World + Character only
+→ Owner UAT
+then
+Expansion Source + exact binding + real observable Runtime effect
+→ First Playable B
+→ Owner UAT
+```
+
+`manifest/binding exists` is not sufficient proof that an Expansion works.
+
+## 7. Source Library / Game Library / exact generation
+
+Formal boundaries:
+
+```text
+Managed Source Library != Game Library
+Source stable identity != exact immutable generation
+Source Generation != Game-local Reality != Runtime State
+```
+
+Existing Game must pin exact immutable Source generation, including visual assets. Source update must not silently change old Game text, portrait, scene, map or Expansion declaration.
+
+Managed Source Library may retain historical generations internally, but first-generation New Game UI defaults to the current installed version and does not expose a historical-version picker.
+
+Drafts or arbitrary mutable external folders are not authoritative Game Source.
+
+## 8. Application / Game Session lifecycle
+
+G4-01 is not merely a visual Main Menu task.
+
+Formal seam:
+
+```text
+Application Lifetime != Game Session Lifetime
+```
+
+Required behavior:
+
+```text
+Application Launch
+→ Main Menu READY
+
+Continue
+→ open current/selected Game Session
+→ enter in-game UI
+
+Return to Main Menu
+→ safely stop/cancel Game-owned work
+→ close/cleanup Game Session resources
+→ Application remains READY
+```
+
+Main Menu must not simply cover a Game that was automatically opened at application boot.
+
+Preserve G3 reopen/resume, Save/Load/Recovery, single-writer and corruption-recovery semantics.
+
+## 9. Final Create principles for later G4 tasks
+
+When G4-05/06 arrive, enforce:
+
+> **Chooser/list visibility/mode != authoritative selection.**
+
+Only an explicit click on a concrete Source item selects it.
+
+Final Create must be explicit and replay-safe:
+
+```text
+editing composition
+→ Compatibility Review
+→ Program-derived create identity/fingerprint
+→ creating
+→ pin exact Source generations
+→ materialize/bind
+→ created
+```
+
+Must handle double-click, response loss, retry and crash without duplicate Games. Same exact create identity may replay same Game; mismatched intent fails closed.
+
+Provider calls during deterministic Final Create should be zero. Real Provider begins at playable Opening/Session, not as a hidden dependency of database creation.
+
+## 10. Core product/runtime invariants
 
 - **Commodity Foundation, Owned Game Semantics.**
 - **Engine-native, not engine-semantic-coupled.**
@@ -79,10 +248,11 @@ Do not start G4-02+ until the current G4-01 task is formally issued and closed t
 - **Off-screen != Inactive.**
 - **World Truth != NPC Knowledge != Player Knowledge.**
 - **Context stays bounded, not starved.**
+- **Vertical before platform. Consumer before creator. Reality gate before abstraction.**
 
 Hard boundaries remain: secrets/OS/filesystem authority, physical save corruption, non-atomic authoritative writes, unsafe concurrent writer ambiguity, arbitrary Mod execution and unrecoverable external side effects.
 
-## 6. Accepted technical / persistence baseline
+## 11. Accepted technical / persistence baseline
 
 ```text
 Host                         Godot 4.7.2
@@ -96,46 +266,11 @@ Production schema            v4
 Current G3 product DB         user://my-world/current-game.sqlite
 ```
 
-G3 is closed. Established production capabilities include atomic durable mutation, accepted Conversation durability, reopen/resume, named Save, atomic Load/Restore, future-memory isolation, Recovery Checkpoints, single-writer process safety, SQLite-native verified backup and staged physical-corruption recovery.
+G3 is closed. Do not rewrite G3 persistence merely because G4 needs multiple Games. G4-04 will formally decide the simplest multi-Game physical shape, explicitly checking legacy adoption, single-writer, backup and corruption recovery.
 
-Do not rewrite G3 persistence merely because G4 eventually needs multiple Games. G4-05 will decide the simplest multi-Game physical storage/lifecycle shape when there is a real product consumer.
+## 12. G4-01 specific boundary
 
-## 7. G4 canonical Source / Composition boundary
-
-```text
-Reusable World Pack Source Generation
-+ Game Creation Composition
-↓ new-game materialization
-Game-local Canonical Reality
-↓ Runtime
-Current World State
-```
-
-Formal rule:
-
-> **World Pack Source != Game Creation Composition != Game-local Reality != Runtime State.**
-
-Source generation must ultimately be identifiable by stable pack identity + author version + exact fingerprint/generation. Source updates may not silently rewrite existing Games.
-
-Runtime-generated NPC / Place / Item may have only game-local stable identity and `runtime_generated` provenance. A Source character existing/materializing does not automatically mean the player knows that character.
-
-## 8. G4-01 specific boundary — Product Entry Shell / Main Menu
-
-G4-01 exists because Pack choice / New Game / multi-Game need a stable product entry surface. Do not build a disposable Pack selector first.
-
-First-generation desired flow:
-
-```text
-Application Launch
-→ Main Menu
-├─ Continue current Game
-├─ New Game → stable creation surface/host
-└─ Quit
-```
-
-Also provide safe in-game return to Main Menu and re-entry via Continue.
-
-G4-01 must preserve:
+Current G4-01 must preserve:
 
 - existing G3 reopen/resume truth;
 - current Game persistence and Save/Load/Recovery behavior;
@@ -146,37 +281,22 @@ G4-01 must preserve:
 
 G4-01 must **not** implement:
 
-- World Pack Source contract/loader (G4-02);
-- real Pack discovery/selection (G4-03/G4-05);
-- multi-Game storage migration/library (G4-05);
-- Asset Resolution (G4-06);
+- Source contracts/loader (G4-02);
+- Managed Source Library (G4-03);
+- multi-Game storage/library (G4-04);
+- real asset selector/composition (G4-05);
+- Asset Resolution (G4-10);
 - G5 world semantics or G6 declarative UI platform;
 - Settings framework, account, cloud, store or online services.
 
-The New Game surface may initially be a real stable product host with later content wiring, not a fake second product or task-only popup.
+The New Game surface may be a stable future host, but must not invent fake Source truth.
 
-## 9. UI architecture
-
-Application-level surfaces:
-
-```text
-Main Menu
-New Game flow
-Continue / Game Library (later G4)
-```
-
-In-game surface remains:
-
-```text
-Player Host | Narrative Host | World Surface Host
-```
-
-Main Menu owns navigation/lifecycle intent only. It must not hold a second copy of Game/Save/Pack truth.
-
-## 10. Evidence / execution discipline
+## 13. Evidence / execution discipline
 
 Never claim Windows-local, Godot, filesystem, export or runtime compatibility without real execution evidence.
 
 Separate implementation, validation action, observable evidence and PASS/FAIL/NOT VERIFIED.
 
 Routine Git/Godot/build/debug/QA is Agent work. Owner is only asked for genuine product UAT, secrets and irreducible product/architecture decisions.
+
+For product-facing stages, automated PASS does not replace Owner UAT. For model-semantic stages, deterministic harness does not replace required real Provider proof. Independent Review must check for vacuous assertions, mock-only paths and proof-only bindings, not merely rerun tests.
