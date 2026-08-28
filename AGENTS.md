@@ -44,9 +44,17 @@ Current task:
 
 > **G4-01 — Application Shell / Main Menu + Game Session Lifecycle**
 
-All older G4-01 World Pack task packets and any Main-Menu-only handoff are superseded **before execution** by the Owner-approved G4 v3 route. Do not execute them. A new G4-01 Task Packet must be formally issued from current governance.
+All older G4-01 World Pack task packets and any Main-Menu-only handoff are superseded **before execution** by the Owner-approved G4 v3 route. Do not execute them.
 
-Recommended implementation owner for current G4-01: **KimiCode K3**, because the work is Godot UI + Windows local lifecycle/navigation. Agent choice never lowers acceptance standards.
+Current formal Task Packet:
+
+`docs/tasks/G4-01_APPLICATION_SHELL_GAME_SESSION_LIFECYCLE_TASK.md`
+
+Implementation owner: **Codex**. Current implementation commit: `d193268be10082df15ce4d8f610de6ebdc7e58ac`.
+
+Independent Review: **PASS**. Current highest state: **READY FOR OWNER UAT**.
+
+Do not start G4-02+ until Owner UAT passes and G4-01 is formally closed.
 
 ## 4. Current G4 sequence
 
@@ -65,7 +73,7 @@ G4-01 Application Shell / Main Menu + Game Session Lifecycle
 → G4-GATE
 ```
 
-Do not start G4-02+ until current G4-01 is formally issued and closed through its required review/UAT path.
+Do not start G4-02+ until current G4-01 is formally closed through its required review/UAT path.
 
 ## 5. First-generation New Game product lock
 
