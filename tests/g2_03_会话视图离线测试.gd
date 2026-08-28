@@ -61,6 +61,7 @@ func _run() -> void:
 
 	var packed: PackedScene = load("res://src/main.tscn")
 	var inst: Node = packed.instantiate()
+	inst.enable_isolated_narrative_test_mode()
 	root.add_child(inst)
 	await process_frame
 	await process_frame

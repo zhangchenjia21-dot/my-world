@@ -43,7 +43,8 @@ var conversation: RefCounted
 ## Application Shell 注入的 current Game runtime。production 必须提供；仅 `--script`
 ## focused tests 保留无 Persistence 的 Conversation fallback，避免测试触碰真实 user:// DB。
 var session_runtime: Variant = null
-var _startup_ready := true
+var _startup_ready := false
+var _isolated_test_mode := false
 
 ## Context Assembly 是 derived Provider request 的 owner；UI 只提供输入 material 并转交结果。
 var context_assembler: RefCounted
@@ -61,29 +62,6 @@ var _follow_scroll := true
 func _ready() -> void:
 	if session_runtime == null:
 		session_runtime = _find_session_runtime()
-	if session_runtime != null:
-		conversation = session_runtime.conversation
-		_startup_ready = session_runtime.is_ready()
-		if session_runtime.has_signal("restore_completed"):
-			session_runtime.restore_completed.connect(_on_runtime_restore_completed)
-	else:
-		conversation = Conversation.new()
-	context_assembler = ContextAssembler.new()
-	conversation.turn_started.connect(_on_turn_started)
-	conversation.attempt_started.connect(_on_attempt_started)
-	conversation.draft_appended.connect(_on_draft_appended)
-	conversation.generation_completed.connect(_on_generation_completed)
-	conversation.generation_cancelled.connect(_on_generation_cancelled)
-	conversation.generation_failed.connect(_on_generation_failed)
-
-	adapter = ADAPTER.new()
-	adapter.name = "DeepSeekProviderAdapter"
-	add_child(adapter)
-	adapter.text_delta.connect(_on_text_delta)
-	adapter.completed.connect(_on_completed)
-	adapter.cancelled.connect(_on_cancelled)
-	adapter.failed.connect(_on_failed)
-
 	send_button.pressed.connect(_on_send_pressed)
 	cancel_button.pressed.connect(_on_cancel_pressed)
 	regenerate_button.pressed.connect(_on_regenerate_pressed)
@@ -93,9 +71,10 @@ func _ready() -> void:
 	narrative_scroll.get_v_scroll_bar().value_changed.connect(_on_narrative_scroll_changed)
 	narrative_scroll.resized.connect(_update_readable_width)
 	get_tree().root.size_changed.connect(_update_composer_height)
-	_render_restored_entries()
-	if not _startup_ready:
-		_show_error("无法恢复当前游戏。为保护已有数据，本次不会创建空白新局；请查看日志或稍后重试。")
+	if session_runtime != null:
+		_initialize_session(session_runtime.conversation, session_runtime.is_ready())
+	elif _isolated_test_mode:
+		_initialize_session(Conversation.new(), true)
 	_update_controls()
 	_update_readable_width.call_deferred()
 	_update_composer_height()
@@ -103,7 +82,7 @@ func _ready() -> void:
 
 func _on_send_pressed() -> void:
 	var text := player_input.text.strip_edges()
-	if not _startup_ready or text.is_empty() or conversation.is_generating():
+	if not _startup_ready or conversation == null or text.is_empty() or conversation.is_generating():
 		return
 
 	if conversation.begin_turn(text) == null:
@@ -114,14 +93,14 @@ func _on_send_pressed() -> void:
 
 
 func _on_cancel_pressed() -> void:
-	if conversation.is_generating():
+	if conversation != null and conversation.is_generating() and adapter != null:
 		adapter.cancel()
 
 
 ## Regenerate / Retry：Domain 决定语义（completed latest = regenerate，否则 retry），
 ## UI 只触发并发起新请求。
 func _on_regenerate_pressed() -> void:
-	if not _startup_ready or conversation.is_generating() or conversation.latest_turn() == null:
+	if not _startup_ready or conversation == null or conversation.is_generating() or conversation.latest_turn() == null:
 		return
 
 	if conversation.retry_or_regenerate_latest() == null:
@@ -275,10 +254,10 @@ func _friendly_error(code: String) -> String:
 
 
 func _update_controls() -> void:
-	var streaming: bool = conversation.is_generating()
+	var streaming: bool = conversation != null and conversation.is_generating()
 	send_button.disabled = not _startup_ready or streaming or player_input.text.strip_edges().is_empty()
 	cancel_button.disabled = not _startup_ready or not streaming
-	regenerate_button.visible = _startup_ready and not streaming and conversation.latest_turn() != null
+	regenerate_button.visible = _startup_ready and conversation != null and not streaming and conversation.latest_turn() != null
 
 
 func _show_error(text: String) -> void:
@@ -328,9 +307,112 @@ func _follow_scroll_if_needed() -> void:
 	bar.value = bar.max_value
 
 
-## scene-focused tests 可在 add_child 前注入隔离 runtime；production 由 Application Shell 提供。
+## Application Continue 后绑定本次 Session；重新绑定前完整拆除旧 transport/callback/projection。
 func bind_session_runtime(runtime: Variant) -> void:
+	if not is_node_ready():
+		session_runtime = runtime
+		return
+	shutdown_session()
 	session_runtime = runtime
+	_initialize_session(runtime.conversation, runtime.is_ready())
+
+
+## Game -> Main Menu / App exit 的正式 View cleanup seam。Adapter cancel 同步发布 cancelled，
+## 因而先终止 transport，再断开信号与释放 projection，未 accepted partial 不会 durable。
+func shutdown_session() -> void:
+	if adapter != null:
+		if adapter.is_busy():
+			adapter.cancel()
+		_disconnect_adapter_signals(adapter)
+		if adapter.get_parent() == self:
+			remove_child(adapter)
+		adapter.queue_free()
+		adapter = null
+	if conversation != null:
+		_disconnect_conversation_signals(conversation)
+	if session_runtime != null and session_runtime.has_signal("restore_completed"):
+		var restore_callback := Callable(self, "_on_runtime_restore_completed")
+		if session_runtime.restore_completed.is_connected(restore_callback):
+			session_runtime.restore_completed.disconnect(restore_callback)
+	session_runtime = null
+	conversation = null
+	context_assembler = null
+	_startup_ready = false
+	_clear_rendered_entries(true)
+	_hide_error()
+	_update_controls()
+
+
+## 旧 G2 UI 测试显式启用无 Persistence fixture；production/Main Menu 永不自动创建它。
+func enable_isolated_test_mode() -> void:
+	_isolated_test_mode = true
+	if is_node_ready() and conversation == null:
+		_initialize_session(Conversation.new(), true)
+
+
+func _initialize_session(bound_conversation: RefCounted, ready: bool) -> void:
+	conversation = bound_conversation
+	_startup_ready = ready
+	context_assembler = ContextAssembler.new()
+	conversation.turn_started.connect(_on_turn_started)
+	conversation.attempt_started.connect(_on_attempt_started)
+	conversation.draft_appended.connect(_on_draft_appended)
+	conversation.generation_completed.connect(_on_generation_completed)
+	conversation.generation_cancelled.connect(_on_generation_cancelled)
+	conversation.generation_failed.connect(_on_generation_failed)
+	if session_runtime != null and session_runtime.has_signal("restore_completed"):
+		session_runtime.restore_completed.connect(_on_runtime_restore_completed)
+	adapter = ADAPTER.new()
+	adapter.name = "DeepSeekProviderAdapter"
+	add_child(adapter)
+	adapter.text_delta.connect(_on_text_delta)
+	adapter.completed.connect(_on_completed)
+	adapter.cancelled.connect(_on_cancelled)
+	adapter.failed.connect(_on_failed)
+	_render_restored_entries()
+	if not _startup_ready:
+		_show_error("无法恢复当前游戏。为保护已有数据，本次不会创建空白新局；请稍后重试。")
+	_update_controls()
+
+
+func _disconnect_adapter_signals(source: Node) -> void:
+	var callbacks := {
+		"text_delta": Callable(self, "_on_text_delta"),
+		"completed": Callable(self, "_on_completed"),
+		"cancelled": Callable(self, "_on_cancelled"),
+		"failed": Callable(self, "_on_failed"),
+	}
+	for signal_name: String in callbacks:
+		var source_signal: Signal = source.get(signal_name)
+		var callback: Callable = callbacks[signal_name]
+		if source_signal.is_connected(callback):
+			source_signal.disconnect(callback)
+
+
+func _disconnect_conversation_signals(source: RefCounted) -> void:
+	var callbacks := {
+		"turn_started": Callable(self, "_on_turn_started"),
+		"attempt_started": Callable(self, "_on_attempt_started"),
+		"draft_appended": Callable(self, "_on_draft_appended"),
+		"generation_completed": Callable(self, "_on_generation_completed"),
+		"generation_cancelled": Callable(self, "_on_generation_cancelled"),
+		"generation_failed": Callable(self, "_on_generation_failed"),
+	}
+	for signal_name: String in callbacks:
+		var source_signal: Signal = source.get(signal_name)
+		var callback: Callable = callbacks[signal_name]
+		if source_signal.is_connected(callback):
+			source_signal.disconnect(callback)
+
+
+func _clear_rendered_entries(clear_player_input: bool = false) -> void:
+	for child: Node in entries.get_children():
+		entries.remove_child(child)
+		child.queue_free()
+	_current_gm_content = null
+	_current_gm_marker = null
+	if clear_player_input:
+		player_input.clear()
 
 
 func _find_session_runtime() -> Variant:
@@ -353,11 +435,7 @@ func _render_restored_entries() -> void:
 
 
 func redraw_from_conversation() -> void:
-	for child: Node in entries.get_children():
-		entries.remove_child(child)
-		child.queue_free()
-	_current_gm_content = null
-	_current_gm_marker = null
+	_clear_rendered_entries()
 	_render_restored_entries()
 	_follow_scroll = true
 	_follow_scroll_if_needed()

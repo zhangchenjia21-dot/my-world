@@ -1,16 +1,26 @@
 extends Control
 
 ## my world 正式 Application / Game Shell。
-## 职责边界：只拥有应用壳生命周期（STARTING -> READY -> EXITING）与三 Host Slot 的
-## 宽/窄响应式布局；不承载 Game / World / Timeline 领域语义。
+## 职责边界：拥有 Application 与当前 Game Session 的 composition/lifecycle，以及三 Host
+## Slot 的宽/窄响应式布局；不承载 Game / World / Timeline 领域语义。
 ## Narrative 交互逻辑在 src/ui/叙事对话视图.gd（NarrativeHost 节点）。
 
 const CurrentGameRuntime := preload("res://src/runtime/当前游戏会话运行时.gd")
 
-enum ShellState {
-	STARTING,
-	READY,
+enum ApplicationState {
+	BOOTING,
+	MENU_READY,
+	OPENING_GAME,
+	GAME_ACTIVE,
 	EXITING,
+}
+
+enum SessionState {
+	ABSENT,
+	OPENING,
+	READY,
+	CLOSING,
+	FAILED,
 }
 
 ## 窄窗口阈值：低于该宽度时左右 Host 折叠为 TopBar toggle，Narrative 保持主角（DEC-02）。
@@ -19,6 +29,16 @@ const G3_01_EXPORT_SPIKE_FEATURE := "g3_01_persistence_spike"
 
 @onready var status_label: Label = %StatusLabel
 @onready var exit_button: Button = %ExitButton
+@onready var return_menu_button: Button = %ReturnMenuButton
+@onready var main_menu_surface: Control = %MainMenuSurface
+@onready var continue_button: Button = %ContinueButton
+@onready var new_game_button: Button = %NewGameButton
+@onready var quit_button: Button = %QuitButton
+@onready var menu_result_label: Label = %MenuResultLabel
+@onready var new_game_surface: Control = %NewGameSurface
+@onready var new_game_back_button: Button = %NewGameBackButton
+@onready var game_surface: Control = $Margin
+@onready var narrative_view: Control = %NarrativeHost
 @onready var player_panel_host: PanelContainer = %PlayerPanelHost
 @onready var world_surface_host: PanelContainer = %WorldSurfaceHost
 @onready var player_toggle: Button = %PlayerToggle
@@ -37,25 +57,20 @@ const G3_01_EXPORT_SPIKE_FEATURE := "g3_01_persistence_spike"
 @onready var database_recovery_confirmation: ConfirmationDialog = %DatabaseRecoveryConfirmation
 @onready var startup_failure_overlay: CenterContainer = %StartupFailureOverlay
 @onready var startup_failure_label: Label = %StartupFailureLabel
+@onready var startup_failure_back_button: Button = %StartupFailureBackButton
 
-var shell_state: ShellState = ShellState.STARTING
+var application_state: ApplicationState = ApplicationState.BOOTING
+var session_state: SessionState = SessionState.ABSENT
 var _narrow := false
 ## Application composition root 唯一持有的 current Game runtime；UI 只绑定引用。
 var session_runtime: Variant = null
 var _pending_load_save_id := ""
+var _isolated_narrative_test_mode := false
 
 
 func _enter_tree() -> void:
-	if OS.has_feature(G3_01_EXPORT_SPIKE_FEATURE) or session_runtime != null:
-		return
-	# `--script` 进程默认是隔离测试，不得无意打开/创建真实 user:// Current Game。
-	# G3-03 scene tests 会在 add_child 前显式注入 task-owned runtime。
-	if "--script" in OS.get_cmdline_args():
-		return
-	session_runtime = CurrentGameRuntime.new()
-	var startup: Dictionary = session_runtime.open_current_game(_product_database_path())
-	if not startup.success:
-		push_error("G3-03 startup failure [%s]: %s" % [startup.status, startup.get("engineering_cause", "")])
+	# Application boot 只建立 Main Menu；Game DB 只能由显式 Continue 打开。
+	pass
 
 
 func _ready() -> void:
@@ -63,6 +78,11 @@ func _ready() -> void:
 		_run_g3_01_export_spike()
 		return
 	exit_button.pressed.connect(_request_exit)
+	return_menu_button.pressed.connect(_return_to_main_menu)
+	continue_button.pressed.connect(_on_continue_pressed)
+	new_game_button.pressed.connect(_show_new_game_surface)
+	quit_button.pressed.connect(_request_exit)
+	new_game_back_button.pressed.connect(_show_main_menu)
 	player_toggle.toggled.connect(_on_player_toggle)
 	world_toggle.toggled.connect(_on_world_toggle)
 	create_save_button.pressed.connect(_on_create_save_pressed)
@@ -72,32 +92,22 @@ func _ready() -> void:
 	recover_confirmation.confirmed.connect(_on_recover_confirmed)
 	database_recovery_button.pressed.connect(_on_database_recovery_pressed)
 	database_recovery_confirmation.confirmed.connect(_on_database_recovery_confirmed)
+	startup_failure_back_button.pressed.connect(_dismiss_startup_failure)
 	save_name_input.text_changed.connect(_on_save_name_changed)
 	_update_responsive_layout()
-	if session_runtime != null and not session_runtime.is_ready():
-		shell_state = ShellState.STARTING
-		var startup: Dictionary = session_runtime.startup_result
-		if String(startup.get("status", "")) in ["physical_corruption", "interrupted_recovery"]:
-			# DEC-05（G3-07）：失败说明与唯一恢复动作居中展示，按钮紧邻说明正下方；
-			# 无 verified backup 时不提供可点击恢复动作；BottomBar 只保留短状态。
-			startup_failure_label.text = "当前游戏数据已损坏，无法安全使用。可恢复到最近安全备份；备份后的进度可能丢失，损坏原件会保留。"
-			startup_failure_overlay.visible = true
-			database_recovery_button.visible = bool(startup.get("recovery_available", false))
-			status_label.text = "状态：当前游戏数据已损坏"
+	if session_runtime != null:
+		# 既有 scene tests 会在 add_child 前注入 task-owned、已打开 Runtime；production 不走此路。
+		if session_runtime.is_ready():
+			_activate_game_surface()
 		else:
-			status_label.text = "状态：%s" % String(startup.get("message", "当前游戏恢复失败"))
-		print("[shell] state=resume_failed")
+			_show_session_startup_failure(session_runtime.startup_result)
+	elif _isolated_narrative_test_mode:
+		_show_isolated_narrative_test_surface()
 	else:
-		shell_state = ShellState.READY
-		status_label.text = "状态：就绪"
-		startup_failure_overlay.visible = false
-		database_recovery_button.visible = false
-		print("[shell] state=ready")
-		_connect_save_runtime()
-		_refresh_save_points()
-		_refresh_recovery_availability()
+		_show_main_menu()
 	_update_save_controls()
 	_run_g3_06_export_smoke_if_requested()
+	_run_g4_01_export_smoke_if_requested.call_deferred()
 
 
 ## 仅由 G3-01 专用 export preset 编译启用；正式 Windows Desktop preset 不含此 feature。
@@ -125,6 +135,10 @@ func _run_g3_06_export_smoke_if_requested() -> void:
 			ready_path = argument.trim_prefix("--g3-06-ready=")
 	if mode.is_empty():
 		return
+	# 历史 export smoke 显式携带 task-owned DB；G4-01 后仍需先走同一 Session open seam。
+	var smoke_startup: Dictionary = {}
+	if session_runtime == null:
+		smoke_startup = _open_game_session()
 	var explicit_path := _product_database_path()
 	if explicit_path.find("g3_06") < 0:
 		push_error("G3-06 EXPORT SMOKE FAIL | task-owned database path required")
@@ -141,7 +155,7 @@ func _run_g3_06_export_smoke_if_requested() -> void:
 			marker.close()
 			print("G3-06 EXPORT A READY | pid=%d" % OS.get_process_id())
 		"expect_blocked":
-			var blocked := session_runtime != null and String(session_runtime.startup_result.get("status", "")) == "already_running"
+			var blocked := String(smoke_startup.get("status", "")) == "already_running" or (session_runtime != null and String(session_runtime.startup_result.get("status", "")) == "already_running")
 			print("G3-06 EXPORT B PASS | already_running" if blocked else "G3-06 EXPORT B FAIL")
 			get_tree().quit(0 if blocked else 1)
 		"recover":
@@ -159,6 +173,78 @@ func _run_g3_06_export_smoke_if_requested() -> void:
 			get_tree().quit(1)
 
 
+## G4-01 exported EXE 的 task-owned lifecycle evidence。只在显式 smoke args 下运行；
+## normal product 不自动 Continue，亦不触碰默认 user:// Current Game。
+func _run_g4_01_export_smoke_if_requested() -> void:
+	var mode := ""
+	var proof_path := ""
+	for argument: String in OS.get_cmdline_user_args():
+		if argument.begins_with("--g4-01-smoke-mode="):
+			mode = argument.trim_prefix("--g4-01-smoke-mode=")
+		elif argument.begins_with("--g4-01-proof="):
+			proof_path = argument.trim_prefix("--g4-01-proof=")
+	if mode.is_empty():
+		return
+	var database_path := _product_database_path()
+	if database_path.find("g4_01") < 0 or proof_path.find("g4_01") < 0:
+		push_error("G4-01 EXPORT SMOKE FAIL | task-owned DB/proof paths required")
+		get_tree().quit(1)
+		return
+	match mode:
+		"menu_absent":
+			var okay := application_state == ApplicationState.MENU_READY \
+				and session_state == SessionState.ABSENT \
+				and session_runtime == null \
+				and main_menu_surface.visible \
+				and not FileAccess.file_exists(database_path)
+			_write_g4_01_smoke_proof(proof_path, {"mode": mode, "success": okay, "db_absent": not FileAccess.file_exists(database_path)})
+			print("G4-01 EXPORT MENU PASS" if okay else "G4-01 EXPORT MENU FAIL")
+			get_tree().quit(0 if okay else 1)
+		"lifecycle":
+			continue_button.pressed.emit()
+			await get_tree().process_frame
+			var first_ready: bool = session_runtime != null and bool(session_runtime.is_ready())
+			var first_game_id := String(session_runtime.game_id) if first_ready else ""
+			if first_ready:
+				return_menu_button.pressed.emit()
+			await get_tree().process_frame
+			var closed := session_runtime == null and session_state == SessionState.ABSENT and main_menu_surface.visible
+			var lock_probe := CurrentGameRuntime.new()
+			var probe: Dictionary = lock_probe.open_current_game(database_path) if closed else {"success": false}
+			var lock_released := bool(probe.get("success", false))
+			if lock_released:
+				lock_probe.close()
+			continue_button.pressed.emit()
+			await get_tree().process_frame
+			var reopened: bool = session_runtime != null and bool(session_runtime.is_ready()) and String(session_runtime.game_id) == first_game_id
+			if reopened:
+				return_menu_button.pressed.emit()
+			await get_tree().process_frame
+			var okay: bool = first_ready and closed and lock_released and reopened and session_runtime == null
+			_write_g4_01_smoke_proof(proof_path, {
+				"mode": mode,
+				"success": okay,
+				"first_ready": first_ready,
+				"closed": closed,
+				"lock_released": lock_released,
+				"reopened_same_game": reopened,
+			})
+			print("G4-01 EXPORT LIFECYCLE PASS" if okay else "G4-01 EXPORT LIFECYCLE FAIL")
+			get_tree().quit(0 if okay else 1)
+		_:
+			push_error("G4-01 EXPORT SMOKE FAIL | unknown mode")
+			get_tree().quit(1)
+
+
+func _write_g4_01_smoke_proof(path: String, result: Dictionary) -> void:
+	var file := FileAccess.open(path, FileAccess.WRITE)
+	if file == null:
+		push_error("G4-01 EXPORT SMOKE FAIL | proof file unavailable")
+		return
+	file.store_string(JSON.stringify(result, "", true, true))
+	file.close()
+
+
 ## Windows 窗口关闭与界面“退出”按钮走同一条正式退出路径。
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
@@ -168,14 +254,171 @@ func _notification(what: int) -> void:
 
 
 func _request_exit() -> void:
-	if shell_state == ShellState.EXITING:
+	if application_state == ApplicationState.EXITING:
 		return
-	shell_state = ShellState.EXITING
+	application_state = ApplicationState.EXITING
 	status_label.text = "状态：正在退出…"
 	print("[shell] state=exiting")
-	if session_runtime != null:
-		session_runtime.close()
+	_close_game_session()
 	get_tree().quit()
+
+
+## Continue 是 G4-01 唯一正式 Session open action；Main Menu 本身不探测或预开 Game DB。
+func _on_continue_pressed() -> void:
+	if application_state != ApplicationState.MENU_READY or session_state != SessionState.ABSENT:
+		return
+	_open_game_session()
+
+
+func _open_game_session() -> Dictionary:
+	application_state = ApplicationState.OPENING_GAME
+	session_state = SessionState.OPENING
+	_set_menu_busy(true)
+	menu_result_label.text = "正在打开当前游戏…"
+	menu_result_label.add_theme_color_override("font_color", Color(0.72, 0.74, 0.82))
+	var runtime: Variant = CurrentGameRuntime.new()
+	var startup: Dictionary = runtime.open_current_game(_product_database_path())
+	session_runtime = runtime
+	if startup.success:
+		_activate_game_surface()
+		return startup
+	_show_session_startup_failure(startup)
+	return startup
+
+
+func _activate_game_surface() -> void:
+	if session_runtime == null or not session_runtime.is_ready():
+		return
+	narrative_view.bind_session_runtime(session_runtime)
+	session_state = SessionState.READY
+	application_state = ApplicationState.GAME_ACTIVE
+	main_menu_surface.visible = false
+	new_game_surface.visible = false
+	game_surface.visible = true
+	startup_failure_overlay.visible = false
+	database_recovery_button.visible = false
+	status_label.text = "状态：就绪"
+	_connect_save_runtime()
+	_refresh_save_points()
+	_refresh_recovery_availability()
+	_update_save_controls()
+	_update_responsive_layout()
+	print("[shell] application=game_active session=ready")
+
+
+func _return_to_main_menu() -> void:
+	if application_state != ApplicationState.GAME_ACTIVE:
+		return
+	_close_game_session()
+	_show_main_menu()
+
+
+## 关闭顺序固定为 Provider transport -> View callbacks -> Runtime/SQLite/writer lock。
+## accepted truth 已在每次 completion 前 durable，不依赖本函数做最后保存。
+func _close_game_session() -> Dictionary:
+	if session_runtime == null:
+		session_state = SessionState.ABSENT
+		return {"status": "absent", "success": true}
+	session_state = SessionState.CLOSING
+	if narrative_view != null:
+		narrative_view.shutdown_session()
+	var closed: Dictionary = session_runtime.close()
+	session_runtime = null
+	session_state = SessionState.ABSENT
+	_pending_load_save_id = ""
+	_reset_session_controls()
+	print("[shell] session=absent close_status=%s" % String(closed.get("status", "unknown")))
+	return closed
+
+
+func _show_main_menu() -> void:
+	if application_state == ApplicationState.EXITING:
+		return
+	application_state = ApplicationState.MENU_READY
+	if session_runtime == null:
+		session_state = SessionState.ABSENT
+	game_surface.visible = false
+	new_game_surface.visible = false
+	main_menu_surface.visible = true
+	startup_failure_overlay.visible = false
+	database_recovery_button.visible = false
+	menu_result_label.text = ""
+	_set_menu_busy(false)
+	continue_button.grab_focus.call_deferred()
+	print("[shell] application=menu_ready session=%s" % SessionState.keys()[session_state].to_lower())
+
+
+func _show_new_game_surface() -> void:
+	if application_state != ApplicationState.MENU_READY or session_state != SessionState.ABSENT:
+		return
+	main_menu_surface.visible = false
+	game_surface.visible = false
+	new_game_surface.visible = true
+	new_game_back_button.grab_focus.call_deferred()
+
+
+func _show_session_startup_failure(startup: Dictionary) -> void:
+	application_state = ApplicationState.MENU_READY
+	session_state = SessionState.FAILED
+	game_surface.visible = false
+	new_game_surface.visible = false
+	main_menu_surface.visible = true
+	var status := String(startup.get("status", "startup_failure"))
+	if status in ["physical_corruption", "interrupted_recovery"]:
+		# G3-07：唯一恢复动作与中央失败说明相邻；Application Menu 不隐藏 recovery。
+		startup_failure_label.text = "当前游戏数据已损坏，无法安全使用。可恢复到最近安全备份；备份后的进度可能丢失，损坏原件会保留。"
+		startup_failure_overlay.visible = true
+		database_recovery_button.visible = bool(startup.get("recovery_available", false))
+		menu_result_label.text = "当前游戏无法安全打开。"
+		_set_menu_busy(true)
+		if not database_recovery_button.visible and session_runtime != null:
+			# 无 verified backup 时没有理由继续占有 writer；失败说明仍留在 Application surface。
+			session_runtime.close()
+			session_runtime = null
+	else:
+		var player_message := String(startup.get("message", "当前游戏暂时无法打开。"))
+		menu_result_label.text = player_message
+		menu_result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
+		startup_failure_overlay.visible = false
+		database_recovery_button.visible = false
+		if session_runtime != null:
+			session_runtime.close()
+		session_runtime = null
+		session_state = SessionState.ABSENT
+		_set_menu_busy(false)
+	print("[shell] application=menu_ready session_failure=%s" % status)
+
+
+func _set_menu_busy(busy: bool) -> void:
+	continue_button.disabled = busy
+	new_game_button.disabled = busy
+	quit_button.disabled = false
+
+
+func _reset_session_controls() -> void:
+	save_selector.clear()
+	save_name_input.clear()
+	save_result_label.text = ""
+	recovery_separator.visible = false
+	recovery_hint.visible = false
+	recover_button.visible = false
+	_update_save_controls()
+
+
+## G2 view-focused tests 可显式选择无 Persistence 的隔离 surface；默认 `--script` 不启用。
+func enable_isolated_narrative_test_mode() -> void:
+	_isolated_narrative_test_mode = true
+	var view: Variant = get_node_or_null("%NarrativeHost")
+	if view != null:
+		view.enable_isolated_test_mode()
+
+
+func _show_isolated_narrative_test_surface() -> void:
+	application_state = ApplicationState.GAME_ACTIVE
+	main_menu_surface.visible = false
+	new_game_surface.visible = false
+	game_surface.visible = true
+	_update_responsive_layout()
 
 
 func get_session_runtime() -> Variant:
@@ -304,17 +547,32 @@ func _on_database_recovery_pressed() -> void:
 	database_recovery_confirmation.popup_centered()
 
 
+func _dismiss_startup_failure() -> void:
+	if session_runtime != null:
+		session_runtime.close()
+		session_runtime = null
+	session_state = SessionState.ABSENT
+	startup_failure_overlay.visible = false
+	database_recovery_button.visible = false
+	_show_main_menu()
+
+
 func _on_database_recovery_confirmed() -> void:
 	if session_runtime == null:
 		return
 	var result: Dictionary = session_runtime.recover_damaged_database()
+	# recovery publish 后旧 Runtime 不得继续承载 Session；释放 writer 后由下一次 Continue reopen。
+	session_runtime.close()
+	session_runtime = null
+	session_state = SessionState.ABSENT
 	database_recovery_button.visible = false
 	startup_failure_overlay.visible = false
-	status_label.text = String(result.message)
+	menu_result_label.text = String(result.message)
 	if result.success or String(result.status) == "reopen_required":
-		status_label.add_theme_color_override("font_color", Color(0.58, 0.78, 0.62))
+		menu_result_label.add_theme_color_override("font_color", Color(0.58, 0.78, 0.62))
 	else:
-		status_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
+		menu_result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
+	_set_menu_busy(false)
 
 
 func _on_generation_state_changed(_turn: RefCounted) -> void:

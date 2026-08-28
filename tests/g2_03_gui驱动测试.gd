@@ -83,6 +83,7 @@ func _run() -> void:
 
 	var packed: PackedScene = load("res://src/main.tscn")
 	var inst: Node = packed.instantiate()
+	inst.enable_isolated_narrative_test_mode()
 	root.add_child(inst)
 
 	# 工程测试显式控制窗口模式；产品默认（project.godot window/size/mode=2）为 Maximized。

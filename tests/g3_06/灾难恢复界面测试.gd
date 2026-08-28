@@ -36,7 +36,7 @@ func _run() -> void:
 	_check(shell.database_recovery_confirmation.dialog_text.contains("不是普通存档读取"), "confirmation distinguishes disaster recovery from Save/Load")
 	shell.database_recovery_confirmation.confirmed.emit()
 	await process_frame
-	_check(shell.status_label.text.contains("请重新打开游戏"), "successful publication requires controlled reopen")
+	_check(shell.menu_result_label.text.contains("请重新打开游戏"), "successful publication requires controlled reopen")
 	_check(not shell.database_recovery_button.visible, "old Runtime cannot continue recovery action")
 	shell.queue_free()
 	await process_frame

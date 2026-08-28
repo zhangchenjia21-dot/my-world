@@ -29,7 +29,123 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.105882, 0.113725, 0.137255, 1)
 
+[node name="MainMenuSurface" type="CenterContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MainMenuPanel" type="PanelContainer" parent="MainMenuSurface"]
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+
+[node name="MainMenuMargin" type="MarginContainer" parent="MainMenuSurface/MainMenuPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 40
+
+[node name="MainMenuColumn" type="VBoxContainer" parent="MainMenuSurface/MainMenuPanel/MainMenuMargin"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="ProductTitle" type="Label" parent="MainMenuSurface/MainMenuPanel/MainMenuMargin/MainMenuColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.937255, 0.937255, 0.94902, 1)
+theme_override_font_sizes/font_size = 40
+text = "my world"
+horizontal_alignment = 1
+
+[node name="ProductSubtitle" type="Label" parent="MainMenuSurface/MainMenuPanel/MainMenuMargin/MainMenuColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.627451, 0.65098, 0.698039, 1)
+theme_override_font_sizes/font_size = 15
+text = "一个由 AI GM 驱动、持续演化的角色扮演世界"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="MenuGap" type="Control" parent="MainMenuSurface/MainMenuPanel/MainMenuMargin/MainMenuColumn"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+
+[node name="ContinueButton" type="Button" parent="MainMenuSurface/MainMenuPanel/MainMenuMargin/MainMenuColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "继续游戏"
+
+[node name="NewGameButton" type="Button" parent="MainMenuSurface/MainMenuPanel/MainMenuMargin/MainMenuColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "新游戏"
+
+[node name="QuitButton" type="Button" parent="MainMenuSurface/MainMenuPanel/MainMenuMargin/MainMenuColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "退出游戏"
+
+[node name="MenuResultLabel" type="Label" parent="MainMenuSurface/MainMenuPanel/MainMenuMargin/MainMenuColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.627451, 0.65098, 0.698039, 1)
+theme_override_font_sizes/font_size = 14
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="NewGameSurface" type="CenterContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NewGamePanel" type="PanelContainer" parent="NewGameSurface"]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+
+[node name="NewGameMargin" type="MarginContainer" parent="NewGameSurface/NewGamePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 40
+
+[node name="NewGameColumn" type="VBoxContainer" parent="NewGameSurface/NewGamePanel/NewGameMargin"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="NewGameTitle" type="Label" parent="NewGameSurface/NewGamePanel/NewGameMargin/NewGameColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.937255, 0.937255, 0.94902, 1)
+theme_override_font_sizes/font_size = 30
+text = "新游戏"
+horizontal_alignment = 1
+
+[node name="NewGameMessage" type="Label" parent="NewGameSurface/NewGamePanel/NewGameMargin/NewGameColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.74, 0.82, 1)
+text = "新的世界创建流程正在准备中。当前版本不会在这里创建空白游戏，也不会覆盖你已有的进度。"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="NewGameBackButton" type="Button" parent="NewGameSurface/NewGamePanel/NewGameMargin/NewGameColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "返回主菜单"
+
 [node name="Margin" type="MarginContainer" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -89,6 +205,12 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 4
 text = "退出"
+
+[node name="ReturnMenuButton" type="Button" parent="Margin/Layout/TopBar"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 4
+text = "返回主菜单"
 
 [node name="HostLayout" type="HBoxContainer" parent="Margin/Layout"]
 layout_mode = 2
@@ -373,3 +495,8 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 text = "恢复最近安全备份"
+
+[node name="StartupFailureBackButton" type="Button" parent="StartupFailureOverlay/StartupFailurePanel/StartupFailureMargin/StartupFailureColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "返回主菜单"
