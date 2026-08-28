@@ -29,36 +29,28 @@ Completed:
 - G1 Foundation & Project Bootstrap — **PASS / CLOSED**
 - G2 AI Conversation Spine — **PASS / CLOSED**
 - G2-GATE — **PASS**
-- G3-01 Persistence Domain Architecture — **PASS — Independent Review**
-- G3-02 Durable World Mutation Path — **PASS — Independent Review**
-- G3-03 Game Reopen / Resume — **PASS — Owner UAT**
-- G3-04 Explicit Save / Load / Restore + Context Rebuild — **PASS — Owner UAT**
-- G3-05 Recovery / Timeline Foundation — **PASS — Owner UAT**
-- G3-06 Crash / Interrupted Write Recovery — **PASS — Owner UAT**
+- G3 Persistent Game / Save / Timeline Foundation — **PASS / CLOSED**
+- G3-GATE — **PASS**
 
-G3 implementation line:
+G3 closeout line:
 
 ```text
-1fc1cba76ade63a05e4b7ba9009264696ad45b1a  G3-01 SQLite route
-bda2a8877297c51365cd6581536875b68c81cb85  G3-02 durable World mutation
-ee768ca6ec8abdb2d65c994da4e7287886153bff  G3-02 IR-01 query failure repair
-929f4ff1e1253a808522d8f559a3cadd01b8d5db  G3-03 current Game resume
-618fa0f2238114cbe4fc0fe790a1d60c43e99b45  G3-04 Save / Load / Restore + Context rebuild
-bf8c35fdf76c4ea3b8ad2560d93c89c2f84c07b0  G3-05 Recovery / Timeline Foundation
 7e2e622f03782a1d66f5f8837d739f900615b775  G3-06 crash / interrupted-write recovery
+4529338728e7db91a2ce73b4dc8eec21c5530d0e  G3-07 persistence reality test + central recovery action
+dbc6167598ecbde3578778e638e2494bffc48244  G3-07 IR-01 real Provider B-marker evidence repair
 ```
 
 Current phase:
 
-> **G3 — Persistent Game / Save / Timeline Foundation**
+> **G4 — World Pack & Local Content Foundation**
 
 Current task:
 
-> **G3-07 — Persistence Reality Test**
+> **G4-01 — World Pack v0.1**
 
-G3-GATE and G4 are not authorized until G3-07 Engineering + Independent Review + Owner UAT closes.
+G4-02 is not authorized until G4-01 Independent Review PASS.
 
-Current execution owner for G3-07: **KimiCode K3**. User explicitly authorized KimiCode or Grok Build because the current Codex 5-hour quota is exhausted. Do not silently switch acceptance standards because the implementation agent changes.
+Current implementation owner for G4-01: **Grok Build**. User authorized Grok Build or KimiCode because current Codex quota is exhausted. Do not lower acceptance standards because the agent changes.
 
 ## 4. Core product/runtime invariants
 
@@ -68,10 +60,6 @@ Current execution owner for G3-07: **KimiCode K3**. User explicitly authorized K
 - **Model freedom first. Reversibility over prevention.**
 - **Narrative richness over artificial brevity.** No arbitrary output-length caps or convenience `max_tokens` limits.
 - **Model authors the world; Runtime makes it durable; Player owns the timeline.**
-- **Reversibility != frictionless arbitrary rewind.**
-- **Save Point != Timeline Node.**
-- **Recovery Checkpoint != Save Point.**
-- **Physical Backup != Save Point / Recovery Checkpoint.**
 - **Source provides inertia; actors create history.**
 - **Off-screen != Inactive.**
 - **World Truth != NPC Knowledge != Player Knowledge.**
@@ -79,7 +67,7 @@ Current execution owner for G3-07: **KimiCode K3**. User explicitly authorized K
 
 Hard boundaries remain: secrets/OS/filesystem authority, physical save corruption, non-atomic authoritative writes, unsafe concurrent writer ambiguity, arbitrary Mod execution and unrecoverable external side effects.
 
-## 5. Current persistence baseline
+## 5. Accepted technical / persistence baseline
 
 ```text
 Host                         Godot 4.7.2
@@ -87,138 +75,117 @@ Distribution                 Standard / non-.NET Windows x64
 Language                     GDScript
 Runtime                      same-process Godot Runtime
 Provider                     DeepSeek deepseek-v4-pro
-Persistence                  SQLite — ACCEPTED for G3 v0.1
+Persistence                  SQLite — ACCEPTED
 SQLite binding               2shady4u/godot-sqlite v4.9
 Production schema            v4
 Product DB                    user://my-world/current-game.sqlite
 ```
 
-Established production capabilities:
+G3 is closed. Established production capabilities include atomic durable mutation, accepted Conversation durability, reopen/resume, named Save, atomic Load/Restore, future-memory isolation, Recovery Checkpoints, single-writer process safety, SQLite-native verified backup and staged physical-corruption recovery.
 
-- atomic Game/World/Timeline mutation + expected-head/replay protection;
-- durable accepted Conversation + reopen/resume;
-- immutable named Save Points + atomic World/head/Conversation Restore;
-- Context rebuild + future-memory isolation;
-- automatic Recovery Checkpoint + reciprocal Recover;
-- immutable internal Timeline branch correctness;
-- single-writer process safety through dedicated sibling SQLite coordination DB;
-- SQLite-native verified whole-DB backup (`backup_to` / `restore_from`);
-- latest/previous/staging backup publication;
-- pre-migration verified backup gate;
-- staged corruption recovery with corrupt-original quarantine;
-- normal SQLite crash distinct from physical corruption recovery.
+Do not modify G3 persistence semantics/schema in G4-01 merely to store World Pack Source. G4-02 will decide the minimal Source → game-local provenance/materialization boundary using current evidence.
 
-Current live DB remains the only authoritative live truth. Backup/quarantine/staging are recovery material only.
-
-## 6. Ownership boundaries
+## 6. Canonical ownership / Source boundary
 
 ```text
-Game Domain / lifecycle
-→ Game identity / active-game semantics
-
-World Domain
-→ game-local authoritative World meaning/state
-
-Timeline / Save / Recovery Domain
-→ Timeline Node / Save Point / Recovery Checkpoint / restore-recover semantics
-
-Conversation Domain
-→ accepted Conversation truth
-
-Context Assembly
-→ derived model request material
-
-Persistence
-→ SQLite durable representation
-→ transaction / schema version / migration / physical backup / corruption recovery mechanics
+Reusable Source
+World Pack / Character / Expansion
+↓ new-game materialization
+Game-local Canonical Reality
+↓ Runtime
+Current World State
 ```
 
-Persisted by SQLite does not make Persistence the semantic owner.
+Formal rule:
 
-## 7. Established Conversation / Context boundaries
+> **World Pack Source != Game-local Instance != Runtime World State.**
+>
+> **Source defines the pre-game reference/inertia; after creation, game-local reality is authoritative.**
 
-- durable completion order: candidate → SQLite COMMIT → Domain accept;
-- Regenerate/correction keep old accepted truth until replacement succeeds;
-- only accepted truth resumes/saves/restores/recovers;
-- streaming/cancelled/failed partial attempts do not become durable truth;
-- Context/Provider messages are derived and rebuildable, not persistence truth;
-- Restore/Recover future-memory isolation are already Owner-UAT proven;
-- current bounded Context uses recent accepted working set and current user exactly once/last.
+A World Pack is reusable read-only source content. It is not a mutable current Game database, not a Save, not a Timeline, and not automatically model-visible Context.
 
-## 8. G3-07 specific boundary
+## 7. G4-01 specific boundary
 
-G3-07 is a **reality test / closeout increment**, not a new persistence architecture stage.
+G4-01 freezes and implements the first production **World Pack Source contract + explicit-root loader/validator**. It does **not** materialize Source into the current Game.
 
-Required real product spine:
+The v0.1 contract must support only the presently needed source categories:
 
 ```text
-fresh isolated Game
-→ real DeepSeek play
-→ durable accepted history
-→ exit/reopen same Game
-→ named Save
-→ continue Future A
-→ Load old Save
-→ rebuilt Context excludes Future A
-→ continue Future B
-→ Recover Previous Progress
-→ exact Future A recovery
-→ reciprocal recovery where useful
-→ abrupt process interruption/reopen remains coherent
-→ verified physical backup remains usable
+pack metadata / stable pack identity / schema version / author version
+world / GM instructions
+ordered Source lore entries
+initial character Source seeds
+authored map declaration
+portrait / scene / map asset declarations
+necessary mechanic declarations
 ```
 
-Blocking rules:
+### Minimal semantic limits
 
-- Real Provider continuation is required for G3-07. G3-06 observed one `transport` result; G3-07 must retry and obtain successful end-to-end evidence. Persistent external Provider unavailability means `BLOCKED`, not a fake PASS.
-- Do not create a new persistence framework, schema version, branch registry, backup browser, Timeline debugger or G4/G5/G7 system unless a concrete blocking defect forces architecture re-open.
-- If Reality Test finds a bounded bug, minimal repair is allowed inside G3-07 with focused regression.
-- Record DB size and Save/close backup latency during the longer path; collect evidence only. Do not prematurely build G7 performance infrastructure.
+- Pack metadata must have stable `pack_id`, human display name, contract/schema version, and author-controlled pack version label.
+- World instructions and Source lore are authored UTF-8 content. Structural validation must not become Narrative censorship.
+- Initial character entries are **Source seeds**, not the G5 NPC schema. Keep them minimal: stable source identity, display identity, authored source text/reference, optional declared portrait reference. Do not freeze runtime stats, relationships, knowledge, faction state or autonomous-agent schema.
+- Authored map is a Source declaration/reference only. Do not freeze full geographic/topology/runtime map semantics in G4-01.
+- Asset declarations provide stable `asset_id`, a small source kind (`portrait` / `scene` / `map` where needed), and pack-root-relative file reference. G4-04 owns runtime Asset Resolution; G4-01 only proves declaration readability/root confinement and referenced-file existence where required.
+- Mechanic declarations are data/content declarations only. They do not grant executable code, arbitrary GDScript, shell, DLL or OS authority.
+- G4-01 defines no external declarative UI schema. World Pack / Mod UI contract remains G8.
 
-### Owner-requested UI polish — REQUIRED
+### File / package shape
 
-Owner UAT for G3-06 found the disaster-recovery button too inconspicuous at the bottom-right in fullscreen/wide layout.
+- First generation uses an explicit local directory root and UTF-8 JSON/text/files.
+- One manifest/index file is the contract entry point; do not build a package archive format yet.
+- The loader receives an **explicit pack root path**. No global discovery/catalog/install in G4-01; that is G4-03.
+- All manifest file references must resolve within the supplied pack root. Reject absolute paths, drive-qualified paths and traversal escaping the root. Do not read arbitrary filesystem paths on behalf of pack content.
+- Unsupported newer contract/schema version fails explicitly; malformed/missing required contract material fails explicitly. Do not silently invent defaults that change pack identity.
+- Stable IDs within one pack must be unambiguous; duplicate source/asset identities are invalid.
+- Unknown authored narrative text is allowed. Validation is for contract integrity/path safety/version/readability, not lore correctness.
 
-G3-07 must minimally change the recovery failure layout so that when startup is blocked by `physical_corruption` / `interrupted_recovery` and a verified backup is available:
+### Scope exclusions
+
+G4-01 must not implement:
+
+- G4-02 Source → Game-local Instance / persistence binding;
+- G4-03 Pack discovery/install/catalog/selection UX;
+- G4-04 runtime Asset Resolution service;
+- G4-05 second-pack proof;
+- G5 NPC/Faction/Knowledge/Relationship/World Event gameplay schema;
+- G6 UI redesign or G8 external declarative UI contract;
+- arbitrary scripts/plugins from a World Pack;
+- archive signing/store/cloud/mod marketplace.
+
+A repository-owned task fixture is allowed to prove the complete v0.1 contract. It is evidence, not a second built-in product world.
+
+## 8. Implementation shape / dependency discipline
+
+Prefer a small production module under `src/world_pack/` (or the repository's clearly equivalent naming) with:
+
+- immutable/read-oriented World Pack definition DTO/read model;
+- explicit-root loader + structural/path validator;
+- stable error/status results that do not leak Godot FileAccess objects upward.
+
+Do not create ORM/DI/EventBus/Service Locator or empty L0-L3 forests for formal symmetry. Domain/read-model code must not depend on SceneTree/UI lifetime.
+
+Pack loading must not mutate current Game, SQLite, Conversation or Context.
+
+## 9. G4 Gate direction
+
+G4 sequence:
 
 ```text
-central failure explanation
-→ directly below it: [恢复最近安全备份]
-→ confirmation dialog
+G4-01 World Pack v0.1
+→ G4-02 Source → Game-local Instance
+→ G4-03 Pack Discovery / Install / Load
+→ G4-04 Asset Resolution
+→ G4-05 Second Pack Fixture
+→ G4-GATE
 ```
 
-Acceptance:
-
-- the recovery button is visually adjacent to the central failure message, not hidden in the lower-right World Surface;
-- no duplicate recovery action remains elsewhere;
-- button is hidden in normal healthy READY state and when no verified backup exists;
-- existing confirmation text still clearly says newer progress may be lost, corrupt original is preserved, and this is not normal Save/Load;
-- verify at least fullscreen/wide, 1280×720, and 960×540 without breaking Narrative-first layout.
-
-This is a small polish item; do not redesign the whole shell.
-
-## 9. G3-GATE candidate criteria
-
-G3-GATE may only be proposed after G3-07 Engineering + Independent Review + Owner UAT PASS and must establish:
-
-- reliable persistence and reopen/resume;
-- named Save / atomic Load / Restore;
-- future-memory isolation;
-- Recovery of displaced current future;
-- crash/interrupted-write correctness;
-- single-writer protection;
-- physical corruption recovery;
-- real Provider continuation after durable resume/restore/recover;
-- player does not need to understand SQLite/WAL or manually repair files.
-
-Arbitrary per-Turn rewind, Timeline browser and backup browser are not required.
+G4-GATE ultimately requires at least two World Packs to establish independent Games, while later changes to reusable Source cannot silently rewrite already-created game-local reality.
 
 ## 10. Evidence / execution discipline
 
-Never claim Windows-local, Godot, SQLite, export, filesystem, Provider, resume, restore, recovery, backup, single-instance or crash-recovery success without real execution evidence.
+Never claim Windows-local, Godot, filesystem, pack-path safety, parsing, export or runtime compatibility without real execution evidence.
 
 Separate implementation, validation action, observable evidence and PASS/FAIL/NOT VERIFIED.
 
 Routine Git/Godot/build/debug/QA is Agent work. Owner is only asked for genuine product UAT, secrets and irreducible product/architecture decisions.
-
-GUI/process automation safety: identify exact executable + PID; never terminate by fuzzy window title.
