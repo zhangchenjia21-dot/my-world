@@ -2,35 +2,63 @@
 
 `my world` 是一个独立、本地优先、长期单人游玩的 **2D 自然语言 AI RPG / 互动小说**。
 
-这个仓库保存**实现事实**：Godot 工程、代码、测试、构建与本地启动方式。长期产品定义、架构、路线图和当前项目状态由 `zhangchenjia21-dot/Vibe-Coding/my world/` 维护。
+本仓库保存**实现事实**：Godot 工程、代码、测试、构建与本地启动方式。长期产品定义、架构、路线图和当前项目状态由 `zhangchenjia21-dot/Vibe-Coding/my world/` 维护；跨项目可复用 Skill 已统一并入 `zhangchenjia21-dot/Vibe-Coding/skill/`。
 
 > **迁移经验，不迁移宿主债务。**
 
-## 当前状态
+## Start Here
 
-当前阶段是 `G2 — AI Conversation Spine`；当前 Task 为 `G2-03 — Narrative Conversation View`，已经出现实现 commit，但 Product PASS 仍等待工程 closeout / Owner UAT。
+开发 Agent 先读 [`AGENTS.md`](AGENTS.md)。治理侧默认从以下稳定入口按任务需要读取：
 
-**不要把 README 当 current task 数据库。** 最新状态只看：
+```text
+Vibe-Coding/AGENTS.md
+Vibe-Coding/my world/MY_WORLD_项目启动总纲_CURRENT.md
+Vibe-Coding/my world/MY_WORLD_核心设计原则_CURRENT.md
+Vibe-Coding/my world/MY_WORLD_架构_CURRENT.md
+Vibe-Coding/my world/MY_WORLD_总体规划路线图_CURRENT.md
+Vibe-Coding/my world/MY_WORLD_CURRENT_STATUS.md
+```
+
+需要正式 Task Packet 或生命周期方法时再读：
+
+```text
+Vibe-Coding/skill/gpt/agent-task-packet/SKILL.md
+Vibe-Coding/skill/gpt/lifecycle-dev-process/SKILL.md
+```
+
+不要默认读取整个治理仓库或全部历史文档。
+
+## 当前阶段
+
+```text
+G1 Foundation                         PASS / CLOSED
+G2 AI Conversation Spine              PASS / CLOSED
+G3 Persistent Game / Save / Timeline PASS / CLOSED
+G3-GATE                               PASS
+Current Phase                         G4 — Primary Source Assets & Local Game Creation
+```
+
+**精确 Current Task、Owner UAT、blocker 与下一 Gate 只看：**
 
 `Vibe-Coding/my world/MY_WORLD_CURRENT_STATUS.md`
 
-## 面向人的五份核心治理文档
+README 不维护第二份滚动任务状态。
+
+G4 第一代建局已冻结为正式资产驱动路径：
 
 ```text
-MY_WORLD_项目启动总纲_CURRENT.md   产品是什么 / 为什么做
-MY_WORLD_核心设计原则_CURRENT.md   跨阶段不能丢失的原则
-MY_WORLD_架构_CURRENT.md           当前系统架构地图 + 专题导航
-MY_WORLD_总体规划路线图_CURRENT.md G1–G9 顺序 / Task DAG / Gate
-MY_WORLD_CURRENT_STATUS.md         现在做到哪里 / PASS / UAT / blocker
+Main Menu
+→ World Pack
+→ Entry / T0
+→ Expansion 0..N（可 none）
+→ Exactly 1 Player Character Card
+→ 0..N Guaranteed NPC Character Cards
+→ minimal settings / Compatibility Review
+→ Atomic Final Create
+→ independent Game-local Reality
 ```
 
-治理目录 README：
-
-`Vibe-Coding/my world/README.md`
-
-专题架构不再平铺在顶层；从 `MY_WORLD_架构_CURRENT.md` 进入 `architecture/`。历史经验从其导航进入 `experience/`。
-
-实现仓库中的 [`docs/CORE_DESIGN_PRINCIPLES.md`](docs/CORE_DESIGN_PRINCIPLES.md) 是给开发 Agent 的短版投影，不建立第二套产品真相。
+第一轮 First Playable 先验证 **World + Character**；通过后再加入真实 Expansion，避免第一次试玩同时叠加过多高风险变量。
 
 ## 第一代技术基线
 
@@ -40,34 +68,20 @@ Distribution  Standard / non-.NET Windows x64
 Language      GDScript
 Runtime       same-process Godot Runtime
 Provider      DeepSeek deepseek-v4-pro
+Persistence   SQLite via godot-sqlite v4.9
 ```
 
-Godot 负责窗口、2D、UI、输入、字体、图片、音频、资源和 Windows packaging 等成熟通用能力。
-
-`my world` 自己拥有 Game / World / Timeline / Save / Conversation / NPC / Faction / Knowledge / Relationship / Agent Context / World Pack 等游戏语义。
+Godot 负责窗口、2D、UI、输入、字体、图片、音频、资源和 Windows packaging 等成熟通用能力；`my world` 自己拥有 Game / World / Timeline / Save / Conversation / NPC / Faction / Knowledge / Relationship / Agent Context / World Pack 等游戏语义。
 
 > **Engine-native, not engine-semantic-coupled.**
 
-## 产品 UI 方向
-
-长期桌面骨架：
-
-```text
-Player Host | Narrative Host | World Surface Host
-左主角信息  | 中央叙事与输入 | 右世界信息
-```
-
-Narrative 是视觉与交互重心；窄窗口优先保留中央阅读/输入空间。
-
-当前 G2 使用固定 Godot UI + stable Host Slots。Internal Declarative UI Host 留到 G6；外部 World Pack / Mod UI Contract 留到 G8。
-
-## 核心原则速览
+## 产品与 Runtime 原则速览
 
 > **Model freedom first. Reversibility over prevention.**
 >
-> **Model authors the world; Runtime makes it durable; Player owns the timeline.**
+> **Narrative richness over artificial brevity.**
 >
-> **Reversibility != frictionless arbitrary rewind.**
+> **Model authors the world; Runtime makes it durable; Player owns the timeline.**
 >
 > **Save Point != Timeline Node.**
 >
@@ -75,15 +89,23 @@ Narrative 是视觉与交互重心；窄窗口优先保留中央阅读/输入空
 >
 > **Off-screen != Inactive.**
 >
-> **Context stays bounded.**
+> **Context stays bounded, not starved.**
+>
+> **Application Lifetime != Game Session Lifetime.**
+>
+> **Source stable identity != exact immutable generation.**
 
-普通可逆模型/游戏错误优先靠 Cancel、Regenerate/Retry、更好 Context 和明确 Save/Restore 修复，而不是无限增加 Narrative whitelist / Regex / Confirmation / Validator。
+局内 UI 长期骨架：
+
+```text
+Player Host | Narrative Host | World Surface Host
+```
+
+Narrative 是视觉与交互重心；UI 只投影 authoritative game truth，不建立第二事实源。
 
 ## API Key
 
 真实 Provider Secret 只保存在本地 `.env.local`，不得提交 Git、粘贴到聊天、日志或截图。
-
-从 `.env.example` 创建 `.env.local`：
 
 ```text
 DEEPSEEK_API_KEY=<local secret>
@@ -95,22 +117,22 @@ MY_WORLD_DEEPSEEK_MODEL=deepseek-v4-pro
 
 ## 运行游戏｜Owner / 玩家路径
 
-当前导出程序：
+正常产品路径：
 
-`build\windows\my-world.exe`
+```text
+run-game.cmd
+```
 
-正常情况下直接双击：
-
-`run-game.cmd`
-
-它会读取本机 `.env.local`，临时注入允许的 Provider 环境变量，并启动导出的游戏；不会打印 Secret。
-
-PowerShell 等价：
+或：
 
 ```powershell
 Set-Location 'D:\AI\Projects\my-world'
 .\run-game.ps1
 ```
+
+导出程序位于：
+
+`build\windows\my-world.exe`
 
 如果 EXE 尚未构建，应由开发 Agent 完成 export，不要求 Owner 打开 Godot Editor 或自己排查构建。
 
@@ -122,10 +144,6 @@ Set-Location 'D:\AI\Projects\my-world'
 .\run-local.ps1
 ```
 
-或双击：
-
-`run-local.cmd`
-
 本地 Godot：
 
 ```text
@@ -133,8 +151,4 @@ D:\AI\Engine\Godot_v4.7.2-stable_win64.exe
 D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe
 ```
 
-## 仓库规则
-
-开发 Agent 先读 [`AGENTS.md`](AGENTS.md)。它已经把默认 Authority 收敛到治理侧五份核心文档，并要求只在当前任务真实触及某个领域时继续读取专题架构。
-
-Routine Git / Godot / build / automated QA 由 AI Agent 完成；Owner 只负责真实产品体验、Secrets 与不可替代的产品裁定。
+Routine Git / Godot / build / automated QA 由 AI Agent 完成；Owner 只负责真实产品体验、Secrets 与不可替代的产品 / 架构裁定。
