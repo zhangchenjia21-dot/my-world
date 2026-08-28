@@ -15,7 +15,9 @@ extends SceneTree
 const Runtime := preload("res://src/runtime/当前游戏会话运行时.gd")
 
 const MARKER_A := "G307_FUTURE_A_ONLY"
-const MARKER_R2 := "G307_REAL_LOAD_TURN"
+## IR-01：B-only marker 必须真实进入 R2 accepted player history，
+## 否则 Recover 后"排除 B marker"的断言是空证据。
+const MARKER_R2 := "G307_FUTURE_B_REAL_ONLY"
 const MAX_REAL_ATTEMPTS := 3
 
 var _failures := 0
@@ -151,7 +153,7 @@ func _run() -> void:
 	view = instance.get_node("%NarrativeHost")
 	view.request_messages_assembled.connect(func(messages: Array) -> void: _captured_messages = messages)
 
-	var action_r2 := "回到旧塔门口，检查那道划痕旁边是否留下新的脚印。"
+	var action_r2 := "%s 行动：回到旧塔门口，检查那道划痕旁边是否留下新的脚印。" % MARKER_R2
 	if not await _send_real_turn(instance, runtime2, action_r2, "R2"):
 		_check(false, "R2 post-Restore 真实 Turn 未 accepted（code=%s）" % _failure_code)
 		_finish(instance, runtime2)
@@ -160,6 +162,9 @@ func _run() -> void:
 	_check(not msgs_r2.contains(MARKER_A), "R2 post-Restore request 排除 Future A marker")
 	_check(msgs_r2.contains("G307_SEED_R12"), "R2 request 保留 restored accepted history")
 	_check(runtime2.conversation.get_durable_accepted_entries().size() == 14, "R2 durable（14 Turns）")
+	# IR-01：先证明 B-only marker 真实存在于 R2 accepted player history，排除断言才非空。
+	var r2_entries := JSON.stringify(runtime2.conversation.get_durable_accepted_entries())
+	_check(r2_entries.contains(MARKER_R2), "R2 accepted player history 实际包含 B-only marker")
 
 	# ---- 6. Recover → 真实 Turn R3（post-Recover，AC-05）----
 	_check(runtime2.recover_previous_progress().success, "Recover Previous Progress 成功")
