@@ -29,7 +29,9 @@ func _run() -> void:
 	root.add_child(shell)
 	await process_frame
 	_check(shell.database_recovery_button.visible, "recovery action is visible")
-	_check(shell.status_label.text.contains("已损坏") and shell.status_label.text.contains("进度可能丢失") and shell.status_label.text.contains("损坏原件会保留"), "player copy explains damage, loss window, preservation")
+	# G3-07 DEC-05：说明文案移到中央失败提示（startup_failure_label），BottomBar 只留短状态。
+	_check(shell.startup_failure_overlay.visible, "central failure overlay is visible")
+	_check(shell.startup_failure_label.text.contains("已损坏") and shell.startup_failure_label.text.contains("进度可能丢失") and shell.startup_failure_label.text.contains("损坏原件会保留"), "player copy explains damage, loss window, preservation")
 	shell.database_recovery_button.pressed.emit()
 	_check(shell.database_recovery_confirmation.dialog_text.contains("不是普通存档读取"), "confirmation distinguishes disaster recovery from Save/Load")
 	shell.database_recovery_confirmation.confirmed.emit()

@@ -35,6 +35,8 @@ const G3_01_EXPORT_SPIKE_FEATURE := "g3_01_persistence_spike"
 @onready var recovery_separator: HSeparator = %RecoverySeparator
 @onready var database_recovery_button: Button = %DatabaseRecoveryButton
 @onready var database_recovery_confirmation: ConfirmationDialog = %DatabaseRecoveryConfirmation
+@onready var startup_failure_overlay: CenterContainer = %StartupFailureOverlay
+@onready var startup_failure_label: Label = %StartupFailureLabel
 
 var shell_state: ShellState = ShellState.STARTING
 var _narrow := false
@@ -76,14 +78,19 @@ func _ready() -> void:
 		shell_state = ShellState.STARTING
 		var startup: Dictionary = session_runtime.startup_result
 		if String(startup.get("status", "")) in ["physical_corruption", "interrupted_recovery"]:
-			status_label.text = "当前游戏数据已损坏，无法安全使用。可恢复到最近安全备份；备份后的进度可能丢失，损坏原件会保留。"
+			# DEC-05（G3-07）：失败说明与唯一恢复动作居中展示，按钮紧邻说明正下方；
+			# 无 verified backup 时不提供可点击恢复动作；BottomBar 只保留短状态。
+			startup_failure_label.text = "当前游戏数据已损坏，无法安全使用。可恢复到最近安全备份；备份后的进度可能丢失，损坏原件会保留。"
+			startup_failure_overlay.visible = true
 			database_recovery_button.visible = bool(startup.get("recovery_available", false))
+			status_label.text = "状态：当前游戏数据已损坏"
 		else:
 			status_label.text = "状态：%s" % String(startup.get("message", "当前游戏恢复失败"))
 		print("[shell] state=resume_failed")
 	else:
 		shell_state = ShellState.READY
 		status_label.text = "状态：就绪"
+		startup_failure_overlay.visible = false
 		database_recovery_button.visible = false
 		print("[shell] state=ready")
 		_connect_save_runtime()
@@ -302,6 +309,7 @@ func _on_database_recovery_confirmed() -> void:
 		return
 	var result: Dictionary = session_runtime.recover_damaged_database()
 	database_recovery_button.visible = false
+	startup_failure_overlay.visible = false
 	status_label.text = String(result.message)
 	if result.success or String(result.status) == "reopen_required":
 		status_label.add_theme_color_override("font_color", Color(0.58, 0.78, 0.62))
