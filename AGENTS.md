@@ -20,9 +20,13 @@ For current Source semantics also read:
 
 - `Vibe-Coding/my world/architecture/source/G4_SOURCE_SEMANTIC_OWNERSHIP_AND_REAUDIT_DECISION.md`;
 - `Vibe-Coding/my world/architecture/source/G4_GAME_LOCAL_EVOLVABLE_SEMANTICS_DECISION.md`;
+- `Vibe-Coding/my world/architecture/source/G4_T0_SCOPED_SOURCE_AND_POST_T0_CANON_QUARANTINE_DECISION.md`;
 - `docs/source/G4-02R1_SOURCE_SEMANTIC_AUDIT.md`;
 - `docs/source/World Pack与Character Card合同v0.2_SEMANTIC_FREEZE.md`;
+- `docs/source/G4-02R1_T0_SCOPED_SOURCE_CONTRACT_ADDENDUM.md`;
 - `docs/source/G4-02R1_REAL_ASSET_V0_2_MIGRATION_SPEC.md`.
+
+When T0/temporal/context-eligibility rules conflict, the T0-scoped decision + addendum supersede base freeze revision 1.
 
 Before authoritative writes, revalidate `main`; never overwrite unknown dirty/newer work.
 
@@ -45,9 +49,11 @@ Current task:
 Current substate:
 
 ```text
-semantic audit                COMPLETE
-v0.2 semantic contract        FROZEN / implementation pending
-real v0.2 asset migration     ACTIVE — GPT owned
+semantic audit                    COMPLETE
+v0.2 base semantic contract       FROZEN / implementation pending
+T0-scoped v0.2-r2 addendum        FROZEN
+real v0.2-r2 temporal pressure    ACTIVE — GPT owned
+first pressure pair               孙权 + 汉末三国 World
 ```
 
 Task record:
@@ -72,11 +78,12 @@ GPT owns:
 
 - World Pack / Character Card / Expansion Pack semantic design;
 - authored content ownership and Source → Game-local → Runtime boundaries;
+- T0-scoped Source / post-T0 canon authority rules;
 - real historical asset semantic migration;
 - GM instructions, personality, autonomy, behavior, knowledge-boundary semantics;
 - semantic fidelity review and schema-need decisions.
 
-Codex may be used only after the real v0.2 package shape/content is frozen for:
+Codex may be used only after the real v0.2-r2 package shape/content is frozen for:
 
 - GDScript / validator / loader / fingerprint implementation;
 - filesystem / Managed Source Library;
@@ -129,11 +136,17 @@ Reasons:
 - arbitrary mandatory `source_material` is an unproven catch-all / hidden-schema risk;
 - replacing this with dozens of fixed Character fields would recreate the giant-schema failure mode.
 
-## 6. Source v0.2 semantic freeze
+## 6. Source v0.2-r2 semantic contract
 
-`docs/source/World Pack与Character Card合同v0.2_SEMANTIC_FREEZE.md` is semantic authority while loader implementation remains pending.
+Base:
 
-Core design:
+`docs/source/World Pack与Character Card合同v0.2_SEMANTIC_FREEZE.md`
+
+T0 correction:
+
+`docs/source/G4-02R1_T0_SCOPED_SOURCE_CONTRACT_ADDENDUM.md`
+
+Core base design:
 
 ```text
 thin identity
@@ -145,26 +158,54 @@ thin identity
 + exact fingerprint over all declared bytes
 ```
 
+### T0-scoped invariant
+
+> **Do not show the model a post-T0 answer and then ask it to forget that answer.**
+
+Must distinguish:
+
+```text
+Source Package Total Content
+!= Selected T0 Projection
+!= Game-local Reality
+!= Runtime Relevant Set
+!= Model-visible Working Set
+```
+
 ### World
 
-- retain `world_instructions`, `gm_instructions`, `entries[]`, `authored_assets[]`;
-- replace compact `source_lore` with rich semantic sections;
-- remove arbitrary mandatory `source_material`;
-- GM-only World truth is an explicit `gm_private` section.
+- top-level semantic sections are always-safe across supported T0s;
+- Entry may carry Entry-scoped rich semantic sections;
+- Runtime projection = always-safe + selected Entry sections only;
+- unselected later Entry content remains quarantined even though it is fingerprinted and installed.
 
 ### Character
 
-- replace `public_profile` / `gm_private_profile` with rich semantic sections;
-- broad recommended types: identity, personality, capabilities, behavior, relationships_autonomy, expression, knowledge, t0_boundary, etc.; vocabulary is not a universal closed ontology;
-- internal skill/spell/table structure remains authored content until a real mechanic consumer pulls out a machine contract;
-- portrait is optional;
-- `player_character_supported` remains explicit.
+- top-level semantic sections are always-safe;
+- optional `t0_profiles[]` bind authored profile material to explicit `world_asset_id + entry_id`;
+- Runtime projection = always-safe + exact matching profile only;
+- no match must never fallback to latest/nearest/later/complete-life biography;
+- multiple profiles remain one stable Character `asset_id`.
 
-Important:
+### Model freedom guardrail
 
-> **`catalog_summary` / `gm_reference` != Player Knowledge != Character Knowledge.**
+T0 quarantine is Context/authority control, not Narrative control.
 
-Semantic section is a retrieval unit, not a requirement to dump the whole asset into every model prompt.
+Do not add:
+
+- anti-history state machine;
+- forced divergence;
+- divergence score;
+- fixed output format/length;
+- canon/slight-change/radical-change probability quota.
+
+T0 projection must preserve rich present depth: personality inertia, pre-T0 experiences, capabilities/limits, relationship history, knowledge provenance, institutions/resources/geography and open goals.
+
+> **Quarantine future answers; preserve present depth.**
+
+Current causality may naturally reproduce canon. There is **no convergence force and no divergence force**.
+
+Provider pretrained post-T0 canon has no authority as Game fact, character motive or future prediction unless an explicit in-game Knowledge/Historical Reference owner introduces it.
 
 ## 7. Game-local evolvable semantics
 
@@ -185,7 +226,9 @@ After Final Create:
 - model must not rewrite Source/global Source contract or physical SQLite schema;
 - if Location/Relationship/Knowledge/Injury/Inventory/Faction/etc. already owns a concept, use that Domain instead of duplicate generic truth;
 - local semantic evolution must be durable and Timeline/Save/Restore reversible;
-- repeated open facets become formal Domains only after real consumers appear.
+- repeated open semantics become formal Domains only after real consumers appear.
+
+T0 quarantine removes authored future-answer leakage; local evolvability provides the post-T0 creative capacity.
 
 ## 8. Current GPT-owned real asset migration
 
@@ -193,11 +236,26 @@ Migration specification:
 
 `docs/source/G4-02R1_REAL_ASSET_V0_2_MIGRATION_SPEC.md`
 
+Temporal/T0 behavior is overridden where conflicting by:
+
+`docs/source/G4-02R1_T0_SCOPED_SOURCE_CONTRACT_ADDENDUM.md`
+
 Rule:
 
 > **preserve → re-home → explicitly omit only when owner is wrong.**
 
-Required packages:
+Current pressure order:
+
+```text
+1. 孙权
+   early/late personality isolation
+2. 汉末三国 World
+   selected Entry truth isolation
+3. 刘备 / 曹操 temporal re-audit
+4. fixed-1287 诸界余辉 assets
+```
+
+Required final packages remain:
 
 ```text
 World x2
@@ -215,21 +273,25 @@ Character x6
 
 Do not replace original major sections/tables/private truth with short summaries. Missing authored visual remains absent; Application placeholder is not Source-authored content.
 
+Already-created pre-r2 fixtures are design evidence only until revalidated for post-T0 leakage.
+
 ## 9. Source / Game boundaries
 
 Formal separation:
 
 ```text
 Reusable Source Assets
-↓ explicit exact selection
-Game Creation Composition
+↓ explicit exact selection + Entry/T0
+T0-scoped Source Projection
 ↓ Final Create
 Game-local Canonical Reality
 ↓ current execution
 Runtime State
 ```
 
-Source may own stable authored starting reference, pre-T0 history and guidance. Source must not own current live facts such as:
+Source may own stable authored starting reference and multiple possible T0 profiles, but a Game may only materialize the selected T0 projection.
+
+Source must not own current live facts such as:
 
 - current location;
 - current relationship/favor/trust;
@@ -239,7 +301,7 @@ Source may own stable authored starting reference, pre-T0 history and guidance. 
 - opening placement guarantee;
 - current Timeline/Save/Conversation/runtime history.
 
-Source prose may discuss these concepts as boundaries or pre-T0 authored history. Do not keyword-police prose; prohibit authoritative structured live-state ownership.
+Post-T0 authored future is not ordinary Runtime truth. Source prose may discuss boundaries/research/reference, but future-reference material must not be eligible for current ordinary Context merely because it exists in the package.
 
 Character Card remains reusable Character Source, not player-only. Guaranteed NPC means selected exact Character becomes part of Game canonical cast at Final Create; it does not imply opening appearance, same scene, player knowledge, relationship or automatic Context inclusion.
 
@@ -254,7 +316,9 @@ One Game = One SQLite
 Game Library metadata != gameplay truth
 ```
 
-For v0.2, exact generation must include canonical manifest + every semantic section content file + every declared authored asset + optional Character portrait when present.
+For v0.2-r2, exact generation must include canonical manifest + top-level sections + all Entry/profile-scoped section files + every declared authored asset + optional Character portrait when present.
+
+> **Fingerprint coverage != Runtime visibility.**
 
 Existing Game must pin exact immutable Source generation. Source update must not silently change old Game content.
 
@@ -273,7 +337,7 @@ The G4-05 Independent Review accepted these mechanics as provisional evidence:
 - Wizard→Review creates no Game SQLite, Game Library mutation or Provider call;
 - Cancel discards composition and returns Main Menu / no Session.
 
-Do not rewrite these seams during semantic work unless v0.2 creates a concrete incompatibility.
+Do not rewrite these seams during semantic work unless v0.2-r2 creates a concrete incompatibility.
 
 ## 12. First-generation product path
 
