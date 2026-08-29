@@ -46,15 +46,19 @@ Current phase:
 
 Current task:
 
-> **G4-05 — Asset-only New Game Wizard v0.1**
+> **G4-05 — Asset-only New Game Wizard v0.1 — REWORK**
 
-Current formal Task Packet:
+Original Task Packet:
 
 `docs/tasks/G4-05_ASSET_ONLY_NEW_GAME_WIZARD_TASK.md`
 
-Implementation owner: **Codex**. Task Packet commit: `3984e9b84f3fa8d3034f062bd74a2a723076958a`.
+Active correction packet:
 
-Current state: **ISSUED — waiting Codex implementation → READY FOR INDEPENDENT REVIEW**.
+`docs/tasks/G4-05R1_REAL_ASSET_FIDELITY_CORRECTION_TASK.md`
+
+Implementation owner: **Codex**. Current correction base: `145c3e1192b443f6284da7f36aee74619adad5bf`.
+
+Current state: **INDEPENDENT REVIEW REWORK — P1 historical real-asset fidelity; waiting G4-05R1 correction → READY FOR INDEPENDENT REVIEW**.
 
 Do not start G4-06+ until G4-05 is formally closed.
 
@@ -65,7 +69,7 @@ G4-01 Application Shell / Main Menu + Game Session Lifecycle — CLOSED
 → G4-02 World Pack + Character Card Source Contracts v0.1 — CLOSED
 → G4-03 Managed Local Source Library v0.1 — CLOSED
 → G4-04 Multi-Game Lifecycle / Game Library Foundation — CLOSED
-→ G4-05 Asset-only New Game Wizard v0.1 — CURRENT
+→ G4-05 Asset-only New Game Wizard v0.1 — REWORK / G4-05R1 ACTIVE
 → G4-06 Atomic Final Create + World/Character Materialization
 → G4-07 First Playable A — World + Character Owner UAT
 → G4-08 Expansion Pack v0.1 + First Real Runtime Vertical
@@ -199,7 +203,7 @@ G4-05 must **not** implement:
 
 Synthetic compact fixtures remain valid for deterministic contract/failure tests, but they are not sufficient as the only reality evidence.
 
-G4-05 Task Packet pins historical real-asset evidence to:
+G4-05 historical evidence is pinned to:
 
 ```text
 repo: zhangchenjia21-dot/sillytavern-assets
@@ -222,6 +226,19 @@ Principle:
 
 > **Migrate real content/complexity, not legacy schema debt.**
 
+### G4-05R1 Independent Review correction
+
+The `145c3e1` Wizard/Composition implementation passed the reviewed identity/selection/no-side-effect boundaries, but the historical conversion packages were **too aggressively summarized**. Load/install success alone is not real-content pressure.
+
+G4-05R1 must therefore preserve substantive GM-useful content at section/category level:
+
+- World: real world operation/T0/history/social/institutional/geographic/material/knowledge/GM-use semantics where owned by World Source;
+- Character: identity, personality contradictions, abilities/limitations, behavior logic, relationship/autonomy, language/expression, knowledge boundary, T0/historical-use guidance, and other stable authored semantics;
+- dynamic live state remains prohibited;
+- use current v0.1 fields faithfully first; if an important stable Source concept genuinely cannot be expressed, return `BLOCKED` with the minimal contract gap rather than summarizing it away or inventing a generic legacy schema.
+
+The correction must include section-level mapping/omission audit and source-derived fidelity evidence. Do not treat package count, text length, or parser success as sufficient fidelity proof.
+
 G4-07 First Playable A must primarily use real, product-valuable World/Character assets rather than only Agent-authored compact fixtures.
 
 ## 10. Final Create principles for later G4 tasks
@@ -238,7 +255,7 @@ exact Composition
 → created
 ```
 
-Provider calls during deterministic Final Create are zero. Do not move any of this into G4-05.
+Provider calls during deterministic Final Create are zero. Do not move any of this into G4-05/G4-05R1.
 
 ## 11. Core product/runtime invariants
 
