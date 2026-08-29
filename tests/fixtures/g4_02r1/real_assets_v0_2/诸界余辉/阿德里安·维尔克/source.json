@@ -1,0 +1,20 @@
+{
+  "schema_version": "character_card.v0.2",
+  "asset_id": "character.ashtervia.adrian_wilk",
+  "asset_type": "character_card",
+  "version": "0.3-converted.2",
+  "display_name": "阿德里安·维尔克",
+  "catalog_summary": "瓦尔瑟兰古老魔法家族的旁系成员、职业魔剑士与护卫顾问。他强调个人荣誉、自我掌握与专业责任，嘴上淡化血统，内心仍渴望凭自身成就让家族承认他。",
+  "semantic_sections": [
+    {"section_id":"identity","section_type":"identity","title":"身份锚点","disclosure":"gm_reference","content_path":"sections/01_identity.md"},
+    {"section_id":"personality","section_type":"personality","title":"人格核心","disclosure":"gm_reference","content_path":"sections/02_personality.md"},
+    {"section_id":"capabilities","section_type":"capabilities","title":"能力与局限","disclosure":"gm_reference","content_path":"sections/03_capabilities.md"},
+    {"section_id":"behavior","section_type":"behavior","title":"决策与行为逻辑","disclosure":"gm_reference","content_path":"sections/04_behavior.md"},
+    {"section_id":"relationships-autonomy","section_type":"relationships_autonomy","title":"关系风格与自主性","disclosure":"gm_reference","content_path":"sections/05_relationships_autonomy.md"},
+    {"section_id":"expression","section_type":"expression","title":"语言与表现","disclosure":"gm_reference","content_path":"sections/06_expression.md"},
+    {"section_id":"knowledge-boundary","section_type":"knowledge","title":"知识与信息边界","disclosure":"gm_reference","content_path":"sections/07_knowledge_boundary.md"},
+    {"section_id":"private-history","section_type":"knowledge","title":"GM 私密经历与内在事实","disclosure":"gm_private","content_path":"sections/08_private_history.md"},
+    {"section_id":"t0-boundary","section_type":"t0_boundary","title":"开局状态与历史边界","disclosure":"gm_reference","content_path":"sections/09_t0_boundary.md"}
+  ],
+  "player_character_supported": true
+}
