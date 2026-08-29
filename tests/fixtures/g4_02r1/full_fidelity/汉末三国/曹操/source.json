@@ -1,0 +1,20 @@
+{
+  "schema_version": "character_card.v0.2",
+  "asset_id": "character.han_end.cao_cao",
+  "asset_type": "character_card",
+  "version": "0.1.2-converted.2-full-fidelity-candidate",
+  "display_name": "曹操",
+  "catalog_summary": "曹操的 T0-scoped rich Character Source；保留原卡人格、能力、行为、关系、表达与知识语义，并让大规模组织、人才整合与权力安全心理只随 lived history 合法出现。",
+  "semantic_sections": [
+    {"section_id":"cao-cao-identity-continuity","section_type":"identity","title":"跨 T0 身份连续性","disclosure":"gm_reference","content_path":"sections/01_identity_continuity.md"}
+  ],
+  "t0_profiles": [
+    {"profile_id":"han-184","display_name":"184 人物起点","bindings":[{"world_asset_id":"world.han_end.unsettled_realm","entry_id":"t0-184-yellow-turban"}],"semantic_sections":[{"section_id":"cao-cao-184-rich","section_type":"t0_profile","title":"184 rich profile","disclosure":"gm_reference","content_path":"t0/184/profile.md"}]},
+    {"profile_id":"han-189","display_name":"189 人物起点","bindings":[{"world_asset_id":"world.han_end.unsettled_realm","entry_id":"t0-189-luoyang-crisis"}],"semantic_sections":[{"section_id":"cao-cao-189-rich","section_type":"t0_profile","title":"189 rich profile","disclosure":"gm_reference","content_path":"t0/189/profile.md"}]},
+    {"profile_id":"han-196","display_name":"196 人物起点","bindings":[{"world_asset_id":"world.han_end.unsettled_realm","entry_id":"t0-196-emperor-xu"}],"semantic_sections":[{"section_id":"cao-cao-196-rich","section_type":"t0_profile","title":"196 rich profile","disclosure":"gm_reference","content_path":"t0/196/profile.md"}]},
+    {"profile_id":"han-200","display_name":"200 人物起点","bindings":[{"world_asset_id":"world.han_end.unsettled_realm","entry_id":"t0-200-guandu-eve"}],"semantic_sections":[{"section_id":"cao-cao-200-rich","section_type":"t0_profile","title":"200 rich profile","disclosure":"gm_reference","content_path":"t0/200/profile.md"}]},
+    {"profile_id":"han-208","display_name":"208 人物起点","bindings":[{"world_asset_id":"world.han_end.unsettled_realm","entry_id":"t0-208-red-cliffs-eve"}],"semantic_sections":[{"section_id":"cao-cao-208-rich","section_type":"t0_profile","title":"208 rich profile","disclosure":"gm_reference","content_path":"t0/208/profile.md"}]},
+    {"profile_id":"han-214","display_name":"214 人物起点","bindings":[{"world_asset_id":"world.han_end.unsettled_realm","entry_id":"t0-214-yizhou-transition"}],"semantic_sections":[{"section_id":"cao-cao-214-rich","section_type":"t0_profile","title":"214 rich profile","disclosure":"gm_reference","content_path":"t0/214/profile.md"}]}
+  ],
+  "player_character_supported": true
+}
