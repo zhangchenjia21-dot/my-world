@@ -5,10 +5,11 @@ task_id: G4-02R1M1
 type: implementation-correction
 owner: Codex
 created: 2026-08-29
+updated: 2026-08-29
 repository: zhangchenjia21-dot/my-world
 branch: main
 formal_code_base: f1950d615864fd0e780764fa1a50cfcbf1a5c507
-governance_base: 6ac202eca576496e93eb0f4b317ef5b0bffc7399
+governance_base: e2423cb50800129fc0bff6d1edc31701023f0f28
 parent_task: G4-02R1
 semantic_contract: v0.2-r2-frozen
 independent_review_owner: GPT
@@ -19,7 +20,7 @@ owner_uat_required: false
 
 Owner: **Codex**  
 Formal Code Base: **`f1950d615864fd0e780764fa1a50cfcbf1a5c507`**  
-Governance Base: **`6ac202eca576496e93eb0f4b317ef5b0bffc7399`**
+Governance Base: **`e2423cb50800129fc0bff6d1edc31701023f0f28`**
 
 Target host:
 
@@ -60,6 +61,8 @@ This task does not create Game-local materialization or G4-06 Final Create.
 
 Before implementation, read current `main` versions of:
 
+### Implementation repo
+
 - `AGENTS.md`
 - `docs/source/World Pack与Character Card合同v0.2_SEMANTIC_FREEZE.md`
 - `docs/source/G4-02R1_T0_SCOPED_SOURCE_CONTRACT_ADDENDUM.md`
@@ -70,14 +73,17 @@ Before implementation, read current `main` versions of:
 - `docs/source/G4-02R1_AFTERGLOW_FAMILY_JOINT_FULL_FIDELITY_AUDIT.md`
 - `docs/source/G4-02R1_CROSS_FAMILY_PACKAGE_SHAPE_STABILITY_DECISION.md`
 
-Governance ownership/architecture:
+### Governance repo
 
+- `Vibe-Coding/my world/MY_WORLD_架构_CURRENT.md`
+- `Vibe-Coding/my world/MY_WORLD_总体规划路线图_CURRENT.md`
+- `Vibe-Coding/my world/MY_WORLD_CURRENT_STATUS.md`
 - `Vibe-Coding/my world/architecture/source/G4_SOURCE_SEMANTIC_OWNERSHIP_AND_REAUDIT_DECISION.md`
 - `Vibe-Coding/my world/architecture/source/G4_GAME_LOCAL_EVOLVABLE_SEMANTICS_DECISION.md`
 - `Vibe-Coding/my world/architecture/source/G4_T0_SCOPED_SOURCE_AND_POST_T0_CANON_QUARANTINE_DECISION.md`
-- `Vibe-Coding/my world/MY_WORLD_CURRENT_STATUS.md`
+- `Vibe-Coding/my world/architecture/persistence/G4-04_MULTI_GAME_STORAGE_TOPOLOGY_DECISION.md`
 
-Semantic phase verdict is already:
+Semantic/full-fidelity phase verdict is already:
 
 > **PASS / FROZEN FOR MECHANISM.**
 
@@ -530,14 +536,14 @@ Engineering PASS from IR will still not equal Product PASS for later playable st
 
 ## 15. Git protocol
 
-1. Start from exactly Formal Code Base `f1950d615864fd0e780764fa1a50cfcbf1a5c507` plus this repository-native task packet/governance-only follow-up commits on `main` as task instructions. Do not reinterpret later unrelated code drift as the formal baseline without surfacing it.
+1. Start from exactly Formal Code Base `f1950d615864fd0e780764fa1a50cfcbf1a5c507` plus repository-native task/governance-only follow-up commits on `main` as instructions. Do not reinterpret those docs-only commits as implementation baseline changes.
 2. Before editing, inspect `git status`, current HEAD, and relevant existing tests/source seams.
 3. Preserve unrelated work. No destructive reset/clean of unknown changes.
 4. Commit implementation and evidence to `main` using focused commits.
 5. Do not amend/rewrite historical PASS commits.
 6. Before return, report exact final HEAD and changed paths.
 
-If current implementation code has materially drifted from Formal Code Base before implementation begins, stop and report the drift rather than silently changing the task baseline.
+If implementation code has materially drifted from Formal Code Base before implementation begins, stop and report the drift rather than silently changing the task baseline.
 
 ---
 
@@ -549,6 +555,7 @@ Return a concise structured report containing:
 Task: G4-02R1M1
 State: READY FOR INDEPENDENT REVIEW | BLOCKED
 Formal Code Base: f1950d615864fd0e780764fa1a50cfcbf1a5c507
+Governance Base: e2423cb50800129fc0bff6d1edc31701023f0f28
 Start HEAD:
 Final HEAD:
 Implementation commits:
