@@ -21,243 +21,204 @@ For current Source semantics also read:
 - `Vibe-Coding/my world/architecture/source/G4_SOURCE_SEMANTIC_OWNERSHIP_AND_REAUDIT_DECISION.md`;
 - `Vibe-Coding/my world/architecture/source/G4_GAME_LOCAL_EVOLVABLE_SEMANTICS_DECISION.md`;
 - `Vibe-Coding/my world/architecture/source/G4_T0_SCOPED_SOURCE_AND_POST_T0_CANON_QUARANTINE_DECISION.md`;
-- `docs/source/G4-02R1_SOURCE_SEMANTIC_AUDIT.md`;
 - `docs/source/World Pack与Character Card合同v0.2_SEMANTIC_FREEZE.md`;
 - `docs/source/G4-02R1_T0_SCOPED_SOURCE_CONTRACT_ADDENDUM.md`;
-- `docs/source/G4-02R1_REAL_ASSET_V0_2_R2_MIGRATION_SPEC.md`.
+- `docs/source/G4-02R1_T0_CHARACTER_INDIVIDUALITY_ADDENDUM.md`;
+- `docs/source/G4-02R1_FIXED_T0_MULTI_ENTRY_CHARACTER_BINDING_CLARIFICATION.md`;
+- `docs/source/G4-02R1_REAL_ASSET_V0_2_R2_MIGRATION_SPEC.md`;
+- `docs/source/G4-02R1_HAN_FAMILY_JOINT_FULL_FIDELITY_AUDIT.md`;
+- `docs/source/G4-02R1_AFTERGLOW_FAMILY_JOINT_FULL_FIDELITY_AUDIT.md`;
+- `docs/source/G4-02R1_CROSS_FAMILY_PACKAGE_SHAPE_STABILITY_DECISION.md`.
 
-`docs/source/G4-02R1_REAL_ASSET_V0_2_MIGRATION_SPEC.md` is r1 design evidence only and is superseded by the r2 migration spec.
-
-When T0/temporal/context-eligibility rules conflict, the T0-scoped decision + addendum supersede base freeze revision 1.
+`docs/source/G4-02R1_REAL_ASSET_V0_2_MIGRATION_SPEC.md` is superseded r1 design evidence only.
 
 Before authoritative writes, revalidate `main`; never overwrite unknown dirty/newer work.
 
-## 2. Current phase / task
+---
 
-Completed engineering foundation:
+## 2. Current phase / active task
 
-- G1 Foundation — PASS / CLOSED
-- G2 AI Conversation Spine — PASS / CLOSED
-- G3 Persistence / Save / Timeline — PASS / CLOSED
-- G4-01 Application Shell / Lifecycle — PASS / CLOSED
-- G4-02 original v0.1 engineering implementation — HISTORICAL PASS
-- G4-03 Managed Local Source Library — PASS / CLOSED
-- G4-04 Multi-Game / Game Library — PASS / CLOSED
+Completed foundation:
 
-Current task:
+```text
+G1 Foundation                        PASS / CLOSED
+G2 AI Conversation Spine             PASS / CLOSED
+G3 Persistence / Save / Timeline     PASS / CLOSED
+G4-01 Application Shell / Lifecycle PASS / CLOSED
+G4-02 original v0.1 engineering      HISTORICAL PASS
+G4-03 Managed Local Source Library   PASS / CLOSED
+G4-04 Multi-Game / Game Library      PASS / CLOSED
+```
+
+Parent task:
 
 > **G4-02R1 — World / Character Source Semantic Re-audit**
 
-Current substate:
+Parent state:
 
 ```text
-semantic audit                    COMPLETE
-v0.2 base semantic contract       FROZEN / implementation pending
-T0-scoped v0.2-r2 addendum        FROZEN
-real v0.2-r2 temporal pressure    ACTIVE — GPT owned
-first pressure pair               孙权 + 汉末三国 World
+semantic/full-fidelity phase   PASS / FROZEN FOR MECHANISM
+overall G4-02R1                IMPLEMENTATION PENDING
+semantic owner                 GPT
 ```
 
-Task record:
+Active implementation task:
 
-`docs/tasks/G4-02R1_SOURCE_SEMANTIC_REAUDIT_TASK.md`
+> **G4-02R1M1 — Source v0.2-r2 Mechanism Correction**
 
-Owner: **GPT**.
+Formal packet:
 
-**Codex has no active implementation task.**
+`docs/tasks/G4-02R1M1_SOURCE_V0_2_R2_MECHANISM_CORRECTION_TASK.md`
 
-Previous `docs/tasks/G4-05R1_REAL_ASSET_FIDELITY_CORRECTION_TASK.md` is **SUPERSEDED / DO NOT EXECUTE**.
+Packet commit:
 
-G4-05 remains **REWORK / HOLD**. G4-06+ must not start.
+`238dfecb6bdfc056a4ceb4115b247e8a8f18b674`
 
-## 3. Ownership decision
+Formal Code Base:
 
-Formal working split:
+`f1950d615864fd0e780764fa1a50cfcbf1a5c507`
+
+Governance Base:
+
+`6ac202eca576496e93eb0f4b317ef5b0bffc7399`
+
+Active owner: **Codex**.
+
+Return ceiling:
+
+> **READY FOR INDEPENDENT REVIEW**
+
+If the frozen semantics are genuinely ambiguous or impossible to implement without redesign, return **BLOCKED to GPT** with evidence. Do not invent semantic rules.
+
+G4-05 remains **REWORK / HOLD**.  
+`docs/tasks/G4-05R1_REAL_ASSET_FIDELITY_CORRECTION_TASK.md` remains **SUPERSEDED / DO NOT EXECUTE**.  
+G4-06+ must not start.
+
+---
+
+## 3. Ownership split
+
+Formal rule:
 
 > **GPT owns Meaning; Codex owns Mechanism.**
 
 GPT owns:
 
-- World Pack / Character Card / Expansion Pack semantic design;
-- authored content ownership and Source → Game-local → Runtime boundaries;
-- T0-scoped Source / post-T0 canon authority rules;
-- real historical asset semantic migration;
-- GM instructions, personality, autonomy, behavior, knowledge-boundary semantics;
-- semantic fidelity review and schema-need decisions.
+- World / Character / Expansion semantic design;
+- Source → Game-local → Runtime ownership boundaries;
+- T0/post-T0 authority rules;
+- authored content migration and fidelity;
+- Character personality/autonomy/knowledge semantics;
+- Source bindings/disclosure meaning;
+- semantic schema-need decisions;
+- Independent Review after Codex implementation.
 
-Codex may be used only after the real v0.2-r2 package shape/content is frozen for:
+Codex currently owns only the frozen mechanism:
 
-- GDScript / validator / loader / fingerprint implementation;
-- filesystem / Managed Source Library;
-- SQLite / Runtime / lifecycle;
-- UI wiring;
-- tests, failure injection, build/export/Windows evidence.
+- GDScript validator/loader/fingerprint changes;
+- exact selected Source projection;
+- compatibility-state mechanism;
+- localized Managed Source Library repair if real regression requires it;
+- regression tests/failure injection;
+- Godot/Windows engineering evidence.
 
-Do not let an implementation Agent independently compress, paraphrase or redesign complex narrative assets merely to make them easier to parse.
+Codex must not independently compress, paraphrase, rename or redesign the frozen 2 World + 6 Character full-fidelity fixtures.
+
+---
 
 ## 4. No destructive rollback
 
 Do not reset Git to pre-G4-02.
 
-Preserve verified engineering and correct forward:
+Repair forward:
 
 ```text
 verified engineering history
-→ semantic correction
-→ faithful content migration
+→ frozen semantic correction
 → affected-code repair only
 → regression
+→ GPT Independent Review
 ```
 
-G4-03 remains PASS unless a concrete corrected-contract regression is found. G4-04 remains PASS/CLOSED. G4-05 implementation candidate `145c3e1192b443f6284da7f36aee74619adad5bf` is preserved as provisional Wizard/Composition engineering evidence.
+G4-03 remains PASS unless a concrete v0.2-r2 regression is demonstrated. G4-04 remains PASS/CLOSED. Preserve G4-05 candidate `145c3e1192b443f6284da7f36aee74619adad5bf` as provisional Wizard/Composition engineering evidence.
 
-## 5. G4-02R1 semantic result
+---
 
-Historical evidence remains pinned read-only:
+## 5. Frozen Source v0.2-r2 semantics
+
+### Rich Source
+
+Long package-local UTF-8 Markdown/TXT sections are first-class Source bytes.
+
+Do not recreate v0.1 compression or a giant universal schema.
+
+### World projection
 
 ```text
-repo: zhangchenjia21-dot/sillytavern-assets
-snapshot: 4a5364a042e41f4c8a69621fc4467956a78703c0
+top-level always-safe semantic_sections
++
+exact selected Entry.semantic_sections
 ```
 
-Audited primary assets:
+Unselected Entry bytes remain in exact fingerprint but are ordinary-Runtime-ineligible.
 
-- World: `世界包/汉末三国_天下未定_World_Pack_v0.2.3.md`
-- World: `世界包/埃瑟维亚_诸界余辉_World_Pack_v0.1.3.md`
-- Characters: 刘备、曹操、孙权、莉维娅·塞兰、阿德里安·维尔克、杜恩·石痕
-
-Verdict:
-
-> **v0.1 semantic adequacy FAIL — v0.2 contract correction required.**
-
-Reasons:
-
-- Character `summary/traits/background/drives` collapses real authored depth;
-- required portrait forces dishonest Source placeholder behavior when no authored visual exists;
-- World lacks section-level disclosure/retrieval semantics;
-- arbitrary mandatory `source_material` is an unproven catch-all / hidden-schema risk;
-- replacing this with dozens of fixed Character fields would recreate the giant-schema failure mode.
-
-## 6. Source v0.2-r2 semantic contract
-
-Base:
-
-`docs/source/World Pack与Character Card合同v0.2_SEMANTIC_FREEZE.md`
-
-T0 correction:
-
-`docs/source/G4-02R1_T0_SCOPED_SOURCE_CONTRACT_ADDENDUM.md`
-
-Core base design:
+### Character projection
 
 ```text
-thin identity
-+ catalog_summary
-+ compact always-on instructions where appropriate
-+ ordered semantic_sections
-+ disclosure = gm_reference | gm_private
-+ package-local UTF-8 Markdown/TXT content files
-+ exact fingerprint over all declared bytes
+top-level always-safe semantic_sections
++
+exact matching T0 profile.semantic_sections
 ```
 
-### T0-scoped invariant
+Never fallback to latest, nearest, later or complete-life biography.
 
-> **Do not show the model a post-T0 answer and then ask it to forget that answer.**
+### Closed per-World profile coverage
 
-Must distinguish:
+If a Character declares any binding to World W:
 
 ```text
-Source Package Total Content
-!= Selected T0 Projection
-!= Game-local Reality
-!= Runtime Relevant Set
-!= Model-visible Working Set
+exact selected Entry binding exists → compatible
+missing selected Entry binding      → hard temporal incompatibility
 ```
 
-### World
+If it declares zero bindings to selected World W, do not manufacture a hard block; preserve a distinguishable no-exact-profile / always-safe-only route for later Compatibility policy.
 
-- top-level semantic sections are always-safe across supported T0s;
-- Entry may carry Entry-scoped rich semantic sections;
-- Runtime projection = always-safe + selected Entry sections only;
-- unselected later Entry content remains quarantined even though it is fingerprinted and installed.
+### Same-T0 multi-Entry
 
-### Character
+Bindings express authored starting compatibility, not current location, opening appearance, current contract or recommended scene.
 
-- top-level semantic sections are always-safe;
-- optional `t0_profiles[]` bind authored profile material to explicit `world_asset_id + entry_id`;
-- Runtime projection = always-safe + exact matching profile only;
-- no match must never fallback to latest/nearest/later/complete-life biography;
-- multiple profiles remain one stable Character `asset_id`.
+### Disclosure
 
-### Model freedom guardrail
+`gm_reference != player-known`.
 
-T0 quarantine is Context/authority control, not Narrative control.
+`gm_private` is explicit backstage Source truth; Character knowledge still requires real in-game provenance.
 
-Do not add:
+### Exact generation
 
-- anti-history state machine;
-- forced divergence;
-- divergence score;
-- fixed output format/length;
-- canon/slight-change/radical-change probability quota.
+Canonical manifest + all declared semantic files + all Entry/profile files + authored assets + optional portrait when present must affect exact fingerprint.
 
-T0 projection must preserve rich present depth: personality inertia, pre-T0 experiences, capabilities/limits, relationship history, knowledge provenance, institutions/resources/geography and open goals.
+> **Fingerprint coverage != Runtime visibility.**
 
-> **Quarantine future answers; preserve present depth.**
+### Model freedom
 
-Current causality may naturally reproduce canon. There is **no convergence force and no divergence force**.
+No convergence force and no divergence force. Do not add canon probabilities, divergence scores, fate state machines, personality transition tables, fixed narrative quotas or action whitelists.
 
-Provider pretrained post-T0 canon has no authority as Game fact, character motive or future prediction unless an explicit in-game Knowledge/Historical Reference owner introduces it.
+### Game-local evolvability
 
-## 7. Game-local evolvable semantics
+Source schema is not the possibility ceiling of the Living World. Post-T0 local meaning may evolve while reusable Source/global contract/physical SQLite schema remain protected. Existing canonical Domains own their facts.
 
-Canonical decision:
+---
 
-`Vibe-Coding/my world/architecture/source/G4_GAME_LOCAL_EVOLVABLE_SEMANTICS_DECISION.md`
+## 6. Frozen full-fidelity real fixtures
 
-Invariant:
-
-> **Source schema is not the possibility ceiling of the Living World. Game-local semantic structure is evolvable.**
-
-After Final Create:
-
-- exact Source generation stays immutable;
-- Game-local canonical object owns lived history;
-- Program-owned identity/provenance/lifecycle kernel stays stable;
-- model/runtime may evolve previously unanticipated local semantics;
-- model must not rewrite Source/global Source contract or physical SQLite schema;
-- if Location/Relationship/Knowledge/Injury/Inventory/Faction/etc. already owns a concept, use that Domain instead of duplicate generic truth;
-- local semantic evolution must be durable and Timeline/Save/Restore reversible;
-- repeated open semantics become formal Domains only after real consumers appear.
-
-T0 quarantine removes authored future-answer leakage; local evolvability provides the post-T0 creative capacity.
-
-## 8. Current GPT-owned real asset migration
-
-Current migration specification:
-
-`docs/source/G4-02R1_REAL_ASSET_V0_2_R2_MIGRATION_SPEC.md`
-
-Old r1 specification:
-
-`docs/source/G4-02R1_REAL_ASSET_V0_2_MIGRATION_SPEC.md` — **SUPERSEDED / design evidence only**.
-
-Rule:
-
-> **preserve → re-home → T0-scope → explicitly omit only when owner is wrong.**
-
-Current pressure order:
+Primary consumer roots:
 
 ```text
-1. 孙权
-   early/late personality isolation
-2. 汉末三国 World
-   selected Entry truth isolation
-3. 刘备 / 曹操 temporal re-audit
-4. fixed-1287 诸界余辉 assets
+tests/fixtures/g4_02r1/full_fidelity/汉末三国/
+tests/fixtures/g4_02r1/full_fidelity/诸界余辉/
 ```
 
-Required final packages remain:
+Frozen evidence set:
 
 ```text
 World x2
@@ -273,94 +234,124 @@ Character x6
 - 杜恩·石痕
 ```
 
-Do not replace original major sections/tables/private truth with short summaries. Missing authored visual remains absent; Application placeholder is not Source-authored content.
+These must validate/load **unchanged** in G4-02R1M1.
 
-Already-created pre-r2 fixtures are design evidence only until revalidated for post-T0 leakage.
+No authored portrait bytes exist for the converted text-only Character packages; absence is valid. Do not add placeholders.
 
-## 9. Source / Game boundaries
+---
 
-Formal separation:
+## 7. G4-02R1M1 required mechanism
 
-```text
-Reusable Source Assets
-↓ explicit exact selection + Entry/T0
-T0-scoped Source Projection
-↓ Final Create
-Game-local Canonical Reality
-↓ current execution
-Runtime State
-```
+Implement the packet exactly enough to prove:
 
-Source may own stable authored starting reference and multiple possible T0 profiles, but a Game may only materialize the selected T0 projection.
+- `world_pack.v0.2` / `character_card.v0.2` parsing and validation;
+- safe nested rich-content paths;
+- package-wide section ID uniqueness;
+- Character profile/binding validation;
+- deterministic exact fingerprint over all declared bytes;
+- exact World selected-Entry projection;
+- exact Character selected-profile projection;
+- no fallback;
+- authored closed temporal incompatibility;
+- cross-world zero-coverage distinction;
+- disclosure metadata preservation;
+- optional portrait absence;
+- tamper/missing fail-loud.
 
-Source must not own current live facts such as:
-
-- current location;
-- current relationship/favor/trust;
-- current injury/condition;
-- current knowledge/inventory;
-- player-known state;
-- opening placement guarantee;
-- current Timeline/Save/Conversation/runtime history.
-
-Post-T0 authored future is not ordinary Runtime truth. Source prose may discuss boundaries/research/reference, but future-reference material must not be eligible for current ordinary Context merely because it exists in the package.
-
-Character Card remains reusable Character Source, not player-only. Guaranteed NPC means selected exact Character becomes part of Game canonical cast at Final Create; it does not imply opening appearance, same scene, player knowledge, relationship or automatic Context inclusion.
-
-## 10. Exact generation / library invariants
-
-Keep:
+Prefer extending current Source layers:
 
 ```text
-Source stable identity != exact immutable generation
-Managed Source Library != Game Library
-One Game = One SQLite
-Game Library metadata != gameplay truth
+src/source/L0_公理层/Source契约验证器.gd
+src/source/L1_器件层/Generation内容指纹器.gd
+src/source/L1_器件层/Generation验证加载器.gd
+src/source/L2_流程层/Source选择服务.gd
+src/source/L3_外交层/Source合同公开接口.gd
 ```
 
-For v0.2-r2, exact generation must include canonical manifest + top-level sections + all Entry/profile-scoped section files + every declared authored asset + optional Character portrait when present.
+and other existing Source Library seams where actually required. Do not create a parallel Source framework.
 
-> **Fingerprint coverage != Runtime visibility.**
+---
 
-Existing Game must pin exact immutable Source generation. Source update must not silently change old Game content.
+## 8. Required regressions
 
-## 11. G4-05 preserved engineering
+### G4-03
 
-The G4-05 Independent Review accepted these mechanics as provisional evidence:
+Keep managed Library invariants:
 
-- chooser visibility/focus != selection;
-- only explicit click selects exact generation;
-- composition stores exact generation fingerprint;
-- World change clears dependent Entry;
-- Player eligibility enforced;
-- same exact Character cannot be Player + Guaranteed NPC;
-- selected X does not drift to newer current Y;
-- Review performs exact lookup and tamper/missing fail-loud;
-- Wizard→Review creates no Game SQLite, Game Library mutation or Provider call;
-- Cancel discards composition and returns Main Menu / no Session.
+- staged verified publish;
+- append-only immutable generations;
+- explicit current;
+- restart truth;
+- exact generation identity;
+- tamper/missing fail-loud;
+- old exact generation remains resolvable.
 
-Do not rewrite these seams during semantic work unless v0.2-r2 creates a concrete incompatibility.
+### G4-05 preserved mechanics
 
-## 12. First-generation product path
+Re-prove without resuming G4-05:
+
+- list focus/visibility != selection;
+- explicit click selects exact generation;
+- X does not drift to newer Y;
+- changing World clears Entry;
+- Player eligibility and Player/NPC overlap rules;
+- Review exact lookup/tamper failure;
+- Wizard→Review creates no Game DB/Game Library mutation/Provider call;
+- Cancel returns Main Menu/no Session;
+- no same-family restriction;
+- Expansion remains honest none-only.
+
+---
+
+## 9. Forbidden scope
+
+G4-02R1M1 must not:
+
+- rewrite semantic fixtures;
+- invent universal skill/spell/nation/god/personality ontology;
+- restore `source_material`;
+- add same-family hard restriction;
+- implement Expansion runtime semantics;
+- implement G4-06 Final Create;
+- create Creator/platform/importer framework;
+- build generic legacy compressor;
+- broadly refactor Prompt/Context beyond the selected-projection seam;
+- rename stable `ashtervia` IDs;
+- fabricate portraits;
+- destructively roll back verified stages.
+
+---
+
+## 10. Evidence / return protocol
+
+Codex evidence target:
+
+`docs/source/G4-02R1_R2_MECHANISM_IMPLEMENTATION_EVIDENCE.md`
+
+Evidence must identify what each important assertion proves; “tests pass” alone is insufficient.
+
+Final return must include:
 
 ```text
-Main Menu
-→ New Game
-→ exactly 1 World Pack
-→ Entry/T0 0..1
-→ Expansion 0..N (none currently honest/allowed)
-→ exactly 1 Player Character Card
-→ 0..N Guaranteed NPC Character Cards
-→ Game display name
-→ Protagonist Control Mode: Full | Light | Narrative
-→ optional opening supplement
-→ Compatibility Review
-→ Atomic Final Create (G4-06)
+Task: G4-02R1M1
+State: READY FOR INDEPENDENT REVIEW | BLOCKED
+Formal Code Base: f1950d615864fd0e780764fa1a50cfcbf1a5c507
+Start HEAD:
+Final HEAD:
+Implementation commits:
+Evidence doc:
+Tests/commands:
+Real-fixture proof:
+G4-03 regression:
+G4-05 regression:
+Known limitations:
 ```
 
-Do not add no-World/no-Character/blank-world direct creation, historical Source picker, Creator path, complex Expansion chooser or generic form framework in current G4.
+Codex must not declare G4-02R1 closed or G4-05 resumed/closed. GPT owns the following Independent Review.
 
-## 13. Technical baseline
+---
+
+## 11. Technical baseline
 
 ```text
 Host             Godot 4.7.2 Standard / non-.NET Windows x64
@@ -372,5 +363,3 @@ Schema           production v4
 Game topology    One Game = One SQLite
 Source Library   managed immutable filesystem generations
 ```
-
-Engineering evidence must distinguish implementation, validation action and observable proof. Owner handles genuine product UAT/irreducible decisions; routine Git/Godot/build/debug/QA remains engineering work.
