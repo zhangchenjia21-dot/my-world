@@ -1,0 +1,63 @@
+{
+  "schema_version": "world_pack.v0.2",
+  "asset_id": "world.ashtervia.afterglow",
+  "asset_type": "world_pack",
+  "version": "0.1.3-converted.2-full-fidelity-candidate",
+  "display_name": "埃瑟维亚：诸界余辉",
+  "catalog_summary": "断界历 1287 年的成熟高魔文明：五强、学院、商业、神权、位面与大断裂遗产共同存在；支持从普通生活到传奇尺度的开放世界游戏。",
+  "world_instructions": "断界历 1287 年之前的世界历史与当前制度是起点；开局之后由 Game-local causality 生成历史。魔法强大但受知识、条件、资源、专业与社会后果约束。World Truth、Character Knowledge 与 Player Knowledge 必须分离；趋势与预言都不是未来剧本。",
+  "gm_instructions": "把 Source 当作丰富起点而非主线脚本。普通人生活、制度、材料、距离与专业门槛必须真实存在。神不是作者视角，学院/国家/教会也都可能只掌握局部。gm_private truth 只能通过合理的游戏内证据成为角色知识。不要因为完整 package 被 fingerprint 就把全部内容一次塞进 Prompt。",
+  "semantic_sections": [
+    {"section_id":"afterglow-world-authority","section_type":"overview","title":"世界身份、Ownership 与 1287 Authority","disclosure":"gm_reference","content_path":"sections/01_world_identity_ownership_and_1287_authority.md"},
+    {"section_id":"afterglow-magic-ontology","section_type":"metaphysics","title":"魔法本体与力量尺度","disclosure":"gm_reference","content_path":"sections/02_magic_ontology_and_power_scale.md"},
+    {"section_id":"afterglow-standardization","section_type":"world_logic","title":"术式标准化革命","disclosure":"gm_reference","content_path":"sections/03_standardization_revolution.md"},
+    {"section_id":"afterglow-material-life","section_type":"material_life","title":"物质生活、经济与教育","disclosure":"gm_reference","content_path":"sections/04_material_life_economy_education.md"},
+    {"section_id":"afterglow-geography","section_type":"geography","title":"地理与世界尺度","disclosure":"gm_reference","content_path":"sections/05_geography_and_world_scale.md"},
+    {"section_id":"afterglow-five-powers","section_type":"institution","title":"五大强权与制度张力","disclosure":"gm_reference","content_path":"sections/06_five_powers_and_institutions.md"},
+    {"section_id":"afterglow-ovista","section_type":"geography","title":"奥维斯塔自由城","disclosure":"gm_reference","content_path":"sections/07_ovista_international_city.md"},
+    {"section_id":"afterglow-civilizations","section_type":"society","title":"主要智慧文明","disclosure":"gm_reference","content_path":"sections/08_intelligent_civilizations.md"},
+    {"section_id":"afterglow-gods","section_type":"metaphysics","title":"诸神、神性权柄与教会","disclosure":"gm_reference","content_path":"sections/09_gods_divine_authority_and_churches.md"},
+    {"section_id":"afterglow-soul-death","section_type":"metaphysics","title":"灵魂、死亡与复活","disclosure":"gm_reference","content_path":"sections/10_soul_death_and_resurrection.md"},
+    {"section_id":"afterglow-undead-law","section_type":"institution","title":"亡灵、黑魔法与魔法法律","disclosure":"gm_reference","content_path":"sections/11_undead_black_magic_and_law.md"},
+    {"section_id":"afterglow-planes","section_type":"metaphysics","title":"位面与边界","disclosure":"gm_reference","content_path":"sections/12_planes_and_boundaries.md"},
+    {"section_id":"afterglow-prophecy","section_type":"world_logic","title":"预言与开放因果","disclosure":"gm_reference","content_path":"sections/13_prophecy_and_open_future.md"},
+    {"section_id":"afterglow-public-fracture-history","section_type":"history","title":"旧辉纪与大断裂公开历史","disclosure":"gm_reference","content_path":"sections/14_old_radiance_and_public_fracture_history.md"},
+    {"section_id":"afterglow-strategic-magic","section_type":"world_logic","title":"传奇施法者、战略魔法与国际秩序","disclosure":"gm_reference","content_path":"sections/15_legendary_magic_and_international_order.md"},
+    {"section_id":"afterglow-knowledge","section_type":"knowledge","title":"社会知识与信息来源","disclosure":"gm_reference","content_path":"sections/16_society_and_knowledge_provenance.md"},
+    {"section_id":"afterglow-open-trends","section_type":"world_logic","title":"1287 当前趋势与开放矛盾","disclosure":"gm_reference","content_path":"sections/17_current_trends_and_open_tensions.md"},
+    {"section_id":"afterglow-player-agency","section_type":"gm_guidance","title":"玩家身份空间与代理权","disclosure":"gm_reference","content_path":"sections/18_player_identity_and_agency.md"},
+    {"section_id":"afterglow-character-ownership","section_type":"gm_guidance","title":"人物 Ownership 与叙事风格","disclosure":"gm_reference","content_path":"sections/19_character_ownership_and_narrative_style.md"},
+    {"section_id":"afterglow-expansion-coordination","section_type":"asset_coordination","title":"Expansion Coordination","disclosure":"gm_reference","content_path":"sections/20_expansion_coordination.md"},
+    {"section_id":"afterglow-private-constructed-soul","section_type":"world_secret","title":"灵造民灵魂事实","disclosure":"gm_private","content_path":"sections/private/01_constructed_soul_truth.md"},
+    {"section_id":"afterglow-private-viator-state","section_type":"world_secret","title":"维阿托尔的完整当前状态","disclosure":"gm_private","content_path":"sections/private/02_viator_full_state.md"},
+    {"section_id":"afterglow-private-ascension-network","section_type":"world_secret","title":"诸界升格网络与大断裂真相","disclosure":"gm_private","content_path":"sections/private/03_ascension_network_truth.md"},
+    {"section_id":"afterglow-private-current-research","section_type":"world_secret","title":"1287 隐藏升格研究压力","disclosure":"gm_private","content_path":"sections/private/04_current_hidden_research_pressure.md"}
+  ],
+  "entries": [
+    {
+      "entry_id": "t0-1287-ovista",
+      "display_name": "1287｜奥维斯塔联合学宫区",
+      "opening_seed": "基础术式事故样本、跨学院标准与公共风险发生冲突；适合研究者、护卫、向导或受影响的普通人进入。",
+      "semantic_sections": [
+        {"section_id":"afterglow-entry-ovista-snapshot","section_type":"society","title":"奥维斯塔联合学宫区当前快照","disclosure":"gm_reference","content_path":"entries/ovista/snapshot.md"}
+      ]
+    },
+    {
+      "entry_id": "t0-1287-border-route",
+      "display_name": "1287｜多国边境路线",
+      "opening_seed": "商路出现异常魔痕与路线争议；国家机构、自由猎手、护卫合同和地方经验对风险给出不同判断。",
+      "semantic_sections": [
+        {"section_id":"afterglow-entry-border-route-snapshot","section_type":"geography","title":"多国边境路线当前快照","disclosure":"gm_reference","content_path":"entries/border-route/snapshot.md"}
+      ]
+    },
+    {
+      "entry_id": "t0-1287-public-works",
+      "display_name": "1287｜断裂遗迹公共工程",
+      "opening_seed": "一项连接社区与遗迹外围的工程需要研究、材料、护卫和政治协调，但封锁区后台真相仍不可知。",
+      "semantic_sections": [
+        {"section_id":"afterglow-entry-public-works-snapshot","section_type":"institution","title":"断裂遗迹公共工程当前快照","disclosure":"gm_reference","content_path":"entries/public-works/snapshot.md"}
+      ]
+    }
+  ],
+  "authored_assets": []
+}
