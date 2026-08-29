@@ -1,0 +1,96 @@
+{
+  "schema_version": "character_card.v0.2",
+  "asset_id": "character.han_end.sun_quan",
+  "asset_type": "character_card",
+  "version": "0.1.2-converted.2-pressure",
+  "display_name": "孙权",
+  "catalog_summary": "孙氏家族核心人物；本压力包只验证不同汉末三国 T0 下的人物起点隔离，不代表最终完整产品包。",
+  "semantic_sections": [
+    {
+      "section_id": "identity-continuity",
+      "section_type": "identity",
+      "title": "跨 T0 身份连续性",
+      "disclosure": "gm_reference",
+      "content_path": "sections/01_identity_continuity.md"
+    }
+  ],
+  "t0_profiles": [
+    {
+      "profile_id": "han-184",
+      "display_name": "184｜黄巾大乱",
+      "bindings": [
+        {
+          "world_asset_id": "world.han_end.unsettled_realm",
+          "entry_id": "t0-184-yellow-turban"
+        }
+      ],
+      "semantic_sections": [
+        {
+          "section_id": "sun-quan-184-present",
+          "section_type": "t0_profile",
+          "title": "184 人物起点",
+          "disclosure": "gm_reference",
+          "content_path": "t0/184/profile.md"
+        }
+      ]
+    },
+    {
+      "profile_id": "han-200",
+      "display_name": "200｜官渡前夕",
+      "bindings": [
+        {
+          "world_asset_id": "world.han_end.unsettled_realm",
+          "entry_id": "t0-200-guandu-eve"
+        }
+      ],
+      "semantic_sections": [
+        {
+          "section_id": "sun-quan-200-present",
+          "section_type": "t0_profile",
+          "title": "200 人物起点",
+          "disclosure": "gm_reference",
+          "content_path": "t0/200/profile.md"
+        }
+      ]
+    },
+    {
+      "profile_id": "han-208",
+      "display_name": "208｜赤壁前夕",
+      "bindings": [
+        {
+          "world_asset_id": "world.han_end.unsettled_realm",
+          "entry_id": "t0-208-red-cliffs-eve"
+        }
+      ],
+      "semantic_sections": [
+        {
+          "section_id": "sun-quan-208-present",
+          "section_type": "t0_profile",
+          "title": "208 人物起点",
+          "disclosure": "gm_reference",
+          "content_path": "t0/208/profile.md"
+        }
+      ]
+    },
+    {
+      "profile_id": "han-229",
+      "display_name": "229｜三国鼎立",
+      "bindings": [
+        {
+          "world_asset_id": "world.han_end.unsettled_realm",
+          "entry_id": "t0-229-three-states"
+        }
+      ],
+      "semantic_sections": [
+        {
+          "section_id": "sun-quan-229-present",
+          "section_type": "t0_profile",
+          "title": "229 人物起点",
+          "disclosure": "gm_reference",
+          "content_path": "t0/229/profile.md"
+        }
+      ]
+    }
+  ],
+  "player_character_supported": true
+}
