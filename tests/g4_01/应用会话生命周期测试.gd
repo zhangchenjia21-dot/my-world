@@ -20,7 +20,13 @@ func _run() -> void:
 		_finish()
 		return
 	_remove_fixture(database_path)
+	var library_root := database_path.get_base_dir().path_join("g4_01-game-library")
+	var games_root := database_path.get_base_dir().path_join("g4_01-games")
+	_remove_tree(library_root)
+	_remove_tree(games_root)
 	OS.set_environment("MY_WORLD_TEST_CURRENT_GAME_DB", database_path)
+	OS.set_environment("MY_WORLD_TEST_GAME_LIBRARY_ROOT", library_root)
+	OS.set_environment("MY_WORLD_TEST_GAMES_ROOT", games_root)
 
 	# A/B：Application launch 只到 Main Menu；missing DB 不创建，View 不建立 Provider state。
 	var shell: Variant = load("res://src/main.tscn").instantiate()
@@ -42,12 +48,19 @@ func _run() -> void:
 	await process_frame
 	_check(shell.main_menu_surface.visible and shell.session_state == shell.SessionState.ABSENT, "New Game Back returns to clean Main Menu")
 
-	# C：只有显式 Continue 才调用既有 G3 opener；missing DB 的现有 contract 在此 mint one-current-Game。
+	# G4-04 后 Continue 只能打开 existing Game；测试 fixture 仍可用历史 seam 创建 task-owned legacy DB。
+	var seed := Runtime.new()
+	var seeded: Dictionary = seed.open_current_game(database_path)
+	_check(seeded.success, "test fixture creates an existing legacy Game before Continue")
+	var seeded_game_id := String(seed.game_id)
+	seed.close()
+
+	# C：显式 Continue 验证 existing legacy identity，原位登记后进入 Session；绝不由 Continue mint。
 	shell.continue_button.pressed.emit()
 	await process_frame
 	await process_frame
 	_check(shell.application_state == shell.ApplicationState.GAME_ACTIVE and shell.session_state == shell.SessionState.READY, "Continue opens Game Session")
-	_check(FileAccess.file_exists(database_path), "Continue may create the first current Game through G3 opener")
+	_check(FileAccess.file_exists(database_path) and String(shell.session_runtime.game_id) == seeded_game_id, "Continue adopts exact existing legacy Game without replacement")
 	_check(shell.game_surface.visible and not shell.main_menu_surface.visible, "Continue enters existing Game Surface")
 	_check(shell.narrative_view.session_runtime == shell.session_runtime and shell.narrative_view.adapter != null, "Game View binds this Session only after Continue")
 
@@ -108,6 +121,8 @@ func _run() -> void:
 	shell.queue_free()
 	await process_frame
 	OS.set_environment("MY_WORLD_TEST_CURRENT_GAME_DB", "")
+	OS.set_environment("MY_WORLD_TEST_GAME_LIBRARY_ROOT", "")
+	OS.set_environment("MY_WORLD_TEST_GAMES_ROOT", "")
 	_finish()
 
 
@@ -132,6 +147,16 @@ func _remove_fixture(path: String) -> void:
 		for file_name: String in DirAccess.get_files_at(recovery_dir):
 			DirAccess.remove_absolute("%s/%s" % [recovery_dir, file_name])
 		DirAccess.remove_absolute(recovery_dir)
+
+
+func _remove_tree(path: String) -> void:
+	if not DirAccess.dir_exists_absolute(path):
+		return
+	for file_name: String in DirAccess.get_files_at(path):
+		DirAccess.remove_absolute(path.path_join(file_name))
+	for directory_name: String in DirAccess.get_directories_at(path):
+		_remove_tree(path.path_join(directory_name))
+	DirAccess.remove_absolute(path)
 
 
 func _argument(prefix: String) -> String:

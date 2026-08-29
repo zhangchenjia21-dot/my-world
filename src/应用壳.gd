@@ -6,6 +6,7 @@ extends Control
 ## Narrative 交互逻辑在 src/ui/叙事对话视图.gd（NarrativeHost 节点）。
 
 const CurrentGameRuntime := preload("res://src/runtime/当前游戏会话运行时.gd")
+const GameLibrary := preload("res://src/游戏库/L3_外交层/游戏库公开接口.gd")
 
 enum ApplicationState {
 	BOOTING,
@@ -64,6 +65,9 @@ var session_state: SessionState = SessionState.ABSENT
 var _narrow := false
 ## Application composition root 唯一持有的 current Game runtime；UI 只绑定引用。
 var session_runtime: Variant = null
+## Game Library 只保存 Application selection/index；active gameplay truth 仍由 session_runtime/SQLite 拥有。
+var game_library: RefCounted = null
+var active_game_record: RefCounted = null
 var _pending_load_save_id := ""
 var _isolated_narrative_test_mode := false
 
@@ -77,6 +81,7 @@ func _ready() -> void:
 	if OS.has_feature(G3_01_EXPORT_SPIKE_FEATURE):
 		_run_g3_01_export_spike()
 		return
+	_ensure_game_library()
 	exit_button.pressed.connect(_request_exit)
 	return_menu_button.pressed.connect(_return_to_main_menu)
 	continue_button.pressed.connect(_on_continue_pressed)
@@ -263,7 +268,8 @@ func _request_exit() -> void:
 	get_tree().quit()
 
 
-## Continue 是 G4-01 唯一正式 Session open action；Main Menu 本身不探测或预开 Game DB。
+## Continue 只解析显式 current record；无 current 时唯一兼容分支是原位 legacy adoption。
+## Main Menu boot 本身仍不探测或预开任何 Game DB。
 func _on_continue_pressed() -> void:
 	if application_state != ApplicationState.MENU_READY or session_state != SessionState.ABSENT:
 		return
@@ -271,17 +277,117 @@ func _on_continue_pressed() -> void:
 
 
 func _open_game_session() -> Dictionary:
+	_ensure_game_library()
+	var selected: Dictionary = game_library.resolve_current_existing_game()
+	if selected.success:
+		return _open_resolved_game(selected.record)
+	if String(selected.get("code", "")) == "no_current_selection":
+		return _open_and_adopt_legacy_game()
+	return _show_library_open_failure(selected)
+
+
+## G4-04 narrow select/switch seam。若 A 正在运行，必须先完整 close A，再 resolve/open B；
+## B 的任何失败都不会让两个 writable Runtime 同时存在。
+func open_registered_game(game_id: String) -> Dictionary:
+	_ensure_game_library()
+	if session_runtime != null:
+		_close_game_session()
+		_show_main_menu()
+	if application_state != ApplicationState.MENU_READY or session_state != SessionState.ABSENT:
+		return {"success": false, "status": "invalid_application_state", "message": "Application 当前不能切换 Game。"}
+	var resolved: Dictionary = game_library.resolve_existing_game(game_id)
+	if not resolved.success:
+		return _show_library_open_failure(resolved)
+	return _open_resolved_game(resolved.record)
+
+
+## 后续 Final Create 可复用的窄登记 seam：这里只接受已存在 managed path，并通过真实 Runtime
+## 打开/identity cross-check 后登记；不会创建 DB、Source pin 或 Game-local materialization。
+func register_existing_managed_game(game_id: String, display_name: String) -> Dictionary:
+	_ensure_game_library()
+	var path_result: Dictionary = game_library.managed_database_path(game_id)
+	if not path_result.success:
+		return path_result
+	var runtime: Variant = CurrentGameRuntime.new()
+	var opened: Dictionary = runtime.open_existing_game(String(path_result.path))
+	if not opened.success:
+		runtime.close()
+		return opened
+	var verified_id := String(runtime.game_id)
+	runtime.close()
+	if verified_id != game_id:
+		return {"success": false, "code": "game_identity_mismatch", "message": "managed path 内部 Game identity 与登记 intent 不一致。"}
+	return game_library.register_verified_managed_game(game_id, display_name, verified_id)
+
+
+func _open_and_adopt_legacy_game() -> Dictionary:
+	var legacy_path: String = game_library.legacy_database_path()
+	if not FileAccess.file_exists(legacy_path):
+		return _show_library_open_failure({"success": false, "code": "no_existing_game", "message": "当前没有可继续的游戏。"})
+	_begin_session_open("正在验证现有游戏…")
+	var runtime: Variant = CurrentGameRuntime.new()
+	var startup: Dictionary = runtime.open_existing_game(legacy_path)
+	session_runtime = runtime
+	if not startup.success:
+		_show_session_startup_failure(startup)
+		return startup
+	var verified_id := String(runtime.game_id)
+	var registered: Dictionary = game_library.register_verified_legacy_game(verified_id, "现有游戏", verified_id)
+	if not registered.success:
+		return _abort_open_for_library_failure(registered)
+	var current: Dictionary = game_library.commit_current(verified_id, verified_id)
+	if not current.success:
+		return _abort_open_for_library_failure(current)
+	active_game_record = current.record
+	_activate_game_surface()
+	startup["game_record"] = current.record
+	startup["adopted_legacy"] = true
+	return startup
+
+
+func _open_resolved_game(record: RefCounted) -> Dictionary:
+	_begin_session_open("正在打开所选游戏…")
+	var runtime: Variant = CurrentGameRuntime.new()
+	var startup: Dictionary = runtime.open_existing_game(record.database_path)
+	session_runtime = runtime
+	if not startup.success:
+		_show_session_startup_failure(startup)
+		return startup
+	if String(runtime.game_id) != String(record.game_id):
+		runtime.close()
+		session_runtime = null
+		return _show_library_open_failure({"success": false, "code": "game_identity_mismatch", "message": "Game Library record 与数据库内部 identity 不一致。"})
+	var committed: Dictionary = game_library.commit_current(String(record.game_id), String(runtime.game_id))
+	if not committed.success:
+		return _abort_open_for_library_failure(committed)
+	active_game_record = committed.record
+	_activate_game_surface()
+	startup["game_record"] = committed.record
+	return startup
+
+
+func _begin_session_open(message: String) -> void:
 	application_state = ApplicationState.OPENING_GAME
 	session_state = SessionState.OPENING
 	_set_menu_busy(true)
-	menu_result_label.text = "正在打开当前游戏…"
+	menu_result_label.text = message
 	menu_result_label.add_theme_color_override("font_color", Color(0.72, 0.74, 0.82))
-	var runtime: Variant = CurrentGameRuntime.new()
-	var startup: Dictionary = runtime.open_current_game(_product_database_path())
-	session_runtime = runtime
-	if startup.success:
-		_activate_game_surface()
-		return startup
+
+
+func _abort_open_for_library_failure(failure: Dictionary) -> Dictionary:
+	if session_runtime != null:
+		session_runtime.close()
+		session_runtime = null
+	active_game_record = null
+	return _show_library_open_failure(failure)
+
+
+func _show_library_open_failure(failure: Dictionary) -> Dictionary:
+	var startup := {
+		"success": false,
+		"status": String(failure.get("code", failure.get("status", "game_library_failure"))),
+		"message": String(failure.get("message", "无法解析所选游戏。")),
+	}
 	_show_session_startup_failure(startup)
 	return startup
 
@@ -324,6 +430,7 @@ func _close_game_session() -> Dictionary:
 		narrative_view.shutdown_session()
 	var closed: Dictionary = session_runtime.close()
 	session_runtime = null
+	active_game_record = null
 	session_state = SessionState.ABSENT
 	_pending_load_save_id = ""
 	_reset_session_controls()
@@ -551,6 +658,7 @@ func _dismiss_startup_failure() -> void:
 	if session_runtime != null:
 		session_runtime.close()
 		session_runtime = null
+	active_game_record = null
 	session_state = SessionState.ABSENT
 	startup_failure_overlay.visible = false
 	database_recovery_button.visible = false
@@ -564,6 +672,7 @@ func _on_database_recovery_confirmed() -> void:
 	# recovery publish 后旧 Runtime 不得继续承载 Session；释放 writer 后由下一次 Continue reopen。
 	session_runtime.close()
 	session_runtime = null
+	active_game_record = null
 	session_state = SessionState.ABSENT
 	database_recovery_button.visible = false
 	startup_failure_overlay.visible = false
@@ -611,6 +720,35 @@ func _product_database_path() -> String:
 	if not test_override.is_empty():
 		return test_override
 	return CurrentGameRuntime.default_database_path()
+
+
+func _ensure_game_library() -> void:
+	if game_library != null:
+		return
+	game_library = GameLibrary.new(_game_library_root(), _managed_games_root(), _product_database_path())
+
+
+func _game_library_root() -> String:
+	var argument := _command_argument("--game-library-root=")
+	if not argument.is_empty():
+		return argument
+	var test_override := OS.get_environment("MY_WORLD_TEST_GAME_LIBRARY_ROOT").strip_edges()
+	return test_override if not test_override.is_empty() else "user://my-world/game-library"
+
+
+func _managed_games_root() -> String:
+	var argument := _command_argument("--managed-games-root=")
+	if not argument.is_empty():
+		return argument
+	var test_override := OS.get_environment("MY_WORLD_TEST_GAMES_ROOT").strip_edges()
+	return test_override if not test_override.is_empty() else "user://my-world/games"
+
+
+func _command_argument(prefix: String) -> String:
+	for argument: String in OS.get_cmdline_user_args():
+		if argument.begins_with(prefix):
+			return argument.trim_prefix(prefix)
+	return ""
 
 
 func _on_player_toggle(pressed: bool) -> void:

@@ -28,6 +28,17 @@ var startup_result: Dictionary = {"status": "not_started", "success": false, "me
 var _reopen_required := false
 
 
+## Game Library 的 Continue/Select/Switch 只能打开既有 SQLite。
+## missing guard 必须发生在 writer/SQLite seam 之前，避免历史 first-run compatibility mint replacement Game。
+func open_existing_game(explicit_database_path: String) -> Dictionary:
+	if explicit_database_path.strip_edges().is_empty():
+		return _startup_failure("invalid_path", "Game 数据库路径为空。")
+	var normalized := ProjectSettings.globalize_path(explicit_database_path).simplify_path()
+	if not FileAccess.file_exists(normalized):
+		return _startup_failure("game_database_missing", "所选 Game 数据库不存在；不会创建替代新局。")
+	return open_current_game(normalized)
+
+
 ## 打开明确路径的 one-current-Game。只有调用前 DB 文件真实不存在时才允许 mint Game；
 ## existing zero/multi/corrupt/schema/Conversation failure 均 fail-loud，不创建替代空局。
 func open_current_game(explicit_database_path: String) -> Dictionary:

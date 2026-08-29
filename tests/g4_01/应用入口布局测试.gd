@@ -2,6 +2,8 @@ extends SceneTree
 
 ## G4-01 真实窗口布局证据：Main Menu / New Game / Game Surface 在三档窗口均可用。
 
+const Runtime := preload("res://src/runtime/当前游戏会话运行时.gd")
+
 var _failures := 0
 var _shot_dir := ""
 
@@ -23,6 +25,12 @@ func _run() -> void:
 		return
 	DirAccess.make_dir_recursive_absolute(_shot_dir)
 	OS.set_environment("MY_WORLD_TEST_CURRENT_GAME_DB", database_path)
+	OS.set_environment("MY_WORLD_TEST_GAME_LIBRARY_ROOT", database_path.get_base_dir().path_join("g4_01-layout-library"))
+	OS.set_environment("MY_WORLD_TEST_GAMES_ROOT", database_path.get_base_dir().path_join("g4_01-layout-games"))
+	var fixture := Runtime.new()
+	var seeded: Dictionary = fixture.open_current_game(database_path)
+	_check(seeded.success, "task-owned existing legacy Game fixture is ready")
+	fixture.close()
 	root.mode = Window.MODE_WINDOWED
 	var shell: Variant = load("res://src/main.tscn").instantiate()
 	root.add_child(shell)
@@ -66,6 +74,8 @@ func _run() -> void:
 
 	shell.queue_free()
 	OS.set_environment("MY_WORLD_TEST_CURRENT_GAME_DB", "")
+	OS.set_environment("MY_WORLD_TEST_GAME_LIBRARY_ROOT", "")
+	OS.set_environment("MY_WORLD_TEST_GAMES_ROOT", "")
 	await process_frame
 	_finish()
 
