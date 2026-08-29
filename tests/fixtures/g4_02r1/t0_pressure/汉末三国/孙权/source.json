@@ -17,7 +17,7 @@
   "t0_profiles": [
     {
       "profile_id": "han-184",
-      "display_name": "184｜黄巾大乱",
+      "display_name": "184 人物起点",
       "bindings": [
         {
           "world_asset_id": "world.han_end.unsettled_realm",
@@ -36,7 +36,7 @@
     },
     {
       "profile_id": "han-200",
-      "display_name": "200｜官渡前夕",
+      "display_name": "200 人物起点",
       "bindings": [
         {
           "world_asset_id": "world.han_end.unsettled_realm",
@@ -55,7 +55,7 @@
     },
     {
       "profile_id": "han-208",
-      "display_name": "208｜赤壁前夕",
+      "display_name": "208 人物起点",
       "bindings": [
         {
           "world_asset_id": "world.han_end.unsettled_realm",
@@ -74,7 +74,7 @@
     },
     {
       "profile_id": "han-229",
-      "display_name": "229｜三国鼎立",
+      "display_name": "229 人物起点",
       "bindings": [
         {
           "world_asset_id": "world.han_end.unsettled_realm",
