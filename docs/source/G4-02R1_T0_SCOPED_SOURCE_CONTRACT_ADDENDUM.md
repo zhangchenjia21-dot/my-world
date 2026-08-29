@@ -3,8 +3,10 @@ title: G4-02R1｜T0-scoped Source Contract Addendum
 status: current-semantic-contract-addendum
 owner: GPT
 created: 2026-08-29
+updated: 2026-08-29
 base_contract: docs/source/World Pack与Character Card合同v0.2_SEMANTIC_FREEZE.md
 revision: v0.2-r2
+pressure_audit: docs/source/G4-02R1_SUN_QUAN_HAN_WORLD_T0_PRESSURE_AUDIT.md
 supersedes_when_conflicting:
   - base freeze revision 1 §3.4 Entry/T0 behavior
   - base freeze revision 1 §4.5 Character T0/history boundary
@@ -120,6 +122,40 @@ selected T0 之后的原历史/原作 future outcome 不得藏进 top-level alwa
 
 如果一段 World 内容只在 later Entry 才成为事实，它必须属于 later Entry scope 或 authoring/reference-only material，不得通过 broad `history` section 绕过 quarantine。
 
+### Entry temporal sufficiency｜pressure clarification
+
+`entry_id` / year label 本身不自动证明 T0 足够精确。
+
+如果一个高影响事件会改变当前人物的存在、身份、权力、关系、知识或世界政权状态，而 Entry 没有明确该事件在 T0 时属于：
+
+```text
+already-past
+vs
+still-open-future
+```
+
+则：
+
+- Character profile 不得根据年份、display name 或模型常识自行猜测；
+- migration 必须优先把既有 Entry 的 T0 cut 澄清到足以形成 deterministic starting snapshot；
+- 澄清应使用 event-relative boundary，不要求伪造无可靠依据的精确公历时间；
+- 若无法可靠澄清，则不得绑定依赖该事件结果的 Character profile，并必须在 fidelity/compatibility evidence 中显式暴露缺口。
+
+真实压力例：旧 `200｜官渡前夕` 若要绑定“已经接掌江东的孙权”，必须先明确孙策身亡/孙权继承属于该 Entry 的 already-past，而不能只因为 `year=200` 推断。
+
+### Shared past-segment reuse
+
+为了保留长历史材料而不把 later canon 暴露给 early Entry，同一 package-local content file 可以被多个 Entry 重复引用，只要该 material 对所有引用它的 Entry 都已经成为 past。
+
+这允许：
+
+```text
+184-to-189 past segment
+→ 189 / 196 / 200 / later Entries reuse
+```
+
+但一个从 184 已经开始运行的 Game 不会在年份前进时自动获得这些 later Source segments。它们只服务**新建 later-T0 Game**。
+
 ---
 
 ## 4. Character v0.2-r2 temporal shape
@@ -168,15 +204,45 @@ Character Runtime Source Projection
 
 ### No fallback to future
 
-若 selected World/Entry 没有 matching profile：
+永远禁止：
 
-- 不得选 latest profile；
-- 不得选时间最近 profile；
-- 不得选 later profile；
-- 不得回退到 complete-life biography；
-- 只能使用 always-safe material，并把“no authored exact T0 profile”交给 Compatibility Review / later materialization policy。
+- latest profile fallback；
+- nearest-year profile fallback；
+- later profile fallback；
+- complete-life biography fallback；
+- display-name / pretrained-history guess。
 
-v0.2-r2 不在此处决定 warning vs hard incompatibility；当前仍不恢复 same-family hard restriction。
+### Per-World Temporal Profile Coverage Closure｜pressure clarification
+
+真实孙权压力证明：`no matching profile` 不能永远只解释为“资料少一点”，因为 later Entry 可能位于人物死亡之后。
+
+因此采用最小闭包规则，不新增 birth/death lifecycle enum：
+
+```text
+若 Character.t0_profiles
+存在任意 binding 指向 World W
+
+则在 World W 内：
+exact matching Entry binding = authored temporal compatibility
+missing Entry binding        = temporally incompatible
+```
+
+语义后果：
+
+- 同一 Character 可以显式支持 World W 的部分 Entries；
+- 对 World W 未绑定的 Entry，Compatibility Review 必须视为 hard incompatibility，不能只用 always-safe material继续 materialize；
+- 这不是 same-family hard restriction，而是该 Character 自己对该 World 声明的 closed temporal coverage；
+- 如果 Character 对另一个 World **完全没有任何** profile binding，则仍走 cross-world always-safe-only / Compatibility Review policy，本 Addendum 不因此恢复 family restriction。
+
+这样可以表达：
+
+```text
+孙权在汉末三国若支持 184..249
+但不绑定 263/280
+→ 263/280 对该 Character hard incompatible
+```
+
+而无需提前建立 universal `alive/dead/not_born` ontology。
 
 ---
 
@@ -303,9 +369,10 @@ Validator/loader 必须可证明：
 - duplicate exact binding within same Character fails；
 - selected T0 projection deterministically excludes unselected profile markers；
 - no-match never aliases to current/latest/later profile；
+- for a World with declared Character profile coverage, missing selected Entry binding surfaces temporal incompatibility；
 - exact fingerprint remains content-sensitive to all declared profile files。
 
-Validator 不负责判断某个 T0 人格写得“像不像孙权”；这是 content fidelity / Owner UAT。
+Validator 不负责判断某个 T0 人格写得“像不像孙权”，也不负责从自然语言推断出生/死亡；这是 authored compatibility + content fidelity / Owner UAT。
 
 ---
 
@@ -320,6 +387,10 @@ Validator 不负责判断某个 T0 人格写得“像不像孙权”；这是 co
 5. 再完成其余 World/Character。
 
 已经落库的 pre-r2 fixtures 是 design evidence，不自动视为最终 v0.2-r2 package；若含 post-T0 future leakage，必须 repair forward。
+
+Pressure audit：
+
+`docs/source/G4-02R1_SUN_QUAN_HAN_WORLD_T0_PRESSURE_AUDIT.md`
 
 ---
 
