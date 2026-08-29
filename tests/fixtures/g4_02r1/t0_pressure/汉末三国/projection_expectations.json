@@ -1,0 +1,142 @@
+{
+  "fixture_purpose": "Semantic pressure evidence only; current Godot loader is still v0.1 and does not execute this contract yet.",
+  "model_visible_metadata_rule": "Entry/profile display_name, catalog_summary and identifiers are selection/index metadata, not automatic prompt text. Runtime model material is assembled from explicitly eligible semantic content plus deliberately selected safe metadata.",
+  "cases": [
+    {
+      "case_id": "han-184-sun-quan",
+      "world_entry_id": "t0-184-yellow-turban",
+      "character_asset_id": "character.han_end.sun_quan",
+      "expected_world_files": [
+        "天下未定/sections/01_world_causality.md",
+        "天下未定/sections/02_stable_social_geography.md",
+        "天下未定/entries/184/snapshot.md"
+      ],
+      "expected_character_files": [
+        "孙权/sections/01_identity_continuity.md",
+        "孙权/t0/184/profile.md"
+      ],
+      "must_exclude_files": [
+        "天下未定/entries/200/snapshot.md",
+        "天下未定/entries/208/snapshot.md",
+        "天下未定/entries/229/snapshot.md",
+        "孙权/t0/200/profile.md",
+        "孙权/t0/208/profile.md",
+        "孙权/t0/229/profile.md"
+      ],
+      "forbidden_projected_markers": [
+        "赤壁",
+        "三国鼎立",
+        "孙权称帝",
+        "长期政权经营",
+        "晚年继承斗争",
+        "晋灭吴"
+      ],
+      "positive_richness_markers": [
+        "地方军事动员",
+        "乡里士人",
+        "粮食",
+        "孙坚家庭中的幼子",
+        "家庭网络"
+      ]
+    },
+    {
+      "case_id": "han-200-sun-quan",
+      "world_entry_id": "t0-200-guandu-eve",
+      "character_asset_id": "character.han_end.sun_quan",
+      "expected_world_files": [
+        "天下未定/sections/01_world_causality.md",
+        "天下未定/sections/02_stable_social_geography.md",
+        "天下未定/entries/200/snapshot.md"
+      ],
+      "expected_character_files": [
+        "孙权/sections/01_identity_continuity.md",
+        "孙权/t0/200/profile.md"
+      ],
+      "must_exclude_files": [
+        "天下未定/entries/208/snapshot.md",
+        "天下未定/entries/229/snapshot.md",
+        "孙权/t0/208/profile.md",
+        "孙权/t0/229/profile.md"
+      ],
+      "forbidden_projected_markers": [
+        "赤壁",
+        "三国鼎立",
+        "孙权称帝",
+        "长期政权经营",
+        "晚年继承斗争"
+      ],
+      "positive_richness_markers": [
+        "孙策已经身亡",
+        "孙权刚接掌江东",
+        "继承本身带来的脆弱性",
+        "资深部属",
+        "粮运"
+      ]
+    },
+    {
+      "case_id": "han-208-sun-quan",
+      "world_entry_id": "t0-208-red-cliffs-eve",
+      "character_asset_id": "character.han_end.sun_quan",
+      "expected_world_files": [
+        "天下未定/sections/01_world_causality.md",
+        "天下未定/sections/02_stable_social_geography.md",
+        "天下未定/entries/208/snapshot.md"
+      ],
+      "expected_character_files": [
+        "孙权/sections/01_identity_continuity.md",
+        "孙权/t0/208/profile.md"
+      ],
+      "must_exclude_files": [
+        "天下未定/entries/229/snapshot.md",
+        "孙权/t0/229/profile.md"
+      ],
+      "forbidden_projected_markers": [
+        "孙权称帝",
+        "晚年继承斗争",
+        "晋灭吴"
+      ],
+      "positive_richness_markers": [
+        "多年统治责任",
+        "多中心人物与意见协调",
+        "北方强大力量继续南下",
+        "荆州格局已经发生重大变化",
+        "疾病"
+      ]
+    },
+    {
+      "case_id": "han-229-sun-quan",
+      "world_entry_id": "t0-229-three-states",
+      "character_asset_id": "character.han_end.sun_quan",
+      "expected_world_files": [
+        "天下未定/sections/01_world_causality.md",
+        "天下未定/sections/02_stable_social_geography.md",
+        "天下未定/entries/229/snapshot.md"
+      ],
+      "expected_character_files": [
+        "孙权/sections/01_identity_continuity.md",
+        "孙权/t0/229/profile.md"
+      ],
+      "must_exclude_files": [],
+      "forbidden_projected_markers": [
+        "五丈原结局",
+        "高平陵之变",
+        "蜀汉灭亡",
+        "晋灭吴",
+        "晚年继承斗争"
+      ],
+      "positive_richness_markers": [
+        "孙权称帝",
+        "长期政权经营",
+        "多中心文武人才的授权与协调",
+        "长期战争",
+        "财政"
+      ]
+    },
+    {
+      "case_id": "han-263-sun-quan-incompatible",
+      "world_entry_id": "future-final-package-entry-263",
+      "character_asset_id": "character.han_end.sun_quan",
+      "expected_result": "TEMPORALLY_INCOMPATIBLE because this Character declares closed profile coverage for world.han_end.unsettled_realm and has no 263 binding. Pressure fixture does not pretend to be the final 12-entry package."
+    }
+  ]
+}
