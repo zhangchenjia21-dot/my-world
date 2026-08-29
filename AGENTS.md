@@ -24,7 +24,9 @@ For current Source semantics also read:
 - `docs/source/G4-02R1_SOURCE_SEMANTIC_AUDIT.md`;
 - `docs/source/World Pack与Character Card合同v0.2_SEMANTIC_FREEZE.md`;
 - `docs/source/G4-02R1_T0_SCOPED_SOURCE_CONTRACT_ADDENDUM.md`;
-- `docs/source/G4-02R1_REAL_ASSET_V0_2_MIGRATION_SPEC.md`.
+- `docs/source/G4-02R1_REAL_ASSET_V0_2_R2_MIGRATION_SPEC.md`.
+
+`docs/source/G4-02R1_REAL_ASSET_V0_2_MIGRATION_SPEC.md` is r1 design evidence only and is superseded by the r2 migration spec.
 
 When T0/temporal/context-eligibility rules conflict, the T0-scoped decision + addendum supersede base freeze revision 1.
 
@@ -232,17 +234,17 @@ T0 quarantine removes authored future-answer leakage; local evolvability provide
 
 ## 8. Current GPT-owned real asset migration
 
-Migration specification:
+Current migration specification:
 
-`docs/source/G4-02R1_REAL_ASSET_V0_2_MIGRATION_SPEC.md`
+`docs/source/G4-02R1_REAL_ASSET_V0_2_R2_MIGRATION_SPEC.md`
 
-Temporal/T0 behavior is overridden where conflicting by:
+Old r1 specification:
 
-`docs/source/G4-02R1_T0_SCOPED_SOURCE_CONTRACT_ADDENDUM.md`
+`docs/source/G4-02R1_REAL_ASSET_V0_2_MIGRATION_SPEC.md` — **SUPERSEDED / design evidence only**.
 
 Rule:
 
-> **preserve → re-home → explicitly omit only when owner is wrong.**
+> **preserve → re-home → T0-scope → explicitly omit only when owner is wrong.**
 
 Current pressure order:
 
