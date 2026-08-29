@@ -1,0 +1,27 @@
+{
+  "schema_version": "character_card.v0.2",
+  "asset_id": "character.ashtervia.adrian_wilk",
+  "asset_type": "character_card",
+  "version": "0.3-converted.2-full-fidelity-candidate",
+  "display_name": "阿德里安·维尔克",
+  "catalog_summary": "断界历 1287 的瓦尔瑟兰旁系魔剑士；保留荣誉/血统矛盾、护卫责任、窄域战斗术式、关系自主性与知识边界。",
+  "semantic_sections": [
+    {"section_id":"adrian-identity-continuity","section_type":"identity","title":"身份连续性","disclosure":"gm_reference","content_path":"sections/01_identity_continuity.md"}
+  ],
+  "t0_profiles": [
+    {
+      "profile_id": "afterglow-1287",
+      "display_name": "1287 人物起点",
+      "bindings": [
+        {"world_asset_id":"world.ashtervia.afterglow","entry_id":"t0-1287-ovista"},
+        {"world_asset_id":"world.ashtervia.afterglow","entry_id":"t0-1287-border-route"},
+        {"world_asset_id":"world.ashtervia.afterglow","entry_id":"t0-1287-public-works"}
+      ],
+      "semantic_sections": [
+        {"section_id":"adrian-1287-rich","section_type":"t0_profile","title":"1287 rich profile","disclosure":"gm_reference","content_path":"t0/1287/profile.md"},
+        {"section_id":"adrian-1287-private","section_type":"private_history","title":"1287 pre-T0 private material","disclosure":"gm_private","content_path":"t0/1287/private.md"}
+      ]
+    }
+  ],
+  "player_character_supported": true
+}
