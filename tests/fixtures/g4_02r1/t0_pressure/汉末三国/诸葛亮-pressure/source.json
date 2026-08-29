@@ -1,0 +1,39 @@
+{
+  "schema_version": "character_card.v0.2",
+  "asset_id": "character.han_end.zhuge_liang",
+  "asset_type": "character_card",
+  "version": "0.1.2-converted.2-individuality-pressure",
+  "display_name": "诸葛亮",
+  "catalog_summary": "仅用于 189 孙权 vs 189 诸葛亮同阶段个体区分压力；不是诸葛亮最终完整 temporal package，不能据此推导其它 Entry 的最终 coverage。",
+  "semantic_sections": [
+    {
+      "section_id": "identity-continuity",
+      "section_type": "identity",
+      "title": "跨 T0 身份连续性",
+      "disclosure": "gm_reference",
+      "content_path": "sections/01_identity_continuity.md"
+    }
+  ],
+  "t0_profiles": [
+    {
+      "profile_id": "han-189-individuality-pressure",
+      "display_name": "189 人物起点｜individuality pressure",
+      "bindings": [
+        {
+          "world_asset_id": "world.han_end.unsettled_realm",
+          "entry_id": "t0-189-luoyang-crisis"
+        }
+      ],
+      "semantic_sections": [
+        {
+          "section_id": "zhuge-liang-189-present",
+          "section_type": "t0_profile",
+          "title": "189 人物起点",
+          "disclosure": "gm_reference",
+          "content_path": "t0/189/profile.md"
+        }
+      ]
+    }
+  ],
+  "player_character_supported": true
+}
