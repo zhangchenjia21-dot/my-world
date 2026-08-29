@@ -1,0 +1,85 @@
+{
+  "fixture_purpose": "Semantic/data pressure for early-vs-earned Character development. Not a runtime automated personality score.",
+  "cases": [
+    {
+      "case_id": "han-184-liu-bei",
+      "profile_path": "刘备-pressure/t0/184/profile.md",
+      "positive_markers": [
+        "与母亲以贩履织席维持生计",
+        "从卢植学习",
+        "不甚乐读书",
+        "少语言、善下人、喜怒不形于色",
+        "好交结豪侠"
+      ],
+      "forbidden_maturity": [
+        "连续失去多个地盘后的集团恢复",
+        "成熟的联盟—依附—脱离切换",
+        "大型领地治理",
+        "成熟君主级政治信誉体系"
+      ]
+    },
+    {
+      "case_id": "han-200-liu-bei",
+      "profile_path": "刘备-pressure/t0/200/profile.md",
+      "positive_markers": [
+        "曹操已经在徐州方向击败刘备",
+        "进入袁绍一方的政治军事网络",
+        "组织连续性意识增强",
+        "依附不等于自我消失",
+        "失败韧性已经有证据"
+      ],
+      "forbidden_future_authority": [
+        "后来大型国家治理经验",
+        "既定政权",
+        "既定联盟",
+        "既定战争"
+      ]
+    },
+    {
+      "case_id": "han-184-cao-cao",
+      "profile_path": "曹操-pressure/t0/184/profile.md",
+      "positive_markers": [
+        "机警、有权数",
+        "任侠放荡",
+        "洛阳北部尉",
+        "顿丘令",
+        "议郎"
+      ],
+      "forbidden_maturity": [
+        "统合大范围北方政权的成熟组织能力",
+        "大规模长期战争形成的后勤/人才体系",
+        "数十年成功/失败积累后的安全心理"
+      ]
+    },
+    {
+      "case_id": "han-200-cao-cao",
+      "profile_path": "曹操-pressure/t0/200/profile.md",
+      "positive_markers": [
+        "以许为重要政治中心的实际体系",
+        "东征击败刘备",
+        "组织和人才整合已有强证据",
+        "对失控风险更敏感",
+        "务实调整已经有 lived-history evidence"
+      ],
+      "forbidden_future_authority": [
+        "当前北方主战的未来胜负",
+        "later-only titles",
+        "因为历史上后来成功，所以当前策略一定正确"
+      ]
+    }
+  ],
+  "cross_character_184_blind_review": {
+    "acceptance": [
+      "Remove names and future identities.",
+      "One profile still reads as a low-resource distant-royal-line youth shaped by maternal livelihood, study/social network and restrained affect.",
+      "The other still reads as a high-official-family young official shaped by early office enforcement, youth opportunism and risk-taking.",
+      "Differences do not require future faction/state labels.",
+      "Both retain multiple plausible future adult trajectories."
+    ],
+    "failure": [
+      "Both collapse into generic ambitious young leaders.",
+      "Famous later states or titles are required to tell them apart.",
+      "Later mature skills are retrofitted into 184."
+    ]
+  }
+}
