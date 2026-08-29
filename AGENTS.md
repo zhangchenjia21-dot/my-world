@@ -38,6 +38,7 @@ Completed:
 - G4-01 Application Shell / Main Menu + Game Session Lifecycle — **PASS / CLOSED**
 - G4-02 World Pack + Character Card Source Contracts v0.1 — **PASS / CLOSED**
 - G4-03 Managed Local Source Library v0.1 — **PASS / CLOSED**
+- G4-04 Multi-Game Lifecycle / Game Library Foundation — **PASS / CLOSED**
 
 Current phase:
 
@@ -45,25 +46,17 @@ Current phase:
 
 Current task:
 
-> **G4-04 — Multi-Game Lifecycle / Game Library Foundation**
+> **G4-05 — Asset-only New Game Wizard v0.1**
 
 Current formal Task Packet:
 
-`docs/tasks/G4-04_MULTI_GAME_GAME_LIBRARY_FOUNDATION_TASK.md`
+`docs/tasks/G4-05_ASSET_ONLY_NEW_GAME_WIZARD_TASK.md`
 
-Implementation owner: **Codex**. Task Packet commit: `5c5ae75a4010a3b0b420e0a8aa2f89cb43b68d0e`.
+Implementation owner: **Codex**. Task Packet commit: `3984e9b84f3fa8d3034f062bd74a2a723076958a`.
 
 Current state: **ISSUED — waiting Codex implementation → READY FOR INDEPENDENT REVIEW**.
 
-G4-04 storage topology is already frozen by current supporting architecture:
-
-`Vibe-Coding/my world/architecture/persistence/G4-04_MULTI_GAME_STORAGE_TOPOLOGY_DECISION.md`
-
-> **One Game = One SQLite database.**
-
-Do not reopen shared SQLite + `game_id` inside implementation.
-
-Do not start G4-05+ until G4-04 closes.
+Do not start G4-06+ until G4-05 is formally closed.
 
 ## 4. Current G4 sequence
 
@@ -71,8 +64,8 @@ Do not start G4-05+ until G4-04 closes.
 G4-01 Application Shell / Main Menu + Game Session Lifecycle — CLOSED
 → G4-02 World Pack + Character Card Source Contracts v0.1 — CLOSED
 → G4-03 Managed Local Source Library v0.1 — CLOSED
-→ G4-04 Multi-Game Lifecycle / Game Library Foundation — CURRENT
-→ G4-05 Asset-only New Game Wizard v0.1
+→ G4-04 Multi-Game Lifecycle / Game Library Foundation — CLOSED
+→ G4-05 Asset-only New Game Wizard v0.1 — CURRENT
 → G4-06 Atomic Final Create + World/Character Materialization
 → G4-07 First Playable A — World + Character Owner UAT
 → G4-08 Expansion Pack v0.1 + First Real Runtime Vertical
@@ -90,20 +83,16 @@ The first generation supports **one formal asset-driven creation path only**:
 Main Menu
 → New Game
 → Exactly 1 World Pack
-→ Entry / T0
+→ Entry / T0: 0..1 from chosen World
 → Expansion Pack 0..N, explicit none allowed
 → Exactly 1 Player Character Card
 → 0..N Guaranteed NPC Character Cards
-→ minimal settings
+→ Game display name
+→ Protagonist Control Mode: Full | Light | Narrative
+→ optional opening supplement
 → Compatibility Review
-→ Atomic Final Create
+→ Atomic Final Create (G4-06)
 ```
-
-Minimal settings currently include:
-
-- Game display name;
-- Protagonist Control Mode: `Full | Light | Narrative`;
-- optional opening supplement.
 
 Do not add in G4:
 
@@ -116,51 +105,26 @@ Do not add in G4:
 - complex Expansion feature/module chooser;
 - Creator product path.
 
-These are deferred product directions, not forgotten requirements.
+Selection authority is frozen:
 
-## 6. Primary Source Trio
+> **Chooser/list visibility/mode != authoritative selection. Only explicit click on a concrete Source item selects its exact generation.**
 
-First-generation Primary Source Assets:
-
-```text
-World Pack
-Character Card
-Expansion Pack
-```
-
-They may share only the minimal identity seam:
-
-```text
-asset_id
-asset_type
-version
-exact immutable generation / content fingerprint
-```
-
-Do not create a universal giant asset schema merely because the three are Source Assets.
-
-Character Card is reusable Character Source, not player-only. First-generation creation roles are exactly one Player Character plus 0..N Guaranteed NPC Characters. Guaranteed NPC does not imply opening appearance, same scene, player-known state, relationship, or automatic Context inclusion.
-
-Expansion first-generation count is `0..N`; binding alone is not proof of gameplay effect.
-
-## 7. Source Library / Game Library / exact generation
+## 6. Primary Source / Composition boundaries
 
 Formal boundaries:
 
 ```text
 Managed Source Library != Game Library
 Source stable identity != exact immutable generation
-Source Generation != Game-local Reality != Runtime State
+Source Generation != Game Creation Composition != Game-local Reality != Runtime State
 Game Library metadata != gameplay truth
 ```
 
-Existing Game must pin exact immutable Source generation, including visual assets. Source update must not silently change old Game text, portrait, scene, map or Expansion declaration.
+Character Card is reusable Character Source, not player-only. First-generation creation roles are exactly one Player Character plus 0..N Guaranteed NPC Characters. Guaranteed NPC does not imply opening appearance, same scene, player-known state, relationship, or automatic Context inclusion.
 
-Managed Source Library may retain historical generations internally, but first-generation New Game UI defaults to the current installed version and does not expose a historical-version picker.
+Existing Game must pin exact immutable Source generation. Source update must not silently change old Game content. Managed Source Library can retain historical generations internally, but first-generation UI does not expose a historical-version picker.
 
-Drafts or arbitrary mutable external folders are not authoritative Game Source.
-
-## 8. Application / Game Session lifecycle
+## 7. Application / Game Session / Game Library lifecycle
 
 G4-01 established:
 
@@ -168,92 +132,115 @@ G4-01 established:
 Application Lifetime != Game Session Lifetime
 ```
 
-Accepted behavior:
-
-```text
-Application Launch
-→ Main Menu READY
-
-Continue / Select Game
-→ resolve exact existing Game
-→ open one Game Session
-→ enter in-game UI
-
-Return to Main Menu
-→ safely stop/cancel Game-owned work
-→ close/cleanup Game Session resources
-→ Application remains READY
-```
-
-Main Menu must not simply cover a Game that was automatically opened at application boot.
-
-Preserve G3 reopen/resume, Save/Load/Recovery, single-writer and corruption-recovery semantics.
-
-## 9. G4-04 physical topology and ownership
-
-Current canonical decision:
+G4-04 established:
 
 > **One Game = One SQLite database.**
 
-New managed Game target shape:
+New managed Game target path:
 
 ```text
 user://my-world/games/<game_id>/game.sqlite
 ```
 
-Existing G3 legacy:
+Legacy G3 DB remains:
 
 ```text
 user://my-world/current-game.sqlite
 ```
 
-must be adopted **in place** by default; do not destructively relocate it just to normalize directories.
+and is adopted in place.
 
-Game Library may own Application-level durable records/current selection, but must never own World/Timeline/Save/Conversation truth. On open, Game Library record `game_id` must be cross-checked against the database/runtime internal Game identity.
+Continue/Select resolves an existing Game record/path, opens one Runtime, cross-checks database internal `game_id`, and only then commits current selection. Missing DB never creates a replacement Game. Switch ordering is close/release A before open B.
 
-Continue/Select/Switch must never create a replacement Game when a record DB is missing. Formal creation belongs to G4-06.
+G4-05 must preserve all of this. Entering New Game must not open or create a Game Session/SQLite.
 
-Inside one Application, switch ordering is always close current Session completely before opening another writable Game Session.
+## 8. G4-05 specific boundary
 
-No production SQLite schema migration is authorized by G4-04.
-
-## 10. Final Create principles for later G4 tasks
-
-When G4-05/06 arrive, enforce:
-
-> **Chooser/list visibility/mode != authoritative selection.**
-
-Only an explicit click on a concrete Source item selects it.
-
-Final Create must be explicit and replay-safe:
+Current G4-05 must establish only:
 
 ```text
-editing composition
-→ Compatibility Review
-→ Program-derived create identity/fingerprint
-→ creating
-→ pin exact Source generations
-→ materialize/bind
-→ created
+Managed Source Library current inventory
+→ explicit exact Source selection
+→ Application-owned Game Creation Composition
+→ deterministic Compatibility Review
 ```
 
-Must handle double-click, response loss, retry and crash without duplicate Games. Same exact create identity may replay same Game; mismatched intent fails closed.
+Required semantics:
 
-Provider calls during deterministic Final Create should be zero. Real Provider begins at playable Opening/Session, not as a hidden dependency of database creation.
+- World: exactly 1 exact generation;
+- Entry: 0..1 and belongs to selected exact World; changing World clears Entry;
+- Expansion: honest empty set in this vertical; do not implement Expansion contract/runtime;
+- Player Character: exactly 1 and `player_character_supported == true`;
+- Guaranteed NPC: 0..N exact Character generations;
+- same exact Character generation cannot be both Player and Guaranteed NPC;
+- Game display name required;
+- control mode `Full | Light | Narrative`, default `Light`;
+- optional opening supplement;
+- review re-resolves exact managed generations and fails loud on missing/tamper;
+- selecting generation X then installing generation Y as current must not silently drift Composition from X to Y;
+- no implicit first-row/default-list selection;
+- back/cancel semantics must be deterministic and clean.
 
-## 11. Real-asset reality policy
+G4-05 must **not** implement:
 
-Synthetic compact fixtures remain valid for deterministic contract/failure testing, but they are not sufficient as the only long-term reality evidence.
+- new Game SQLite creation;
+- Game Library record/current mutation from Wizard;
+- Source pin/materialization;
+- G4-06 Atomic Final Create;
+- Provider calls / AI compatibility scoring;
+- Expansion Pack contract/runtime;
+- Runtime Asset Resolution/cache;
+- generic legacy importer;
+- generic Wizard/form framework;
+- Creator/publishing UI;
+- production SQLite schema changes.
 
-G4-04 does not create new Source fixtures because Source content is not its variable.
+## 9. Historical real-asset reality policy
 
-From G4-05/06 onward, historical real asset content should be re-packaged through the new current Source contract instead of importing old schema debt. G4-07 First Playable A must primarily use real, product-valuable World/Character assets rather than only Agent-authored compact fixtures.
+Synthetic compact fixtures remain valid for deterministic contract/failure tests, but they are not sufficient as the only reality evidence.
+
+G4-05 Task Packet pins historical real-asset evidence to:
+
+```text
+repo: zhangchenjia21-dot/sillytavern-assets
+snapshot: 4a5364a042e41f4c8a69621fc4467956a78703c0
+```
+
+Primary real families:
+
+```text
+汉末三国_天下未定
++ 人物卡/汉末三国/...
+
+埃瑟维亚_诸界余辉
++ 人物卡/诸界余辉/...
+```
+
+Historical files are read-only semantic pressure sources. Repackage their real content through the current G4-02 Source contract and G4-03 Managed Library. Do not import old schema/storage conventions into production.
 
 Principle:
 
 > **Migrate real content/complexity, not legacy schema debt.**
 
-## 12. Core product/runtime invariants
+G4-07 First Playable A must primarily use real, product-valuable World/Character assets rather than only Agent-authored compact fixtures.
+
+## 10. Final Create principles for later G4 tasks
+
+G4-06 will own the explicit replay-safe Final Create transaction:
+
+```text
+exact Composition
+→ Program-derived create identity/fingerprint
+→ creating
+→ independent per-Game SQLite
+→ exact Source pins
+→ World/Character materialization
+→ created
+```
+
+Provider calls during deterministic Final Create are zero. Do not move any of this into G4-05.
+
+## 11. Core product/runtime invariants
 
 - **Commodity Foundation, Owned Game Semantics.**
 - **Engine-native, not engine-semantic-coupled.**
@@ -269,7 +256,7 @@ Principle:
 
 Hard boundaries remain: secrets/OS/filesystem authority, physical save corruption, non-atomic authoritative writes, unsafe concurrent writer ambiguity, arbitrary Mod execution and unrecoverable external side effects.
 
-## 13. Accepted technical / persistence baseline
+## 12. Accepted technical baseline
 
 ```text
 Host                         Godot 4.7.2
@@ -280,44 +267,11 @@ Provider                     DeepSeek deepseek-v4-pro
 Persistence                  SQLite — ACCEPTED
 SQLite binding               2shady4u/godot-sqlite v4.9
 Production schema            v4
-Legacy G3 product DB         user://my-world/current-game.sqlite
-G4 first-generation topology One Game = One SQLite
+G4 topology                  One Game = One SQLite
+Source Library               managed immutable filesystem generations
 ```
 
-Do not rewrite G3 persistence merely because G4 needs multiple Games.
-
-## 14. G4-04 specific boundary
-
-Current G4-04 must establish only Multi-Game / Game Library foundation over the accepted G3/G4-01 lifecycle.
-
-Required semantics include:
-
-- two independent Games can coexist without overwrite;
-- current/latest selection is explicit durable Application state, not mtime/directory guessing;
-- Continue resolves an existing Game record/path;
-- missing DB never mints a replacement Game;
-- record identity mismatches DB identity → fail-loud and close Runtime;
-- legacy G3 Game adoption is non-destructive;
-- per-Game writer/backup/recovery isolation remains true;
-- restart restores Game Library metadata without opening every Game DB merely to show Main Menu;
-- one Application has at most one writable Game Session at a time;
-- Game Library metadata changes use crash-safe publication semantics;
-- automated tests use task-owned DB/library roots only.
-
-G4-04 must **not** implement:
-
-- shared multi-tenant SQLite;
-- production SQLite schema migration;
-- Source chooser/composition/New Game Wizard (G4-05);
-- Atomic Final Create/materialization (G4-06);
-- Source pin registry;
-- Expansion Pack;
-- Runtime Asset Resolution;
-- G5 world semantics;
-- account/cloud/store/network/multiplayer;
-- generic DB service/repository framework.
-
-## 15. Evidence / execution discipline
+## 13. Evidence / execution discipline
 
 Never claim Windows-local, Godot, filesystem, export or runtime compatibility without real execution evidence.
 
@@ -325,4 +279,4 @@ Separate implementation, validation action, observable evidence and PASS/FAIL/NO
 
 Routine Git/Godot/build/debug/QA is Agent work. Owner is only asked for genuine product UAT, secrets and irreducible product/architecture decisions.
 
-For product-facing stages, automated PASS does not replace Owner UAT. For model-semantic stages, deterministic harness does not replace required real Provider proof. Independent Review must check for vacuous assertions, mock-only paths and proof-only bindings, not merely rerun tests.
+G4-05 is product-facing, so implementation/review must include real GUI/value evidence, but the planned end-to-end Owner UAT remains G4-07 after G4-06 makes the flow actually create/play a Game. Independent Review must check for vacuous assertions, mock-only paths, synthetic-only reality, implicit-selection bugs and proof-only bindings, not merely rerun tests.
