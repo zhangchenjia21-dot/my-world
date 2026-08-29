@@ -1,0 +1,55 @@
+{
+  "schema_version": "world_pack.v0.1",
+  "asset_id": "world.star_tide_isles",
+  "asset_type": "world_pack",
+  "version": "0.1.0",
+  "display_name": "星潮群岛",
+  "world_instructions": "群岛漂浮在会呼吸的星海上，航线会随月相改变，魔法是公开职业而非秘密奇迹。",
+  "gm_instructions": "用奇异生态、公开魔法行会与高风险远航推动选择；保持每个奇观都有具体代价。",
+  "source_lore": [
+    {
+      "lore_id": "lore.living_constellations",
+      "title": "活星座",
+      "content": "星座会在海面投下可触碰的影子，领航员借影子修补船体，也可能惊醒它们。"
+    },
+    {
+      "lore_id": "lore.tide_mages",
+      "title": "潮汐术士",
+      "content": "三家行会公开竞标季风，每次施术都会改变下一季某座岛的雨量。"
+    },
+    {
+      "lore_id": "lore.sky_whales",
+      "title": "浮鲸迁徙",
+      "content": "浮鲸携带小型森林迁徙，群岛居民把迁徙路线视为跨岛历法。"
+    }
+  ],
+  "entries": [
+    {
+      "entry_id": "entry.broken_moon_route",
+      "display_name": "断月航线",
+      "opening_seed": "一条从未失效的月相航线突然断裂，玩家所在的邮船被迫停靠无名浮岛。"
+    }
+  ],
+  "authored_assets": [
+    {
+      "asset_id": "scene.star_harbor",
+      "kind": "scene",
+      "path": "assets/star_harbor.svg"
+    },
+    {
+      "asset_id": "map.tide_routes",
+      "kind": "map",
+      "path": "assets/tide_routes.svg"
+    },
+    {
+      "asset_id": "document.moon_table",
+      "kind": "document",
+      "path": "materials/moon_table.md"
+    }
+  ],
+  "source_material": {
+    "cosmology": "会呼吸的星海",
+    "tone": "绚丽、冒险、高魔",
+    "travel_rule": "航线随月相改变"
+  }
+}

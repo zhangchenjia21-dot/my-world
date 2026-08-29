@@ -1,0 +1,20 @@
+{
+  "schema_version": "character_card.v0.1",
+  "asset_id": "character.leya_cloudwright",
+  "asset_type": "character_card",
+  "version": "0.1.0",
+  "display_name": "莱娅",
+  "public_profile": {
+    "summary": "为邮船修补星帆的云匠，热情直接，对陌生机械有无法克制的好奇。",
+    "traits": ["外向", "精于星帆", "冒险"]
+  },
+  "gm_private_profile": {
+    "background": "她曾私自改写行会的季风账本，真正目的不是牟利，而是保护一座即将失去雨季的小岛。",
+    "drives": ["隐藏账本改写", "找到不牺牲其它岛屿的降雨方案"]
+  },
+  "portrait": {
+    "path": "assets/leya.svg",
+    "alt_text": "戴护目镜、披紫色短斗篷的云匠"
+  },
+  "player_character_supported": false
+}

@@ -1,0 +1,55 @@
+{
+  "schema_version": "world_pack.v0.1",
+  "asset_id": "world.border_lords",
+  "asset_type": "world_pack",
+  "version": "0.1.0",
+  "display_name": "边境诸侯",
+  "world_instructions": "这是一个低魔、重承诺与粮道的边境世界。超自然现象罕见，政治后果应长期持续。",
+  "gm_instructions": "让人物依据家族、债务与地方利益行动；不要用突然出现的万能魔法消解政治困境。",
+  "source_lore": [
+    {
+      "lore_id": "lore.border_oath",
+      "title": "边誓",
+      "content": "三座关城以互保誓约维持脆弱和平，任何一方断粮都会牵动其余两方。"
+    },
+    {
+      "lore_id": "lore.salt_road",
+      "title": "盐路",
+      "content": "盐路由商团、旧贵族和山民共同控制，没有任何领主能单独封锁它。"
+    }
+  ],
+  "entries": [
+    {
+      "entry_id": "entry.autumn_envoy",
+      "display_name": "秋末使团",
+      "opening_seed": "玩家随使团抵达缺粮的河门城，城外已有两支身份不明的队伍扎营。"
+    },
+    {
+      "entry_id": "entry.market_debt",
+      "display_name": "市集旧债",
+      "opening_seed": "一张十年前的借据在盐市重现，债主与见证人都声称自己没有撒谎。"
+    }
+  ],
+  "authored_assets": [
+    {
+      "asset_id": "portrait.border_envoy",
+      "kind": "portrait",
+      "path": "assets/border_envoy.svg"
+    },
+    {
+      "asset_id": "scene.river_gate",
+      "kind": "scene",
+      "path": "assets/river_gate.svg"
+    },
+    {
+      "asset_id": "map.salt_road",
+      "kind": "map",
+      "path": "assets/salt_road.svg"
+    }
+  ],
+  "source_material": {
+    "era": "架空铁器时代",
+    "tone": "克制、政治、低魔",
+    "starting_season": "秋末"
+  }
+}

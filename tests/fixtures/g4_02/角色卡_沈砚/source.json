@@ -1,0 +1,20 @@
+{
+  "schema_version": "character_card.v0.1",
+  "asset_id": "character.shen_yan",
+  "asset_type": "character_card",
+  "version": "0.1.0",
+  "display_name": "沈砚",
+  "public_profile": {
+    "summary": "熟悉关城律令与商路习惯的年轻书记官，说话谨慎，观察敏锐。",
+    "traits": ["谨慎", "善记人情", "不擅长武斗"]
+  },
+  "gm_private_profile": {
+    "background": "他保管着一份能证明互保誓约曾被篡改的旧抄本，但尚未决定相信哪位领主。",
+    "drives": ["查清抄本来源", "避免家族再次卷入边境清洗"]
+  },
+  "portrait": {
+    "path": "assets/shen_yan.svg",
+    "alt_text": "穿深青文官服、手持旧册的青年"
+  },
+  "player_character_supported": true
+}
