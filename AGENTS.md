@@ -36,6 +36,7 @@ Completed:
 - G3 Persistent Game / Save / Timeline Foundation — **PASS / CLOSED**
 - G3-GATE — **PASS**
 - G4-01 Application Shell / Main Menu + Game Session Lifecycle — **PASS / CLOSED**
+- G4-02 World Pack + Character Card Source Contracts v0.1 — **PASS / CLOSED**
 
 Current phase:
 
@@ -43,26 +44,26 @@ Current phase:
 
 Current task:
 
-> **G4-02 — World Pack + Character Card Source Contracts v0.1**
+> **G4-03 — Managed Local Source Library v0.1**
 
 Current formal Task Packet:
 
-`docs/tasks/G4-02_WORLD_CHARACTER_SOURCE_CONTRACTS_TASK.md`
+`docs/tasks/G4-03_MANAGED_LOCAL_SOURCE_LIBRARY_TASK.md`
 
-Implementation owner: **Codex**. Task Packet commit: `60a0139c8e7facc019fc63bd6593ef2000261284`.
+Implementation owner: **Codex**. Task Packet commit: `775d6c2b11b90e1e9667d590350a5f57c03dffdf`.
 
 Current state: **ISSUED — waiting Codex implementation → READY FOR INDEPENDENT REVIEW**.
 
 All older G4-01 World Pack task packets and Main-Menu-only handoffs remain superseded. Do not revive them.
 
-Do not start G4-03+ until G4-02 is formally closed.
+Do not start G4-04+ until G4-03 is formally closed.
 
 ## 4. Current G4 sequence
 
 ```text
 G4-01 Application Shell / Main Menu + Game Session Lifecycle — CLOSED
-→ G4-02 World Pack + Character Card Source Contracts v0.1 — CURRENT
-→ G4-03 Managed Local Source Library v0.1
+→ G4-02 World Pack + Character Card Source Contracts v0.1 — CLOSED
+→ G4-03 Managed Local Source Library v0.1 — CURRENT
 → G4-04 Multi-Game Lifecycle / Game Library Foundation
 → G4-05 Asset-only New Game Wizard v0.1
 → G4-06 Atomic Final Create + World/Character Materialization
@@ -273,43 +274,49 @@ Current G3 product DB         user://my-world/current-game.sqlite
 
 G3 is closed. Do not rewrite G3 persistence merely because G4 needs multiple Games. G4-04 will formally decide the simplest multi-Game physical shape, explicitly checking legacy adoption, single-writer, backup and corruption recovery.
 
-## 12. G4-02 specific boundary
+## 12. G4-03 specific boundary
 
-Current G4-02 must establish only World Pack + Character Card v0.1 Source contracts and real contract proof.
+Current G4-03 establishes only the Managed Local Source Library over the already accepted G4-02 World/Character contracts.
 
-World Pack must minimally support:
+Required production semantics:
 
-- stable identity / schema version;
-- world / GM instructions;
-- ordered Source Lore;
-- `0..N` lightweight Entry / T0 seeds;
-- authored portrait / scene / map declarations;
-- pre-game Source material.
+```text
+explicit external package
+→ G4-02 production validate/load
+→ managed staging
+→ staged exact-generation revalidation
+→ immutable generation publish
+→ current installed generation inventory
+→ restart-stable exact lookup
+```
 
-Character Card must minimally support:
+Keep these invariants:
 
-- stable/display identity;
-- public profile;
-- GM/private Source profile;
-- portrait reference;
-- player-character eligibility.
+- external mutable package != managed published generation;
+- published generations are append-only in v0.1;
+- installing a newer/different generation never overwrites an old generation;
+- duplicate exact install is idempotent;
+- current installed generation is explicit Library state, not semver/mtime guessing;
+- managed generation content is revalidated; directory/fingerprint naming alone is not trusted;
+- stale/incomplete staging never appears in inventory;
+- failure to publish/update current must preserve the previous valid current;
+- tests use a task-owned/injected Library root, never Owner production data.
 
-Character Source must not own live location, current relationship, current injury/condition, current knowledge, current inventory or player-known state.
+G4-03 must **not** implement:
 
-Exact Source generation must be content-sensitive, including declared visual/file bytes; stable identity/version alone is insufficient.
-
-G4-02 must **not** implement:
-
-- Managed Source Library / install / publish / inventory (G4-03);
-- multi-Game storage/library (G4-04);
-- real New Game selector/composition (G4-05);
-- Final Create/materialization (G4-06);
-- Expansion Pack contract/runtime (G4-08);
+- Game identity / Game Library / multi-Game storage (G4-04);
+- New Game chooser / selection composition (G4-05);
+- Game pin / Final Create / materialization (G4-06);
+- Expansion Pack (G4-08);
 - Runtime Asset Resolution (G4-10);
-- G5 world semantics or G6/G8 declarative UI/Mod platform;
-- production SQLite schema changes or Provider calls.
+- Creator/Draft publishing UI;
+- cloud/store/network Source services;
+- automatic external-folder watcher;
+- semantic-version/dependency resolver;
+- arbitrary executable Source content;
+- production SQLite Game schema changes or Provider calls.
 
-The contract reality check must use real filesystem fixtures through the production loader/validator seam, not only hand-built Dictionaries or docs.
+The Library must reuse the G4-02 production Source contract seam; it must not duplicate a second parser/validator.
 
 ## 13. Evidence / execution discipline
 
