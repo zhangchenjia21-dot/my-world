@@ -1,5 +1,5 @@
 {
-  "fixture_purpose": "Cross-character starting-individuality pressure. This is semantic/content evidence, not a runtime automated personality score.",
+  "fixture_purpose": "Cross-character starting-individuality pressure. Semantic/content evidence only; not a runtime automated personality score.",
   "entry_id": "t0-189-luoyang-crisis",
   "comparison": [
     {
@@ -11,7 +11,8 @@
         "active military/official household rhythm",
         "attention to who obeys whom and which familiar adults remain reliable",
         "family information as primary filter",
-        "strangers and movement evaluated first through familiar adults' reactions"
+        "strangers and movement evaluated first through familiar adults' reactions",
+        "discomfort when partly-understood adult matters are dismissed without explanation"
       ],
       "must_not_depend_on": [
         "future ruler identity",
@@ -27,9 +28,10 @@
       "profile_path": "诸葛亮-pressure/t0/189/profile.md",
       "must_remain_distinct_through": [
         "official/literati family socialization",
-        "attention to explanation consistency, names, rules and learning order",
-        "education/household explanation as primary information channel",
-        "household change felt first as disruption of familiar care/learning order"
+        "interest in family stories, names, writing traces and familiar household learning",
+        "tendency to stay near trusted relatives in unfamiliar adult groups before joining",
+        "conflicting adult explanations taken back to a trusted elder rather than resolved as mature analysis",
+        "household change felt first as disruption of familiar care/learning routine"
       ],
       "must_not_depend_on": [
         "future strategist identity",
@@ -43,14 +45,16 @@
     "Remove character names, aliases, adult titles and future-history references.",
     "A reviewer can still describe two materially different childhood starting persons from family ecology, attention pattern, information source, relationships and stress response.",
     "The distinction is not reducible to age labels or generic class stereotypes; authored completion contains character-specific, revisable dispositions.",
-    "Neither profile contains a hidden requirement to converge on the historical adult.",
-    "Both profiles leave multiple plausible adult trajectories open after T0."
+    "Counterfactual-adult test: if the reviewer did not know either person's famous adulthood, each authored completion would still be plausible from the pre-T0 ecology and would not look like a hidden prophecy.",
+    "Multi-future test: each starting profile can plausibly grow into at least several materially different adult personalities under different lived histories.",
+    "Neither profile contains a hidden requirement to converge on the historical adult."
   ],
   "failure_conditions": [
     "Both profiles become interchangeable after names are removed.",
-    "Difference is produced mainly by future adult achievements.",
+    "Difference is produced mainly by future adult achievements or famous adult stereotypes.",
     "Age/development label substitutes for personality content.",
     "Military-family child or literati-family child is treated as a deterministic class template.",
-    "Authored completion is presented as attested historical fact."
+    "Authored completion is presented as attested historical fact.",
+    "A supposedly early trait has been selected mainly because it neatly predicts the known adult."
   ]
 }
