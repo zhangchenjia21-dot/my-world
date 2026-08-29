@@ -1,0 +1,19 @@
+{
+  "schema_version": "character_card.v0.2",
+  "asset_id": "character.han_end.liu_bei",
+  "asset_type": "character_card",
+  "version": "0.1.2-converted.2",
+  "display_name": "刘备",
+  "catalog_summary": "刘备，字玄德，涿郡涿县人。汉宗室远支出身的政治军事人物，擅长通过长期关系、个人信誉与对他人尊严的照顾聚合支持者，并在连续失败与依附中保存政治主体性。",
+  "semantic_sections": [
+    {"section_id": "identity", "section_type": "identity", "title": "身份锚点", "disclosure": "gm_reference", "content_path": "sections/01_identity.md"},
+    {"section_id": "personality", "section_type": "personality", "title": "人格核心", "disclosure": "gm_reference", "content_path": "sections/02_personality.md"},
+    {"section_id": "capabilities", "section_type": "capabilities", "title": "能力与局限", "disclosure": "gm_reference", "content_path": "sections/03_capabilities.md"},
+    {"section_id": "behavior", "section_type": "behavior", "title": "决策与行为逻辑", "disclosure": "gm_reference", "content_path": "sections/04_behavior.md"},
+    {"section_id": "relationships-autonomy", "section_type": "relationships_autonomy", "title": "关系风格与自主性", "disclosure": "gm_reference", "content_path": "sections/05_relationships_autonomy.md"},
+    {"section_id": "expression", "section_type": "expression", "title": "语言与表现", "disclosure": "gm_reference", "content_path": "sections/06_expression.md"},
+    {"section_id": "knowledge", "section_type": "knowledge", "title": "知识与信息边界", "disclosure": "gm_reference", "content_path": "sections/07_knowledge.md"},
+    {"section_id": "t0-boundary", "section_type": "t0_boundary", "title": "开局状态与历史边界", "disclosure": "gm_reference", "content_path": "sections/08_t0_boundary.md"}
+  ],
+  "player_character_supported": true
+}
