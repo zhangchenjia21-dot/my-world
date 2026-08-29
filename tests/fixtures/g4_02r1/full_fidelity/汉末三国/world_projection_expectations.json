@@ -1,0 +1,37 @@
+{
+  "fixture_purpose": "Full-fidelity Han World T0 projection expectations. Semantic/data evidence only; current production loader is still v0.1.",
+  "always_safe_sections": [
+    "天下未定/sections/01_world_identity_and_ownership.md",
+    "天下未定/sections/02_causality_t0_and_actor_freedom.md",
+    "天下未定/sections/03_evidence_information_and_uncertainty.md",
+    "天下未定/sections/04_geography_and_space.md",
+    "天下未定/sections/05_society_institutions_and_identity.md",
+    "天下未定/sections/06_economy_material_and_military_life.md",
+    "天下未定/sections/07_technology_transport_culture_supernatural.md",
+    "天下未定/sections/08_player_entry_narrative_and_disclosure.md",
+    "天下未定/sections/09_long_term_tensions.md",
+    "天下未定/sections/10_expansion_compatibility_and_game_local_boundary.md"
+  ],
+  "cases": [
+    {
+      "entry_id": "t0-184-yellow-turban",
+      "must_include": ["history/through-184.md", "entries/184/snapshot.md"],
+      "must_exclude": ["history/184-to-189.md", "history/196-to-200.md", "history/200-to-208.md", "history/220-to-229.md", "history/263-to-280.md", "entries/208/snapshot.md", "entries/280/snapshot.md"],
+      "forbidden_projected_markers": ["曹魏建立", "孙权称帝", "蜀汉已经灭亡", "晋控制北方与巴蜀"],
+      "positive_richness": ["Region", "豪族", "农户", "商贾", "军队不是名将卡牌集合", "交通", "宗教", "公开事实", "长期开放矛盾"]
+    },
+    {
+      "entry_id": "t0-208-red-cliffs-eve",
+      "must_include": ["history/through-184.md", "history/184-to-189.md", "history/189-to-196.md", "history/196-to-200.md", "history/200-to-208.md", "entries/208/snapshot.md"],
+      "must_exclude": ["history/208-to-214.md", "history/214-to-220.md", "history/220-to-229.md", "history/249-to-263.md", "history/263-to-280.md", "entries/229/snapshot.md"],
+      "forbidden_projected_markers": ["孙权称帝也已经成为", "蜀汉最终灭亡", "曹魏随后被晋取代"],
+      "positive_richness": ["疾病", "补给", "地方控制", "内部意见", "长江中游"]
+    },
+    {
+      "entry_id": "t0-280-wu-survival-eve",
+      "must_include": ["history/through-184.md", "history/184-to-189.md", "history/189-to-196.md", "history/196-to-200.md", "history/200-to-208.md", "history/208-to-214.md", "history/214-to-220.md", "history/220-to-229.md", "history/229-to-234.md", "history/234-to-249.md", "history/249-to-263.md", "history/263-to-280.md", "entries/280/snapshot.md"],
+      "positive_richness": ["蜀汉已经灭亡", "曹魏已经被晋取代", "吴仍然存在", "结果尚未成为过去"]
+    }
+  ],
+  "hard_rule": "An existing earlier-T0 Game never gains later Source history segments merely because Game-local time advances. Only a newly materialized later-T0 Game may inherit those authored segments as starting past."
+}
