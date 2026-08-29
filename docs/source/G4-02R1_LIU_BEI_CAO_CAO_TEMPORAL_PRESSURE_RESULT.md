@@ -1,9 +1,10 @@
 ---
 title: G4-02R1｜刘备 / 曹操 Temporal Pressure Result
-status: semantic-content-pressure-pass
+status: temporal-skeleton-semantic-pass
 owner: GPT
 created: 2026-08-29
-scope: 184-vs-200 early/earned Character pressure
+updated: 2026-08-29
+scope: all valid Han fixed Entries at temporal-skeleton level
 implementation_pass: false
 final_asset_fidelity_pass: false
 fixture: tests/fixtures/g4_02r1/t0_pressure/汉末三国
@@ -13,223 +14,323 @@ fixture: tests/fixtures/g4_02r1/t0_pressure/汉末三国
 
 ## 1. Verdict
 
-> **PASS at semantic/content pressure level.**
+> **PASS — 刘备 / 曹操已完成当前 12 个汉末三国固定 Entry 下的完整合法 temporal skeleton，v0.2-r2 继续通过语义/内容压力。**
 
-The current v0.2-r2 T0 design can represent both:
+No new Source field is required.
 
-- strong early individuality from attested pre-T0 evidence;
-- later personality/ability growth that becomes legal only after the Character has actually lived the relevant history.
-
-No new schema field is required by this pressure.
-
-This is not a Godot/runtime implementation pass and not final full-fidelity migration for either Character.
+This is still **NOT** Godot/runtime implementation PASS and **NOT** final full-fidelity Character migration PASS.
 
 ---
 
-## 2. Pressure shape
+## 2. Current exact coverage
 
-Two T0s were used for each Character:
+### 刘备
 
 ```text
-184  early / pre-mature political career
-200  materially later / repeatedly tested political-military actor
+184  compatible
+189  compatible
+196  compatible
+200  compatible
+208  compatible
+214  compatible
+220  compatible
+229  incompatible
+234  incompatible
+249  incompatible
+263  incompatible
+280  incompatible
 ```
 
-Pressure fixtures:
+Manifest:
 
-- `刘备-pressure/`
-- `曹操-pressure/`
-- `liu_cao_temporal_expectations.json`
+`tests/fixtures/g4_02r1/t0_pressure/汉末三国/刘备-pressure/source.json`
 
-The purpose is to falsify a common failure mode:
+### 曹操
 
-> The same full-life Character description is copied into every T0 and only the current title/year is changed.
+```text
+184  compatible
+189  compatible
+196  compatible
+200  compatible
+208  compatible
+214  compatible
+220  incompatible
+229  incompatible
+234  incompatible
+249  incompatible
+263  incompatible
+280  incompatible
+```
+
+Manifest:
+
+`tests/fixtures/g4_02r1/t0_pressure/汉末三国/曹操-pressure/source.json`
+
+Missing bindings inside this declared Han-World coverage are temporally incompatible; no top-level identity fallback may materialize the Character.
 
 ---
 
-## 3. Liu Bei result
+## 3. Shared World cuts now own same-year ordering
 
-### 184
+### 189
 
-The profile remains rich without later-life backfill because the historical source already supplies strong early evidence:
+Current World cut freezes only:
 
-- early poverty / maternal livelihood;
-- study under Lu Zhi and relationship with Gongsun Zan;
-- stated interests in horses, music and clothing;
-- taciturn public style, ability to lower himself socially, restrained visible affect;
-- youth association with haoxia and an initial network enabled by merchant support.
+- Han Lingdi already dead;
+- central struggle already damaged court order;
+- Dong Zhuo already controls emperor / central politics.
 
-These create a distinct young Liu Bei without relying on later state formation, repeated territorial loss or mature ruler reputation.
+It **does not** pre-author individual Characters' next response.
+
+This allows Cao Cao 189 to start as an experienced official/military actor under a newly transformed center without Source deciding his specific next action.
+
+### 196
+
+Current World cut freezes:
+
+- Emperor already moved to Xu under Cao Cao's political-military protection/control environment;
+- Lü Bu already seized Xiapi during the Xu-region rupture;
+- Liu Bei already lost this core base and is in a fragile Xiaopei arrangement.
+
+The World does not freeze the next conflict/result/affiliation chain.
 
 ### 200
 
-By 200, multiple additional dimensions become legitimately earned:
+Existing pressure cut remains:
 
-- repeated disruption and rebuilding;
-- experience entering stronger patrons' political-military networks;
-- stronger evidence that personal relationships and reputation can preserve group continuity;
-- more mature sensitivity to the difference between temporary dependence and complete loss of own group agency.
+- Sun Ce already dead;
+- Sun Quan just took over Jiangdong;
+- Cao Cao's eastern defeat of Liu Bei is already past for the Liu/Cao profiles;
+- Liu Bei has entered Yuan Shao's network;
+- the decisive current Cao-Yuan contest result is not yet past.
 
-The current pressure cut inherits the already-past fact that Cao Cao has defeated Liu Bei in the Xu direction and Liu Bei has entered Yuan Shao's network, while the decisive Cao-Yuan outcome remains open.
+Principle reinforced:
 
-### Temporal lesson
-
-`resilience after repeated political/military loss` is not a timeless Liu Bei trait owned by every T0.
-
-It is:
-
-```text
-not yet earned in 184
-→ increasingly evidenced through later lived history
-→ legal in 200
-```
+> **Shared event ordering belongs to World Entry when multiple Characters depend on it. Character profiles consume that cut; they do not invent parallel timelines.**
 
 ---
 
-## 4. Cao Cao result
+## 4. Liu Bei earned-development ladder
 
-### 184
+### 184｜early person, not future ruler template
 
-The profile remains distinct using early evidence only:
+Current evidence can already make him distinctive through:
+
+- low-resource family reality despite distant royal-line identity;
+- maternal livelihood;
+- study / early social network;
+- attested interests;
+- `少语言、善下人、喜怒不形于色`;
+- youth haoxia association / early follower network.
+
+Not yet earned:
+
+- mature repeated-rebuild resilience;
+- mature dependency/autonomy political technique;
+- large territorial governance;
+- ruler-level institutional reputation system.
+
+### 189｜first military / office reality
+
+Adds lived evidence from early war/office experience and direct friction between formal position and actual resources.
+
+Still not a mature wandering political leader template.
+
+### 196｜first major territorial-loss pressure
+
+Current World reality now supports stronger semantics around:
+
+- relationship credit as survival resource;
+- group continuity after losing a core base;
+- difference between political identity and actual military/resource control;
+- preserving people/action space under fragile conditions.
+
+This is still earlier than the later repeated-disruption pattern.
+
+### 200｜repeated disruption / reaggregation now strongly evidenced
+
+The Character can legitimately have stronger experience in:
+
+- rebuilding after political/military disruption;
+- entering stronger groups without automatically dissolving all own relationships;
+- using long-lived credit and reputation as organizational continuity.
+
+### 208｜mature mobile-group continuity
+
+Long years of movement, dependence, loss and reorganization now justify a mature relational/organizational survival skill set.
+
+Current southern pressure remains open; stable later territorial outcomes are not assumed.
+
+### 214｜large regional base becomes current evidence
+
+The key new lived dimension is no longer merely survival:
+
+> **old network + new regional society + governance/institutional responsibility**
+
+Large-area administration and integration can now legitimately enter the current profile.
+
+### 220｜latest supported mature start
+
+Han-Wei transition is already current reality. Liu Bei now has a large regional political organization and decades of earned experience.
+
+But Source still does not pre-author his formal response, later war, or end-of-life personality.
+
+---
+
+## 5. Cao Cao earned-development ladder
+
+### 184｜young official / early military actor
+
+Current evidence supports:
 
 - youthful cleverness / tactical calculation;
-- renxia / unconventional and risk-taking behavior;
-- prior service as Luoyang Northern Commandant, Dunqiu magistrate and yilang;
-- early direct exposure to law enforcement and government execution;
-- the new Yellow-Turban-era military responsibility.
+- renxia / unconventional risk-taking;
+- early office and enforcement experience;
+- current transition into larger military responsibility.
 
-The profile explicitly withholds later north-China integration, large-scale logistics/talent systems and ruler-level security psychology.
+Not yet earned:
 
-### 200
+- mature north-wide organization;
+- long-war logistics/talent systems;
+- ruler-scale security psychology.
 
-By 200, years of war, administration and organization justify materially stronger dimensions:
+### 189｜experienced actor under central rupture
 
-- large-scale organization and personnel integration;
-- combining court legitimacy, administrative machinery and military force;
-- multi-front priority judgment;
-- increased sensitivity to organizational loss-of-control risk based on actual political/military experience;
-- earned ability to revise tactics and resource allocation after repeated campaigns.
+Adds more actual office/military experience and a higher real cost of action.
 
-The profile inherits the already-past eastern defeat of Liu Bei but does not know the current major northern contest's result.
+The World freezes the central rupture, not Cao Cao's specific response path.
 
-### Temporal lesson
+### 196｜court + military + territorial organization
 
-The mature `control / talent integration / political legitimacy + real power` pattern is not a magical childhood essence.
+Emperor-at-Xu reality now makes it legitimate for Cao Cao to have materially stronger semantics around:
 
-It is a later structure built on top of real earlier dispositions and then transformed by years of governance and war.
+- political legitimacy + practical control;
+- larger talent organization;
+- territorial/military administration;
+- internal control risk based on real prior conflict.
 
----
+### 200｜mature large organization
 
-## 5. Cross-character 184 differentiation
+Years of campaigns and political organization justify stronger personnel/resource integration and repeated adjustment under conflict.
 
-Blind semantic review also passes.
+The current major northern result remains open.
 
-Even with names and future faction/state identities removed:
+### 208｜large northern system under new regional pressure
 
-### Profile A
+Large-scale organization, logistics and talent systems are fully current evidence.
 
-- distant royal-line identity but materially limited family resources;
-- maternal livelihood and social mobility gap;
-- education + haoxia social network;
-- restrained public affect;
-- people-oriented early network formation.
+The negative control is important:
 
-### Profile B
+> **northern-scale success does not automatically transfer into perfect judgment under different geography, disease, transport, local society and coalition conditions.**
 
-- high-official family network;
-- early entry into formal office;
-- direct enforcement/administrative experience;
-- youthful opportunism, cleverness and higher risk tolerance;
-- institution/action-oriented early experience.
+Current advantage is inertia, not result privilege.
 
-They do not collapse into a generic `ambitious young leader` profile.
+### 214｜latest supported mature start
 
-This reinforces the current individuality rule:
+Long-running institutional regime operation, large-scale governance, personnel systems and cumulative age/war costs are all current evidence.
 
-> Same age / same chaotic world / both future famous leaders still require different present selves.
+Later political forms and post-T0 transitions remain outside authority.
 
 ---
 
-## 6. Same-year cut findings
+## 6. Cross-character early individuality
 
-The pressure also confirms that some Character states cannot be inferred from a year alone.
+184 刘备 and 184 曹操 also pass blind semantic differentiation.
 
-### 200 is now strong enough for this pressure
-
-The existing World 200 conversion cut already states:
-
-- Sun Ce is dead;
-- Sun Quan has just taken over Jiangdong;
-- the decisive current northern contest has not yet been decided.
-
-Primary chronology places Cao Cao's eastern defeat of Liu Bei earlier in that year before the decisive Cao-Yuan outcome.
-
-Therefore the current pressure can safely use:
+Without names or future state/faction labels:
 
 ```text
-Cao Cao already defeated Liu Bei in Xu direction
-Liu Bei already entered Yuan Shao's network
-major Cao-Yuan outcome still open
+Profile A
+= materially limited family resources
++ maternal livelihood
++ education / haoxia network
++ restrained visible affect
++ people-oriented early network
+
+Profile B
+= high-official family network
++ early formal office
++ enforcement/administrative experience
++ youthful tactical cleverness / risk-taking
++ institution/action-oriented experience
 ```
 
-### 184 / 189 / 196 still need exact final-package wording
+They do not collapse into `ambitious young leader`.
 
-For final profiles, the following must remain conservative until each cut is fully authored:
+This is a second validation of:
 
-- whether a first Yellow-Turban campaign result is already past at 184;
-- which early Liu Bei offices/movements are already complete by the exact 189 cut;
-- Liu Bei's exact Xuzhou / Lü Bu position at the selected 196 cut;
-- whether Cao Cao's flight from Dong Zhuo / raising troops is already past or still an open action at 189.
-
-These are content-authoring issues, not schema gaps.
+> **same age / same historical crisis != same starting person**
 
 ---
 
-## 7. Death / compatibility closure
+## 7. Future-cue lint findings
 
-Current valid Entry coverage remains:
+During expansion from 184/200 pressure points to the full skeleton, several Runtime-visible negative explanations were found to contain overly specific future cues.
 
-### Liu Bei
+Examples included:
 
-```text
-184 / 189 / 196 / 200 / 208 / 214 / 220 = compatible candidates
-229+ = incompatible
-```
+- naming a later response path merely to say it was not yet current;
+- using later years as maturity comparisons inside an earlier profile;
+- listing a highly history-shaped next affiliation/action while calling it optional.
 
-### Cao Cao
+These were repaired forward.
 
-```text
-184 / 189 / 196 / 200 / 208 / 214 = compatible candidates
-220+ = incompatible
-```
+Current rule is stricter:
 
-Final packages must explicitly encode only the supported exact bindings; no always-safe resurrection fallback.
+> **Runtime material should freeze past facts and current pressures; it should not enumerate canon-shaped next actions merely to demonstrate that the future is open.**
+
+Repository searches confirm the specifically identified stale cue strings were removed.
 
 ---
 
-## 8. Structural verdict
+## 8. Formal expectation evidence
 
-> **v0.2-r2 survives this second Character temporal pressure.**
+`tests/fixtures/g4_02r1/t0_pressure/汉末三国/liu_cao_temporal_expectations.json`
 
-No new field is needed.
+The expectation matrix now records:
 
-The pressure specifically supports:
-
-- top-level thin identity continuity;
-- exact T0 profile material;
-- later earned semantics appearing only in later profiles;
-- closed per-World temporal coverage;
-- present individuality without future canon;
-- no adult-stereotype backfill.
+- exact valid bindings;
+- unsupported Entry non-bindings;
+- earned-development ladder for both Characters;
+- 184 cross-character blind differentiation;
+- no future-answer enumeration acceptance rule.
 
 ---
 
-## 9. Remaining work
+## 9. Structural verdict
 
-Before these Characters count as final fidelity evidence:
+> **v0.2-r2 remains structurally adequate after three historical Character pressures: 孙权, 刘备, 曹操.**
 
-1. create profiles for every valid authored Entry, not only 184/200 pressure points;
-2. resolve 184/189/196 exact temporal cuts conservatively;
-3. preserve full original personality/capability/behavior/relationship/expression/knowledge semantics across the appropriate T0s;
-4. compare original card ↔ final v0.2-r2 package for substantive shrinkage;
-5. only then freeze the exact implementation-facing package shape.
+No r3 field expansion is required.
+
+The design continues to support:
+
+- thin top-level identity continuity;
+- exact Entry-bound T0 profiles;
+- later-earned semantics appearing only after lived evidence exists;
+- closed temporal coverage;
+- early individuality;
+- no adult-stereotype backfill;
+- no post-T0 canon/action cue leakage;
+- Game-local future freedom after Final Create.
+
+---
+
+## 10. What remains before final Character fidelity PASS
+
+Temporal ownership is now proven for the three Han Characters, but the current profile files are still **temporal skeleton / pressure content**, not the final faithful replacement for the original 7–10KB cards.
+
+Remaining Han Character work:
+
+1. map every substantive original Character chapter into the appropriate T0 profile(s):
+   - personality;
+   - capabilities / limitations;
+   - behavior / decision logic;
+   - relationships / autonomy;
+   - expression;
+   - knowledge / information boundary;
+   - player takeover / T0 boundary;
+2. preserve chapter depth without copy-pasting later evidence into early T0;
+3. manual original ↔ migrated semantic sampling;
+4. verify no substantive shrinkage;
+5. only then count 刘备 / 曹操 / 孙权 as final v0.2-r2 fidelity evidence.
