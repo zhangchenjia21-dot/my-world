@@ -1,0 +1,152 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/ui/新游戏向导.gd" id="1_wizard"]
+
+[node name="NewGameWizard" type="MarginContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 18
+script = ExtResource("1_wizard")
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 2
+
+[node name="Margin" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 18
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 18
+
+[node name="Column" type="VBoxContainer" parent="Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Header" type="HBoxContainer" parent="Panel/Margin/Column"]
+layout_mode = 2
+
+[node name="WizardTitleLabel" type="Label" parent="Panel/Margin/Column/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
+text = "新游戏"
+
+[node name="WizardStepLabel" type="Label" parent="Panel/Margin/Column/Header"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.74, 0.82, 1)
+text = "步骤 1 / 7"
+
+[node name="WizardHintLabel" type="Label" parent="Panel/Margin/Column"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.74, 0.82, 1)
+autowrap_mode = 2
+
+[node name="Content" type="ScrollContainer" parent="Panel/Margin/Column"]
+custom_minimum_size = Vector2(0, 250)
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ContentColumn" type="VBoxContainer" parent="Panel/Margin/Column/Content"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="WizardChoices" type="VBoxContainer" parent="Panel/Margin/Column/Content/ContentColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="WizardSettings" type="VBoxContainer" parent="Panel/Margin/Column/Content/ContentColumn"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="NameLabel" type="Label" parent="Panel/Margin/Column/Content/ContentColumn/WizardSettings"]
+layout_mode = 2
+text = "游戏名称（必填）"
+
+[node name="GameDisplayNameInput" type="LineEdit" parent="Panel/Margin/Column/Content/ContentColumn/WizardSettings"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+placeholder_text = "例如：建安八年的另一条道路"
+
+[node name="ControlLabel" type="Label" parent="Panel/Margin/Column/Content/ContentColumn/WizardSettings"]
+layout_mode = 2
+text = "主角控制模式"
+
+[node name="ControlModeOption" type="OptionButton" parent="Panel/Margin/Column/Content/ContentColumn/WizardSettings"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+
+[node name="SupplementLabel" type="Label" parent="Panel/Margin/Column/Content/ContentColumn/WizardSettings"]
+layout_mode = 2
+text = "开场补充（可选）"
+
+[node name="OpeningSupplementInput" type="TextEdit" parent="Panel/Margin/Column/Content/ContentColumn/WizardSettings"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+placeholder_text = "补充你希望 Opening 尊重的起点；不在这里生成世界。"
+wrap_mode = 1
+
+[node name="WizardReviewText" type="RichTextLabel" parent="Panel/Margin/Column/Content/ContentColumn"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 280)
+layout_mode = 2
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+
+[node name="WizardResultLabel" type="Label" parent="Panel/Margin/Column"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.58, 0.78, 0.62, 1)
+autowrap_mode = 2
+
+[node name="Footer" type="HBoxContainer" parent="Panel/Margin/Column"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="NewGameBackButton" type="Button" parent="Panel/Margin/Column/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(144, 48)
+layout_mode = 2
+text = "返回主菜单"
+
+[node name="FooterSpacer" type="Control" parent="Panel/Margin/Column/Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CreatePlaceholderButton" type="Button" parent="Panel/Margin/Column/Footer"]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(220, 48)
+layout_mode = 2
+disabled = true
+text = "创建游戏（G4-06 接入）"
+
+[node name="WizardBackButton" type="Button" parent="Panel/Margin/Column/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 48)
+layout_mode = 2
+text = "上一步"
+
+[node name="WizardNextButton" type="Button" parent="Panel/Margin/Column/Footer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 48)
+layout_mode = 2
+disabled = true
+text = "下一步"

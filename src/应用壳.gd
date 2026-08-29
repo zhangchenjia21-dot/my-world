@@ -7,6 +7,7 @@ extends Control
 
 const CurrentGameRuntime := preload("res://src/runtime/当前游戏会话运行时.gd")
 const GameLibrary := preload("res://src/游戏库/L3_外交层/游戏库公开接口.gd")
+const SourceLibrary := preload("res://src/source/L3_外交层/Source库公开接口.gd")
 
 enum ApplicationState {
 	BOOTING,
@@ -37,7 +38,8 @@ const G3_01_EXPORT_SPIKE_FEATURE := "g3_01_persistence_spike"
 @onready var quit_button: Button = %QuitButton
 @onready var menu_result_label: Label = %MenuResultLabel
 @onready var new_game_surface: Control = %NewGameSurface
-@onready var new_game_back_button: Button = %NewGameBackButton
+@onready var new_game_wizard: Control = %NewGameWizard
+@onready var new_game_back_button: Button = new_game_wizard.cancel_button
 @onready var game_surface: Control = $Margin
 @onready var narrative_view: Control = %NarrativeHost
 @onready var player_panel_host: PanelContainer = %PlayerPanelHost
@@ -87,7 +89,7 @@ func _ready() -> void:
 	continue_button.pressed.connect(_on_continue_pressed)
 	new_game_button.pressed.connect(_show_new_game_surface)
 	quit_button.pressed.connect(_request_exit)
-	new_game_back_button.pressed.connect(_show_main_menu)
+	new_game_wizard.cancelled.connect(_cancel_new_game)
 	player_toggle.toggled.connect(_on_player_toggle)
 	world_toggle.toggled.connect(_on_world_toggle)
 	create_save_button.pressed.connect(_on_create_save_pressed)
@@ -446,6 +448,7 @@ func _show_main_menu() -> void:
 		session_state = SessionState.ABSENT
 	game_surface.visible = false
 	new_game_surface.visible = false
+	new_game_wizard.discard()
 	main_menu_surface.visible = true
 	startup_failure_overlay.visible = false
 	database_recovery_button.visible = false
@@ -461,7 +464,17 @@ func _show_new_game_surface() -> void:
 	main_menu_surface.visible = false
 	game_surface.visible = false
 	new_game_surface.visible = true
-	new_game_back_button.grab_focus.call_deferred()
+	var started: Dictionary = new_game_wizard.begin(SourceLibrary.new(_source_library_root()))
+	if started.success:
+		new_game_wizard.next_button.grab_focus.call_deferred()
+	else:
+		new_game_back_button.grab_focus.call_deferred()
+
+
+func _cancel_new_game() -> void:
+	if not new_game_surface.visible or session_runtime != null:
+		return
+	_show_main_menu()
 
 
 func _show_session_startup_failure(startup: Dictionary) -> void:
@@ -742,6 +755,14 @@ func _managed_games_root() -> String:
 		return argument
 	var test_override := OS.get_environment("MY_WORLD_TEST_GAMES_ROOT").strip_edges()
 	return test_override if not test_override.is_empty() else "user://my-world/games"
+
+
+func _source_library_root() -> String:
+	var argument := _command_argument("--source-library-root=")
+	if not argument.is_empty():
+		return argument
+	var test_override := OS.get_environment("MY_WORLD_TEST_SOURCE_LIBRARY_ROOT").strip_edges()
+	return test_override if not test_override.is_empty() else "user://my-world/source-library"
 
 
 func _command_argument(prefix: String) -> String:

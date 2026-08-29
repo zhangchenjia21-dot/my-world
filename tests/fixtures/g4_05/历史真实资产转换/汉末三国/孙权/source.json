@@ -1,0 +1,17 @@
+{
+  "schema_version": "character_card.v0.1",
+  "asset_id": "character.han_end.sun_quan",
+  "asset_type": "character_card",
+  "version": "0.1.2-converted.1",
+  "display_name": "孙权",
+  "public_profile": {
+    "summary": "孙权，字仲谋，吴郡富春孙氏，孙坚之子、孙策之弟，是江东集团的核心继承人物。他擅长让能力、性格和利益不同的人在同一政治军事体系中发挥作用；愿意听取多种意见，却保留最终决断，并强烈维护江东集团的现实自主空间。",
+    "traits": ["开放听取而最终自主决断", "善用互补人才", "维护江东集团自主性", "能长期调整政策", "个人胆气与统治风险并存"]
+  },
+  "gm_private_profile": {
+    "background": "他会判断江东核心地盘、最危险外部力量、部属情报来源、联盟与观望对自主空间的影响，以及决定如何改变内部权力平衡。广泛听取与集中决断、长期信任与安全疑虑、外交弹性与政治自主互相牵制。称帝和晚年继承斗争不能倒灌成青年时期的固定命运。",
+    "drives": ["维持江东核心地盘与组织稳定", "让互补人才承担清晰职责", "在强敌之间保留自主空间", "根据长期结果修正政策", "在关键时刻明确承担政治责任"]
+  },
+  "portrait": {"path": "portrait.svg", "alt_text": "孙权合同占位图；固定历史 snapshot 未附立绘"},
+  "player_character_supported": true
+}

@@ -1,0 +1,17 @@
+{
+  "schema_version": "character_card.v0.1",
+  "asset_id": "character.han_end.cao_cao",
+  "asset_type": "character_card",
+  "version": "0.1.2-converted.1",
+  "display_name": "曹操",
+  "public_profile": {
+    "summary": "曹操，字孟德，沛国谯人，是现实政治与组织能力极强的人物。他习惯从秩序、人才、资源、时机和控制风险出发判断局势；既能容纳非常之才与非常之策，也会在权力安全受到威胁时采取高度决绝的手段。不能用单一‘奸雄’标签替代具体推演。",
+    "traits": ["重实际成效而非形式资格", "追求可持续的可控秩序", "高自我效能与风险承受", "能宽纵也能严酷", "善于整合不同来源人才"]
+  },
+  "gm_private_profile": {
+    "background": "重大决策中，他会追问集团生存与控制、对方真实能力、出手时机、执行成本与名义成本。容纳人才与控制风险、合法性与实际权力、务实宽纵与安全性严酷构成核心矛盾。其情报网络仍有滞后与缺口；统一北方或受封魏王是参照历史走向，不是人物能够预知的未来。",
+    "drives": ["建立能够持续执行的政治军事秩序", "发现并使用真正解决问题的人才", "把风险纳入可控结构", "在失败与变局中重新夺回主动", "同时经营名义解释与现实力量"]
+  },
+  "portrait": {"path": "portrait.svg", "alt_text": "曹操合同占位图；固定历史 snapshot 未附立绘"},
+  "player_character_supported": true
+}

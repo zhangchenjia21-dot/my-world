@@ -22,11 +22,14 @@ func _run() -> void:
 	_remove_fixture(database_path)
 	var library_root := database_path.get_base_dir().path_join("g4_01-game-library")
 	var games_root := database_path.get_base_dir().path_join("g4_01-games")
+	var source_root := database_path.get_base_dir().path_join("g4_01-source-library")
 	_remove_tree(library_root)
 	_remove_tree(games_root)
+	_remove_tree(source_root)
 	OS.set_environment("MY_WORLD_TEST_CURRENT_GAME_DB", database_path)
 	OS.set_environment("MY_WORLD_TEST_GAME_LIBRARY_ROOT", library_root)
 	OS.set_environment("MY_WORLD_TEST_GAMES_ROOT", games_root)
+	OS.set_environment("MY_WORLD_TEST_SOURCE_LIBRARY_ROOT", source_root)
 
 	# A/B：Application launch 只到 Main Menu；missing DB 不创建，View 不建立 Provider state。
 	var shell: Variant = load("res://src/main.tscn").instantiate()
@@ -39,7 +42,7 @@ func _run() -> void:
 	_check(not FileAccess.file_exists(database_path), "boot does not create missing current Game DB")
 	_check(shell.narrative_view.conversation == null and shell.narrative_view.adapter == null, "Main Menu creates no Game Conversation/Provider")
 
-	# D：New Game placeholder 是 Application surface，不产生 durable mutation。
+	# D：New Game Wizard 是 Application-owned Composition surface；空 Source inventory 仍不产生 Game mutation。
 	shell.new_game_button.pressed.emit()
 	await process_frame
 	_check(shell.new_game_surface.visible and not shell.main_menu_surface.visible, "New Game opens honest stable surface")
@@ -123,6 +126,7 @@ func _run() -> void:
 	OS.set_environment("MY_WORLD_TEST_CURRENT_GAME_DB", "")
 	OS.set_environment("MY_WORLD_TEST_GAME_LIBRARY_ROOT", "")
 	OS.set_environment("MY_WORLD_TEST_GAMES_ROOT", "")
+	OS.set_environment("MY_WORLD_TEST_SOURCE_LIBRARY_ROOT", "")
 	_finish()
 
 

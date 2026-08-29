@@ -27,6 +27,7 @@ func _run() -> void:
 	OS.set_environment("MY_WORLD_TEST_CURRENT_GAME_DB", database_path)
 	OS.set_environment("MY_WORLD_TEST_GAME_LIBRARY_ROOT", database_path.get_base_dir().path_join("g4_01-layout-library"))
 	OS.set_environment("MY_WORLD_TEST_GAMES_ROOT", database_path.get_base_dir().path_join("g4_01-layout-games"))
+	OS.set_environment("MY_WORLD_TEST_SOURCE_LIBRARY_ROOT", database_path.get_base_dir().path_join("g4_01-layout-source-library"))
 	var fixture := Runtime.new()
 	var seeded: Dictionary = fixture.open_current_game(database_path)
 	_check(seeded.success, "task-owned existing legacy Game fixture is ready")
@@ -54,7 +55,7 @@ func _run() -> void:
 
 	shell.new_game_button.pressed.emit()
 	await _settle(4)
-	var new_panel: Control = shell.get_node("NewGameSurface/NewGamePanel")
+	var new_panel: Control = shell.new_game_wizard.get_node("Panel")
 	_check(shell.new_game_surface.visible and _inside_window(new_panel.get_global_rect()), "960x540 New Game host is visible and contained")
 	_check(shell.new_game_back_button.visible and not shell.new_game_back_button.disabled, "New Game Back is usable")
 	await _shot("new_game_960")
@@ -76,6 +77,7 @@ func _run() -> void:
 	OS.set_environment("MY_WORLD_TEST_CURRENT_GAME_DB", "")
 	OS.set_environment("MY_WORLD_TEST_GAME_LIBRARY_ROOT", "")
 	OS.set_environment("MY_WORLD_TEST_GAMES_ROOT", "")
+	OS.set_environment("MY_WORLD_TEST_SOURCE_LIBRARY_ROOT", "")
 	await process_frame
 	_finish()
 

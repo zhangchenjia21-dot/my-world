@@ -1,0 +1,56 @@
+{
+  "schema_version": "world_pack.v0.1",
+  "asset_id": "world.ashtervia.afterglow",
+  "asset_type": "world_pack",
+  "version": "0.1.3-converted.1",
+  "display_name": "埃瑟维亚：诸界余辉",
+  "world_instructions": "以大断裂之后的埃瑟维亚为舞台：多国、多族与多种魔法传统在断裂遗迹、贸易路线、学院、边境社区和宗教解释之间共存。断界历 1287 年之前的世界历史与人物既往经历可以成为既成过去；开局之后没有默认轨迹。世界事实、人物知识和玩家知识必须分离，学院理论、国家叙事、地方经验与宗教解释都可能只掌握局部。",
+  "gm_instructions": "把魔法当成影响生产、职业、战争、教育和风险治理的文明事实，而不是万能解题按钮。角色能力高不自动等于知道大断裂后台真相；出身、机构职位或长寿也不授予全知。让各国、学院、商路与边境职业者在玩家离场时继续追求自身目标。Opening 从明确地点、委托、研究争议或公共风险开始，不预写人物关系和结局。",
+  "source_lore": [
+    {
+      "lore_id": "great-fracture",
+      "title": "大断裂与余辉时代",
+      "content": "大断裂改变了大陆的地理、魔法环境和文明联系。后世国家、学院与族群在残留通道、失控术式环境和断裂遗迹周围建立秩序，但没有任何单一机构掌握完整真相。公开历史、专业推断和后台事实必须区分。"
+    },
+    {
+      "lore_id": "magic-civilization",
+      "title": "魔法文明不是统一技术树",
+      "content": "学院法师、家族术式、边境猎手、工匠、神职者与军队使用不同训练传统。理论正确不等于现场条件完整；经验长期有效也不等于永远不会错。魔法能力必须由人物经历与专业边界支撑。"
+    },
+    {
+      "lore_id": "ovista-crossroads",
+      "title": "奥维斯塔与跨境网络",
+      "content": "奥维斯塔及周边联合学宫、商路和危险路线连接多国人才。研究许可、公共工程、遗迹考察、护卫合同和边境信息交换构成自然入口；这些网络既带来合作，也制造知识权威与风险承担的冲突。"
+    },
+    {
+      "lore_id": "knowledge-boundary",
+      "title": "知识必须有来源",
+      "content": "人物只能使用其出身、训练、亲历、可靠文献或可验证消息能够支持的知识。世界包与 GM 知道的事不等于角色知道；玩家也不会因主角身份自动获得机构机密或遗迹内部结构。"
+    }
+  ],
+  "entries": [
+    {
+      "entry_id": "t0-1287-ovista",
+      "display_name": "1287｜奥维斯塔联合学宫区",
+      "opening_seed": "基础术式事故样本、跨学院标准与公共风险发生冲突；适合研究者、护卫、向导或受影响的普通人进入。"
+    },
+    {
+      "entry_id": "t0-1287-border-route",
+      "display_name": "1287｜多国边境路线",
+      "opening_seed": "商路出现异常魔痕与路线争议；国家机构、自由猎手、护卫合同和地方经验对风险给出不同判断。"
+    },
+    {
+      "entry_id": "t0-1287-public-works",
+      "display_name": "1287｜断裂遗迹公共工程",
+      "opening_seed": "一项连接社区与遗迹外围的工程需要研究、材料、护卫和政治协调，但封锁区后台真相仍不可知。"
+    }
+  ],
+  "authored_assets": [],
+  "source_material": {
+    "historical_snapshot": "zhangchenjia21-dot/sillytavern-assets@4a5364a042e41f4c8a69621fc4467956a78703c0",
+    "legacy_path": "世界包/埃瑟维亚_诸界余辉_World_Pack_v0.1.3.md",
+    "legacy_blob_sha": "42924b5c8b18afc7622b8f3c04afc393a69f72e8",
+    "preserved_topics": ["大断裂", "多国多族", "魔法文明", "奥维斯塔", "知识边界"],
+    "visual_gap": "固定 snapshot 未提供或引用本 World 的图片字节；当前转换不伪造历史视觉。"
+  }
+}

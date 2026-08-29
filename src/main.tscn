@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://src/应用壳.gd" id="1_shell"]
 [ext_resource type="Script" path="res://src/ui/叙事对话视图.gd" id="2_view"]
+[ext_resource type="PackedScene" path="res://src/ui/新游戏向导.tscn" id="3_wizard"]
 
 [sub_resource type="SystemFont" id="SystemFont_shell"]
 font_names = PackedStringArray("Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", "SimSun")
@@ -99,7 +100,7 @@ theme_override_font_sizes/font_size = 14
 horizontal_alignment = 1
 autowrap_mode = 2
 
-[node name="NewGameSurface" type="CenterContainer" parent="."]
+[node name="NewGameSurface" type="Control" parent="."]
 unique_name_in_owner = true
 visible = false
 layout_mode = 1
@@ -109,40 +110,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="NewGamePanel" type="PanelContainer" parent="NewGameSurface"]
-custom_minimum_size = Vector2(520, 0)
-layout_mode = 2
-
-[node name="NewGameMargin" type="MarginContainer" parent="NewGameSurface/NewGamePanel"]
-layout_mode = 2
-theme_override_constants/margin_left = 48
-theme_override_constants/margin_top = 40
-theme_override_constants/margin_right = 48
-theme_override_constants/margin_bottom = 40
-
-[node name="NewGameColumn" type="VBoxContainer" parent="NewGameSurface/NewGamePanel/NewGameMargin"]
-layout_mode = 2
-theme_override_constants/separation = 16
-
-[node name="NewGameTitle" type="Label" parent="NewGameSurface/NewGamePanel/NewGameMargin/NewGameColumn"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.937255, 0.937255, 0.94902, 1)
-theme_override_font_sizes/font_size = 30
-text = "新游戏"
-horizontal_alignment = 1
-
-[node name="NewGameMessage" type="Label" parent="NewGameSurface/NewGamePanel/NewGameMargin/NewGameColumn"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.72, 0.74, 0.82, 1)
-text = "新的世界创建流程正在准备中。当前版本不会在这里创建空白游戏，也不会覆盖你已有的进度。"
-horizontal_alignment = 1
-autowrap_mode = 2
-
-[node name="NewGameBackButton" type="Button" parent="NewGameSurface/NewGamePanel/NewGameMargin/NewGameColumn"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 52)
-layout_mode = 2
-text = "返回主菜单"
+[node name="NewGameWizard" parent="NewGameSurface" instance=ExtResource("3_wizard")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Margin" type="MarginContainer" parent="."]
 visible = false
