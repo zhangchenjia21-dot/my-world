@@ -4,7 +4,7 @@
   "asset_type": "character_card",
   "version": "0.1.2-converted.2-temporal-pressure",
   "display_name": "刘备",
-  "catalog_summary": "184 vs 200 temporal pressure only; not the final full temporal package or final coverage declaration.",
+  "catalog_summary": "184/189/196/200 temporal pressure only; not the final full temporal package or final coverage declaration.",
   "semantic_sections": [
     {
       "section_id": "identity-continuity",
@@ -20,6 +20,18 @@
       "display_name": "184 人物起点｜pressure",
       "bindings": [{"world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-184-yellow-turban"}],
       "semantic_sections": [{"section_id": "liu-bei-184", "section_type": "t0_profile", "title": "184 人物起点", "disclosure": "gm_reference", "content_path": "t0/184/profile.md"}]
+    },
+    {
+      "profile_id": "han-189-pressure",
+      "display_name": "189 人物起点｜pressure",
+      "bindings": [{"world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-189-luoyang-crisis"}],
+      "semantic_sections": [{"section_id": "liu-bei-189", "section_type": "t0_profile", "title": "189 人物起点", "disclosure": "gm_reference", "content_path": "t0/189/profile.md"}]
+    },
+    {
+      "profile_id": "han-196-pressure",
+      "display_name": "196 人物起点｜pressure",
+      "bindings": [{"world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-196-emperor-xu"}],
+      "semantic_sections": [{"section_id": "liu-bei-196", "section_type": "t0_profile", "title": "196 人物起点", "disclosure": "gm_reference", "content_path": "t0/196/profile.md"}]
     },
     {
       "profile_id": "han-200-pressure",
