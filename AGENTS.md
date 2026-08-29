@@ -21,6 +21,7 @@ For current Source semantics also read:
 - `Vibe-Coding/my world/architecture/source/G4_SOURCE_SEMANTIC_OWNERSHIP_AND_REAUDIT_DECISION.md`;
 - `Vibe-Coding/my world/architecture/source/G4_GAME_LOCAL_EVOLVABLE_SEMANTICS_DECISION.md`;
 - `Vibe-Coding/my world/architecture/source/G4_T0_SCOPED_SOURCE_AND_POST_T0_CANON_QUARANTINE_DECISION.md`;
+- `Vibe-Coding/my world/architecture/persistence/G4-04_MULTI_GAME_STORAGE_TOPOLOGY_DECISION.md`;
 - `docs/source/World Pack与Character Card合同v0.2_SEMANTIC_FREEZE.md`;
 - `docs/source/G4-02R1_T0_SCOPED_SOURCE_CONTRACT_ADDENDUM.md`;
 - `docs/source/G4-02R1_T0_CHARACTER_INDIVIDUALITY_ADDENDUM.md`;
@@ -72,7 +73,7 @@ Formal packet:
 
 Packet commit:
 
-`238dfecb6bdfc056a4ceb4115b247e8a8f18b674`
+`540d2fd6ecd9d01257848398dfa40e7f7b769727`
 
 Formal Code Base:
 
@@ -80,7 +81,7 @@ Formal Code Base:
 
 Governance Base:
 
-`6ac202eca576496e93eb0f4b317ef5b0bffc7399`
+`e2423cb50800129fc0bff6d1edc31701023f0f28`
 
 Active owner: **Codex**.
 
@@ -88,7 +89,7 @@ Return ceiling:
 
 > **READY FOR INDEPENDENT REVIEW**
 
-If the frozen semantics are genuinely ambiguous or impossible to implement without redesign, return **BLOCKED to GPT** with evidence. Do not invent semantic rules.
+If frozen semantics are genuinely ambiguous or impossible to implement without redesign, return **BLOCKED to GPT** with evidence. Do not invent semantic rules.
 
 G4-05 remains **REWORK / HOLD**.  
 `docs/tasks/G4-05R1_REAL_ASSET_FIDELITY_CORRECTION_TASK.md` remains **SUPERSEDED / DO NOT EXECUTE**.  
@@ -116,10 +117,10 @@ GPT owns:
 Codex currently owns only the frozen mechanism:
 
 - GDScript validator/loader/fingerprint changes;
-- exact selected Source projection;
-- compatibility-state mechanism;
-- localized Managed Source Library repair if real regression requires it;
-- regression tests/failure injection;
+- exact selected World Entry / Character T0 profile projection;
+- temporal compatibility-state mechanism;
+- localized Managed Source Library repair if a real regression requires it;
+- G4-03/G4-05 regressions;
 - Godot/Windows engineering evidence.
 
 Codex must not independently compress, paraphrase, rename or redesign the frozen 2 World + 6 Character full-fidelity fixtures.
@@ -140,218 +141,159 @@ verified engineering history
 → GPT Independent Review
 ```
 
-G4-03 remains PASS unless a concrete v0.2-r2 regression is demonstrated. G4-04 remains PASS/CLOSED. Preserve G4-05 candidate `145c3e1192b443f6284da7f36aee74619adad5bf` as provisional Wizard/Composition engineering evidence.
+G4-03 remains PASS unless a concrete corrected-contract regression is found. G4-04 remains PASS/CLOSED. G4-05 candidate `145c3e1192b443f6284da7f36aee74619adad5bf` remains provisional accepted Wizard/Composition engineering evidence.
 
 ---
 
 ## 5. Frozen Source v0.2-r2 semantics
 
-### Rich Source
-
-Long package-local UTF-8 Markdown/TXT sections are first-class Source bytes.
-
-Do not recreate v0.1 compression or a giant universal schema.
-
-### World projection
+Core shape:
 
 ```text
-top-level always-safe semantic_sections
-+
-exact selected Entry.semantic_sections
+thin identity / catalog metadata
++ ordered rich semantic_sections
++ disclosure = gm_reference | gm_private
++ package-local UTF-8 Markdown/TXT
++ World Entry-scoped sections when needed
++ Character T0-profile-scoped sections when needed
++ exact immutable fingerprint over all declared bytes
 ```
 
-Unselected Entry bytes remain in exact fingerprint but are ordinary-Runtime-ineligible.
+Do not restore compact v0.1 `summary/traits/background/drives` as the semantic target. Do not create a giant universal ontology to replace rich authored prose/tables.
 
-### Character projection
+### T0 authority
+
+> **Do not show the model a post-T0 answer and then ask it to forget that answer.**
 
 ```text
-top-level always-safe semantic_sections
-+
-exact matching T0 profile.semantic_sections
+Source Package Total Content
+!= Selected T0 Source Projection
+!= Game-local Reality
+!= Runtime Relevant Set
+!= Model-visible Working Set
 ```
 
-Never fallback to latest, nearest, later or complete-life biography.
-
-### Closed per-World profile coverage
-
-If a Character declares any binding to World W:
+World projection:
 
 ```text
-exact selected Entry binding exists → compatible
-missing selected Entry binding      → hard temporal incompatibility
+top-level always-safe sections
++ exact selected Entry sections
 ```
 
-If it declares zero bindings to selected World W, do not manufacture a hard block; preserve a distinguishable no-exact-profile / always-safe-only route for later Compatibility policy.
+Character projection:
 
-### Same-T0 multi-Entry
+```text
+top-level always-safe sections
++ exact matching T0 profile sections
+```
 
-Bindings express authored starting compatibility, not current location, opening appearance, current contract or recommended scene.
+Never fallback to latest / nearest / later / complete-life biography.
+
+### Temporal coverage
+
+If Character declares any profile coverage for World W:
+
+```text
+exact Entry binding exists → compatible
+selected Entry binding missing → temporal incompatibility
+```
+
+If Character has zero profile coverage for W, do not invent a same-family hard block; preserve a distinguishable no-exact-profile / always-safe-only result.
+
+### Fixed-T0 multiple Entry bindings
+
+One profile may bind multiple same-T0 Entries. Binding means authored starting compatibility only; it does not mean current location, opening appearance, relationship or recommended-scene score.
 
 ### Disclosure
 
-`gm_reference != player-known`.
+`gm_reference` / `gm_private` are Source disclosure classes, not automatic Player/Character knowledge.
 
-`gm_private` is explicit backstage Source truth; Character knowledge still requires real in-game provenance.
+### Fingerprint vs visibility
 
-### Exact generation
-
-Canonical manifest + all declared semantic files + all Entry/profile files + authored assets + optional portrait when present must affect exact fingerprint.
+All declared bytes participate in exact generation fingerprint, including unselected/private files.
 
 > **Fingerprint coverage != Runtime visibility.**
 
-### Model freedom
+---
 
-No convergence force and no divergence force. Do not add canon probabilities, divergence scores, fate state machines, personality transition tables, fixed narrative quotas or action whitelists.
+## 6. Game-local evolvable semantics
 
-### Game-local evolvability
+Formal invariant:
 
-Source schema is not the possibility ceiling of the Living World. Post-T0 local meaning may evolve while reusable Source/global contract/physical SQLite schema remain protected. Existing canonical Domains own their facts.
+> **Source schema is not the possibility ceiling of the Living World. Game-local semantic structure is evolvable.**
+
+After Final Create:
+
+- exact Source generation stays immutable;
+- Game-local canonical object owns lived history;
+- stable Program-owned identity/provenance/lifecycle kernel remains protected;
+- model/runtime may evolve previously unanticipated local semantics;
+- model must not rewrite Source/global contract or physical SQLite schema;
+- existing canonical Domains such as Location/Relationship/Knowledge/Injury/Inventory/Faction/Timeline win over duplicate generic truth;
+- local semantic evolution must be durable and Timeline/Save/Restore reversible.
 
 ---
 
-## 6. Frozen full-fidelity real fixtures
+## 7. Multi-Game topology｜G4-04 frozen
 
-Primary consumer roots:
+> **One Game = One SQLite.**
 
-```text
-tests/fixtures/g4_02r1/full_fidelity/汉末三国/
-tests/fixtures/g4_02r1/full_fidelity/诸界余辉/
-```
+Managed path:
 
-Frozen evidence set:
+`user://my-world/games/<game_id>/game.sqlite`
 
-```text
-World x2
-- 汉末三国：天下未定
-- 埃瑟维亚：诸界余辉
+Historical G3 path:
 
-Character x6
-- 刘备
-- 曹操
-- 孙权
-- 莉维娅·塞兰
-- 阿德里安·维尔克
-- 杜恩·石痕
-```
+`user://my-world/current-game.sqlite`
 
-These must validate/load **unchanged** in G4-02R1M1.
+Application index metadata != gameplay truth. Existing-only open, identity cross-check, A-close-before-B-open, independent DBs and legacy adoption must remain intact.
 
-No authored portrait bytes exist for the converted text-only Character packages; absence is valid. Do not add placeholders.
+Do not reopen G4-04 topology during Source mechanism work.
 
 ---
 
-## 7. G4-02R1M1 required mechanism
+## 8. Preserved G4-05 engineering
 
-Implement the packet exactly enough to prove:
+G4-05 is still REWORK/HOLD, but these seams remain provisional accepted evidence and must stay green:
 
-- `world_pack.v0.2` / `character_card.v0.2` parsing and validation;
-- safe nested rich-content paths;
-- package-wide section ID uniqueness;
-- Character profile/binding validation;
-- deterministic exact fingerprint over all declared bytes;
-- exact World selected-Entry projection;
-- exact Character selected-profile projection;
-- no fallback;
-- authored closed temporal incompatibility;
-- cross-world zero-coverage distinction;
-- disclosure metadata preservation;
-- optional portrait absence;
-- tamper/missing fail-loud.
-
-Prefer extending current Source layers:
-
-```text
-src/source/L0_公理层/Source契约验证器.gd
-src/source/L1_器件层/Generation内容指纹器.gd
-src/source/L1_器件层/Generation验证加载器.gd
-src/source/L2_流程层/Source选择服务.gd
-src/source/L3_外交层/Source合同公开接口.gd
-```
-
-and other existing Source Library seams where actually required. Do not create a parallel Source framework.
-
----
-
-## 8. Required regressions
-
-### G4-03
-
-Keep managed Library invariants:
-
-- staged verified publish;
-- append-only immutable generations;
-- explicit current;
-- restart truth;
-- exact generation identity;
-- tamper/missing fail-loud;
-- old exact generation remains resolvable.
-
-### G4-05 preserved mechanics
-
-Re-prove without resuming G4-05:
-
-- list focus/visibility != selection;
+- chooser visibility/focus != selection;
 - explicit click selects exact generation;
-- X does not drift to newer Y;
-- changing World clears Entry;
-- Player eligibility and Player/NPC overlap rules;
-- Review exact lookup/tamper failure;
-- Wizard→Review creates no Game DB/Game Library mutation/Provider call;
+- composition stores exact generation identity;
+- World change clears dependent Entry;
+- Player eligibility;
+- same exact Character cannot be Player + Guaranteed NPC;
+- selected X does not drift to newer current Y;
+- Review exact re-resolve + tamper/missing fail-loud;
+- Wizard→Review creates no Game SQLite / Game Library mutation / Provider call;
 - Cancel returns Main Menu/no Session;
-- no same-family restriction;
-- Expansion remains honest none-only.
+- Expansion remains honest none-only in current G4-05.
+
+Do not resume/close G4-05 inside G4-02R1M1.
 
 ---
 
-## 9. Forbidden scope
-
-G4-02R1M1 must not:
-
-- rewrite semantic fixtures;
-- invent universal skill/spell/nation/god/personality ontology;
-- restore `source_material`;
-- add same-family hard restriction;
-- implement Expansion runtime semantics;
-- implement G4-06 Final Create;
-- create Creator/platform/importer framework;
-- build generic legacy compressor;
-- broadly refactor Prompt/Context beyond the selected-projection seam;
-- rename stable `ashtervia` IDs;
-- fabricate portraits;
-- destructively roll back verified stages.
-
----
-
-## 10. Evidence / return protocol
-
-Codex evidence target:
-
-`docs/source/G4-02R1_R2_MECHANISM_IMPLEMENTATION_EVIDENCE.md`
-
-Evidence must identify what each important assertion proves; “tests pass” alone is insufficient.
-
-Final return must include:
+## 9. First-generation product path
 
 ```text
-Task: G4-02R1M1
-State: READY FOR INDEPENDENT REVIEW | BLOCKED
-Formal Code Base: f1950d615864fd0e780764fa1a50cfcbf1a5c507
-Start HEAD:
-Final HEAD:
-Implementation commits:
-Evidence doc:
-Tests/commands:
-Real-fixture proof:
-G4-03 regression:
-G4-05 regression:
-Known limitations:
+Main Menu
+→ New Game
+→ exactly 1 World Pack
+→ Entry/T0 0..1
+→ Expansion 0..N (current G4-05 honest path: none)
+→ exactly 1 Player Character Card
+→ 0..N Guaranteed NPC Character Cards
+→ minimal settings
+→ Compatibility Review
+→ Atomic Final Create (G4-06)
+→ Game-local Reality
+→ real AI GM Opening
 ```
 
-Codex must not declare G4-02R1 closed or G4-05 resumed/closed. GPT owns the following Independent Review.
+Do not add no-World/no-Character/blank-world direct creation, historical Source picker, Creator path, complex Expansion chooser or generic form framework in current G4.
 
 ---
 
-## 11. Technical baseline
+## 10. Technical baseline
 
 ```text
 Host             Godot 4.7.2 Standard / non-.NET Windows x64
@@ -359,7 +301,9 @@ Language         GDScript
 Runtime          same-process Godot Runtime
 Provider         DeepSeek deepseek-v4-pro
 Persistence      SQLite via godot-sqlite v4.9
-Schema           production v4
+Production schema v4
 Game topology    One Game = One SQLite
 Source Library   managed immutable filesystem generations
 ```
+
+Routine Git/Godot/build/test/debug/failure-injection work belongs to the implementation Agent. Owner handles real product UAT, irreducible product decisions and secrets. Engineering PASS does not equal Product PASS.
