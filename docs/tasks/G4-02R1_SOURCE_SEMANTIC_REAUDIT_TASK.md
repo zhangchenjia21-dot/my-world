@@ -12,7 +12,7 @@ historical_real_asset_repo: zhangchenjia21-dot/sillytavern-assets
 historical_real_asset_sha: 4a5364a042e41f4c8a69621fc4467956a78703c0
 codex_active: false
 semantic_contract: v0.2-r2-frozen-implementation-pending
-current_subtask: gpt-han-full-fidelity-world-and-three-character-rich-migration
+current_subtask: gpt-fixed-1287-fantasy-world-and-three-character-full-fidelity-migration
 ---
 
 # TASK｜G4-02R1｜World / Character Source Semantic Re-audit
@@ -51,18 +51,23 @@ Completed semantic/pressure evidence:
 - 曹操 full valid Han temporal skeleton: 184/189/196/200/208/214; 220+ incompatible;
 - 刘备 / 曹操 early-vs-earned temporal ladder pressure: **PASS**;
 - 189 / 196 shared same-year cuts refined at World Entry level;
-- future-cue lint repaired: Runtime-visible “future is open” prose may not enumerate canon-shaped next actions merely to prohibit them.
+- future-cue lint repaired: Runtime-visible “future is open” prose may not enumerate canon-shaped next actions merely to prohibit them;
+- 汉末三国 World full-fidelity candidate: **PASS at semantic/content level**;
+- 刘备 7-profile full-fidelity candidate: **PASS at semantic/content level**;
+- 曹操 6-profile full-fidelity candidate: **PASS at semantic/content level**;
+- 孙权 10-profile full-fidelity candidate: **PASS at semantic/content level**;
+- 汉末三国 family joint no-shrinkage / differentiation / temporal coverage / ownership / future-cue audit: **PASS-candidate**.
 
 Current:
 
-> **Full-fidelity migration under the proven temporal skeleton: 汉末三国 World + 刘备 / 曹操 / 孙权 rich semantics.**
+> **Second real-family pressure: fixed-1287 诸界余辉 World + 莉维娅·塞兰 / 阿德里安·维尔克 / 杜恩·石痕 full-fidelity rich semantics.**
 
 Still NOT proven:
 
-- full 53KB-level Han World fidelity under T0 scope;
-- final rich-section fidelity for 刘备 / 曹操 / 孙权;
-- final full-fidelity 诸界余辉 World + 莉维娅 / 阿德里安 / 杜恩;
-- manual original ↔ migrated no-shrinkage audit across all 2 World + 6 Character;
+- final full-fidelity `诸界余辉` World;
+- final fixed-1287 rich profiles for 莉维娅 / 阿德里安 / 杜恩;
+- second-family original ↔ migrated no-shrinkage audit;
+- final cross-family 2 World + 6 Character package-shape stability decision;
 - Godot v0.2-r2 loader/validator/fingerprint;
 - actual Compatibility Review temporal blocking;
 - actual Context Assembly exclusion of unselected later content/unsafe metadata;
@@ -78,11 +83,11 @@ Read current before further design/migration:
 - `docs/source/G4-02R1_T0_SCOPED_SOURCE_CONTRACT_ADDENDUM.md`
 - `docs/source/G4-02R1_T0_CHARACTER_INDIVIDUALITY_ADDENDUM.md`
 - `docs/source/G4-02R1_REAL_ASSET_V0_2_R2_MIGRATION_SPEC.md`
-- `docs/source/G4-02R1_SUN_QUAN_HAN_WORLD_T0_PRESSURE_AUDIT.md`
-- `docs/source/G4-02R1_SUN_QUAN_HAN_WORLD_T0_PRESSURE_RESULT.md`
-- `docs/source/G4-02R1_EARLY_CHARACTER_INDIVIDUALITY_PRESSURE_RESULT.md`
-- `docs/source/G4-02R1_LIU_BEI_CAO_CAO_TEMPORAL_REAUDIT.md`
-- `docs/source/G4-02R1_LIU_BEI_CAO_CAO_TEMPORAL_PRESSURE_RESULT.md`
+- `docs/source/G4-02R1_HAN_FAMILY_JOINT_FULL_FIDELITY_AUDIT.md`
+- `docs/source/G4-02R1_HAN_WORLD_FULL_FIDELITY_RESULT.md`
+- `docs/source/G4-02R1_LIU_BEI_FULL_FIDELITY_RESULT.md`
+- `docs/source/G4-02R1_CAO_CAO_FULL_FIDELITY_RESULT.md`
+- `docs/source/G4-02R1_SUN_QUAN_FULL_FIDELITY_RESULT.md`
 - governance `architecture/source/G4_GAME_LOCAL_EVOLVABLE_SEMANTICS_DECISION.md`
 - governance `architecture/source/G4_T0_SCOPED_SOURCE_AND_POST_T0_CANON_QUARANTINE_DECISION.md`
 
@@ -240,46 +245,40 @@ Post-T0 semantics may evolve in the Game while Source/global contract/physical S
 
 ## Current pressure fixtures
 
-Root:
+Han full-fidelity evidence root:
 
-`tests/fixtures/g4_02r1/t0_pressure/汉末三国/`
+`tests/fixtures/g4_02r1/full_fidelity/汉末三国/`
 
 Key evidence:
 
-- `天下未定/source.json` — 12 Entry temporal skeleton;
-- `孙权/source.json` + `孙权/t0/...`;
-- `刘备-pressure/source.json` + `刘备-pressure/t0/...`;
-- `曹操-pressure/source.json` + `曹操-pressure/t0/...`;
-- `诸葛亮-pressure/` — same-stage individuality pressure only;
-- `projection_expectations.json`;
-- `individuality_expectations.json`;
-- `liu_cao_temporal_expectations.json`.
+- `天下未定/` — full rich World + 12 T0 projections;
+- `刘备/` — 7 exact rich T0 profiles;
+- `曹操/` — 6 exact rich T0 profiles;
+- `孙权/` — 10 exact rich T0 profiles;
+- `world_projection_expectations.json`;
+- `docs/source/G4-02R1_HAN_FAMILY_JOINT_FULL_FIDELITY_AUDIT.md`.
 
-These fixtures prove temporal/content structure. They are **not yet final production-quality full-fidelity packages** unless explicitly promoted later.
+Earlier `tests/fixtures/g4_02r1/t0_pressure/汉末三国/` remains pressure-design evidence, not the final rich Han candidate.
 
 ---
 
 ## Current migration order
 
 ```text
-NOW
-1. decompose the full historical Han World into:
-   - truly always-safe cross-T0 content;
-   - reusable pre-T0 history segments;
-   - Entry-specific current snapshots;
-   - reference-only/post-T0 material where needed
-2. preserve full geography / institutions / society / material life / evidence hierarchy / ordinary-person scale without future leakage
-3. migrate full original 刘备 semantics across its 7 valid T0 profiles
-4. migrate full original 曹操 semantics across its 6 valid T0 profiles
-5. migrate full original 孙权 semantics across its 10 valid T0 profiles
-6. manual original ↔ migrated Han fidelity / temporal / individuality audit
+COMPLETED FIRST FAMILY
+1. full Han World temporal/rich decomposition
+2. full Han geography / institutions / society / material life / evidence hierarchy / ordinary-person scale preservation
+3. full original 刘备 semantics across 7 valid T0 profiles
+4. full original 曹操 semantics across 6 valid T0 profiles
+5. full original 孙权 semantics across 10 valid T0 profiles
+6. joint Han original↔migrated fidelity / temporal / individuality / ownership audit
 
-THEN
+NOW
 7. fixed-1287 诸界余辉 World full fidelity
 8. 莉维娅 / 阿德里安 / 杜恩 final fixed-1287 rich profiles
-9. full 2 World + 6 Character manual no-shrinkage audit
-10. freeze exact package shape
-11. issue narrow Codex v0.2-r2 mechanism packet
+9. fantasy-family original↔migrated no-shrinkage / disclosure / knowledge / complex-ability audit
+10. final 2 World + 6 Character package-shape stability decision
+11. only then issue narrow Codex v0.2-r2 mechanism packet
 ```
 
 ---
