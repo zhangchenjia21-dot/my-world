@@ -6,148 +6,67 @@
       "case_id": "han-184-sun-quan",
       "world_entry_id": "t0-184-yellow-turban",
       "character_asset_id": "character.han_end.sun_quan",
-      "expected_world_files": [
-        "天下未定/sections/01_world_causality.md",
-        "天下未定/sections/02_stable_social_geography.md",
-        "天下未定/entries/184/snapshot.md"
-      ],
-      "expected_character_files": [
-        "孙权/sections/01_identity_continuity.md",
-        "孙权/t0/184/profile.md"
-      ],
-      "must_exclude_files": [
-        "天下未定/entries/200/snapshot.md",
-        "天下未定/entries/208/snapshot.md",
-        "天下未定/entries/229/snapshot.md",
-        "天下未定/entries/263/snapshot.md",
-        "孙权/t0/200/profile.md",
-        "孙权/t0/208/profile.md",
-        "孙权/t0/229/profile.md"
-      ],
-      "forbidden_projected_markers": [
-        "赤壁",
-        "三国鼎立",
-        "孙权称帝",
-        "长期政权经营",
-        "晚年继承斗争",
-        "晋灭吴"
-      ],
-      "positive_richness_markers": [
-        "地方军事动员",
-        "乡里士人",
-        "粮食",
-        "孙坚家庭中的幼子",
-        "家庭网络"
-      ]
+      "expected_world_files": ["天下未定/sections/01_world_causality.md", "天下未定/sections/02_stable_social_geography.md", "天下未定/entries/184/snapshot.md"],
+      "expected_character_files": ["孙权/sections/01_identity_continuity.md", "孙权/t0/184/profile.md"],
+      "must_exclude_files": ["天下未定/entries/200/snapshot.md", "天下未定/entries/208/snapshot.md", "天下未定/entries/229/snapshot.md", "天下未定/entries/249/snapshot.md", "天下未定/entries/263/snapshot.md", "天下未定/entries/280/snapshot.md", "孙权/t0/200/profile.md", "孙权/t0/208/profile.md", "孙权/t0/229/profile.md", "孙权/t0/249/profile.md"],
+      "forbidden_projected_markers": ["赤壁", "三国鼎立", "孙权称帝", "长期政权经营", "二宫之争", "晋灭吴"],
+      "positive_richness_markers": ["地方军事动员", "乡里士人", "粮食", "孙坚家庭中的幼子", "家庭网络"]
     },
     {
       "case_id": "han-200-sun-quan",
       "world_entry_id": "t0-200-guandu-eve",
       "character_asset_id": "character.han_end.sun_quan",
-      "expected_world_files": [
-        "天下未定/sections/01_world_causality.md",
-        "天下未定/sections/02_stable_social_geography.md",
-        "天下未定/entries/200/snapshot.md"
-      ],
-      "expected_character_files": [
-        "孙权/sections/01_identity_continuity.md",
-        "孙权/t0/200/profile.md"
-      ],
-      "must_exclude_files": [
-        "天下未定/entries/208/snapshot.md",
-        "天下未定/entries/229/snapshot.md",
-        "天下未定/entries/263/snapshot.md",
-        "孙权/t0/208/profile.md",
-        "孙权/t0/229/profile.md"
-      ],
-      "forbidden_projected_markers": [
-        "赤壁",
-        "三国鼎立",
-        "孙权称帝",
-        "长期政权经营",
-        "晚年继承斗争"
-      ],
-      "positive_richness_markers": [
-        "孙策已经身亡",
-        "孙权刚接掌江东",
-        "继承本身带来的脆弱性",
-        "资深部属",
-        "粮运"
-      ]
+      "expected_world_files": ["天下未定/sections/01_world_causality.md", "天下未定/sections/02_stable_social_geography.md", "天下未定/entries/200/snapshot.md"],
+      "expected_character_files": ["孙权/sections/01_identity_continuity.md", "孙权/t0/200/profile.md"],
+      "must_exclude_files": ["天下未定/entries/208/snapshot.md", "天下未定/entries/229/snapshot.md", "天下未定/entries/249/snapshot.md", "天下未定/entries/263/snapshot.md", "天下未定/entries/280/snapshot.md", "孙权/t0/208/profile.md", "孙权/t0/229/profile.md", "孙权/t0/249/profile.md"],
+      "forbidden_projected_markers": ["赤壁", "三国鼎立", "孙权称帝", "长期政权经营", "二宫之争"],
+      "positive_richness_markers": ["孙策已经身亡", "孙权刚接掌江东", "继承本身带来的脆弱性", "资深部属", "粮运"]
     },
     {
       "case_id": "han-208-sun-quan",
       "world_entry_id": "t0-208-red-cliffs-eve",
       "character_asset_id": "character.han_end.sun_quan",
-      "expected_world_files": [
-        "天下未定/sections/01_world_causality.md",
-        "天下未定/sections/02_stable_social_geography.md",
-        "天下未定/entries/208/snapshot.md"
-      ],
-      "expected_character_files": [
-        "孙权/sections/01_identity_continuity.md",
-        "孙权/t0/208/profile.md"
-      ],
-      "must_exclude_files": [
-        "天下未定/entries/229/snapshot.md",
-        "天下未定/entries/263/snapshot.md",
-        "孙权/t0/229/profile.md"
-      ],
-      "forbidden_projected_markers": [
-        "孙权称帝",
-        "晚年继承斗争",
-        "晋灭吴"
-      ],
-      "positive_richness_markers": [
-        "多年统治责任",
-        "多中心人物与意见协调",
-        "北方强大力量继续南下",
-        "荆州格局已经发生重大变化",
-        "疾病"
-      ]
+      "expected_world_files": ["天下未定/sections/01_world_causality.md", "天下未定/sections/02_stable_social_geography.md", "天下未定/entries/208/snapshot.md"],
+      "expected_character_files": ["孙权/sections/01_identity_continuity.md", "孙权/t0/208/profile.md"],
+      "must_exclude_files": ["天下未定/entries/229/snapshot.md", "天下未定/entries/249/snapshot.md", "天下未定/entries/263/snapshot.md", "天下未定/entries/280/snapshot.md", "孙权/t0/229/profile.md", "孙权/t0/249/profile.md"],
+      "forbidden_projected_markers": ["孙权称帝", "二宫之争", "晋灭吴"],
+      "positive_richness_markers": ["多年统治责任", "多中心人物与意见协调", "北方强大力量继续南下", "荆州格局已经发生重大变化", "疾病"]
     },
     {
       "case_id": "han-229-sun-quan",
       "world_entry_id": "t0-229-three-states",
       "character_asset_id": "character.han_end.sun_quan",
-      "expected_world_files": [
-        "天下未定/sections/01_world_causality.md",
-        "天下未定/sections/02_stable_social_geography.md",
-        "天下未定/entries/229/snapshot.md"
-      ],
-      "expected_character_files": [
-        "孙权/sections/01_identity_continuity.md",
-        "孙权/t0/229/profile.md"
-      ],
-      "must_exclude_files": [
-        "天下未定/entries/263/snapshot.md"
-      ],
-      "forbidden_projected_markers": [
-        "五丈原结局",
-        "高平陵之变",
-        "蜀汉灭亡",
-        "晋灭吴",
-        "晚年继承斗争"
-      ],
-      "positive_richness_markers": [
-        "孙权称帝",
-        "长期政权经营",
-        "多中心文武人才的授权与协调",
-        "长期战争",
-        "财政"
-      ]
+      "expected_world_files": ["天下未定/sections/01_world_causality.md", "天下未定/sections/02_stable_social_geography.md", "天下未定/entries/229/snapshot.md"],
+      "expected_character_files": ["孙权/sections/01_identity_continuity.md", "孙权/t0/229/profile.md"],
+      "must_exclude_files": ["天下未定/entries/249/snapshot.md", "天下未定/entries/263/snapshot.md", "天下未定/entries/280/snapshot.md", "孙权/t0/249/profile.md"],
+      "forbidden_projected_markers": ["高平陵之变", "蜀汉灭亡", "晋灭吴", "孙和被废", "孙霸被赐死"],
+      "positive_richness_markers": ["孙权称帝", "长期政权经营", "多中心文武人才的授权与协调", "长期战争", "财政"]
+    },
+    {
+      "case_id": "han-249-sun-quan",
+      "world_entry_id": "t0-249-gaopingling-aftermath",
+      "character_asset_id": "character.han_end.sun_quan",
+      "expected_world_files": ["天下未定/sections/01_world_causality.md", "天下未定/sections/02_stable_social_geography.md", "天下未定/entries/249/snapshot.md"],
+      "expected_character_files": ["孙权/sections/01_identity_continuity.md", "孙权/t0/249/profile.md"],
+      "must_exclude_files": ["天下未定/entries/263/snapshot.md", "天下未定/entries/280/snapshot.md"],
+      "forbidden_projected_markers": ["孙和被废", "孙霸被赐死", "孙权已在 252 年去世", "晋灭吴"],
+      "positive_richness_markers": ["储位与宫廷派系冲突已经持续多年", "孙和、孙霸", "派系安全", "长期政权经营", "高平陵之变已经发生"]
     },
     {
       "case_id": "han-263-sun-quan-incompatible",
-      "world_entry_id": "t0-263-shu-survival-eve-pressure",
+      "world_entry_id": "t0-263-shu-survival-eve",
       "character_asset_id": "character.han_end.sun_quan",
-      "expected_world_files": [
-        "天下未定/sections/01_world_causality.md",
-        "天下未定/sections/02_stable_social_geography.md",
-        "天下未定/entries/263/snapshot.md"
-      ],
+      "expected_world_files": ["天下未定/sections/01_world_causality.md", "天下未定/sections/02_stable_social_geography.md", "天下未定/entries/263/snapshot.md"],
       "expected_character_files": [],
       "expected_result": "TEMPORALLY_INCOMPATIBLE because character.han_end.sun_quan declares closed temporal coverage for world.han_end.unsettled_realm but has no binding for this exact Entry. No always-safe fallback may materialize the Character."
+    },
+    {
+      "case_id": "han-280-sun-quan-incompatible",
+      "world_entry_id": "t0-280-wu-survival-eve",
+      "character_asset_id": "character.han_end.sun_quan",
+      "expected_world_files": ["天下未定/sections/01_world_causality.md", "天下未定/sections/02_stable_social_geography.md", "天下未定/entries/280/snapshot.md"],
+      "expected_character_files": [],
+      "expected_result": "TEMPORALLY_INCOMPATIBLE because Sun Quan's closed Han-World coverage ends before this Entry."
     }
   ]
 }
