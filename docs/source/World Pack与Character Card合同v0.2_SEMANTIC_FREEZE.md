@@ -3,6 +3,8 @@ title: World Pack 与 Character Card Source 合同 v0.2｜Semantic Freeze
 status: semantic-contract-frozen-implementation-pending
 owner: GPT
 created: 2026-08-29
+updated: 2026-08-29
+freeze_revision: 1
 supersedes_semantics: v0.1
 implementation_status: pending-codex-correction
 ---
@@ -48,7 +50,8 @@ World Pack 与 Character Card 继续共享最薄 identity：
 - exact generation 由 canonical manifest + 所有正式声明的 content/reference bytes 派生；
 - same identity/version 内容不同 => generation 必须不同；
 - `catalog_summary` 只服务 Source Library / New Game 浏览，不建立任何 in-game Player Knowledge；
-- 资产选择 UI 能看见某段文字，不等于玩家角色知道这段文字。
+- 资产选择 UI 能看见某段文字，不等于玩家角色知道这段文字；
+- `catalog_summary` 的“short”是作者/UI 语义指导，不用人工极短 max length 逼迫内容；UI 可在 projection 层截断显示，不改 Source。
 
 ---
 
@@ -72,7 +75,7 @@ World 与 Character 都使用 ordered `semantic_sections` 作为 authored prose 
 
 - package 内唯一；
 - 用于 exact lookup / retrieval / diagnostics；
-- 不要求跨不同 Source version 永久不变，但同一 author semantic section 若只是内容修订，建议保持稳定。
+- 不要求跨不同 Source version 永久不变，但同一 authored semantic section 若只是内容修订，建议保持稳定。
 
 ## 2.2 `section_type`
 
@@ -261,7 +264,7 @@ v0.1 的 mandatory arbitrary `source_material: {}` 不进入 v0.2。
 
 # 4. Character Card v0.2
 
-Manifest：
+没有 portrait 的 canonical manifest：
 
 ```json
 {
@@ -272,8 +275,18 @@ Manifest：
   "display_name": "Example Character",
   "catalog_summary": "short chooser description",
   "semantic_sections": [],
-  "portrait": null,
   "player_character_supported": true
+}
+```
+
+有 Source-authored portrait 时才额外出现：
+
+```json
+{
+  "portrait": {
+    "path": "portrait.webp",
+    "alt_text": "authored portrait description"
+  }
 }
 ```
 
@@ -395,14 +408,16 @@ v0.2 **不**为了三国的动态年份提前发明 universal `character_t0_over
 
 原因：目前还没有一个 deterministic program consumer 证明所有 Character 都需要同样的机器化 T0 overlay。G4-06/G4-07 若真实 materialization 证明需要，再从 actual consumer 拉出最小结构；不能现在以未来猜测制造 platform。
 
-## 4.6 Portrait optional
+## 4.6 Portrait optional｜canonical absence rule
 
-`portrait` 为 optional / nullable：
+`portrait` 是 optional field，只有 Source package 真正提供 authored portrait 时才出现。
 
-- 若存在：`{"path": "portrait.webp", "alt_text": "..."}`；
-- 若不存在：允许 `null` 或省略（最终 loader implementation 只选一种 canonical representation）；
-- 如果存在，bytes 纳入 exact generation；
-- Application 可以显示自己的 placeholder，但 placeholder 不得伪装成 Source-authored historical visual，也不得改变 Source generation。
+- 若存在：必须为 `{"path": "...", "alt_text": "..."}`；
+- 若不存在：**直接省略 `portrait` 字段**；v0.2 不接受用 `null` 表达 canonical absence；
+- 若存在，portrait bytes 纳入 exact generation；
+- Application 可以显示自己的 placeholder，但 placeholder 不得写进 Source manifest、不得伪装成 historical/authored visual、不得改变 Source generation。
+
+这条规则由 semantic owner 冻结，工程实现不得自行改成“required placeholder”或另一套 absence representation。
 
 ## 4.7 `player_character_supported`
 
@@ -532,7 +547,7 @@ Validator 负责结构完整性与真正的硬边界，不负责文学质量审�
 - content file type；
 - exact fingerprint；
 - structured live-state boundary；
-- portrait/reference safety。
+- optional portrait/reference safety。
 
 不应验证：
 
@@ -552,7 +567,7 @@ Validator 负责结构完整性与真正的硬边界，不负责文学质量审�
 |---|---|
 | Character `public_profile.summary/traits` | `catalog_summary` + rich sections |
 | Character `gm_private_profile.background/drives` | explicit section-level authored semantics/disclosure |
-| required portrait | optional portrait |
+| required portrait | optional; field omitted when absent |
 | World `source_lore[]` inline only | rich semantic content files |
 | mandatory arbitrary `source_material` | removed |
 | no explicit GM hidden section | `disclosure=gm_private` |
@@ -569,7 +584,7 @@ Next order:
 
 ```text
 GPT semantic freeze
-→ GPT faithful real-asset v0.2 content/package specification
+→ GPT faithful real-asset v0.2 content/packages
 → narrow Codex loader/validator/fingerprint correction
 → automated + filesystem + Windows regression
 → GPT Independent Review + content fidelity review
