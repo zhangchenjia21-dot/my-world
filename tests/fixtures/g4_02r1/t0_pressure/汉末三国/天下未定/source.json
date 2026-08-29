@@ -2,9 +2,9 @@
   "schema_version": "world_pack.v0.2",
   "asset_id": "world.han_end.unsettled_realm",
   "asset_type": "world_pack",
-  "version": "0.2.3-converted.2-pressure",
+  "version": "0.2.3-converted.2-temporal-skeleton",
   "display_name": "汉末三国：天下未定",
-  "catalog_summary": "汉末至三国时代的开放历史沙盒；本压力包只覆盖 184/200/208/229/263，用于验证 T0 历史隔离与 Character temporal incompatibility，不代表最终 12 Entry 产品包。",
+  "catalog_summary": "汉末至三国时代的开放历史沙盒；当前候选已恢复原资产 12 个固定 Entry 的 T0 temporal skeleton，但尚未替代完整 World fidelity 迁移。",
   "world_instructions": "所选 T0 以前已经成为现实的事实可以继承；T0 以后尚未发生的原历史没有世界事实权威。Source 提供时代因果惯性，不提供未来答案。",
   "gm_instructions": "先依据当前 Game Reality、行动者目标、资源、地理、制度与信息来源推演。模型预训练中的后续三国历史不得作为当前世界事实、人物动机或未来预测；也不得为了反历史而强迫结果偏离。",
   "semantic_sections": [
@@ -29,13 +29,23 @@
       "display_name": "184｜黄巾大乱",
       "opening_seed": "东汉仍在，黄巾起事冲击各地，地方动员与军事化正在加速；后来的群雄格局没有预设。",
       "semantic_sections": [
-        {
-          "section_id": "han-world-184-snapshot",
-          "section_type": "history",
-          "title": "184 当前世界切片",
-          "disclosure": "gm_reference",
-          "content_path": "entries/184/snapshot.md"
-        }
+        {"section_id": "han-world-184-snapshot", "section_type": "history", "title": "184 当前世界切片", "disclosure": "gm_reference", "content_path": "entries/184/snapshot.md"}
+      ]
+    },
+    {
+      "entry_id": "t0-189-luoyang-crisis",
+      "display_name": "189｜洛阳巨变",
+      "opening_seed": "汉灵帝已死，中央权力斗争重创朝廷，董卓控制皇帝与中央政治；各地如何回应仍开放。",
+      "semantic_sections": [
+        {"section_id": "han-world-189-snapshot", "section_type": "history", "title": "189 当前世界切片", "disclosure": "gm_reference", "content_path": "entries/189/snapshot.md"}
+      ]
+    },
+    {
+      "entry_id": "t0-196-emperor-xu",
+      "display_name": "196｜天子至许",
+      "opening_seed": "汉献帝已至许，汉廷名义与曹操集团结合；多个地方军事政治中心仍并存，北方主导权未定。",
+      "semantic_sections": [
+        {"section_id": "han-world-196-snapshot", "section_type": "history", "title": "196 当前世界切片", "disclosure": "gm_reference", "content_path": "entries/196/snapshot.md"}
       ]
     },
     {
@@ -43,13 +53,7 @@
       "display_name": "200｜官渡前夕",
       "opening_seed": "袁绍与曹操已经成为北方关键竞争力量；孙策已经身亡，孙权刚接掌江东；当前北方主战胜负及其后果仍全部开放。",
       "semantic_sections": [
-        {
-          "section_id": "han-world-200-snapshot",
-          "section_type": "history",
-          "title": "200 当前世界切片",
-          "disclosure": "gm_reference",
-          "content_path": "entries/200/snapshot.md"
-        }
+        {"section_id": "han-world-200-snapshot", "section_type": "history", "title": "200 当前世界切片", "disclosure": "gm_reference", "content_path": "entries/200/snapshot.md"}
       ]
     },
     {
@@ -57,13 +61,23 @@
       "display_name": "208｜赤壁前夕",
       "opening_seed": "北方强大力量南下，荆州格局剧变，江东承压；联盟、战役、地点、规模与结果都不得预写。",
       "semantic_sections": [
-        {
-          "section_id": "han-world-208-snapshot",
-          "section_type": "history",
-          "title": "208 当前世界切片",
-          "disclosure": "gm_reference",
-          "content_path": "entries/208/snapshot.md"
-        }
+        {"section_id": "han-world-208-snapshot", "section_type": "history", "title": "208 当前世界切片", "disclosure": "gm_reference", "content_path": "entries/208/snapshot.md"}
+      ]
+    },
+    {
+      "entry_id": "t0-214-yizhou-transition",
+      "display_name": "214｜益州易主",
+      "opening_seed": "曹操控制北方大部，孙权持续经营江东，刘备已取得益州的重要政治基础；荆州、汉中、益州之间的关系仍开放。",
+      "semantic_sections": [
+        {"section_id": "han-world-214-snapshot", "section_type": "history", "title": "214 当前世界切片", "disclosure": "gm_reference", "content_path": "entries/214/snapshot.md"}
+      ]
+    },
+    {
+      "entry_id": "t0-220-han-wei-transition",
+      "display_name": "220｜汉魏鼎革",
+      "opening_seed": "曹操已死，曹丕接掌曹氏基础，汉献帝禅位、曹魏建立；其它大型政治集团仍拥有独立选择空间。",
+      "semantic_sections": [
+        {"section_id": "han-world-220-snapshot", "section_type": "history", "title": "220 当前世界切片", "disclosure": "gm_reference", "content_path": "entries/220/snapshot.md"}
       ]
     },
     {
@@ -71,27 +85,39 @@
       "display_name": "229｜三国鼎立",
       "opening_seed": "魏、蜀汉、吴已经形成，孙权称帝已经成为本 Entry 的既成过去；未来疆界、战争、权力传递与政治重组仍由本局因果决定。",
       "semantic_sections": [
-        {
-          "section_id": "han-world-229-snapshot",
-          "section_type": "history",
-          "title": "229 当前世界切片",
-          "disclosure": "gm_reference",
-          "content_path": "entries/229/snapshot.md"
-        }
+        {"section_id": "han-world-229-snapshot", "section_type": "history", "title": "229 当前世界切片", "disclosure": "gm_reference", "content_path": "entries/229/snapshot.md"}
       ]
     },
     {
-      "entry_id": "t0-263-shu-survival-eve-pressure",
-      "display_name": "263｜蜀汉存亡前夕｜pressure",
-      "opening_seed": "魏、蜀汉、吴仍是当前重要政治实体，但各自的权力结构、资源与战争压力已经长期演化；后续政权命运仍开放。",
+      "entry_id": "t0-234-northern-expedition-era",
+      "display_name": "234｜五丈原时代",
+      "opening_seed": "三国格局已维持多年，蜀汉正在进行新的北伐，魏吴也经历长期国家建设与人物更替；当前行动结果仍开放。",
       "semantic_sections": [
-        {
-          "section_id": "han-world-263-pressure-snapshot",
-          "section_type": "history",
-          "title": "263 当前世界切片｜pressure",
-          "disclosure": "gm_reference",
-          "content_path": "entries/263/snapshot.md"
-        }
+        {"section_id": "han-world-234-snapshot", "section_type": "history", "title": "234 当前世界切片", "disclosure": "gm_reference", "content_path": "entries/234/snapshot.md"}
+      ]
+    },
+    {
+      "entry_id": "t0-249-gaopingling-aftermath",
+      "display_name": "249｜高平陵之变时代",
+      "opening_seed": "魏国内部高层权力结构已经发生重大转折，蜀汉与吴仍在；新的权力平衡会走向哪里尚未决定。",
+      "semantic_sections": [
+        {"section_id": "han-world-249-snapshot", "section_type": "history", "title": "249 当前世界切片", "disclosure": "gm_reference", "content_path": "entries/249/snapshot.md"}
+      ]
+    },
+    {
+      "entry_id": "t0-263-shu-survival-eve",
+      "display_name": "263｜蜀汉存亡前夕",
+      "opening_seed": "魏、蜀汉、吴仍是当前重要政治实体，魏具备大规模向蜀用兵的现实条件；战争结果与后续政权命运仍开放。",
+      "semantic_sections": [
+        {"section_id": "han-world-263-snapshot", "section_type": "history", "title": "263 当前世界切片", "disclosure": "gm_reference", "content_path": "entries/263/snapshot.md"}
+      ]
+    },
+    {
+      "entry_id": "t0-280-wu-survival-eve",
+      "display_name": "280｜吴亡前夕",
+      "opening_seed": "蜀汉已亡，曹魏已被晋取代，晋控制北方与巴蜀，吴仍存在；决定性南北战争结局尚未完成。",
+      "semantic_sections": [
+        {"section_id": "han-world-280-snapshot", "section_type": "history", "title": "280 当前世界切片", "disclosure": "gm_reference", "content_path": "entries/280/snapshot.md"}
       ]
     }
   ],
