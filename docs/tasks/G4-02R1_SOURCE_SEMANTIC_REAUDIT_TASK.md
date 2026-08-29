@@ -36,9 +36,9 @@ Completed:
 - v0.1 semantic verdict: **NOT ADEQUATE**;
 - v0.2 base semantic contract freeze;
 - Game-local evolvable semantics architecture decision;
-- real-asset v0.2 migration mapping / omission specification;
 - T0-scoped Source / Post-T0 Canon Quarantine architecture decision;
 - v0.2 revision-2 T0-scoped Source contract addendum;
+- v0.2-r2 real-asset migration specification;
 - model-freedom self-check: PASS.
 
 Current:
@@ -52,9 +52,13 @@ Formal outputs:
 - `docs/source/G4-02R1_SOURCE_SEMANTIC_AUDIT.md`
 - `docs/source/World Pack与Character Card合同v0.2_SEMANTIC_FREEZE.md`
 - `docs/source/G4-02R1_T0_SCOPED_SOURCE_CONTRACT_ADDENDUM.md`
-- `docs/source/G4-02R1_REAL_ASSET_V0_2_MIGRATION_SPEC.md`
+- `docs/source/G4-02R1_REAL_ASSET_V0_2_R2_MIGRATION_SPEC.md`
 - governance: `architecture/source/G4_GAME_LOCAL_EVOLVABLE_SEMANTICS_DECISION.md`
 - governance: `architecture/source/G4_T0_SCOPED_SOURCE_AND_POST_T0_CANON_QUARANTINE_DECISION.md`
+
+Historical r1 migration spec:
+
+`docs/source/G4-02R1_REAL_ASSET_V0_2_MIGRATION_SPEC.md` — **SUPERSEDED / design evidence only**.
 
 ## Required evidence
 
@@ -172,9 +176,13 @@ T0 quarantine and local evolvability are complementary: future answers are hidde
 
 ## Migration requirement
 
+Current canonical migration specification:
+
+`docs/source/G4-02R1_REAL_ASSET_V0_2_R2_MIGRATION_SPEC.md`
+
 Rule:
 
-> **preserve → re-home → explicitly omit only when owner is wrong.**
+> **preserve → re-home → T0-scope → explicitly omit only when owner is wrong.**
 
 For each real package:
 
@@ -185,7 +193,8 @@ For each real package:
 - omit only legacy repo/host mechanics and live Game state;
 - do not fabricate missing portraits;
 - do not use compact summary as fidelity substitute;
-- do not expose post-T0 later biography/result to an earlier T0 Runtime projection.
+- do not expose post-T0 later biography/result to an earlier T0 Runtime projection;
+- preserve existing stable asset IDs; do not rename `ashtervia` identities during this correction.
 
 Current pressure order:
 
