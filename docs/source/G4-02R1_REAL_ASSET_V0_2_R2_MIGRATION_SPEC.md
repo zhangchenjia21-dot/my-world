@@ -3,9 +3,11 @@ title: my world｜G4-02R1 Real Asset v0.2-r2 Migration Specification
 status: current-gpt-owned-content-migration-spec
 owner: GPT
 created: 2026-08-29
+updated: 2026-08-29
 historical_snapshot: zhangchenjia21-dot/sillytavern-assets@4a5364a042e41f4c8a69621fc4467956a78703c0
 base_contract: docs/source/World Pack与Character Card合同v0.2_SEMANTIC_FREEZE.md
 t0_addendum: docs/source/G4-02R1_T0_SCOPED_SOURCE_CONTRACT_ADDENDUM.md
+pressure_audit: docs/source/G4-02R1_SUN_QUAN_HAN_WORLD_T0_PRESSURE_AUDIT.md
 supersedes: docs/source/G4-02R1_REAL_ASSET_V0_2_MIGRATION_SPEC.md
 ---
 
@@ -115,6 +117,8 @@ No complete-life biography fallback.
 
 No canon probability / divergence score.
 
+Entry year alone is not sufficient temporal evidence. When a high-impact same-year event changes identity/power/existence, the Entry must state the event-relative T0 cut before a dependent Character profile can bind to it.
+
 ---
 
 # 5. World｜汉末三国：天下未定
@@ -141,7 +145,9 @@ asset_id: world.han_end.unsettled_realm
 
 “184–280 历史脉络”不能因为它是 lore 就整体放入 always-safe Runtime section。
 
-## 5.2 Entry preservation
+Legacy chapter 类型本身不能证明 always-safe；同一个 geography/institution/society chapter 中若句子使用后来政权、后来战果或 later historical role 解释当前概念，也必须进一步 temporal split。
+
+## 5.2 Entry preservation + temporal sufficiency
 
 原资产中真正 authored 的固定 Entry 必须全部保留，不能再次只取四个样例。
 
@@ -158,12 +164,45 @@ asset_id: world.han_end.unsettled_realm
 
 Entry 后面的原历史结果不能进入该 Entry ordinary Runtime projection。
 
-## 5.3 First temporal pressure test
+此外，Entry 必须 temporal-sufficient：若同一年内某个高影响事件会改变 Character 身份/权力/存在或 World 状态，不能只靠 year 推断其已发生与否。
 
-优先选择：
+### `200｜官渡前夕` conversion clarification
 
-- 原 World 中最早的真实 fixed Entry；
-- 另一个明显更晚、且世界状态已经发生重要变化的真实 fixed Entry。
+本轮 real pressure 对既有 Entry 做最小语义澄清，不新增另一个 200 Entry：
+
+> **孙策已经身亡，孙权刚接掌江东；官渡主战胜负尚未决定。**
+
+因此 200 孙权 profile 才能合法绑定到该 Entry。
+
+该 cut 使用 event-relative historical boundary，不伪造不必要的现代公历精确日期。
+
+## 5.3 Historical segment reuse
+
+为了保留旧 World 的长历史材料而不泄漏 later canon，允许把历史重组为 package-local past segments，例如：
+
+```text
+history/through-184.md
+history/184-to-189.md
+history/189-to-196.md
+history/196-to-200.md
+history/200-to-208.md
+...
+```
+
+later Entry 可以引用多个已经成为 past 的 segment。同一 segment 可被多个 Entry 重用。
+
+这只服务**新建 later-T0 Game**；一个从 184 开始的 existing Game 不会因游戏年份走到 208 就自动加载原历史 `200-to-208` segment。
+
+## 5.4 First temporal pressure test
+
+第一轮至少比较：
+
+```text
+184
+200
+208
+229
+```
 
 证明：
 
@@ -174,6 +213,18 @@ later Entry-only markers/outcomes
 ```
 
 同时检查 early Entry 仍然足够丰富，不因 quarantine 变成空壳背景。
+
+World 184 negative markers 至少包括：
+
+```text
+曹魏建立
+孙权称帝
+蜀汉灭亡
+司马氏掌权
+晋灭吴
+```
+
+测试对象是 selected projection，不是要求这些词从完整 package bytes 中消失。
 
 ---
 
@@ -196,6 +247,8 @@ player_character_supported: true
 
 不要因为“孙权最终是怎样的人”而写一个覆盖全部年龄的成人政治人格模板。
 
+pre-r2 top-level `personality/capabilities` 已被 real pressure 判定为 temporal leakage evidence，不再作为 final r2 shape。
+
 ## 6.2 T0 profiles
 
 只为**真实 World fixed Entries**建立 profile，不按每一年机械生成。
@@ -211,6 +264,17 @@ player_character_supported: true
 
 若某个早期 Entry 时孙权尚年幼，则 profile 应诚实表达年幼状态；不能为了“角色卡完整”提前灌入成年统治者的决策逻辑。
 
+Profile evidence 必须 as-of T0。不能拿后来长期统治成功或失败反推 earlier personality。
+
+第一轮重点 profile：
+
+```text
+184 — 年幼；禁止成人统治人格倒灌
+200 — 刚接掌江东；succession fragility / current support network
+208 — 已有真实统治经验；赤壁结果仍开放
+229 — 更长统治与已经发生的政权变化；晚年继承问题仍不得提前倒灌
+```
+
 ## 6.3 Forbidden leakage
 
 Earlier profile 不得因为旧完整人物卡提到这些 later facts 就暴露：
@@ -221,15 +285,43 @@ Earlier profile 不得因为旧完整人物卡提到这些 later facts 就暴露
 - 称帝/后世评价；
 - 只有 later lived history 才能证明的人格结论。
 
-## 6.4 Test markers
+184/189/196 negative markers 至少包括：
 
-设计至少一个 later-only semantic anchor；验证它：
+```text
+长期政权经营
+长期统治下的安全疑虑
+晚年继承斗争
+称帝后的统治身份
+```
+
+## 6.4 Test markers + richness control
+
+设计 later-only semantic anchor；验证它：
 
 - 存在于 later profile；
 - 不存在于 early T0 projection；
 - 不进入 early Setup/Context material。
 
-测试不能只做字数比较。
+同时必须证明：
+
+- 200 profile 有 succession fragility / current support network / current knowledge；
+- 208 profile 有截至 208 已经形成的真实统治经验和现实压力；
+- 229 与 208 有 pre-T0 evidence 支持的真实差异。
+
+测试不能只做字数比较或只做 negative grep。
+
+## 6.5 Per-World closed coverage
+
+孙权一旦在 `world.han_end.unsettled_realm` 声明一个或多个 T0 profile binding，该 World 的 temporal profile coverage 即视为 closed：
+
+```text
+exact Entry binding exists → compatible
+binding missing            → temporally incompatible
+```
+
+因此不得让 263 / 280 通过 always-safe fallback 把已经不属于该 T0 的孙权重新 materialize。
+
+本规则不需要添加通用 birth/death enum；也不恢复 same-family restriction。
 
 ---
 
@@ -247,6 +339,8 @@ player_character_supported: true
 - later 形成的组织经验不能倒灌 earlier profile；
 - later 关系/追随者/政治位置不是 earlier fact；
 - 建立蜀汉、称帝、夷陵等 post-T0 outcome 永远不是 earlier Runtime truth。
+
+若对汉末三国声明 profile，同样采用 per-World closed coverage；死亡后的 Entry 不得 fallback materialize。
 
 No portrait unless authored bytes exist.
 
@@ -267,6 +361,8 @@ player_character_supported: true
 - “奸雄”等后世总结不能作为跨 T0 固定人格；
 - later political position/resources/relationships 不得倒灌；
 - current causality 可以让本局曹操后来变得更像或更不像原历史，两者都必须由 lived history 支撑。
+
+若对汉末三国声明 profile，同样采用 per-World closed coverage；死亡后的 Entry 不得 fallback materialize。
 
 No portrait unless authored bytes exist.
 
@@ -386,21 +482,37 @@ asset_id: world.ashtervia.afterglow
 
 当前 G4-05 不恢复 same-family hard restriction。
 
-若 Character 没有 selected World/Entry exact T0 profile：
+必须先区分两种情况：
+
+### A. Character 已对 selected World 声明过任意 T0 profiles
+
+这表示该 Character 对该 World 采用 **closed temporal coverage**。
+
+若 selected Entry 没有 exact binding：
+
+```text
+temporally incompatible
+```
+
+Compatibility Review 必须阻止该组合；不得用 always-safe-only 继续 materialize。
+
+### B. Character 对 selected World 完全没有任何 profile binding
+
+仍保留 cross-family route：
 
 ```text
 allowed source material
 = always-safe only
 ```
 
-禁止：
+Compatibility Review / G4-06 再从真实 consumer 决定 warning 或其它更强 policy。
+
+两种情况都禁止：
 
 - latest/nearest profile fallback；
 - later profile fallback；
 - complete-life biography fallback；
-- 根据 display name 猜一个 profile。
-
-Compatibility Review / G4-06 再从真实 consumer 决定该情况是 warning 还是更强 policy。
+- 根据 display name / year / Provider knowledge 猜 profile。
 
 ---
 
@@ -432,9 +544,12 @@ Source 提供当前因果惯性。
 2. 三国 World early/later real Entry pressure；
 3. manual source ↔ profile fidelity sample；
 4. later-only marker exclusion proof at package/spec level；
-5. stable identity audit for all 8 packages；
-6. no fake portrait audit；
-7. no gm_private picker leak audit；
-8. confirm profile shape has stopped changing under these real pressures。
+5. positive richness control，证明 quarantine 没有把当前角色/世界饿空；
+6. Entry temporal sufficiency audit，特别是 same-year high-impact cut；
+7. per-World closed coverage / deceased-after-T0 incompatibility audit；
+8. stable identity audit for all 8 packages；
+9. no fake portrait audit；
+10. no gm_private picker leak audit；
+11. confirm profile shape has stopped changing under these real pressures。
 
 只有之后才允许 Codex实现 loader/validator/fingerprint/T0 projection mechanism。
