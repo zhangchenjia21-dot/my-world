@@ -19,6 +19,7 @@
         "天下未定/entries/200/snapshot.md",
         "天下未定/entries/208/snapshot.md",
         "天下未定/entries/229/snapshot.md",
+        "天下未定/entries/263/snapshot.md",
         "孙权/t0/200/profile.md",
         "孙权/t0/208/profile.md",
         "孙权/t0/229/profile.md"
@@ -55,6 +56,7 @@
       "must_exclude_files": [
         "天下未定/entries/208/snapshot.md",
         "天下未定/entries/229/snapshot.md",
+        "天下未定/entries/263/snapshot.md",
         "孙权/t0/208/profile.md",
         "孙权/t0/229/profile.md"
       ],
@@ -88,6 +90,7 @@
       ],
       "must_exclude_files": [
         "天下未定/entries/229/snapshot.md",
+        "天下未定/entries/263/snapshot.md",
         "孙权/t0/229/profile.md"
       ],
       "forbidden_projected_markers": [
@@ -116,7 +119,9 @@
         "孙权/sections/01_identity_continuity.md",
         "孙权/t0/229/profile.md"
       ],
-      "must_exclude_files": [],
+      "must_exclude_files": [
+        "天下未定/entries/263/snapshot.md"
+      ],
       "forbidden_projected_markers": [
         "五丈原结局",
         "高平陵之变",
@@ -134,9 +139,15 @@
     },
     {
       "case_id": "han-263-sun-quan-incompatible",
-      "world_entry_id": "future-final-package-entry-263",
+      "world_entry_id": "t0-263-shu-survival-eve-pressure",
       "character_asset_id": "character.han_end.sun_quan",
-      "expected_result": "TEMPORALLY_INCOMPATIBLE because this Character declares closed profile coverage for world.han_end.unsettled_realm and has no 263 binding. Pressure fixture does not pretend to be the final 12-entry package."
+      "expected_world_files": [
+        "天下未定/sections/01_world_causality.md",
+        "天下未定/sections/02_stable_social_geography.md",
+        "天下未定/entries/263/snapshot.md"
+      ],
+      "expected_character_files": [],
+      "expected_result": "TEMPORALLY_INCOMPATIBLE because character.han_end.sun_quan declares closed temporal coverage for world.han_end.unsettled_realm but has no binding for this exact Entry. No always-safe fallback may materialize the Character."
     }
   ]
 }
