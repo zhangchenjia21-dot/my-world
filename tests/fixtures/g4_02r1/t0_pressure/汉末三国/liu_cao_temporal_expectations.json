@@ -1,85 +1,38 @@
 {
-  "fixture_purpose": "Semantic/data pressure for early-vs-earned Character development. Not a runtime automated personality score.",
-  "cases": [
-    {
-      "case_id": "han-184-liu-bei",
-      "profile_path": "刘备-pressure/t0/184/profile.md",
-      "positive_markers": [
-        "与母亲以贩履织席维持生计",
-        "从卢植学习",
-        "不甚乐读书",
-        "少语言、善下人、喜怒不形于色",
-        "好交结豪侠"
-      ],
-      "forbidden_maturity": [
-        "连续失去多个地盘后的集团恢复",
-        "成熟的联盟—依附—脱离切换",
-        "大型领地治理",
-        "成熟君主级政治信誉体系"
-      ]
+  "fixture_purpose": "Semantic/data pressure for early-vs-earned Character development and closed temporal coverage.",
+  "coverage": {
+    "character.han_end.liu_bei": {
+      "must_bind": ["t0-184-yellow-turban", "t0-189-luoyang-crisis", "t0-196-emperor-xu", "t0-200-guandu-eve", "t0-208-red-cliffs-eve", "t0-214-yizhou-transition", "t0-220-han-wei-transition"],
+      "must_not_bind": ["t0-229-three-states", "t0-234-northern-expedition-era", "t0-249-gaopingling-aftermath", "t0-263-shu-survival-eve", "t0-280-wu-survival-eve"]
     },
-    {
-      "case_id": "han-200-liu-bei",
-      "profile_path": "刘备-pressure/t0/200/profile.md",
-      "positive_markers": [
-        "曹操已经在徐州方向击败刘备",
-        "进入袁绍一方的政治军事网络",
-        "组织连续性意识增强",
-        "依附不等于自我消失",
-        "失败韧性已经有证据"
-      ],
-      "forbidden_future_authority": [
-        "后来大型国家治理经验",
-        "既定政权",
-        "既定联盟",
-        "既定战争"
-      ]
-    },
-    {
-      "case_id": "han-184-cao-cao",
-      "profile_path": "曹操-pressure/t0/184/profile.md",
-      "positive_markers": [
-        "机警、有权数",
-        "任侠放荡",
-        "洛阳北部尉",
-        "顿丘令",
-        "议郎"
-      ],
-      "forbidden_maturity": [
-        "统合大范围北方政权的成熟组织能力",
-        "大规模长期战争形成的后勤/人才体系",
-        "数十年成功/失败积累后的安全心理"
-      ]
-    },
-    {
-      "case_id": "han-200-cao-cao",
-      "profile_path": "曹操-pressure/t0/200/profile.md",
-      "positive_markers": [
-        "以许为重要政治中心的实际体系",
-        "东征击败刘备",
-        "组织和人才整合已有强证据",
-        "对失控风险更敏感",
-        "务实调整已经有 lived-history evidence"
-      ],
-      "forbidden_future_authority": [
-        "当前北方主战的未来胜负",
-        "later-only titles",
-        "因为历史上后来成功，所以当前策略一定正确"
-      ]
+    "character.han_end.cao_cao": {
+      "must_bind": ["t0-184-yellow-turban", "t0-189-luoyang-crisis", "t0-196-emperor-xu", "t0-200-guandu-eve", "t0-208-red-cliffs-eve", "t0-214-yizhou-transition"],
+      "must_not_bind": ["t0-220-han-wei-transition", "t0-229-three-states", "t0-234-northern-expedition-era", "t0-249-gaopingling-aftermath", "t0-263-shu-survival-eve", "t0-280-wu-survival-eve"]
     }
+  },
+  "liu_bei_ladder": [
+    {"entry":"184","profile":"刘备-pressure/t0/184/profile.md","earned":"early family/economic background + youth temperament + early network","not_yet":"mature repeated-rebuild and large-territory governance"},
+    {"entry":"189","profile":"刘备-pressure/t0/189/profile.md","earned":"early military/office experience + institutional friction","not_yet":"mature repeated-loss political survival"},
+    {"entry":"196","profile":"刘备-pressure/t0/196/profile.md","earned":"first major territorial-loss and group-continuity pressure","not_yet":"later repeated-rebuild and large-region governance"},
+    {"entry":"200","profile":"刘备-pressure/t0/200/profile.md","earned":"repeated disruption/reaggregation and dependence-with-agency experience","not_yet":"later stable territorial governance"},
+    {"entry":"208","profile":"刘备-pressure/t0/208/profile.md","earned":"mature mobile-group continuity and long-lived relationship network","not_yet":"later stable regional outcome"},
+    {"entry":"214","profile":"刘备-pressure/t0/214/profile.md","earned":"large regional base + old-network/new-region integration","not_yet":"later formal political identity/outcomes"},
+    {"entry":"220","profile":"刘备-pressure/t0/220/profile.md","earned":"mature regional political organization under a changed legitimacy order","not_yet":"post-T0 formal choices and conflicts"}
   ],
-  "cross_character_184_blind_review": {
-    "acceptance": [
-      "Remove names and future identities.",
-      "One profile still reads as a low-resource distant-royal-line youth shaped by maternal livelihood, study/social network and restrained affect.",
-      "The other still reads as a high-official-family young official shaped by early office enforcement, youth opportunism and risk-taking.",
-      "Differences do not require future faction/state labels.",
-      "Both retain multiple plausible future adult trajectories."
-    ],
-    "failure": [
-      "Both collapse into generic ambitious young leaders.",
-      "Famous later states or titles are required to tell them apart.",
-      "Later mature skills are retrofitted into 184."
-    ]
-  }
+  "cao_cao_ladder": [
+    {"entry":"184","profile":"曹操-pressure/t0/184/profile.md","earned":"youth temperament + early office/enforcement + new military responsibility","not_yet":"large northern organization and long-war systems"},
+    {"entry":"189","profile":"曹操-pressure/t0/189/profile.md","earned":"experienced official and early military actor under central rupture","not_yet":"pre-authored response path or large political system"},
+    {"entry":"196","profile":"曹操-pressure/t0/196/profile.md","earned":"court legitimacy + territorial/military organization + larger talent system","not_yet":"future major-contest outcome"},
+    {"entry":"200","profile":"曹操-pressure/t0/200/profile.md","earned":"mature large organization and repeated campaign adjustment","not_yet":"current major-contest outcome"},
+    {"entry":"208","profile":"曹操-pressure/t0/208/profile.md","earned":"large northern system + cross-region logistics pressure","not_yet":"current southern-pressure outcome"},
+    {"entry":"214","profile":"曹操-pressure/t0/214/profile.md","earned":"long-running institutional regime operation + age/scale costs","not_yet":"post-T0 titles and political reorganization"}
+  ],
+  "acceptance": [
+    "Later profiles become richer only where additional pre-T0 lived evidence exists.",
+    "Later profiles are not title/year substitutions over an unchanged full-life template.",
+    "Earlier profiles keep distinct present individuality rather than merely deleting later traits.",
+    "No profile enumerates a post-T0 canon answer merely to forbid it.",
+    "Missing bindings after supported coverage are incompatible rather than identity-only fallback."
+  ],
+  "cross_character_184": "PASS: low-resource social-network Liu Bei and high-official-family execution-oriented Cao Cao remain distinct without future faction/state labels."
 }
