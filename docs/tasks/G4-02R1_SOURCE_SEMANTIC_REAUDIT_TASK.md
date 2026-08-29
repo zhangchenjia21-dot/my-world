@@ -12,7 +12,7 @@ historical_real_asset_repo: zhangchenjia21-dot/sillytavern-assets
 historical_real_asset_sha: 4a5364a042e41f4c8a69621fc4467956a78703c0
 codex_active: false
 semantic_contract: v0.2-r2-frozen-implementation-pending
-current_subtask: gpt-fixed-1287-fantasy-world-and-three-character-full-fidelity-migration
+current_subtask: gpt-fixed-1287-fantasy-three-character-full-fidelity-migration
 ---
 
 # TASK｜G4-02R1｜World / Character Source Semantic Re-audit
@@ -56,17 +56,21 @@ Completed semantic/pressure evidence:
 - 刘备 7-profile full-fidelity candidate: **PASS at semantic/content level**;
 - 曹操 6-profile full-fidelity candidate: **PASS at semantic/content level**;
 - 孙权 10-profile full-fidelity candidate: **PASS at semantic/content level**;
-- 汉末三国 family joint no-shrinkage / differentiation / temporal coverage / ownership / future-cue audit: **PASS-candidate**.
+- 汉末三国 family joint no-shrinkage / differentiation / temporal coverage / ownership / future-cue audit: **PASS-candidate**;
+- `诸界余辉` full-fidelity mapping completed;
+- `诸界余辉` fixed-1287 World full-fidelity candidate: **PASS at semantic/content level**;
+- `诸界余辉` World disclosure pressure: 20 rich `gm_reference` sections + 4 rich `gm_private` secrets + 3 preserved Entry snapshots, without universal nation/god/spell/law schema.
 
 Current:
 
-> **Second real-family pressure: fixed-1287 诸界余辉 World + 莉维娅·塞兰 / 阿德里安·维尔克 / 杜恩·石痕 full-fidelity rich semantics.**
+> **Fixed-1287 Character full-fidelity migration: 莉维娅·塞兰 / 阿德里安·维尔克 / 杜恩·石痕.**
 
 Still NOT proven:
 
-- final full-fidelity `诸界余辉` World;
-- final fixed-1287 rich profiles for 莉维娅 / 阿德里安 / 杜恩;
-- second-family original ↔ migrated no-shrinkage audit;
+- final fixed-1287 rich Character package for 莉维娅;
+- final fixed-1287 rich Character package for 阿德里安;
+- final fixed-1287 rich Character package for 杜恩;
+- fantasy-family original ↔ migrated no-shrinkage / disclosure / knowledge / complex-ability audit;
 - final cross-family 2 World + 6 Character package-shape stability decision;
 - Godot v0.2-r2 loader/validator/fingerprint;
 - actual Compatibility Review temporal blocking;
@@ -88,6 +92,8 @@ Read current before further design/migration:
 - `docs/source/G4-02R1_LIU_BEI_FULL_FIDELITY_RESULT.md`
 - `docs/source/G4-02R1_CAO_CAO_FULL_FIDELITY_RESULT.md`
 - `docs/source/G4-02R1_SUN_QUAN_FULL_FIDELITY_RESULT.md`
+- `docs/source/G4-02R1_AFTERGLOW_WORLD_FULL_FIDELITY_MAPPING.md`
+- `docs/source/G4-02R1_AFTERGLOW_WORLD_FULL_FIDELITY_RESULT.md`
 - governance `architecture/source/G4_GAME_LOCAL_EVOLVABLE_SEMANTICS_DECISION.md`
 - governance `architecture/source/G4_T0_SCOPED_SOURCE_AND_POST_T0_CANON_QUARANTINE_DECISION.md`
 
@@ -137,7 +143,7 @@ Never fallback to latest/nearest/later/complete-life biography.
 
 Quarantine delays authority; it does not erase late complexity.
 
-A later Character profile must not be an unchanged full-life personality with only year/title/status replaced.
+For fixed-1287 fantasy Characters, do not invent artificial multi-year profiles; preserve the one authored T0 in full.
 
 ### Character individuality
 
@@ -145,48 +151,11 @@ A later Character profile must not be an unchanged full-life personality with on
 
 Every materialized T0 Character needs enough character-specific starting individuality for the GM to answer why this person starts differently from another same-age/same-stage person.
 
-If source evidence is sparse, authored `reasonable inference / original completion` is allowed only when:
-
-- explicitly not presented as attested fact;
-- compatible with pre-T0 ecology;
-- not selected mainly because it predicts the famous adult;
-- revisable by Game-local lived history.
-
-Checks:
-
-- developmental-scale individuality;
-- no adult-stereotype backfill;
-- counterfactual-adult test;
-- multi-future test.
-
 Do not create a rigid personality schema or numeric difference score.
 
-### Shared Entry cut ownership
+### Shared Entry / Character binding ownership
 
-If multiple Characters depend on the ordering of the same world event, **World Entry owns the shared cut**.
-
-Character profiles consume the World cut; they do not maintain private alternative timelines.
-
-Current critical cuts:
-
-```text
-189
-central rupture already happened;
-individual post-cut responses remain open.
-
-196
-emperor already at Xu;
-Lü Bu already seized Xiapi;
-Liu Bei already lost that core base and is in a fragile Xiaopei arrangement;
-subsequent conflict/relationship chain remains open.
-
-200
-Sun Ce already dead;
-Sun Quan just succeeded;
-Cao Cao's eastern defeat of Liu Bei already past for current Liu/Cao states;
-Liu Bei already in Yuan Shao's network;
-decisive current northern contest result remains open.
-```
+World Entry owns shared starting place/time conditions. Character profile consumes those conditions and owns person-specific meaning; it does not create a private alternative World timeline.
 
 ### Closed per-World Character coverage
 
@@ -199,41 +168,35 @@ missing Entry binding      → temporally incompatible
 
 No identity-only fallback inside that declared World coverage.
 
+For the fixed-1287 fantasy family, explicit bindings must reflect the authored compatible Entry set rather than guessed same-family compatibility.
+
 ### Model freedom
 
 No convergence force and no divergence force.
 
-Do not add:
-
-- canon probability;
-- divergence score;
-- anti-history state machine;
-- fixed output format/length;
-- forced personality transition table.
-
-Current causality may naturally reproduce canon. If premises change, canon has no privilege.
+Do not add canon probability, divergence score, anti-history state machine, fixed output format/length or forced personality transition table.
 
 ### No future cues hidden inside warnings
 
-Runtime-visible prose must not enumerate future answers or canon-shaped next actions merely to say they are not guaranteed.
-
-Write:
-
-```text
-past facts + current pressure + generic authority boundary
-```
-
-not:
-
-```text
-here are the historical next steps, but please do not follow them
-```
+Runtime-visible prose must preserve current facts/pressures and generic authority boundaries, not enumerate future answers merely to prohibit them.
 
 ### Selection metadata != model context
 
 `catalog_summary`, `display_name`, `entry_id`, `profile_id`, etc. are selection/index/diagnostic metadata and are **not automatic prompt strings**.
 
 Do not dump the manifest into the Prompt.
+
+### Disclosure != knowledge
+
+`gm_reference` means ordinary GM-authored reference, **not player-known**.
+
+`gm_private` means explicit backstage/secret Source truth; it becomes Character knowledge only through real Game-local evidence and propagation.
+
+### Complex abilities do not force a universal mechanic schema
+
+Character ability/skill/spell tables may remain rich Markdown Source semantics when no deterministic mechanic consumer needs a machine ontology.
+
+A spell list describes current authored familiarity; it is not a whitelist of all future magical possibility.
 
 ### Game-local evolvability
 
@@ -243,22 +206,33 @@ Post-T0 semantics may evolve in the Game while Source/global contract/physical S
 
 ---
 
-## Current pressure fixtures
+## Current full-fidelity evidence
 
-Han full-fidelity evidence root:
+### Han family
+
+Root:
 
 `tests/fixtures/g4_02r1/full_fidelity/汉末三国/`
 
-Key evidence:
-
-- `天下未定/` — full rich World + 12 T0 projections;
+- `天下未定/` — rich World + 12 T0 projections;
 - `刘备/` — 7 exact rich T0 profiles;
 - `曹操/` — 6 exact rich T0 profiles;
 - `孙权/` — 10 exact rich T0 profiles;
-- `world_projection_expectations.json`;
-- `docs/source/G4-02R1_HAN_FAMILY_JOINT_FULL_FIDELITY_AUDIT.md`.
+- joint family audit: `docs/source/G4-02R1_HAN_FAMILY_JOINT_FULL_FIDELITY_AUDIT.md`.
 
-Earlier `tests/fixtures/g4_02r1/t0_pressure/汉末三国/` remains pressure-design evidence, not the final rich Han candidate.
+### Fantasy family World
+
+Root:
+
+`tests/fixtures/g4_02r1/full_fidelity/诸界余辉/埃瑟维亚/`
+
+- 20 rich reference sections;
+- 4 private secret sections;
+- 3 preserved fixed-1287 Entry snapshots;
+- `world_pack.v0.2` manifest;
+- mapping/result docs under `docs/source/`.
+
+Earlier G4-05 converted fantasy fixture remains failure/design evidence and is not the full-fidelity candidate.
 
 ---
 
@@ -267,14 +241,16 @@ Earlier `tests/fixtures/g4_02r1/t0_pressure/汉末三国/` remains pressure-desi
 ```text
 COMPLETED FIRST FAMILY
 1. full Han World temporal/rich decomposition
-2. full Han geography / institutions / society / material life / evidence hierarchy / ordinary-person scale preservation
-3. full original 刘备 semantics across 7 valid T0 profiles
-4. full original 曹操 semantics across 6 valid T0 profiles
-5. full original 孙权 semantics across 10 valid T0 profiles
-6. joint Han original↔migrated fidelity / temporal / individuality / ownership audit
+2. full Han World richness preservation
+3. full 刘备 semantics across 7 valid T0 profiles
+4. full 曹操 semantics across 6 valid T0 profiles
+5. full 孙权 semantics across 10 valid T0 profiles
+6. joint Han family audit
+
+COMPLETED SECOND-FAMILY WORLD
+7. fixed-1287 诸界余辉 World full fidelity + disclosure pressure
 
 NOW
-7. fixed-1287 诸界余辉 World full fidelity
 8. 莉维娅 / 阿德里安 / 杜恩 final fixed-1287 rich profiles
 9. fantasy-family original↔migrated no-shrinkage / disclosure / knowledge / complex-ability audit
 10. final 2 World + 6 Character package-shape stability decision
