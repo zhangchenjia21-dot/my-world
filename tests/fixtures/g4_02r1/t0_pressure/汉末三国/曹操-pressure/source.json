@@ -2,9 +2,9 @@
   "schema_version": "character_card.v0.2",
   "asset_id": "character.han_end.cao_cao",
   "asset_type": "character_card",
-  "version": "0.1.2-converted.2-temporal-pressure",
+  "version": "0.1.2-converted.2-temporal-skeleton",
   "display_name": "曹操",
-  "catalog_summary": "184/189/196/200 temporal pressure only; not the final full temporal package or final coverage declaration.",
+  "catalog_summary": "汉末三国 12 Entry 下的曹操 temporal skeleton；已覆盖其在世且当前产品支持的 184/189/196/200/208/214，220 及以后因 closed per-World coverage 不兼容。尚未替代最终 full-fidelity rich-section package。",
   "semantic_sections": [
     {
       "section_id": "identity-continuity",
@@ -16,28 +16,40 @@
   ],
   "t0_profiles": [
     {
-      "profile_id": "han-184-pressure",
-      "display_name": "184 人物起点｜pressure",
+      "profile_id": "han-184",
+      "display_name": "184 人物起点",
       "bindings": [{"world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-184-yellow-turban"}],
       "semantic_sections": [{"section_id": "cao-cao-184", "section_type": "t0_profile", "title": "184 人物起点", "disclosure": "gm_reference", "content_path": "t0/184/profile.md"}]
     },
     {
-      "profile_id": "han-189-pressure",
-      "display_name": "189 人物起点｜pressure",
+      "profile_id": "han-189",
+      "display_name": "189 人物起点",
       "bindings": [{"world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-189-luoyang-crisis"}],
       "semantic_sections": [{"section_id": "cao-cao-189", "section_type": "t0_profile", "title": "189 人物起点", "disclosure": "gm_reference", "content_path": "t0/189/profile.md"}]
     },
     {
-      "profile_id": "han-196-pressure",
-      "display_name": "196 人物起点｜pressure",
+      "profile_id": "han-196",
+      "display_name": "196 人物起点",
       "bindings": [{"world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-196-emperor-xu"}],
       "semantic_sections": [{"section_id": "cao-cao-196", "section_type": "t0_profile", "title": "196 人物起点", "disclosure": "gm_reference", "content_path": "t0/196/profile.md"}]
     },
     {
-      "profile_id": "han-200-pressure",
-      "display_name": "200 人物起点｜pressure",
+      "profile_id": "han-200",
+      "display_name": "200 人物起点",
       "bindings": [{"world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-200-guandu-eve"}],
       "semantic_sections": [{"section_id": "cao-cao-200", "section_type": "t0_profile", "title": "200 人物起点", "disclosure": "gm_reference", "content_path": "t0/200/profile.md"}]
+    },
+    {
+      "profile_id": "han-208",
+      "display_name": "208 人物起点",
+      "bindings": [{"world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-208-red-cliffs-eve"}],
+      "semantic_sections": [{"section_id": "cao-cao-208", "section_type": "t0_profile", "title": "208 人物起点", "disclosure": "gm_reference", "content_path": "t0/208/profile.md"}]
+    },
+    {
+      "profile_id": "han-214",
+      "display_name": "214 人物起点",
+      "bindings": [{"world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-214-yizhou-transition"}],
+      "semantic_sections": [{"section_id": "cao-cao-214", "section_type": "t0_profile", "title": "214 人物起点", "disclosure": "gm_reference", "content_path": "t0/214/profile.md"}]
     }
   ],
   "player_character_supported": true
