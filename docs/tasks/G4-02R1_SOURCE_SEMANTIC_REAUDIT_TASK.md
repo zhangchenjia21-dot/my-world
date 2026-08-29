@@ -12,7 +12,7 @@ historical_real_asset_repo: zhangchenjia21-dot/sillytavern-assets
 historical_real_asset_sha: 4a5364a042e41f4c8a69621fc4467956a78703c0
 codex_active: false
 semantic_contract: v0.2-r2-frozen-implementation-pending
-current_subtask: gpt-han-full-fidelity-early-individuality-and-liu-cao-temporal-remigration
+current_subtask: gpt-han-full-fidelity-and-liu-cao-temporal-remigration
 ---
 
 # TASK｜G4-02R1｜World / Character Source Semantic Re-audit
@@ -42,19 +42,17 @@ Completed:
 - `汉末三国` 12 authored fixed Entry temporal skeleton restored;
 - 孙权 10 in-life Entry profiles restored for 184/189/196/200/208/214/220/229/234/249;
 - 孙权 263/280 intentionally has no binding → closed-coverage temporal incompatibility;
-- owner requirement added: early/same-stage Characters must preserve distinct starting individuality instead of collapsing into generic age templates.
-
-Current open correction:
-
-> **184/189 孙权已经证明“不倒灌成年未来”，但尚未证明“与其它同阶段儿童有充分个体区分”。Early individuality = NOT YET PROVEN.**
+- early-character individuality requirement frozen;
+- 184/189 孙权 individuality strengthened at developmentally appropriate depth;
+- same-stage cross-character pressure `189 孙权 vs 189 诸葛亮` = **PASS at semantic/content level**;
+- anti-retrofit lesson frozen: adult stereotype backfill into childhood is future leakage even when no explicit later event is named.
 
 Current:
 
-> **GPT full-fidelity Han World layer + early-character individuality correction + 刘备/曹操 temporal re-audit/migration.**
+> **GPT full-fidelity Han World layer + 刘备/曹操 temporal re-audit/migration.**
 
 Still NOT proven:
 
-- same/similar developmental-stage cross-character differentiation pressure;
 - Godot v0.2-r2 loader/validator/fingerprint;
 - actual Compatibility Review temporal blocking;
 - actual Context Assembly exclusion of unselected later content/unsafe metadata;
@@ -70,6 +68,7 @@ Read current:
 - `docs/source/World Pack与Character Card合同v0.2_SEMANTIC_FREEZE.md`
 - `docs/source/G4-02R1_T0_SCOPED_SOURCE_CONTRACT_ADDENDUM.md`
 - `docs/source/G4-02R1_T0_CHARACTER_INDIVIDUALITY_ADDENDUM.md`
+- `docs/source/G4-02R1_EARLY_CHARACTER_INDIVIDUALITY_PRESSURE_RESULT.md`
 - `docs/source/G4-02R1_REAL_ASSET_V0_2_R2_MIGRATION_SPEC.md`
 - `docs/source/G4-02R1_SUN_QUAN_HAN_WORLD_T0_PRESSURE_AUDIT.md`
 - `docs/source/G4-02R1_SUN_QUAN_HAN_WORLD_T0_PRESSURE_RESULT.md`
@@ -134,6 +133,13 @@ Use, where available:
 - open internal tensions / deliberate blanks.
 
 If historical/canon evidence is sparse, authored `reasonable inference / original completion` is allowed when explicitly treated as such, consistent with current T0 conditions, not derived from later-life outcomes, and fully revisable by Game-local lived history.
+
+Additional pressure clarifications:
+
+- **developmental-scale individuality** — a toddler may be differentiated through attachment, familiarity, exploration, routine disruption and age-appropriate affect; do not invent mature values merely to increase detail;
+- **no adult-stereotype backfill** — a childhood trait fails review if it was selected mainly because it neatly predicts the famous adult, even if no explicit post-T0 event is named;
+- **counterfactual-adult test** — the authored starting disposition should remain plausible when the reviewer pretends not to know the Character's later canon;
+- **multi-future test** — the T0 seed must permit materially different adult trajectories under different lived histories.
 
 Do not solve this with a rigid personality schema or a numeric difference score.
 
@@ -223,8 +229,8 @@ This is not yet the full 53KB World fidelity migration; it proves temporal owner
 孙权 current profile coverage:
 
 ```text
-184  child
-189  child
+184  toddler-scale individualized starting profile
+189  child-scale individualized starting profile
 196  adolescent / family political environment
 200  newly succeeded ruler
 208  years of earned rule
@@ -237,13 +243,29 @@ This is not yet the full 53KB World fidelity migration; it proves temporal owner
 280  no binding → incompatible
 ```
 
-Important pressure lesson:
+Important temporal pressure lesson:
 
 > A semantic dimension quarantined at early T0 may legitimately appear later once lived history has actually produced it. Quarantine delays authority; it does not erase character development.
 
-New owner pressure lesson:
+Important individuality pressure lesson:
 
 > A semantic dimension absent because it belongs to the future must not be replaced by a generic age template. Early Characters still require distinct present individuality.
+
+Same-stage pressure:
+
+```text
+189 孙权 (~7)
+vs
+189 诸葛亮 (~8)
+
+blind differentiation = PASS
+adult-stereotype backfill check = PASS after one correction
+```
+
+Evidence:
+
+- `tests/fixtures/g4_02r1/t0_pressure/汉末三国/individuality_expectations.json`
+- `docs/source/G4-02R1_EARLY_CHARACTER_INDIVIDUALITY_PRESSURE_RESULT.md`
 
 Projection expectations:
 
@@ -255,18 +277,16 @@ Projection expectations:
 
 ```text
 NOW
-1. correct / strengthen 184/189 Sun Quan early individuality without future leakage
-2. add same/similar-stage cross-character differentiation pressure
-3. complete full-fidelity 汉末三国 World sections under the 12-entry temporal skeleton
-4. re-audit / migrate 刘备 across valid Entries
-5. re-audit / migrate 曹操 across valid Entries
+1. complete full-fidelity 汉末三国 World sections under the 12-entry temporal skeleton
+2. re-audit / migrate 刘备 across valid Entries
+3. re-audit / migrate 曹操 across valid Entries
 
 THEN
-6. fixed-1287 诸界余辉 World full fidelity
-7. 莉维娅 / 阿德里安 / 杜恩 final fixed-1287 profiles
-8. manual original ↔ migrated fidelity + temporal leak + individuality audit
-9. freeze exact package shape
-10. issue narrow Codex v0.2-r2 mechanism packet
+4. fixed-1287 诸界余辉 World full fidelity
+5. 莉维娅 / 阿德里安 / 杜恩 final fixed-1287 profiles
+6. manual original ↔ migrated fidelity + temporal leak + individuality audit
+7. freeze exact package shape
+8. issue narrow Codex v0.2-r2 mechanism packet
 ```
 
 ---
