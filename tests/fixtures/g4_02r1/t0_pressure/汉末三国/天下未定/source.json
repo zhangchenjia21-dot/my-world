@@ -1,0 +1,85 @@
+{
+  "schema_version": "world_pack.v0.2",
+  "asset_id": "world.han_end.unsettled_realm",
+  "asset_type": "world_pack",
+  "version": "0.2.3-converted.2-pressure",
+  "display_name": "汉末三国：天下未定",
+  "catalog_summary": "汉末至三国时代的开放历史沙盒；本压力包只覆盖 184/200/208/229，用于验证 T0 历史隔离，不代表最终 12 Entry 产品包。",
+  "world_instructions": "所选 T0 以前已经成为现实的事实可以继承；T0 以后尚未发生的原历史没有世界事实权威。Source 提供时代因果惯性，不提供未来答案。",
+  "gm_instructions": "先依据当前 Game Reality、行动者目标、资源、地理、制度与信息来源推演。模型预训练中的后续三国历史不得作为当前世界事实、人物动机或未来预测；也不得为了反历史而强迫结果偏离。",
+  "semantic_sections": [
+    {
+      "section_id": "world-causality",
+      "section_type": "world_logic",
+      "title": "开放历史与因果边界",
+      "disclosure": "gm_reference",
+      "content_path": "sections/01_world_causality.md"
+    },
+    {
+      "section_id": "stable-social-geography",
+      "section_type": "society",
+      "title": "跨 T0 稳定的社会与空间基础",
+      "disclosure": "gm_reference",
+      "content_path": "sections/02_stable_social_geography.md"
+    }
+  ],
+  "entries": [
+    {
+      "entry_id": "t0-184-yellow-turban",
+      "display_name": "184｜黄巾大乱",
+      "opening_seed": "东汉仍在，黄巾起事冲击各地，地方动员与军事化正在加速；后来的群雄格局没有预设。",
+      "semantic_sections": [
+        {
+          "section_id": "han-world-184-snapshot",
+          "section_type": "history",
+          "title": "184 当前世界切片",
+          "disclosure": "gm_reference",
+          "content_path": "entries/184/snapshot.md"
+        }
+      ]
+    },
+    {
+      "entry_id": "t0-200-guandu-eve",
+      "display_name": "200｜官渡前夕",
+      "opening_seed": "袁绍与曹操已经成为北方关键竞争力量；孙策已经身亡，孙权刚接掌江东；官渡主战胜负及其后果仍全部开放。",
+      "semantic_sections": [
+        {
+          "section_id": "han-world-200-snapshot",
+          "section_type": "history",
+          "title": "200 当前世界切片",
+          "disclosure": "gm_reference",
+          "content_path": "entries/200/snapshot.md"
+        }
+      ]
+    },
+    {
+      "entry_id": "t0-208-red-cliffs-eve",
+      "display_name": "208｜赤壁前夕",
+      "opening_seed": "北方强大力量南下，荆州格局剧变，江东承压；联盟、战役、地点、规模与结果都不得预写。",
+      "semantic_sections": [
+        {
+          "section_id": "han-world-208-snapshot",
+          "section_type": "history",
+          "title": "208 当前世界切片",
+          "disclosure": "gm_reference",
+          "content_path": "entries/208/snapshot.md"
+        }
+      ]
+    },
+    {
+      "entry_id": "t0-229-three-states",
+      "display_name": "229｜三国鼎立",
+      "opening_seed": "魏、蜀汉、吴已经形成，孙权称帝已经成为本 Entry 的既成过去；未来疆界、战争、继承与统一者仍由本局因果决定。",
+      "semantic_sections": [
+        {
+          "section_id": "han-world-229-snapshot",
+          "section_type": "history",
+          "title": "229 当前世界切片",
+          "disclosure": "gm_reference",
+          "content_path": "entries/229/snapshot.md"
+        }
+      ]
+    }
+  ],
+  "authored_assets": []
+}
