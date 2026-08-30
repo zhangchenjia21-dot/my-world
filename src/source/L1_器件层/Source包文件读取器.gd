@@ -70,7 +70,7 @@ func validate_relative_reference(relative_path: String, kind: String) -> Diction
 		if segment.is_empty() or segment == "." or segment == "..":
 			return Rules.failure("unsafe_reference", "Source 文件引用不得包含空、. 或 .. 路径段。")
 	var extension := relative_path.get_extension().to_lower()
-	var allowed := IMAGE_EXTENSIONS if kind in ["portrait", "scene", "map"] else DOCUMENT_EXTENSIONS if kind == "document" else []
+	var allowed := IMAGE_EXTENSIONS if kind in ["portrait", "scene", "map"] else ["txt", "md"] if kind == "semantic_content" else DOCUMENT_EXTENSIONS if kind == "document" else []
 	if not allowed.has(extension):
 		return Rules.failure("unsupported_reference_type", "Source 文件类型与声明 kind 不匹配：%s" % relative_path)
 	return Rules.success({"path": "/".join(segments)})

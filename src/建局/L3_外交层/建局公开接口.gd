@@ -4,10 +4,12 @@ extends RefCounted
 const Rules := preload("res://src/建局/L0_公理层/建局Composition规则.gd")
 const State := preload("res://src/建局/L1_器件层/建局Composition状态器.gd")
 const ReviewProcess := preload("res://src/建局/L2_流程层/建局兼容性审查流程.gd")
+const SourceContract := preload("res://src/source/L3_外交层/Source合同公开接口.gd")
 
 var _source_library: RefCounted
 var _state := State.new()
 var _review := ReviewProcess.new()
+var _source_contract := SourceContract.new()
 
 
 ## Source Library 由 Application composition root 显式注入；构造与 reset 均不扫描 Library。
@@ -79,11 +81,33 @@ func build_compatibility_review() -> Dictionary:
 		if not npc_result.success:
 			return _review_failure(npc_result, "Guaranteed NPC")
 		npcs.append(npc_result.generation)
+	if not composition.entry.is_empty():
+		var world_asset_id := String(world_result.generation.identity.asset_id)
+		var entry_id := String(composition.entry.entry_id)
+		var player_compatibility := _temporal_compatibility(player_result.generation, world_asset_id, entry_id)
+		if not player_compatibility.success:
+			return player_compatibility
+		for npc_generation: RefCounted in npcs:
+			var npc_compatibility := _temporal_compatibility(npc_generation, world_asset_id, entry_id)
+			if not npc_compatibility.success:
+				return npc_compatibility
 	return _review.review(composition, {
 		"world": world_result.generation,
 		"player_character": player_result.generation,
 		"guaranteed_npcs": npcs,
 	})
+
+
+func _temporal_compatibility(generation: RefCounted, world_asset_id: String, entry_id: String) -> Dictionary:
+	# v0.1 没有 T0 profile contract；保留已接受的 Wizard 历史回归，不从 display/family 猜测。
+	if String(generation.source.identity.get("schema_version", "")) != "character_card.v0.2":
+		return Rules.success()
+	var result := _source_contract.project_character_t0(generation.source, world_asset_id, entry_id)
+	if not result.success:
+		return Rules.failure("source_projection_failed", String(result.get("message", result.get("code", "unknown"))))
+	if bool(result.hard_incompatible):
+		return Rules.failure("character_temporal_incompatible", "Character 对所选 World 已声明封闭 T0 coverage，但未绑定所选 Entry。")
+	return Rules.success({"compatibility_state": result.compatibility_state})
 
 
 func _exact_lookup(identity: Dictionary) -> Dictionary:

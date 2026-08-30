@@ -5,6 +5,8 @@ extends RefCounted
 
 const WORLD_SCHEMA := "world_pack.v0.1"
 const CHARACTER_SCHEMA := "character_card.v0.1"
+const WORLD_SCHEMA_V2 := "world_pack.v0.2"
+const CHARACTER_SCHEMA_V2 := "character_card.v0.2"
 const WORLD_TYPE := "world_pack"
 const CHARACTER_TYPE := "character_card"
 const MANIFEST_NAME := "source.json"
@@ -18,6 +20,20 @@ const CHARACTER_FIELDS := [
 	"schema_version", "asset_id", "asset_type", "version", "display_name",
 	"public_profile", "gm_private_profile", "portrait", "player_character_supported",
 ]
+const WORLD_FIELDS_V2 := [
+	"schema_version", "asset_id", "asset_type", "version", "display_name",
+	"catalog_summary", "world_instructions", "gm_instructions", "semantic_sections",
+	"entries", "authored_assets",
+]
+const CHARACTER_FIELDS_V2 := [
+	"schema_version", "asset_id", "asset_type", "version", "display_name",
+	"catalog_summary", "semantic_sections", "t0_profiles", "portrait",
+	"player_character_supported",
+]
+const DISCLOSURES := ["gm_reference", "gm_private"]
+const COMPATIBILITY_EXACT_PROFILE := "exact_profile_match"
+const COMPATIBILITY_NO_WORLD_COVERAGE := "no_world_coverage"
+const COMPATIBILITY_TEMPORAL_INCOMPATIBLE := "temporal_incompatible"
 const LIVE_STATE_FIELDS := [
 	"current_timeline_head", "save_state", "current_conversation", "runtime_history",
 	"current_location", "current_relationship", "current_injury", "current_condition",
@@ -99,6 +115,17 @@ static func validate_string_array(value: Variant, field: String) -> Dictionary:
 	for item: Variant in value:
 		if not item is String or String(item).strip_edges().is_empty():
 			return failure("missing_or_invalid_field", "%s 只能包含非空字符串。" % field)
+	return success()
+
+
+static func validate_safe_token(value: Variant, field: String) -> Dictionary:
+	if not value is String or String(value).is_empty() or String(value) != String(value).strip_edges():
+		return failure("missing_or_invalid_field", "%s 必须是非空安全 token。" % field)
+	for index: int in String(value).length():
+		var code := String(value).unicode_at(index)
+		var allowed := (code >= 97 and code <= 122) or (code >= 48 and code <= 57) or code in [45, 46, 95]
+		if not allowed:
+			return failure("missing_or_invalid_field", "%s 只允许 a-z、0-9、点、下划线和连字符。" % field)
 	return success()
 
 

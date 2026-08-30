@@ -10,7 +10,9 @@ func calculate(manifest: Dictionary, referenced_files: Array) -> Dictionary:
 	var context := HashingContext.new()
 	if context.start(HashingContext.HASH_SHA256) != OK:
 		return Rules.failure("fingerprint_failed", "无法初始化 SHA-256。")
-	_update_text(context, "MY_WORLD_SOURCE_V0.1\nMANIFEST\n")
+	# v0.1 保持历史 domain separator，避免升级后让已安装 generation 身份漂移。
+	var separator := "MY_WORLD_SOURCE_V0.2" if String(manifest.get("schema_version", "")).ends_with(".v0.2") else "MY_WORLD_SOURCE_V0.1"
+	_update_text(context, "%s\nMANIFEST\n" % separator)
 	_update_text(context, JSON.stringify(_canonicalize(manifest)))
 	var files := referenced_files.duplicate(true)
 	files.sort_custom(func(left: Dictionary, right: Dictionary) -> bool: return String(left.path) < String(right.path))

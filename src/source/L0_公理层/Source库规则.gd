@@ -61,11 +61,27 @@ static func current_metadata(source: RefCounted) -> Dictionary:
 static func contract_owned_paths(source: RefCounted) -> Array[String]:
 	var paths: Array[String] = [MANIFEST_NAME]
 	if String(source.identity.asset_type) == WORLD_TYPE:
+		for section: Dictionary in source.semantic_sections:
+			_append_unique(paths, String(section.content_path))
+		for entry: Dictionary in source.entries:
+			for section: Dictionary in entry.get("semantic_sections", []):
+				_append_unique(paths, String(section.content_path))
 		for declaration: Dictionary in source.authored_assets:
-			paths.append(String(declaration.path))
+			_append_unique(paths, String(declaration.path))
 	else:
-		paths.append(String(source.portrait.path))
+		for section: Dictionary in source.semantic_sections:
+			_append_unique(paths, String(section.content_path))
+		for profile: Dictionary in source.t0_profiles:
+			for section: Dictionary in profile.semantic_sections:
+				_append_unique(paths, String(section.content_path))
+		if not source.portrait.is_empty():
+			_append_unique(paths, String(source.portrait.path))
 	return paths
+
+
+static func _append_unique(paths: Array[String], path: String) -> void:
+	if not paths.has(path):
+		paths.append(path)
 
 
 static func _is_safe_path_segment(value: String) -> bool:
