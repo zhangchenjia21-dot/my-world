@@ -5,6 +5,10 @@ task: G4-02R1M1
 formal_code_base: f1950d615864fd0e780764fa1a50cfcbf1a5c507
 governance_base: e2423cb50800129fc0bff6d1edc31701023f0f28
 start_head: 34c4d80acbdc3eed24cad9d8c9e5552941d1869a
+ir01_task: G4-02R1M1-IR01
+ir01_start_head: 1914880bccfc04477ec81e1dfb4ba4d1a08ff04f
+ir01_formal_code_base: 74d1fe8d93e527794db33d0280d76d16674ae1d7
+ir01_governance_base: 14fb4d686c458c2a09a348e54088377f96655d65
 ---
 
 # G4-02R1M1 Source v0.2-r2 Mechanism Implementation Evidence
@@ -141,3 +145,111 @@ The non-headless Windows run used Godot `4.7.2.stable`, Vulkan `1.4.341`, and `N
 - Optional portraits remain honestly absent; no portrait synthesis or placeholder production was added.
 - Headless rendering cannot produce meaningful screenshots with Godot's dummy renderer; screenshot evidence therefore comes only from the successful non-headless Windows/Vulkan run.
 - Engineering evidence is ready for GPT Independent Review; it does not close G4-02R1 or change G4-05 state.
+
+## 5. G4-02R1M1-IR01 optional temporal scope evidence correction
+
+### 5.1 Scope and commit
+
+IR01 test commit: `b6f83851758a79dff2a24f621befdebdcc21c940`
+
+Formal Code Base `74d1fe8d93e527794db33d0280d76d16674ae1d7` to Start HEAD `1914880bccfc04477ec81e1dfb4ba4d1a08ff04f` contained only repository-native AGENTS/packet changes. No material implementation drift existed.
+
+Changed files:
+
+- `tests/g4_02r1/Source_v0_2_r2_机制现实测试.gd`: replace generic cutoff sampling with direct production-path assertions for every required Han Entry.
+- `tests/g4_02r1/Source可选时态范围证据测试.gd` and UID: prove optional temporal capability through the existing Source L3 loader/projection seam.
+- `tests/fixtures/g4_02r1/ir01_optional_temporal/非时态角色/*`: task-owned profile-free rich Character evidence.
+- `tests/fixtures/g4_02r1/ir01_optional_temporal/非时态世界/*`: task-owned multi-Entry World evidence without a temporal section matrix.
+
+Production code changed: **no**. `git diff --name-only -- src` was empty. Frozen full-fidelity fixtures changed: **no**. `git diff --name-only -- tests/fixtures/g4_02r1/full_fidelity` was empty. Tests remain outside the four Source layers; no dependency direction, cross-module boundary or public contract changed.
+
+### 5.2 Exact commands
+
+```powershell
+& 'D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe' --headless --path 'D:\AI\Projects\my-world' --script 'res://tests/g4_02r1/Source可选时态范围证据测试.gd'
+& 'D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe' --headless --path 'D:\AI\Projects\my-world' --script 'res://tests/g4_02r1/Source_v0_2_r2_机制现实测试.gd' -- --work-root='D:/AI/Projects/my-world/build/g4_02r1_ir01_reality'
+& 'D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe' --headless --path 'D:\AI\Projects\my-world' --script 'res://tests/g4_02r1/Source_v0_2_r2_负向测试.gd' -- --work-root='D:/AI/Projects/my-world/build/g4_02r1_ir01_negative'
+& 'D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe' --headless --path 'D:\AI\Projects\my-world' --script 'res://tests/g4_03/Source库现实测试.gd' -- --work-root='D:/AI/Projects/my-world/build/g4_03_ir01_reality'
+& 'D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe' --headless --path 'D:\AI\Projects\my-world' --script 'res://tests/g4_03/Source库重启验证测试.gd' -- --work-root='D:/AI/Projects/my-world/build/g4_03_ir01_reality'
+& 'D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe' --headless --path 'D:\AI\Projects\my-world' --script 'res://tests/g4_03/Source库失败与篡改测试.gd' -- --work-root='D:/AI/Projects/my-world/build/g4_03_ir01_failure'
+& 'D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe' --headless --path 'D:\AI\Projects\my-world' --script 'res://tests/g4_05/建局Composition测试.gd' -- --root='D:/AI/Projects/my-world/build/g4_05_ir01_composition'
+& 'D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe' --headless --path 'D:\AI\Projects\my-world' --script 'res://tests/g4_05/应用新游戏向导现实测试.gd' -- --root='D:/AI/Projects/my-world/build/g4_05_ir01_application'
+& 'D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe' --headless --path 'D:\AI\Projects\my-world' --editor --quit
+git diff --name-only -- src
+git diff --name-only -- tests/fixtures/g4_02r1/full_fidelity
+git diff --check
+```
+
+### 5.3 Complete Han closed-coverage evidence
+
+Every row below called `Source合同公开接口.project_character_t0(...)` with the unchanged real Character fixture and exact real World Entry ID; no year arithmetic or name inference was used:
+
+```text
+刘备 t0-220-han-wei-transition -> exact_profile_match (han-220)
+刘备 t0-229-three-states       -> temporal_incompatible
+刘备 t0-263-shu-survival-eve   -> temporal_incompatible
+刘备 t0-280-wu-survival-eve    -> temporal_incompatible
+
+曹操 t0-214-yizhou-transition  -> exact_profile_match (han-214)
+曹操 t0-220-han-wei-transition -> temporal_incompatible
+曹操 t0-229-three-states       -> temporal_incompatible
+曹操 t0-263-shu-survival-eve   -> temporal_incompatible
+曹操 t0-280-wu-survival-eve    -> temporal_incompatible
+
+孙权 t0-249-gaopingling-aftermath -> exact_profile_match (han-249)
+孙权 t0-263-shu-survival-eve      -> temporal_incompatible
+孙权 t0-280-wu-survival-eve       -> temporal_incompatible
+```
+
+The direct Sun Quan 280 assertion additionally required `hard_incompatible == true` and an empty `selected_profile`, proving no earlier/latest/nearest/full-life profile was substituted.
+
+### 5.4 Non-temporal Character evidence
+
+The task-owned `character.ir01.river_cartographer` manifest omits `t0_profiles` entirely. Its complete identity, personality contradiction, expression, capability, limitation and autonomy semantics live in two top-level rich Markdown sections.
+
+Production results:
+
+- loader accepted `character_card.v0.2` and returned zero profiles without creating a synthetic profile;
+- projection against `world.ir01.tidal_archipelago/opening-harbor-market` returned `no_world_coverage`, `hard_incompatible == false` and an empty `selected_profile`;
+- both top-level markers remained in the selected projection, proving always-safe-only does not starve rich semantics;
+- manifest contains none of `historical`, `temporal_mode`, `requires_quarantine` or `family_mode`.
+
+Focused result: `failures=0`.
+
+### 5.5 Non-temporal World evidence
+
+The task-owned `world.ir01.tidal_archipelago` keeps complete rich world-operation semantics top-level and declares two Entries solely as opening/scenario choices. Both Entries have empty `semantic_sections`.
+
+Production results:
+
+- loader accepted `world_pack.v0.2` without a temporal mode field;
+- exact selection independently returned `opening-harbor-market` and `opening-outer-lighthouse`;
+- each selected projection contained exactly the same complete top-level rich section and the correct selected Entry metadata;
+- no history/year/family classification or artificial Entry section matrix was introduced.
+
+Focused result: `failures=0`.
+
+### 5.6 Existing temporal quarantine and regression
+
+The updated real-fixture suite ended with `failures=0` and retained:
+
+- Han 184 World projection excludes later Entry inventory and later canon markers;
+- Liu Bei 184 projection excludes the later 220 profile and its truth marker;
+- all three Afterglow Characters exact-match all three authored 1287 Entries;
+- cross-world zero coverage remains non-hard-blocking;
+- unselected/private byte mutations change fingerprint while remaining outside the wrong selected projection;
+- optional portrait absence remains honest for all six real Characters;
+- G4-03 exact managed-generation tamper still fails loud.
+
+The existing v0.2 negative suite ended with `failures=0`. G4-03 reality, restart and failure/tamper suites each ended with `failures=0`. G4-05 Composition and Application Wizard suites each ended with `failures=0`, preserving exact selection, no drift to current Y, fail-loud review, zero Game DB/Game Library mutation and disabled G4-06.
+
+Godot editor parse completed without script parse/compile errors. The run emitted pre-existing test-build UID duplication warnings plus sandbox limitations for the Windows certificate store, `user://` log rotation and editor-settings persistence; none changed process exit status or test assertions.
+
+No GUI or production code changed, so IR01 did not repeat the non-headless screenshot pass. The prior G4-02R1M1 Windows/Vulkan evidence in section 3.8 remains the applicable engineering evidence.
+
+### 5.7 IR01 known limitations
+
+- `no_world_coverage` proves only that the temporal-coverage rule has no basis to hard-block; it does not decide every future Compatibility policy.
+- The synthetic packages are narrow mechanism evidence, not product-valued Source content or Owner UAT assets.
+- IR01 adds no generic temporal-mode classifier, profile fallback, same-family restriction, G4-06 behavior or Context/Prompt refactor.
+- This correction is ready for GPT Independent Review and does not close G4-02R1 or change G4-05 hold state.
