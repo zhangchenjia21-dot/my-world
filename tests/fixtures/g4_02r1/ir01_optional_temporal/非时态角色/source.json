@@ -1,0 +1,25 @@
+{
+  "schema_version": "character_card.v0.2",
+  "asset_id": "character.ir01.river_cartographer",
+  "asset_type": "character_card",
+  "version": "0.2.0-ir01-evidence",
+  "display_name": "逐潮绘图师",
+  "catalog_summary": "没有多时点变体的原创人物；完整起始语义由 top-level rich sections 承载。",
+  "semantic_sections": [
+    {
+      "section_id": "cartographer-identity-personality",
+      "section_type": "identity",
+      "title": "身份、人格矛盾与表达",
+      "disclosure": "gm_reference",
+      "content_path": "sections/01_身份人格与表达.md"
+    },
+    {
+      "section_id": "cartographer-agency-limits",
+      "section_type": "agency",
+      "title": "能力、限制与自主性",
+      "disclosure": "gm_private",
+      "content_path": "sections/02_能力限制与自主性.md"
+    }
+  ],
+  "player_character_supported": true
+}

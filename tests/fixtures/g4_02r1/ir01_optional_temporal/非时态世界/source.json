@@ -1,0 +1,34 @@
+{
+  "schema_version": "world_pack.v0.2",
+  "asset_id": "world.ir01.tidal_archipelago",
+  "asset_type": "world_pack",
+  "version": "0.2.0-ir01-evidence",
+  "display_name": "潮汐群岛",
+  "catalog_summary": "没有历史时间切片需求、但提供多个开局场景选择的原创群岛。",
+  "world_instructions": "依据潮汐、航路、聚落互助与资源压力推演，不把 Entry 当作历史年代分类。",
+  "gm_instructions": "Entry 只确定本局开场场景；完整世界运行语义始终来自 top-level rich sections。",
+  "semantic_sections": [
+    {
+      "section_id": "archipelago-world-operation",
+      "section_type": "world_logic",
+      "title": "潮汐、航路与聚落运行",
+      "disclosure": "gm_reference",
+      "content_path": "sections/01_世界运行与开局边界.md"
+    }
+  ],
+  "entries": [
+    {
+      "entry_id": "opening-harbor-market",
+      "display_name": "港市晨潮",
+      "opening_seed": "晨潮托起浮桥，玩家从繁忙港市开始。",
+      "semantic_sections": []
+    },
+    {
+      "entry_id": "opening-outer-lighthouse",
+      "display_name": "外海灯塔",
+      "opening_seed": "风暴将至，玩家从外海灯塔开始。",
+      "semantic_sections": []
+    }
+  ],
+  "authored_assets": []
+}

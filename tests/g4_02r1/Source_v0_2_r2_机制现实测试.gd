@@ -80,18 +80,31 @@ func _test_world_projection() -> void:
 
 func _test_character_projection_and_compatibility() -> void:
 	var han_world := "world.han_end.unsettled_realm"
-	var cutoffs := {
-		"character.han_end.liu_bei": {"positive": "t0-220-han-wei-transition", "negative": "t0-229-three-states"},
-		"character.han_end.cao_cao": {"positive": "t0-214-yizhou-transition", "negative": "t0-220-han-wei-transition"},
-		"character.han_end.sun_quan": {"positive": "t0-249-gaopingling-aftermath", "negative": "t0-263-shu-survival-eve"},
-	}
-	for asset_id: String in cutoffs:
-		if not _loaded.has(asset_id):
+	# 每个断言都走真实 Entry ID 与 production exact-binding seam，不能用年份运算代替 authored coverage。
+	var han_cases := [
+		{"name": "刘备", "asset_id": "character.han_end.liu_bei", "entry_id": "t0-220-han-wei-transition", "state": "exact_profile_match", "profile_id": "han-220"},
+		{"name": "刘备", "asset_id": "character.han_end.liu_bei", "entry_id": "t0-229-three-states", "state": "temporal_incompatible"},
+		{"name": "刘备", "asset_id": "character.han_end.liu_bei", "entry_id": "t0-263-shu-survival-eve", "state": "temporal_incompatible"},
+		{"name": "刘备", "asset_id": "character.han_end.liu_bei", "entry_id": "t0-280-wu-survival-eve", "state": "temporal_incompatible"},
+		{"name": "曹操", "asset_id": "character.han_end.cao_cao", "entry_id": "t0-214-yizhou-transition", "state": "exact_profile_match", "profile_id": "han-214"},
+		{"name": "曹操", "asset_id": "character.han_end.cao_cao", "entry_id": "t0-220-han-wei-transition", "state": "temporal_incompatible"},
+		{"name": "曹操", "asset_id": "character.han_end.cao_cao", "entry_id": "t0-229-three-states", "state": "temporal_incompatible"},
+		{"name": "曹操", "asset_id": "character.han_end.cao_cao", "entry_id": "t0-263-shu-survival-eve", "state": "temporal_incompatible"},
+		{"name": "曹操", "asset_id": "character.han_end.cao_cao", "entry_id": "t0-280-wu-survival-eve", "state": "temporal_incompatible"},
+		{"name": "孙权", "asset_id": "character.han_end.sun_quan", "entry_id": "t0-249-gaopingling-aftermath", "state": "exact_profile_match", "profile_id": "han-249"},
+		{"name": "孙权", "asset_id": "character.han_end.sun_quan", "entry_id": "t0-263-shu-survival-eve", "state": "temporal_incompatible"},
+		{"name": "孙权", "asset_id": "character.han_end.sun_quan", "entry_id": "t0-280-wu-survival-eve", "state": "temporal_incompatible"},
+	]
+	for case: Dictionary in han_cases:
+		if not _loaded.has(case.asset_id):
 			continue
-		var positive := _contract.project_character_t0(_loaded[asset_id], han_world, cutoffs[asset_id].positive)
-		var negative := _contract.project_character_t0(_loaded[asset_id], han_world, cutoffs[asset_id].negative)
-		_check(positive.success and positive.compatibility_state == "exact_profile_match" and not positive.hard_incompatible, "%s last authored Han binding matches" % asset_id)
-		_check(negative.success and negative.compatibility_state == "temporal_incompatible" and negative.hard_incompatible, "%s later Han Entry is closed-coverage incompatible" % asset_id)
+		var result := _contract.project_character_t0(_loaded[case.asset_id], han_world, case.entry_id)
+		var accepted: bool = bool(result.success) and String(result.compatibility_state) == String(case.state)
+		if case.state == "exact_profile_match":
+			accepted = accepted and not result.hard_incompatible and String(result.projection.selected_profile.get("profile_id", "")) == case.profile_id
+		else:
+			accepted = accepted and result.hard_incompatible and result.projection.selected_profile.is_empty()
+		_check(accepted, "%s %s -> %s" % [case.name, case.entry_id, case.state])
 	var liu_184 := _contract.project_character_t0(_loaded["character.han_end.liu_bei"], han_world, "t0-184-yellow-turban")
 	if liu_184.success:
 		var paths := _section_paths(liu_184.projection.semantic_sections)
