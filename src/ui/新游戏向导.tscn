@@ -136,7 +136,7 @@ visible = false
 custom_minimum_size = Vector2(220, 48)
 layout_mode = 2
 disabled = true
-text = "创建游戏（G4-06 接入）"
+text = "创建游戏（下一阶段开放）"
 
 [node name="WizardBackButton" type="Button" parent="Panel/Margin/Column/Footer"]
 unique_name_in_owner = true

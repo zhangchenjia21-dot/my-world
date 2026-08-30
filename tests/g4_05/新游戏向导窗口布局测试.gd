@@ -44,6 +44,10 @@ func _run() -> void:
 	await _settle(10)
 	await _run_wizard_at_size(shell, "960x540")
 
+	root.size = Vector2i(1280, 720)
+	await _settle(10)
+	await _run_incompatible_review_at_size(shell, "1280x720")
+
 	_check(not FileAccess.file_exists(root_path.path_join("current-game.sqlite")) and not DirAccess.dir_exists_absolute(root_path.path_join("game-library")), "GUI runs create no Game DB/Game Library")
 	shell.queue_free()
 	for key: String in ["MY_WORLD_TEST_SOURCE_LIBRARY_ROOT", "MY_WORLD_TEST_CURRENT_GAME_DB", "MY_WORLD_TEST_GAME_LIBRARY_ROOT", "MY_WORLD_TEST_GAMES_ROOT"]:
@@ -69,6 +73,8 @@ func _run_wizard_at_size(shell: Variant, label: String) -> void:
 	_press(wizard, "expansion_none")
 	await _next(wizard)
 	_check(wizard.step == 3 and wizard.choice_buttons.size() == 6, "%s Player Character list reachable" % label)
+	_check(_choice_text(wizard, "character_han_end_liu_bei").length() > 40, "%s Player choice shows readable summary text" % label)
+	await _shot("player_%s" % _safe_label(label))
 	_press(wizard, "character_han_end_liu_bei")
 	await _next(wizard)
 	_check(wizard.step == 4 and wizard.choice_buttons.size() == 6, "%s multi-select NPC list reachable" % label)
@@ -85,6 +91,42 @@ func _run_wizard_at_size(shell: Variant, label: String) -> void:
 	wizard.cancel_button.pressed.emit()
 	await _settle(4)
 	_check(shell.main_menu_surface.visible and shell.session_runtime == null, "%s Cancel returns clean Main Menu" % label)
+
+
+## 真实不兼容路线（229 + 刘备）的 Review 失败可读性证据：失败文本须在视口内完整可读，
+## 且返回/主导航仍然可达。
+func _run_incompatible_review_at_size(shell: Variant, label: String) -> void:
+	shell.new_game_button.pressed.emit()
+	await _settle(5)
+	var wizard: Variant = shell.new_game_wizard
+	_press(wizard, "world_han_end_unsettled_realm")
+	await _next(wizard)
+	_press(wizard, "entry_t0-229-three-states")
+	await _next(wizard)
+	_press(wizard, "expansion_none")
+	await _next(wizard)
+	_press(wizard, "character_han_end_liu_bei")
+	await _next(wizard)
+	await _next(wizard)
+	wizard.display_name_input.text = "布局验证 · 不兼容 %s" % label
+	wizard.display_name_input.text_changed.emit(wizard.display_name_input.text)
+	await _next(wizard)
+	_check(wizard.step == 6 and wizard.review_text.text.find("无法继续创建") >= 0, "%s incompatible Review shows plain failure message" % label)
+	_check(wizard.review_text.text.find("T0") < 0 and wizard.review_text.text.find("coverage") < 0, "%s incompatible Review hides backend jargon" % label)
+	_check(_inside_window(wizard.back_button.get_global_rect()) and _inside_window(wizard.cancel_button.get_global_rect()), "%s failed Review keeps back/cancel navigation inside viewport" % label)
+	_check(wizard.create_placeholder_button.disabled, "%s Final Create disabled on failed Review" % label)
+	await _shot("review_error_%s" % _safe_label(label))
+	wizard.cancel_button.pressed.emit()
+	await _settle(4)
+	_check(shell.main_menu_surface.visible and shell.session_runtime == null, "%s incompatible route cancel returns clean Main Menu" % label)
+
+
+func _choice_text(wizard: Variant, fragment: String) -> String:
+	for button: Button in wizard.choice_buttons:
+		if String(button.name).find(fragment) >= 0:
+			return button.text
+	_fail("choice not found: %s" % fragment)
+	return ""
 
 
 func _next(wizard: Variant) -> void:

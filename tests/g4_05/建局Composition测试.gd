@@ -42,7 +42,7 @@ func _initialize() -> void:
 
 	var selected_world_fingerprint := String(intent.composition_snapshot().world.identity.generation_fingerprint)
 	var second_external := root_path.path_join("second-world")
-	_fixture.copy_package("res://tests/fixtures/g4_05/历史真实资产转换/诸界余辉/世界", second_external)
+	_fixture.copy_package("res://tests/fixtures/g4_02r1/full_fidelity/诸界余辉/埃瑟维亚", second_external)
 	var manifest := _fixture.read_json(second_external.path_join("source.json"))
 	manifest.gm_instructions = String(manifest.gm_instructions) + " 这是同 stable identity 的后续 current generation。"
 	_fixture.write_json(second_external.path_join("source.json"), manifest)

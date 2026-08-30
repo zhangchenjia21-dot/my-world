@@ -4,7 +4,7 @@ extends MarginContainer
 signal cancelled
 
 const Composition := preload("res://src/建局/L3_外交层/建局公开接口.gd")
-const STEPS := ["世界", "入口", "拓展", "主角", "保证登场角色", "设置", "兼容性审查"]
+const STEPS := ["世界", "开局", "拓展", "主角", "保证加入的角色", "设置", "兼容性审查"]
 
 @onready var step_label: Label = %WizardStepLabel
 @onready var title_label: Label = %WizardTitleLabel
@@ -87,7 +87,7 @@ func _refresh_step() -> void:
 
 func _render_worlds() -> void:
 	title_label.text = "选择世界"
-	hint_label.text = "只显示 Managed Source Library 的当前安装代次。必须点击具体世界；列表出现不会自动选择第一项。"
+	hint_label.text = "下面列出本机已安装的世界及其简介。必须点击一个世界才会选中；列表出现不会自动选择第一项。"
 	for generation: RefCounted in worlds:
 		_add_choice_button(generation, false, _select_world.bind(generation))
 	if worlds.is_empty():
@@ -95,12 +95,12 @@ func _render_worlds() -> void:
 
 
 func _render_entries() -> void:
-	title_label.text = "选择入口 / T0"
-	hint_label.text = "入口可选；它必须来自刚才选择的 exact World。更换世界会清除入口。"
+	title_label.text = "选择开局"
+	hint_label.text = "开局可选；候选来自刚才选择的世界。更换世界会清除已选开局。"
 	var none := Button.new()
 	none.name = "entry_none"
 	none.custom_minimum_size.y = 48
-	none.text = "不指定入口，由后续 Opening 结合世界资料开始"
+	none.text = "不指定开局；开场由世界资料与后续设置自然开始"
 	none.pressed.connect(func() -> void:
 		_show_result(composition.select_entry(""))
 	)
@@ -122,13 +122,13 @@ func _render_entries() -> void:
 
 func _render_expansion_none() -> void:
 	title_label.text = "拓展"
-	hint_label.text = "当前 vertical 尚未接入 Expansion Pack。这里明确记录空集合，不会伪造拓展能力。"
+	hint_label.text = "当前版本尚未接入拓展包。这里明确记录本局不使用拓展，不会伪造拓展能力。"
 	var button := Button.new()
 	button.name = "expansion_none"
 	button.custom_minimum_size.y = 52
 	button.text = "确认：本局不使用拓展"
 	button.pressed.connect(func() -> void:
-		_show_result(composition.confirm_expansion_none(), "已确认 selected expansions = []。")
+		_show_result(composition.confirm_expansion_none(), "已确认：本局不使用拓展。")
 		_update_navigation()
 	)
 	choices.add_child(button)
@@ -137,17 +137,17 @@ func _render_expansion_none() -> void:
 
 func _render_player_characters() -> void:
 	title_label.text = "选择主角"
-	hint_label.text = "必须点击一张支持 Player Character 的 exact Character Card。"
+	hint_label.text = "必须明确点击一位角色作为主角；只有支持主角的角色才可选择。"
 	for generation: RefCounted in characters:
 		var ineligible := not bool(generation.source.player_character_supported)
 		var button := _add_choice_button(generation, ineligible, _select_player.bind(generation))
 		if ineligible:
-			button.text += "（仅 NPC）"
+			button.text += "\n（仅可作为 NPC）"
 
 
 func _render_guaranteed_npcs() -> void:
-	title_label.text = "保证登场角色"
-	hint_label.text = "可选 0..N。这里只保证该 Source 会在 G4-06 被 materialize；不代表开场同场、已认识或自动进入 Context。"
+	title_label.text = "保证加入本局的 NPC"
+	hint_label.text = "可选 0..N。表示要求该角色在创建后属于本局阵容；不代表开场就出现、同场或已经认识主角。"
 	var snapshot: Dictionary = composition.composition_snapshot()
 	for generation: RefCounted in characters:
 		var overlap: bool = not snapshot.player_character.is_empty() \
@@ -155,7 +155,7 @@ func _render_guaranteed_npcs() -> void:
 		var toggle := CheckButton.new()
 		toggle.name = "npc_%s" % String(generation.identity.asset_id)
 		toggle.custom_minimum_size.y = 48
-		toggle.text = "%s · %s%s" % [generation.display_name, generation.identity.version, "（已作为主角）" if overlap else ""]
+		toggle.text = "%s（%s）%s\n%s" % [generation.display_name, generation.identity.version, "（已作为主角）" if overlap else "", String(generation.source.catalog_summary)]
 		toggle.disabled = overlap
 		toggle.button_pressed = _contains_npc(snapshot.guaranteed_npcs, generation.identity)
 		toggle.toggled.connect(func(selected: bool) -> void:
@@ -173,33 +173,46 @@ func _render_settings() -> void:
 
 func _render_review() -> void:
 	title_label.text = "兼容性审查"
-	hint_label.text = "以下是 G4-06 将接收的 exact Composition。本阶段不会创建 Game。"
+	hint_label.text = "以下是将来创建游戏时会使用的完整选择与设置；本阶段只做兼容性检查，不会创建游戏。"
 	var result: Dictionary = composition.build_compatibility_review()
 	if not result.success:
-		review_text.text = "[color=#E68576]审查失败：%s[/color]" % String(result.message)
-		result_label.text = String(result.message)
+		var message := _player_facing_review_failure(result)
+		review_text.text = "[color=#E68576]%s[/color]" % message
+		result_label.text = message
+		result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
 		return
 	var review: Dictionary = result.review
 	var world: Dictionary = review.world
 	var player: Dictionary = review.player_character
-	var entry_text := "无"
+	var entry_text := "不指定开局"
 	if not review.entry.is_empty():
-		entry_text = "%s · %s" % [String(review.entry.display_name), String(review.entry.entry_id)]
+		entry_text = String(review.entry.display_name)
 	var npc_lines: Array[String] = []
 	for npc: Dictionary in review.guaranteed_npcs:
-		npc_lines.append("• %s · %s · %s" % [npc.display_name, npc.identity.version, _short_fingerprint(npc.identity.generation_fingerprint)])
+		npc_lines.append("• %s（%s）" % [npc.display_name, npc.identity.version])
 	if npc_lines.is_empty():
 		npc_lines.append("无")
-	review_text.text = "[b]%s[/b]\n\n[b]World[/b]\n%s · %s · %s\n\n[b]Entry / T0[/b]\n%s\n\n[b]Expansion[/b]\n无（当前阶段）\n\n[b]Player Character[/b]\n%s · %s · %s\n\n[b]Guaranteed NPC[/b]\n%s\n\n[b]主角控制[/b]\n%s\n\n[b]开场补充[/b]\n%s" % [
+	review_text.text = "[b]%s[/b]\n\n[b]世界[/b]\n%s（%s）\n\n[b]开局[/b]\n%s\n\n[b]拓展[/b]\n无（当前版本）\n\n[b]主角[/b]\n%s（%s）\n\n[b]保证加入本局的 NPC[/b]\n%s\n\n[b]主角控制[/b]\n%s\n\n[b]开场补充[/b]\n%s" % [
 		review.display_name,
-		world.display_name, world.identity.version, _short_fingerprint(world.identity.generation_fingerprint),
+		world.display_name, world.identity.version,
 		entry_text,
-		player.display_name, player.identity.version, _short_fingerprint(player.identity.generation_fingerprint),
+		player.display_name, player.identity.version,
 		"\n".join(npc_lines),
 		review.control_mode,
 		review.opening_supplement if not String(review.opening_supplement).is_empty() else "无",
 	]
-	result_label.text = "exact generations 已通过 Managed Source Library 复核。"
+	result_label.text = "兼容性检查通过；所选内容均已按安装版本复核。"
+	result_label.add_theme_color_override("font_color", Color(0.58, 0.78, 0.62))
+
+
+## 后端仍是兼容性权威；这里只把已知失败码翻译成玩家可直接行动的说明，不引入任何替代或回退。
+func _player_facing_review_failure(result: Dictionary) -> String:
+	var code := String(result.get("code", ""))
+	if code == "character_temporal_incompatible":
+		var snapshot: Dictionary = composition.composition_snapshot()
+		var entry_name := String(snapshot.entry.get("display_name", "所选开局"))
+		return "无法继续创建：阵容中有角色没有适用于开局「%s」的起始资料（该角色的资料未覆盖这个时间点或场景）。可返回更换开局，或调整主角与保证加入的角色。" % entry_name
+	return "审查未通过：%s" % String(result.get("message", code))
 
 
 func _go_next() -> void:
@@ -223,12 +236,12 @@ func _go_back() -> void:
 
 
 func _select_world(generation: RefCounted) -> void:
-	_show_result(composition.select_world(generation), "已选择 exact World：%s。" % generation.display_name)
+	_show_result(composition.select_world(generation), "已选择世界：%s。" % generation.display_name)
 	_update_navigation()
 
 
 func _select_player(generation: RefCounted) -> void:
-	_show_result(composition.select_player(generation), "已选择 exact Player Character：%s。" % generation.display_name)
+	_show_result(composition.select_player(generation), "已选择主角：%s。" % generation.display_name)
 	_update_navigation()
 
 
@@ -258,7 +271,9 @@ func _add_choice_button(generation: RefCounted, disabled: bool, callback: Callab
 	var button := Button.new()
 	button.name = "%s_%s" % [String(generation.identity.asset_type), String(generation.identity.asset_id)]
 	button.custom_minimum_size.y = 52
-	button.text = "%s · %s\n%s" % [generation.display_name, generation.identity.version, _short_fingerprint(generation.identity.generation_fingerprint)]
+	button.text = "%s（%s）\n%s" % [generation.display_name, generation.identity.version, String(generation.source.catalog_summary)]
+	button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+	button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	button.disabled = disabled
 	button.pressed.connect(callback)
 	choices.add_child(button)
@@ -268,9 +283,9 @@ func _add_choice_button(generation: RefCounted, disabled: bool, callback: Callab
 
 func _show_inventory_failure(result: Dictionary) -> void:
 	step_label.text = "无法开始"
-	title_label.text = "Source Library 不可用"
+	title_label.text = "世界资料库不可用"
 	hint_label.text = String(result.get("message", result.get("code", "unknown")))
-	result_label.text = "未创建 Game，也未改变 Source/Game Library。"
+	result_label.text = "未创建游戏，也没有改动任何本机数据。"
 	settings.visible = false
 	review_text.visible = false
 	create_placeholder_button.visible = false
@@ -308,7 +323,3 @@ func _same_identity(left: Dictionary, right: Dictionary) -> bool:
 		and String(left.get("asset_id", "")) == String(right.get("asset_id", "")) \
 		and String(left.get("version", "")) == String(right.get("version", "")) \
 		and String(left.get("generation_fingerprint", "")) == String(right.get("generation_fingerprint", ""))
-
-
-func _short_fingerprint(value: String) -> String:
-	return "sha256:%s…" % value.left(10)

@@ -2,15 +2,22 @@ class_name G405TestFixture
 extends RefCounted
 
 const Library := preload("res://src/source/L3_外交层/Source库公开接口.gd")
+## 主现实路径使用冻结的 v0.2 full-fidelity Source；旧的 v0.1 转换包仅由历史回归测试显式引用。
 const PACKAGES := [
-	{"type": "world", "path": "res://tests/fixtures/g4_05/历史真实资产转换/汉末三国/天下未定"},
-	{"type": "world", "path": "res://tests/fixtures/g4_05/历史真实资产转换/诸界余辉/世界"},
-	{"type": "character", "path": "res://tests/fixtures/g4_05/历史真实资产转换/汉末三国/刘备"},
-	{"type": "character", "path": "res://tests/fixtures/g4_05/历史真实资产转换/汉末三国/曹操"},
-	{"type": "character", "path": "res://tests/fixtures/g4_05/历史真实资产转换/汉末三国/孙权"},
-	{"type": "character", "path": "res://tests/fixtures/g4_05/历史真实资产转换/诸界余辉/莉维娅"},
-	{"type": "character", "path": "res://tests/fixtures/g4_05/历史真实资产转换/诸界余辉/阿德里安"},
-	{"type": "character", "path": "res://tests/fixtures/g4_05/历史真实资产转换/诸界余辉/杜恩"},
+	{"type": "world", "path": "res://tests/fixtures/g4_02r1/full_fidelity/汉末三国/天下未定"},
+	{"type": "world", "path": "res://tests/fixtures/g4_02r1/full_fidelity/诸界余辉/埃瑟维亚"},
+	{"type": "character", "path": "res://tests/fixtures/g4_02r1/full_fidelity/汉末三国/刘备"},
+	{"type": "character", "path": "res://tests/fixtures/g4_02r1/full_fidelity/汉末三国/曹操"},
+	{"type": "character", "path": "res://tests/fixtures/g4_02r1/full_fidelity/汉末三国/孙权"},
+	{"type": "character", "path": "res://tests/fixtures/g4_02r1/full_fidelity/诸界余辉/莉维娅"},
+	{"type": "character", "path": "res://tests/fixtures/g4_02r1/full_fidelity/诸界余辉/阿德里安"},
+	{"type": "character", "path": "res://tests/fixtures/g4_02r1/full_fidelity/诸界余辉/杜恩"},
+]
+
+## IR01 任务拥有的非时态证据包：用于证明场景型 Entry 不被套上历史时间限制。
+const IR01_NON_TEMPORAL_PACKAGES := [
+	{"type": "world", "path": "res://tests/fixtures/g4_02r1/ir01_optional_temporal/非时态世界"},
+	{"type": "character", "path": "res://tests/fixtures/g4_02r1/ir01_optional_temporal/非时态角色"},
 ]
 
 
@@ -21,9 +28,13 @@ func reset_directory(path: String) -> void:
 
 
 func install_real_assets(library_root: String) -> Dictionary:
+	return install_packages(library_root, PACKAGES)
+
+
+func install_packages(library_root: String, packages: Array) -> Dictionary:
 	var library := Library.new(library_root)
 	var installed: Array = []
-	for package: Dictionary in PACKAGES:
+	for package: Dictionary in packages:
 		var result: Dictionary = library.install_world_pack(package.path) if package.type == "world" \
 			else library.install_character_card(package.path)
 		if not result.success:
