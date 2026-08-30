@@ -42,6 +42,7 @@ func register_verified_game(game_id: String, display_name: String, storage_kind:
 			return Rules.failure("game_record_conflict", "同一 game_id 已登记为另一 storage kind。")
 		if existing.record == record:
 			return Rules.success({"record": _resolved(existing.record), "already_registered": true})
+		return Rules.failure("game_record_conflict", "同一 game_id 已有不同的 verified Game record；不会覆盖。")
 	if fault == FAULT_BEFORE_RECORD_PUBLISH:
 		return Rules.failure("injected_record_publish_failure", "task-only fault：record publish 前中断。")
 	if not fault.is_empty():

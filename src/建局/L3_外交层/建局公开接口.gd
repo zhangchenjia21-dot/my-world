@@ -66,7 +66,12 @@ func composition_snapshot() -> Dictionary:
 
 ## 审查时逐项 exact lookup；current 已切到新 generation 时仍验证 Composition 原先点击的 fingerprint。
 func build_compatibility_review() -> Dictionary:
-	var composition := _state.snapshot()
+	return review_frozen_composition(_state.snapshot())
+
+
+## Final Create 对 Wizard 已冻结 snapshot 做同一套 deterministic exact re-review；
+## 调用不改变当前 Wizard state，也不产生任何 durable side effect。
+func review_frozen_composition(composition: Dictionary) -> Dictionary:
 	if composition.world.is_empty() or composition.player_character.is_empty():
 		return _review.review(composition, {})
 	var world_result := _exact_lookup(composition.world.identity)
