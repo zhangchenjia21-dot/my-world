@@ -49,9 +49,9 @@ Critical evidence rows:
 - single-writer conflict failed loud as `already_running`, then converged after release.
 - Initial accepted Conversation count was `0`; no Provider request and no AI Opening were produced.
 
-## Crash-window restart convergence
+## Crash-window fresh-object convergence and IR01 correction
 
-Fresh-object retry passed for all four required injected windows:
+The original suite below proves same-process fresh-object reconstruction only. It is retained as focused mechanism coverage and is not labeled process restart:
 
 | Fault point | Durable state at interruption | Retry result |
 |---|---|---|
@@ -61,6 +61,8 @@ Fresh-object retry passed for all four required injected windows:
 | after current publish | intent + DB + record + current | created marker completed |
 
 Every row also proved a subsequent exact replay preserved the same Game/local identities and inventory remained one DB + one record + matching current.
+
+Actual OS/Godot process-boundary evidence was added by G4-06IR01. See `docs/g4_06/G4-06IR01_PROCESS_RESTART_EVIDENCE.md`: every fault now runs Process A (fault), Process B (resume) and Process C (replay) with distinct PIDs and the same durable roots.
 
 ## Regression evidence
 
