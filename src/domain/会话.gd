@@ -63,6 +63,24 @@ func begin_turn(text: String) -> RefCounted:
 	return turn
 
 
+## G4-07A 首次 Opening 是 GM-only Turn。空 pending_player_text 只是既有 v4
+## accepted pair materialization 的兼容槽，不代表玩家说过话，也不得进入 Provider request。
+## 调用者必须在 durable accepted Conversation 为空时建立该 attempt；首开资格由上层流程拥有。
+func begin_gm_opening() -> RefCounted:
+	if is_generating():
+		push_warning("G4-07A: begin_gm_opening during active generation")
+		return null
+	var turn: RefCounted = Turn.new()
+	turn.turn_index = turns.size()
+	turn.pending_player_text = ""
+	turns.append(turn)
+	_active_turn = turn
+	_correction_pending = false
+	generation_state = GenerationState.STREAMING
+	attempt_started.emit(turn)
+	return turn
+
+
 ## 对最新 Turn 发起 retry（从未 completed）或 regenerate（已有 accepted）。
 ## regenerate 成功前旧 accepted 保持不变；成功时由 complete_generation() 原子替换。
 func retry_or_regenerate_latest() -> RefCounted:

@@ -43,7 +43,11 @@ func assemble_messages(conversation_projection: Dictionary, game_context_text: S
 	var first_retained := maxi(0, eligible_turns.size() - RECENT_ACCEPTED_TURN_LIMIT)
 	for index: int in range(first_retained, eligible_turns.size()):
 		var entry := eligible_turns[index] as Dictionary
-		messages.append({"role": "user", "content": String(entry.get("player_text", ""))})
+		var player_text := String(entry.get("player_text", ""))
+		# 首条 GM-only Opening 在 v4 durable pair 中使用空 Player 兼容槽；恢复后不得
+		# 把空槽伪装成 Provider-visible user message。
+		if not player_text.is_empty():
+			messages.append({"role": "user", "content": player_text})
 		messages.append({"role": "assistant", "content": String(entry.get("gm_text", ""))})
 
 	if typeof(active_attempt_value) == TYPE_DICTIONARY:
@@ -53,6 +57,15 @@ func assemble_messages(conversation_projection: Dictionary, game_context_text: S
 		})
 
 	return messages
+
+
+## 首次 Opening 不存在 Player action。请求只包含 system-owned setup/context 指令，
+## 因此不会为了触发模型而制造或持久化假 Player prompt。
+func assemble_first_opening_messages(game_context_text: String) -> Array:
+	return [{
+		"role": "system",
+		"content": _compose_system_content(game_context_text) + "\n\nOpening Directive\n直接以 GM 身份给出本局第一幕。不要声称玩家已经采取了未提供的行动，也不要解释设置或工程过程。",
+	}]
 
 
 func _compose_system_content(game_context_text: String) -> String:
