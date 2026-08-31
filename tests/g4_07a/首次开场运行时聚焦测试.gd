@@ -4,7 +4,6 @@ const FinalCreate := preload("res://src/最终建局/L3_外交层/原子最终�
 const Creation := preload("res://src/建局/L3_外交层/建局公开接口.gd")
 const Runtime := preload("res://src/runtime/当前游戏会话运行时.gd")
 const Opening := preload("res://src/首次开场/L3_外交层/首次开场公开接口.gd")
-const ContextAssembler := preload("res://src/context/上下文组装器.gd")
 const Fixture := preload("res://tests/g4_05/G4_05测试夹具.gd")
 const StubAdapter := preload("res://tests/g4_07a/首次开场桩适配器.gd")
 
@@ -89,9 +88,14 @@ func _test_han_success_reopen_and_source_drift() -> void:
 	var durable: Array = reopened.conversation.get_durable_accepted_entries()
 	_check(durable.size() == 1 and String(durable[0].player_text).is_empty(), "reopen restores one GM-only Opening exactly once")
 	reopened.conversation.begin_turn("我走出军帐查看江面。")
-	var continuation := ContextAssembler.new().assemble_messages(reopened.conversation.get_context_projection(), "durable game context")
-	_check(_roles(continuation) == ["system", "assistant", "user"], "next continuation includes durable Opening without empty fake user message")
+	var reopened_opening := Opening.new(reopened, StubAdapter.new())
+	root.add_child(reopened_opening)
+	var continuation_result: Dictionary = reopened_opening.assemble_continuation_messages()
+	var continuation := continuation_result.get("messages", []) as Array
+	_check(continuation_result.success and _roles(continuation) == ["system", "assistant", "user"], "next continuation includes durable Opening without empty fake user message")
+	_check(JSON.stringify(continuation).contains("e208-snapshot") and JSON.stringify(continuation).contains("我走出军帐查看江面"), "next continuation rebuilds from durable World truth plus durable Conversation")
 	reopened.conversation.cancel_generation()
+	reopened_opening.queue_free()
 	reopened.close()
 
 

@@ -2,7 +2,6 @@ extends SceneTree
 
 const Runtime := preload("res://src/runtime/当前游戏会话运行时.gd")
 const Opening := preload("res://src/首次开场/L3_外交层/首次开场公开接口.gd")
-const ContextAssembler := preload("res://src/context/上下文组装器.gd")
 
 var _failures := 0
 
@@ -28,8 +27,11 @@ func _initialize() -> void:
 		var rejected: Dictionary = opening.start_first_opening()
 		_check(String(rejected.status) == "already_opened", "%s fresh process cannot generate second first Opening" % String(route.route))
 		runtime.conversation.begin_turn("跨进程重开后的下一步行动")
-		var continuation := ContextAssembler.new().assemble_messages(runtime.conversation.get_context_projection(), "durable setup remains available")
-		_check(_roles(continuation) == ["system", "assistant", "user"], "%s continuation contains durable Opening and real next Player turn" % String(route.route))
+		var continuation_result: Dictionary = opening.assemble_continuation_messages()
+		var continuation := continuation_result.get("messages", []) as Array
+		_check(continuation_result.success and _roles(continuation) == ["system", "assistant", "user"], "%s continuation contains durable Opening and real next Player turn" % String(route.route))
+		var expected_world_marker := "e208-snapshot" if String(route.route) == "han" else "t0-1287-public-works"
+		_check(JSON.stringify(continuation).contains(expected_world_marker), "%s continuation rebuilds durable Game-local World truth" % String(route.route))
 		runtime.conversation.cancel_generation()
 		proof.routes.append({
 			"route": route.route,

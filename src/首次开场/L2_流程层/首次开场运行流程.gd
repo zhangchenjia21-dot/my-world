@@ -65,6 +65,25 @@ func cancel() -> void:
 		provider_adapter.cancel()
 
 
+## Reopen 后的普通续玩仍使用同一个 Game-local projector 与 G2 Context owner。
+## 调用方先在 existing Conversation 上 begin_turn，再把 derived messages 交给既有 Provider；
+## 本方法不发网、不持久化 messages，也不另建 continuation transcript。
+func assemble_continuation_messages() -> Dictionary:
+	if session_runtime == null or not session_runtime.has_method("is_ready") or not session_runtime.is_ready():
+		return Rules.failure("runtime_not_ready", "既有 Game session 尚未安全打开。")
+	var projected := _projector.project(session_runtime.world_state)
+	if not projected.success:
+		return projected
+	var messages := _context_assembler.assemble_messages(
+		session_runtime.conversation.get_context_projection(),
+		String(projected.context_text)
+	)
+	return Rules.success({
+		"messages": messages,
+		"context_stats": (projected.stats as Dictionary).duplicate(true),
+	})
+
+
 func _on_text_delta(text: String) -> void:
 	if session_runtime == null or session_runtime.conversation == null:
 		return
