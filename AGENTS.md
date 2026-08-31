@@ -20,7 +20,7 @@ Execution routing:
 
 ```text
 GPT        → Meaning / architecture / governance / task shaping / Independent Review
-Codex      → backend / mechanism implementation
+Codex      → backend / mechanism / build-launch implementation
 Kimi       → frontend / UI / interaction implementation
 Grok Build → search / external research / evidence discovery
 ```
@@ -41,9 +41,10 @@ G4-03 Managed Local Source Library    PASS / CLOSED
 G4-04 Multi-Game / Game Library       PASS / CLOSED
 G4-05 New Game Wizard                 PASS / CLOSED
 G4-06 Atomic Final Create             PASS / CLOSED
-G4-07 First Playable A                READY FOR OWNER UAT
+G4-07 First Playable A                OWNER UAT BLOCKED — LAUNCH FRESHNESS
 G4-07A Opening Runtime                PASS / CLOSED
 G4-07B Playable UI Integration        PASS / CLOSED
+G4-07UAT01 Owner Launch Freshness     ACTIVE — CODEX
 G4-GATE                               NOT YET
 ```
 
@@ -57,67 +58,50 @@ GPT IR record   docs/g4_07b/G4-07B_INDEPENDENT_REVIEW.md
 
 GPT Independent Review: **PASS**.
 
-Confirmed:
-
-- production changes stayed inside application/UI scope;
-- one frozen Review attempt owns one stable `creation_id`; duplicate submit/retry cannot mint a second Game for the same attempt;
-- Final Create success opens the exact registered Game through existing-only semantics;
-- a created Game with accepted Conversation = 0 is a legal opening-pending state;
-- Opening failure/cancel preserves the Game and retries on the same Game;
-- exit after create but before accepted Opening returns through Continue to the same Game;
-- GM-only Opening renders without an empty/fake Player bubble;
-- accepted Opening is not generated twice after Continue;
-- normal Player continuation uses G4-07A durable Game-local World + Conversation context;
-- Save / Main Menu / Continue restores the same Game and history;
-- Han and Afterglow real DeepSeek UI verticals pass through the same family-agnostic application path;
-- no-Entry remains explicit;
-- 1280×720 / 960×540 / maximized layout evidence passes;
-- production SQLite schema remains v4; frozen fixtures and protected backend modules are unchanged.
-
-Do not reopen G4-07A or G4-07B absent new P0 evidence or Owner UAT evidence proving a concrete defect.
+Do not reopen G4-07A or G4-07B absent new P0 evidence or Owner UAT evidence proving a concrete product defect.
 
 ---
 
-## 3. Current gate — G4-07 First Playable A Owner UAT
+## 3. Current execution task — G4-07UAT01
 
-Current UAT packet:
+Formal packet:
 
-`docs/tasks/G4-07_FIRST_PLAYABLE_A_OWNER_UAT.md`
+`docs/tasks/G4-07UAT01_OWNER_LAUNCH_FRESHNESS_CORRECTION_TASK.md`
 
-Execution owner: **Owner / User**.  
-Semantic/Product decision owner after UAT: **GPT**.
+Formal Code Base:
 
-No Codex/Kimi implementation task is active right now.
+`1bd0d414dfe8ed5a7781d9db6813317d2f20bf91`
 
-Required product route:
+Primary owner: **Codex**.  
+Reviewer: **GPT**.  
+Return ceiling: **READY FOR INDEPENDENT REVIEW**.
+
+Owner UAT is temporarily blocked because repository-native `run-game.cmd` currently launches `build/windows/my-world.exe`, while `build/` is gitignored and the launcher checks only existence, not freshness. A stale historical export can therefore silently run after current source changes.
+
+Required correction:
 
 ```text
-real Source
-→ New Game Wizard / Review
-→ Atomic Final Create
-→ real DeepSeek GM Opening
-→ several free-form Player actions
-→ durable GM continuation
-→ Save
-→ Main Menu / reopen
-→ Continue same Game
+run-game.cmd / run-game.ps1
+→ determine whether Windows Desktop export is missing or stale versus current product-build inputs
+→ if missing/stale, export the current checkout with Godot using tracked preset `Windows Desktop`
+→ verify export success
+→ launch refreshed `build/windows/my-world.exe`
 ```
 
-Owner UAT judges what engineering evidence cannot:
+At minimum freshness covers:
 
-- Narrative richness;
-- Character individuality;
-- Han vs Afterglow distinctness;
-- anti-convergence of Guaranteed NPCs;
-- Context sufficiency / immediate continuity;
-- temporal/future leakage in early Han;
-- whether the interface feels like playing an AI RPG rather than operating an engineering demo.
+- `src/**`
+- `addons/**`
+- `project.godot`
+- `export_presets.cfg`
 
-Engineering PASS does not close G4-07.
+Failure to export must fail loud and must never fall back to a stale executable.
+
+Do not commit `build/` binaries. Do not change gameplay/UI/backend semantics for this correction.
 
 ---
 
-## 4. Frozen integration semantics
+## 4. G4-07 frozen integration semantics
 
 ### Game creation
 
@@ -162,9 +146,13 @@ Guaranteed NPC = canonical cast member only, not automatic opening presence/loca
 
 ---
 
-## 5. Next decision
+## 5. UAT resume rule
 
-After Owner UAT, GPT must decide exactly one:
+After G4-07UAT01 passes GPT Independent Review, resume the existing Owner UAT packet:
+
+`docs/tasks/G4-07_FIRST_PLAYABLE_A_OWNER_UAT.md`
+
+Then GPT decides exactly one:
 
 ```text
 G4-07 PASS / CLOSED
@@ -176,9 +164,7 @@ or
 G4-07 Product Correction ACTIVE
 ```
 
-If correction is required, shape the smallest evidence-driven forward task and route it by ownership. Do not reopen closed engineering work generically.
-
-Do **not** start G4-08 Expansion before G4-07 Product PASS.
+Do not start G4-08 Expansion before G4-07 Product PASS.
 
 ---
 
@@ -193,4 +179,5 @@ Persistence       SQLite via godot-sqlite v4.9
 Production schema v4
 Game topology     One Game = One SQLite
 Source Library    managed immutable filesystem generations
+Owner launcher    run-game.cmd → run-game.ps1 → Windows Desktop export
 ```
