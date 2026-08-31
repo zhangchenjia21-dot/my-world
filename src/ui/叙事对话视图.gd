@@ -53,6 +53,14 @@ var context_assembler: RefCounted
 ## focused tests 可以注入 fixture，但 UI 不拥有或解释该 material。
 var game_context_text := ""
 
+## G4-07A reviewed durable Opening/continuation seam；Application Shell 在 created Game
+## 激活后注入。注入后第一条玩家行动也经由 durable Game-local World + durable Conversation
+## 组装 Provider request，绝不回读 Wizard 内存或 mutable Source current。
+var opening_runtime: Node = null
+
+## opening-pending（durable accepted Conversation = 0）时锁住玩家输入；由 Shell 驱动。
+var _opening_gate := false
+
 ## 以下为纯渲染引用：当前 streaming GM block 的 content / marker，以及滚动跟随状态。
 var _current_gm_content: RichTextLabel = null
 var _current_gm_marker: Label = null
@@ -82,7 +90,7 @@ func _ready() -> void:
 
 func _on_send_pressed() -> void:
 	var text := player_input.text.strip_edges()
-	if not _startup_ready or conversation == null or text.is_empty() or conversation.is_generating():
+	if not _startup_ready or _opening_gate or conversation == null or text.is_empty() or conversation.is_generating():
 		return
 
 	if conversation.begin_turn(text) == null:
@@ -93,7 +101,13 @@ func _on_send_pressed() -> void:
 
 
 func _on_cancel_pressed() -> void:
-	if conversation != null and conversation.is_generating() and adapter != null:
+	if conversation == null or not conversation.is_generating():
+		return
+	# Opening streaming 期间取消必须路由到 opening runtime 的 adapter；
+	# 只有普通玩家 turn 才走本视图自己的 adapter。
+	if opening_runtime != null and opening_runtime.provider_adapter != null and opening_runtime.provider_adapter.is_busy():
+		opening_runtime.cancel()
+	elif adapter != null:
 		adapter.cancel()
 
 
@@ -110,10 +124,20 @@ func _on_regenerate_pressed() -> void:
 
 
 func _start_request() -> void:
-	var messages: Array = context_assembler.assemble_messages(
-		conversation.get_context_projection(),
-		game_context_text
-	)
+	var messages: Array = []
+	if opening_runtime != null:
+		# G4-07A reviewed durable continuation：durable Game-local World + durable Conversation。
+		# 组装失败必须 fail-loud：宁可不发送，也不退回 Wizard 状态或 Source current。
+		var assembled: Dictionary = opening_runtime.assemble_continuation_messages()
+		if not assembled.success:
+			conversation.fail_generation("context_assembly_failed")
+			return
+		messages = assembled.messages
+	else:
+		messages = context_assembler.assemble_messages(
+			conversation.get_context_projection(),
+			game_context_text
+		)
 	request_messages_assembled.emit(messages.duplicate(true))
 	var start_error: Error = adapter.start_stream(messages)
 	if start_error == ERR_BUSY:
@@ -150,8 +174,12 @@ func _on_turn_started(turn: RefCounted) -> void:
 
 
 ## retry / regenerate / correction：复用同一 GM block，清空上一轮展示内容。
-func _on_attempt_started(_turn: RefCounted) -> void:
-	if _current_gm_content != null:
+## GM-only 首次 Opening 不发 turn_started：pending_player_text 为空（v4 兼容槽，
+## 不代表玩家说过话），此处为它新建 GM block，且绝不渲染玩家气泡。
+func _on_attempt_started(turn: RefCounted) -> void:
+	if _current_gm_content == null:
+		_begin_gm_entry(String(turn.pending_player_text).is_empty())
+	else:
 		_current_gm_content.clear()
 	if _current_gm_marker != null:
 		_current_gm_marker.text = ""
@@ -175,10 +203,12 @@ func _on_generation_cancelled(_turn: RefCounted) -> void:
 	_update_controls()
 
 
-func _on_generation_failed(_turn: RefCounted, code: String) -> void:
+func _on_generation_failed(turn: RefCounted, code: String) -> void:
+	# GM-only Opening 的失败重试归 Shell banner；这里不得指向隐藏的「重新生成」。
+	var opening_turn := String(turn.pending_player_text).is_empty()
 	if _current_gm_marker != null:
-		_current_gm_marker.text = "生成失败 —— 可点击「重新生成」重试"
-	_show_error(_friendly_error(code))
+		_current_gm_marker.text = "第一幕未完成 —— 可使用上方「重试第一幕」" if opening_turn else "生成失败 —— 可点击「重新生成」重试"
+	_show_error("第一幕未完成；本局已保存，可使用上方「重试第一幕」。" if opening_turn else _friendly_error(code))
 	_update_controls()
 
 
@@ -208,13 +238,13 @@ func _append_player_entry(text: String) -> void:
 	entries.add_child(box)
 
 
-func _begin_gm_entry() -> void:
+func _begin_gm_entry(opening: bool = false) -> void:
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 4)
 
 	var header_row := HBoxContainer.new()
 	var title := Label.new()
-	title.text = "GM"
+	title.text = "GM · 开场" if opening else "GM"
 	title.add_theme_font_size_override("font_size", 14)
 	title.add_theme_color_override("font_color", Color(0.78, 0.72, 0.55))
 	header_row.add_child(title)
@@ -245,6 +275,8 @@ func _friendly_error(code: String) -> String:
 			return "收到了无法识别的响应数据。可点击「重新生成」重试。"
 		"empty_generation":
 			return "本次没有生成有效叙事，可点击「重新生成」重试。"
+		"context_assembly_failed":
+			return "无法组装本局上下文；为保护既有进度，本次没有发送请求。可点击「重新生成」重试。"
 		"persistence_failure":
 			return "叙事未能安全保存，因此没有正式接受本次结果。请检查磁盘后点击「重新生成」重试。"
 		_:
@@ -255,9 +287,13 @@ func _friendly_error(code: String) -> String:
 
 func _update_controls() -> void:
 	var streaming: bool = conversation != null and conversation.is_generating()
-	send_button.disabled = not _startup_ready or streaming or player_input.text.strip_edges().is_empty()
+	send_button.disabled = not _startup_ready or _opening_gate or streaming or player_input.text.strip_edges().is_empty()
 	cancel_button.disabled = not _startup_ready or not streaming
-	regenerate_button.visible = _startup_ready and conversation != null and not streaming and conversation.latest_turn() != null
+	# opening Turn（pending_player_text 为空）不显示「重新生成」：第一幕的重试由
+	# Shell 的 Opening banner 拥有，避免把 GM-only Opening 当成可 regenerate 的玩家回合。
+	var latest: RefCounted = conversation.latest_turn() if conversation != null else null
+	var opening_turn := latest != null and String(latest.pending_player_text).is_empty()
+	regenerate_button.visible = _startup_ready and not streaming and latest != null and not opening_turn
 
 
 func _show_error(text: String) -> void:
@@ -317,6 +353,19 @@ func bind_session_runtime(runtime: Variant) -> void:
 	_initialize_session(runtime.conversation, runtime.is_ready())
 
 
+## Application Shell 在 created Game 激活后注入 G4-07A opening runtime。
+func bind_opening_runtime(opening: Node) -> void:
+	opening_runtime = opening
+	_update_controls()
+
+
+## created Game 且 durable accepted Conversation = 0：第一幕 accepted 前锁住玩家输入。
+func set_opening_gate(active: bool) -> void:
+	_opening_gate = active
+	player_input.editable = not active
+	_update_controls()
+
+
 ## Game -> Main Menu / App exit 的正式 View cleanup seam。Adapter cancel 同步发布 cancelled，
 ## 因而先终止 transport，再断开信号与释放 projection，未 accepted partial 不会 durable。
 func shutdown_session() -> void:
@@ -337,6 +386,9 @@ func shutdown_session() -> void:
 	session_runtime = null
 	conversation = null
 	context_assembler = null
+	opening_runtime = null
+	_opening_gate = false
+	player_input.editable = true
 	_startup_ready = false
 	_clear_rendered_entries(true)
 	_hide_error()
@@ -426,11 +478,14 @@ func _find_session_runtime() -> Variant:
 
 ## UI 从 Domain projection 重建 visual blocks；不保存 `_history` 或 Transcript 副本。
 ## 最后一个 restored GM block 留作 regenerate/retry 的复用目标。
+## GM-only Opening 的 empty player_text 是 v4 兼容槽：跳过玩家气泡，只渲染开场 GM block。
 func _render_restored_entries() -> void:
 	for entry_value: Variant in conversation.get_accepted_entries():
 		var entry := entry_value as Dictionary
-		_append_player_entry(String(entry.player_text))
-		_begin_gm_entry()
+		var player_text := String(entry.player_text)
+		if not player_text.is_empty():
+			_append_player_entry(player_text)
+		_begin_gm_entry(player_text.is_empty())
 		_current_gm_content.add_text(String(entry.gm_text))
 
 

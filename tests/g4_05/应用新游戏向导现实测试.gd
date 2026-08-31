@@ -98,7 +98,7 @@ func _prove_real_wizard(case_root: String) -> void:
 	_check(wizard.review_text.text.find("208｜赤壁前夕") >= 0 and wizard.review_text.text.find("T0") < 0, "Review shows authored opening name without generic T0 wording")
 	_check(wizard.review_text.text.find("刘备") >= 0 and wizard.review_text.text.find("曹操") >= 0 and wizard.review_text.text.find("杜恩·石痕") >= 0, "Review displays exact Player and Guaranteed NPC set")
 	_check(wizard.review_text.text.find("赤壁之前的另一条路") >= 0 and wizard.review_text.text.find("Light") >= 0, "Review displays minimal settings")
-	_check(wizard.create_placeholder_button.visible and wizard.create_placeholder_button.disabled, "Final Create remains honest disabled G4-06 placeholder")
+	_check(wizard.final_create_button.visible and not wizard.final_create_button.disabled, "Review success enables the real Final Create action")
 	_check(shell.session_runtime == null and not FileAccess.file_exists(case_root.path_join("current-game.sqlite")), "full Wizard→Review creates no Game Session/SQLite")
 	_check(not DirAccess.dir_exists_absolute(case_root.path_join("game-library")), "full Wizard→Review does not mutate Game Library")
 

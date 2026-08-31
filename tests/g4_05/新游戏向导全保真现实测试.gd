@@ -62,7 +62,7 @@ func _prove_incompatible_han_route(shell: Variant, case_root: String) -> void:
 	_check(wizard.review_text.text.find("无法继续创建") >= 0 and wizard.review_text.text.find("229｜三国鼎立") >= 0, "Review failure names the selected opening in plain player language")
 	_check(wizard.review_text.text.find("更换开局") >= 0 or wizard.review_text.text.find("调整") >= 0, "Review failure tells the player how to recover")
 	_check(wizard.review_text.text.find("T0") < 0 and wizard.review_text.text.find("coverage") < 0 and wizard.review_text.text.find("封闭") < 0, "Review failure hides backend temporal jargon")
-	_check(wizard.create_placeholder_button.visible and wizard.create_placeholder_button.disabled, "Final Create stays disabled on failed Review")
+	_check(wizard.final_create_button.visible and wizard.final_create_button.disabled, "Final Create stays disabled on failed Review")
 	_check(shell.session_runtime == null and not FileAccess.file_exists(case_root.path_join("current-game.sqlite")) and not DirAccess.dir_exists_absolute(case_root.path_join("game-library")), "failed Review creates no Game/Session/SQLite/Game Library")
 
 	for _index: int in range(5):

@@ -2,6 +2,8 @@ class_name NewGameWizard
 extends MarginContainer
 
 signal cancelled
+## 玩家提交 frozen Review payload；create attempt 身份由本向导在生命周期内固定。
+signal final_create_requested(creation_id, composition)
 
 const Composition := preload("res://src/建局/L3_外交层/建局公开接口.gd")
 const STEPS := ["世界", "开局", "拓展", "主角", "保证加入的角色", "设置", "兼容性审查"]
@@ -19,7 +21,7 @@ const STEPS := ["世界", "开局", "拓展", "主角", "保证加入的角色",
 @onready var back_button: Button = %WizardBackButton
 @onready var next_button: Button = %WizardNextButton
 @onready var cancel_button: Button = %NewGameBackButton
-@onready var create_placeholder_button: Button = %CreatePlaceholderButton
+@onready var final_create_button: Button = %FinalCreateButton
 
 var composition: RefCounted = null
 var worlds: Array[RefCounted] = []
@@ -27,11 +29,19 @@ var characters: Array[RefCounted] = []
 var step := 0
 var choice_buttons: Array[Button] = []
 
+## create attempt 身份：一次 frozen Review 提交固定一个 creation_id；双击/重试复用。
+## payload key 只用于检测“返回修改后再提交”，不作为 Game 唯一性来源。
+var _creation_id := ""
+var _creation_payload_key := ""
+var _create_in_progress := false
+var _create_completed := false
+
 
 func _ready() -> void:
 	back_button.pressed.connect(_go_back)
 	next_button.pressed.connect(_go_next)
 	cancel_button.pressed.connect(func() -> void: cancelled.emit())
+	final_create_button.pressed.connect(_on_final_create_pressed)
 	for mode: String in ["Full", "Light", "Narrative"]:
 		control_mode.add_item(mode)
 	control_mode.select(1)
@@ -46,6 +56,7 @@ func begin(source_library: RefCounted) -> Dictionary:
 	display_name_input.text = ""
 	control_mode.select(1)
 	supplement_input.text = ""
+	_reset_create_attempt()
 	var inventory: Dictionary = composition.load_current_inventory()
 	if not inventory.success:
 		worlds.clear()
@@ -65,6 +76,7 @@ func discard() -> void:
 	worlds.clear()
 	characters.clear()
 	_clear_choices()
+	_reset_create_attempt()
 
 
 func _refresh_step() -> void:
@@ -72,7 +84,7 @@ func _refresh_step() -> void:
 	result_label.text = ""
 	settings.visible = step == 5
 	review_text.visible = step == 6
-	create_placeholder_button.visible = step == 6
+	final_create_button.visible = step == 6
 	_clear_choices()
 	match step:
 		0: _render_worlds()
@@ -173,13 +185,15 @@ func _render_settings() -> void:
 
 func _render_review() -> void:
 	title_label.text = "兼容性审查"
-	hint_label.text = "以下是将来创建游戏时会使用的完整选择与设置；本阶段只做兼容性检查，不会创建游戏。"
+	hint_label.text = "以下是将要创建本局游戏的完整选择与设置；通过检查后才可创建。"
 	var result: Dictionary = composition.build_compatibility_review()
 	if not result.success:
 		var message := _player_facing_review_failure(result)
 		review_text.text = "[color=#E68576]%s[/color]" % message
 		result_label.text = message
 		result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
+		final_create_button.disabled = true
+		final_create_button.text = "创建游戏"
 		return
 	var review: Dictionary = result.review
 	var world: Dictionary = review.world
@@ -203,6 +217,55 @@ func _render_review() -> void:
 	]
 	result_label.text = "兼容性检查通过；所选内容均已按安装版本复核。"
 	result_label.add_theme_color_override("font_color", Color(0.58, 0.78, 0.62))
+	if not _create_completed and not _create_in_progress:
+		final_create_button.disabled = false
+		final_create_button.text = "创建游戏"
+
+
+## 玩家提交 frozen Review payload。一次 attempt 固定一个 creation_id：
+## 双击/失败重试复用同一 id（幂等收敛到同一局）；返回修改后 payload 变化才换新 attempt。
+func _on_final_create_pressed() -> void:
+	if composition == null or step != STEPS.size() - 1 or _create_in_progress or _create_completed:
+		return
+	var frozen: Dictionary = composition.composition_snapshot()
+	var payload_key := JSON.stringify(frozen)
+	if _creation_id.is_empty() or payload_key != _creation_payload_key:
+		_creation_id = "creation-%s" % Crypto.new().generate_random_bytes(16).hex_encode()
+		_creation_payload_key = payload_key
+	_create_in_progress = true
+	final_create_button.disabled = true
+	final_create_button.text = "正在创建…"
+	result_label.text = "正在创建游戏…"
+	result_label.add_theme_color_override("font_color", Color(0.72, 0.74, 0.82))
+	final_create_requested.emit(_creation_id, frozen)
+
+
+## create 终态由 Application Shell 回填；成功后本屏锁定，不得再创建第二局。
+func create_succeeded() -> void:
+	_create_in_progress = false
+	_create_completed = true
+	final_create_button.disabled = true
+	final_create_button.text = "已创建"
+	result_label.text = "创建成功，正在进入游戏…"
+	result_label.add_theme_color_override("font_color", Color(0.58, 0.78, 0.62))
+
+
+func create_failed(message: String) -> void:
+	_create_in_progress = false
+	final_create_button.disabled = false
+	final_create_button.text = "重试创建"
+	result_label.text = message
+	result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
+
+
+func _reset_create_attempt() -> void:
+	_creation_id = ""
+	_creation_payload_key = ""
+	_create_in_progress = false
+	_create_completed = false
+	if final_create_button != null:
+		final_create_button.disabled = true
+		final_create_button.text = "创建游戏"
 
 
 ## 后端仍是兼容性权威；这里只把已知失败码翻译成玩家可直接行动的说明，不引入任何替代或回退。
@@ -288,7 +351,7 @@ func _show_inventory_failure(result: Dictionary) -> void:
 	result_label.text = "未创建游戏，也没有改动任何本机数据。"
 	settings.visible = false
 	review_text.visible = false
-	create_placeholder_button.visible = false
+	final_create_button.visible = false
 	next_button.visible = false
 	back_button.text = "返回主菜单"
 
@@ -301,6 +364,8 @@ func _show_result(result: Dictionary, success_message: String = "选择已更新
 func _clear_choices() -> void:
 	choice_buttons.clear()
 	for child: Node in choices.get_children():
+		# 先 detach 再 queue_free：同帧重建（如再次进入 Wizard）时旧节点名不得占用新按钮名。
+		choices.remove_child(child)
 		child.queue_free()
 
 

@@ -8,6 +8,8 @@ extends Control
 const CurrentGameRuntime := preload("res://src/runtime/当前游戏会话运行时.gd")
 const GameLibrary := preload("res://src/游戏库/L3_外交层/游戏库公开接口.gd")
 const SourceLibrary := preload("res://src/source/L3_外交层/Source库公开接口.gd")
+const FinalCreate := preload("res://src/最终建局/L3_外交层/原子最终建局公开接口.gd")
+const FirstOpening := preload("res://src/首次开场/L3_外交层/首次开场公开接口.gd")
 
 enum ApplicationState {
 	BOOTING,
@@ -28,6 +30,8 @@ enum SessionState {
 ## 窄窗口阈值：低于该宽度时左右 Host 折叠为 TopBar toggle，Narrative 保持主角（DEC-02）。
 const NARROW_BREAKPOINT := 1100.0
 const G3_01_EXPORT_SPIKE_FEATURE := "g3_01_persistence_spike"
+## G4-06 created Game 的 durable setup 自声明 schema；仅用于决定是否挂载 G4-07A opening runtime。
+const GAME_LOCAL_SETUP_SCHEMA := "game_local_setup.v0.1"
 
 @onready var status_label: Label = %StatusLabel
 @onready var exit_button: Button = %ExitButton
@@ -61,6 +65,10 @@ const G3_01_EXPORT_SPIKE_FEATURE := "g3_01_persistence_spike"
 @onready var startup_failure_overlay: CenterContainer = %StartupFailureOverlay
 @onready var startup_failure_label: Label = %StartupFailureLabel
 @onready var startup_failure_back_button: Button = %StartupFailureBackButton
+@onready var opening_banner: PanelContainer = %OpeningBanner
+@onready var opening_banner_label: Label = %OpeningBannerLabel
+@onready var opening_retry_button: Button = %OpeningRetryButton
+@onready var opening_cancel_button: Button = %OpeningCancelButton
 
 var application_state: ApplicationState = ApplicationState.BOOTING
 var session_state: SessionState = SessionState.ABSENT
@@ -72,6 +80,12 @@ var game_library: RefCounted = null
 var active_game_record: RefCounted = null
 var _pending_load_save_id := ""
 var _isolated_narrative_test_mode := false
+## created Game 的 G4-07A opening runtime；随 Game Session 挂载/拆除，归 Application 拥有。
+var opening_runtime: Node = null
+## 测试专用 seam：focused/real-vertical 测试在激活前注入 stub 或受控 adapter；production 恒为 null。
+var test_opening_adapter_override: Node = null
+## Opening UI 状态机："" / streaming / accepted / failed / cancelled；终态处理幂等。
+var _opening_state := ""
 
 
 func _enter_tree() -> void:
@@ -90,6 +104,9 @@ func _ready() -> void:
 	new_game_button.pressed.connect(_show_new_game_surface)
 	quit_button.pressed.connect(_request_exit)
 	new_game_wizard.cancelled.connect(_cancel_new_game)
+	new_game_wizard.final_create_requested.connect(_on_final_create_requested)
+	opening_retry_button.pressed.connect(_on_opening_retry_pressed)
+	opening_cancel_button.pressed.connect(_on_opening_cancel_pressed)
 	player_toggle.toggled.connect(_on_player_toggle)
 	world_toggle.toggled.connect(_on_world_toggle)
 	create_save_button.pressed.connect(_on_create_save_pressed)
@@ -410,6 +427,7 @@ func _activate_game_surface() -> void:
 	_refresh_save_points()
 	_refresh_recovery_availability()
 	_update_save_controls()
+	_prepare_opening_after_activation()
 	_update_responsive_layout()
 	print("[shell] application=game_active session=ready")
 
@@ -428,6 +446,7 @@ func _close_game_session() -> Dictionary:
 		session_state = SessionState.ABSENT
 		return {"status": "absent", "success": true}
 	session_state = SessionState.CLOSING
+	_teardown_opening_runtime()
 	if narrative_view != null:
 		narrative_view.shutdown_session()
 	var closed: Dictionary = session_runtime.close()
@@ -475,6 +494,161 @@ func _cancel_new_game() -> void:
 	if not new_game_surface.visible or session_runtime != null:
 		return
 	_show_main_menu()
+
+
+## Wizard 提交 frozen Review payload。creation_id 由 Wizard 在一次 attempt 内固定；
+## 成功后经 existing-only open 进入刚创建的 exact Game，失败时 Game 不删除不重建。
+func _on_final_create_requested(creation_id: String, composition: Dictionary) -> void:
+	if application_state != ApplicationState.MENU_READY or session_state != SessionState.ABSENT:
+		new_game_wizard.create_failed("当前无法创建游戏；请返回主菜单后重试。")
+		return
+	_ensure_game_library()
+	var creator := FinalCreate.new(
+		SourceLibrary.new(_source_library_root()),
+		_creation_root(),
+		_game_library_root(),
+		_managed_games_root()
+	)
+	var created: Dictionary = creator.create_or_resume(creation_id, composition)
+	if not created.success:
+		new_game_wizard.create_failed(_plain_create_failure(created))
+		return
+	new_game_wizard.create_succeeded()
+	_open_created_game(String(created.game_id))
+
+
+## 创建成功后的 open 必须 existing-only；打开失败不删除已创建 Game，引导 Continue 重试。
+func _open_created_game(game_id: String) -> void:
+	var opened: Dictionary = open_registered_game(game_id)
+	if opened.success:
+		return
+	_show_main_menu()
+	menu_result_label.text = "游戏已创建；本次进入未完成。可在主菜单使用「继续游戏」重试。"
+	menu_result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
+	print("[shell] create succeeded but open failed: %s" % String(opened.get("status", opened.get("code", "unknown"))))
+
+
+## 玩家可读创建失败：不暴露内部码/fingerprint/path。
+func _plain_create_failure(result: Dictionary) -> String:
+	var code := String(result.get("code", result.get("status", "")))
+	match code:
+		"composition_incomplete", "composition_invalid":
+			return "创建未完成：开局信息不完整。请返回检查选择与设置后重试。"
+		"character_temporal_incompatible":
+			return "创建未完成：阵容中有角色不适用于所选开局。请返回调整开局或角色。"
+		"exact_generation_unavailable", "exact_generation_mismatch":
+			return "创建未完成：所选资料版本在本机已不可用。请返回重新选择后重试。"
+		"payload_conflict", "creation_conflict":
+			return "创建未完成：本次创建与已存在的创建请求不一致。请返回主菜单重新开始。"
+		_:
+			return "创建未完成，未创建任何游戏。可直接重试；若反复失败请退出后重试。"
+
+
+## created Game 激活后挂载 G4-07A opening runtime：
+## - 始终挂载：玩家行动也经由 durable continuation context 组装；
+## - durable accepted Conversation = 0（legal opening-pending）时自动开始第一幕并锁住输入；
+## - 已 accepted 的 Game 绝不自动再生成第一幕。
+func _prepare_opening_after_activation() -> void:
+	if session_runtime == null or not session_runtime.is_ready():
+		return
+	if String(session_runtime.world_state.get("schema_version", "")) != GAME_LOCAL_SETUP_SCHEMA:
+		return
+	opening_runtime = FirstOpening.new(session_runtime, test_opening_adapter_override)
+	add_child(opening_runtime)
+	opening_runtime.finished.connect(_on_opening_finished)
+	narrative_view.bind_opening_runtime(opening_runtime)
+	if session_runtime.conversation.get_durable_accepted_entries().is_empty():
+		narrative_view.set_opening_gate(true)
+		_begin_first_opening()
+
+
+func _begin_first_opening() -> void:
+	if opening_runtime == null or session_runtime == null or not session_runtime.is_ready():
+		return
+	_opening_state = "streaming"
+	_show_opening_banner("正在生成第一幕…", false, true)
+	status_label.text = "状态：正在生成第一幕…"
+	var started: Dictionary = opening_runtime.start_first_opening()
+	if _opening_state != "streaming":
+		# 同步终态已由 finished 处理，避免二次落地。
+		return
+	if started.success and String(started.get("status", "")) == "streaming":
+		return
+	# 资格类失败（如 already_opened / invalid_game_setup）不经过 finished，直接落地。
+	_handle_opening_terminal(started)
+
+
+func _on_opening_finished(result: Dictionary) -> void:
+	_handle_opening_terminal(result)
+
+
+func _handle_opening_terminal(result: Dictionary) -> void:
+	if _opening_state != "streaming":
+		return
+	var status := String(result.get("status", ""))
+	if status == "accepted" or status == "already_opened":
+		_opening_state = "accepted"
+		opening_banner.visible = false
+		narrative_view.set_opening_gate(false)
+		status_label.text = "状态：就绪"
+		_update_save_controls()
+		return
+	_opening_state = "cancelled" if status == "cancelled" else "failed"
+	var message := "第一幕已取消；本局已保存，可随时重试。" if status == "cancelled" \
+		else "第一幕生成未完成：%s本局已保存，可直接重试。" % _plain_opening_failure(status, String(result.get("message", "")))
+	_show_opening_banner(message, true, false)
+	status_label.text = "状态：第一幕未完成"
+	_update_save_controls()
+
+
+func _on_opening_retry_pressed() -> void:
+	_begin_first_opening()
+
+
+func _on_opening_cancel_pressed() -> void:
+	if opening_runtime != null and _opening_state == "streaming":
+		opening_runtime.cancel()
+
+
+func _show_opening_banner(message: String, show_retry: bool, show_cancel: bool) -> void:
+	opening_banner_label.text = message
+	opening_retry_button.visible = show_retry
+	opening_cancel_button.visible = show_cancel
+	opening_banner.visible = true
+
+
+## 玩家可读 Opening 失败：不暴露内部码，key 配置说明与 View 一致。
+func _plain_opening_failure(status: String, _message: String) -> String:
+	match status:
+		"missing_key":
+			return "未检测到 DeepSeek API Key，请在本机 .env.local 中配置 DEEPSEEK_API_KEY；"
+		"transport":
+			return "暂时无法连接 DeepSeek 服务；"
+		"malformed_stream":
+			return "收到了无法识别的响应数据；"
+		"empty_generation", "empty_opening":
+			return "本次没有生成有效开场；"
+		"persistence_failure":
+			return "开场未能安全保存；"
+		_:
+			if status.begins_with("http_"):
+				return "DeepSeek 服务暂时返回异常；"
+			return ""
+
+
+func _teardown_opening_runtime() -> void:
+	if opening_runtime == null:
+		return
+	var finished_callback := Callable(self, "_on_opening_finished")
+	if opening_runtime.finished.is_connected(finished_callback):
+		opening_runtime.finished.disconnect(finished_callback)
+	if _opening_state == "streaming":
+		opening_runtime.cancel()
+	remove_child(opening_runtime)
+	opening_runtime.queue_free()
+	opening_runtime = null
+	_opening_state = ""
+	opening_banner.visible = false
 
 
 func _show_session_startup_failure(startup: Dictionary) -> void:
@@ -763,6 +937,15 @@ func _source_library_root() -> String:
 		return argument
 	var test_override := OS.get_environment("MY_WORLD_TEST_SOURCE_LIBRARY_ROOT").strip_edges()
 	return test_override if not test_override.is_empty() else "user://my-world/source-library"
+
+
+## 自动化只可显式设置 task-owned creation root；normal product 始终使用固定 user:// root。
+func _creation_root() -> String:
+	var argument := _command_argument("--creation-root=")
+	if not argument.is_empty():
+		return argument
+	var test_override := OS.get_environment("MY_WORLD_TEST_CREATION_ROOT").strip_edges()
+	return test_override if not test_override.is_empty() else "user://my-world/creation-protocol"
 
 
 func _command_argument(prefix: String) -> String:

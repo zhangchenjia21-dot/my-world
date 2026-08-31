@@ -130,13 +130,13 @@ text = "返回主菜单"
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="CreatePlaceholderButton" type="Button" parent="Panel/Margin/Column/Footer"]
+[node name="FinalCreateButton" type="Button" parent="Panel/Margin/Column/Footer"]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(220, 48)
 layout_mode = 2
 disabled = true
-text = "创建游戏（下一阶段开放）"
+text = "创建游戏"
 
 [node name="WizardBackButton" type="Button" parent="Panel/Margin/Column/Footer"]
 unique_name_in_owner = true
