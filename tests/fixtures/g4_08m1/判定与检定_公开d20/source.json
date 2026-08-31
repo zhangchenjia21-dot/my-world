@@ -1,0 +1,21 @@
+{
+  "schema_version": "expansion_pack.v0.1",
+  "asset_id": "exp.check_core.public_d20",
+  "asset_type": "expansion_pack",
+  "version": "0.1.0",
+  "display_name": "判定与检定：公开 d20",
+  "catalog_summary": "由程序掷骰并公开 DC、修正、姿态与结果的可选行动判定。",
+  "capability_binding": {
+    "capability_id": "action_check.public_d20.v1",
+    "capability_slot": "action_resolution"
+  },
+  "semantic_sections": [
+    {
+      "section_id": "public-d20-rules",
+      "section_type": "action_resolution_rules",
+      "title": "公开 d20 判定规则",
+      "disclosure": "gm_reference",
+      "content_path": "rules.md"
+    }
+  ]
+}

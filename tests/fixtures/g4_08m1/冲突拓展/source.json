@@ -1,0 +1,21 @@
+{
+  "schema_version": "expansion_pack.v0.1",
+  "asset_id": "exp.test.slot_collision",
+  "asset_type": "expansion_pack",
+  "version": "0.1.0-test",
+  "display_name": "任务专用冲突拓展",
+  "catalog_summary": "只用于证明 exclusive capability slot 冲突会 fail closed。",
+  "capability_binding": {
+    "capability_id": "action_check.test_collision.v1",
+    "capability_slot": "action_resolution"
+  },
+  "semantic_sections": [
+    {
+      "section_id": "collision-proof",
+      "section_type": "test_evidence",
+      "title": "冲突证据",
+      "disclosure": "gm_reference",
+      "content_path": "rules.md"
+    }
+  ]
+}

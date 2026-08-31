@@ -1,0 +1,43 @@
+{
+  "schema_version": "g4_08m1.real_provider_evidence.v0.1",
+  "completed_at_utc": "2026-08-31 15:24:17",
+  "model": "deepseek-v4-pro",
+  "failure_count": 0,
+  "routes": [
+    {
+      "route": "han",
+      "risk_stages": ["adjudication", "resolution_narrative"],
+      "ordinary_stages": ["adjudication"],
+      "check_id": "check-051373bbf56298d82ac6761fac566329e0b2019182e77b0ffc5f4599fe4c4d93",
+      "dc": 20,
+      "modifier": 2,
+      "stance": "disadvantage",
+      "raw_rolls": [16, 11],
+      "selected_roll": 11,
+      "total": 13,
+      "outcome": "failure",
+      "narrative_accepted": true,
+      "accepted_count_after_reopen": 2,
+      "risk_resolution_response_chars": 828,
+      "ordinary_response_chars": 450,
+      "ordinary_response_sha256": "0bc33fde7a6eb8f815044f8371c03e06214d7e51471e8e091fbda7f696aec7a1"
+    },
+    {
+      "route": "afterglow",
+      "risk_stages": ["adjudication", "resolution_narrative"],
+      "check_id": "check-9cc48ad0a16357c206d9184e4337d0af560488f0862ba157eee39aa01e803922",
+      "dc": 16,
+      "modifier": 3,
+      "stance": "normal",
+      "raw_rolls": [11],
+      "selected_roll": 11,
+      "total": 14,
+      "outcome": "failure",
+      "narrative_accepted": true,
+      "accepted_count": 1,
+      "risk_resolution_response_chars": 1080,
+      "risk_resolution_response_sha256": "bb34fc9318e53243074573fb4443769f5fb87a5713d7b001897d75805a22298d"
+    }
+  ],
+  "secret_material_recorded": false
+}

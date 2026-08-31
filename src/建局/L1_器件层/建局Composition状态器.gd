@@ -6,6 +6,7 @@ const Rules := preload("res://src/建局/L0_公理层/建局Composition规则.gd
 var world: Dictionary = {}
 var entry: Dictionary = {}
 var expansion_none_confirmed := false
+var expansions: Array[Dictionary] = []
 var player_character: Dictionary = {}
 var guaranteed_npcs: Array[Dictionary] = []
 var display_name := ""
@@ -17,6 +18,7 @@ func reset() -> void:
 	world = {}
 	entry = {}
 	expansion_none_confirmed = false
+	expansions.clear()
 	player_character = {}
 	guaranteed_npcs.clear()
 	display_name = ""
@@ -50,8 +52,33 @@ func select_entry(entry_id: String) -> Dictionary:
 
 
 func confirm_expansion_none() -> Dictionary:
+	expansions.clear()
 	expansion_none_confirmed = true
 	return Rules.success()
+
+
+## M1 的 headless/programmatic 选择入口；UI selector 由后续任务拥有。
+func set_expansion(generation: RefCounted, selected: bool) -> Dictionary:
+	var candidate := _selection(generation)
+	var validation := Rules.validate_identity(candidate.identity, "expansion_pack")
+	if not validation.success:
+		return validation
+	candidate["capability_binding"] = generation.source.capability_binding.duplicate(true)
+	var index := _expansion_index(candidate.identity)
+	if selected and index >= 0:
+		return Rules.failure("duplicate_expansion", "同一 exact Expansion generation 不能重复选择。")
+	if selected:
+		for existing: Dictionary in expansions:
+			if String(existing.capability_binding.capability_slot) == String(candidate.capability_binding.capability_slot):
+				return Rules.failure("capability_slot_conflict", "所选 Expansion 占用同一 exclusive capability_slot。")
+		expansions.append(candidate)
+		expansions.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
+			return Rules.identity_sort_key(left.identity) < Rules.identity_sort_key(right.identity)
+		)
+	elif index >= 0:
+		expansions.remove_at(index)
+	expansion_none_confirmed = expansions.is_empty()
+	return Rules.success({"expansions": expansions.duplicate(true)})
 
 
 func select_player(generation: RefCounted) -> Dictionary:
@@ -99,7 +126,7 @@ func snapshot() -> Dictionary:
 	return {
 		"world": world.duplicate(true),
 		"entry": entry.duplicate(true),
-		"expansions": [],
+		"expansions": expansions.duplicate(true),
 		"expansion_none_confirmed": expansion_none_confirmed,
 		"player_character": player_character.duplicate(true),
 		"guaranteed_npcs": guaranteed_npcs.duplicate(true),
@@ -122,5 +149,12 @@ func _selection(generation: RefCounted) -> Dictionary:
 func _npc_index(identity: Dictionary) -> int:
 	for index: int in guaranteed_npcs.size():
 		if Rules.same_generation(guaranteed_npcs[index].identity, identity):
+			return index
+	return -1
+
+
+func _expansion_index(identity: Dictionary) -> int:
+	for index: int in expansions.size():
+		if Rules.same_generation(expansions[index].identity, identity):
 			return index
 	return -1

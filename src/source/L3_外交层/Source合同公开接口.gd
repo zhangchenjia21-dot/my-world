@@ -3,8 +3,10 @@ extends RefCounted
 
 const WorldProcess := preload("res://src/source/L2_流程层/世界包加载流程.gd")
 const CharacterProcess := preload("res://src/source/L2_流程层/角色卡加载流程.gd")
+const ExpansionProcess := preload("res://src/source/L2_流程层/拓展包加载流程.gd")
 const WorldProjection := preload("res://src/source/L3_外交层/世界包公开类型.gd")
 const CharacterProjection := preload("res://src/source/L3_外交层/角色卡公开类型.gd")
+const ExpansionProjection := preload("res://src/source/L3_外交层/拓展包公开类型.gd")
 const SelectedProjectionProcess := preload("res://src/source/L2_流程层/Source选定投影流程.gd")
 
 var _selected_projection := SelectedProjectionProcess.new()
@@ -26,6 +28,14 @@ func load_character_card(package_path: String) -> Dictionary:
 	if not result.success:
 		return result
 	return {"success": true, "source": CharacterProjection.new(result.projection)}
+
+
+## 读取一个明确指定的声明式 Expansion package；不会解释 Source prose 为代码。
+func load_expansion_pack(package_path: String) -> Dictionary:
+	var result := ExpansionProcess.new().load(package_path)
+	if not result.success:
+		return result
+	return {"success": true, "source": ExpansionProjection.new(result.projection)}
 
 
 ## 返回 top-level always-safe + exact Entry sections；不返回其它 Entry 的 content。

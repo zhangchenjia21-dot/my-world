@@ -13,7 +13,11 @@ func _init(library_root: String) -> void:
 func initialize() -> Dictionary:
 	if root.strip_edges().is_empty():
 		return Rules.failure("invalid_library_root", "Managed Source Library root 不能为空。")
-	for relative: String in ["generations/world_pack", "generations/character_card", "current/world_pack", "current/character_card", "staging"]:
+	var required := ["staging"]
+	for asset_type: String in Rules.SUPPORTED_TYPES:
+		required.append("generations/%s" % asset_type)
+		required.append("current/%s" % asset_type)
+	for relative: String in required:
 		var error := DirAccess.make_dir_recursive_absolute(root.path_join(relative))
 		if error != OK:
 			return Rules.failure("library_initialize_failed", "无法创建 Managed Source Library 目录：%s" % relative)

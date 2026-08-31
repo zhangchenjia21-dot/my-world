@@ -11,7 +11,7 @@ func review(composition: Dictionary, resolved_exact: Dictionary) -> Dictionary:
 		return Rules.failure("world_required", "必须选择一个 World。")
 	if composition.player_character.is_empty():
 		return Rules.failure("player_character_required", "必须选择一个 Player Character。")
-	if not bool(composition.expansion_none_confirmed):
+	if composition.expansions.is_empty() and not bool(composition.expansion_none_confirmed):
 		return Rules.failure("expansion_choice_required", "请明确确认本局不使用拓展。")
 	if String(composition.display_name).strip_edges().is_empty():
 		return Rules.failure("display_name_required", "游戏名称不能为空。")
@@ -29,6 +29,24 @@ func review(composition: Dictionary, resolved_exact: Dictionary) -> Dictionary:
 			return Rules.failure("exact_generation_mismatch", "Guaranteed NPC exact generation 复核不一致。")
 		if Rules.same_generation(composition.guaranteed_npcs[index].identity, composition.player_character.identity):
 			return Rules.failure("character_role_overlap", "Player 与 Guaranteed NPC 角色重叠。")
+	var resolved_expansions: Array = resolved_exact.get("expansions", [])
+	if resolved_expansions.size() != composition.expansions.size():
+		return Rules.failure("exact_generation_mismatch", "Expansion exact generation 数量不一致。")
+	var exact_seen := {}
+	var slot_seen := {}
+	for index: int in composition.expansions.size():
+		var selected := composition.expansions[index] as Dictionary
+		if not _matches(selected, resolved_expansions[index]):
+			return Rules.failure("exact_generation_mismatch", "Expansion exact generation 复核不一致。")
+		var key := Rules.identity_sort_key(selected.identity)
+		if exact_seen.has(key):
+			return Rules.failure("duplicate_expansion", "同一 exact Expansion generation 不能重复选择。")
+		exact_seen[key] = true
+		var binding: Dictionary = resolved_expansions[index].source.capability_binding
+		var slot := String(binding.capability_slot)
+		if slot_seen.has(slot):
+			return Rules.failure("capability_slot_conflict", "所选 Expansion 占用同一 exclusive capability_slot：%s" % slot)
+		slot_seen[slot] = true
 	if not composition.entry.is_empty():
 		var found := false
 		for candidate: Dictionary in resolved_exact.world.source.entries:

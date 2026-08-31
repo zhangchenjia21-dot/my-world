@@ -152,6 +152,21 @@ func complete_active_generation_durably() -> Dictionary:
 	}
 
 
+## 跨模块只提交调用方已完整构造的下一份 World document；CAS 成功后才发布 Runtime memory。
+## mutation_id/node_id 由领域流程稳定提供，使 lost ACK/restart 能复用 Persistence 的 exact replay。
+func commit_world_mutation_durably(mutation_id: String, node_id: String, next_world_state: Dictionary) -> Dictionary:
+	if not is_ready():
+		return {"status": "startup_failure", "success": false, "message": "Current Game 尚未就绪。"}
+	var committed: Dictionary = persistence.commit_world_mutation(
+		game_id, mutation_id, active_head_id, node_id, next_world_state, _now_utc()
+	)
+	if not committed.success:
+		return committed
+	active_head_id = String(committed.head_id)
+	world_state = (committed.world_state as Dictionary).duplicate(true)
+	return committed
+
+
 ## 只在 stable non-generating current state 创建 Save。Persistence 在自己的 transaction
 ## 中读取 durable head + Conversation，Runtime 不把 UI/memory draft 当恢复材料。
 func create_save_point(display_name: String) -> Dictionary:

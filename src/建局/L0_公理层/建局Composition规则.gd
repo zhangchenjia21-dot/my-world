@@ -38,3 +38,7 @@ static func validate_identity(identity: Dictionary, asset_type: String) -> Dicti
 	if String(identity.asset_type) != asset_type:
 		return failure("invalid_asset_type", "Source 类型与建局角色不匹配。")
 	return success()
+
+
+static func identity_sort_key(identity: Dictionary) -> String:
+	return "%s\u001f%s\u001f%s\u001f%s" % [identity.asset_type, identity.asset_id, identity.version, identity.generation_fingerprint]

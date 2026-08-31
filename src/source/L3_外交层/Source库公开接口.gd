@@ -27,6 +27,11 @@ func install_character_card(package_path: String, task_fault: String = "") -> Di
 	return _project_one(_process.install(package_path, _contract.load_character_card, task_fault))
 
 
+## 仅在完整合同校验、exact fingerprint 与 managed publish 成功后更新 Expansion current；失败不发布部分代次。
+func install_expansion_pack(package_path: String, task_fault: String = "") -> Dictionary:
+	return _project_one(_process.install(package_path, _contract.load_expansion_pack, task_fault))
+
+
 ## 返回显式 current metadata 指向且已重新验证的 World/Character inventory；任一损坏时整体 fail-loud。
 func list_current_sources() -> Dictionary:
 	var result: Dictionary = _process.list_current(_loader_for_type)
@@ -46,6 +51,11 @@ func get_current_character(asset_id: String) -> Dictionary:
 	return _project_one(_process.get_current(Rules.CHARACTER_TYPE, asset_id, _contract.load_character_card))
 
 
+## current lookup 每次重新验证 managed bytes，不信任 current metadata 自身。
+func get_current_expansion(asset_id: String) -> Dictionary:
+	return _project_one(_process.get_current(Rules.EXPANSION_TYPE, asset_id, _contract.load_expansion_pack))
+
+
 ## exact lookup 始终读取并验证 managed bytes，不信任 fingerprint 目录名。
 func get_exact_world(asset_id: String, fingerprint: String) -> Dictionary:
 	return _project_one(_process.get_exact(Rules.WORLD_TYPE, asset_id, fingerprint, _contract.load_world_pack))
@@ -55,8 +65,17 @@ func get_exact_character(asset_id: String, fingerprint: String) -> Dictionary:
 	return _project_one(_process.get_exact(Rules.CHARACTER_TYPE, asset_id, fingerprint, _contract.load_character_card))
 
 
+## exact lookup 只按显式 generation fingerprint 读取并复核；不会 fallback 到 current。
+func get_exact_expansion(asset_id: String, fingerprint: String) -> Dictionary:
+	return _project_one(_process.get_exact(Rules.EXPANSION_TYPE, asset_id, fingerprint, _contract.load_expansion_pack))
+
+
 func _loader_for_type(asset_type: String) -> Callable:
-	return _contract.load_world_pack if asset_type == Rules.WORLD_TYPE else _contract.load_character_card
+	if asset_type == Rules.WORLD_TYPE:
+		return _contract.load_world_pack
+	if asset_type == Rules.CHARACTER_TYPE:
+		return _contract.load_character_card
+	return _contract.load_expansion_pack
 
 
 func _project_one(result: Dictionary) -> Dictionary:

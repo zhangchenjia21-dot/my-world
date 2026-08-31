@@ -86,6 +86,15 @@ func _build_intent(creation_id: String, canonical: Dictionary) -> Dictionary:
 		if not npc_result.success:
 			return npc_result
 		npc_generations.append(npc_result.generation)
+	var expansion_generations: Array = []
+	for pin: Dictionary in canonical.payload.expansions:
+		var expansion_result := _exact_generation(pin)
+		if not expansion_result.success:
+			return expansion_result
+		expansion_generations.append(expansion_result.generation)
+	var expansion_materialization := _materialize_expansions(expansion_generations)
+	if not expansion_materialization.success:
+		return expansion_materialization
 
 	var entry_id := "" if canonical.payload.entry_id == null else String(canonical.payload.entry_id)
 	var world_projection := _world_projection(world_result.generation, entry_id)
@@ -112,7 +121,8 @@ func _build_intent(creation_id: String, canonical: Dictionary) -> Dictionary:
 	var setup := _setup_envelope(
 		creation_id, String(canonical.fingerprint), game_id, root_node_id, local_world_id,
 		local_player_id, local_npc_ids, created_at, canonical.payload,
-		world_projection.projection, player_projection.projection, npc_projections
+		world_projection.projection, player_projection.projection, npc_projections,
+		expansion_materialization.expansions
 	)
 	return Rules.success({"intent": {
 		"schema_version": Rules.INTENT_SCHEMA,
@@ -270,8 +280,10 @@ func _exact_generation(pin: Dictionary) -> Dictionary:
 	var result: Dictionary
 	if String(pin.asset_type) == "world_pack":
 		result = _source_library.get_exact_world(String(pin.asset_id), String(pin.generation_fingerprint))
-	else:
+	elif String(pin.asset_type) == "character_card":
 		result = _source_library.get_exact_character(String(pin.asset_id), String(pin.generation_fingerprint))
+	else:
+		result = _source_library.get_exact_expansion(String(pin.asset_id), String(pin.generation_fingerprint))
 	if not result.success:
 		return Rules.failure("exact_generation_unavailable", String(result.get("message", result.get("code", "unknown"))))
 	if result.generation.identity != pin:
@@ -282,7 +294,8 @@ func _exact_generation(pin: Dictionary) -> Dictionary:
 func _setup_envelope(
 	creation_id: String, fingerprint: String, game_id: String, root_node_id: String,
 	local_world_id: String, local_player_id: String, local_npc_ids: Array, created_at: String,
-	payload: Dictionary, world_projection: Dictionary, player_projection: Dictionary, npc_projections: Array
+	payload: Dictionary, world_projection: Dictionary, player_projection: Dictionary, npc_projections: Array,
+	expansions: Array
 ) -> Dictionary:
 	var npcs: Array = []
 	for index: int in npc_projections.size():
@@ -303,7 +316,7 @@ func _setup_envelope(
 		},
 		"setup_ancestry": {"root_timeline_node_id": root_node_id, "kind": "initial_setup"},
 		"selected_entry_id": payload.entry_id,
-		"expansions": [],
+		"expansions": expansions.duplicate(true),
 		"world": {
 			"local_world_id": local_world_id,
 			"provenance": payload.world_pin.duplicate(true),
@@ -317,6 +330,30 @@ func _setup_envelope(
 		},
 		"guaranteed_npcs": npcs,
 	}
+
+
+## Final Create 只接受 Host 已知 capability；Source rules 作为 immutable data materialize，不执行 Source 代码。
+func _materialize_expansions(generations: Array) -> Dictionary:
+	var materialized: Array = []
+	var slots := {}
+	for generation: RefCounted in generations:
+		var source: RefCounted = generation.source
+		var binding: Dictionary = source.capability_binding
+		if String(binding.capability_id) != "action_check.public_d20.v1":
+			return Rules.failure("unknown_capability", "Host 不支持 materialized capability_id：%s" % String(binding.capability_id))
+		var slot := String(binding.capability_slot)
+		if slots.has(slot):
+			return Rules.failure("capability_slot_conflict", "多个 Expansion 占用同一 capability_slot。")
+		slots[slot] = true
+		materialized.append({
+			"provenance": generation.identity.duplicate(true),
+			"display_name": source.display_name,
+			"catalog_summary": source.catalog_summary,
+			"capability_id": String(binding.capability_id),
+			"capability_slot": slot,
+			"semantic_sections": source.semantic_sections.duplicate(true),
+		})
+	return Rules.success({"expansions": materialized})
 
 
 func _identity(prefix: String) -> String:

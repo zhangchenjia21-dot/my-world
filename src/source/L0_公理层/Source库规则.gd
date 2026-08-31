@@ -5,7 +5,8 @@ extends RefCounted
 
 const WORLD_TYPE := "world_pack"
 const CHARACTER_TYPE := "character_card"
-const SUPPORTED_TYPES := [WORLD_TYPE, CHARACTER_TYPE]
+const EXPANSION_TYPE := "expansion_pack"
+const SUPPORTED_TYPES := [WORLD_TYPE, CHARACTER_TYPE, EXPANSION_TYPE]
 const MANIFEST_NAME := "source.json"
 const PRODUCTION_ROOT := "user://my-world/source-library"
 const CURRENT_FIELDS := [
@@ -68,7 +69,7 @@ static func contract_owned_paths(source: RefCounted) -> Array[String]:
 				_append_unique(paths, String(section.content_path))
 		for declaration: Dictionary in source.authored_assets:
 			_append_unique(paths, String(declaration.path))
-	else:
+	elif String(source.identity.asset_type) == CHARACTER_TYPE:
 		for section: Dictionary in source.semantic_sections:
 			_append_unique(paths, String(section.content_path))
 		for profile: Dictionary in source.t0_profiles:
@@ -76,6 +77,9 @@ static func contract_owned_paths(source: RefCounted) -> Array[String]:
 				_append_unique(paths, String(section.content_path))
 		if not source.portrait.is_empty():
 			_append_unique(paths, String(source.portrait.path))
+	else:
+		for section: Dictionary in source.semantic_sections:
+			_append_unique(paths, String(section.content_path))
 	return paths
 
 

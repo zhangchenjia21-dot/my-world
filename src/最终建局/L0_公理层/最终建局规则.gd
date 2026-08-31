@@ -39,8 +39,8 @@ static func canonicalize_composition(composition: Dictionary) -> Dictionary:
 		or not composition.entry is Dictionary or not composition.guaranteed_npcs is Array \
 		or not composition.expansions is Array:
 		return failure("invalid_composition", "Composition 字段类型无效。")
-	if not bool(composition.expansion_none_confirmed) or not composition.expansions.is_empty():
-		return failure("invalid_composition", "G4-06 只接受已明确确认的空 Expansion 集合。")
+	if composition.expansions.is_empty() and not bool(composition.expansion_none_confirmed):
+		return failure("invalid_composition", "空 Expansion 集合必须由玩家明确确认。")
 	var world_pin := _pin_from_selection(composition.world, "world_pack")
 	if not world_pin.success:
 		return world_pin
@@ -58,6 +58,22 @@ static func canonicalize_composition(composition: Dictionary) -> Dictionary:
 	npc_pins.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
 		return _pin_sort_key(left) < _pin_sort_key(right)
 	)
+	var expansion_pins: Array = []
+	var expansion_seen := {}
+	for value: Variant in composition.expansions:
+		if not value is Dictionary:
+			return failure("invalid_composition", "Expansion selection 类型无效。")
+		var expansion_pin := _pin_from_selection(value, "expansion_pack")
+		if not expansion_pin.success:
+			return expansion_pin
+		var key := _pin_sort_key(expansion_pin.pin)
+		if expansion_seen.has(key):
+			return failure("duplicate_expansion", "同一 exact Expansion generation 不能重复选择。")
+		expansion_seen[key] = true
+		expansion_pins.append(expansion_pin.pin)
+	expansion_pins.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
+		return _pin_sort_key(left) < _pin_sort_key(right)
+	)
 	var entry_id: Variant = null
 	if not composition.entry.is_empty():
 		entry_id = String(composition.entry.get("entry_id", ""))
@@ -66,7 +82,8 @@ static func canonicalize_composition(composition: Dictionary) -> Dictionary:
 	var payload := {
 		"world_pin": world_pin.pin,
 		"entry_id": entry_id,
-		"expansions": [],
+		# 保留 G4-06 canonical key；空集合 JSON/fingerprint 不漂移，非空时该字段承载 exact pins。
+		"expansions": expansion_pins,
 		"player_character_pin": player_pin.pin,
 		"guaranteed_npc_pins": npc_pins,
 		"display_name": String(composition.display_name),
@@ -95,6 +112,8 @@ static func validate_intent(intent: Dictionary) -> Dictionary:
 			return failure("invalid_creation_intent", "creating intent identity 字段无效：%s" % identity_field)
 	if not intent.canonical_payload is Dictionary or not intent.local_npc_ids is Array or not intent.initial_setup is Dictionary:
 		return failure("invalid_creation_intent", "creating intent payload 类型无效。")
+	if not intent.canonical_payload.get("expansions", null) is Array:
+		return failure("invalid_creation_intent", "creating intent Expansion pins 类型无效。")
 	var canonical_json := JSON.stringify(_canonical_value(intent.canonical_payload))
 	if _fingerprint_json(canonical_json) != String(intent.composition_fingerprint):
 		return failure("invalid_creation_intent", "creating intent payload fingerprint 不一致。")
@@ -104,27 +123,34 @@ static func validate_intent(intent: Dictionary) -> Dictionary:
 	for field: String in ["creation_origin", "game", "setup_ancestry", "world", "player_character"]:
 		if not setup.get(field, null) is Dictionary:
 			return failure("invalid_creation_intent", "creating intent initial setup 字段类型无效：%s" % field)
-	if not setup.get("guaranteed_npcs", null) is Array:
-		return failure("invalid_creation_intent", "creating intent Guaranteed NPC 集合类型无效。")
+	if not setup.get("guaranteed_npcs", null) is Array or not setup.get("expansions", null) is Array:
+		return failure("invalid_creation_intent", "creating intent NPC/Expansion 集合类型无效。")
 	var origin := setup.get("creation_origin", {}) as Dictionary
 	var game := setup.get("game", {}) as Dictionary
 	var ancestry := setup.get("setup_ancestry", {}) as Dictionary
 	var world := setup.get("world", {}) as Dictionary
 	var player := setup.get("player_character", {}) as Dictionary
 	var npcs := setup.get("guaranteed_npcs", []) as Array
+	var expansions := setup.get("expansions", []) as Array
 	if String(origin.get("creation_id", "")) != String(intent.creation_id) \
 		or String(origin.get("composition_fingerprint", "")) != String(intent.composition_fingerprint) \
 		or String(game.get("game_id", "")) != String(intent.game_id) \
 		or String(ancestry.get("root_timeline_node_id", "")) != String(intent.root_node_id) \
 		or String(world.get("local_world_id", "")) != String(intent.local_world_id) \
 		or String(player.get("local_character_id", "")) != String(intent.local_player_id) \
-		or npcs.size() != intent.local_npc_ids.size():
+		or npcs.size() != intent.local_npc_ids.size() \
+		or expansions.size() != (intent.canonical_payload.expansions as Array).size():
 		return failure("invalid_creation_intent", "creating intent fixed identities 与 initial setup 不一致。")
 	for index: int in npcs.size():
 		if not npcs[index] is Dictionary:
 			return failure("invalid_creation_intent", "creating intent NPC setup 类型无效。")
 		if String((npcs[index] as Dictionary).get("local_character_id", "")) != String(intent.local_npc_ids[index]):
 			return failure("invalid_creation_intent", "creating intent NPC local identity 不一致。")
+	for index: int in expansions.size():
+		if not expansions[index] is Dictionary or not (expansions[index] as Dictionary).get("provenance", null) is Dictionary:
+			return failure("invalid_creation_intent", "creating intent Expansion materialization 类型无效。")
+		if (expansions[index] as Dictionary).provenance != intent.canonical_payload.expansions[index]:
+			return failure("invalid_creation_intent", "creating intent Expansion exact provenance 不一致。")
 	return success()
 
 

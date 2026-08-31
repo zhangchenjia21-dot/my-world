@@ -7,8 +7,10 @@ const WORLD_SCHEMA := "world_pack.v0.1"
 const CHARACTER_SCHEMA := "character_card.v0.1"
 const WORLD_SCHEMA_V2 := "world_pack.v0.2"
 const CHARACTER_SCHEMA_V2 := "character_card.v0.2"
+const EXPANSION_SCHEMA := "expansion_pack.v0.1"
 const WORLD_TYPE := "world_pack"
 const CHARACTER_TYPE := "character_card"
+const EXPANSION_TYPE := "expansion_pack"
 const MANIFEST_NAME := "source.json"
 
 const WORLD_FIELDS := [
@@ -29,6 +31,10 @@ const CHARACTER_FIELDS_V2 := [
 	"schema_version", "asset_id", "asset_type", "version", "display_name",
 	"catalog_summary", "semantic_sections", "t0_profiles", "portrait",
 	"player_character_supported",
+]
+const EXPANSION_FIELDS := [
+	"schema_version", "asset_id", "asset_type", "version", "display_name",
+	"catalog_summary", "capability_binding", "semantic_sections",
 ]
 const DISCLOSURES := ["gm_reference", "gm_private"]
 const COMPATIBILITY_EXACT_PROFILE := "exact_profile_match"

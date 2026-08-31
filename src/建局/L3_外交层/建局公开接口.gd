@@ -28,12 +28,15 @@ func load_current_inventory() -> Dictionary:
 		return result
 	var worlds: Array[RefCounted] = []
 	var characters: Array[RefCounted] = []
+	var expansions: Array[RefCounted] = []
 	for generation: RefCounted in result.sources:
 		if String(generation.identity.asset_type) == "world_pack":
 			worlds.append(generation)
-		else:
+		elif String(generation.identity.asset_type) == "character_card":
 			characters.append(generation)
-	return Rules.success({"worlds": worlds, "characters": characters})
+		else:
+			expansions.append(generation)
+	return Rules.success({"worlds": worlds, "characters": characters, "expansions": expansions})
 
 
 func select_world(generation: RefCounted) -> Dictionary:
@@ -46,6 +49,11 @@ func select_entry(entry_id: String) -> Dictionary:
 
 func confirm_expansion_none() -> Dictionary:
 	return _state.confirm_expansion_none()
+
+
+## M1 的 UI-neutral exact selection seam；重复代次或 exclusive slot 冲突 fail closed，且不产生 durable side effect。
+func set_expansion(generation: RefCounted, selected: bool) -> Dictionary:
+	return _state.set_expansion(generation, selected)
 
 
 func select_player(generation: RefCounted) -> Dictionary:
@@ -86,6 +94,12 @@ func review_frozen_composition(composition: Dictionary) -> Dictionary:
 		if not npc_result.success:
 			return _review_failure(npc_result, "Guaranteed NPC")
 		npcs.append(npc_result.generation)
+	var expansions: Array[RefCounted] = []
+	for expansion: Dictionary in composition.expansions:
+		var expansion_result := _exact_lookup(expansion.identity)
+		if not expansion_result.success:
+			return _review_failure(expansion_result, "Expansion")
+		expansions.append(expansion_result.generation)
 	if not composition.entry.is_empty():
 		var world_asset_id := String(world_result.generation.identity.asset_id)
 		var entry_id := String(composition.entry.entry_id)
@@ -100,6 +114,7 @@ func review_frozen_composition(composition: Dictionary) -> Dictionary:
 		"world": world_result.generation,
 		"player_character": player_result.generation,
 		"guaranteed_npcs": npcs,
+		"expansions": expansions,
 	})
 
 
@@ -118,7 +133,9 @@ func _temporal_compatibility(generation: RefCounted, world_asset_id: String, ent
 func _exact_lookup(identity: Dictionary) -> Dictionary:
 	if String(identity.asset_type) == "world_pack":
 		return _source_library.get_exact_world(String(identity.asset_id), String(identity.generation_fingerprint))
-	return _source_library.get_exact_character(String(identity.asset_id), String(identity.generation_fingerprint))
+	if String(identity.asset_type) == "character_card":
+		return _source_library.get_exact_character(String(identity.asset_id), String(identity.generation_fingerprint))
+	return _source_library.get_exact_expansion(String(identity.asset_id), String(identity.generation_fingerprint))
 
 
 func _review_failure(failure: Dictionary, label: String) -> Dictionary:
