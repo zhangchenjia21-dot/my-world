@@ -5,13 +5,13 @@ Scope: entire `zhangchenjia21-dot/my-world` repository unless a deeper `AGENTS.m
 
 ## 1. Authority / Freshness
 
-Resolve current authority in this order:
+Resolve authority in this order:
 
 1. Owner current explicit instruction.
 2. `zhangchenjia21-dot/Vibe-Coding/AGENTS.md`.
 3. current Product / Principles / Architecture / Roadmap / Status under `Vibe-Coding/my world/`.
 4. relevant current architecture decisions.
-5. this repository `AGENTS.md` and current formal Task Packet.
+5. this repository `AGENTS.md` and the current task/UAT packet.
 6. verifiable implementation/tests/current HEAD.
 
 Before authoritative work, refresh `main`; never overwrite unknown dirty/newer work.
@@ -41,138 +41,110 @@ G4-03 Managed Local Source Library    PASS / CLOSED
 G4-04 Multi-Game / Game Library       PASS / CLOSED
 G4-05 New Game Wizard                 PASS / CLOSED
 G4-06 Atomic Final Create             PASS / CLOSED
-G4-07 First Playable A                ACTIVE — OWNER UAT GATE
+G4-07 First Playable A                READY FOR OWNER UAT
 G4-07A Opening Runtime                PASS / CLOSED
-G4-07B Playable UI Integration        ACTIVE — KIMI
+G4-07B Playable UI Integration        PASS / CLOSED
 G4-GATE                               NOT YET
 ```
 
-G4-07A accepted implementation/evidence:
+G4-07B accepted implementation/evidence:
 
 ```text
-implementation  dac0e8e4bf655a234ca5b8d0952f6a199373b4af
-continuation    221710941950198c4fced9c30991bd295fea39ef
-evidence / HEAD fdb6a30ad138c332837f17af1d8c74b5643db44b
+implementation  e13099384c12090197822d1d504089decc1f893b
+evidence / HEAD 2f45614baa0a3c38dac3439934122084817d4602
+GPT IR record   docs/g4_07b/G4-07B_INDEPENDENT_REVIEW.md
 ```
 
 GPT Independent Review: **PASS**.
 
 Confirmed:
 
-- real Han + Afterglow Provider routes use production G4-06 Final Create and existing-only Game open;
-- first Opening Context is projected from durable Game-local `game_local_setup.v0.1`, not Wizard state or mutable Source current;
-- G4-07A public seam structurally receives no Source Library;
-- early Han Provider context contains selected early semantics and excludes known later/future markers;
-- no-Entry remains explicit no-Entry with no runtime default Entry/profile/year;
-- Guaranteed NPC material is canonical GM knowledge only and carries an explicit non-convergence directive;
-- first Opening is GM-only with no fake Provider-visible Player message;
-- Provider failure/cancel leaves zero durable accepted Opening and retries cleanly;
-- one successful Opening becomes durable exactly once;
-- fresh process reopen restores the exact Opening and rejects a second first Opening;
-- continuation context rebuilds from durable Game-local World truth + durable Conversation + the next real Player action;
-- production schema remains v4 and frozen full-fidelity fixtures remain unchanged.
+- production changes stayed inside application/UI scope;
+- one frozen Review attempt owns one stable `creation_id`; duplicate submit/retry cannot mint a second Game for the same attempt;
+- Final Create success opens the exact registered Game through existing-only semantics;
+- a created Game with accepted Conversation = 0 is a legal opening-pending state;
+- Opening failure/cancel preserves the Game and retries on the same Game;
+- exit after create but before accepted Opening returns through Continue to the same Game;
+- GM-only Opening renders without an empty/fake Player bubble;
+- accepted Opening is not generated twice after Continue;
+- normal Player continuation uses G4-07A durable Game-local World + Conversation context;
+- Save / Main Menu / Continue restores the same Game and history;
+- Han and Afterglow real DeepSeek UI verticals pass through the same family-agnostic application path;
+- no-Entry remains explicit;
+- 1280×720 / 960×540 / maximized layout evidence passes;
+- production SQLite schema remains v4; frozen fixtures and protected backend modules are unchanged.
 
-Do not reopen G4-07A absent new P0 evidence or a concrete G4-07B integration defect that proves the reviewed backend seam insufficient.
-
----
-
-## 3. Current execution task
-
-> **G4-07B — Playable UI Integration**
-
-Formal packet:
-
-`docs/tasks/G4-07B_PLAYABLE_UI_INTEGRATION_TASK.md`
-
-Packet commit:
-
-`064ae8b27d2169f8399e81a36a7d7624efe45fdd`
-
-Formal Code Base:
-
-`fdb6a30ad138c332837f17af1d8c74b5643db44b`
-
-Primary execution owner: **Kimi**.  
-Semantic + Independent Review owner: **GPT**.  
-Parent Product gate: **G4-07 First Playable A — Owner UAT required**.
-
-Return ceiling:
-
-> **READY FOR INDEPENDENT REVIEW**
-
-Kimi must not declare G4-07 Product PASS.
+Do not reopen G4-07A or G4-07B absent new P0 evidence or Owner UAT evidence proving a concrete defect.
 
 ---
 
-## 4. G4-07B product/application boundary
+## 3. Current gate — G4-07 First Playable A Owner UAT
 
-G4-07B integrates already-reviewed seams:
+Current UAT packet:
+
+`docs/tasks/G4-07_FIRST_PLAYABLE_A_OWNER_UAT.md`
+
+Execution owner: **Owner / User**.  
+Semantic/Product decision owner after UAT: **GPT**.
+
+No Codex/Kimi implementation task is active right now.
+
+Required product route:
 
 ```text
-Main Menu
-→ G4-05 Wizard / Review
-→ G4-06 Atomic Final Create
-→ exact existing-only Game open
-→ G4-07A first GM Opening
-→ Narrative UI streaming
-→ first real Player action / continuation
-→ Save / exit / reopen / Continue
+real Source
+→ New Game Wizard / Review
+→ Atomic Final Create
+→ real DeepSeek GM Opening
+→ several free-form Player actions
+→ durable GM continuation
+→ Save
+→ Main Menu / reopen
+→ Continue same Game
 ```
 
-The backend semantics are already owned by G4-06/G4-07A. This task owns frontend/application state, presentation, retry/navigation behavior and Windows interaction quality.
+Owner UAT judges what engineering evidence cannot:
 
-Expected production scope is primarily:
+- Narrative richness;
+- Character individuality;
+- Han vs Afterglow distinctness;
+- anti-convergence of Guaranteed NPCs;
+- Context sufficiency / immediate continuity;
+- temporal/future leakage in early Han;
+- whether the interface feels like playing an AI RPG rather than operating an engineering demo.
 
-- `src/应用壳.gd`
-- `src/main.tscn`
-- `src/ui/**`
-- narrow application-facing presentation/glue only where necessary
-
-Protected backend modules should remain unchanged. If integration proves a backend seam is missing, return `BLOCKED` rather than redesigning backend code inside the Kimi task.
+Engineering PASS does not close G4-07.
 
 ---
 
-## 5. Frozen create/opening integration semantics
+## 4. Frozen integration semantics
 
-Do not regress:
+### Game creation
 
-### Final Create attempt identity
+- one frozen Review create attempt → one stable `creation_id`;
+- same attempt retry/double-submit converges to one Game;
+- materially edited Review before successful create → new attempt identity;
+- successful create ends the Wizard create path.
 
-- one frozen Review create attempt gets one fixed `creation_id`;
-- retry/repeated click for that same attempt reuses it;
-- creating UI must debounce/disable duplicate submit;
-- materially edited/re-reviewed Composition before successful create starts a new attempt identity;
-- after successful create the Wizard cannot create a second Game from the same completed Review.
+### Created Game / Opening
 
-### Created Game is durable before Opening
+- created Game exists independently before AI Opening acceptance;
+- accepted Conversation = 0 is legal opening-pending;
+- Provider failure/cancel never rolls back Game creation;
+- Continue returns to the same Game and retries Opening;
+- accepted first Opening exists exactly once.
 
-Provider failure/cancel does not roll back a successfully created Game.
+### GM-only Opening
 
-A valid Game with accepted Conversation = 0 is an `opening-pending` Game. It must be recoverable through Continue without creating another Game.
-
-### Existing-only open
-
-After create, and on Continue, use existing-only Game/session open. Missing/corrupt/wrong state fails loud; never silently mint a replacement Game.
-
-### First Opening exactly once
-
-- accepted Conversation = 0 + valid setup → eligible for first Opening;
-- accepted Conversation >= 1 → do not generate another first Opening;
-- failure/cancel leaves zero accepted and permits retry on the same created Game.
-
-### GM-only Opening presentation
-
-The v4 empty `player_text` compatibility slot is not a Player utterance. Narrative UI must not render an empty/fake Player bubble for the Opening.
+The v4 empty Player compatibility slot is not Player speech and must not render as an empty/fake Player bubble.
 
 ### Durable continuation
 
-Normal Player actions after Opening must use the reviewed G4-07A continuation context assembled from durable Game-local World truth + accepted Conversation. Never rebuild from Wizard or mutable Source current.
+After Opening, Player actions use the reviewed G4-07A durable continuation context from Game-local World truth + accepted Conversation. Never reconstruct runtime semantics from Wizard memory or mutable Source current.
 
----
+### Source / temporal truth
 
-## 6. Source / temporal truth remains frozen
-
-Current Source contract is v0.2-r2. Game-local materialization from G4-06 is runtime truth.
+Source v0.2-r2 remains frozen. G4-06 Game-local materialization is runtime truth.
 
 ```text
 selected Entry
@@ -186,50 +158,31 @@ no Entry
 
 Never fallback latest/nearest/later/full-life. Never infer hidden historical mode.
 
-Newer Source current generations cannot rewrite an existing created Game.
-
-Guaranteed NPC = canonical cast member only, not opening presence/location/player-known/relationship.
+Guaranteed NPC = canonical cast member only, not automatic opening presence/location/player-known/relationship.
 
 ---
 
-## 7. G4-07 execution decomposition
+## 5. Next decision
+
+After Owner UAT, GPT must decide exactly one:
 
 ```text
-G4-07A Codex
-backend/runtime/context/provider Opening vertical
-PASS / CLOSED
-↓
-G4-07B Kimi
-Wizard Final Create → playable Narrative UI integration
-ACTIVE
-↓ GPT Independent Review
-G4-07 Owner UAT
-real Han + Afterglow play, narrative richness, individuality, anti-convergence, Context sufficiency
+G4-07 PASS / CLOSED
 ```
 
-Engineering PASS for G4-07B cannot substitute for Owner Product PASS.
+or
+
+```text
+G4-07 Product Correction ACTIVE
+```
+
+If correction is required, shape the smallest evidence-driven forward task and route it by ownership. Do not reopen closed engineering work generically.
+
+Do **not** start G4-08 Expansion before G4-07 Product PASS.
 
 ---
 
-## 8. No scope leakage
-
-G4-07B must not:
-
-- redesign Source contracts or frozen fixtures;
-- redesign G4-06 creation protocol;
-- redesign G4-07A Provider/context/durability ownership;
-- add Expansion;
-- start G5 Living World broad architecture;
-- start G7 long-session retrieval/summarization platform;
-- hardcode family-specific narrative scripts;
-- expose API keys or auth data in UI/evidence;
-- declare Product PASS.
-
-Production SQLite schema remains v4 unless a separately routed backend task returns `BLOCKED` before migration.
-
----
-
-## 9. Technical baseline
+## 6. Technical baseline
 
 ```text
 Host              Godot 4.7.2 Standard / non-.NET Windows x64
@@ -241,5 +194,3 @@ Production schema v4
 Game topology     One Game = One SQLite
 Source Library    managed immutable filesystem generations
 ```
-
-Routine implementation/test/evidence belongs to execution agents. Owner handles irreducible product judgment and G4-07 UAT.
