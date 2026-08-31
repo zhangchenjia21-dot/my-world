@@ -11,7 +11,7 @@ Resolve authority in this order:
 2. `zhangchenjia21-dot/Vibe-Coding/AGENTS.md`.
 3. current Product / Principles / Architecture / Roadmap / Status under `Vibe-Coding/my world/`.
 4. relevant current architecture decisions.
-5. this repository `AGENTS.md` and the current UAT packet.
+5. this repository `AGENTS.md` and the current task packet.
 6. verifiable implementation/tests/current HEAD.
 
 Before authoritative work, refresh `main`; never overwrite unknown dirty/newer work.
@@ -39,65 +39,61 @@ G4-03 Managed Local Source Library    PASS / CLOSED
 G4-04 Multi-Game / Game Library       PASS / CLOSED
 G4-05 New Game Wizard                 PASS / CLOSED
 G4-06 Atomic Final Create             PASS / CLOSED
-G4-07 First Playable A                OWNER UAT ACTIVE
+G4-07 First Playable A                PASS / CLOSED
 G4-07A Opening Runtime                PASS / CLOSED
 G4-07B Playable UI Integration        PASS / CLOSED
 G4-07UAT01 Owner Launch Freshness     PASS / CLOSED
+G4-08 Expansion Pack v0.1             ACTIVE
+G4-08S0 Expansion Semantic Freeze     ACTIVE — GPT
 G4-GATE                               NOT YET
 ```
 
-G4-07UAT01 accepted implementation/evidence:
+G4-07 Owner Product UAT verdict: **PASS**.
 
-```text
-implementation/evidence a250c60fa13043ed129dc68ed69048fea6abad5d
-GPT IR record           docs/g4_07uat01/G4-07UAT01_INDEPENDENT_REVIEW.md
-```
+Record:
 
-GPT Independent Review: **PASS / CLOSED**.
+`docs/g4_07/G4-07_OWNER_UAT_RESULT.md`
 
-Canonical `run-game.cmd` now validates current-checkout Windows export freshness, rebuilds missing/stale export, fails loud on export failure, and never falls back to a stale executable.
+This closes First Playable A and permits progression to G4-08.
 
 ---
 
-## 3. Current gate — G4-07 Owner UAT
+## 3. Current task — G4-08S0
 
-Formal UAT packet:
+Formal packet:
 
-`docs/tasks/G4-07_FIRST_PLAYABLE_A_OWNER_UAT.md`
+`docs/tasks/G4-08S0_EXPANSION_V0_1_SEMANTIC_PRODUCT_FREEZE_TASK.md`
 
-Execution owner: **Owner / User**.  
-Semantic/Product decision owner after UAT: **GPT**.
+Primary owner: **GPT**.  
+No Codex/Kimi execution task is active yet.
 
-No Codex/Kimi implementation task is active.
+Purpose:
 
-Immediate local-data precondition:
+> Freeze what Expansion Pack v0.1 means and choose one real Expansion whose effect is observable in actual play before mechanism implementation begins.
 
-- normal `run-game.cmd` launch reaches current seven-step New Game Wizard;
-- Owner production Source Library shows World `天下未定` and `埃瑟维亚`.
+Existing frozen constraints:
 
-If Source inventory is empty, treat it as Owner-local Source installation/bootstrap, not a reason to reopen G4-07A/B/UAT01.
+- Expansion Pack is the third reusable Primary Source type.
+- New Game Composition supports `0..N` exact Expansion generations.
+- exact immutable Source generation and old-Game isolation remain mandatory.
+- G4-08 must prove real Runtime / Context / mechanic effect; manifest/binding existence alone is insufficient.
+- arbitrary code plugins, generic mod sandbox, external UI contribution schema, Creator suite and giant generic rules engines remain deferred.
 
-Required product route:
+G4-08S0 must define:
 
-```text
-real Source
-→ New Game Wizard / Review
-→ Atomic Final Create
-→ real DeepSeek GM Opening
-→ several free-form Player actions
-→ durable GM continuation
-→ Save
-→ Main Menu / reopen
-→ Continue same Game
-```
+- minimal Expansion v0.1 package semantics;
+- compatibility/selection/duplicate behavior;
+- Final Create materialization/provenance boundary;
+- one bounded Program-owned runtime capability;
+- durable Expansion runtime state and Save/Continue behavior;
+- model-visible Context boundary;
+- exactly one real first Expansion and its product acceptance story.
 
-Owner judges narrative richness, Character individuality, Han vs Afterglow distinctness, anti-convergence, Context sufficiency, temporal leakage, no-Entry playability, and whether the product feels like an AI RPG rather than an engineering demo.
-
-Engineering PASS does not close G4-07.
+Only after semantic freeze may GPT issue `G4-08M1` to Codex. If genuine player-facing interaction is required, UI work is split and routed to Kimi rather than hidden inside backend scope.
 
 ---
 
-## 4. Frozen integration semantics
+## 4. Frozen G4-07 integration semantics
 
 - one frozen Review create attempt → one stable `creation_id`;
 - successful Final Create opens exact existing-only Game;
@@ -108,22 +104,25 @@ Engineering PASS does not close G4-07.
 - Player continuation uses durable Game-local World truth + accepted Conversation;
 - Source v0.2-r2 remains frozen; no latest/nearest/later/full-life fallback;
 - Guaranteed NPC = canonical cast only, not automatic opening presence/location/player knowledge/relationship;
-- production schema remains v4.
+- production schema remains v4 until a reviewed future task explicitly changes it.
 
 ---
 
-## 5. Next decision
+## 5. G4-08 acceptance direction
 
-After Owner UAT, GPT decides exactly one:
-
-```text
-G4-07 PASS / CLOSED
-```
-
-or
+The first Expansion vertical must eventually prove:
 
 ```text
-G4-07 Product Correction ACTIVE
+same playable World + Character route
++ exact selected real Expansion
+→ Final Create pins/materializes it
+→ real Runtime consumes it
+→ player can observe a gameplay difference
+→ real DeepSeek Context reflects correct Expansion state
+→ Save / Continue preserves it
+→ no-Expansion route remains unchanged
 ```
 
-Do not start G4-08 Expansion before G4-07 Product PASS.
+Do not claim G4-08 PASS from schema, manifest, binding, or DB evidence alone.
+
+Do not start G4-09 Owner product vertical until G4-08 mechanism/integration passes Independent Review.
