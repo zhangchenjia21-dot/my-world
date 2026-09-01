@@ -26,6 +26,7 @@ const STEPS := ["世界", "开局", "拓展", "主角", "保证加入的角色",
 var composition: RefCounted = null
 var worlds: Array[RefCounted] = []
 var characters: Array[RefCounted] = []
+var expansions: Array[RefCounted] = []
 var step := 0
 var choice_buttons: Array[Button] = []
 
@@ -61,12 +62,14 @@ func begin(source_library: RefCounted) -> Dictionary:
 	if not inventory.success:
 		worlds.clear()
 		characters.clear()
+		expansions.clear()
 		_show_inventory_failure(inventory)
 		return inventory
 	worlds = inventory.worlds
 	characters = inventory.characters
+	expansions = inventory.get("expansions", []) as Array[RefCounted]
 	_refresh_step()
-	return {"success": true, "world_count": worlds.size(), "character_count": characters.size()}
+	return {"success": true, "world_count": worlds.size(), "character_count": characters.size(), "expansion_count": expansions.size()}
 
 
 func discard() -> void:
@@ -75,6 +78,7 @@ func discard() -> void:
 	composition = null
 	worlds.clear()
 	characters.clear()
+	expansions.clear()
 	_clear_choices()
 	_reset_create_attempt()
 
@@ -89,7 +93,7 @@ func _refresh_step() -> void:
 	match step:
 		0: _render_worlds()
 		1: _render_entries()
-		2: _render_expansion_none()
+		2: _render_expansions()
 		3: _render_player_characters()
 		4: _render_guaranteed_npcs()
 		5: _render_settings()
@@ -132,19 +136,55 @@ func _render_entries() -> void:
 		choice_buttons.append(button)
 
 
-func _render_expansion_none() -> void:
-	title_label.text = "拓展"
-	hint_label.text = "当前版本尚未接入拓展包。这里明确记录本局不使用拓展，不会伪造拓展能力。"
-	var button := Button.new()
-	button.name = "expansion_none"
-	button.custom_minimum_size.y = 52
-	button.text = "确认：本局不使用拓展"
-	button.pressed.connect(func() -> void:
+## 拓展步是真实库存投影：0..N exact generations，无 auto-select；
+## 选择/冲突拒绝的权威都在 Composition 后端，UI 只投影并回滚被拒绝的 toggle。
+func _render_expansions() -> void:
+	title_label.text = "选择拓展"
+	hint_label.text = "可选 0..N。拓展为本局加入已安装的规则能力；不选择时请点击「本局不使用拓展」。列表出现不会自动选择任何拓展。"
+	var snapshot: Dictionary = composition.composition_snapshot()
+	for generation: RefCounted in expansions:
+		var toggle := CheckButton.new()
+		toggle.name = "expansion_%s" % String(generation.identity.asset_id)
+		toggle.custom_minimum_size.y = 52
+		toggle.text = "%s（%s）\n%s" % [generation.display_name, generation.identity.version, String(generation.source.catalog_summary)]
+		toggle.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		toggle.button_pressed = _contains_expansion(snapshot.expansions, generation.identity)
+		toggle.toggled.connect(func(selected: bool) -> void: _toggle_expansion(toggle, generation, selected))
+		choices.add_child(toggle)
+		choice_buttons.append(toggle)
+	if expansions.is_empty():
+		_add_message("当前 Source Library 没有可用拓展。")
+	var none := Button.new()
+	none.name = "expansion_none"
+	none.custom_minimum_size.y = 48
+	none.text = "本局不使用拓展"
+	none.pressed.connect(func() -> void:
 		_show_result(composition.confirm_expansion_none(), "已确认：本局不使用拓展。")
 		_update_navigation()
 	)
-	choices.add_child(button)
-	choice_buttons.append(button)
+	choices.add_child(none)
+	choice_buttons.append(none)
+
+
+## 后端拒绝（如 capability slot 冲突）时必须回滚 toggle，UI 不得留下双选假象。
+func _toggle_expansion(toggle: CheckButton, generation: RefCounted, selected: bool) -> void:
+	var result: Dictionary = composition.set_expansion(generation, selected)
+	if result.success:
+		_show_result(result, "已选择拓展：%s。" % generation.display_name if selected else "已取消拓展：%s。" % generation.display_name)
+		_update_navigation()
+		return
+	toggle.set_pressed_no_signal(not selected)
+	result_label.text = _player_facing_expansion_failure(result)
+	result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
+
+
+func _player_facing_expansion_failure(result: Dictionary) -> String:
+	var code := String(result.get("code", ""))
+	if code == "capability_slot_conflict":
+		return "无法同时选择：两个拓展占用同一判定位置。请先取消已选拓展，再选择这个。"
+	if code == "duplicate_expansion":
+		return "该拓展已经选中。"
+	return String(result.get("message", code))
 
 
 func _render_player_characters() -> void:
@@ -206,10 +246,16 @@ func _render_review() -> void:
 		npc_lines.append("• %s（%s）" % [npc.display_name, npc.identity.version])
 	if npc_lines.is_empty():
 		npc_lines.append("无")
-	review_text.text = "[b]%s[/b]\n\n[b]世界[/b]\n%s（%s）\n\n[b]开局[/b]\n%s\n\n[b]拓展[/b]\n无（当前版本）\n\n[b]主角[/b]\n%s（%s）\n\n[b]保证加入本局的 NPC[/b]\n%s\n\n[b]主角控制[/b]\n%s\n\n[b]开场补充[/b]\n%s" % [
+	var expansion_lines: Array[String] = []
+	for expansion: Dictionary in review.get("expansions", []):
+		expansion_lines.append("• %s（%s）" % [String(expansion.display_name), String(expansion.identity.version)])
+	if expansion_lines.is_empty():
+		expansion_lines.append("无")
+	review_text.text = "[b]%s[/b]\n\n[b]世界[/b]\n%s（%s）\n\n[b]开局[/b]\n%s\n\n[b]拓展[/b]\n%s\n\n[b]主角[/b]\n%s（%s）\n\n[b]保证加入本局的 NPC[/b]\n%s\n\n[b]主角控制[/b]\n%s\n\n[b]开场补充[/b]\n%s" % [
 		review.display_name,
 		world.display_name, world.identity.version,
 		entry_text,
+		"\n".join(expansion_lines),
 		player.display_name, player.identity.version,
 		"\n".join(npc_lines),
 		review.control_mode,
@@ -315,7 +361,7 @@ func _step_complete() -> bool:
 	match step:
 		0: return not snapshot.world.is_empty()
 		1: return not snapshot.world.is_empty()
-		2: return bool(snapshot.expansion_none_confirmed)
+		2: return not snapshot.expansions.is_empty() or bool(snapshot.expansion_none_confirmed)
 		3: return not snapshot.player_character.is_empty()
 		4: return true
 		5: return not display_name_input.text.strip_edges().is_empty()
@@ -379,6 +425,13 @@ func _add_message(text: String) -> void:
 func _contains_npc(npcs: Array, identity: Dictionary) -> bool:
 	for npc: Dictionary in npcs:
 		if _same_identity(npc.identity, identity):
+			return true
+	return false
+
+
+func _contains_expansion(selected: Array, identity: Dictionary) -> bool:
+	for expansion: Dictionary in selected:
+		if _same_identity(expansion.identity, identity):
 			return true
 	return false
 

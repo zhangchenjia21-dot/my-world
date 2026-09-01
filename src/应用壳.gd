@@ -10,6 +10,7 @@ const GameLibrary := preload("res://src/游戏库/L3_外交层/游戏库公开�
 const SourceLibrary := preload("res://src/source/L3_外交层/Source库公开接口.gd")
 const FinalCreate := preload("res://src/最终建局/L3_外交层/原子最终建局公开接口.gd")
 const FirstOpening := preload("res://src/首次开场/L3_外交层/首次开场公开接口.gd")
+const ActionAdjudication := preload("res://src/行动判定/L3_外交层/行动判定公开接口.gd")
 
 enum ApplicationState {
 	BOOTING,
@@ -82,8 +83,12 @@ var _pending_load_save_id := ""
 var _isolated_narrative_test_mode := false
 ## created Game 的 G4-07A opening runtime；随 Game Session 挂载/拆除，归 Application 拥有。
 var opening_runtime: Node = null
+## Game-local materialized Public d20 capability 存在时挂载的 G4-08 行动判定 Host。
+var action_adjudication: Node = null
 ## 测试专用 seam：focused/real-vertical 测试在激活前注入 stub 或受控 adapter；production 恒为 null。
 var test_opening_adapter_override: Node = null
+var test_adjudication_adapter_override: Node = null
+var test_adjudication_rng_override: RefCounted = null
 ## Opening UI 状态机："" / streaming / accepted / failed / cancelled；终态处理幂等。
 var _opening_state := ""
 
@@ -427,6 +432,7 @@ func _activate_game_surface() -> void:
 	_refresh_save_points()
 	_refresh_recovery_availability()
 	_update_save_controls()
+	_prepare_action_adjudication_after_activation()
 	_prepare_opening_after_activation()
 	_update_responsive_layout()
 	print("[shell] application=game_active session=ready")
@@ -446,6 +452,7 @@ func _close_game_session() -> Dictionary:
 		session_state = SessionState.ABSENT
 		return {"status": "absent", "success": true}
 	session_state = SessionState.CLOSING
+	_teardown_action_adjudication()
 	_teardown_opening_runtime()
 	if narrative_view != null:
 		narrative_view.shutdown_session()
@@ -634,6 +641,35 @@ func _plain_opening_failure(status: String, _message: String) -> String:
 			if status.begins_with("http_"):
 				return "DeepSeek 服务暂时返回异常；"
 			return ""
+
+
+## 能力路由只读 Game-local materialized state（INV-D20-01）：永不读 SourceLibrary.current。
+## 无 Expansion 时不挂载 Host，View 保持既有 G4-07 单次续玩路径。
+func _prepare_action_adjudication_after_activation() -> void:
+	if session_runtime == null or not session_runtime.is_ready():
+		return
+	var expansions: Array = session_runtime.world_state.get("expansions", [])
+	for value: Variant in expansions:
+		if not value is Dictionary:
+			continue
+		var expansion := value as Dictionary
+		if String(expansion.get("capability_slot", "")) != "action_resolution":
+			continue
+		if String(expansion.get("capability_id", "")) != "action_check.public_d20.v1":
+			push_error("G4-08B: unknown materialized capability_id")
+			continue
+		action_adjudication = ActionAdjudication.new(session_runtime, test_adjudication_adapter_override, test_adjudication_rng_override)
+		add_child(action_adjudication)
+		narrative_view.bind_action_adjudication(action_adjudication)
+		return
+
+
+func _teardown_action_adjudication() -> void:
+	if action_adjudication == null:
+		return
+	remove_child(action_adjudication)
+	action_adjudication.queue_free()
+	action_adjudication = null
 
 
 func _teardown_opening_runtime() -> void:

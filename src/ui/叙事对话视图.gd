@@ -32,6 +32,9 @@ const COMPOSER_MAX_HEIGHT := 160.0
 @onready var send_button: Button = %SendButton
 @onready var cancel_button: Button = %CancelButton
 @onready var regenerate_button: Button = %RegenerateButton
+@onready var action_status_panel: PanelContainer = %ActionStatusPanel
+@onready var action_status_label: Label = %ActionStatusLabel
+@onready var retry_action_button: Button = %RetryActionButton
 
 ## provisional integration point：adapter 由本视图创建为子节点；
 ## focused tests 可在首次请求前注入 adapter.test_host_override。
@@ -58,8 +61,24 @@ var game_context_text := ""
 ## 组装 Provider request，绝不回读 Wizard 内存或 mutable Source current。
 var opening_runtime: Node = null
 
+## G4-08B：Game-local materialized Public d20 capability 存在时由 Shell 注入的
+## 行动判定 Host（L3 seam）。null = 无 Expansion，保持既有 G4-07 单次续玩路径。
+var action_adjudication: Node = null
+
 ## opening-pending（durable accepted Conversation = 0）时锁住玩家输入；由 Shell 驱动。
 var _opening_gate := false
+## 重开已存在 Game 时发现恰好一个未完成的 durable d20 行动：门控新输入直到重试落地。
+var _unresolved_reopen_pending := false
+
+## Public d20 的 UI 侧 action identity：一次玩家行动铸造一个 opaque action_id，
+## 失败/取消/重开重试必须复用；只有玩家编辑替换文本才铸新 id（INV-D20-02）。
+var _pending_action_id := ""
+var _pending_action_text := ""
+## durable resolution 已存在但 narrative 未 accepted：只允许「重试行动」，不得编辑替换。
+var _pending_action_has_resolution := false
+## Narrating 期间 transient 展示的 durable check id；accepted 后由历史卡重建接管。
+var _transient_check_id := ""
+var _adjudication_active := false
 
 ## 以下为纯渲染引用：当前 streaming GM block 的 content / marker，以及滚动跟随状态。
 var _current_gm_content: RichTextLabel = null
@@ -73,6 +92,7 @@ func _ready() -> void:
 	send_button.pressed.connect(_on_send_pressed)
 	cancel_button.pressed.connect(_on_cancel_pressed)
 	regenerate_button.pressed.connect(_on_regenerate_pressed)
+	retry_action_button.pressed.connect(_on_retry_action_pressed)
 	player_input.text_changed.connect(_update_controls)
 	player_input.gui_input.connect(_on_player_input_gui)
 
@@ -90,7 +110,10 @@ func _ready() -> void:
 
 func _on_send_pressed() -> void:
 	var text := player_input.text.strip_edges()
-	if not _startup_ready or _opening_gate or conversation == null or text.is_empty() or conversation.is_generating():
+	if not _startup_ready or _opening_gate or conversation == null or text.is_empty() or conversation.is_generating() or _adjudication_active:
+		return
+	if action_adjudication != null:
+		_start_public_d20_action(text, true)
 		return
 
 	if conversation.begin_turn(text) == null:
@@ -101,6 +124,10 @@ func _on_send_pressed() -> void:
 
 
 func _on_cancel_pressed() -> void:
+	# Public d20 adjudication 进行中：取消路由到 Host 的 adapter。
+	if _adjudication_active and action_adjudication != null:
+		action_adjudication.cancel()
+		return
 	if conversation == null or not conversation.is_generating():
 		return
 	# Opening streaming 期间取消必须路由到 opening runtime 的 adapter；
@@ -109,6 +136,111 @@ func _on_cancel_pressed() -> void:
 		opening_runtime.cancel()
 	elif adapter != null:
 		adapter.cancel()
+
+
+## 「重试行动」：durable resolution 已存在或判定中途失败时，用同一 stable action_id/text
+## 重走 Host——M1/M1C01 的 no-reroll / replay 语义由 backend 拥有。
+func _on_retry_action_pressed() -> void:
+	if action_adjudication == null or _adjudication_active or _pending_action_id.is_empty():
+		return
+	_hide_error()
+	_start_public_d20_action(_pending_action_text, false)
+
+
+## Public d20 路由：UI 不先调 conversation.begin_turn；acceptance ordering 归 Host。
+func _start_public_d20_action(text: String, fresh: bool) -> void:
+	if fresh:
+		_pending_action_id = "action-%s" % Crypto.new().generate_random_bytes(16).hex_encode()
+		_pending_action_text = text
+		_pending_action_has_resolution = false
+		player_input.clear()
+	_hide_error()
+	_adjudication_active = true
+	_update_controls()
+	var started: Dictionary = action_adjudication.start_action(_pending_action_id, _pending_action_text)
+	_handle_adjudication_result(started, true)
+
+
+## Host 终态/即时返回统一落点。synchronous=true 表示来自 start_action 的即时返回，
+## 此时 streaming 是正常起始而非终态。
+func _handle_adjudication_result(result: Dictionary, synchronous: bool = false) -> void:
+	if not _adjudication_active:
+		return
+	var status := String(result.get("status", ""))
+	if status == "streaming":
+		if String(result.get("stage", "")) == "resolution_narrative":
+			# durable check 已存在：立即公开 Program 结果（transient），不等 narrative 完成。
+			var check := _durable_check_for(_pending_action_id)
+			if not check.is_empty():
+				_pending_action_has_resolution = true
+				_transient_check_id = String(check.check_id)
+				_append_mechanic_card(check, true)
+		return
+	_adjudication_active = false
+	if status == "accepted" or status == "already_accepted":
+		_pending_action_id = ""
+		_pending_action_text = ""
+		_pending_action_has_resolution = false
+		_transient_check_id = ""
+		_unresolved_reopen_pending = false
+		_hide_error()
+		_update_controls()
+		return
+	# 失败/取消：按是否已有 durable resolution 区分「只能重试」与「可编辑替换」。
+	var code := String(result.get("code", status))
+	_pending_action_has_resolution = not _durable_check_for(_pending_action_id).is_empty() \
+		or not _durable_no_check_for(_pending_action_id).is_empty()
+	_hide_error()
+	_update_controls()
+
+
+func _on_adjudication_finished(result: Dictionary) -> void:
+	_handle_adjudication_result(result)
+
+
+func _plain_adjudication_failure(code: String) -> String:
+	match code:
+		"cancelled":
+			return "已取消。"
+		"transport":
+			return "暂时无法连接 DeepSeek 服务。"
+		"missing_key":
+			return "未检测到 DeepSeek API Key，请在本机 .env.local 中配置后重试。"
+		"malformed_stream", "invalid_adjudication_envelope", "invalid_check_proposal":
+			return "判定服务返回了无法识别的内容。"
+		"empty_generation":
+			return "本次没有生成有效叙事。"
+		_:
+			if code.begins_with("http_"):
+				return "DeepSeek 服务暂时返回异常。"
+			return ""
+
+
+## durable Game-local Public d20 记录的只读投影；UI 永不写入。
+func _durable_public_d20_checks() -> Array:
+	if session_runtime == null:
+		return []
+	return session_runtime.world_state.get("expansion_runtime", {}).get("public_d20_checks", [])
+
+
+func _durable_public_d20_no_checks() -> Array:
+	if session_runtime == null:
+		return []
+	return session_runtime.world_state.get("expansion_runtime", {}).get("public_d20_no_check_actions", [])
+
+
+func _durable_check_for(action_id: String) -> Dictionary:
+	for value: Variant in _durable_public_d20_checks():
+		if value is Dictionary and String((value as Dictionary).get("action_id", "")) == action_id:
+			return (value as Dictionary).duplicate(true)
+	return {}
+
+
+func _durable_no_check_for(action_id: String) -> Dictionary:
+	for value: Variant in _durable_public_d20_no_checks():
+		if value is Dictionary and String((value as Dictionary).get("action_id", "")) == action_id:
+			return (value as Dictionary).duplicate(true)
+	return {}
 
 
 ## Regenerate / Retry：Domain 决定语义（completed latest = regenerate，否则 retry），
@@ -192,6 +324,8 @@ func _on_draft_appended(text: String) -> void:
 		_follow_scroll_if_needed()
 
 
+## Public d20 行动被 Host accepted 后，玩家回合由 Host 通过 Conversation 落地；
+## 历史重建时 mechanic card 由 durable projection 接管。
 func _on_generation_completed(_turn: RefCounted) -> void:
 	_update_controls()
 
@@ -216,7 +350,74 @@ func _on_runtime_restore_completed(_result: Dictionary) -> void:
 	# Restore 后 UI 必须从新的 Domain projection 全量重建，不能逐条 patch 旧 future blocks。
 	redraw_from_conversation()
 	_hide_error()
+	_recover_pending_d20_action()
 	_update_controls()
+## Mechanic card 是 durable Program truth 的只读投影：UI 不掷骰、不选面、不算 total、
+## 不改 DC/outcome。transient=true 表示 Narrating 期间的即时公开卡。
+func _append_mechanic_card(check: Dictionary, transient: bool = false) -> void:
+	var card := PanelContainer.new()
+	card.name = "MechanicCard_%s" % String(check.get("check_id", "unknown"))
+	card.set_meta("mechanic_card", true)
+	card.set_meta("check_id", String(check.get("check_id", "")))
+	card.set_meta("transient", transient)
+
+	var column := VBoxContainer.new()
+	column.add_theme_constant_override("separation", 2)
+	card.add_child(column)
+
+	var title := Label.new()
+	title.text = "判定｜%s" % String(check.get("intent", ""))
+	title.add_theme_font_size_override("font_size", 14)
+	title.add_theme_color_override("font_color", Color(0.82, 0.76, 0.60))
+	column.add_child(title)
+
+	var stance_text := String({"normal": "普通", "advantage": "优势", "disadvantage": "劣势"}.get(String(check.get("stance", "normal")), "普通"))
+	var raw: Array = check.get("raw_rolls", [])
+	var raw_text := ""
+	for face: Variant in raw:
+		raw_text += (" / " if not raw_text.is_empty() else "") + str(int(face))
+	var lines := PackedStringArray([
+		"DC %d" % int(check.get("dc", 0)),
+		"修正 %+d · %s" % [int(check.get("modifier", 0)), String(check.get("modifier_reason", ""))],
+		"%s · %s" % [stance_text, String(check.get("situation_reason", ""))],
+		"骰面 %s → %d" % [raw_text, int(check.get("selected_roll", 0))],
+		"总计 %d" % int(check.get("total", 0)),
+	])
+	var detail := Label.new()
+	detail.text = "\n".join(lines)
+	detail.add_theme_font_size_override("font_size", 13)
+	detail.add_theme_color_override("font_color", Color(0.72, 0.74, 0.80))
+	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	column.add_child(detail)
+
+	var outcome := Label.new()
+	var succeeded := String(check.get("outcome", "")) == "success"
+	outcome.text = "成功" if succeeded else "失败"
+	outcome.add_theme_font_size_override("font_size", 15)
+	outcome.add_theme_color_override("font_color", Color(0.58, 0.78, 0.62) if succeeded else Color(0.90, 0.52, 0.46))
+	column.add_child(outcome)
+	if not succeeded:
+		var stakes := Label.new()
+		stakes.text = "失败代价：%s" % String(check.get("failure_stakes", ""))
+		stakes.add_theme_font_size_override("font_size", 13)
+		stakes.add_theme_color_override("font_color", Color(0.85, 0.62, 0.52))
+		stakes.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		column.add_child(stakes)
+
+	entries.add_child(card)
+	print("PROBE card added; entries children=%d" % entries.get_child_count())
+
+
+## 历史重建：accepted（narrative_accepted=true）的 durable check 按其 accepted_turn_index
+## 落在对应 Player/GM 对之间；NO_CHECK replay marker 永不渲染为骰卡。
+func _mechanic_cards_by_turn() -> Dictionary:
+	var by_turn: Dictionary = {}
+	for value: Variant in _durable_public_d20_checks():
+		var check := value as Dictionary
+		if check == null or not bool(check.get("narrative_accepted", false)):
+			continue
+		by_turn[int(check.get("accepted_turn_index", -1))] = check
+	return by_turn
 
 
 func _append_player_entry(text: String) -> void:
@@ -287,13 +488,38 @@ func _friendly_error(code: String) -> String:
 
 func _update_controls() -> void:
 	var streaming: bool = conversation != null and conversation.is_generating()
-	send_button.disabled = not _startup_ready or _opening_gate or streaming or player_input.text.strip_edges().is_empty()
-	cancel_button.disabled = not _startup_ready or not streaming
+	var action_blocked := _adjudication_active or _unresolved_reopen_pending
+	send_button.disabled = not _startup_ready or _opening_gate or action_blocked or streaming or player_input.text.strip_edges().is_empty()
+	cancel_button.disabled = not _startup_ready or not (streaming or _adjudication_active)
 	# opening Turn（pending_player_text 为空）不显示「重新生成」：第一幕的重试由
 	# Shell 的 Opening banner 拥有，避免把 GM-only Opening 当成可 regenerate 的玩家回合。
+	# Public d20 会话在 v0.1 不提供旧式 generic Regenerate（accepted turn 拥有 durable
+	# Program resolution / exact NO_CHECK identity；旧路径会绕过 stable action identity）。
 	var latest: RefCounted = conversation.latest_turn() if conversation != null else null
 	var opening_turn := latest != null and String(latest.pending_player_text).is_empty()
-	regenerate_button.visible = _startup_ready and not streaming and latest != null and not opening_turn
+	regenerate_button.visible = _startup_ready and action_adjudication == null and not streaming and latest != null and not opening_turn
+	retry_action_button.visible = action_adjudication != null and not _adjudication_active and not _pending_action_id.is_empty()
+	player_input.editable = _startup_ready and not _opening_gate and not action_blocked and not (_pending_action_has_resolution and not _pending_action_id.is_empty())
+	_update_action_status_panel(streaming)
+
+
+func _update_action_status_panel(_streaming: bool) -> void:
+	if action_adjudication == null:
+		action_status_panel.visible = false
+		return
+	if _adjudication_active:
+		action_status_label.text = "正在判断行动风险…"
+		action_status_panel.visible = true
+		return
+	if _unresolved_reopen_pending:
+		action_status_label.text = "上一次行动尚未完成；点击「重试行动」继续，判定结果保持不变。"
+		action_status_panel.visible = true
+		return
+	if not _pending_action_id.is_empty():
+		action_status_label.text = "行动未完成；%s" % ("判定结果已保留，点击「重试行动」继续。" if _pending_action_has_resolution else "可修改后重新提交，或点击「重试行动」。")
+		action_status_panel.visible = true
+		return
+	action_status_panel.visible = false
 
 
 func _show_error(text: String) -> void:
@@ -359,10 +585,62 @@ func bind_opening_runtime(opening: Node) -> void:
 	_update_controls()
 
 
+## Application Shell 在检测到 Game-local materialized Public d20 capability 后注入
+## 行动判定 Host；同时检查是否有重开前未完成的 durable 行动需要门控恢复。
+func bind_action_adjudication(host: Node) -> void:
+	action_adjudication = host
+	if action_adjudication != null:
+		action_adjudication.finished.connect(_on_adjudication_finished)
+		action_adjudication.request_assembled.connect(_on_adjudication_stage_started)
+	_recover_pending_d20_action()
+	_update_controls()
+
+
+## Host 开始 resolution_narrative 时 durable check 已存在：立即公开 Program 结果，
+## 不等 narrative 完成（INV-D20-06）。
+func _on_adjudication_stage_started(stage: String, _messages: Array) -> void:
+	if not _adjudication_active or String(stage) != "resolution_narrative":
+		return
+	var check := _durable_check_for(_pending_action_id)
+	if not check.is_empty():
+		_pending_action_has_resolution = true
+		_transient_check_id = String(check.check_id)
+		_append_mechanic_card(check, true)
+
+
+## 重开恢复：只读 durable replay 状态。恰好一个 narrative_accepted=false 的行动
+## 门控输入并提供「重试行动」；多于一个不猜顺序，显式失败。
+func _recover_pending_d20_action() -> void:
+	_unresolved_reopen_pending = false
+	if action_adjudication == null or session_runtime == null or _adjudication_active:
+		return
+	if not _pending_action_id.is_empty():
+		return
+	var unresolved: Array = []
+	for value: Variant in _durable_public_d20_checks():
+		var check := value as Dictionary
+		if check != null and not bool(check.get("narrative_accepted", false)):
+			unresolved.append({"action_id": String(check.get("action_id", "")), "player_text": String(check.get("player_text", "")), "has_resolution": true})
+	for value: Variant in _durable_public_d20_no_checks():
+		var resolution := value as Dictionary
+		if resolution != null and not bool(resolution.get("narrative_accepted", false)):
+			unresolved.append({"action_id": String(resolution.get("action_id", "")), "player_text": String(resolution.get("player_text", "")), "has_resolution": true})
+	if unresolved.is_empty():
+		return
+	if unresolved.size() > 1:
+		_unresolved_reopen_pending = true
+		_pending_action_id = ""
+		_show_error("存在多个未完成的判定行动；为保护进度，本局已暂停输入。请返回主菜单后重试。")
+		return
+	_pending_action_id = String(unresolved[0].action_id)
+	_pending_action_text = String(unresolved[0].player_text)
+	_pending_action_has_resolution = true
+	_unresolved_reopen_pending = true
+
+
 ## created Game 且 durable accepted Conversation = 0：第一幕 accepted 前锁住玩家输入。
 func set_opening_gate(active: bool) -> void:
 	_opening_gate = active
-	player_input.editable = not active
 	_update_controls()
 
 
@@ -387,6 +665,20 @@ func shutdown_session() -> void:
 	conversation = null
 	context_assembler = null
 	opening_runtime = null
+	if action_adjudication != null:
+		var adjudication_callback := Callable(self, "_on_adjudication_finished")
+		if action_adjudication.finished.is_connected(adjudication_callback):
+			action_adjudication.finished.disconnect(adjudication_callback)
+		var stage_callback := Callable(self, "_on_adjudication_stage_started")
+		if action_adjudication.request_assembled.is_connected(stage_callback):
+			action_adjudication.request_assembled.disconnect(stage_callback)
+		action_adjudication = null
+	_pending_action_id = ""
+	_pending_action_text = ""
+	_pending_action_has_resolution = false
+	_transient_check_id = ""
+	_adjudication_active = false
+	_unresolved_reopen_pending = false
 	_opening_gate = false
 	player_input.editable = true
 	_startup_ready = false
@@ -479,7 +771,10 @@ func _find_session_runtime() -> Variant:
 ## UI 从 Domain projection 重建 visual blocks；不保存 `_history` 或 Transcript 副本。
 ## 最后一个 restored GM block 留作 regenerate/retry 的复用目标。
 ## GM-only Opening 的 empty player_text 是 v4 兼容槽：跳过玩家气泡，只渲染开场 GM block。
+## accepted Public d20 check 的 mechanic card 按 accepted_turn_index 重建在对应回合之后。
 func _render_restored_entries() -> void:
+	var cards := _mechanic_cards_by_turn()
+	var index := 0
 	for entry_value: Variant in conversation.get_accepted_entries():
 		var entry := entry_value as Dictionary
 		var player_text := String(entry.player_text)
@@ -487,6 +782,9 @@ func _render_restored_entries() -> void:
 			_append_player_entry(player_text)
 		_begin_gm_entry(player_text.is_empty())
 		_current_gm_content.add_text(String(entry.gm_text))
+		if cards.has(index):
+			_append_mechanic_card(cards[index] as Dictionary)
+		index += 1
 
 
 func redraw_from_conversation() -> void:
