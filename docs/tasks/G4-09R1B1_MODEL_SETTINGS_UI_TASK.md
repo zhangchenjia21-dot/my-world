@@ -1,6 +1,6 @@
 # G4-09R1B1 — Model Settings UI / Interaction
 
-Status: **HOLD — KIMI AFTER G4-09R1M1 GPT IR PASS**  
+Status: **ACTIVE — KIMI**  
 Parent: **G4-09R1 Runtime Model Settings v0.1**  
 Primary owner: **Kimi**  
 Reviewer / semantic owner: **GPT**
@@ -9,15 +9,21 @@ Canonical semantic decision:
 
 `Vibe-Coding/my world/architecture/foundation/G4_RUNTIME_MODEL_SETTINGS_V0_1_DECISION.md`
 
-Backend prerequisite:
+Accepted backend prerequisite:
 
-`docs/tasks/G4-09R1M1_RUNTIME_MODEL_SETTINGS_MECHANISM_TASK.md`
+`docs/g4_09r1/G4-09R1M1C01_INDEPENDENT_REVIEW.md`
+
+Reviewed backend/evidence HEAD:
+
+`6ea825ba0ea0d5a57728c55789f437ff9626b6cb`
 
 ## 1. Purpose
 
-Add the player-facing Main Menu model settings surface after Codex has delivered and GPT has accepted the settings/provider mechanism.
+Add the player-facing Main Menu model settings surface on top of the accepted runtime-settings / multi-provider mechanism.
 
 Kimi owns presentation and interaction only. Backend capability truth, model ids, endpoints, credential status, validation and persistence remain Program/domain-owned.
+
+The backend now exposes `inspect_candidate(settings)` specifically so UI can preview unsaved compatibility/effective state without duplicating policy or saving first.
 
 ## 2. Main Menu entry
 
@@ -64,13 +70,11 @@ Do not provide arbitrary text fields for model id, base URL or API keys.
 
 ## 4. Compatibility UX
 
-UI consumes backend capability/validation truth; it does not reproduce a separate hard-coded policy if the backend exposes the needed projection.
-
-Required visible behavior:
+UI consumes backend `inspect_candidate()` / validation truth; it must not reproduce a separate hard-coded provider policy.
 
 ### Kimi K2.7
 
-- 1M is unavailable/disabled;
+- 1M is unavailable/disabled based on backend projection;
 - concise explanation: K2.7 currently supports 256K only;
 - graded effort control is disabled/unavailable;
 - show concise explanation: K2.7 uses fixed Thinking ON and does not expose Low/Medium/High/Max control.
@@ -103,6 +107,7 @@ Selecting a model whose provider credential is missing may still be allowed to s
 ## 6. Save / Cancel behavior
 
 - opening settings loads the current persisted validated selection;
+- unsaved edits use backend candidate inspection only;
 - Cancel changes nothing;
 - Save calls the backend validation/persistence seam;
 - invalid combinations cannot be saved;
@@ -144,9 +149,9 @@ UI must never:
 
 - construct Provider model ids;
 - choose endpoint/base URL;
-- set reasoning request fields directly;
+- construct request-body reasoning/thinking fields;
 - read environment secret values;
-- calculate context compatibility independently when backend can answer;
+- calculate context compatibility or requested→effective effort independently of backend projection;
 - mutate a running Provider request;
 - add automatic provider fallback.
 
@@ -160,22 +165,27 @@ Add/strengthen UI/integration tests for:
 2. four exact model names visible;
 3. save/cancel behavior;
 4. reopen/restart reflects backend-persisted selection;
-5. K2.7 disables 1M;
-6. K2.7 fixed-thinking UX;
-7. Medium effective→High disclosure for DeepSeek/K3;
+5. K2.7 disables 1M from backend projection;
+6. K2.7 fixed-thinking UX from backend projection;
+7. Medium effective→High disclosure for DeepSeek/K3 from backend projection;
 8. missing DeepSeek/Kimi credential status without secret exposure;
 9. invalid combination cannot save;
 10. no Game/Source mutation from settings;
 11. Continue/New Game remain usable after settings interaction;
-12. G4-08B Public d20 UI still behaves correctly when Provider profile is injected by backend;
+12. G4-08B Public d20 UI still behaves correctly when Provider profile is selected by backend;
 13. 1280×720 / 960×540 / maximized layout;
 14. `git diff --check`.
 
 ## 11. Real integration
 
-After UI wiring, run at least one real selected-provider product path through the actual Main Menu settings surface. If both Provider credentials are available, prove one DeepSeek and one Kimi selection from UI through a real generation.
+Backend Independent Review has real successful calls for DeepSeek V4 Pro/Flash and Kimi `k3-256k`, `k3`, and `kimi-for-coding`.
 
-Do not claim Kimi product support from screenshots/stubs alone.
+After UI wiring, run real selected-provider product paths through the actual Main Menu settings surface. Since both Provider credentials are now available in the accepted backend evidence, prove at minimum:
+
+- one DeepSeek selection from UI → real generation;
+- one Kimi selection from UI → real generation.
+
+Do not expose secrets or substitute another provider/model.
 
 ## 12. Return contract
 
@@ -187,11 +197,13 @@ IMPLEMENTATION_HEAD
 EVIDENCE_HEAD
 changed paths
 exact settings surface behavior
+backend inspect_candidate consumption evidence
 compatibility/disabled-state behavior
 credential-status behavior
 save/cancel/restart evidence
 layout evidence
-real provider UI integration evidence
+real DeepSeek UI integration result
+real Kimi UI integration result
 regression summary
 READY FOR INDEPENDENT REVIEW
 ```
