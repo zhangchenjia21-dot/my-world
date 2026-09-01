@@ -47,88 +47,75 @@ G4-08 Expansion Pack v0.1             ACTIVE
 G4-08S0 Expansion Semantic Freeze     PASS / CLOSED
 G4-08M1 Public d20 Mechanism          PASS / CLOSED
 G4-08M1C01 NO_CHECK Idempotency       PASS / CLOSED
-G4-08B Public d20 UI Integration      CORRECTION REQUIRED
-G4-08BC01 UI Projection / Fail-Loud   ACTIVE — KIMI
+G4-08B Public d20 UI Integration      PASS / CLOSED
+G4-08BC01 UI Projection / Fail-Loud   PASS / CLOSED
+G4-09 First Playable B                ACTIVE
+G4-09P1 Owner UAT B Production Prep   ACTIVE — CODEX
 G4-GATE                               NOT YET
 ```
 
 G4-07 Owner Product UAT verdict: **PASS**.
 
+G4-08 parent is not yet Product PASS; it remains active through the real Expansion product vertical / Owner UAT B.
+
 ---
 
-## 3. Current execution task — G4-08BC01
+## 3. Current execution task — G4-09P1
 
-Formal correction packet:
+Formal packet:
 
-`docs/tasks/G4-08BC01_UI_PROJECTION_FAIL_LOUD_CORRECTION_TASK.md`
+`docs/tasks/G4-09P1_OWNER_UAT_B_PRODUCTION_PREP_TASK.md`
 
 Formal Code Base:
 
-`3a20234d06c10904c220cd1a49bf29f6ad6769e7`
+`08287d28a9cacfc7795c7c7a35ef4739ff9faf2c`
 
-Independent Review record:
+Accepted G4-08B correction review:
 
-`docs/g4_08b/G4-08B_INDEPENDENT_REVIEW.md`
+`docs/g4_08b/G4-08BC01_INDEPENDENT_REVIEW.md`
 
-Primary owner: **Kimi**.  
+Primary owner: **Codex**.  
 Reviewer / semantic owner: **GPT**.  
-Correction budget: **correction-01**.  
 Return ceiling: **READY FOR INDEPENDENT REVIEW**.
 
-The original G4-08B implementation broadly proved Wizard selection, Game-local Public d20 routing, stable action identity/retry, durable card reconstruction, no-Expansion regression and real Provider UI integration. It is not PASS because the mechanic-card live/retry projection is not stable and unknown action-resolution capabilities can degrade to legacy play.
+Purpose:
 
-Do not start G4-09 before this correction passes GPT Independent Review.
+> Prepare the Owner's real local environment for First Playable B using the supported Managed Source Library and canonical launcher, then hand off a minimal product UAT route.
+
+Do not ask the Owner to manually copy files into the managed Source Library.
 
 ---
 
-## 4. G4-08BC01 exact correction
+## 4. G4-08B final accepted result
 
-### Mechanic card lifecycle
+G4-08B + BC01 are **PASS / CLOSED** at reviewed HEAD `08287d28a9cacfc7795c7c7a35ef4739ff9faf2c`.
 
-For each durable `check_id`:
-
-```text
-at most one visible mechanic projection at a time
-```
-
-During `resolution_narrative`, show one transient result before GM completion.
-
-After acceptance, freeze historical association as:
+Accepted player path:
 
 ```text
-Player action
-→ mechanic card
-→ GM narrative
+Wizard installed Expansion inventory
+→ explicit 0..N exact selection / explicit none
+→ Review exact Expansion projection
+→ Final Create unchanged
+→ Game-local capability routing
+→ stable action_id
+→ ActionAdjudication L3 Host
+→ Program-owned Public d20 result
+→ Player → mechanic card → GM narrative
+→ durable redraw on Continue / Load
 ```
 
-Use the same order for live acceptance, retry, reopen retry, redraw, Continue and Load/Restore.
+Accepted invariants:
 
-Current defect to remove:
-
-- transient card is appended before Player/GM exist and remains stranded after acceptance;
-- redraw currently appends the card after GM;
-- existing-check retry can append duplicate transient cards through both `request_assembled` and synchronous `streaming{stage=resolution_narrative}` paths.
-
-Use durable `check_id` only as read-only UI projection identity. UI never recomputes dice truth.
-
-### Unsupported capability fail-loud
-
-A materialized Expansion with:
-
-```text
-capability_slot = action_resolution
-capability_id != action_check.public_d20.v1
-```
-
-must never fall back to the no-Expansion G4-07 Provider path.
-
-Surface a player-readable unsupported-rule state, gate Player action input, keep the Game durable/intact, and do not interpret Source prose as code.
-
-### Evidence gap
-
-The dedicated G4-08B explicit-none test is currently empty. Add direct Wizard → Review proof that explicit none produces `拓展 / 无` and a frozen empty Expansion selection.
-
-Remove production debug probe output such as `PROBE card added`.
+- no Expansion preserves the G4-07 Narrative path;
+- Public d20 UI never owns RNG/total/outcome;
+- same durable `check_id` has at most one visible mechanic projection;
+- retry/reopen uses the existing durable action identity and never rerolls;
+- NO_CHECK has no dice card;
+- accepted d20 turns do not use legacy generic Regenerate in v0.1;
+- unknown materialized `action_resolution` capability fails visibly and never silently falls back to legacy play;
+- explicit none is directly tested through Wizard → Review → frozen payload;
+- protected backend paths and SQLite schema v4 are unchanged.
 
 ---
 
@@ -152,52 +139,80 @@ slot          action_resolution
 Frozen:
 
 - Expansion selection is explicit `0..N` exact generations;
-- no Expansion preserves G4-07 behavior and never silently enables d20;
+- no Expansion never silently enables d20;
 - duplicate exact / same capability slot conflict fail closed;
-- Program owns die faces / selected roll / total / outcome;
+- roll only for genuine uncertainty + meaningful failure cost;
+- certain success / certain impossibility / no-cost repeat → no roll;
 - Proposal freezes before RNG;
-- NO_CHECK remains one Provider call;
-- CHECK_REQUIRED uses durable Program result before second Provider narrative;
-- both branches are stable-action retry/restart idempotent;
+- Program owns die faces / selected roll / total / outcome;
+- NO_CHECK remains one Provider call and durable replay-safe;
+- CHECK_REQUIRED uses durable Program result before second Provider narrative and never rerolls on retry/restart;
 - Expansion owns resolution, not downstream canonical World consequences.
 
 ---
 
-## 6. Accepted backend boundary
+## 6. G4-09P1 production-prep rules
 
-Do not reopen absent concrete evidence:
+Owner production Managed Source Library remains:
 
-- Expansion Source / Managed Library exact generations;
-- Composition exact `0..N` backend;
-- capability-slot compatibility;
-- Final Create exact Expansion materialization/provenance;
-- Program d20 rules/RNG/result;
-- CHECK_REQUIRED no-reroll retry/restart;
-- NO_CHECK durable replay identity / lost-ACK recovery;
-- SQLite schema v4;
-- Provider protocol;
-- no executable Source support.
+```text
+user://my-world/source-library
+```
 
-Protected backend paths:
+Use only the existing SourceLibrary public install API. No manual filesystem copy into managed generations/current pointers.
 
-- `src/source/**`
-- `src/最终建局/**`
-- `src/persistence/**`
-- `src/行动判定/L0_公理层/**`
-- `src/行动判定/L1_器件层/**`
-- `src/行动判定/L2_流程层/**`
+Install/verify the exact Public d20 package already accepted by G4-08 evidence:
+
+`res://tests/fixtures/g4_08m1/判定与检定_公开d20`
+
+If already installed exactly, verify/reuse it. Never delete Owner generations or rewrite existing World/Character currents merely to satisfy the task.
+
+Canonical Owner launcher remains:
+
+```text
+run-game.cmd
+```
+
+and freshness validation is:
+
+```powershell
+.\run-game.ps1 -ValidateExportOnly
+```
+
+Do not introduce a competing launch path.
+
+Codex must also prepare the concise Owner UAT B instruction record under `docs/g4_09/`.
 
 ---
 
-## 7. Next progression
+## 7. Protected boundaries
+
+G4-09P1 is production preparation, not feature development.
+
+Do not redesign:
+
+- Source schema / Managed Library semantics;
+- Composition;
+- Final Create;
+- Public d20 rules/RNG/durable identities;
+- persistence schema;
+- Provider protocol;
+- accepted G4-08B Wizard/Narrative interaction;
+- G8 player-facing Source import;
+- G5/G6 systems.
+
+Existing Owner games must not be modified or deleted.
+
+---
+
+## 8. Next progression
 
 ```text
-G4-08BC01 Kimi correction
+G4-09P1 production prep — Codex
 → GPT Independent Review
-→ if PASS: G4-08B PASS / CLOSED
-→ G4-09 First Playable B
-→ Owner Source Library Public d20 bootstrap
-→ Owner UAT B
+→ G4-09UATB Owner Product UAT
+→ if Owner PASS: Decision Propagation / close First Playable B and G4-08 product vertical
+→ continue remaining G4-10 / G4-11 / G4-GATE work
 ```
 
-Do not claim G4-08 PASS from the correction and do not start G5 before the remaining G4 route / G4-GATE complete.
+Do not declare G4-09 PASS, G4-08 Product PASS, or G4-GATE PASS before explicit Owner UAT B verdict.
