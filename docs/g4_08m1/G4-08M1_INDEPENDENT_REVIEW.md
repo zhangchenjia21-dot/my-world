@@ -1,112 +1,80 @@
 # G4-08M1 Independent Review
 
-Status: **CORRECTION REQUIRED — NOT PASS**  
+Status: **PASS / CLOSED AFTER CORRECTION-01**  
 Reviewer: **GPT**  
-Reviewed implementation HEAD: `31eca597d144c7c1214ddcc114d718a45fabf9dd`  
-Formal task: `docs/tasks/G4-08M1_PUBLIC_D20_EXPANSION_MECHANISM_TASK.md`
+Initial reviewed implementation HEAD: `31eca597d144c7c1214ddcc114d718a45fabf9dd`  
+Final reviewed correction HEAD: `d646427dfe3c4c6328809384e482cd1fdd2204a0`  
+Formal task: `docs/tasks/G4-08M1_PUBLIC_D20_EXPANSION_MECHANISM_TASK.md`  
+Correction review: `docs/g4_08m1/G4-08M1C01_INDEPENDENT_REVIEW.md`
 
-## 1. Result
+## 1. Final result
 
-G4-08M1 is **not yet PASS**.
+G4-08M1 **PASS / CLOSED**.
 
-The implementation substantially satisfies the intended architecture:
+The initial review found one blocker: Expansion-enabled `NO_CHECK` actions were not durably replay-safe by caller-owned stable `action_id`. That seam was corrected under G4-08M1C01 and independently re-reviewed PASS.
 
-- `expansion_pack.v0.1` is a real third Source type through the existing Managed Library and exact-generation machinery;
-- Composition supports explicit exact Expansion selection and rejects duplicate exact generations / exclusive slot collisions;
-- Final Create pins and materializes exact Expansion provenance/rules/binding without Provider calls and without changing SQLite schema v4;
-- Public d20 uses strict structured adjudication, Program-owned RNG, Program-owned total/outcome, and durable check resolution;
-- CHECK_REQUIRED retry/restart reuses the exact losing/winning result and does not reroll;
-- real DeepSeek Han and Afterglow evidence exists;
-- no Expansion, no executable Source code, and accepted G4-06/G4-07 regressions are preserved;
-- UI ownership was not taken.
+No correction-02 or redesign was required.
 
-However, one blocking idempotency gap remains on the Expansion-enabled `NO_CHECK` path.
+## 2. Accepted M1 mechanism
 
-## 2. Blocking finding — NO_CHECK stable action replay is not durable
+The final accepted mechanism establishes:
 
-Task Packet §7.1 requires every submitted Player action that reaches adjudication to have a stable identity sufficient for Provider failure/retry/restart idempotency.
+- `expansion_pack.v0.1` as a real third Source type through the existing strict contract / Managed Library / immutable exact-generation machinery;
+- explicit `0..N` exact Expansion Composition selection;
+- duplicate exact Expansion and exclusive capability-slot collision fail closed;
+- exact Expansion Final Create provenance, authored-rule materialization and Host capability binding;
+- SQLite schema v4 unchanged;
+- no Provider call during Final Create;
+- bounded Host capability `action_check.public_d20.v1` in slot `action_resolution`;
+- strictly parsed `NO_CHECK` vs `CHECK_REQUIRED` adjudication envelope;
+- Proposal validation/freeze before RNG;
+- Program-owned d20 faces, selected roll, total and outcome;
+- no natural-1/20 override;
+- CHECK_REQUIRED durable resolution before second Provider narrative;
+- CHECK_REQUIRED retry/restart never rerolls;
+- NO_CHECK one-call path with durable stable-action replay identity and exactly-once retry/restart semantics;
+- real DeepSeek Han + Afterglow mechanism evidence;
+- no-Expansion G4-07 route preserved;
+- no executable Source code, generic plugin runtime or UI ownership introduced.
 
-Task Packet §7.2 intentionally keeps `NO_CHECK` as a one-Provider-call normal turn, but that does **not** remove the stable-action replay requirement.
+## 3. Correction history
 
-Current implementation behavior in `src/行动判定/L2_流程层/公开D20行动判定流程.gd`:
-
-```text
-start_action(action_id, player_text)
-→ _find_check(action_id)
-→ if no durable CHECK record exists, call adjudication Provider
-→ NO_CHECK response
-→ _accept_narrative(..., {})
-→ durable Conversation acceptance
-```
-
-`_find_check(action_id)` searches only `expansion_runtime.public_d20_checks`.
-
-For `NO_CHECK`, no check record or other durable `action_id` replay marker is written. After the narrative has already been durably accepted, a repeated call with the same `action_id` therefore has no durable evidence that this action already completed. It can enter Provider adjudication again and append the Player action / GM narrative a second time.
-
-This matters in the ordinary lost-ACK/retry case:
+Initial implementation was marked `CORRECTION REQUIRED` because:
 
 ```text
-Provider returns valid NO_CHECK + narrative
-→ Conversation COMMIT succeeds
-→ caller does not receive/retain the successful result
-→ same action_id is retried
+NO_CHECK accepted
+→ success ACK lost / Game reopened
+→ same action_id retried
+→ no durable action completion identity
+→ Provider could run again
+→ duplicate Player/GM turn possible
 ```
 
-The same issue remains after a fresh-process reopen because accepted Conversation entries do not currently carry the caller-owned `action_id` identity.
-
-The focused test suite verifies that one NO_CHECK execution is one Provider call and durable, but it does **not** replay the same accepted NO_CHECK `action_id` in-process or after process restart.
-
-## 3. Why this is blocking
-
-This violates the frozen M1 identity/idempotency contract, not merely a UI convenience.
-
-If accepted as-is, the first Expansion would have two different replay semantics:
+G4-08M1C01 introduced a separate, non-dice durable NO_CHECK resolution:
 
 ```text
-CHECK_REQUIRED → stable action_id, durable replay-safe
-NO_CHECK       → stable action_id accepted by API, but not durable replay-safe
+no-check-SHA256(game_id + U+001F + action_id)
 ```
 
-That is an invalid split because the caller cannot know before adjudication whether the action will become CHECK_REQUIRED or NO_CHECK.
+and proved both lost-ACK windows plus same-process / fresh-runtime / distinct-process replay without additional Provider, RNG or Conversation turns.
 
-The same submitted Player action must remain exactly-once regardless of which adjudication branch the Provider chooses.
+See:
 
-## 4. Correction classification
+- `docs/tasks/G4-08M1C01_NO_CHECK_ACTION_IDEMPOTENCY_CORRECTION_TASK.md`
+- `docs/g4_08m1/G4-08M1C01_NO_CHECK_ACTION_IDEMPOTENCY_CORRECTION_EVIDENCE.md`
+- `docs/g4_08m1/G4-08M1C01_INDEPENDENT_REVIEW.md`
 
-Classification: **correction-01 — focused seam fix**.
+## 4. Product boundary
 
-This finding does not reopen:
+M1 is backend/mechanism PASS only. It does **not** make G4-08 Product PASS.
 
-- Expansion Source architecture;
-- exact-generation provenance;
-- capability-slot semantics;
-- Public d20 rule semantics;
-- Program RNG authority;
-- CHECK_REQUIRED durable retry/restart;
-- G4-07 baseline.
-
-No redesign is required unless the focused correction exposes a neighboring ownership conflict.
-
-## 5. Required correction evidence
-
-Before M1 can PASS, prove at minimum:
-
-1. first Expansion-enabled NO_CHECK action still completes with exactly one Provider call and zero RNG;
-2. after durable acceptance, replaying the same `action_id` + same Player text in the same process makes **zero** additional Provider calls and appends **zero** additional Conversation turns;
-3. after closing/reopening the Game in a fresh process/runtime, replaying that same `action_id` + same Player text remains already accepted with zero Provider/RNG/duplicate turn;
-4. same accepted `action_id` + changed Player text fails loud as an identity/payload conflict;
-5. a failure before a valid NO_CHECK result remains retryable and does not publish a false accepted marker;
-6. any lost-ACK window between durable Conversation acceptance and the final replay marker is recoverable without another Provider call or duplicate Player turn;
-7. CHECK_REQUIRED retry/restart evidence remains green;
-8. no-Expansion G4-07 path remains unchanged;
-9. schema remains v4 unless a narrowly justified reviewed migration is unavoidable.
-
-## 6. Decision
+Still required:
 
 ```text
-G4-08M1 Public d20 Mechanism          CORRECTION REQUIRED
-G4-08M1C01 NO_CHECK Action Idempotency ACTIVE — CODEX
-G4-08B UI Integration                 NOT YET
+G4-08B UI / interaction integration — Kimi
+→ GPT Independent Review
+→ G4-09 First Playable B
+→ Owner UAT B
 ```
 
-Do not activate Kimi until the correction passes Independent Review.
+The first-generation UI must project Program-owned truth; it must not roll, recompute, mutate or invent d20 outcomes.
