@@ -5,8 +5,8 @@ const Rules := preload("res://src/行动判定/L0_公理层/公开D20判定规�
 const Parser := preload("res://src/行动判定/L1_器件层/结构化判定响应解析器.gd")
 const RandomSource := preload("res://src/行动判定/L1_器件层/程序D20随机源.gd")
 const GameLocalContext := preload("res://src/首次开场/L3_外交层/游戏本地上下文公开接口.gd")
-const ContextAssembler := preload("res://src/context/上下文组装器.gd")
-const ProviderAdapter := preload("res://src/provider/deepseek流式适配器.gd")
+const ContextAssembler := preload("res://src/context/L3_外交层/上下文组装公开接口.gd")
+const ProviderAdapter := preload("res://src/provider/L3_外交层/DeepSeek流式适配公开接口.gd")
 
 signal request_assembled(stage, messages)
 signal finished(result)

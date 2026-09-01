@@ -17,6 +17,7 @@ Pre-implementation responsibility/state/failure freeze is in `docs/g4_08m1/G4-08
 - Composition: explicit `0..N` exact generations, deterministic pin order, duplicate and slot conflict fail closed.
 - Final Create: exact pins enter the existing immutable canonical `expansions` field (so legacy empty-selection payload/fingerprint does not drift); authored semantic sections and binding materialize under Game-local `expansions` before DB creation; Provider calls remain zero.
 - Host public seam: `src/行动判定/L3_外交层/行动判定公开接口.gd`.
+- Cross-module seams: Game-local context, Context assembly and DeepSeek transport are consumed only through their `L3_外交层` public interfaces; the wrappers preserve the accepted G2/G4-07 behavior without duplicating implementation.
 - Envelope:
   - `NO_CHECK`: exactly `decision/reason/narrative`;
   - `CHECK_REQUIRED`: exactly `decision/proposal`; Provider proposal has `intent/dc/modifier/stance/modifier_reason/situation_reason/success_intent/failure_stakes`. Program then injects the caller-owned stable `action_id` before validation/freeze; model-supplied identity is rejected as an unknown field.
@@ -57,9 +58,9 @@ Deterministic tests cover normal/high/low selection, total/outcome, ranges, and 
 - D: duplicate accepted submit creates no second request/check/turn;
 - E: accepted result appends one Player action; durable marker and base-index recovery prevent duplication.
 
-Real process run: Process A/B/C PIDs `36960 / 23944 / 25896`; all reopened Game
-`game-bc69e51a7dbdea277345550c59e5bbcc` and check
-`check-9121f1d7a11e7a113280dc6fe301bb2b7e60b85256ab63e75d77c6d2815dd401`.
+Latest real process run: Process A/B/C PIDs `40636 / 18236 / 28008`; all reopened Game
+`game-bec693cf8ea94ed8cd0dd0db093d82f3` and check
+`check-d5203ceb8ee0ea2de26dab7a33eedf16c82399dfa95feb94a51484ee49059e6b`.
 Process B reused roll `2` / `failure` without RNG; Process C made no Provider call,
 kept one accepted turn, and left the closed SQLite SHA-256 unchanged.
 
@@ -68,7 +69,7 @@ kept one accepted turn, and left the closed SQLite SHA-256 unchanged.
 Real `deepseek-v4-pro` evidence is tracked in `G4-08M1_REAL_PROVIDER_EVIDENCE.json`:
 
 - high-risk infiltration naturally returned `CHECK_REQUIRED`;
-- Program rolls `[16,11]`, disadvantage selected `11`; `11 + 2 = 13 < DC 20`, outcome `failure`;
+- Through the Provider L3 seam, Program rolled `[5]`; `5 + 1 = 6 < DC 20`, outcome `failure`;
 - second real Provider continuation accepted the Program-decided failure;
 - later date-inquiry attempt returned `NO_CHECK` under the established post-failure reality and completed in one Provider stage with no new check;
 - close/reopen retained the exact check and two accepted Conversation turns.
@@ -78,7 +79,7 @@ Real `deepseek-v4-pro` evidence is tracked in `G4-08M1_REAL_PROVIDER_EVIDENCE.js
 The same exact Expansion and Host seam handled Livia's unstable magic-pipeline action:
 
 - stages `adjudication -> resolution_narrative`;
-- Program roll `[11]`, normal selected `11`; `11 + 3 = 14 < DC 16`, outcome `failure`;
+- Through the same Provider L3 seam, Program rolled `[4]`; `4 + 3 = 7 < DC 16`, outcome `failure`;
 - accepted narrative was durable; Host/materialized rules contained no Han-specific mechanism.
 
 ### J — regression/security
@@ -119,3 +120,4 @@ tests/g4_07b/可玩界面整合测试.gd
 - M1 is UI-neutral: no Wizard Expansion selector or mechanic-card rendering.
 - Historical checks are bounded audit/provenance in World document; downstream fictional consequences remain owned by existing World/Character/Conversation flows.
 - No Attributes, skills, crits, combat, arbitrary dice, scripting/plugin runtime or G5 system is introduced.
+- Windows Godot emitted two non-terminal `HTTPClient` body-state diagnostics during the latest real Provider run; streaming recovered, both routes durably accepted, and the suite ended with `failure_count = 0`.
