@@ -52,175 +52,155 @@ G4-08B Public d20 UI Integration      PASS / CLOSED
 G4-08BC01 UI Projection / Fail-Loud   PASS / CLOSED
 G4-09 First Playable B                ACTIVE
 G4-09P1 Owner UAT B Production Prep   PASS / CLOSED
-G4-09UATB Owner Product UAT           ACTIVE — OWNER
+G4-09UATB Owner Product UAT           HOLD
+G4-09R1 Runtime Model Settings v0.1   ACTIVE
+G4-09R1S0 Semantic Freeze             PASS / CLOSED — GPT
+G4-09R1M1 Backend Mechanism           ACTIVE — CODEX
+G4-09R1B1 Settings UI                 HOLD — KIMI
 G4-GATE                               NOT YET
 ```
 
 G4-07 Owner Product UAT verdict: **PASS**.
 
-G4-08 parent is not yet Product PASS. It remains active until the Owner returns an explicit G4-09UATB verdict.
+Owner explicitly inserted G4-09R1 before UAT B. Do not resume G4-09UATB until backend + UI + real Provider/freshness review pass.
 
 ---
 
-## 3. Current execution task — G4-09UATB
+## 3. Current execution task — G4-09R1M1
 
 Formal packet:
 
-`docs/tasks/G4-09UATB_OWNER_PRODUCT_UAT_TASK.md`
+`docs/tasks/G4-09R1M1_RUNTIME_MODEL_SETTINGS_MECHANISM_TASK.md`
 
-Product instructions:
+Canonical decision:
 
-`docs/g4_09/G4-09UATB_Owner产品验收说明.md`
+`Vibe-Coding/my world/architecture/foundation/G4_RUNTIME_MODEL_SETTINGS_V0_1_DECISION.md`
 
-Accepted production-prep review:
+Primary owner: **Codex**.  
+Reviewer / semantic owner: **GPT**.  
+Return ceiling: **READY FOR INDEPENDENT REVIEW**.
 
-`docs/g4_09/G4-09P1_INDEPENDENT_REVIEW.md`
+Kimi task exists but remains HOLD:
 
-Current owner: **OWNER**.  
-Semantic/review owner: **GPT**.
+`docs/tasks/G4-09R1B1_MODEL_SETTINGS_UI_TASK.md`
 
-No Codex or Kimi execution task is active.
-
-The Owner verdict must be explicit `PASS` or `FAIL`. Engineering evidence cannot substitute for this product verdict.
+Do not let Codex implement the final player-facing settings UI and do not let Kimi start before M1 Independent Review PASS.
 
 ---
 
-## 4. Accepted Public d20 vertical
+## 4. Frozen runtime model settings v0.1
 
-G4-08B + BC01 are PASS / CLOSED. Accepted path:
+Player-facing catalog:
 
 ```text
-Wizard installed Expansion inventory
-→ explicit 0..N exact selection / explicit none
-→ Review exact Expansion projection
-→ Final Create unchanged
-→ Game-local capability routing
+DeepSeek V4 Pro
+DeepSeek V4 Flash
+Kimi K3
+Kimi K2.7
+```
+
+Context choices:
+
+```text
+256K
+1M
+```
+
+Reasoning requested choices:
+
+```text
+Low
+Medium
+High
+Max
+```
+
+Exact runtime rules:
+
+- DeepSeek V4 Pro → `deepseek-v4-pro`; 256K/1M; low→low, medium→high, high→high, max→max.
+- DeepSeek V4 Flash → `deepseek-v4-flash`; 256K/1M; same effort mapping.
+- Kimi K3 → `k3-256k` at 256K, `k3` at 1M; same effort mapping.
+- Kimi K2.7 → `kimi-for-coding`; 256K only; Thinking ON is fixed and graded effort is unavailable.
+- no arbitrary model id, endpoint, fallback chain or provider plugin system.
+
+Credentials:
+
+```text
+DEEPSEEK_API_KEY
+KIMI_API_KEY
+```
+
+Secrets remain environment-only. App settings never store keys.
+
+Default validated setting:
+
+```text
+DeepSeek V4 Pro / 256K / High
+```
+
+Settings are application-local runtime preferences, not Game/Source truth and not SQLite schema.
+
+---
+
+## 5. Backend acceptance focus
+
+Codex must establish one Program-owned runtime profile seam consumed by every real Provider call:
+
+```text
+Opening
+ordinary Narrative
+Public d20 adjudication
+Public d20 resolution narrative
+retry/reopen Provider calls
+```
+
+No hidden hard-coded DeepSeek path may remain.
+
+Provider selection is explicit; no automatic DeepSeek↔Kimi fallback.
+
+Missing selected Provider credential sends no network request and fails visibly.
+
+Real Kimi runtime support cannot be declared solely from stubs. If local `KIMI_API_KEY` / entitlement is absent, return that exact blocker.
+
+Do not change SQLite schema v4, Source, Final Create or Public d20 semantics.
+
+---
+
+## 6. Accepted Public d20 vertical remains frozen
+
+G4-08B + BC01 remain PASS / CLOSED:
+
+```text
+exact Expansion selection
+→ Game-local capability
 → stable action_id
-→ ActionAdjudication L3 Host
-→ Program-owned Public d20 result
+→ Program-owned d20
 → Player → mechanic card → GM narrative
-→ durable redraw on Continue / Load
+→ durable Continue / Load
 ```
 
-Accepted invariants:
-
-- no Expansion preserves the G4-07 Narrative path;
-- UI never owns RNG/total/outcome;
-- one durable `check_id` has at most one visible mechanic projection;
-- retry/reopen reuses the durable action identity and never rerolls;
-- NO_CHECK has no dice card;
-- accepted d20 turns do not use legacy generic Regenerate in v0.1;
-- unknown materialized `action_resolution` capability fails visibly and never falls back to legacy play;
-- SQLite remains schema v4.
+Do not reopen d20 semantics absent a concrete regression caused by provider routing.
 
 ---
 
-## 5. Frozen Public d20 semantics
+## 7. Context boundary
 
-Canonical authority:
+The 256K/1M choice is an application runtime context ceiling/capability selection. G2-05 may continue to use less than the ceiling.
 
-`Vibe-Coding/my world/architecture/source/G4_EXPANSION_V0_1_PUBLIC_D20_DECISION.md`
-
-```text
-Display Name  判定与检定：公开 d20
-asset_id      exp.check_core.public_d20
-asset_type    expansion_pack
-schema        expansion_pack.v0.1
-capability    action_check.public_d20.v1
-slot          action_resolution
-```
-
-Frozen:
-
-- Expansion selection is explicit exact generations;
-- no silent enable;
-- duplicate exact / same capability slot conflict fail closed;
-- roll only for genuine uncertainty + meaningful failure cost;
-- Proposal freezes before RNG;
-- Program owns dice / selected roll / total / outcome;
-- NO_CHECK remains one Provider call and replay-safe;
-- CHECK_REQUIRED uses durable Program result and never rerolls on retry/restart;
-- Expansion owns resolution, not downstream canonical World consequences.
+Do not pull G7 forward: no summarization, retrieval, memory compression, generic tokenizer platform or long-session redesign in G4-09R1.
 
 ---
 
-## 6. Owner UAT B route
-
-Launch only through:
-
-`run-game.cmd`
-
-Preferred Game:
+## 8. Progression
 
 ```text
-World      汉末三国：天下未定
-Entry      208 / 赤壁前夕
-Player     刘备
-NPC        孙权 (optional guaranteed)
-Expansion  判定与检定：公开 d20
+G4-09R1M1 — Codex
+→ GPT Independent Review
+→ if PASS: activate G4-09R1B1 — Kimi
+→ GPT Independent Review
+→ real DeepSeek + Kimi integration / Windows freshness
+→ refresh Owner UAT instructions
+→ resume G4-09UATB — OWNER
 ```
 
-Owner validates:
-
-1. Review visibly lists the Expansion.
-2. Real DeepSeek Opening completes.
-3. A genuinely risky action produces a public d20 card.
-4. GM continuation respects the Program result.
-5. An ordinary/no-risk action produces no unnecessary dice card.
-6. Save → Main Menu → Continue preserves the same Game/history/result.
-7. Most importantly, Public d20 adds worthwhile gameplay.
-
-Return format:
-
-```text
-PASS
-```
-
-or:
-
-```text
-FAIL
-<what felt wrong / what broke>
-```
-
-Do not ask the Owner to manipulate managed Source Library internals.
-
----
-
-## 7. Production prep accepted state
-
-G4-09P1 is PASS / CLOSED at reviewed HEAD `cf8b9cb998263ae44f6f8c2f145f78dd815ef176`.
-
-Accepted recorded production facts:
-
-- Public d20 exact generation is installed/current through SourceLibrary public API;
-- fingerprint `e40bf3cb1059a4952d4230ae624fc3a0ba9bc705e279b13fef8cd1e795ca5ec1`;
-- production inventory observed World 2 / Character 6 / Expansion 1;
-- Owner games were not modified by the prep utility;
-- canonical Windows export freshness validation passed;
-- G4-08B smoke remained green;
-- Provider-facing semantics were unchanged.
-
----
-
-## 8. Next progression
-
-```text
-G4-09UATB Owner Product UAT
-→ explicit Owner PASS / FAIL
-→ GPT Decision Propagation
-```
-
-If PASS:
-
-```text
-G4-09 First Playable B      PASS / CLOSED
-G4-08 Expansion Pack v0.1   Product PASS / CLOSED
-→ G4-10 Runtime Asset Resolution
-→ G4-11 Two Primary Asset Families Reality Test
-→ G4-GATE
-```
-
-If FAIL, GPT classifies the concrete product seam and routes the smallest correction.
-
-Do not start G4-10 or G5 before the required verdict/progression. G4-GATE remains NOT YET.
+G4-09, G4-08 and G4-GATE remain open. Do not start G4-10 or G5.
