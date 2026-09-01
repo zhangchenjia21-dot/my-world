@@ -69,6 +69,8 @@ var action_adjudication: Node = null
 var _opening_gate := false
 ## 重开已存在 Game 时发现恰好一个未完成的 durable d20 行动：门控新输入直到重试落地。
 var _unresolved_reopen_pending := false
+## 未知 action_resolution capability：玩家可见的 fail-loud 状态，锁输入且不走 legacy。
+var _unsupported_capability := false
 
 ## Public d20 的 UI 侧 action identity：一次玩家行动铸造一个 opaque action_id，
 ## 失败/取消/重开重试必须复用；只有玩家编辑替换文本才铸新 id（INV-D20-02）。
@@ -110,7 +112,7 @@ func _ready() -> void:
 
 func _on_send_pressed() -> void:
 	var text := player_input.text.strip_edges()
-	if not _startup_ready or _opening_gate or conversation == null or text.is_empty() or conversation.is_generating() or _adjudication_active:
+	if not _startup_ready or _opening_gate or _unsupported_capability or conversation == null or text.is_empty() or conversation.is_generating() or _adjudication_active:
 		return
 	if action_adjudication != null:
 		_start_public_d20_action(text, true)
@@ -178,6 +180,12 @@ func _handle_adjudication_result(result: Dictionary, synchronous: bool = false) 
 		return
 	_adjudication_active = false
 	if status == "accepted" or status == "already_accepted":
+		# accepted 后 transient 卡转为历史卡（不重绘，只改 meta）；
+		# 历史重建时由 _render_restored_entries 按 durable truth 重建。
+		if not _transient_check_id.is_empty():
+			var card := _find_mechanic_card(_transient_check_id)
+			if card != null:
+				card.set_meta("transient", false)
 		_pending_action_id = ""
 		_pending_action_text = ""
 		_pending_action_has_resolution = false
@@ -302,6 +310,12 @@ func _on_failed(code: String, _message: String) -> void:
 
 func _on_turn_started(turn: RefCounted) -> void:
 	_append_player_entry(String(turn.pending_player_text))
+	# Public d20 受检行动：Host 在 begin_turn 时 durable check 已存在；
+	# 把 transient 卡移到 Player 之后、GM 之前，冻结 Player → card → GM 顺序。
+	if action_adjudication != null and not _transient_check_id.is_empty():
+		var card := _find_mechanic_card(_transient_check_id)
+		if card != null:
+			entries.move_child(card, entries.get_child_count() - 1)
 	_begin_gm_entry()
 
 
@@ -354,11 +368,19 @@ func _on_runtime_restore_completed(_result: Dictionary) -> void:
 	_update_controls()
 ## Mechanic card 是 durable Program truth 的只读投影：UI 不掷骰、不选面、不算 total、
 ## 不改 DC/outcome。transient=true 表示 Narrating 期间的即时公开卡。
+## 同一 durable check_id 至多一张可见投影：重复通知时复用既有节点，不追加。
 func _append_mechanic_card(check: Dictionary, transient: bool = false) -> void:
+	var check_id := String(check.get("check_id", ""))
+	if not check_id.is_empty():
+		var existing := _find_mechanic_card(check_id)
+		if existing != null:
+			# 已存在同 id 投影：更新内容并复用节点，不追加第二张。
+			_update_mechanic_card(existing, check, transient)
+			return
 	var card := PanelContainer.new()
-	card.name = "MechanicCard_%s" % String(check.get("check_id", "unknown"))
+	card.name = "MechanicCard_%s" % check_id
 	card.set_meta("mechanic_card", true)
-	card.set_meta("check_id", String(check.get("check_id", "")))
+	card.set_meta("check_id", check_id)
 	card.set_meta("transient", transient)
 
 	var column := VBoxContainer.new()
@@ -405,7 +427,41 @@ func _append_mechanic_card(check: Dictionary, transient: bool = false) -> void:
 		column.add_child(stakes)
 
 	entries.add_child(card)
-	print("PROBE card added; entries children=%d" % entries.get_child_count())
+
+
+## 已存在同 check_id 投影时复用节点并刷新内容；不追加第二张卡。
+func _update_mechanic_card(card: PanelContainer, check: Dictionary, transient: bool) -> void:
+	card.set_meta("transient", transient)
+	var column: VBoxContainer = card.get_child(0)
+	var title: Label = column.get_child(0)
+	title.text = "判定｜%s" % String(check.get("intent", ""))
+	var detail: Label = column.get_child(1)
+	var stance_text := String({"normal": "普通", "advantage": "优势", "disadvantage": "劣势"}.get(String(check.get("stance", "normal")), "普通"))
+	var raw: Array = check.get("raw_rolls", [])
+	var raw_text := ""
+	for face: Variant in raw:
+		raw_text += (" / " if not raw_text.is_empty() else "") + str(int(face))
+	detail.text = "\n".join(PackedStringArray([
+		"DC %d" % int(check.get("dc", 0)),
+		"修正 %+d · %s" % [int(check.get("modifier", 0)), String(check.get("modifier_reason", ""))],
+		"%s · %s" % [stance_text, String(check.get("situation_reason", ""))],
+		"骰面 %s → %d" % [raw_text, int(check.get("selected_roll", 0))],
+		"总计 %d" % int(check.get("total", 0)),
+	]))
+	var outcome: Label = column.get_child(2)
+	var succeeded := String(check.get("outcome", "")) == "success"
+	outcome.text = "成功" if succeeded else "失败"
+	outcome.add_theme_color_override("font_color", Color(0.58, 0.78, 0.62) if succeeded else Color(0.90, 0.52, 0.46))
+	if column.get_child_count() > 3:
+		var stakes: Label = column.get_child(3)
+		stakes.text = "失败代价：%s" % String(check.get("failure_stakes", ""))
+
+
+func _find_mechanic_card(check_id: String) -> PanelContainer:
+	for child: Node in entries.get_children():
+		if child.has_meta("mechanic_card") and String(child.get_meta("check_id")) == check_id:
+			return child as PanelContainer
+	return null
 
 
 ## 历史重建：accepted（narrative_accepted=true）的 durable check 按其 accepted_turn_index
@@ -489,7 +545,7 @@ func _friendly_error(code: String) -> String:
 func _update_controls() -> void:
 	var streaming: bool = conversation != null and conversation.is_generating()
 	var action_blocked := _adjudication_active or _unresolved_reopen_pending
-	send_button.disabled = not _startup_ready or _opening_gate or action_blocked or streaming or player_input.text.strip_edges().is_empty()
+	send_button.disabled = not _startup_ready or _opening_gate or action_blocked or _unsupported_capability or streaming or player_input.text.strip_edges().is_empty()
 	cancel_button.disabled = not _startup_ready or not (streaming or _adjudication_active)
 	# opening Turn（pending_player_text 为空）不显示「重新生成」：第一幕的重试由
 	# Shell 的 Opening banner 拥有，避免把 GM-only Opening 当成可 regenerate 的玩家回合。
@@ -497,9 +553,9 @@ func _update_controls() -> void:
 	# Program resolution / exact NO_CHECK identity；旧路径会绕过 stable action identity）。
 	var latest: RefCounted = conversation.latest_turn() if conversation != null else null
 	var opening_turn := latest != null and String(latest.pending_player_text).is_empty()
-	regenerate_button.visible = _startup_ready and action_adjudication == null and not streaming and latest != null and not opening_turn
+	regenerate_button.visible = _startup_ready and action_adjudication == null and not _unsupported_capability and not streaming and latest != null and not opening_turn
 	retry_action_button.visible = action_adjudication != null and not _adjudication_active and not _pending_action_id.is_empty()
-	player_input.editable = _startup_ready and not _opening_gate and not action_blocked and not (_pending_action_has_resolution and not _pending_action_id.is_empty())
+	player_input.editable = _startup_ready and not _opening_gate and not action_blocked and not _unsupported_capability and not (_pending_action_has_resolution and not _pending_action_id.is_empty())
 	_update_action_status_panel(streaming)
 
 
@@ -638,6 +694,15 @@ func _recover_pending_d20_action() -> void:
 	_unresolved_reopen_pending = true
 
 
+## 未知 action_resolution capability：玩家可见的 fail-loud 状态。
+## 本局 Game 数据保持完整，未来支持该能力的 build 可重新打开；
+## 但当前 build 不得把 authored prose 当可执行规则，也不退回 legacy 路径。
+func show_unsupported_capability() -> void:
+	_unsupported_capability = true
+	_show_error("本局包含当前版本不支持的行动判定规则。为保护进度，本局已暂停输入；请使用支持该规则的版本重新打开。")
+	_update_controls()
+
+
 ## created Game 且 durable accepted Conversation = 0：第一幕 accepted 前锁住玩家输入。
 func set_opening_gate(active: bool) -> void:
 	_opening_gate = active
@@ -679,6 +744,7 @@ func shutdown_session() -> void:
 	_transient_check_id = ""
 	_adjudication_active = false
 	_unresolved_reopen_pending = false
+	_unsupported_capability = false
 	_opening_gate = false
 	player_input.editable = true
 	_startup_ready = false
@@ -771,7 +837,7 @@ func _find_session_runtime() -> Variant:
 ## UI 从 Domain projection 重建 visual blocks；不保存 `_history` 或 Transcript 副本。
 ## 最后一个 restored GM block 留作 regenerate/retry 的复用目标。
 ## GM-only Opening 的 empty player_text 是 v4 兼容槽：跳过玩家气泡，只渲染开场 GM block。
-## accepted Public d20 check 的 mechanic card 按 accepted_turn_index 重建在对应回合之后。
+## accepted Public d20 check 的 mechanic card 冻结为 Player → card → GM 顺序重建。
 func _render_restored_entries() -> void:
 	var cards := _mechanic_cards_by_turn()
 	var index := 0
@@ -780,10 +846,10 @@ func _render_restored_entries() -> void:
 		var player_text := String(entry.player_text)
 		if not player_text.is_empty():
 			_append_player_entry(player_text)
-		_begin_gm_entry(player_text.is_empty())
-		_current_gm_content.add_text(String(entry.gm_text))
 		if cards.has(index):
 			_append_mechanic_card(cards[index] as Dictionary)
+		_begin_gm_entry(player_text.is_empty())
+		_current_gm_content.add_text(String(entry.gm_text))
 		index += 1
 
 

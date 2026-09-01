@@ -560,7 +560,8 @@ func _prepare_opening_after_activation() -> void:
 		return
 	if String(session_runtime.world_state.get("schema_version", "")) != GAME_LOCAL_SETUP_SCHEMA:
 		return
-	opening_runtime = FirstOpening.new(session_runtime, test_opening_adapter_override)
+	var opening_adapter: Node = test_opening_adapter_override if is_instance_valid(test_opening_adapter_override) else null
+	opening_runtime = FirstOpening.new(session_runtime, opening_adapter)
 	add_child(opening_runtime)
 	opening_runtime.finished.connect(_on_opening_finished)
 	narrative_view.bind_opening_runtime(opening_runtime)
@@ -645,6 +646,7 @@ func _plain_opening_failure(status: String, _message: String) -> String:
 
 ## 能力路由只读 Game-local materialized state（INV-D20-01）：永不读 SourceLibrary.current。
 ## 无 Expansion 时不挂载 Host，View 保持既有 G4-07 单次续玩路径。
+## 未知 action_resolution capability 必须 fail loud：玩家可见、锁输入、不走 legacy。
 func _prepare_action_adjudication_after_activation() -> void:
 	if session_runtime == null or not session_runtime.is_ready():
 		return
@@ -656,8 +658,8 @@ func _prepare_action_adjudication_after_activation() -> void:
 		if String(expansion.get("capability_slot", "")) != "action_resolution":
 			continue
 		if String(expansion.get("capability_id", "")) != "action_check.public_d20.v1":
-			push_error("G4-08B: unknown materialized capability_id")
-			continue
+			narrative_view.show_unsupported_capability()
+			return
 		action_adjudication = ActionAdjudication.new(session_runtime, test_adjudication_adapter_override, test_adjudication_rng_override)
 		add_child(action_adjudication)
 		narrative_view.bind_action_adjudication(action_adjudication)
@@ -667,8 +669,9 @@ func _prepare_action_adjudication_after_activation() -> void:
 func _teardown_action_adjudication() -> void:
 	if action_adjudication == null:
 		return
-	remove_child(action_adjudication)
-	action_adjudication.queue_free()
+	if is_instance_valid(action_adjudication):
+		remove_child(action_adjudication)
+		action_adjudication.queue_free()
 	action_adjudication = null
 
 

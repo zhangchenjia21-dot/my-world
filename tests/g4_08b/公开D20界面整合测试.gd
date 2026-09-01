@@ -51,12 +51,14 @@ func _run() -> void:
 	_check(conflict_install.success, "task-only slot-conflict Expansion installed for Evidence B")
 
 	await _test_wizard_expansion_inventory()
+	await _test_wizard_expansion_none_projection()
 	await _test_no_expansion_regression()
 	await _test_checked_action_ui()
 	await _test_no_check_ui()
 	await _test_retry_no_reroll_ui()
 	await _test_reopen_unfinished_action()
 	await _test_continue_load_card_reconstruction()
+	await _test_unsupported_capability_fail_loud()
 	_clear_environment()
 	_finish()
 
@@ -128,9 +130,50 @@ func _test_wizard_expansion_inventory() -> void:
 	await _shutdown_shell(shell)
 
 
-## A2/A5：explicit none 在真实 UI 路径保持有效并投影「拓展 无」。
+## A2/A5/G：explicit none 直接证据 —— Wizard 拓展步 → 确认「本局不使用拓展」→
+## step 完成 → Review 含「拓展 / 无」→ frozen payload 为 expansions=[] 且 explicit none。
 func _test_wizard_expansion_none_projection() -> void:
-	pass
+	var case_root := _case_root("explicit-none")
+	var shell: Variant = await _boot_shell(case_root)
+	shell.new_game_button.pressed.emit()
+	await _settle(4)
+	var wizard: Variant = shell.new_game_wizard
+	_press_choice(wizard, "world_han_end_unsettled_realm")
+	wizard.next_button.pressed.emit()
+	await _settle(2)
+	_press_choice(wizard, "entry_t0-208-red-cliffs-eve")
+	wizard.next_button.pressed.emit()
+	await _settle(2)
+	_check(wizard.step == 2 and wizard.next_button.disabled, "G Expansion step incomplete before explicit choice")
+	_press_choice(wizard, "expansion_none")
+	_check(not wizard.next_button.disabled, "G explicit none completes the step")
+	wizard.next_button.pressed.emit()
+	await _settle(2)
+	_check(wizard.step == 3, "G forward after explicit none")
+	wizard.back_button.pressed.emit()
+	await _settle(2)
+	_check(wizard.step == 2 and not wizard.next_button.disabled, "G back/forward preserves explicit none")
+	wizard.next_button.pressed.emit()
+	await _settle(2)
+	_press_choice(wizard, "character_han_end_liu_bei")
+	wizard.next_button.pressed.emit()
+	await _settle(2)
+	wizard.next_button.pressed.emit()
+	await _settle(2)
+	wizard.display_name_input.text = "显式无拓展"
+	wizard.display_name_input.text_changed.emit(wizard.display_name_input.text)
+	wizard.next_button.pressed.emit()
+	await _settle(4)
+	_check(wizard.review_text.text.contains("拓展") and wizard.review_text.text.contains("无"), "G Review shows 拓展 / 无")
+	_check(not wizard.review_text.text.contains("判定与检定"), "G Review never shows unselected Expansion")
+	var captured: Array = []
+	wizard.final_create_requested.connect(func(creation_id: String, payload: Dictionary) -> void: captured.append(payload))
+	shell.test_opening_adapter_override = OpeningStub.new()
+	wizard.final_create_button.pressed.emit()
+	await _settle(6)
+	_check(captured.size() == 1 and (captured[0] as Dictionary).expansions.is_empty(), "G frozen payload has expansions=[]")
+	_check(bool((captured[0] as Dictionary).expansion_none_confirmed), "G frozen payload carries explicit none semantics")
+	await _shutdown_shell(shell)
 
 
 ## C：无 Expansion 回归 —— 真实 UI 路径建局，无 adjudication、无机制卡、G4-07 行为不变。
@@ -362,6 +405,45 @@ func _test_continue_load_card_reconstruction() -> void:
 	var checks_restored: Array = shell.session_runtime.world_state.get("expansion_runtime", {}).get("public_d20_checks", [])
 	_check(checks_restored.is_empty(), "H restored canonical reality drops the future check record")
 	await _shutdown_shell(shell)
+
+
+## F：未知 action_resolution capability fail-loud —— 玩家可见、锁输入、不走 legacy、
+## 不调用 Provider、不掷骰、Game 数据保持完整。
+func _test_unsupported_capability_fail_loud() -> void:
+	var case_root := _case_root("unsupported-capability")
+	# 构造 task-only Game：world_state.expansions 含未知 action_resolution capability。
+	# 直接用 Final Create 建局，然后篡改 durable setup 的 capability_id。
+	var shell: Variant = await _boot_shell_with_game(case_root, "未知能力", true, true)
+	if shell == null:
+		return
+	# 篡改 durable setup：把 capability_id 换成未知值。
+	var next: Dictionary = shell.session_runtime.world_state.duplicate(true)
+	var expansions: Array = next.get("expansions", []).duplicate(true)
+	var tampered: Dictionary = expansions[0].duplicate(true)
+	tampered["capability_id"] = "action_check.unsupported_probe.v1"
+	expansions[0] = tampered
+	next["expansions"] = expansions
+	var committed: Dictionary = shell.session_runtime.commit_world_mutation_durably("tamper-capability", "node-tamper-capability", next)
+	_check(committed.success, "F task-owned capability tamper committed")
+	await _shutdown_shell(shell)
+
+	# 重开：Shell 检测到未知 capability → View fail-loud。
+	var shell2: Variant = await _boot_shell(case_root)
+	shell2.test_adjudication_adapter_override = OpeningStub.new()
+	shell2.test_adjudication_rng_override = DeterministicRng.new([1])
+	shell2.continue_button.pressed.emit()
+	await _settle(6)
+	_check(shell2.narrative_view._unsupported_capability, "F unsupported capability surfaces player-visible state")
+	_check(not shell2.narrative_view.player_input.editable and shell2.narrative_view.send_button.disabled, "F unsupported capability gates Player input")
+	_check(shell2.narrative_view.error_label.text.contains("不支持的行动判定规则"), "F unsupported capability message is player-readable")
+	_check(shell2.action_adjudication == null, "F unsupported capability mounts no Host")
+	var legacy_stub := _swap_view_stub(shell2.narrative_view)
+	shell2.narrative_view.player_input.text = "我尝试行动。"
+	shell2.narrative_view._on_send_pressed()
+	await _settle(2)
+	_check(legacy_stub.start_calls.is_empty(), "F unsupported capability never falls back to legacy Provider path")
+	_check(shell2.session_runtime.conversation.get_durable_accepted_entries().size() == 1, "F Game data remains intact")
+	await _shutdown_shell(shell2)
 
 
 ## ---- 驱动辅助 ----
