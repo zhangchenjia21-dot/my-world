@@ -1,0 +1,199 @@
+# G4-09R1B1 — Model Settings UI / Interaction
+
+Status: **HOLD — KIMI AFTER G4-09R1M1 GPT IR PASS**  
+Parent: **G4-09R1 Runtime Model Settings v0.1**  
+Primary owner: **Kimi**  
+Reviewer / semantic owner: **GPT**
+
+Canonical semantic decision:
+
+`Vibe-Coding/my world/architecture/foundation/G4_RUNTIME_MODEL_SETTINGS_V0_1_DECISION.md`
+
+Backend prerequisite:
+
+`docs/tasks/G4-09R1M1_RUNTIME_MODEL_SETTINGS_MECHANISM_TASK.md`
+
+## 1. Purpose
+
+Add the player-facing Main Menu model settings surface after Codex has delivered and GPT has accepted the settings/provider mechanism.
+
+Kimi owns presentation and interaction only. Backend capability truth, model ids, endpoints, credential status, validation and persistence remain Program/domain-owned.
+
+## 2. Main Menu entry
+
+Add a visible `模型设置` action to Main Menu.
+
+v0.1 settings are Main-Menu-only. Do not add an in-game settings drawer or settings hotkey. Owner can return to Main Menu, change settings, then Continue the same Game.
+
+## 3. Required controls
+
+Present exactly these logical controls:
+
+```text
+模型
+上下文上限
+思考强度
+```
+
+Model display options:
+
+```text
+DeepSeek V4 Pro
+DeepSeek V4 Flash
+Kimi K3
+Kimi K2.7
+```
+
+Context display options:
+
+```text
+256K
+1M
+```
+
+Reasoning display options:
+
+```text
+Low
+Medium
+High
+Max
+```
+
+Do not provide arbitrary text fields for model id, base URL or API keys.
+
+## 4. Compatibility UX
+
+UI consumes backend capability/validation truth; it does not reproduce a separate hard-coded policy if the backend exposes the needed projection.
+
+Required visible behavior:
+
+### Kimi K2.7
+
+- 1M is unavailable/disabled;
+- concise explanation: K2.7 currently supports 256K only;
+- graded effort control is disabled/unavailable;
+- show concise explanation: K2.7 uses fixed Thinking ON and does not expose Low/Medium/High/Max control.
+
+### DeepSeek V4 Pro / Flash and Kimi K3
+
+Low/Medium/High/Max remain selectable.
+
+When Medium is chosen, the effective configuration summary must make clear that the Provider maps it to High. Do not silently present Medium as a distinct effective Provider effort.
+
+### Invalid saved state
+
+If backend reports invalid/corrupt persisted settings, surface a recoverable player-readable state and let the player restore/save a valid selection. Do not silently choose a different model without telling the player.
+
+## 5. Credential status
+
+Show non-secret status for both provider families, for example:
+
+```text
+DeepSeek：已配置 / 未配置
+Kimi：已配置 / 未配置
+```
+
+Never display, bind, log or copy API key values into UI nodes.
+
+No API-key editing in v0.1.
+
+Selecting a model whose provider credential is missing may still be allowed to save if backend contract permits it, but the UI must visibly warn that generation will fail until the credential is configured. Do not invent a fallback provider.
+
+## 6. Save / Cancel behavior
+
+- opening settings loads the current persisted validated selection;
+- Cancel changes nothing;
+- Save calls the backend validation/persistence seam;
+- invalid combinations cannot be saved;
+- success returns to Main Menu and reopening shows the saved values;
+- settings survive application restart through backend persistence;
+- no Game or Source is rewritten.
+
+## 7. Effective summary
+
+Provide a concise read-only summary derived from backend projection, e.g.:
+
+```text
+DeepSeek V4 Pro · 256K · High
+Kimi K3 · 1M · Medium（实际 High）
+Kimi K2.7 · 256K · 固定思考
+```
+
+Do not expose raw internal profile ids unless needed only in tests/debug builds.
+
+## 8. Layout / visual requirements
+
+Keep the existing shell visual language and hierarchy. This is a small settings panel, not a new design system.
+
+Must remain usable at:
+
+```text
+1280×720
+960×540
+maximized desktop
+```
+
+No modal should become taller than the viewport; labels/explanations must wrap cleanly.
+
+Keyboard focus/tab order and Escape/Cancel should be sensible. Existing Chinese IME behavior in gameplay input must not regress.
+
+## 9. Interaction boundaries
+
+UI must never:
+
+- construct Provider model ids;
+- choose endpoint/base URL;
+- set reasoning request fields directly;
+- read environment secret values;
+- calculate context compatibility independently when backend can answer;
+- mutate a running Provider request;
+- add automatic provider fallback.
+
+Settings are not part of New Game Composition and do not appear in Source Review.
+
+## 10. Required tests
+
+Add/strengthen UI/integration tests for:
+
+1. Main Menu has 模型设置 and opens/closes correctly;
+2. four exact model names visible;
+3. save/cancel behavior;
+4. reopen/restart reflects backend-persisted selection;
+5. K2.7 disables 1M;
+6. K2.7 fixed-thinking UX;
+7. Medium effective→High disclosure for DeepSeek/K3;
+8. missing DeepSeek/Kimi credential status without secret exposure;
+9. invalid combination cannot save;
+10. no Game/Source mutation from settings;
+11. Continue/New Game remain usable after settings interaction;
+12. G4-08B Public d20 UI still behaves correctly when Provider profile is injected by backend;
+13. 1280×720 / 960×540 / maximized layout;
+14. `git diff --check`.
+
+## 11. Real integration
+
+After UI wiring, run at least one real selected-provider product path through the actual Main Menu settings surface. If both Provider credentials are available, prove one DeepSeek and one Kimi selection from UI through a real generation.
+
+Do not claim Kimi product support from screenshots/stubs alone.
+
+## 12. Return contract
+
+Return only after pushing to `main`:
+
+```text
+START_HEAD
+IMPLEMENTATION_HEAD
+EVIDENCE_HEAD
+changed paths
+exact settings surface behavior
+compatibility/disabled-state behavior
+credential-status behavior
+save/cancel/restart evidence
+layout evidence
+real provider UI integration evidence
+regression summary
+READY FOR INDEPENDENT REVIEW
+```
+
+Do not resume G4-09UATB or declare G4-09/G4-08 PASS.
