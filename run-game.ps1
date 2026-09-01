@@ -22,20 +22,12 @@ $exportLog = Join-Path $projectRoot 'build\windows\owner-export.log'
 $exportPreset = 'Windows Desktop'
 $allowedVariables = @(
     'DEEPSEEK_API_KEY'
-    'MY_WORLD_DEEPSEEK_MODEL'
+    'KIMI_API_KEY'
 )
-$requiredVariables = @(
-    'DEEPSEEK_API_KEY'
-)
-
-if (-not (Test-Path -LiteralPath $envFile -PathType Leaf)) {
-    Write-Error -Message ("Missing local secret file: {0}`nCopy .env.example to .env.local and fill in your local DEEPSEEK_API_KEY." -f $envFile) -ErrorAction Continue
-    exit 1
-}
 
 $localValues = @{}
 $lineNumber = 0
-foreach ($line in (Get-Content -LiteralPath $envFile)) {
+foreach ($line in $(if (Test-Path -LiteralPath $envFile -PathType Leaf) { Get-Content -LiteralPath $envFile } else { @() })) {
     $lineNumber += 1
     $trimmedLine = $line.Trim()
     if ([string]::IsNullOrWhiteSpace($trimmedLine) -or $trimmedLine.StartsWith('#')) {
@@ -60,18 +52,6 @@ foreach ($line in (Get-Content -LiteralPath $envFile)) {
     }
 
     $localValues[$name] = $value
-}
-
-$missingVariables = @(
-    $requiredVariables | Where-Object {
-        -not $localValues.ContainsKey($_) -or [string]::IsNullOrWhiteSpace([string]$localValues[$_])
-    }
-)
-if ($missingVariables.Count -gt 0) {
-    foreach ($name in $missingVariables) {
-        Write-Error -Message ("{0}: missing" -f $name) -ErrorAction Continue
-    }
-    exit 1
 }
 
 function Get-ProductInputHash {

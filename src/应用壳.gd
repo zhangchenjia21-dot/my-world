@@ -629,9 +629,9 @@ func _show_opening_banner(message: String, show_retry: bool, show_cancel: bool) 
 func _plain_opening_failure(status: String, _message: String) -> String:
 	match status:
 		"missing_key":
-			return "未检测到 DeepSeek API Key，请在本机 .env.local 中配置 DEEPSEEK_API_KEY；"
+			return "未检测到当前所选模型的 API Key，请在本机 .env.local 中配置对应凭据；"
 		"transport":
-			return "暂时无法连接 DeepSeek 服务；"
+			return "暂时无法连接当前模型服务；"
 		"malformed_stream":
 			return "收到了无法识别的响应数据；"
 		"empty_generation", "empty_opening":
@@ -640,7 +640,7 @@ func _plain_opening_failure(status: String, _message: String) -> String:
 			return "开场未能安全保存；"
 		_:
 			if status.begins_with("http_"):
-				return "DeepSeek 服务暂时返回异常；"
+				return "当前模型服务暂时返回异常；"
 			return ""
 
 

@@ -1,3 +1,3 @@
-## DeepSeek streaming transport 的稳定公开入口；保留既有 signal/cancel/failure 合同，不复制 HTTP/SSE 实现。
+## 已验收 G4-08 调用方的 DeepSeek compatibility seam；新产品调用点使用运行时模型公开接口。
 class_name DeepSeekStreamingAdapterPublicInterface
 extends "res://src/provider/deepseek流式适配器.gd"

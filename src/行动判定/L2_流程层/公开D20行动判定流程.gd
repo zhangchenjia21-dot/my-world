@@ -6,7 +6,7 @@ const Parser := preload("res://src/行动判定/L1_器件层/结构化判定响�
 const RandomSource := preload("res://src/行动判定/L1_器件层/程序D20随机源.gd")
 const GameLocalContext := preload("res://src/首次开场/L3_外交层/游戏本地上下文公开接口.gd")
 const ContextAssembler := preload("res://src/context/L3_外交层/上下文组装公开接口.gd")
-const ProviderAdapter := preload("res://src/provider/L3_外交层/DeepSeek流式适配公开接口.gd")
+const ProviderAdapter := preload("res://src/provider/L3_外交层/运行时模型流式适配公开接口.gd")
 
 signal request_assembled(stage, messages)
 signal finished(result)

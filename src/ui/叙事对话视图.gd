@@ -7,11 +7,11 @@ extends PanelContainer
 ## Generation State、retry / regenerate / correction 全部由 conversation 拥有；
 ## 本视图只消费 conversation 信号做渲染，并把 adapter 事件翻译成 conversation 调用。
 ##
-## 直接消费 src/provider/deepseek流式适配器.gd（G-02 seam），不重写 HTTP/SSE transport。
+## 只消费运行时模型 Provider L3 seam，不持有 profile、credential 或 HTTP/SSE transport。
 
-const ADAPTER := preload("res://src/provider/deepseek流式适配器.gd")
+const ADAPTER := preload("res://src/provider/L3_外交层/运行时模型流式适配公开接口.gd")
 const Conversation := preload("res://src/domain/会话.gd")
-const ContextAssembler := preload("res://src/context/上下文组装器.gd")
+const ContextAssembler := preload("res://src/context/L3_外交层/上下文组装公开接口.gd")
 
 ## 一次性 derived request 的观测 seam；测试可捕获，UI 不保存或持久化 messages。
 signal request_messages_assembled(messages)
@@ -211,16 +211,16 @@ func _plain_adjudication_failure(code: String) -> String:
 		"cancelled":
 			return "已取消。"
 		"transport":
-			return "暂时无法连接 DeepSeek 服务。"
+			return "暂时无法连接当前模型服务。"
 		"missing_key":
-			return "未检测到 DeepSeek API Key，请在本机 .env.local 中配置后重试。"
+			return "未检测到当前所选模型的 API Key，请在本机 .env.local 中配置后重试。"
 		"malformed_stream", "invalid_adjudication_envelope", "invalid_check_proposal":
 			return "判定服务返回了无法识别的内容。"
 		"empty_generation":
 			return "本次没有生成有效叙事。"
 		_:
 			if code.begins_with("http_"):
-				return "DeepSeek 服务暂时返回异常。"
+				return "当前模型服务暂时返回异常。"
 			return ""
 
 
@@ -525,9 +525,9 @@ func _begin_gm_entry(opening: bool = false) -> void:
 func _friendly_error(code: String) -> String:
 	match code:
 		"missing_key":
-			return "未检测到 DeepSeek API Key。请在本机 .env.local 中配置 DEEPSEEK_API_KEY 后重新启动游戏。"
+			return "未检测到当前所选模型的 API Key。请在本机 .env.local 中配置对应凭据后重新启动游戏。"
 		"transport":
-			return "暂时无法连接 DeepSeek 服务。请检查网络后点击「重新生成」重试。"
+			return "暂时无法连接当前模型服务。请检查网络后点击「重新生成」重试。"
 		"malformed_stream":
 			return "收到了无法识别的响应数据。可点击「重新生成」重试。"
 		"empty_generation":
@@ -538,7 +538,7 @@ func _friendly_error(code: String) -> String:
 			return "叙事未能安全保存，因此没有正式接受本次结果。请检查磁盘后点击「重新生成」重试。"
 		_:
 			if code.begins_with("http_"):
-				return "DeepSeek 服务返回错误（%s）。可稍后点击「重新生成」重试。" % code
+				return "当前模型服务返回错误（%s）。可稍后点击「重新生成」重试。" % code
 			return "出现未知错误。可点击「重新生成」重试。"
 
 
@@ -773,7 +773,7 @@ func _initialize_session(bound_conversation: RefCounted, ready: bool) -> void:
 	if session_runtime != null and session_runtime.has_signal("restore_completed"):
 		session_runtime.restore_completed.connect(_on_runtime_restore_completed)
 	adapter = ADAPTER.new()
-	adapter.name = "DeepSeekProviderAdapter"
+	adapter.name = "RuntimeModelProviderAdapter"
 	add_child(adapter)
 	adapter.text_delta.connect(_on_text_delta)
 	adapter.completed.connect(_on_completed)

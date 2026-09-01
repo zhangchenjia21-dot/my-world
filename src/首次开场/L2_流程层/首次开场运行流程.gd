@@ -3,8 +3,8 @@ extends Node
 
 const Rules := preload("res://src/首次开场/L0_公理层/首次开场规则.gd")
 const Projector := preload("res://src/首次开场/L1_器件层/游戏本地开场上下文投影器.gd")
-const ContextAssembler := preload("res://src/context/上下文组装器.gd")
-const ProviderAdapter := preload("res://src/provider/deepseek流式适配器.gd")
+const ContextAssembler := preload("res://src/context/L3_外交层/上下文组装公开接口.gd")
+const ProviderAdapter := preload("res://src/provider/L3_外交层/运行时模型流式适配公开接口.gd")
 
 signal request_assembled(messages, context_stats)
 signal text_delta(text)
@@ -34,9 +34,9 @@ func _ready() -> void:
 ## 成功启动只表示 request 已进入既有 Provider streaming；accepted 必须等待 finished。
 func start_first_opening() -> Dictionary:
 	if provider_adapter == null:
-		return _publish_terminal(Rules.failure("provider_unavailable", "DeepSeek Provider adapter 不可用。"))
+		return _publish_terminal(Rules.failure("provider_unavailable", "当前模型 Provider adapter 不可用。"))
 	if provider_adapter.is_busy():
-		return Rules.failure("generation_active", "DeepSeek Provider 已有 active request。")
+		return Rules.failure("generation_active", "当前模型 Provider 已有 active request。")
 	var eligibility := Rules.inspect_eligibility(session_runtime)
 	if not eligibility.success:
 		last_result = eligibility.duplicate(true)
@@ -56,7 +56,7 @@ func start_first_opening() -> Dictionary:
 	# missing-key 等同步终态会在 start_stream 返回前经 failed signal 发布。
 	if start_error != OK and String(last_result.get("status", "")) == "streaming":
 		session_runtime.conversation.fail_generation("provider_start_failure")
-		return _publish_terminal(Rules.failure("provider_start_failure", "DeepSeek request 未能启动。", {"error": start_error}))
+		return _publish_terminal(Rules.failure("provider_start_failure", "当前模型 request 未能启动。", {"error": start_error}))
 	return last_result.duplicate(true)
 
 
