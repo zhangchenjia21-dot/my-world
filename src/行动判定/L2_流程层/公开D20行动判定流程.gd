@@ -53,6 +53,9 @@ func start_action(action_id: String, player_text: String) -> Dictionary:
 	_action_id = action_id
 	_player_text = player_text
 	var existing := _find_check(action_id)
+	var existing_no_check := _find_no_check_action(action_id)
+	if existing.success and existing_no_check.success:
+		return _finish(Rules.failure("durable_action_identity_conflict", "同一 action_id 同时存在 check 与 NO_CHECK durable truth。"))
 	if existing.success:
 		if String(existing.check.player_text) != player_text:
 			return _finish(Rules.failure("action_payload_conflict", "同一 action_id 已绑定不同 Player action。"))
@@ -66,6 +69,21 @@ func start_action(action_id: String, player_text: String) -> Dictionary:
 		if not recovered.success:
 			return _finish(recovered)
 		return _start_resolution_narrative(capability.expansion)
+	if existing_no_check.success:
+		var resolution: Dictionary = existing_no_check.resolution
+		if String(resolution.player_text) != player_text:
+			return _finish(Rules.failure("action_payload_conflict", "同一 action_id 已绑定不同 Player action。"))
+		_resolution = resolution.duplicate(true)
+		if bool(_resolution.get("narrative_accepted", false)):
+			return _finish(Rules.success({"status": "already_accepted", "resolution": _resolution.duplicate(true)}))
+		var recovered_no_check := _recover_no_check_acceptance(_resolution)
+		if not recovered_no_check.success:
+			return _finish(recovered_no_check)
+		if bool(recovered_no_check.get("recovered", false)):
+			_resolution = _find_no_check_action(action_id).resolution
+			return _finish(Rules.success({"status": "already_accepted", "resolution": _resolution.duplicate(true)}))
+		_accept_narrative(String(_resolution.narrative), {}, _resolution, 0)
+		return last_result.duplicate(true)
 	return _start_provider("adjudication", _adjudication_messages(capability.expansion))
 
 
@@ -85,7 +103,12 @@ func _on_completed() -> void:
 			_finish(parsed)
 			return
 		if String(parsed.decision) == "NO_CHECK":
-			_accept_narrative(String(parsed.narrative), {})
+			var frozen := _freeze_no_check_resolution(parsed)
+			if not frozen.success:
+				_finish(frozen)
+				return
+			_resolution = frozen.resolution
+			_accept_narrative(String(_resolution.narrative), {}, _resolution)
 			return
 		var resolved := _roll_and_persist(parsed.proposal)
 		if not resolved.success:
@@ -139,7 +162,9 @@ func _roll_and_persist(proposal: Dictionary) -> Dictionary:
 	return Rules.success({"check": check})
 
 
-func _accept_narrative(narrative: String, check: Dictionary) -> void:
+func _accept_narrative(
+	narrative: String, check: Dictionary, no_check_resolution: Dictionary = {}, provider_calls: int = -1
+) -> void:
 	if narrative.strip_edges().is_empty():
 		_finish(Rules.failure("empty_generation", "Provider narrative 为空。"))
 		return
@@ -156,10 +181,72 @@ func _accept_narrative(narrative: String, check: Dictionary) -> void:
 		if not marked.success:
 			_finish(marked)
 			return
+	if not no_check_resolution.is_empty():
+		var no_check_marked := _mark_no_check_accepted(
+			String(no_check_resolution.resolution_id), int((accepted.accepted_entries as Array).size()) - 1
+		)
+		if not no_check_marked.success:
+			_finish(no_check_marked)
+			return
 	_finish(Rules.success({
-		"status": "accepted", "provider_calls": 1 if check.is_empty() else 2,
+		"status": "accepted", "provider_calls": provider_calls if provider_calls >= 0 else (1 if check.is_empty() else 2),
 		"check": {} if check.is_empty() else _find_check(_action_id).get("check", {}).duplicate(true),
+		"resolution": _find_no_check_action(_action_id).get("resolution", {}).duplicate(true) if not no_check_resolution.is_empty() else {},
 	}))
+
+
+## validated NO_CHECK envelope 必须先于 Conversation durable acceptance 冻结；之后的 retry
+## 只消费这里保存的 exact narrative，不再次询问 Provider。
+func _freeze_no_check_resolution(parsed: Dictionary) -> Dictionary:
+	var resolution := {
+		"resolution_id": Rules.no_check_resolution_id(String(session_runtime.game_id), _action_id),
+		"action_id": _action_id,
+		"player_text": _player_text,
+		"branch": "NO_CHECK",
+		"reason": String(parsed.reason),
+		"narrative": String(parsed.narrative),
+		"conversation_base_count": session_runtime.conversation.get_durable_accepted_entries().size(),
+		"narrative_accepted": false,
+	}
+	var next: Dictionary = session_runtime.world_state.duplicate(true)
+	var runtime_state: Dictionary = next.get("expansion_runtime", {}).duplicate(true)
+	var actions: Array = runtime_state.get("public_d20_no_check_actions", []).duplicate(true)
+	actions.append(resolution.duplicate(true))
+	runtime_state["public_d20_no_check_actions"] = actions
+	next["expansion_runtime"] = runtime_state
+	var committed: Dictionary = session_runtime.commit_world_mutation_durably(
+		"public-d20-no-check-" + String(resolution.resolution_id),
+		"node-no-check-" + String(resolution.resolution_id), next
+	)
+	if not committed.success:
+		return Rules.failure("no_check_persistence_failed", String(committed.get("message", committed.get("status", "unknown"))))
+	return Rules.success({"resolution": resolution})
+
+
+func _mark_no_check_accepted(resolution_id: String, turn_index: int) -> Dictionary:
+	var next: Dictionary = session_runtime.world_state.duplicate(true)
+	var runtime_state: Dictionary = next.get("expansion_runtime", {}).duplicate(true)
+	var actions: Array = runtime_state.get("public_d20_no_check_actions", []).duplicate(true)
+	var found := false
+	for index: int in actions.size():
+		var resolution := (actions[index] as Dictionary).duplicate(true)
+		if String(resolution.get("resolution_id", "")) == resolution_id:
+			resolution["narrative_accepted"] = true
+			resolution["accepted_turn_index"] = turn_index
+			actions[index] = resolution
+			found = true
+			break
+	if not found:
+		return Rules.failure("no_check_resolution_missing", "无法标记不存在的 durable NO_CHECK resolution。")
+	runtime_state["public_d20_no_check_actions"] = actions
+	next["expansion_runtime"] = runtime_state
+	var committed: Dictionary = session_runtime.commit_world_mutation_durably(
+		"public-d20-no-check-accepted-" + resolution_id,
+		"node-no-check-accepted-" + resolution_id, next
+	)
+	if not committed.success:
+		return Rules.failure("no_check_acceptance_marker_failed", String(committed.get("message", committed.get("status", "unknown"))))
+	return Rules.success()
 
 
 func _mark_narrative_accepted(check_id: String, turn_index: int) -> Dictionary:
@@ -204,6 +291,24 @@ func _recover_acceptance_marker(check: Dictionary) -> Dictionary:
 	return Rules.success({"recovered": true})
 
 
+## Window B 只能在 expected slot 的 Player 与 GM 都精确相同时补发 accepted marker；
+## 仅匹配 Player text 会把不同 Provider narrative 错认成同一 durable action。
+func _recover_no_check_acceptance(resolution: Dictionary) -> Dictionary:
+	if not resolution.has("conversation_base_count"):
+		return Rules.failure("invalid_no_check_resolution", "durable NO_CHECK resolution 缺少 Conversation identity。")
+	var index := int(resolution.conversation_base_count)
+	var entries: Array = session_runtime.conversation.get_durable_accepted_entries()
+	if entries.size() <= index:
+		return Rules.success({"recovered": false})
+	var entry := entries[index] as Dictionary
+	if String(entry.player_text) != String(resolution.player_text) or String(entry.gm_text) != String(resolution.narrative):
+		return Rules.failure("conversation_identity_conflict", "durable NO_CHECK 的 expected Conversation slot 已被其它内容占用。")
+	var marked := _mark_no_check_accepted(String(resolution.resolution_id), index)
+	if not marked.success:
+		return marked
+	return Rules.success({"recovered": true})
+
+
 func _materialized_capability() -> Dictionary:
 	var expansions: Array = session_runtime.world_state.get("expansions", [])
 	for value: Variant in expansions:
@@ -223,6 +328,22 @@ func _find_check(action_id: String) -> Dictionary:
 		if value is Dictionary and String(value.get("action_id", "")) == action_id:
 			return Rules.success({"check": _normalize_check(value as Dictionary)})
 	return Rules.failure("not_found", "stable action 尚无 durable check。")
+
+
+func _find_no_check_action(action_id: String) -> Dictionary:
+	var runtime_state: Dictionary = session_runtime.world_state.get("expansion_runtime", {})
+	for value: Variant in runtime_state.get("public_d20_no_check_actions", []):
+		if value is Dictionary and String(value.get("action_id", "")) == action_id:
+			return Rules.success({"resolution": _normalize_no_check_resolution(value as Dictionary)})
+	return Rules.failure("not_found", "stable action 尚无 durable NO_CHECK resolution。")
+
+
+func _normalize_no_check_resolution(value: Dictionary) -> Dictionary:
+	var resolution := value.duplicate(true)
+	for field: String in ["accepted_turn_index", "conversation_base_count"]:
+		if resolution.has(field):
+			resolution[field] = int(resolution[field])
+	return resolution
 
 
 ## JSON document reopen 会把 number 表示为 float；UI-neutral projection 恢复合同要求的整数语义。

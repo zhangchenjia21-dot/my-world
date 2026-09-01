@@ -97,10 +97,20 @@ static func compute_result(proposal: Dictionary, raw_rolls: Array) -> Dictionary
 
 
 static func check_id(game_id: String, action_id: String) -> String:
+	return _stable_action_identity("check", game_id, action_id)
+
+
+## NO_CHECK 与真实检定共享 caller-owned action identity，但保留独立 durable 类型，
+## 避免用虚构骰面把非检定行动伪装成 check。
+static func no_check_resolution_id(game_id: String, action_id: String) -> String:
+	return _stable_action_identity("no-check", game_id, action_id)
+
+
+static func _stable_action_identity(prefix: String, game_id: String, action_id: String) -> String:
 	var context := HashingContext.new()
 	context.start(HashingContext.HASH_SHA256)
 	context.update((game_id + "\u001f" + action_id).to_utf8_buffer())
-	return "check-" + context.finish().hex_encode()
+	return prefix + "-" + context.finish().hex_encode()
 
 
 static func _exact_fields(value: Dictionary, fields: Array) -> bool:
