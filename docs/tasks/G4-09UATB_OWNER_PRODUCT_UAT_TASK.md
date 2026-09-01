@@ -1,6 +1,6 @@
 # G4-09UATB — Owner Product UAT B
 
-Status: **ACTIVE — OWNER**  
+Status: **HOLD — OWNER-REQUESTED MODEL SETTINGS PREREQUISITE**  
 Parent: **G4-09 First Playable B: Add Real Expansion**  
 Product owner: **Owner**  
 Semantic/review owner: **GPT**
@@ -9,64 +9,38 @@ Accepted prep review:
 
 `docs/g4_09/G4-09P1_INDEPENDENT_REVIEW.md`
 
-Product instructions:
+Owner-requested prerequisite:
 
-`docs/g4_09/G4-09UATB_Owner产品验收说明.md`
+`G4-09R1 Runtime Model Settings v0.1`
 
-## Purpose
+Canonical decision:
 
-Judge one product question through the real shipped path:
+`Vibe-Coding/my world/architecture/foundation/G4_RUNTIME_MODEL_SETTINGS_V0_1_DECISION.md`
 
-> Does `判定与检定：公开 d20` add worthwhile gameplay rather than merely adding technical state?
+## Hold reason
 
-## Required route
-
-Launch only through `run-game.cmd` and create a new Game using:
+Before beginning the real Product UAT, the Owner explicitly requested application-level runtime selection for:
 
 ```text
-World      汉末三国：天下未定
-Entry      208 / 赤壁前夕
-Player     刘备
-NPC        孙权 (optional guaranteed)
-Expansion  判定与检定：公开 d20
+Model: DeepSeek V4 Pro / DeepSeek V4 Flash / Kimi K3 / Kimi K2.7
+Context: 256K / 1M
+Reasoning: Low / Medium / High / Max where the selected model supports graded effort
 ```
 
-Verify:
+The previous DeepSeek-only UAT instructions are therefore stale until G4-09R1 backend + UI integration passes Independent Review and Owner export/real-provider freshness is revalidated.
 
-1. Review visibly lists the Expansion.
-2. Real DeepSeek Opening completes.
-3. A genuinely risky action with meaningful failure stakes produces a public d20 mechanic card.
-4. GM continuation respects the Program-owned success/failure result.
-5. An ordinary/no-risk action produces no unnecessary dice card.
-6. Save → Main Menu → Continue returns to the same Game with the same history and mechanic result.
-7. The mechanic improves play in tension, clarity or meaningful choice.
+Do not execute this UAT against the old DeepSeek-only settings surface and do not return a product verdict yet.
 
-## Verdict
-
-Return only:
+## Resume condition
 
 ```text
-PASS
+G4-09R1M1 backend — GPT IR PASS
+→ G4-09R1B1 UI — GPT IR PASS
+→ real DeepSeek + Kimi integration/freshness as required
+→ refreshed Owner UAT instructions
+→ G4-09UATB ACTIVE — OWNER
 ```
 
-or:
+When resumed, the UAT still judges whether `判定与检定：公开 d20` adds worthwhile gameplay, but it will run through the newly accepted runtime model settings path.
 
-```text
-FAIL
-<what felt wrong / what broke>
-```
-
-Engineering evidence does not substitute for this verdict.
-
-## Progression
-
-If Owner PASS:
-
-```text
-G4-09 First Playable B      PASS / CLOSED
-G4-08 Expansion Pack v0.1   Product PASS / CLOSED
-→ Decision Propagation
-→ G4-10 Runtime Asset Resolution
-```
-
-If Owner FAIL, GPT classifies the concrete product seam and routes the smallest correction. G4-GATE remains NOT YET either way until remaining G4 work completes.
+G4-09, G4-08 and G4-GATE remain open.
