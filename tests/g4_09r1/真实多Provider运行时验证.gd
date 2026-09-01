@@ -23,6 +23,7 @@ func _run() -> void:
 		{"profile_id": "deepseek_v4_pro", "context_limit": "256k", "reasoning_request": "high"},
 		{"profile_id": "deepseek_v4_flash", "context_limit": "1m", "reasoning_request": "medium"},
 		{"profile_id": "kimi_k3", "context_limit": "256k", "reasoning_request": "low"},
+		{"profile_id": "kimi_k3", "context_limit": "1m", "reasoning_request": "high"},
 		{"profile_id": "kimi_k27", "context_limit": "256k", "reasoning_request": "max"},
 	]:
 		await _run_profile(task_root, profile)

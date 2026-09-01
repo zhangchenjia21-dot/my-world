@@ -35,6 +35,7 @@ func _run() -> void:
 	var sentinel_before := FileAccess.get_sha256(game_sentinel_path)
 
 	_test_settings(settings_path)
+	_test_candidate_projection(root_path, game_sentinel_path)
 	_test_catalog_and_payloads()
 	_test_credentials()
 	_test_parsing_and_lifecycle()
@@ -92,6 +93,25 @@ func _test_settings(path: String) -> void:
 	active_adapter.queue_free()
 
 
+func _test_candidate_projection(root_path: String, game_sentinel_path: String) -> void:
+	var candidate_path := root_path.path_join("candidate-must-not-write.json")
+	var game_before := FileAccess.get_sha256(game_sentinel_path)
+	OS.set_environment("DEEPSEEK_API_KEY", "projection-secret-deepseek")
+	OS.set_environment("KIMI_API_KEY", "projection-secret-kimi")
+	var api := Settings.new(candidate_path)
+	var invalid: Dictionary = api.inspect_candidate({"profile_id": "kimi_k27", "context_limit": "1m", "reasoning_request": "high"})
+	_check(not invalid.success and String(invalid.status) == "incompatible_context_limit", "A2 unsaved K2.7 + 1M candidate rejected")
+	var deepseek: Dictionary = api.inspect_candidate({"profile_id": "deepseek_v4_flash", "context_limit": "1m", "reasoning_request": "medium"})
+	var kimi_k3: Dictionary = api.inspect_candidate({"profile_id": "kimi_k3", "context_limit": "256k", "reasoning_request": "medium"})
+	var kimi_k27: Dictionary = api.inspect_candidate({"profile_id": "kimi_k27", "context_limit": "256k", "reasoning_request": "max"})
+	_check(deepseek.success and String(deepseek.candidate.reasoning_effective) == "high" and kimi_k3.success and String(kimi_k3.candidate.reasoning_effective) == "high", "A2 DeepSeek/K3 Medium projects effective High")
+	_check(kimi_k27.success and bool(kimi_k27.candidate.fixed_thinking) and not bool(kimi_k27.candidate.graded_reasoning) and kimi_k27.candidate.reasoning_effective == null, "A2 K2.7 projects fixed thinking with null effective effort")
+	_check(kimi_k27.candidate.allowed_context_limits == ["256k"] and bool(kimi_k27.candidate.credential_configured), "A2 projection owns context capability and selected credential bool")
+	var serialized := JSON.stringify([deepseek, kimi_k3, kimi_k27])
+	_check(not serialized.contains("projection-secret") and not serialized.contains("endpoint") and not serialized.contains("model_id") and not serialized.contains("request_path"), "A2 projection exposes no secret or transport payload fields")
+	_check(not FileAccess.file_exists(candidate_path) and FileAccess.get_sha256(game_sentinel_path) == game_before, "A2 candidate inspection writes no settings and mutates no Game/SQLite sentinel")
+
+
 func _test_catalog_and_payloads() -> void:
 	var combinations := [
 		["deepseek_v4_pro", "256k", "deepseek-v4-pro", "https://api.deepseek.com/chat/completions"],
@@ -116,6 +136,10 @@ func _test_catalog_and_payloads() -> void:
 			_check(String(derived.request_profile.reasoning_effective) == "high" and String(adapter.last_request_payload.get("reasoning_effort", "")) == "high", "C medium -> high for %s" % row[0])
 		else:
 			_check(bool(derived.request_profile.fixed_thinking) and not adapter.last_request_payload.has("reasoning_effort"), "C K2.7 fixed thinking, no graded field")
+		if String(row[0]) == "kimi_k3":
+			_check(String(adapter.last_request_payload.model) == String(row[2]) and String(adapter.last_request_payload.reasoning_effort) == "high" and adapter.last_request_payload.reasoning_effort != "none" and not adapter.last_request_payload.has("thinking"), "C K3 exact wire keeps Thinking ON through graded reasoning_effort")
+		elif String(row[0]) == "kimi_k27":
+			_check(String(adapter.last_request_payload.model) == "kimi-for-coding" and not adapter.last_request_payload.has("reasoning_effort") and not adapter.last_request_payload.has("thinking"), "C K2.7 exact wire uses fixed Thinking ON default without fake graded field")
 		adapter.cancel()
 		adapter.queue_free()
 	for request: String in ["low", "high", "max"]:

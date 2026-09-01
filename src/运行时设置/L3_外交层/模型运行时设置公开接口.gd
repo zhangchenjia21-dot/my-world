@@ -21,6 +21,11 @@ func save_settings(settings: Variant) -> Dictionary:
 	return _process.save_settings(settings)
 
 
+## 验证并投影未保存候选；不写设置，只返回 UI 所需的非秘密能力与有效值。
+func inspect_candidate(settings: Variant) -> Dictionary:
+	return _process.inspect_candidate(settings)
+
+
 ## 每次调用生成一份独立 request profile；Provider 在 start 后持有该快照直到唯一终态。
 func request_snapshot() -> Dictionary:
 	return _process.request_snapshot()
