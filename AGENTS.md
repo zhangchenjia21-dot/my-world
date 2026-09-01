@@ -11,7 +11,7 @@ Resolve authority in this order:
 2. `zhangchenjia21-dot/Vibe-Coding/AGENTS.md`.
 3. current Product / Principles / Architecture / Roadmap / Status under `Vibe-Coding/my world/`.
 4. relevant current architecture decisions.
-5. this repository `AGENTS.md` and the current task packet.
+5. this repository `AGENTS.md` and current task packet.
 6. verifiable implementation/tests/current HEAD.
 
 Before authoritative work, refresh `main`; never overwrite unknown dirty/newer work.
@@ -45,8 +45,9 @@ G4-07B Playable UI Integration        PASS / CLOSED
 G4-07UAT01 Owner Launch Freshness     PASS / CLOSED
 G4-08 Expansion Pack v0.1             ACTIVE
 G4-08S0 Expansion Semantic Freeze     PASS / CLOSED
-G4-08M1 Public d20 Mechanism          CORRECTION REQUIRED
-G4-08M1C01 NO_CHECK Idempotency       ACTIVE — CODEX
+G4-08M1 Public d20 Mechanism          PASS / CLOSED
+G4-08M1C01 NO_CHECK Idempotency       PASS / CLOSED
+G4-08B Public d20 UI Integration      ACTIVE — KIMI
 G4-GATE                               NOT YET
 ```
 
@@ -54,30 +55,37 @@ G4-07 Owner Product UAT verdict: **PASS**.
 
 ---
 
-## 3. Current execution task — G4-08M1C01
+## 3. Current execution task — G4-08B
 
-Formal correction packet:
+Formal packet:
 
-`docs/tasks/G4-08M1C01_NO_CHECK_ACTION_IDEMPOTENCY_CORRECTION_TASK.md`
+`docs/tasks/G4-08B_PUBLIC_D20_UI_INTEGRATION_TASK.md`
 
 Formal Code Base:
 
-`31eca597d144c7c1214ddcc114d718a45fabf9dd`
+`d646427dfe3c4c6328809384e482cd1fdd2204a0`
 
-Independent Review record:
-
-`docs/g4_08m1/G4-08M1_INDEPENDENT_REVIEW.md`
-
-Primary owner: **Codex**.  
-Reviewer: **GPT**.  
-Correction budget: **correction-01**.  
+Primary owner: **Kimi**.  
+Reviewer / semantic owner: **GPT**.  
 Return ceiling: **READY FOR INDEPENDENT REVIEW**.
 
-M1 implementation at reviewed HEAD is broadly accepted in shape, but M1 is not PASS because Expansion-enabled `NO_CHECK` actions are not durably replay-safe by stable `action_id` after acceptance/restart.
+Accepted mechanism reviews:
 
-The focused correction must make the `NO_CHECK` branch exactly-once across lost ACK / retry / reopen without adding a fake check or another Provider call.
+- `docs/g4_08m1/G4-08M1_INDEPENDENT_REVIEW.md`
+- `docs/g4_08m1/G4-08M1C01_INDEPENDENT_REVIEW.md`
 
-Do not activate Kimi until this correction passes GPT Independent Review.
+G4-08B owns UI/interaction only:
+
+```text
+Wizard Expansion inventory / selection
+→ Review projection
+→ Game-local capability-aware Narrative routing
+→ stable action_id lifecycle / retry interaction
+→ public mechanic-card projection
+→ Continue / Load redraw
+```
+
+Do not redesign accepted backend mechanism.
 
 ---
 
@@ -98,133 +106,94 @@ capability    action_check.public_d20.v1
 slot          action_resolution
 ```
 
-### Optional / compatibility
+Frozen:
 
-- Expansion selection is explicit `0..N` exact generations.
-- No Expansion means current G4-07 behavior; never silently enable Public d20.
-- duplicate exact Expansion → fail closed;
-- same exclusive `capability_slot` collision → fail closed;
-- no family/genre/year guessing;
-- Public d20 works across Han and Afterglow.
-
-### Three no-roll cases
-
-Do not roll when the attempt is:
-
-1. certainly successful under established facts;
-2. certainly impossible under established facts/personality/causality;
-3. immediately repeatable with no meaningful failure cost.
-
-> Dice decides uncertainty. Dice does not erase reality.
-
-### Rules / authority
-
-```text
-d20 + modifier = total
-
-total >= DC → success
-total <  DC → failure
-```
-
-No natural-1/natural-20 automatic override in v0.1.
-
-```text
-normal        1d20
-advantage     2d20 take high
-disadvantage  2d20 take low
-```
-
-Risk Structure / Proposal freezes before RNG. Model never owns die face, total or outcome.
-
-### Provider branches
-
-```text
-NO_CHECK
-→ one Provider response carries normal GM narrative
-
-CHECK_REQUIRED
-→ Proposal
-→ validate/freeze
-→ Program RNG + durable result
-→ second Provider continuation constrained by result
-```
-
-The caller supplies one stable `action_id` before it is known which branch the Provider will choose. Therefore **both branches must be retry/restart idempotent by that same identity**.
+- Expansion selection is explicit `0..N` exact generations;
+- no Expansion preserves G4-07 behavior and never silently enables d20;
+- duplicate exact / same capability slot conflict fail closed;
+- roll only when uncertainty + meaningful failure stakes exist;
+- certain success / certain impossibility / no-cost repeat → no roll;
+- Program owns die faces / selected roll / total / outcome;
+- Proposal freezes before RNG;
+- no natural-1/20 auto override;
+- NO_CHECK remains one Provider call;
+- CHECK_REQUIRED uses durable Program result before second Provider narrative;
+- both branches are stable-action retry/restart idempotent;
+- Expansion owns resolution, not downstream canonical World consequences.
 
 ---
 
-## 5. G4-08M1C01 exact blocker
+## 5. Accepted M1 mechanism boundary
 
-Current reviewed implementation only searches durable `expansion_runtime.public_d20_checks` by `action_id`.
+Do not reopen absent concrete evidence:
 
-`NO_CHECK` writes durable Conversation but no durable action-id replay marker. Thus:
-
-```text
-NO_CHECK accepted
-→ success ACK lost
-→ same action_id retried
-→ Provider may run again
-→ duplicate Player/GM turn may be appended
-```
-
-Correction requirements include:
-
-- first NO_CHECK remains one Provider call / zero RNG;
-- accepted same-process replay → zero Provider/RNG/Conversation additions;
-- fresh-process replay → zero Provider/RNG/Conversation additions;
-- same action_id + changed text → fail loud;
-- failure before valid NO_CHECK remains retryable;
-- lost-ACK windows before/after Conversation acceptance recover without Provider replay;
-- CHECK_REQUIRED no-reroll path remains green;
-- no-Expansion G4-07 route remains unchanged;
-- schema remains v4 unless narrowly justified otherwise.
-
-Do not represent NO_CHECK as a fake d20 check with invented rolls.
-
----
-
-## 6. Accepted M1 seams not generically reopened
-
-Unless the correction exposes concrete neighboring failure, do not redesign:
-
-- Expansion third Source type / strict package contract;
-- Managed Library exact/current generation behavior;
-- exact Composition `0..N` selections;
-- exclusive capability slot conflict;
+- Expansion third Source type / Managed Library exact generations;
+- Composition exact `0..N` backend;
+- capability-slot compatibility;
 - Final Create exact Expansion materialization/provenance;
-- Program-owned d20 RNG / total / outcome;
-- CHECK_REQUIRED durable resolution and no-reroll retry/restart;
-- real Han / Afterglow Provider semantics;
-- no executable Source code;
+- Program d20 rules/RNG/result;
+- CHECK_REQUIRED no-reroll retry/restart;
+- NO_CHECK durable replay identity / lost-ACK recovery;
 - SQLite schema v4;
-- UI-neutral ownership.
+- real Han / Afterglow Provider evidence;
+- no executable Source support.
 
-Correction-01 is a focused action replay seam fix.
+Protected backend paths include:
 
----
+- `src/source/**`
+- `src/最终建局/**`
+- `src/persistence/**`
+- `src/行动判定/L0_公理层/**`
+- `src/行动判定/L1_器件层/**`
+- `src/行动判定/L2_流程层/**`
 
-## 7. UI boundary
-
-Do not implement in M1C01:
-
-- Wizard Expansion selector / Review UI;
-- mechanic-card rendering;
-- click-to-roll / dice animation.
-
-Kimi G4-08B remains **NOT YET**.
+If a genuinely missing L3 UI-neutral projection blocks G4-08B, stop and report it rather than bypassing ownership.
 
 ---
 
-## 8. Next progression
+## 6. G4-08B interaction rules
+
+### Wizard
+
+- show installed Expansion generations from existing inventory;
+- no auto-select;
+- explicit none remains valid;
+- use `composition.set_expansion()` / `confirm_expansion_none()` as authority;
+- Review shows actual selected Expansion names/versions;
+- no import UI in this task.
+
+### Runtime
+
+No Expansion → preserve exact G4-07 Narrative path.
+
+Public d20 → route Player action through:
+
+`src/行动判定/L3_外交层/行动判定公开接口.gd`
+
+UI supplies a stable opaque `action_id` and must not call `conversation.begin_turn()` first.
+
+Retry after durable action failure/cancel reuses the same action_id/text; do not generate a fresh identity merely because Provider failed.
+
+On reopen, an unresolved durable Public d20 action must be surfaced/retried rather than silently forgotten.
+
+### Mechanic card
+
+Card is read-only projection of durable Program truth. UI never rolls/recomputes/edits it.
+
+Show accepted CHECK_REQUIRED results and rebuild them on Continue / Load from durable state. NO_CHECK has no dice card.
+
+For Public d20 sessions, do not use the legacy post-accept generic Regenerate path in v0.1; unaccepted failures use `重试行动`. No-Expansion retains existing regenerate behavior.
+
+---
+
+## 7. Next progression
 
 ```text
-G4-08M1C01 correction — Codex
-→ GPT Independent Review
-→ if PASS: G4-08M1 PASS / CLOSED
-→ G4-08B UI/integration — Kimi
+G4-08B Kimi UI integration
 → GPT Independent Review
 → G4-09 First Playable B
 → Owner UAT B
+→ remaining G4 gate work
 ```
 
-Do not claim G4-08 PASS from M1 alone and do not start G5 before the remaining G4 route / G4-GATE complete.
+Do not declare G4-08 PASS from UI implementation alone. Do not start G4-09 or G5 yourself.
