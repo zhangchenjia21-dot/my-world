@@ -23,6 +23,7 @@ GPT        → Meaning / architecture / governance / task shaping / Independent 
 Codex      → backend / mechanism / build-launch implementation
 Kimi       → frontend / UI / interaction implementation
 Grok Build → search / external research / evidence discovery
+Owner      → Product UAT / explicit product verdict
 ```
 
 ---
@@ -50,47 +51,43 @@ G4-08M1C01 NO_CHECK Idempotency       PASS / CLOSED
 G4-08B Public d20 UI Integration      PASS / CLOSED
 G4-08BC01 UI Projection / Fail-Loud   PASS / CLOSED
 G4-09 First Playable B                ACTIVE
-G4-09P1 Owner UAT B Production Prep   ACTIVE — CODEX
+G4-09P1 Owner UAT B Production Prep   PASS / CLOSED
+G4-09UATB Owner Product UAT           ACTIVE — OWNER
 G4-GATE                               NOT YET
 ```
 
 G4-07 Owner Product UAT verdict: **PASS**.
 
-G4-08 parent is not yet Product PASS; it remains active through the real Expansion product vertical / Owner UAT B.
+G4-08 parent is not yet Product PASS. It remains active until the Owner returns an explicit G4-09UATB verdict.
 
 ---
 
-## 3. Current execution task — G4-09P1
+## 3. Current execution task — G4-09UATB
 
 Formal packet:
 
-`docs/tasks/G4-09P1_OWNER_UAT_B_PRODUCTION_PREP_TASK.md`
+`docs/tasks/G4-09UATB_OWNER_PRODUCT_UAT_TASK.md`
 
-Formal Code Base:
+Product instructions:
 
-`08287d28a9cacfc7795c7c7a35ef4739ff9faf2c`
+`docs/g4_09/G4-09UATB_Owner产品验收说明.md`
 
-Accepted G4-08B correction review:
+Accepted production-prep review:
 
-`docs/g4_08b/G4-08BC01_INDEPENDENT_REVIEW.md`
+`docs/g4_09/G4-09P1_INDEPENDENT_REVIEW.md`
 
-Primary owner: **Codex**.  
-Reviewer / semantic owner: **GPT**.  
-Return ceiling: **READY FOR INDEPENDENT REVIEW**.
+Current owner: **OWNER**.  
+Semantic/review owner: **GPT**.
 
-Purpose:
+No Codex or Kimi execution task is active.
 
-> Prepare the Owner's real local environment for First Playable B using the supported Managed Source Library and canonical launcher, then hand off a minimal product UAT route.
-
-Do not ask the Owner to manually copy files into the managed Source Library.
+The Owner verdict must be explicit `PASS` or `FAIL`. Engineering evidence cannot substitute for this product verdict.
 
 ---
 
-## 4. G4-08B final accepted result
+## 4. Accepted Public d20 vertical
 
-G4-08B + BC01 are **PASS / CLOSED** at reviewed HEAD `08287d28a9cacfc7795c7c7a35ef4739ff9faf2c`.
-
-Accepted player path:
+G4-08B + BC01 are PASS / CLOSED. Accepted path:
 
 ```text
 Wizard installed Expansion inventory
@@ -108,14 +105,13 @@ Wizard installed Expansion inventory
 Accepted invariants:
 
 - no Expansion preserves the G4-07 Narrative path;
-- Public d20 UI never owns RNG/total/outcome;
-- same durable `check_id` has at most one visible mechanic projection;
-- retry/reopen uses the existing durable action identity and never rerolls;
+- UI never owns RNG/total/outcome;
+- one durable `check_id` has at most one visible mechanic projection;
+- retry/reopen reuses the durable action identity and never rerolls;
 - NO_CHECK has no dice card;
 - accepted d20 turns do not use legacy generic Regenerate in v0.1;
-- unknown materialized `action_resolution` capability fails visibly and never silently falls back to legacy play;
-- explicit none is directly tested through Wizard → Review → frozen payload;
-- protected backend paths and SQLite schema v4 are unchanged.
+- unknown materialized `action_resolution` capability fails visibly and never falls back to legacy play;
+- SQLite remains schema v4.
 
 ---
 
@@ -124,8 +120,6 @@ Accepted invariants:
 Canonical authority:
 
 `Vibe-Coding/my world/architecture/source/G4_EXPANSION_V0_1_PUBLIC_D20_DECISION.md`
-
-First real Expansion:
 
 ```text
 Display Name  判定与检定：公开 d20
@@ -138,81 +132,95 @@ slot          action_resolution
 
 Frozen:
 
-- Expansion selection is explicit `0..N` exact generations;
-- no Expansion never silently enables d20;
+- Expansion selection is explicit exact generations;
+- no silent enable;
 - duplicate exact / same capability slot conflict fail closed;
 - roll only for genuine uncertainty + meaningful failure cost;
-- certain success / certain impossibility / no-cost repeat → no roll;
 - Proposal freezes before RNG;
-- Program owns die faces / selected roll / total / outcome;
-- NO_CHECK remains one Provider call and durable replay-safe;
-- CHECK_REQUIRED uses durable Program result before second Provider narrative and never rerolls on retry/restart;
+- Program owns dice / selected roll / total / outcome;
+- NO_CHECK remains one Provider call and replay-safe;
+- CHECK_REQUIRED uses durable Program result and never rerolls on retry/restart;
 - Expansion owns resolution, not downstream canonical World consequences.
 
 ---
 
-## 6. G4-09P1 production-prep rules
+## 6. Owner UAT B route
 
-Owner production Managed Source Library remains:
+Launch only through:
 
-```text
-user://my-world/source-library
-```
+`run-game.cmd`
 
-Use only the existing SourceLibrary public install API. No manual filesystem copy into managed generations/current pointers.
-
-Install/verify the exact Public d20 package already accepted by G4-08 evidence:
-
-`res://tests/fixtures/g4_08m1/判定与检定_公开d20`
-
-If already installed exactly, verify/reuse it. Never delete Owner generations or rewrite existing World/Character currents merely to satisfy the task.
-
-Canonical Owner launcher remains:
+Preferred Game:
 
 ```text
-run-game.cmd
+World      汉末三国：天下未定
+Entry      208 / 赤壁前夕
+Player     刘备
+NPC        孙权 (optional guaranteed)
+Expansion  判定与检定：公开 d20
 ```
 
-and freshness validation is:
+Owner validates:
 
-```powershell
-.\run-game.ps1 -ValidateExportOnly
+1. Review visibly lists the Expansion.
+2. Real DeepSeek Opening completes.
+3. A genuinely risky action produces a public d20 card.
+4. GM continuation respects the Program result.
+5. An ordinary/no-risk action produces no unnecessary dice card.
+6. Save → Main Menu → Continue preserves the same Game/history/result.
+7. Most importantly, Public d20 adds worthwhile gameplay.
+
+Return format:
+
+```text
+PASS
 ```
 
-Do not introduce a competing launch path.
+or:
 
-Codex must also prepare the concise Owner UAT B instruction record under `docs/g4_09/`.
+```text
+FAIL
+<what felt wrong / what broke>
+```
+
+Do not ask the Owner to manipulate managed Source Library internals.
 
 ---
 
-## 7. Protected boundaries
+## 7. Production prep accepted state
 
-G4-09P1 is production preparation, not feature development.
+G4-09P1 is PASS / CLOSED at reviewed HEAD `cf8b9cb998263ae44f6f8c2f145f78dd815ef176`.
 
-Do not redesign:
+Accepted recorded production facts:
 
-- Source schema / Managed Library semantics;
-- Composition;
-- Final Create;
-- Public d20 rules/RNG/durable identities;
-- persistence schema;
-- Provider protocol;
-- accepted G4-08B Wizard/Narrative interaction;
-- G8 player-facing Source import;
-- G5/G6 systems.
-
-Existing Owner games must not be modified or deleted.
+- Public d20 exact generation is installed/current through SourceLibrary public API;
+- fingerprint `e40bf3cb1059a4952d4230ae624fc3a0ba9bc705e279b13fef8cd1e795ca5ec1`;
+- production inventory observed World 2 / Character 6 / Expansion 1;
+- Owner games were not modified by the prep utility;
+- canonical Windows export freshness validation passed;
+- G4-08B smoke remained green;
+- Provider-facing semantics were unchanged.
 
 ---
 
 ## 8. Next progression
 
 ```text
-G4-09P1 production prep — Codex
-→ GPT Independent Review
-→ G4-09UATB Owner Product UAT
-→ if Owner PASS: Decision Propagation / close First Playable B and G4-08 product vertical
-→ continue remaining G4-10 / G4-11 / G4-GATE work
+G4-09UATB Owner Product UAT
+→ explicit Owner PASS / FAIL
+→ GPT Decision Propagation
 ```
 
-Do not declare G4-09 PASS, G4-08 Product PASS, or G4-GATE PASS before explicit Owner UAT B verdict.
+If PASS:
+
+```text
+G4-09 First Playable B      PASS / CLOSED
+G4-08 Expansion Pack v0.1   Product PASS / CLOSED
+→ G4-10 Runtime Asset Resolution
+→ G4-11 Two Primary Asset Families Reality Test
+→ G4-GATE
+```
+
+If FAIL, GPT classifies the concrete product seam and routes the smallest correction.
+
+Do not start G4-10 or G5 before the required verdict/progression. G4-GATE remains NOT YET.
