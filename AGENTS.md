@@ -39,53 +39,59 @@ G4-04 Multi-Game / Game Library       PASS / CLOSED
 G4-05 New Game Wizard                 PASS / CLOSED
 G4-06 Atomic Final Create             PASS / CLOSED
 G4-07 First Playable A                PASS / CLOSED
-G4-08 Expansion Pack v0.1             ACTIVE pending Owner verdict
+G4-08 Expansion Pack v0.1             ACTIVE — gameplay value accepted, final gate pending
 G4-08M1 Public d20 Mechanism          PASS / CLOSED
 G4-08B Public d20 UI Integration      PASS / CLOSED
-G4-09 First Playable B                ACTIVE pending Owner verdict
+G4-09 First Playable B                ACTIVE pending Owner final verdict
 G4-09P1 Owner UAT B Production Prep   PASS / CLOSED
 G4-09R1 Runtime Model Settings v0.1   PASS / CLOSED
 G4-09R1M1 Backend Mechanism           PASS / CLOSED
 G4-09R1B1 Settings UI                 PASS / CLOSED AFTER CORRECTION-01
 G4-09R1P1 Final Integration/Freshness PASS / CLOSED
-G4-09UATB Owner Product UAT           ACTIVE — OWNER
+G4-09UATB Owner Product UAT           HOLD — NARRATIVE RESPONSIVENESS CORRECTION
+G4-09UATBC01 Narrative Responsiveness ACTIVE — CODEX
 G4-GATE                               NOT YET
 ```
 
-No Codex or Kimi task is active. Do not start G4-10 while Owner UAT B is active.
+Do not start G4-10 or G5 while G4-09UATBC01 is active.
 
-## 3. Current execution task — G4-09UATB
+## 3. Current execution task — G4-09UATBC01
 
-Owner product-only instructions:
+Formal task packet:
 
-`docs/g4_09/G4-09UATB_Owner产品验收说明.md`
+`docs/tasks/G4-09UATBC01_NARRATIVE_RESPONSIVENESS_STREAMING_TASK.md`
 
-Accepted model-settings final review:
+Owner finding:
 
-`docs/g4_09r1/G4-09R1P1_INDEPENDENT_REVIEW.md`
+`docs/g4_09/G4-09UATB_OWNER_FINDING_NARRATIVE_RESPONSIVENESS.md`
 
-Current owner: **OWNER**. Reviewer / semantic owner: **GPT**.
+Canonical governance decision:
 
-Exact preferred route:
+`Vibe-Coding/my world/architecture/foundation/G4_NARRATIVE_RESPONSIVENESS_V0_1_DECISION.md`
+
+Current owner: **CODEX**. Reviewer / semantic owner: **GPT**.
+
+Core runtime principle:
 
 ```text
-run-game.cmd
--> Main Menu 模型设置
--> choose desired model / context / reasoning and Save
--> reopen once and confirm effective summary
--> New Game
--> World: 汉末三国：天下未定
--> Entry: 208｜赤壁前夕
--> Character: 刘备
--> Expansion: 判定与检定：公开 d20
--> real Opening
--> one genuinely risky action -> visible d20 card
--> one ordinary/no-risk action -> no unnecessary d20 card
--> Save -> Main Menu -> Continue
--> Owner product verdict
+Visible Narrative First
++
+Canonical Commit Behind a Turn Finalize Barrier
 ```
 
-Owner UAT is not a Provider benchmark. The Owner may choose whichever accepted runtime configuration they want for the play session.
+The current defect is not per-token SQLite persistence. Ordinary Conversation already streams deltas in memory and persists after completion. The Public d20 Host currently buffers narrative until Provider completion, which is the bounded correction target.
+
+Codex must preserve:
+
+- CHECK_REQUIRED exact Program d20 result durable before result narrative begins;
+- NO_CHECK one Provider call;
+- stable action/check identity and no reroll;
+- partial visible draft is provisional and excluded from future Context if fail/cancel;
+- no per-token canonical writes;
+- next player action remains blocked until current turn finalize completes;
+- no UI redesign / no G5 semantic systems / no generic job queue.
+
+Return ceiling: **READY FOR INDEPENDENT REVIEW**.
 
 ## 4. Accepted Runtime Model Settings v0.1 truth
 
@@ -98,36 +104,17 @@ Protected absent concrete regression:
 - K2.7 fixed Thinking ON / no graded effective effort;
 - selected-provider credentials only: `DEEPSEEK_API_KEY` / `KIMI_API_KEY`;
 - no cross-provider fallback;
-- one Provider seam across Opening, Narrative and both Public d20 phases;
-- UI uses Runtime Settings L3 projection/default seams, not internal rules;
-- Main Menu Save/Cancel/Escape/reopen/restart behavior accepted;
-- real DeepSeek V4 Pro and real Kimi K3 UI-selected Opening completed on the final launch line;
-- canonical Windows export freshness rebuilt/validated after model-settings UI acceptance;
-- Source/Final Create/Public d20 semantics and SQLite schema v4 remain unchanged.
-
-Formal final review:
-
-`docs/g4_09r1/G4-09R1P1_INDEPENDENT_REVIEW.md`
+- one Provider seam across Opening, Narrative and Public d20 phases;
+- Main Menu settings UI behavior accepted;
+- real DeepSeek V4 Pro and real Kimi K3 UI-selected Opening completed;
+- Source/Final Create semantics and SQLite schema v4 remain unchanged.
 
 ## 5. Owner UAT disposition
 
-Engineering evidence does not replace the Owner product verdict.
+Owner has already accepted the **gameplay value/semantics** of Public d20. Do not discard that finding.
 
-Owner returns:
+The overall G4-09UATB remains open only because narrative responsiveness in the Expansion path is a core-loop blocker. After Codex returns and GPT Independent Review passes, Owner UAT resumes as a focused responsiveness/regression retest.
 
-```text
-PASS
-```
-
-or:
-
-```text
-FAIL
-<where it is not fun, natural, or correct>
-```
-
-If PASS, GPT closes G4-09UATB, G4-09 First Playable B and G4-08 Expansion Pack v0.1, propagates the decision, then inspects the canonical roadmap before shaping G4-10 Runtime Asset Resolution.
-
-If FAIL, GPT records the exact product seam and routes a bounded correction according to ownership/correction-budget rules.
+If that focused retest passes, GPT may close G4-09UATB, G4-09 First Playable B and G4-08 Expansion Pack v0.1, then inspect the canonical roadmap before shaping G4-10.
 
 Do not start G5 before G4-GATE.
