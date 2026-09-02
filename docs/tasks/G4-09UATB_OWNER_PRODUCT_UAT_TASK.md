@@ -1,46 +1,50 @@
 # G4-09UATB — Owner Product UAT B
 
-Status: **HOLD — OWNER-REQUESTED MODEL SETTINGS PREREQUISITE**  
+Status: **HOLD — NARRATIVE RESPONSIVENESS CORRECTION**  
 Parent: **G4-09 First Playable B: Add Real Expansion**  
 Product owner: **Owner**  
 Semantic/review owner: **GPT**
 
-Accepted prep review:
+Accepted prep/model-setting reviews remain valid. Current Owner finding:
 
-`docs/g4_09/G4-09P1_INDEPENDENT_REVIEW.md`
+`docs/g4_09/G4-09UATB_OWNER_FINDING_NARRATIVE_RESPONSIVENESS.md`
 
-Owner-requested prerequisite:
+Current correction:
 
-`G4-09R1 Runtime Model Settings v0.1`
+`docs/tasks/G4-09UATBC01_NARRATIVE_RESPONSIVENESS_STREAMING_TASK.md`
 
-Canonical decision:
+Canonical responsiveness decision:
 
-`Vibe-Coding/my world/architecture/foundation/G4_RUNTIME_MODEL_SETTINGS_V0_1_DECISION.md`
+`Vibe-Coding/my world/architecture/foundation/G4_NARRATIVE_RESPONSIVENESS_V0_1_DECISION.md`
 
-## Hold reason
+## Owner finding preserved
 
-Before beginning the real Product UAT, the Owner explicitly requested application-level runtime selection for:
+The Owner completed real play and accepted the gameplay value/semantics of `判定与检定：公开 d20` itself. The remaining blocker is visible Narrative responsiveness: under the Public d20 path the Host buffers Provider narrative until terminal completion, making the game feel substantially slower than ordinary delta-streamed Narrative.
+
+Do **not** reopen already accepted d20 RNG/outcome/no-reroll semantics unless a concrete regression proves they are implicated.
+
+## Current hold reason
+
+G4-09UATB cannot close while the core loop visibly withholds already-produced narrative until whole-response completion. This is a product responsiveness correction, not a model benchmark and not a request to implement future G5 character/event systems.
+
+Current runtime principle:
 
 ```text
-Model: DeepSeek V4 Pro / DeepSeek V4 Flash / Kimi K3 / Kimi K2.7
-Context: 256K / 1M
-Reasoning: Low / Medium / High / Max where the selected model supports graded effort
+Visible Narrative First
++
+Canonical Commit Behind a Turn Finalize Barrier
 ```
-
-The previous DeepSeek-only UAT instructions are therefore stale until G4-09R1 backend + UI integration passes Independent Review and Owner export/real-provider freshness is revalidated.
-
-Do not execute this UAT against the old DeepSeek-only settings surface and do not return a product verdict yet.
 
 ## Resume condition
 
 ```text
-G4-09R1M1 backend — GPT IR PASS
-→ G4-09R1B1 UI — GPT IR PASS
-→ real DeepSeek + Kimi integration/freshness as required
-→ refreshed Owner UAT instructions
-→ G4-09UATB ACTIVE — OWNER
+G4-09UATBC01 — Codex implementation
+→ GPT Independent Review PASS
+→ fresh Windows/product readiness as required
+→ focused Owner responsiveness retest
+→ G4-09UATB final disposition
 ```
 
-When resumed, the UAT still judges whether `判定与检定：公开 d20` adds worthwhile gameplay, but it will run through the newly accepted runtime model settings path.
+The focused Owner retest should verify progressive narrative visibility and confirm that the already accepted Public d20 behavior remains intact. It does not require re-benchmarking DeepSeek vs Kimi or re-evaluating all expansion semantics from zero.
 
-G4-09, G4-08 and G4-GATE remain open.
+G4-09, G4-08 and G4-GATE remain open. Do not start G4-10/G5 while this correction is active.
