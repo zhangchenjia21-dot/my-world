@@ -1,8 +1,11 @@
 # G4-09UATBC01 叙事响应流式实现证据
 
-Status: implementation complete；等待 GPT Independent Review  
-START_HEAD: `d944f3bbac45cfaa1a02bf61baaa8ecd0421064c`  
-IMPLEMENTATION_HEAD: `c03bcab9392ec70066f0a900a8718ab6befc0c33`  
+Status: implementation complete；等待 GPT Independent Review
+
+START_HEAD: `d944f3bbac45cfaa1a02bf61baaa8ecd0421064c`
+
+IMPLEMENTATION_HEAD: `c03bcab9392ec70066f0a900a8718ab6befc0c33`
+
 Governance HEAD: `79e6c5c257b44afe578745328b4021c4d7551563`
 
 ## 1. 实现边界
