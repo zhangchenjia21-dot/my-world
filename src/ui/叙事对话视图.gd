@@ -227,6 +227,10 @@ func _plain_adjudication_failure(code: String) -> String:
 			return "判定服务返回了无法识别的内容。"
 		"empty_generation":
 			return "本次没有生成有效叙事。"
+		# Public d20 durable/finalize 硬失败：安全保存类别，不暴露存储内部。
+		"persistence_failure", "check_persistence_failed", "no_check_persistence_failed", \
+		"check_acceptance_marker_failed", "no_check_acceptance_marker_failed":
+			return "本次结果未能安全保存，请重试。"
 		_:
 			if code.begins_with("http_"):
 				return "当前模型服务暂时返回异常。"

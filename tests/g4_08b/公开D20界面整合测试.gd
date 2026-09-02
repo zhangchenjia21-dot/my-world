@@ -60,6 +60,7 @@ func _run() -> void:
 	await _test_continue_load_card_reconstruction()
 	await _test_unsupported_capability_fail_loud()
 	await _test_c02b_failure_visibility()
+	await _test_c02bc01_persistence_failure_visibility()
 	_clear_environment()
 	_finish()
 
@@ -126,6 +127,65 @@ func _test_c02b_failure_visibility() -> void:
 	_check(shell3.narrative_view.error_label.visible and shell3.narrative_view.error_label.text.contains("未进行可选检定"), "C02B degraded shows compact non-blocking notice")
 	_check(not shell3.narrative_view.error_label.text.contains("行动未完成"), "C02B degraded is never presented as 行动未完成")
 	_check(_count_mechanic_cards(shell3.narrative_view) == 0, "C02B degraded renders no dice card")
+	await _shutdown_shell(shell3)
+
+
+## C02BC01：durable/finalize 硬失败显示安全保存类别 + 重试行动；不暴露存储内部。
+func _test_c02bc01_persistence_failure_visibility() -> void:
+	# pre-Conversation durable write 失败：check_persistence_failed。
+	var case_root := _case_root("c02bc01-check-persist")
+	var shell: Variant = await _boot_shell_with_game(case_root, "持久化失败", true, true)
+	if shell == null:
+		return
+	var adjudication_stub: Node = shell.test_adjudication_adapter_override
+	shell.narrative_view.player_input.text = "我冒险跃上着火的粮船。"
+	shell.narrative_view._on_send_pressed()
+	await _settle(2)
+	adjudication_stub.simulate_delta(JSON.stringify(_proposal(20, 0, "normal")))
+	adjudication_stub.simulate_completed()
+	await _settle(3)
+	# 直接注入 durable write 失败终态；不修改 backend，只验证 UI 对该 code 的投影。
+	shell.narrative_view._handle_adjudication_result({"success": false, "status": "check_persistence_failed", "code": "check_persistence_failed"})
+	await _settle(2)
+	_check(shell.narrative_view.error_label.visible and shell.narrative_view.error_label.text.contains("未能安全保存"), "C02BC01 check_persistence_failed shows safe save category")
+	_check(shell.narrative_view.error_label.text.contains("重试行动"), "C02BC01 check_persistence_failed keeps retry path")
+	_check(not shell.narrative_view.error_label.text.contains("SQL") and not shell.narrative_view.error_label.text.contains("sqlite") and not shell.narrative_view.error_label.text.contains("user://"), "C02BC01 no raw storage/path text")
+	await _shutdown_shell(shell)
+
+	# finalize/acceptance 失败：persistence_failure。
+	var case_root2 := _case_root("c02bc01-finalize-persist")
+	var shell2: Variant = await _boot_shell_with_game(case_root2, "接受失败", true, true)
+	if shell2 == null:
+		return
+	var adjudication_stub2: Node = shell2.test_adjudication_adapter_override
+	shell2.narrative_view.player_input.text = "我尝试潜过水寨栅栏。"
+	shell2.narrative_view._on_send_pressed()
+	await _settle(2)
+	adjudication_stub2.simulate_delta(JSON.stringify(_proposal(15, 0, "normal")))
+	adjudication_stub2.simulate_completed()
+	await _settle(3)
+	shell2.narrative_view._handle_adjudication_result({"success": false, "status": "persistence_failure", "code": "persistence_failure"})
+	await _settle(2)
+	_check(shell2.narrative_view.error_label.visible and shell2.narrative_view.error_label.text.contains("未能安全保存"), "C02BC01 persistence_failure shows safe save category")
+	_check(shell2.narrative_view.error_label.text.contains("重试行动"), "C02BC01 persistence_failure keeps retry path")
+	await _shutdown_shell(shell2)
+
+	# acceptance marker 失败：check_acceptance_marker_failed。
+	var case_root3 := _case_root("c02bc01-marker-persist")
+	var shell3: Variant = await _boot_shell_with_game(case_root3, "标记失败", true, true)
+	if shell3 == null:
+		return
+	var adjudication_stub3: Node = shell3.test_adjudication_adapter_override
+	shell3.narrative_view.player_input.text = "我查看江面。"
+	shell3.narrative_view._on_send_pressed()
+	await _settle(2)
+	adjudication_stub3.simulate_delta(JSON.stringify(_proposal(10, 0, "normal")))
+	adjudication_stub3.simulate_completed()
+	await _settle(3)
+	shell3.narrative_view._handle_adjudication_result({"success": false, "status": "check_acceptance_marker_failed", "code": "check_acceptance_marker_failed"})
+	await _settle(2)
+	_check(shell3.narrative_view.error_label.visible and shell3.narrative_view.error_label.text.contains("未能安全保存"), "C02BC01 acceptance marker failure shows safe save category")
+	_check(shell3.narrative_view.error_label.text.contains("重试行动"), "C02BC01 acceptance marker failure keeps retry path")
 	await _shutdown_shell(shell3)
 
 
