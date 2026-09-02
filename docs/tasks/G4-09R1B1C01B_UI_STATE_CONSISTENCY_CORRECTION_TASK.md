@@ -1,16 +1,18 @@
 # G4-09R1B1C01B — Settings UI State Consistency Correction
 
-Status: **HOLD — KIMI AFTER C01A GPT IR PASS**  
+Status: **ACTIVE — KIMI**  
 Parent: **G4-09R1B1 Settings UI correction-01**  
 Owner: **Kimi**  
-Reviewer / semantic owner: **GPT**
+Reviewer / semantic owner: **GPT**  
+Return ceiling: **READY FOR INDEPENDENT REVIEW**
 
 Independent Review: `docs/g4_09r1/G4-09R1B1_INDEPENDENT_REVIEW.md`  
-Backend prerequisite: `docs/tasks/G4-09R1B1C01A_RUNTIME_SETTINGS_L3_UI_SUPPORT_TASK.md`
+Accepted backend prerequisite: `docs/g4_09r1/G4-09R1B1C01A_INDEPENDENT_REVIEW.md`  
+Accepted C01A evidence HEAD: `bb3c16b392887a4649f32e23348067c70a3e7a1c`
 
 ## Outcome
 
-After C01A is accepted, make the existing Main Menu model settings surface layer-correct and state-consistent without redesigning its visual system or Provider behavior.
+Make the existing Main Menu model settings surface layer-correct and state-consistent without redesigning its visual system or Provider behavior.
 
 ## Required corrections
 
@@ -18,7 +20,13 @@ After C01A is accepted, make the existing Main Menu model settings surface layer
 
 `src/应用壳.gd` must no longer preload or call `src/运行时设置/L0_公理层/**`.
 
-For corrupt/invalid persisted settings, obtain the exact editable default only through the accepted Runtime Settings L3 public seam from C01A. Preserve the current UX: visible recoverable warning, default used only as an editing start point, no silent save.
+For corrupt/invalid persisted settings, obtain the exact editable default only through:
+
+```text
+ModelRuntimeSettingsPublicInterface.validated_default_settings()
+```
+
+Preserve the current UX: visible recoverable warning, default used only as an editing start point, no silent save.
 
 ### 2. K2.7 capability truth survives invalid context
 
@@ -30,7 +38,9 @@ open Model Settings
 change model → Kimi K2.7
 ```
 
-Expected state:
+The accepted L3 `inspect_candidate()` now returns `success=false / incompatible_context_limit` plus safe partial candidate capability truth. Consume that result directly.
+
+Expected UI state:
 
 ```text
 selected context 1M remains visibly invalid
@@ -43,7 +53,7 @@ no automatic model/context substitution
 no persistence until explicit valid Save
 ```
 
-When the player then selects 256K:
+When the player selects 256K:
 
 ```text
 candidate becomes valid
@@ -54,7 +64,7 @@ fixed-thinking explanation remains visible
 
 When the player switches back to DeepSeek/K3, graded reasoning becomes enabled again according to backend projection.
 
-All compatibility/fixed-thinking/effective truth must come from the C01A L3 result. Do not hard-code a Kimi-specific provider policy in UI.
+All compatibility/fixed-thinking/effective truth must come from L3. Do not hard-code Kimi-specific provider policy in UI.
 
 ### 3. Escape / ui_cancel behaves as Cancel
 
@@ -97,7 +107,7 @@ src/main.tscn only if required for focus/input behavior
 
 Plus task-owned tests/evidence.
 
-Do not modify Runtime Settings/backend/Provider/Source/Final Create/Persistence/Public d20 paths; C01A owns the backend seam.
+Do not modify Runtime Settings/backend/Provider/Source/Final Create/Persistence/Public d20 paths; C01A is PASS/CLOSED and owns the backend seam.
 
 ## Required tests
 
@@ -105,7 +115,7 @@ Add direct assertions for:
 
 1. no `运行时设置/L0_公理层` dependency remains in Application Shell;
 2. invalid persisted recovery uses L3 default and does not silently write;
-3. exact `K3 / 1M → K2.7` transition shows **both** invalid-context truth and fixed-thinking truth;
+3. exact `K3 / 1M → K2.7` transition shows both invalid-context truth and fixed-thinking truth;
 4. selecting 256K restores Save-valid state without changing fixed-thinking presentation;
 5. switching away from K2.7 re-enables graded reasoning when backend says graded;
 6. `ui_cancel` / Escape closes overlay without save;
