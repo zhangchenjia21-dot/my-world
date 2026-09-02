@@ -11,6 +11,8 @@ const SourceLibrary := preload("res://src/source/L3_外交层/Source库公开接
 const FinalCreate := preload("res://src/最终建局/L3_外交层/原子最终建局公开接口.gd")
 const FirstOpening := preload("res://src/首次开场/L3_外交层/首次开场公开接口.gd")
 const ActionAdjudication := preload("res://src/行动判定/L3_外交层/行动判定公开接口.gd")
+const ModelRuntimeSettings := preload("res://src/运行时设置/L3_外交层/模型运行时设置公开接口.gd")
+const ModelRuntimeSettingsRules := preload("res://src/运行时设置/L0_公理层/模型运行时设置规则.gd")
 
 enum ApplicationState {
 	BOOTING,
@@ -66,6 +68,17 @@ const GAME_LOCAL_SETUP_SCHEMA := "game_local_setup.v0.1"
 @onready var startup_failure_overlay: CenterContainer = %StartupFailureOverlay
 @onready var startup_failure_label: Label = %StartupFailureLabel
 @onready var startup_failure_back_button: Button = %StartupFailureBackButton
+@onready var model_settings_button: Button = %ModelSettingsButton
+@onready var model_settings_overlay: CenterContainer = %ModelSettingsOverlay
+@onready var model_option: OptionButton = %ModelOption
+@onready var context_option: OptionButton = %ContextOption
+@onready var reasoning_option: OptionButton = %ReasoningOption
+@onready var model_settings_note: Label = %ModelSettingsNote
+@onready var credential_label: Label = %CredentialLabel
+@onready var summary_label: Label = %SummaryLabel
+@onready var settings_result_label: Label = %SettingsResultLabel
+@onready var settings_save_button: Button = %SettingsSaveButton
+@onready var settings_cancel_button: Button = %SettingsCancelButton
 @onready var opening_banner: PanelContainer = %OpeningBanner
 @onready var opening_banner_label: Label = %OpeningBannerLabel
 @onready var opening_retry_button: Button = %OpeningRetryButton
@@ -91,6 +104,10 @@ var test_adjudication_adapter_override: Node = null
 var test_adjudication_rng_override: RefCounted = null
 ## Opening UI 状态机："" / streaming / accepted / failed / cancelled；终态处理幂等。
 var _opening_state := ""
+## 模型设置 UI：backend 接口与当前编辑候选（未保存；预览只走 inspect_candidate）。
+var model_settings: RefCounted = null
+var _settings_candidate: Dictionary = {}
+var _settings_persisted_invalid := false
 
 
 func _enter_tree() -> void:
@@ -112,6 +129,12 @@ func _ready() -> void:
 	new_game_wizard.final_create_requested.connect(_on_final_create_requested)
 	opening_retry_button.pressed.connect(_on_opening_retry_pressed)
 	opening_cancel_button.pressed.connect(_on_opening_cancel_pressed)
+	model_settings_button.pressed.connect(_show_model_settings)
+	settings_save_button.pressed.connect(_on_settings_save_pressed)
+	settings_cancel_button.pressed.connect(_on_settings_cancel_pressed)
+	model_option.item_selected.connect(func(_index: int) -> void: _on_settings_control_changed())
+	context_option.item_selected.connect(func(_index: int) -> void: _on_settings_control_changed())
+	reasoning_option.item_selected.connect(func(_index: int) -> void: _on_settings_control_changed())
 	player_toggle.toggled.connect(_on_player_toggle)
 	world_toggle.toggled.connect(_on_world_toggle)
 	create_save_button.pressed.connect(_on_create_save_pressed)
@@ -501,6 +524,177 @@ func _cancel_new_game() -> void:
 	if not new_game_surface.visible or session_runtime != null:
 		return
 	_show_main_menu()
+
+
+## ---- 模型设置（Main Menu only）----
+## UI 只投影与交互；backend inspect_candidate 拥有兼容性/有效值真相。
+
+const SETTINGS_MODEL_ORDER := ["deepseek_v4_pro", "deepseek_v4_flash", "kimi_k3", "kimi_k27"]
+const SETTINGS_CONTEXT_ORDER := ["256k", "1m"]
+const SETTINGS_REASONING_ORDER := ["low", "medium", "high", "max"]
+const SETTINGS_CONTEXT_LABELS := {"256k": "256K", "1m": "1M"}
+const SETTINGS_REASONING_LABELS := {"low": "Low", "medium": "Medium", "high": "High", "max": "Max"}
+
+
+func _ensure_model_settings() -> void:
+	if model_settings != null:
+		return
+	model_settings = ModelRuntimeSettings.new(_model_settings_path())
+
+
+func _model_settings_path() -> String:
+	var argument := _command_argument("--settings-path=")
+	if not argument.is_empty():
+		return argument
+	return OS.get_environment("MY_WORLD_TEST_SETTINGS_PATH").strip_edges()
+
+
+func _show_model_settings() -> void:
+	if application_state != ApplicationState.MENU_READY or model_settings_overlay.visible:
+		return
+	_ensure_model_settings()
+	var loaded: Dictionary = model_settings.load_settings()
+	_settings_persisted_invalid = false
+	if loaded.success:
+		_settings_candidate = (loaded.settings as Dictionary).duplicate(true)
+	else:
+		# invalid persisted：以冻结默认作编辑起点，但不静默保存；玩家显式 Save 才覆盖。
+		_settings_persisted_invalid = true
+		_settings_candidate = ModelRuntimeSettingsRules.validated_default()
+	_populate_settings_controls()
+	_refresh_settings_projection()
+	if _settings_persisted_invalid:
+		settings_result_label.text = "已保存的设置无效；已载入默认值供修改，保存后生效。"
+		settings_result_label.visible = true
+		settings_result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
+	main_menu_surface.visible = false
+	model_settings_overlay.visible = true
+	settings_cancel_button.grab_focus.call_deferred()
+
+
+func _populate_settings_controls() -> void:
+	model_option.clear()
+	for profile_id: String in SETTINGS_MODEL_ORDER:
+		model_option.add_item(_model_display_name(profile_id))
+	context_option.clear()
+	for context_limit: String in SETTINGS_CONTEXT_ORDER:
+		context_option.add_item(String(SETTINGS_CONTEXT_LABELS[context_limit]))
+	reasoning_option.clear()
+	for reasoning: String in SETTINGS_REASONING_ORDER:
+		reasoning_option.add_item(String(SETTINGS_REASONING_LABELS[reasoning]))
+	model_option.selected = maxi(0, SETTINGS_MODEL_ORDER.find(String(_settings_candidate.get("profile_id", "deepseek_v4_pro"))))
+	context_option.selected = maxi(0, SETTINGS_CONTEXT_ORDER.find(String(_settings_candidate.get("context_limit", "256k"))))
+	reasoning_option.selected = maxi(0, SETTINGS_REASONING_ORDER.find(String(_settings_candidate.get("reasoning_request", "high"))))
+
+
+func _model_display_name(profile_id: String) -> String:
+	return String((model_settings.catalog()[profile_id] as Dictionary).display_name)
+
+
+func _candidate_from_controls() -> Dictionary:
+	return {
+		"profile_id": SETTINGS_MODEL_ORDER[clampi(model_option.selected, 0, SETTINGS_MODEL_ORDER.size() - 1)],
+		"context_limit": SETTINGS_CONTEXT_ORDER[clampi(context_option.selected, 0, SETTINGS_CONTEXT_ORDER.size() - 1)],
+		"reasoning_request": SETTINGS_REASONING_ORDER[clampi(reasoning_option.selected, 0, SETTINGS_REASONING_ORDER.size() - 1)],
+	}
+
+
+func _on_settings_control_changed() -> void:
+	_settings_candidate = _candidate_from_controls()
+	_refresh_settings_projection()
+
+
+## 未保存候选只走 backend inspect_candidate；不复制 provider 政策，不写设置文件。
+func _refresh_settings_projection() -> void:
+	_ensure_model_settings()
+	var candidate := _candidate_from_controls()
+	var inspected: Dictionary = model_settings.inspect_candidate(candidate)
+	var availability: Dictionary = model_settings.credential_availability()
+	var deepseek_ok := bool((availability["deepseek"] as Dictionary).configured)
+	var kimi_ok := bool((availability["kimi"] as Dictionary).configured)
+	credential_label.text = "DeepSeek：%s　Kimi：%s" % ["已配置" if deepseek_ok else "未配置", "已配置" if kimi_ok else "未配置"]
+	if not inspected.success:
+		settings_save_button.disabled = true
+		# inspect 失败时也按 candidate profile 的 catalog 允许集禁用 context 选项，
+		# 避免非法组合在控件上保持可选假象。
+		var catalog_allowed: Array = (model_settings.catalog()[String(candidate.profile_id)] as Dictionary).context_limits
+		for index: int in SETTINGS_CONTEXT_ORDER.size():
+			context_option.set_item_disabled(index, not catalog_allowed.has(SETTINGS_CONTEXT_ORDER[index]))
+		model_settings_note.visible = false
+		summary_label.text = ""
+		settings_result_label.text = _plain_settings_failure(String(inspected.get("status", "")))
+		settings_result_label.visible = true
+		settings_result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
+		return
+	var projection: Dictionary = inspected.candidate
+	settings_save_button.disabled = false
+	settings_result_label.visible = false
+	var fixed := bool(projection.fixed_thinking)
+	reasoning_option.disabled = fixed
+	var allowed: Array = projection.allowed_context_limits
+	for index: int in SETTINGS_CONTEXT_ORDER.size():
+		context_option.set_item_disabled(index, not allowed.has(SETTINGS_CONTEXT_ORDER[index]))
+	if fixed:
+		model_settings_note.text = "Kimi K2.7 当前仅支持 256K，并使用固定 Thinking ON；不提供 Low/Medium/High/Max 选择。"
+		model_settings_note.visible = true
+	elif not allowed.has(String(projection.context_limit)):
+		model_settings_note.text = "当前模型不支持所选上下文上限。"
+		model_settings_note.visible = true
+	else:
+		model_settings_note.visible = false
+	summary_label.text = "实际配置摘要：%s" % _settings_summary_text(projection)
+	if not bool(projection.credential_configured):
+		settings_result_label.text = "当前模型的凭证未配置；保存后生成将失败，直到配置凭证。"
+		settings_result_label.visible = true
+		settings_result_label.add_theme_color_override("font_color", Color(0.90, 0.66, 0.46))
+
+
+## 摘要只来自 backend 投影：Medium 必披露实际 High；K2.7 显示固定思考。
+func _settings_summary_text(projection: Dictionary) -> String:
+	if bool(projection.fixed_thinking):
+		return "%s · %s · 固定思考" % [String(projection.display_name), String(SETTINGS_CONTEXT_LABELS[String(projection.context_limit)])]
+	var requested := String(projection.reasoning_requested)
+	var effective := String(projection.reasoning_effective)
+	var reasoning_text := String(SETTINGS_REASONING_LABELS[requested])
+	if requested != effective:
+		reasoning_text += "（实际 %s）" % String(SETTINGS_REASONING_LABELS[effective])
+	return "%s · %s · %s" % [String(projection.display_name), String(SETTINGS_CONTEXT_LABELS[String(projection.context_limit)]), reasoning_text]
+
+
+func _plain_settings_failure(status: String) -> String:
+	match status:
+		"incompatible_context_limit":
+			return "当前模型不支持所选上下文上限；请调整后再保存。"
+		"unknown_profile", "unknown_context_limit", "unknown_reasoning_request", "invalid_settings":
+			return "当前组合无效；请调整后再保存。"
+		_:
+			return "当前组合无法保存；请调整后再试。"
+
+
+func _on_settings_save_pressed() -> void:
+	_ensure_model_settings()
+	var saved: Dictionary = model_settings.save_settings(_candidate_from_controls())
+	if not saved.success:
+		settings_result_label.text = _plain_settings_failure(String(saved.get("status", "")))
+		settings_result_label.visible = true
+		settings_result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
+		return
+	_close_model_settings("已保存模型设置。")
+
+
+func _on_settings_cancel_pressed() -> void:
+	_close_model_settings("")
+
+
+func _close_model_settings(message: String) -> void:
+	model_settings_overlay.visible = false
+	main_menu_surface.visible = true
+	_settings_candidate = {}
+	_settings_persisted_invalid = false
+	menu_result_label.text = message
+	if not message.is_empty():
+		menu_result_label.add_theme_color_override("font_color", Color(0.58, 0.78, 0.62))
+	model_settings_button.grab_focus.call_deferred()
 
 
 ## Wizard 提交 frozen Review payload。creation_id 由 Wizard 在一次 attempt 内固定；

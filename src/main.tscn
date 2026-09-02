@@ -85,6 +85,12 @@ custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
 text = "新游戏"
 
+[node name="ModelSettingsButton" type="Button" parent="MainMenuSurface/MainMenuPanel/MainMenuMargin/MainMenuColumn"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+text = "模型设置"
+
 [node name="QuitButton" type="Button" parent="MainMenuSurface/MainMenuPanel/MainMenuMargin/MainMenuColumn"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 52)
@@ -527,3 +533,119 @@ text = "恢复最近安全备份"
 unique_name_in_owner = true
 layout_mode = 2
 text = "返回主菜单"
+
+[node name="ModelSettingsOverlay" type="CenterContainer" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ModelSettingsPanel" type="PanelContainer" parent="ModelSettingsOverlay"]
+custom_minimum_size = Vector2(520, 0)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="ModelSettingsMargin" type="MarginContainer" parent="ModelSettingsOverlay/ModelSettingsPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 24
+
+[node name="ModelSettingsColumn" type="VBoxContainer" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ModelSettingsTitle" type="Label" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.937255, 0.937255, 0.94902, 1)
+theme_override_font_sizes/font_size = 20
+text = "模型设置"
+
+[node name="ModelSettingsHint" type="Label" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.627451, 0.65098, 0.698039, 1)
+theme_override_font_sizes/font_size = 13
+text = "设置只作用于之后的生成请求；不会改变已创建的游戏。"
+autowrap_mode = 2
+
+[node name="ModelRowLabel" type="Label" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.717647, 0.737255, 0.819608, 1)
+theme_override_font_sizes/font_size = 14
+text = "模型"
+
+[node name="ModelOption" type="OptionButton" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ContextRowLabel" type="Label" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.717647, 0.737255, 0.819608, 1)
+theme_override_font_sizes/font_size = 14
+text = "上下文上限"
+
+[node name="ContextOption" type="OptionButton" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ReasoningRowLabel" type="Label" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.717647, 0.737255, 0.819608, 1)
+theme_override_font_sizes/font_size = 14
+text = "思考强度"
+
+[node name="ReasoningOption" type="OptionButton" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="ModelSettingsNote" type="Label" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.627451, 0.65098, 0.698039, 1)
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 2
+
+[node name="CredentialLabel" type="Label" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.717647, 0.737255, 0.819608, 1)
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 2
+
+[node name="SummaryLabel" type="Label" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.83, 0.83, 0.87, 1)
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 2
+
+[node name="SettingsResultLabel" type="Label" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_colors/font_color = Color(0.898039, 0.521569, 0.462745, 1)
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 2
+
+[node name="SettingsButtonRow" type="HBoxContainer" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 2
+
+[node name="SettingsSaveButton" type="Button" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn/SettingsButtonRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "保存"
+
+[node name="SettingsCancelButton" type="Button" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn/SettingsButtonRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(120, 40)
+layout_mode = 2
+text = "取消"
