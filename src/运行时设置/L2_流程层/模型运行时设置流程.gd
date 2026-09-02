@@ -39,24 +39,13 @@ func save_settings(settings: Variant) -> Dictionary:
 
 ## 投影未保存候选的 UI 安全事实；只读环境中的 credential 是否存在，不暴露传输配置或秘密值。
 func inspect_candidate(settings: Variant) -> Dictionary:
-	var derived := Rules.derive_request_profile(settings)
-	if not derived.success:
-		return derived
-	var profile := derived.request_profile as Dictionary
-	var catalog_profile := (Rules.PROFILE_CATALOG[String(profile.profile_id)] as Dictionary)
+	var projected := Rules.project_candidate_capabilities(settings)
+	if not projected.has("candidate"):
+		return projected
+	var candidate := projected.candidate as Dictionary
 	var availability := credential_availability()
-	return Rules.success({"candidate": {
-		"profile_id": String(profile.profile_id),
-		"display_name": String(profile.display_name),
-		"provider_id": String(profile.provider_id),
-		"context_limit": String(profile.context_limit),
-		"allowed_context_limits": (catalog_profile.context_limits as Array).duplicate(),
-		"reasoning_requested": String(profile.reasoning_requested),
-		"reasoning_effective": profile.reasoning_effective,
-		"graded_reasoning": bool(profile.graded_reasoning),
-		"fixed_thinking": bool(profile.fixed_thinking),
-		"credential_configured": bool((availability[String(profile.provider_id)] as Dictionary).configured),
-	}})
+	candidate["credential_configured"] = bool((availability[String(candidate.provider_id)] as Dictionary).configured)
+	return projected
 
 
 func request_snapshot() -> Dictionary:

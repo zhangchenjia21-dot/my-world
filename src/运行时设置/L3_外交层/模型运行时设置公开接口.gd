@@ -11,6 +11,11 @@ func _init(path_override: String = "") -> void:
 	_process = Process.new(path_override)
 
 
+## 返回冻结且已校验的应用默认值防御性副本；不读取或写入设置、credential、Game、Source 或 SQLite。
+func validated_default_settings() -> Dictionary:
+	return Rules.validated_default()
+
+
 ## 返回当前 validated application-local preference；缺文件使用冻结默认，非法记录 fail loud。
 func load_settings() -> Dictionary:
 	return _process.load_settings()

@@ -98,9 +98,7 @@ static func derive_request_profile(settings: Variant) -> Dictionary:
 	var profile := PROFILE_CATALOG[String(exact.profile_id)] as Dictionary
 	var graded := bool(profile.graded_reasoning)
 	var requested := String(exact.reasoning_request)
-	var effective: Variant = null
-	if graded:
-		effective = "high" if requested == "medium" else requested
+	var effective: Variant = _effective_reasoning(profile, requested)
 	return success({"request_profile": {
 		"profile_id": String(exact.profile_id),
 		"display_name": String(profile.display_name),
@@ -118,6 +116,41 @@ static func derive_request_profile(settings: Variant) -> Dictionary:
 		"graded_reasoning": graded,
 		"fixed_thinking": not graded,
 	}})
+
+
+## 返回 UI 可依赖的纯能力投影；已知 profile 的 context 不兼容仍保留候选真相，但不会派生传输字段。
+static func project_candidate_capabilities(settings: Variant) -> Dictionary:
+	var validation := validate(settings)
+	if not validation.success and String(validation.status) != "incompatible_context_limit":
+		return validation
+	var exact := validation.settings as Dictionary if validation.success else settings as Dictionary
+	var profile_id := String(exact.profile_id)
+	var profile := PROFILE_CATALOG[profile_id] as Dictionary
+	var requested := String(exact.reasoning_request)
+	var graded := bool(profile.graded_reasoning)
+	var effective: Variant = _effective_reasoning(profile, requested)
+	var candidate := {
+		"profile_id": profile_id,
+		"display_name": String(profile.display_name),
+		"provider_id": String(profile.provider_id),
+		"context_limit": String(exact.context_limit),
+		"allowed_context_limits": (profile.context_limits as Array).duplicate(),
+		"reasoning_requested": requested,
+		"reasoning_effective": effective,
+		"graded_reasoning": graded,
+		"fixed_thinking": not graded,
+	}
+	if validation.success:
+		return success({"candidate": candidate})
+	var incompatible := validation.duplicate(true)
+	incompatible["candidate"] = candidate
+	return incompatible
+
+
+static func _effective_reasoning(profile: Dictionary, requested: String) -> Variant:
+	if not bool(profile.graded_reasoning):
+		return null
+	return "high" if requested == "medium" else requested
 
 
 static func success(fields: Dictionary = {}) -> Dictionary:

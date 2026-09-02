@@ -29,18 +29,24 @@ func _run() -> void:
 	DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(root_path))
 	var settings_path := root_path + "/provider-runtime.json"
 	var game_sentinel_path := root_path + "/existing-game.sqlite"
+	var source_sentinel_path := root_path + "/existing-source.json"
 	var sentinel := FileAccess.open(game_sentinel_path, FileAccess.WRITE)
 	sentinel.store_buffer(PackedByteArray([83, 81, 76, 105, 116, 101, 45, 118, 52]))
 	sentinel.close()
+	var source_sentinel := FileAccess.open(source_sentinel_path, FileAccess.WRITE)
+	source_sentinel.store_string("{\"source\":\"unchanged\"}")
+	source_sentinel.close()
 	var sentinel_before := FileAccess.get_sha256(game_sentinel_path)
+	var source_before := FileAccess.get_sha256(source_sentinel_path)
 
 	_test_settings(settings_path)
-	_test_candidate_projection(root_path, game_sentinel_path)
+	_test_candidate_projection(root_path, game_sentinel_path, source_sentinel_path)
 	_test_catalog_and_payloads()
 	_test_credentials()
 	_test_parsing_and_lifecycle()
 	_test_product_routes()
 	_check(FileAccess.get_sha256(game_sentinel_path) == sentinel_before, "settings change does not mutate existing Game/SQLite sentinel")
+	_check(FileAccess.get_sha256(source_sentinel_path) == source_before, "settings change does not mutate existing Source sentinel")
 
 	OS.set_environment("DEEPSEEK_API_KEY", _original_deepseek)
 	OS.set_environment("KIMI_API_KEY", _original_kimi)
@@ -93,23 +99,35 @@ func _test_settings(path: String) -> void:
 	active_adapter.queue_free()
 
 
-func _test_candidate_projection(root_path: String, game_sentinel_path: String) -> void:
+func _test_candidate_projection(root_path: String, game_sentinel_path: String, source_sentinel_path: String) -> void:
 	var candidate_path := root_path.path_join("candidate-must-not-write.json")
 	var game_before := FileAccess.get_sha256(game_sentinel_path)
+	var source_before := FileAccess.get_sha256(source_sentinel_path)
 	OS.set_environment("DEEPSEEK_API_KEY", "projection-secret-deepseek")
 	OS.set_environment("KIMI_API_KEY", "projection-secret-kimi")
 	var api := Settings.new(candidate_path)
+	var editable_default := api.validated_default_settings()
+	_check(editable_default == {"profile_id": "deepseek_v4_pro", "context_limit": "256k", "reasoning_request": "high"}, "A2 L3 exposes exact validated editable default")
+	editable_default.profile_id = "caller-mutated"
+	_check(String(api.validated_default_settings().profile_id) == "deepseek_v4_pro", "A2 L3 default is a defensive copy")
 	var invalid: Dictionary = api.inspect_candidate({"profile_id": "kimi_k27", "context_limit": "1m", "reasoning_request": "high"})
 	_check(not invalid.success and String(invalid.status) == "incompatible_context_limit", "A2 unsaved K2.7 + 1M candidate rejected")
+	_check(String(invalid.candidate.profile_id) == "kimi_k27" and String(invalid.candidate.display_name) == "Kimi K2.7" and String(invalid.candidate.provider_id) == "kimi", "A2 incompatible candidate preserves known profile identity")
+	_check(String(invalid.candidate.context_limit) == "1m" and invalid.candidate.allowed_context_limits == ["256k"], "A2 incompatible candidate preserves requested and allowed context truth")
+	_check(String(invalid.candidate.reasoning_requested) == "high" and invalid.candidate.reasoning_effective == null and not bool(invalid.candidate.graded_reasoning) and bool(invalid.candidate.fixed_thinking), "A2 incompatible K2.7 preserves fixed-thinking truth")
+	_check(bool(invalid.candidate.credential_configured), "A2 incompatible candidate exposes selected-provider credential bool")
 	var deepseek: Dictionary = api.inspect_candidate({"profile_id": "deepseek_v4_flash", "context_limit": "1m", "reasoning_request": "medium"})
 	var kimi_k3: Dictionary = api.inspect_candidate({"profile_id": "kimi_k3", "context_limit": "256k", "reasoning_request": "medium"})
 	var kimi_k27: Dictionary = api.inspect_candidate({"profile_id": "kimi_k27", "context_limit": "256k", "reasoning_request": "max"})
 	_check(deepseek.success and String(deepseek.candidate.reasoning_effective) == "high" and kimi_k3.success and String(kimi_k3.candidate.reasoning_effective) == "high", "A2 DeepSeek/K3 Medium projects effective High")
 	_check(kimi_k27.success and bool(kimi_k27.candidate.fixed_thinking) and not bool(kimi_k27.candidate.graded_reasoning) and kimi_k27.candidate.reasoning_effective == null, "A2 K2.7 projects fixed thinking with null effective effort")
 	_check(kimi_k27.candidate.allowed_context_limits == ["256k"] and bool(kimi_k27.candidate.credential_configured), "A2 projection owns context capability and selected credential bool")
-	var serialized := JSON.stringify([deepseek, kimi_k3, kimi_k27])
+	var unknown: Dictionary = api.inspect_candidate({"profile_id": "unknown", "context_limit": "1m", "reasoning_request": "high"})
+	var malformed: Dictionary = api.inspect_candidate("not-a-settings-object")
+	_check(not unknown.success and not unknown.has("candidate") and not malformed.success and not malformed.has("candidate"), "A2 unknown/malformed settings expose no unsafe partial identity")
+	var serialized := JSON.stringify([invalid, deepseek, kimi_k3, kimi_k27, api.validated_default_settings()])
 	_check(not serialized.contains("projection-secret") and not serialized.contains("endpoint") and not serialized.contains("model_id") and not serialized.contains("request_path"), "A2 projection exposes no secret or transport payload fields")
-	_check(not FileAccess.file_exists(candidate_path) and FileAccess.get_sha256(game_sentinel_path) == game_before, "A2 candidate inspection writes no settings and mutates no Game/SQLite sentinel")
+	_check(not FileAccess.file_exists(candidate_path) and FileAccess.get_sha256(game_sentinel_path) == game_before and FileAccess.get_sha256(source_sentinel_path) == source_before, "A2 default/candidate inspection writes no settings and mutates no Game/Source/SQLite sentinel")
 
 
 func _test_catalog_and_payloads() -> void:
