@@ -1,58 +1,35 @@
 # G4-09UATB Owner 产品验收说明
 
-Status: **ACTIVE — OWNER**
+Status: **HOLD — Narrative Responsiveness Correction**
 
-本轮最终只判断一件事：**“判定与检定：公开 d20”是否为实际游玩增加了值得保留的乐趣。**
+本轮 Owner 已完成一次真实试玩，并明确确认：**“判定与检定：公开 d20”本身没有明显玩法问题。** 当前剩余问题不是骰子规则，而是 Public d20 路径下可见 GM 正文被整段缓冲，导致体感明显比普通 Narrative 慢。
 
-模型设置 v0.1、双 Provider 真实集成、Windows export freshness 与 production Source 前置均已通过 Independent Review；现在可以执行本说明。
+Owner finding：
 
-## 验收路径
+`docs/g4_09/G4-09UATB_OWNER_FINDING_NARRATIVE_RESPONSIVENESS.md`
 
-1. 通过仓库根目录的 `run-game.cmd` 启动当前 Windows build。
-2. 在 Main Menu 打开【模型设置】。
-3. 为本次试玩选择你希望使用的模型、上下文上限和思考强度，然后点击【保存】。
-4. 再次打开【模型设置】，确认页面显示的“实际配置摘要”与预期一致；尤其注意 Medium 在支持的模型上会显示实际 High，Kimi K2.7 为固定 Thinking ON。
-5. 回到 Main Menu，进入【新游戏】，选择：
-   - World：汉末三国：天下未定；
-   - Entry：208｜赤壁前夕；
-   - Character：刘备；
-   - Expansion：判定与检定：公开 d20。
-6. 完成建局并进入对话，确认首次 GM Opening 正常生成。
-7. 输入一个明确具有风险且结果不确定的行动，确认界面出现可见的 d20 判定卡，并能读懂投骰、修正、DC 与结果。可用示例：`趁夜亲自潜近曹军水寨，越过警戒线侦察船阵，尽量不惊动哨兵。`
-8. 再输入一个普通、无明显风险的行动，确认不会无必要地出现 d20 判定卡。
-9. 执行【保存】→ 返回 Main Menu →【继续游戏】，确认仍是同一个 Game，既有对话历史与已经接受的判定结果均保持不变。
-10. 给出最终产品判断：**公开 d20 是否为实际游玩增加了值得保留的乐趣？**
+当前工程修正：
 
-## 验收边界
+`docs/tasks/G4-09UATBC01_NARRATIVE_RESPONSIVENESS_STREAMING_TASK.md`
 
-- 本轮不是 DeepSeek/Kimi 模型横向比较；请选择你希望用于试玩的一套配置即可。
-- 不要求测试全部模型、上下文或思考强度组合。
-- 不修改 API key，不测试自定义 endpoint/model id，不切换到未冻结的 Provider。
-- 如果设置摘要、首次 Opening、d20 卡或 Continue 持久化出现异常，记录可复现步骤并返回 FAIL，不要为了完成流程而绕过问题。
+## 当前不要继续正式验收
 
-## Owner 返回格式
+在 G4-09UATBC01 通过 GPT Independent Review 前，不要求 Owner 继续重复试玩，也不要返回最终 PASS/FAIL。
 
-最简可只返回：
+已经接受的产品结论保留：
 
-```text
-PASS
-```
+- 公开 d20 的玩法/语义本身值得保留；
+- 当前不要求重新比较 DeepSeek/Kimi；
+- 当前不要求重新从零验证全部 d20 规则。
 
-或：
+## 修正后的重点复测
 
-```text
-FAIL
-<哪里不好玩、哪里不自然，或者哪里坏了>
-```
+工程修正通过后，本说明会重新 ACTIVE。届时只需重点确认：
 
-如果你愿意提供更多记录，也可以使用：
+1. 普通 NO_CHECK 行动在模型开始产出正文后能逐步显示，而不是等整段完成后突然出现；
+2. CHECK_REQUIRED 的 d20 卡仍先公开程序决定的判定结果，随后结果叙事逐步显示；
+3. 不出现重复玩家行动、重复骰卡、重掷或结果被改写；
+4. 生成完成后 Save → Main Menu → Continue 仍保持同一 Game / 历史 / 判定；
+5. 整体等待与阅读节奏是否已经达到可接受的真实游玩体验。
 
-```text
-所选模型 / 上下文 / 思考强度：
-重新打开设置后的实际配置摘要：
-风险行动与 d20 卡观察：
-普通行动是否避免无必要判定：
-Save -> Main Menu -> Continue 是否保持同一 Game / 历史 / 判定：
-最终产品判断（公开 d20 是否增加值得保留的乐趣）：PASS / FAIL
-备注：
-```
+最终关闭 G4-09UATB 仍需 Owner 明确产品 verdict，但不会要求重做已经确认无问题的部分。
