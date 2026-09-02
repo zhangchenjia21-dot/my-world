@@ -1,6 +1,6 @@
 # my world — Repository Agent Rules
 
-Status: current repository instruction  
+Status: current repository instruction
 Scope: entire `zhangchenjia21-dot/my-world` repository unless a deeper `AGENTS.md` narrows a subtree.
 
 ## 1. Authority / Freshness
@@ -48,101 +48,81 @@ G4-09R1 Runtime Model Settings v0.1   PASS / CLOSED
 G4-09R1M1 Backend Mechanism           PASS / CLOSED
 G4-09R1B1 Settings UI                 PASS / CLOSED AFTER CORRECTION-01
 G4-09R1P1 Final Integration/Freshness PASS / CLOSED
-G4-09UATBC01 Narrative Responsiveness PASS / CLOSED
-G4-09UATB Owner Product UAT           ACTIVE — OWNER focused responsiveness retest
+G4-09UATBC01 Narrative Responsiveness PASS / CLOSED — streaming goal retained
+G4-09UATB Owner Product UAT           HOLD — CORRECTION-02
+G4-09UATBC02A d20 Protocol Decoupling ACTIVE — CODEX
+G4-09UATBC02B Failure Visibility      HOLD — KIMI
 G4-GATE                               NOT YET
 ```
 
-No Codex or Kimi task is active. Do not start G4-10 or G5 while Owner UAT B is active.
+Do not start G4-10 or G5 while correction-02 is active.
 
-## 3. Current execution task — G4-09UATB focused retest
+## 3. Current execution task — G4-09UATBC02A
 
-Owner instructions:
+Formal packet:
 
-`docs/g4_09/G4-09UATB_Owner产品验收说明.md`
+`docs/tasks/G4-09UATBC02A_D20_PROTOCOL_DECOUPLING_TASK.md`
 
-Accepted responsiveness review:
+Owner finding:
 
-`docs/g4_09/G4-09UATBC01_INDEPENDENT_REVIEW.md`
+`docs/g4_09/G4-09UATB_OWNER_FINDING_STREAMING_PROTOCOL_ROBUSTNESS.md`
 
-Owner finding preserved:
+Canonical decision:
 
-`docs/g4_09/G4-09UATB_OWNER_FINDING_NARRATIVE_RESPONSIVENESS.md`
+`Vibe-Coding/my world/architecture/foundation/G4_NARRATIVE_RESPONSIVENESS_V0_1_DECISION.md`
 
-Current owner: **OWNER**. Reviewer / semantic owner: **GPT**.
+Current owner: **CODEX**. Reviewer / semantic owner: **GPT**.
 
-The Owner already accepted Public d20 gameplay/semantics. The remaining UAT only checks responsiveness and adjacent regression safety.
-
-Focused route:
+Core principle:
 
 ```text
-run-game.cmd
-→ Continue existing Public d20 Game if desired
-→ one ordinary NO_CHECK action
-→ verify GM narrative grows progressively while Provider remains active
-→ one risky CHECK_REQUIRED action
-→ verify durable d20 card appears before result narrative
-→ verify result narrative grows progressively
-→ verify no duplicate Player/card/reroll/result rewrite
-→ Save → Main Menu → Continue
-→ Owner responsiveness verdict
-```
-
-## 4. Accepted Narrative Responsiveness v0.1 truth
-
-Canonical principle:
-
-```text
+Model Freedom First
++
 Visible Narrative First
 +
 Canonical Commit Behind a Turn Finalize Barrier
 ```
 
-Accepted implementation truth:
+The C01 mixed `control JSON + narrative body` protocol is superseded. Do not repair it by accumulating more parser special cases.
 
-- Public d20 no longer buffers player-visible narrative until whole-response completion;
-- NO_CHECK remains one Provider call: validated one-line control header followed by raw streamable narrative body;
-- control JSON never becomes Narrative UI text;
-- NO_CHECK body streams into provisional Conversation after header validation;
-- CHECK_REQUIRED exact Program d20 result remains durable before result-narrative request / visible result text;
-- CHECK_REQUIRED result narrative streams through provisional Conversation while the second Provider call is active;
-- no per-token canonical SQLite/world persistence;
-- Provider fail/cancel leaves partial visible draft unaccepted and excluded from future Context;
-- same-process retry reuses the matching unaccepted Player turn;
-- durable NO_CHECK/check replay and lost-ACK recovery still avoid replacement Provider calls/rerolls as previously specified;
-- next action remains behind the Turn Finalize Barrier until Conversation and required acceptance markers finalize;
-- timing observability distinguishes Provider first content, first visible narrative, Provider completion and finalize without secrets/content;
-- Conversation/UI/Persistence/Runtime/Provider ownership and SQLite v4 are unchanged;
-- canonical Windows export was rebuilt/verified after the correction;
-- a real DeepSeek V4 Pro task-owned vertical exercised both CHECK_REQUIRED and NO_CHECK progressive visibility.
+Codex must decouple:
 
-Important performance interpretation:
+```text
+short mechanics control lane
+from
+free-form player-visible narrative lane
+```
 
-- application-added whole-response buffering is fixed;
-- selected-model Provider TTFT/reasoning latency can still be substantial, especially CHECK_REQUIRED because it uses adjudication + result-narrative Provider stages;
-- remaining slowness must be diagnosed with timing evidence rather than attributed to per-token persistence.
+Narrative must not require JSON/sentinel/physical-line framing. The old `NO_CHECK = exactly one Provider call` optimization is superseded by reliability/model freedom.
 
-## 5. Runtime Model Settings v0.1 remains accepted
+If the isolated control lane remains malformed after one bounded internal recovery attempt, fail-soft this action to ordinary no-Expansion natural-language narrative rather than leaving the player in a dead-end unfinished state. Do not create a fake check or fake successful-adjudication marker.
 
-Protected absent concrete regression:
+Preserve:
 
-- app-local settings `user://my-world/settings/provider-runtime.json`;
-- exact four player-facing profiles: DeepSeek V4 Pro, DeepSeek V4 Flash, Kimi K3, Kimi K2.7;
-- DeepSeek/K3 256K/1M compatibility; K2.7 256K-only;
-- DeepSeek/K3 requested reasoning `low/medium/high/max`, with `medium -> effective high`;
-- K2.7 fixed Thinking ON / no graded effective effort;
-- selected-provider credentials only: `DEEPSEEK_API_KEY` / `KIMI_API_KEY`;
-- no cross-provider fallback;
-- one Provider seam across Opening, Narrative and Public d20 phases;
-- Main Menu settings UI behavior accepted;
-- Source/Final Create semantics and SQLite schema v4 remain unchanged.
+- selected Provider only / no fallback;
+- CHECK_REQUIRED durable Program result before result narrative;
+- stable action/check identity / no reroll;
+- progressive provisional narrative streaming;
+- no per-token persistence;
+- Turn Finalize Barrier;
+- SQLite v4 and Source/Final Create semantics.
 
-## 6. Owner UAT disposition
+Return ceiling: **READY FOR INDEPENDENT REVIEW**.
 
-Owner only needs to return the focused responsiveness/regression verdict. Do not re-open the already accepted question of whether Public d20 adds worthwhile gameplay absent a concrete regression.
+## 4. C02B remains HOLD
 
-If focused retest PASS, GPT may close G4-09UATB, G4-09 First Playable B and G4-08 Expansion Pack v0.1, then inspect the canonical roadmap before shaping G4-10.
+`docs/tasks/G4-09UATBC02B_PUBLIC_D20_FAILURE_VISIBILITY_TASK.md`
 
-If focused retest FAIL, record the exact remaining latency/regression seam and apply the correction budget without discarding accepted boundaries not implicated by the failure.
+Kimi must not start C02B until GPT closes C02A. C02B only surfaces safe terminal failure reasons and a non-blocking degradation notice; it does not redefine backend behavior.
+
+## 5. Accepted boundaries preserved
+
+The Owner already accepted Public d20 gameplay value. Do not reopen that product question absent a concrete gameplay regression.
+
+Runtime Model Settings v0.1 remains accepted. No model catalog, endpoint, credential, context-limit, reasoning or fallback redesign belongs in correction-02.
+
+## 6. Correction-budget note
+
+This is correction-02. If the **decoupled control lane itself** still repeatedly fails on the same real-model seam after C02A, stop adding formatting patches and return for protocol redesign per governance.
 
 Do not start G5 before G4-GATE.
