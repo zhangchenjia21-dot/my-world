@@ -1,7 +1,7 @@
 # G4-09UATBC02B — Public d20 Failure Visibility / Recoverable UX
 
 Type: **UI correction-02 follow-up**
-Status: **HOLD — KIMI**
+Status: **ACTIVE — KIMI**
 Owner: **Kimi**
 Reviewer / semantic owner: **GPT**
 Parent: **G4-09UATB Owner Product UAT**
@@ -22,7 +22,8 @@ Current defect: `叙事对话视图.gd::_handle_adjudication_result()` obtains a
 - control-lane fail-soft degradation from C02A is **not** rendered as a terminal failure; at most show a compact non-blocking notice that this action continued without the optional d20 check;
 - never show API keys, Authorization, prompt, raw Provider body, hidden reasoning or unbounded error text;
 - do not redesign Narrative UI;
-- do not change backend semantics or duplicate backend policy.
+- do not change backend semantics or duplicate backend policy;
+- **do not add any new model-format gate, parser requirement, provider fallback, retry policy, or blocking state**.
 
 ## Scope
 
@@ -51,6 +52,7 @@ Prove:
 5. no secrets/raw payloads in UI or evidence;
 6. existing successful NO_CHECK/CHECK_REQUIRED UI path unchanged;
 7. 960×540 and 1280×720 recovery state remains usable;
-8. `git diff --check` clean.
+8. C02A Model Freedom invariants remain intact and no new blocking gate is introduced;
+9. `git diff --check` clean.
 
-Do not start until GPT closes C02A and activates this task.
+G4-09UATB remains HOLD until this task passes GPT Independent Review.
