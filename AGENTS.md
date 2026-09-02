@@ -39,52 +39,77 @@ G4-04 Multi-Game / Game Library       PASS / CLOSED
 G4-05 New Game Wizard                 PASS / CLOSED
 G4-06 Atomic Final Create             PASS / CLOSED
 G4-07 First Playable A                PASS / CLOSED
-G4-08 Expansion Pack v0.1             ACTIVE — gameplay value accepted, final gate pending
+G4-08 Expansion Pack v0.1             PASS / CLOSED
 G4-08M1 Public d20 Mechanism          PASS / CLOSED
 G4-08B Public d20 UI Integration      PASS / CLOSED
-G4-09 First Playable B                ACTIVE pending Owner final verdict
-G4-09P1 Owner UAT B Production Prep   PASS / CLOSED
+G4-09 First Playable B                PASS / CLOSED
 G4-09R1 Runtime Model Settings v0.1   PASS / CLOSED
-G4-09R1M1 Backend Mechanism           PASS / CLOSED
-G4-09R1B1 Settings UI                 PASS / CLOSED AFTER CORRECTION-01
-G4-09R1P1 Final Integration/Freshness PASS / CLOSED
-G4-09UATBC01 Narrative Responsiveness PASS / CLOSED — streaming goal retained
+G4-09UATBC01 Narrative Responsiveness PASS / CLOSED
 G4-09UATBC02A d20 Protocol Decoupling PASS / CLOSED
 G4-09UATBC02B Failure Visibility      PASS / CLOSED AFTER C01
 G4-09UATBC02BC01 Persistence Visibility PASS / CLOSED
 G4-09UATBC02P1 Final Windows Freshness PASS / CLOSED
-G4-09UATB Owner Product UAT           ACTIVE — OWNER focused reliability/responsiveness retest
+G4-09UATB Owner Product UAT           PASS / CLOSED
+G4-10 Runtime Asset Resolution        ACTIVE
+G4-10S0 Semantic Freeze               PASS / CLOSED — GPT
+G4-10M1 Mechanism                     ACTIVE — CODEX
+G4-11 Two Primary Asset Families      NOT YET
 G4-GATE                               NOT YET
 ```
 
-Do not start G4-10 or G5 before Owner UAT/final gate closure.
+Do not start G4-11 before G4-10M1 passes GPT Independent Review. Do not start G5 before G4-GATE.
 
-## 3. Current execution task — G4-09UATB
+## 3. Current execution task — G4-10M1
 
-Owner: **OWNER**. Semantic owner / reviewer after verdict: **GPT**.
+Formal packet:
 
-Owner instructions:
+`docs/tasks/G4-10M1_RUNTIME_ASSET_RESOLUTION_MECHANISM_TASK.md`
 
-`docs/g4_09/G4-09UATB_Owner产品验收说明.md`
+Canonical semantic decision:
 
-This is a narrow reliability/responsiveness retest only. The Owner already accepted Public d20 gameplay value and must not be asked to re-prove it.
+`Vibe-Coding/my world/architecture/source/G4_RUNTIME_ASSET_RESOLUTION_V0_1_DECISION.md`
 
-Required product observations:
+Current owner: **CODEX**. Reviewer / semantic owner: **GPT**.
 
-- ordinary action reaches free-form narrative and visibly streams;
-- risky action still shows durable d20 result before free-form result narrative;
-- model control formatting cannot dead-end play;
-- genuine terminal failures show concise safe reasons and remain retryable;
-- no duplicate turn/card/reroll;
-- Save/Continue remains intact.
+Primary engineering outcome:
 
-Final correction-02 Windows freshness is accepted at:
+```text
+exact immutable Source generation
++ declared portrait / scene / map visual
+→ safe runtime resolution
+→ real Godot image load
+```
 
-`docs/g4_09/G4-09UATBC02P1_INDEPENDENT_REVIEW.md`
+Required resolution semantics:
 
-## 4. Protected Model Freedom / Narrative Responsiveness truth
+```text
+RESOLVED
+ABSENT
+UNAVAILABLE
+```
 
-Core principle:
+M1 is an engineering reality gate. Return ceiling: **READY FOR INDEPENDENT REVIEW**. It must not claim G4-10/G4-GATE/Product PASS.
+
+## 4. Protected Runtime Asset Resolution truth
+
+- visual bytes remain owned by immutable Managed Source generations;
+- old Games resolve from pinned exact Source generation, never Source current;
+- World visual identity uses declared `authored_assets[].asset_id`;
+- Character portrait remains the existing optional `portrait` contract; do not invent a universal fake asset id;
+- optional visual canonical absence is ABSENT, not corruption;
+- missing/tampered/unsafe/un-decodable declared visual is UNAVAILABLE;
+- presentation may fail-soft to an application-owned neutral placeholder or omitted visual surface;
+- placeholder must never become Source/Game authored truth or change generation identity;
+- no current-generation/neighbor/other-package/network fallback;
+- safe package-local path boundary remains mandatory;
+- real Godot load is required; file existence alone is insufficient;
+- `map` is an authored image/reference only, not topology/travel/GIS/current-location truth;
+- no SQLite schema expansion or second Game-owned visual byte store merely for display;
+- no G6 UI redesign is required for M1.
+
+## 5. Protected Model Freedom / Narrative Responsiveness truth
+
+Core principle remains:
 
 ```text
 Model Freedom First
@@ -97,22 +122,30 @@ Canonical Commit Behind a Turn Finalize Barrier
 Protected absent concrete regression:
 
 - player-visible GM narrative is free-form natural language;
-- narrative has no JSON header, sentinel, exact-line or physical-LF framing contract;
 - Public d20 mechanics control and narrative are separate selected-provider requests;
-- old `NO_CHECK = exactly one Provider call` optimization is superseded;
-- malformed isolated control gets at most one bounded recovery attempt;
-- if still unresolved, action fails soft to ordinary narrative with no fake d20/NO_CHECK truth;
+- malformed isolated control gets at most one bounded recovery attempt, then fail-soft ordinary narrative;
 - valid CHECK_REQUIRED freezes Program RNG/outcome durably before result narrative;
-- narrative streams provisionally with no per-token canonical persistence;
-- partial visible draft after fail/cancel is excluded from future Context;
+- no per-token canonical persistence;
 - stable action/check identity and no-reroll remain protected;
 - selected Provider only; no cross-provider fallback;
 - legitimate hard failures show concise safe player-readable reasons and retain recovery controls.
 
-Do not add parser formatting special cases, provider fallback, retry frameworks, or new blocking gates.
+G4-10 must not reopen or alter these accepted semantics.
 
-## 5. Final gate disposition
+## 6. Owner UAT closure / next gate
 
-Wait for the Owner verdict. Only after Owner PASS may GPT close G4-09UATB, G4-09 First Playable B and G4-08 Expansion Pack v0.1, then inspect current roadmap authority before shaping G4-10.
+Formal Owner result:
+
+`docs/g4_09/G4-09UATB_OWNER_PRODUCT_UAT_RESULT.md`
+
+Owner returned `PASS` on 2026-09-02. This closes G4-09UATB, G4-09 First Playable B and G4-08 Expansion Pack v0.1.
+
+Canonical roadmap still requires:
+
+```text
+G4-10 Runtime Asset Resolution
+→ G4-11 Two Primary Asset Families Reality Test
+→ G4-GATE
+```
 
 Do not start G5 before G4-GATE.
