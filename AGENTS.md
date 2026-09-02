@@ -50,28 +50,47 @@ G4-09R1B1 Settings UI                 PASS / CLOSED AFTER CORRECTION-01
 G4-09R1P1 Final Integration/Freshness PASS / CLOSED
 G4-09UATBC01 Narrative Responsiveness PASS / CLOSED — streaming goal retained
 G4-09UATB Owner Product UAT           HOLD — CORRECTION-02
-G4-09UATBC02A d20 Protocol Decoupling ACTIVE — CODEX
-G4-09UATBC02B Failure Visibility      HOLD — KIMI
+G4-09UATBC02A d20 Protocol Decoupling PASS / CLOSED
+G4-09UATBC02B Failure Visibility      ACTIVE — KIMI
 G4-GATE                               NOT YET
 ```
 
 Do not start G4-10 or G5 while correction-02 is active.
 
-## 3. Current execution task — G4-09UATBC02A
+## 3. Current execution task — G4-09UATBC02B
 
 Formal packet:
 
-`docs/tasks/G4-09UATBC02A_D20_PROTOCOL_DECOUPLING_TASK.md`
+`docs/tasks/G4-09UATBC02B_PUBLIC_D20_FAILURE_VISIBILITY_TASK.md`
 
-Owner finding:
+C02A Independent Review:
 
-`docs/g4_09/G4-09UATB_OWNER_FINDING_STREAMING_PROTOCOL_ROBUSTNESS.md`
+`docs/g4_09/G4-09UATBC02A_INDEPENDENT_REVIEW.md`
 
 Canonical decision:
 
 `Vibe-Coding/my world/architecture/foundation/G4_NARRATIVE_RESPONSIVENESS_V0_1_DECISION.md`
 
-Current owner: **CODEX**. Reviewer / semantic owner: **GPT**.
+Current owner: **KIMI**. Reviewer / semantic owner: **GPT**.
+
+C02B is UI-only. It may surface concise safe terminal failure reasons and at most a compact non-blocking degradation notice. It must not redefine backend mechanics or protocol behavior.
+
+Allowed production path:
+
+- `src/ui/叙事对话视图.gd`
+
+Protected:
+
+- Action Adjudication backend
+- Provider
+- Persistence / Runtime
+- Runtime Model Settings
+- Source / Final Create
+- SQLite schema
+
+Return ceiling: **READY FOR INDEPENDENT REVIEW**.
+
+## 4. Accepted Model Freedom / Narrative Responsiveness truth
 
 Core principle:
 
@@ -83,46 +102,44 @@ Visible Narrative First
 Canonical Commit Behind a Turn Finalize Barrier
 ```
 
-The C01 mixed `control JSON + narrative body` protocol is superseded. Do not repair it by accumulating more parser special cases.
+Protected absent concrete regression:
 
-Codex must decouple:
+- player-visible GM narrative is free-form natural language;
+- narrative has no JSON header, sentinel, exact-line or physical-LF framing contract;
+- Public d20 mechanics control and narrative are separate selected-provider requests;
+- the old `NO_CHECK = exactly one Provider call` optimization is superseded;
+- isolated control accepts harmless whitespace / pretty-print formatting;
+- malformed control gets at most one bounded internal recovery attempt;
+- if control remains unresolved, the action fails soft to ordinary free-form narrative, remains playable, creates no d20 check and no fake NO_CHECK marker;
+- valid CHECK_REQUIRED still freezes Program RNG/outcome durably before result narrative;
+- narrative streams provisionally with no per-token canonical persistence;
+- partial visible draft after fail/cancel is excluded from future Context;
+- stable action/check identity and no-reroll remain protected;
+- selected Provider only; no cross-provider fallback;
+- hard gates remain only where authoritative integrity requires them or no Provider narrative can be produced.
 
-```text
-short mechanics control lane
-from
-free-form player-visible narrative lane
-```
+C02B must **not** add a model-format parser, fallback, automatic Provider switching, retry policy, or new blocking state.
 
-Narrative must not require JSON/sentinel/physical-line framing. The old `NO_CHECK = exactly one Provider call` optimization is superseded by reliability/model freedom.
+## 5. Accepted Runtime Model Settings v0.1 truth
 
-If the isolated control lane remains malformed after one bounded internal recovery attempt, fail-soft this action to ordinary no-Expansion natural-language narrative rather than leaving the player in a dead-end unfinished state. Do not create a fake check or fake successful-adjudication marker.
+Protected absent concrete regression:
 
-Preserve:
+- app-local settings `user://my-world/settings/provider-runtime.json`;
+- exact four player-facing profiles: DeepSeek V4 Pro, DeepSeek V4 Flash, Kimi K3, Kimi K2.7;
+- DeepSeek/K3 256K/1M compatibility; K2.7 256K-only;
+- DeepSeek/K3 requested reasoning `low/medium/high/max`, with `medium -> effective high`;
+- K2.7 fixed Thinking ON / no graded effective effort;
+- selected-provider credentials only: `DEEPSEEK_API_KEY` / `KIMI_API_KEY`;
+- no cross-provider fallback;
+- Main Menu settings UI behavior accepted;
+- Source/Final Create semantics and SQLite schema v4 remain unchanged.
 
-- selected Provider only / no fallback;
-- CHECK_REQUIRED durable Program result before result narrative;
-- stable action/check identity / no reroll;
-- progressive provisional narrative streaming;
-- no per-token persistence;
-- Turn Finalize Barrier;
-- SQLite v4 and Source/Final Create semantics.
+## 6. Owner UAT disposition
 
-Return ceiling: **READY FOR INDEPENDENT REVIEW**.
+Owner already accepted Public d20 gameplay value. Do not reopen that question absent a concrete gameplay regression.
 
-## 4. C02B remains HOLD
+Owner UAT remains HOLD until C02B passes GPT Independent Review. After C02B passes and Windows/product freshness is current, resume only a focused reliability/responsiveness retest.
 
-`docs/tasks/G4-09UATBC02B_PUBLIC_D20_FAILURE_VISIBILITY_TASK.md`
-
-Kimi must not start C02B until GPT closes C02A. C02B only surfaces safe terminal failure reasons and a non-blocking degradation notice; it does not redefine backend behavior.
-
-## 5. Accepted boundaries preserved
-
-The Owner already accepted Public d20 gameplay value. Do not reopen that product question absent a concrete gameplay regression.
-
-Runtime Model Settings v0.1 remains accepted. No model catalog, endpoint, credential, context-limit, reasoning or fallback redesign belongs in correction-02.
-
-## 6. Correction-budget note
-
-This is correction-02. If the **decoupled control lane itself** still repeatedly fails on the same real-model seam after C02A, stop adding formatting patches and return for protocol redesign per governance.
+If the same decoupled control-lane seam repeatedly fails in real Provider use, do not add more formatting patches. Return for a control-capability redesign per correction-budget governance.
 
 Do not start G5 before G4-GATE.
