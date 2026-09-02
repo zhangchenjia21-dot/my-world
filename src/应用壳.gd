@@ -12,7 +12,6 @@ const FinalCreate := preload("res://src/最终建局/L3_外交层/原子最终�
 const FirstOpening := preload("res://src/首次开场/L3_外交层/首次开场公开接口.gd")
 const ActionAdjudication := preload("res://src/行动判定/L3_外交层/行动判定公开接口.gd")
 const ModelRuntimeSettings := preload("res://src/运行时设置/L3_外交层/模型运行时设置公开接口.gd")
-const ModelRuntimeSettingsRules := preload("res://src/运行时设置/L0_公理层/模型运行时设置规则.gd")
 
 enum ApplicationState {
 	BOOTING,
@@ -558,9 +557,9 @@ func _show_model_settings() -> void:
 	if loaded.success:
 		_settings_candidate = (loaded.settings as Dictionary).duplicate(true)
 	else:
-		# invalid persisted：以冻结默认作编辑起点，但不静默保存；玩家显式 Save 才覆盖。
+		# invalid persisted：以 L3 冻结默认作编辑起点，但不静默保存；玩家显式 Save 才覆盖。
 		_settings_persisted_invalid = true
-		_settings_candidate = ModelRuntimeSettingsRules.validated_default()
+		_settings_candidate = model_settings.validated_default_settings()
 	_populate_settings_controls()
 	_refresh_settings_projection()
 	if _settings_persisted_invalid:
@@ -615,13 +614,24 @@ func _refresh_settings_projection() -> void:
 	credential_label.text = "DeepSeek：%s　Kimi：%s" % ["已配置" if deepseek_ok else "未配置", "已配置" if kimi_ok else "未配置"]
 	if not inspected.success:
 		settings_save_button.disabled = true
-		# inspect 失败时也按 candidate profile 的 catalog 允许集禁用 context 选项，
-		# 避免非法组合在控件上保持可选假象。
-		var catalog_allowed: Array = (model_settings.catalog()[String(candidate.profile_id)] as Dictionary).context_limits
-		for index: int in SETTINGS_CONTEXT_ORDER.size():
-			context_option.set_item_disabled(index, not catalog_allowed.has(SETTINGS_CONTEXT_ORDER[index]))
-		model_settings_note.visible = false
-		summary_label.text = ""
+		# inspect 失败但 C01A partial candidate 保留 capability truth：
+		# 禁 context/思考控件、保留固定思考说明，不伪造 graded effective。
+		var partial: Dictionary = inspected.get("candidate", {})
+		if not partial.is_empty():
+			var partial_allowed: Array = partial.get("allowed_context_limits", [])
+			for index: int in SETTINGS_CONTEXT_ORDER.size():
+				context_option.set_item_disabled(index, not partial_allowed.has(SETTINGS_CONTEXT_ORDER[index]))
+			var partial_fixed := bool(partial.get("fixed_thinking", false))
+			reasoning_option.disabled = partial_fixed
+			if partial_fixed:
+				model_settings_note.text = "Kimi K2.7 当前仅支持 256K，并使用固定 Thinking ON；不提供 Low/Medium/High/Max 选择。"
+				model_settings_note.visible = true
+			else:
+				model_settings_note.visible = false
+			summary_label.text = ""
+		else:
+			model_settings_note.visible = false
+			summary_label.text = ""
 		settings_result_label.text = _plain_settings_failure(String(inspected.get("status", "")))
 		settings_result_label.visible = true
 		settings_result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
@@ -695,6 +705,13 @@ func _close_model_settings(message: String) -> void:
 	if not message.is_empty():
 		menu_result_label.add_theme_color_override("font_color", Color(0.58, 0.78, 0.62))
 	model_settings_button.grab_focus.call_deferred()
+
+
+## 设置面板打开时 Escape/ui_cancel = Cancel：不退出应用、不保存、恢复焦点到模型设置。
+func _unhandled_input(event: InputEvent) -> void:
+	if model_settings_overlay.visible and event.is_action_pressed("ui_cancel"):
+		_on_settings_cancel_pressed()
+		get_viewport().set_input_as_handled()
 
 
 ## Wizard 提交 frozen Review payload。creation_id 由 Wizard 在一次 attempt 内固定；

@@ -33,8 +33,87 @@ func _run() -> void:
 	await _test_persisted_invalid_recovery()
 	await _test_settings_no_game_source_mutation()
 	await _test_continue_new_game_after_settings()
+	await _test_c01b_no_l0_dependency()
+	await _test_c01b_k27_invalid_context_state()
+	await _test_c01b_escape_cancels()
 	_clear_environment()
 	_finish()
+
+
+## C01B-1：Application Shell 不再依赖 运行时设置/L0_公理层。
+func _test_c01b_no_l0_dependency() -> void:
+	var file := FileAccess.open("res://src/应用壳.gd", FileAccess.READ)
+	var source := file.get_as_text()
+	file.close()
+	_check(source.find("运行时设置/L0_公理层") < 0 and source.find("ModelRuntimeSettingsRules") < 0, "C01B-1 no L0 dependency in Application Shell")
+	# L3 default 仍可用（C01A seam）。
+	var backend := ModelSettings.new(_settings_path)
+	var default_settings: Dictionary = backend.validated_default_settings()
+	_check(String(default_settings.profile_id) == "deepseek_v4_pro" and String(default_settings.context_limit) == "256k" and String(default_settings.reasoning_request) == "high", "C01B-1 L3 validated_default_settings available")
+
+
+## C01B-2/3/4/5：K3/1M → K2.7 非法 context 中间态保留 capability truth；
+## 切 256K 恢复合法；切回 DeepSeek 恢复 graded reasoning。
+func _test_c01b_k27_invalid_context_state() -> void:
+	var case_root := _case_root("k27-invalid-transition")
+	# 先持久化 K3/1M/Low。
+	var backend := ModelSettings.new(_settings_path)
+	backend.save_settings({"profile_id": "kimi_k3", "context_limit": "1m", "reasoning_request": "low"})
+	var source_root := case_root.path_join("source-library")
+	_fixture.install_real_assets(source_root)
+	_set_environment(case_root, source_root)
+	var shell: Variant = load("res://src/main.tscn").instantiate()
+	root.add_child(shell)
+	await _settle(3)
+	shell.model_settings_button.pressed.emit()
+	await _settle(3)
+	_check(shell.model_option.get_item_text(shell.model_option.selected) == "Kimi K3" and shell.context_option.get_item_text(shell.context_option.selected) == "1M", "C01B-2 opens with persisted K3/1M")
+	# 切到 K2.7：1M 非法，但 capability truth 必须保留。
+	_select_option(shell.model_option, "Kimi K2.7")
+	await _settle(2)
+	_check(shell.context_option.get_item_text(shell.context_option.selected) == "1M", "C01B-3 selected context 1M remains visibly invalid")
+	_check(shell.settings_save_button.disabled, "C01B-3 Save disabled during invalid context")
+	_check(shell.context_option.is_item_disabled(1), "C01B-3 1M unavailable/disabled from backend projection")
+	_check(shell.reasoning_option.disabled, "C01B-3 reasoning control disabled during invalid context")
+	_check(shell.model_settings_note.visible and shell.model_settings_note.text.contains("固定 Thinking ON"), "C01B-3 fixed Thinking ON explanation visible")
+	_check(shell.summary_label.text.is_empty() or not shell.summary_label.text.contains("Low"), "C01B-3 no fake graded effective value")
+	_check(shell.settings_result_label.visible and shell.settings_result_label.text.contains("不支持"), "C01B-3 player-readable invalid state")
+	# 切 256K：候选合法，Save 启用，固定思考保留。
+	_select_option(shell.context_option, "256K")
+	await _settle(2)
+	_check(not shell.settings_save_button.disabled, "C01B-4 selecting 256K restores Save-valid state")
+	_check(shell.reasoning_option.disabled, "C01B-4 reasoning remains disabled on valid K2.7")
+	_check(shell.model_settings_note.visible and shell.model_settings_note.text.contains("固定 Thinking ON"), "C01B-4 fixed-thinking explanation remains visible")
+	_check(shell.summary_label.text.contains("固定思考"), "C01B-4 valid K2.7 summary shows 固定思考")
+	# 切回 DeepSeek：graded reasoning 恢复。
+	_select_option(shell.model_option, "DeepSeek V4 Pro")
+	await _settle(2)
+	_check(not shell.reasoning_option.disabled, "C01B-5 switching back to DeepSeek re-enables graded reasoning")
+	_check(shell.summary_label.text.contains("Low"), "C01B-5 DeepSeek summary restores graded reasoning")
+	shell.settings_cancel_button.pressed.emit()
+	await _settle(2)
+	await _shutdown_shell(shell)
+
+
+## C01B-6：Escape/ui_cancel 关闭面板 = Cancel，不保存、不退出、恢复焦点。
+func _test_c01b_escape_cancels() -> void:
+	var shell: Variant = await _boot_shell("escape-cancel")
+	shell.model_settings_button.pressed.emit()
+	await _settle(3)
+	_select_option(shell.model_option, "Kimi K2.7")
+	await _settle(2)
+	_check(shell.model_settings_overlay.visible, "C01B-6 settings overlay open")
+	# 模拟 Escape。
+	var event := InputEventAction.new()
+	event.action = "ui_cancel"
+	event.pressed = true
+	shell._unhandled_input(event)
+	await _settle(3)
+	_check(not shell.model_settings_overlay.visible and shell.main_menu_surface.visible, "C01B-6 Escape closes overlay back to Main Menu")
+	var backend_after: Dictionary = ModelSettings.new(_settings_path).load_settings()
+	_check(backend_after.success and String(backend_after.settings.profile_id) == "kimi_k3", "C01B-6 Escape does not save over persisted state")
+	_check(shell.application_state == shell.ApplicationState.MENU_READY, "C01B-6 Escape never exits the application")
+	await _shutdown_shell(shell)
 
 
 ## S1/S2/S8：Main Menu 有「模型设置」；打开显示四个精确模型名与凭证状态（无秘密）。
