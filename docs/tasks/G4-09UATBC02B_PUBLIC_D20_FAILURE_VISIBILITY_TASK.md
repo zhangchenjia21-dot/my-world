@@ -1,7 +1,7 @@
 # G4-09UATBC02B — Public d20 Failure Visibility / Recoverable UX
 
 Type: **UI correction-02 follow-up**
-Status: **ACTIVE — KIMI**
+Status: **CORRECTION REQUIRED — C01 ACTIVE**
 Owner: **Kimi**
 Reviewer / semantic owner: **GPT**
 Parent: **G4-09UATB Owner Product UAT**
@@ -13,7 +13,15 @@ Return ceiling: **READY FOR INDEPENDENT REVIEW**.
 
 After C02A has stabilized the mechanism, make terminal Public d20 failures visible in concise, safe language without exposing raw Provider payloads or turning recoverable control-lane degradation into a blocking error.
 
-Current defect: `叙事对话视图.gd::_handle_adjudication_result()` obtains a failure code, and `_plain_adjudication_failure()` already maps safe categories, but the mapped message is not actually shown. The player therefore sees only generic `行动未完成` recovery state.
+Current implementation delivery reviewed at `c8d8de6c0c773169bbaa4dabb92df063b8a51f10` correctly surfaces transport / missing-key failures and the non-blocking degraded-action notice, but Independent Review found persistence/finalize failure categories still fall through to generic text.
+
+Formal review:
+
+`docs/g4_09/G4-09UATBC02B_INDEPENDENT_REVIEW.md`
+
+Active correction:
+
+`docs/tasks/G4-09UATBC02BC01_PERSISTENCE_FAILURE_VISIBILITY_CORRECTION_TASK.md`
 
 ## Required behavior
 
@@ -41,18 +49,8 @@ Protected:
 - Source/Final Create
 - SQLite schema
 
-## Acceptance
+## Current correction acceptance
 
-Prove:
+C01 must directly prove safe persistence/finalize failure visibility for the Public d20 failure-code family while preserving all already accepted C02B behavior. See the active correction packet for exact codes and assertions.
 
-1. transport failure shows safe connection message + retry action;
-2. missing selected-provider key shows safe credential message + retry path;
-3. malformed/unusable terminal mechanic response, if one can still occur after C02A, shows safe mechanic-service message;
-4. fail-soft degraded ordinary narrative is not presented as `行动未完成`;
-5. no secrets/raw payloads in UI or evidence;
-6. existing successful NO_CHECK/CHECK_REQUIRED UI path unchanged;
-7. 960×540 and 1280×720 recovery state remains usable;
-8. C02A Model Freedom invariants remain intact and no new blocking gate is introduced;
-9. `git diff --check` clean.
-
-G4-09UATB remains HOLD until this task passes GPT Independent Review.
+G4-09UATB remains HOLD until C02B and C02BC01 pass GPT Independent Review.
