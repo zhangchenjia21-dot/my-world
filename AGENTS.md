@@ -1,6 +1,6 @@
 # my world — Repository Agent Rules
 
-Status: current repository instruction
+Status: current repository instruction  
 Scope: entire `zhangchenjia21-dot/my-world` repository unless a deeper `AGENTS.md` narrows a subtree.
 
 ## 1. Authority / Freshness
@@ -14,13 +14,13 @@ Resolve authority in this order:
 5. this repository `AGENTS.md` and current task packet.
 6. verifiable implementation/tests/current HEAD.
 
-Before authoritative work, refresh `main`; never overwrite unknown dirty/newer work.
+Before authoritative work, refresh both `main`s; never overwrite unknown dirty/newer work.
 
 Execution routing:
 
 ```text
 GPT        → Meaning / architecture / governance / task shaping / Independent Review
-Codex      → backend / mechanism / build-launch implementation
+Codex      → backend / mechanism / build-launch / validation implementation
 Kimi       → frontend / UI / interaction implementation
 Grok Build → search / external research / evidence discovery
 Owner      → Product UAT / explicit product verdict
@@ -40,76 +40,103 @@ G4-05 New Game Wizard                 PASS / CLOSED
 G4-06 Atomic Final Create             PASS / CLOSED
 G4-07 First Playable A                PASS / CLOSED
 G4-08 Expansion Pack v0.1             PASS / CLOSED
-G4-08M1 Public d20 Mechanism          PASS / CLOSED
-G4-08B Public d20 UI Integration      PASS / CLOSED
 G4-09 First Playable B                PASS / CLOSED
-G4-09R1 Runtime Model Settings v0.1   PASS / CLOSED
-G4-09UATBC01 Narrative Responsiveness PASS / CLOSED
-G4-09UATBC02A d20 Protocol Decoupling PASS / CLOSED
-G4-09UATBC02B Failure Visibility      PASS / CLOSED AFTER C01
-G4-09UATBC02BC01 Persistence Visibility PASS / CLOSED
-G4-09UATBC02P1 Final Windows Freshness PASS / CLOSED
 G4-09UATB Owner Product UAT           PASS / CLOSED
-G4-10 Runtime Asset Resolution        ACTIVE
-G4-10S0 Semantic Freeze               PASS / CLOSED — GPT
-G4-10M1 Mechanism                     ACTIVE — CODEX
-G4-11 Two Primary Asset Families      NOT YET
+G4-10 Runtime Asset Resolution        DEFERRED / MOVED TO G6
+G4-10M1 Mechanism                     SUPERSEDED / DO NOT EXECUTE
+G4-11 Two Primary Asset Families      ACTIVE
+G4-11P1 Engineering Reality Prep      ACTIVE — CODEX
+G4-11UAT Owner Reality Test           NOT YET
 G4-GATE                               NOT YET
 ```
 
-Do not start G4-11 before G4-10M1 passes GPT Independent Review. Do not start G5 before G4-GATE.
+Do not start G5 before G4-11P1 Independent Review + G4-11UAT Owner PASS + G4-GATE.
 
-## 3. Current execution task — G4-10M1
+## 3. Current execution task — G4-11P1
 
 Formal packet:
 
-`docs/tasks/G4-10M1_RUNTIME_ASSET_RESOLUTION_MECHANISM_TASK.md`
+`docs/tasks/G4-11P1_TWO_FAMILY_REALITY_PREP_TASK.md`
 
-Canonical semantic decision:
+Canonical product-test decision:
 
-`Vibe-Coding/my world/architecture/source/G4_RUNTIME_ASSET_RESOLUTION_V0_1_DECISION.md`
+`Vibe-Coding/my world/architecture/source/G4_TWO_FAMILY_REALITY_TEST_V0_1_DECISION.md`
 
 Current owner: **CODEX**. Reviewer / semantic owner: **GPT**.
 
-Primary engineering outcome:
+Type: **validation / UAT-support**. No production behavior change is expected.
+
+Fixed families:
 
 ```text
-exact immutable Source generation
-+ declared portrait / scene / map visual
-→ safe runtime resolution
-→ real Godot image load
+A
+World:      汉末三国：天下未定
+Entry:      208｜赤壁前夕
+Player:     刘备
+Expansion:  none
+
+B
+World:      埃瑟维亚：诸界余辉
+Entry:      t0-1287-ovista
+Player:     莉维娅·塞兰
+Expansion:  none
 ```
 
-Required resolution semantics:
+Both real-provider engineering verticals must use the same effective current selected runtime model profile through the canonical shared adapter. Do not change Owner persisted model settings merely for the comparison.
+
+Return ceiling: **READY FOR INDEPENDENT REVIEW**.
+
+If validation exposes a production behavior blocker, stop and return it rather than silently fixing it inside P1.
+
+## 4. Visual deferral — protected current route
+
+Owner explicitly deferred visual runtime work on 2026-09-02.
+
+Canonical decision:
+
+`Vibe-Coding/my world/architecture/source/G4_VISUAL_ASSET_DEFERRAL_TO_G6_DECISION.md`
+
+Therefore:
 
 ```text
-RESOLVED
-ABSENT
-UNAVAILABLE
+G4-10M1_RUNTIME_ASSET_RESOLUTION_MECHANISM_TASK.md
+= SUPERSEDED / DO NOT EXECUTE
 ```
 
-M1 is an engineering reality gate. Return ceiling: **READY FOR INDEPENDENT REVIEW**. It must not claim G4-10/G4-GATE/Product PASS.
+Do not implement portrait / scene / authored-map loading, visual resolver infrastructure, image pipeline or map presentation during G4-11.
 
-## 4. Protected Runtime Asset Resolution truth
+Protected distinction:
 
-- visual bytes remain owned by immutable Managed Source generations;
-- old Games resolve from pinned exact Source generation, never Source current;
-- World visual identity uses declared `authored_assets[].asset_id`;
-- Character portrait remains the existing optional `portrait` contract; do not invent a universal fake asset id;
-- optional visual canonical absence is ABSENT, not corruption;
-- missing/tampered/unsafe/un-decodable declared visual is UNAVAILABLE;
-- presentation may fail-soft to an application-owned neutral placeholder or omitted visual surface;
-- placeholder must never become Source/Game authored truth or change generation identity;
-- no current-generation/neighbor/other-package/network fallback;
-- safe package-local path boundary remains mandatory;
-- real Godot load is required; file existence alone is insufficient;
-- `map` is an authored image/reference only, not topology/travel/GIS/current-location truth;
-- no SQLite schema expansion or second Game-owned visual byte store merely for display;
-- no G6 UI redesign is required for M1.
+```text
+authored visual presentation
+!= gameplay semantic authority
 
-## 5. Protected Model Freedom / Narrative Responsiveness truth
+map image
+!= topology / travel / current location / GIS
+```
 
-Core principle remains:
+Visual runtime work will be re-audited in G6 from a real presentation consumer.
+
+## 5. G4-11 protected invariants
+
+- exercise real Source Library / Composition / Final Create / Game Session / Opening / Conversation / Save-Continue seams;
+- mutable validation Source/Game roots are task-owned;
+- Owner production Source/Games/settings/credentials remain untouched;
+- A and B have distinct Game identities and SQLite files;
+- switch A→B→A must not leak Session/Conversation/Source identity;
+- exact World/Character generation ancestry remains stable after task-owned Source current changes;
+- Han model-visible Context must not receive Afterglow Source bytes/identity, and vice versa;
+- T0 quarantine remains intact;
+- Expansion = none for both family comparison verticals;
+- no Provider fallback; selected provider only;
+- no G5 NPC/faction/event/knowledge/relationship systems;
+- no G6 visual/UI work.
+
+Engineering evidence does not prove product-value differentiation. Owner UAT owns that verdict after GPT Independent Review.
+
+## 6. Protected Model Freedom / Narrative Responsiveness truth
+
+Core principle:
 
 ```text
 Model Freedom First
@@ -119,33 +146,26 @@ Visible Narrative First
 Canonical Commit Behind a Turn Finalize Barrier
 ```
 
-Protected absent concrete regression:
+Do not add:
 
-- player-visible GM narrative is free-form natural language;
-- Public d20 mechanics control and narrative are separate selected-provider requests;
-- malformed isolated control gets at most one bounded recovery attempt, then fail-soft ordinary narrative;
-- valid CHECK_REQUIRED freezes Program RNG/outcome durably before result narrative;
-- no per-token canonical persistence;
-- stable action/check identity and no-reroll remain protected;
-- selected Provider only; no cross-provider fallback;
-- legitimate hard failures show concise safe player-readable reasons and retain recovery controls.
+- model-format gates for narrative;
+- mandatory prose structure;
+- genre keyword validators;
+- post-generation classifiers that block acceptance merely to force the worlds to look different;
+- cross-provider fallback;
+- per-token canonical persistence.
 
-G4-10 must not reopen or alter these accepted semantics.
+Public d20 semantics and Runtime Model Settings are already PASS/CLOSED and must not be reopened absent a concrete regression.
 
-## 6. Owner UAT closure / next gate
+## 7. After G4-11P1
 
-Formal Owner result:
-
-`docs/g4_09/G4-09UATB_OWNER_PRODUCT_UAT_RESULT.md`
-
-Owner returned `PASS` on 2026-09-02. This closes G4-09UATB, G4-09 First Playable B and G4-08 Expansion Pack v0.1.
-
-Canonical roadmap still requires:
+If GPT Independent Review passes P1:
 
 ```text
-G4-10 Runtime Asset Resolution
-→ G4-11 Two Primary Asset Families Reality Test
-→ G4-GATE
+G4-11UAT Owner Two-Family Reality Test
+ACTIVE — OWNER
 ```
 
-Do not start G5 before G4-GATE.
+Owner judges whether the two actual play experiences materially feel like different RPG worlds. Visual polish is not part of that UAT.
+
+Only after Owner PASS may GPT close G4-11, pass G4-GATE, close G4, and shape G5.
