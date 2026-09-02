@@ -191,14 +191,23 @@ func _handle_adjudication_result(result: Dictionary, synchronous: bool = false) 
 		_pending_action_has_resolution = false
 		_transient_check_id = ""
 		_unresolved_reopen_pending = false
-		_hide_error()
+		# C02A fail-soft 降级不是失败：行动继续无 d20 检定，显示紧凑非阻塞提示。
+		if bool(result.get("degraded", false)):
+			_show_error("本次行动未进行可选检定，已按普通叙事继续。")
+		else:
+			_hide_error()
 		_update_controls()
 		return
 	# 失败/取消：按是否已有 durable resolution 区分「只能重试」与「可编辑替换」。
 	var code := String(result.get("code", status))
 	_pending_action_has_resolution = not _durable_check_for(_pending_action_id).is_empty() \
 		or not _durable_no_check_for(_pending_action_id).is_empty()
-	_hide_error()
+	# C02B：终态 Provider/网络/凭证/持久化失败显示简洁安全原因；重试行动保持可用。
+	var reason := _plain_adjudication_failure(code)
+	if not reason.is_empty():
+		_show_error("行动未完成：%s可点击「重试行动」继续。" % reason)
+	else:
+		_show_error("行动未完成；可点击「重试行动」继续。")
 	_update_controls()
 
 

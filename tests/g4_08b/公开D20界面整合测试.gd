@@ -59,8 +59,74 @@ func _run() -> void:
 	await _test_reopen_unfinished_action()
 	await _test_continue_load_card_reconstruction()
 	await _test_unsupported_capability_fail_loud()
+	await _test_c02b_failure_visibility()
 	_clear_environment()
 	_finish()
+
+
+## C02B：终态失败显示简洁安全原因 + 重试行动保持可用；degraded fail-soft 不渲染为失败。
+func _test_c02b_failure_visibility() -> void:
+	# transport 失败：安全连接消息 + 重试行动。
+	var case_root := _case_root("c02b-transport")
+	var shell: Variant = await _boot_shell_with_game(case_root, "失败可见性", true, true)
+	if shell == null:
+		return
+	var adjudication_stub: Node = shell.test_adjudication_adapter_override
+	shell.narrative_view.player_input.text = "我冒险跃上着火的粮船。"
+	shell.narrative_view._on_send_pressed()
+	await _settle(2)
+	adjudication_stub.simulate_delta(JSON.stringify(_proposal(20, 0, "normal")))
+	adjudication_stub.simulate_completed()
+	await _settle(3)
+	adjudication_stub.simulate_failed("transport")
+	await _settle(4)
+	_check(shell.narrative_view.error_label.visible and shell.narrative_view.error_label.text.contains("暂时无法连接当前模型服务"), "C02B transport failure shows safe connection message")
+	_check(shell.narrative_view.error_label.text.contains("重试行动"), "C02B transport failure keeps retry path visible")
+	_check(shell.narrative_view.retry_action_button.visible, "C02B 重试行动 button remains available")
+	_check(not shell.narrative_view.error_label.text.contains("sk-") and not shell.narrative_view.error_label.text.contains("Authorization"), "C02B no secrets in failure message")
+	await _shutdown_shell(shell)
+
+	# missing_key 失败：安全凭证消息 + 重试路径。
+	var case_root2 := _case_root("c02b-missing-key")
+	var shell2: Variant = await _boot_shell_with_game(case_root2, "凭证失败", true, true)
+	if shell2 == null:
+		return
+	var adjudication_stub2: Node = shell2.test_adjudication_adapter_override
+	shell2.narrative_view.player_input.text = "我尝试潜过水寨栅栏。"
+	shell2.narrative_view._on_send_pressed()
+	await _settle(2)
+	adjudication_stub2.simulate_failed("missing_key")
+	await _settle(4)
+	_check(shell2.narrative_view.error_label.visible and shell2.narrative_view.error_label.text.contains("未检测到当前所选模型的 API Key"), "C02B missing_key shows safe credential message")
+	_check(shell2.narrative_view.error_label.text.contains("重试行动"), "C02B missing_key keeps retry path visible")
+	await _shutdown_shell(shell2)
+
+	# degraded fail-soft：行动继续无 d20 检定，显示紧凑非阻塞提示而非「行动未完成」。
+	var case_root3 := _case_root("c02b-degraded")
+	var shell3: Variant = await _boot_shell_with_game(case_root3, "降级提示", true, true)
+	if shell3 == null:
+		return
+	var adjudication_stub3: Node = shell3.test_adjudication_adapter_override
+	shell3.narrative_view.player_input.text = "我查看江面。"
+	shell3.narrative_view._on_send_pressed()
+	await _settle(2)
+	# 模拟 C02A degraded：control 两次 malformed → degraded_narrative → accepted with degraded=true。
+	adjudication_stub3.simulate_delta("not json")
+	adjudication_stub3.simulate_completed()
+	await _settle(2)
+	_check(String(shell3.action_adjudication._stage) == "control_recovery", "C02B malformed control triggers one recovery attempt")
+	adjudication_stub3.simulate_delta("still not json")
+	adjudication_stub3.simulate_completed()
+	await _settle(2)
+	_check(String(shell3.action_adjudication._stage) == "degraded_narrative", "C02B degraded control starts degraded narrative")
+	adjudication_stub3.simulate_delta("你望向江面，雾气沉沉。")
+	adjudication_stub3.simulate_completed()
+	await _settle(4)
+	_check(shell3.session_runtime.conversation.get_durable_accepted_entries().size() == 2, "C02B degraded action accepted as ordinary narrative")
+	_check(shell3.narrative_view.error_label.visible and shell3.narrative_view.error_label.text.contains("未进行可选检定"), "C02B degraded shows compact non-blocking notice")
+	_check(not shell3.narrative_view.error_label.text.contains("行动未完成"), "C02B degraded is never presented as 行动未完成")
+	_check(_count_mechanic_cards(shell3.narrative_view) == 0, "C02B degraded renders no dice card")
+	await _shutdown_shell(shell3)
 
 
 ## A/B：Wizard 拓展库存投影、显式 none、选择保留、Review 投影、slot 冲突回滚、
