@@ -39,84 +39,95 @@ G4-04 Multi-Game / Game Library       PASS / CLOSED
 G4-05 New Game Wizard                 PASS / CLOSED
 G4-06 Atomic Final Create             PASS / CLOSED
 G4-07 First Playable A                PASS / CLOSED
-G4-08 Expansion Pack v0.1             ACTIVE
+G4-08 Expansion Pack v0.1             ACTIVE pending Owner verdict
 G4-08M1 Public d20 Mechanism          PASS / CLOSED
 G4-08B Public d20 UI Integration      PASS / CLOSED
-G4-09 First Playable B                ACTIVE
+G4-09 First Playable B                ACTIVE pending Owner verdict
 G4-09P1 Owner UAT B Production Prep   PASS / CLOSED
-G4-09UATB Owner Product UAT           HOLD
-G4-09R1 Runtime Model Settings v0.1   ACTIVE
-G4-09R1S0 Semantic Freeze             PASS / CLOSED
+G4-09R1 Runtime Model Settings v0.1   PASS / CLOSED
 G4-09R1M1 Backend Mechanism           PASS / CLOSED
 G4-09R1B1 Settings UI                 PASS / CLOSED AFTER CORRECTION-01
-G4-09R1B1C01A L3 UI Support           PASS / CLOSED
-G4-09R1B1C01B UI State Consistency    PASS / CLOSED
-G4-09R1P1 Final Integration/Freshness ACTIVE — CODEX
+G4-09R1P1 Final Integration/Freshness PASS / CLOSED
+G4-09UATB Owner Product UAT           ACTIVE — OWNER
 G4-GATE                               NOT YET
 ```
 
-Owner UAT remains HOLD until G4-09R1P1 Independent Review passes.
+No Codex or Kimi task is active. Do not start G4-10 while Owner UAT B is active.
 
-## 3. Current execution task — G4-09R1P1
+## 3. Current execution task — G4-09UATB
 
-Formal packet:
+Owner product-only instructions:
 
-`docs/tasks/G4-09R1P1_FINAL_INTEGRATION_FRESHNESS_TASK.md`
+`docs/g4_09/G4-09UATB_Owner产品验收说明.md`
 
-Accepted Settings UI review:
+Accepted model-settings final review:
 
-`docs/g4_09r1/G4-09R1B1_INDEPENDENT_REVIEW.md`
+`docs/g4_09r1/G4-09R1P1_INDEPENDENT_REVIEW.md`
 
-Canonical decision:
+Current owner: **OWNER**. Reviewer / semantic owner: **GPT**.
 
-`Vibe-Coding/my world/architecture/foundation/G4_RUNTIME_MODEL_SETTINGS_V0_1_DECISION.md`
+Exact preferred route:
 
-Primary owner: **Codex**. Reviewer / semantic owner: **GPT**. Return ceiling: **READY FOR INDEPENDENT REVIEW**.
+```text
+run-game.cmd
+-> Main Menu 模型设置
+-> choose desired model / context / reasoning and Save
+-> reopen once and confirm effective summary
+-> New Game
+-> World: 汉末三国：天下未定
+-> Entry: 208｜赤壁前夕
+-> Character: 刘备
+-> Expansion: 判定与检定：公开 d20
+-> real Opening
+-> one genuinely risky action -> visible d20 card
+-> one ordinary/no-risk action -> no unnecessary d20 card
+-> Save -> Main Menu -> Continue
+-> Owner product verdict
+```
 
-Kimi has no active task.
+Owner UAT is not a Provider benchmark. The Owner may choose whichever accepted runtime configuration they want for the play session.
 
-## 4. Accepted Runtime Model Settings truth
+## 4. Accepted Runtime Model Settings v0.1 truth
 
-Accepted and protected absent a concrete regression:
+Protected absent concrete regression:
 
 - app-local settings `user://my-world/settings/provider-runtime.json`;
-- exact closed profiles: DeepSeek V4 Pro, DeepSeek V4 Flash, Kimi K3, Kimi K2.7;
+- exact four player-facing profiles: DeepSeek V4 Pro, DeepSeek V4 Flash, Kimi K3, Kimi K2.7;
 - DeepSeek/K3 256K/1M compatibility; K2.7 256K-only;
-- DeepSeek/K3 requested reasoning `low/medium/high/max` with `medium → effective high`;
+- DeepSeek/K3 requested reasoning `low/medium/high/max`, with `medium -> effective high`;
 - K2.7 fixed Thinking ON / no graded effective effort;
 - selected-provider credentials only: `DEEPSEEK_API_KEY` / `KIMI_API_KEY`;
 - no cross-provider fallback;
 - one Provider seam across Opening, Narrative and both Public d20 phases;
-- active request freezes its profile snapshot;
-- reasoning-only stream material is not player narrative;
-- UI uses L3 `inspect_candidate()` / `validated_default_settings()`, not Runtime Settings internals;
-- Main Menu settings Save/Cancel/Escape/restart behavior is accepted;
-- real DeepSeek and Kimi UI-selected generation evidence exists;
+- UI uses Runtime Settings L3 projection/default seams, not internal rules;
+- Main Menu Save/Cancel/Escape/reopen/restart behavior accepted;
+- real DeepSeek V4 Pro and real Kimi K3 UI-selected Opening completed on the final launch line;
+- canonical Windows export freshness rebuilt/validated after model-settings UI acceptance;
 - Source/Final Create/Public d20 semantics and SQLite schema v4 remain unchanged.
 
-## 5. G4-09R1P1 required result
+Formal final review:
 
-This is validation/UAT-readiness work, not feature development.
+`docs/g4_09r1/G4-09R1P1_INDEPENDENT_REVIEW.md`
 
-Codex must:
+## 5. Owner UAT disposition
 
-1. rerun real selected-provider UI verticals on current `main`: DeepSeek V4 Pro and Kimi K3 each selected/saved through the actual Main Menu settings surface and each reaching a real accepted Opening;
-2. run canonical Windows freshness validation: `.\run-game.ps1 -ValidateExportOnly`;
-3. verify production Source/UAT prerequisites remain intact, including the Public d20 Expansion, without modifying Owner Games or manually copying managed Source files;
-4. keep real integration tests on task-owned Game/Source/settings roots and never overwrite Owner production model preference merely for testing;
-5. rerun the focused Settings UI / Runtime Settings / Public d20 regression floor and `git diff --check`;
-6. update the Owner UAT B instructions under `docs/g4_09/` so the product route begins with Main Menu Model Settings before New Game.
+Engineering evidence does not replace the Owner product verdict.
 
-Do not redesign model semantics, Provider wire, UI, Source, Composition, d20 or persistence.
-
-## 6. Progression
+Owner returns:
 
 ```text
-G4-09R1P1 — Codex
-→ GPT Independent Review
-→ if PASS: G4-09R1 PASS / CLOSED
-→ refresh G4-09UATB instructions/state
-→ G4-09UATB ACTIVE — OWNER
+PASS
 ```
 
-Do not close G4-09/G4-08 before Owner Product UAT verdict. Do not start G4-10 or G5.
+or:
+
+```text
+FAIL
+<where it is not fun, natural, or correct>
+```
+
+If PASS, GPT closes G4-09UATB, G4-09 First Playable B and G4-08 Expansion Pack v0.1, propagates the decision, then inspects the canonical roadmap before shaping G4-10 Runtime Asset Resolution.
+
+If FAIL, GPT records the exact product seam and routes a bounded correction according to ownership/correction-budget rules.
+
+Do not start G5 before G4-GATE.
