@@ -1,40 +1,56 @@
 # G4-09R1B1 Independent Review
 
-Status: **CORRECTION REQUIRED**  
-Reviewer: **GPT**  
-Reviewed HEAD: `fcdcec66edad41afbb93f4a5e9cc70174402be5c`
+Status: **PASS / CLOSED AFTER CORRECTION-01**  
+Reviewer: **GPT**
 
-## Result
+Original reviewed HEAD: `fcdcec66edad41afbb93f4a5e9cc70174402be5c`  
+C01A accepted evidence HEAD: `bb3c16b392887a4649f32e23348067c70a3e7a1c`  
+C01B accepted evidence HEAD: `b6bd6bc8e077bbeccbb8639f6bc0670795e3e36c`
 
-G4-09R1B1 is not PASS yet. The main settings surface, persistence, layout evidence, and real DeepSeek/Kimi UI-to-generation vertical are accepted. Three bounded seams remain.
+## Final decision
 
-### A. Kimi K2.7 invalid-context UI state
+G4-09R1B1 Model Settings UI / Interaction passes Independent Review after correction-01.
 
-If the current context is `1m` and the player switches model to Kimi K2.7, backend `inspect_candidate()` correctly returns `incompatible_context_limit`. The current failure branch disables Save and the incompatible context item, but returns before applying fixed-thinking presentation. As a result the reasoning control can remain enabled and the fixed-Thinking explanation is hidden. Any selected K2.7 state must preserve fixed-thinking UI truth, even while the selected context is invalid.
+The original B1 implementation already established the Main Menu settings surface, exact four model names, backend-driven valid candidate projection, Medium→actual High disclosure, valid K2.7/256K fixed-thinking UX, non-secret credential status, Save/Cancel/restart persistence, layout evidence, no Game/Source mutation, regressions, and real DeepSeek/Kimi UI-selection-to-Opening generation.
 
-### B. UI layer boundary
+The initial review found three bounded seams:
 
-`src/应用壳.gd` directly preloads `src/运行时设置/L0_公理层/模型运行时设置规则.gd` only to obtain `validated_default()` for corrupt persisted settings. Application/UI should depend on the Runtime Settings L3 public interface, not internal L0. Add the smallest L3 non-mutating default-settings projection and remove the UI L0 dependency.
+1. `K3 / 1M -> K2.7` preserved the invalid context but lost fixed-thinking presentation.
+2. Application Shell directly imported Runtime Settings L0 for invalid-persisted recovery.
+3. Settings overlay had no explicit `ui_cancel` / Escape cancel path.
 
-For an incompatible candidate, L3 should also return enough non-secret partial capability truth for the UI to render allowed contexts and fixed/graded reasoning consistently while `success=false`.
+Correction-01 closed them in two steps:
 
-### C. Escape / ui_cancel
+- `G4-09R1B1C01A` added L3 `validated_default_settings()` and safe partial capability projection for known incompatible context; PASS / CLOSED.
+- `G4-09R1B1C01B` removed UI→L0, consumed the partial projection for state-consistent K2.7 invalid context, and implemented Escape/ui_cancel = Cancel; PASS / CLOSED.
 
-The custom settings overlay wires the visible Cancel button but no `ui_cancel`/Escape path. While the overlay is open, Escape must behave like Cancel: close without saving or mutating settings/Game/Source.
+Formal correction reviews:
 
-## Accepted from B1
+- `docs/g4_09r1/G4-09R1B1C01A_INDEPENDENT_REVIEW.md`
+- `docs/g4_09r1/G4-09R1B1C01B_INDEPENDENT_REVIEW.md`
 
-Accepted and protected absent regression: Main Menu entry; exact four model names; valid candidate preview through backend projection; Medium→actual High disclosure; valid K2.7/256K fixed-thinking UX; boolean credential status; Save/Cancel/reopen/restart persistence; no Game/Source mutation; Continue/New Game/Public d20 regressions; recorded 1280×720/960×540/maximized layout; real DeepSeek V4 Pro and Kimi K3 UI selection→persistence→real Opening generation; SQLite schema v4 unchanged.
-
-Real Provider calls do not need rerun solely for the correction unless normal Save/provider routing changes.
-
-## Routing
+## Accepted UI vertical
 
 ```text
-G4-09R1B1 Settings UI                 CORRECTION REQUIRED
-G4-09R1B1C01A L3 UI Support           ACTIVE — CODEX
-G4-09R1B1C01B UI State Consistency    HOLD — KIMI
+Main Menu Model Settings
+-> DeepSeek V4 Pro / V4 Flash / Kimi K3 / Kimi K2.7
+-> 256K / 1M compatibility from backend
+-> Low / Medium / High / Max with effective disclosure
+-> K2.7 fixed Thinking ON behavior
+-> non-secret credential status
+-> Save / Cancel / Escape / restart persistence
+-> selected-provider real generation
+```
+
+No correction-02 is required.
+
+## Current progression
+
+```text
+G4-09R1B1 Settings UI                 PASS / CLOSED AFTER CORRECTION-01
+G4-09R1P1 Final Integration/Freshness ACTIVE — CODEX
+G4-09R1 Runtime Model Settings v0.1   ACTIVE
 G4-09UATB Owner Product UAT           HOLD
 ```
 
-Do not resume Owner UAT until both correction steps pass Independent Review.
+G4-09R1 closes only after final-head real DeepSeek/Kimi integration and canonical Windows export freshness pass. G4-09/G4-08 remain open until Owner Product UAT.
