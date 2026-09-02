@@ -1,13 +1,15 @@
 # G4-09UATBC02A — Public d20 Protocol Decoupling / Model-Freedom Correction
 
 Type: **implementation / correction-02 redesign**
-Status: **ACTIVE — CODEX**
+Status: **PASS / CLOSED — GPT INDEPENDENT REVIEW**
 Owner: **Codex**
 Reviewer / semantic owner: **GPT**
 Parent: **G4-09UATB Owner Product UAT**
 Correction budget: **correction-02**
 
-Return ceiling: **READY FOR INDEPENDENT REVIEW**. Do not declare G4-09UATB/G4-09/G4-08/G4-GATE PASS. Do not start G4-10/G5.
+Formal closeout:
+
+`docs/g4_09/G4-09UATBC02A_INDEPENDENT_REVIEW.md`
 
 ## 1. Why this task exists
 
@@ -182,27 +184,18 @@ Must include:
 
 Record only non-secret status/timing/model profile identifiers; do not commit prompt, narrative, hidden reasoning or keys.
 
-## 7. Return contract
+## 7. Closeout result
 
-Return:
+GPT Independent Review accepted:
 
-```text
-START_HEAD
-IMPLEMENTATION_HEAD
-EVIDENCE_HEAD / FINAL_HEAD
-changed paths
-old mixed protocol removal summary
-control lane shape
-bounded recovery behavior
-fail-soft degradation behavior
-NO_CHECK call count and streaming proof
-CHECK_REQUIRED durable-before-narrative proof
-real DeepSeek result
-real Kimi result or exact non-secret blocker
-regression summary
-Windows export freshness
-SQLite schema unchanged
-READY FOR INDEPENDENT REVIEW
-```
+- mixed protocol removed;
+- isolated control + free-form narrative split;
+- bounded recovery and non-blocking degradation;
+- no fake mechanic state on degradation;
+- real DeepSeek V4 Pro NO_CHECK success;
+- real Kimi K3 CHECK_REQUIRED success;
+- no-reroll/replay/lost-ACK regression safety;
+- Windows export freshness;
+- SQLite schema v4 unchanged.
 
-Do not implement C02B UI failure visibility in this task.
+Next task: `G4-09UATBC02B_PUBLIC_D20_FAILURE_VISIBILITY_TASK.md` — **ACTIVE — KIMI**.
