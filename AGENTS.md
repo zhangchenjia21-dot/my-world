@@ -48,30 +48,49 @@ G4-09R1 Runtime Model Settings v0.1   PASS / CLOSED
 G4-09R1M1 Backend Mechanism           PASS / CLOSED
 G4-09R1B1 Settings UI                 PASS / CLOSED AFTER CORRECTION-01
 G4-09R1P1 Final Integration/Freshness PASS / CLOSED
-G4-09UATB Owner Product UAT           HOLD — NARRATIVE RESPONSIVENESS CORRECTION
-G4-09UATBC01 Narrative Responsiveness ACTIVE — CODEX
+G4-09UATBC01 Narrative Responsiveness PASS / CLOSED
+G4-09UATB Owner Product UAT           ACTIVE — OWNER focused responsiveness retest
 G4-GATE                               NOT YET
 ```
 
-Do not start G4-10 or G5 while G4-09UATBC01 is active.
+No Codex or Kimi task is active. Do not start G4-10 or G5 while Owner UAT B is active.
 
-## 3. Current execution task — G4-09UATBC01
+## 3. Current execution task — G4-09UATB focused retest
 
-Formal task packet:
+Owner instructions:
 
-`docs/tasks/G4-09UATBC01_NARRATIVE_RESPONSIVENESS_STREAMING_TASK.md`
+`docs/g4_09/G4-09UATB_Owner产品验收说明.md`
 
-Owner finding:
+Accepted responsiveness review:
+
+`docs/g4_09/G4-09UATBC01_INDEPENDENT_REVIEW.md`
+
+Owner finding preserved:
 
 `docs/g4_09/G4-09UATB_OWNER_FINDING_NARRATIVE_RESPONSIVENESS.md`
 
-Canonical governance decision:
+Current owner: **OWNER**. Reviewer / semantic owner: **GPT**.
 
-`Vibe-Coding/my world/architecture/foundation/G4_NARRATIVE_RESPONSIVENESS_V0_1_DECISION.md`
+The Owner already accepted Public d20 gameplay/semantics. The remaining UAT only checks responsiveness and adjacent regression safety.
 
-Current owner: **CODEX**. Reviewer / semantic owner: **GPT**.
+Focused route:
 
-Core runtime principle:
+```text
+run-game.cmd
+→ Continue existing Public d20 Game if desired
+→ one ordinary NO_CHECK action
+→ verify GM narrative grows progressively while Provider remains active
+→ one risky CHECK_REQUIRED action
+→ verify durable d20 card appears before result narrative
+→ verify result narrative grows progressively
+→ verify no duplicate Player/card/reroll/result rewrite
+→ Save → Main Menu → Continue
+→ Owner responsiveness verdict
+```
+
+## 4. Accepted Narrative Responsiveness v0.1 truth
+
+Canonical principle:
 
 ```text
 Visible Narrative First
@@ -79,21 +98,31 @@ Visible Narrative First
 Canonical Commit Behind a Turn Finalize Barrier
 ```
 
-The current defect is not per-token SQLite persistence. Ordinary Conversation already streams deltas in memory and persists after completion. The Public d20 Host currently buffers narrative until Provider completion, which is the bounded correction target.
+Accepted implementation truth:
 
-Codex must preserve:
+- Public d20 no longer buffers player-visible narrative until whole-response completion;
+- NO_CHECK remains one Provider call: validated one-line control header followed by raw streamable narrative body;
+- control JSON never becomes Narrative UI text;
+- NO_CHECK body streams into provisional Conversation after header validation;
+- CHECK_REQUIRED exact Program d20 result remains durable before result-narrative request / visible result text;
+- CHECK_REQUIRED result narrative streams through provisional Conversation while the second Provider call is active;
+- no per-token canonical SQLite/world persistence;
+- Provider fail/cancel leaves partial visible draft unaccepted and excluded from future Context;
+- same-process retry reuses the matching unaccepted Player turn;
+- durable NO_CHECK/check replay and lost-ACK recovery still avoid replacement Provider calls/rerolls as previously specified;
+- next action remains behind the Turn Finalize Barrier until Conversation and required acceptance markers finalize;
+- timing observability distinguishes Provider first content, first visible narrative, Provider completion and finalize without secrets/content;
+- Conversation/UI/Persistence/Runtime/Provider ownership and SQLite v4 are unchanged;
+- canonical Windows export was rebuilt/verified after the correction;
+- a real DeepSeek V4 Pro task-owned vertical exercised both CHECK_REQUIRED and NO_CHECK progressive visibility.
 
-- CHECK_REQUIRED exact Program d20 result durable before result narrative begins;
-- NO_CHECK one Provider call;
-- stable action/check identity and no reroll;
-- partial visible draft is provisional and excluded from future Context if fail/cancel;
-- no per-token canonical writes;
-- next player action remains blocked until current turn finalize completes;
-- no UI redesign / no G5 semantic systems / no generic job queue.
+Important performance interpretation:
 
-Return ceiling: **READY FOR INDEPENDENT REVIEW**.
+- application-added whole-response buffering is fixed;
+- selected-model Provider TTFT/reasoning latency can still be substantial, especially CHECK_REQUIRED because it uses adjudication + result-narrative Provider stages;
+- remaining slowness must be diagnosed with timing evidence rather than attributed to per-token persistence.
 
-## 4. Accepted Runtime Model Settings v0.1 truth
+## 5. Runtime Model Settings v0.1 remains accepted
 
 Protected absent concrete regression:
 
@@ -106,15 +135,14 @@ Protected absent concrete regression:
 - no cross-provider fallback;
 - one Provider seam across Opening, Narrative and Public d20 phases;
 - Main Menu settings UI behavior accepted;
-- real DeepSeek V4 Pro and real Kimi K3 UI-selected Opening completed;
 - Source/Final Create semantics and SQLite schema v4 remain unchanged.
 
-## 5. Owner UAT disposition
+## 6. Owner UAT disposition
 
-Owner has already accepted the **gameplay value/semantics** of Public d20. Do not discard that finding.
+Owner only needs to return the focused responsiveness/regression verdict. Do not re-open the already accepted question of whether Public d20 adds worthwhile gameplay absent a concrete regression.
 
-The overall G4-09UATB remains open only because narrative responsiveness in the Expansion path is a core-loop blocker. After Codex returns and GPT Independent Review passes, Owner UAT resumes as a focused responsiveness/regression retest.
+If focused retest PASS, GPT may close G4-09UATB, G4-09 First Playable B and G4-08 Expansion Pack v0.1, then inspect the canonical roadmap before shaping G4-10.
 
-If that focused retest passes, GPT may close G4-09UATB, G4-09 First Playable B and G4-08 Expansion Pack v0.1, then inspect the canonical roadmap before shaping G4-10.
+If focused retest FAIL, record the exact remaining latency/regression seam and apply the correction budget without discarding accepted boundaries not implicated by the failure.
 
 Do not start G5 before G4-GATE.
