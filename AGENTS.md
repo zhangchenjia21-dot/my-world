@@ -51,21 +51,22 @@ G4-09R1P1 Final Integration/Freshness PASS / CLOSED
 G4-09UATBC01 Narrative Responsiveness PASS / CLOSED — streaming goal retained
 G4-09UATB Owner Product UAT           HOLD — CORRECTION-02
 G4-09UATBC02A d20 Protocol Decoupling PASS / CLOSED
-G4-09UATBC02B Failure Visibility      ACTIVE — KIMI
+G4-09UATBC02B Failure Visibility      CORRECTION REQUIRED
+G4-09UATBC02BC01 Persistence Visibility ACTIVE — KIMI
 G4-GATE                               NOT YET
 ```
 
 Do not start G4-10 or G5 while correction-02 is active.
 
-## 3. Current execution task — G4-09UATBC02B
+## 3. Current execution task — G4-09UATBC02BC01
 
 Formal packet:
 
-`docs/tasks/G4-09UATBC02B_PUBLIC_D20_FAILURE_VISIBILITY_TASK.md`
+`docs/tasks/G4-09UATBC02BC01_PERSISTENCE_FAILURE_VISIBILITY_CORRECTION_TASK.md`
 
-C02A Independent Review:
+C02B Independent Review:
 
-`docs/g4_09/G4-09UATBC02A_INDEPENDENT_REVIEW.md`
+`docs/g4_09/G4-09UATBC02B_INDEPENDENT_REVIEW.md`
 
 Canonical decision:
 
@@ -73,9 +74,16 @@ Canonical decision:
 
 Current owner: **KIMI**. Reviewer / semantic owner: **GPT**.
 
-C02B is UI-only. It may surface concise safe terminal failure reasons and at most a compact non-blocking degradation notice. It must not redefine backend mechanics or protocol behavior.
+The first C02B delivery is partially accepted:
 
-Allowed production path:
+- transport failure visibility accepted;
+- missing-key failure visibility accepted;
+- degraded fail-soft notice accepted;
+- no backend/protocol/gate changes accepted.
+
+The only active gap is persistence/finalize hard-failure visibility. Public d20 durable failure codes must map to one concise safe save/persistence category while preserving `重试行动` and never exposing raw storage details.
+
+Allowed production path remains only:
 
 - `src/ui/叙事对话视图.gd`
 
@@ -118,7 +126,7 @@ Protected absent concrete regression:
 - selected Provider only; no cross-provider fallback;
 - hard gates remain only where authoritative integrity requires them or no Provider narrative can be produced.
 
-C02B must **not** add a model-format parser, fallback, automatic Provider switching, retry policy, or new blocking state.
+The active UI correction must **not** add a model-format parser, fallback, automatic Provider switching, retry policy, or new blocking state.
 
 ## 5. Accepted Runtime Model Settings v0.1 truth
 
@@ -138,7 +146,7 @@ Protected absent concrete regression:
 
 Owner already accepted Public d20 gameplay value. Do not reopen that question absent a concrete gameplay regression.
 
-Owner UAT remains HOLD until C02B passes GPT Independent Review. After C02B passes and Windows/product freshness is current, resume only a focused reliability/responsiveness retest.
+Owner UAT remains HOLD until C02B correction passes GPT Independent Review. After correction and product/Windows freshness are current, resume only a focused reliability/responsiveness retest.
 
 If the same decoupled control-lane seam repeatedly fails in real Provider use, do not add more formatting patches. Return for a control-capability redesign per correction-budget governance.
 
