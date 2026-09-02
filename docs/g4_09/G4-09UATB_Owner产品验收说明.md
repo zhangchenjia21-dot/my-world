@@ -1,91 +1,41 @@
 # G4-09UATB Owner 产品验收说明
 
-Status: **ACTIVE — OWNER（Focused Responsiveness Retest）**
+Status: **HOLD — correction-02（Model Freedom / Protocol Decoupling）**
 
-你已经完成过一次真实 Public d20 试玩，并明确确认：**“判定与检定：公开 d20”本身没有明显玩法问题。** 这个产品结论保留，不需要重新从零验收骰子机制。
+你已经完成过真实 Public d20 试玩，并确认：**“判定与检定：公开 d20”本身没有明显玩法问题。** 这个产品结论继续保留。
 
-Narrative Responsiveness correction 已通过 GPT Independent Review：
+Focused responsiveness retest 又暴露了一个新的真实问题：输入行动后，产品可能进入“行动未完成”而不返回正文。Independent diagnosis 认为，C01 为了实现一-call NO_CHECK streaming，把模型要求成“同一响应里先精确 control JSON，再按约定输出 narrative body”，这把模型排版/格式变成了玩家能否继续游戏的 blocking gate。
 
-`docs/g4_09/G4-09UATBC01_INDEPENDENT_REVIEW.md`
+这个方向已经被废弃。
 
-本次只复测修正后的正文响应性与相邻回归。
-
-## 复测前提
-
-1. 通过仓库根目录 `run-game.cmd` 启动当前 Windows build。
-2. 可以直接【继续游戏】使用你刚才已经试玩过的 Public d20 Game；不要求重新建局。
-3. 沿用你希望使用的已接受模型配置即可；本轮不是 DeepSeek/Kimi 横向 benchmark。
-
-## 重点复测
-
-### A. 普通 / NO_CHECK 行动
-
-输入一个明确不需要骰子的普通行动，例如：
-
-`我询问身边侍从，现在是什么时辰。`
-
-观察：
-
-- 不出现 d20 卡；
-- 模型开始产出正文后，GM 正文应当**逐步增长显示**，而不是等整段生成结束后突然一次性出现；
-- 生成完成后行动正常 accepted。
-
-### B. CHECK_REQUIRED 行动
-
-再输入一个明显具有真实风险和失败代价的行动，例如：
-
-`趁夜潜近曹军水寨，越过警戒线侦察船阵，尽量不惊动哨兵。`
-
-观察：
-
-- Program-owned d20 判定卡仍先出现；
-- 骰面、修正、DC、总计与结果仍清楚可读；
-- 判定结果出现后，GM 结果叙事应当**逐步增长显示**，而不是直到第二次模型请求完全结束才整块出现；
-- 不出现重掷、重复骰卡、重复玩家行动或结果被后续叙事改写。
-
-### C. Finalize / Continue
-
-等本回合生成完全结束后：
-
-1. 【保存】；
-2. 返回 Main Menu；
-3. 【继续游戏】；
-4. 确认仍是同一个 Game，刚才的对话和 d20 判定结果仍存在且没有重复。
-
-## 这次怎么判断
-
-本次不再问“公开 d20 值不值得保留”——你已经接受了这一点。
-
-只判断：
-
-> 修正后的正文响应性和等待/阅读节奏，是否已经达到可以继续真实游玩的程度？
-
-需要注意：修正已经移除了程序自己的“整段缓存后才显示”问题，但模型自身的首 token / reasoning 延迟仍可能存在。也就是说，如果前面会等一段时间，但正文一旦开始就持续逐步出现，这与“程序把整段压到最后才显示”是两个不同问题。
-
-## Owner 返回格式
-
-最简只需返回：
+当前 correction-02 原则：
 
 ```text
-PASS
+Model Freedom First
++
+Visible Narrative First
++
+Canonical Commit Behind a Turn Finalize Barrier
 ```
 
-或：
+新的工程方向是：
 
-```text
-FAIL
-<哪里仍然慢、卡、重复、重掷，或体验不可接受>
-```
+- d20 的机械判定 control lane 与玩家可见 GM narrative lane 分离；
+- GM narrative 恢复为完全自由的自然语言流，不要求 JSON/header/sentinel/精确换行；
+- 旧的 `NO_CHECK 必须只用 1 次 Provider call` 优化不再是硬要求；
+- control lane 如果一次有限自动恢复后仍不可用，本行动透明降级为普通自然语言叙事，而不是把玩家卡死；
+- CHECK_REQUIRED 一旦有有效 proposal，仍保持 Program-owned d20 先 durable、后结果叙事、且绝不 reroll。
 
-如果愿意多写一点，可以返回：
+当前任务：
 
-```text
-所选模型 / 上下文 / 思考强度：
-NO_CHECK 是否逐步显示：
-CHECK_REQUIRED 判定卡是否先于结果正文：
-CHECK_REQUIRED 正文是否逐步显示：
-是否出现重复行动 / 重掷 / 重复骰卡：
-Save -> Main Menu -> Continue：
-最终响应性 verdict：PASS / FAIL
-备注：
-```
+`docs/tasks/G4-09UATBC02A_D20_PROTOCOL_DECOUPLING_TASK.md`
+
+后续 UI failure visibility：
+
+`docs/tasks/G4-09UATBC02B_PUBLIC_D20_FAILURE_VISIBILITY_TASK.md`
+
+## 当前不要继续复测
+
+在 C02A + C02B 通过 GPT Independent Review 前，不需要继续重复输入行动，也不要返回最终 PASS/FAIL。
+
+修正完成后，Owner 只需要做一次很短的可靠性/响应性复测，不会重新从零验收 d20 玩法。
