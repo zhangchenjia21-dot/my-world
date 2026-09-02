@@ -1,13 +1,13 @@
 # G4-09R1B1C01A — Runtime Settings L3 UI Support
 
-Status: **ACTIVE — CODEX**  
+Status: **PASS / CLOSED**  
 Parent: **G4-09R1B1 Settings UI correction-01**  
 Owner: **Codex**  
-Reviewer / semantic owner: **GPT**  
-Return ceiling: **READY FOR INDEPENDENT REVIEW**
+Reviewer / semantic owner: **GPT**
 
 Reviewed UI/evidence HEAD: `fcdcec66edad41afbb93f4a5e9cc70174402be5c`  
-Independent Review: `docs/g4_09r1/G4-09R1B1_INDEPENDENT_REVIEW.md`
+Accepted implementation/evidence HEAD: `bb3c16b392887a4649f32e23348067c70a3e7a1c`  
+Independent Review: `docs/g4_09r1/G4-09R1B1C01A_INDEPENDENT_REVIEW.md`
 
 ## Outcome
 
@@ -17,33 +17,31 @@ Add the smallest Runtime Settings L3 support needed for the Settings UI to remai
 
 ### 1. Validated editable default
 
-Expose a public non-mutating L3 method, name may vary, conceptually:
+Expose a public non-mutating L3 method:
 
 ```text
 validated_default_settings()
 → exact validated application default
 ```
 
-Required exact default remains:
+Required exact default:
 
 ```text
 deepseek_v4_pro / 256k / high
 ```
 
-It must return a defensive copy, write no settings file, expose no credential values, and mutate no Game/Source/SQLite state.
+It returns a defensive copy, writes no settings file, exposes no credential values, and mutates no Game/Source/SQLite state.
 
 ### 2. Partial capability truth on incompatible candidate
 
-Current `inspect_candidate(settings)` returns a failure before UI can recover model capability truth for `kimi_k27 + 1m`.
-
-Extend the L3-facing result so a **known profile with an incompatible context** still returns a safe partial candidate/capability projection while preserving:
+For a known profile with an incompatible context, L3 preserves:
 
 ```text
 success = false
 status = incompatible_context_limit
 ```
 
-The partial projection must be sufficient for UI to render, without provider-policy duplication:
+while returning safe partial candidate/capability truth sufficient for UI:
 
 ```text
 profile_id
@@ -52,23 +50,20 @@ provider_id
 requested context_limit
 allowed_context_limits
 reasoning_requested
-reasoning_effective      # null for fixed-thinking model
+reasoning_effective
 graded_reasoning
 fixed_thinking
 selected-provider credential_configured bool
 ```
 
-No endpoint, model id, request path, request payload field, or secret value may enter this UI-safe projection.
+No endpoint, model id, request path, request payload field, or secret value enters this UI-safe projection. Unknown profile / malformed settings fail without partial identity.
 
-Unknown profile / malformed settings may remain failure without partial projection when capability identity cannot be established safely.
-
-## Acceptance examples
-
-Directly prove:
+## Accepted proof
 
 ```text
 validated_default_settings()
 → deepseek_v4_pro / 256k / high
+→ defensive copy
 → no write side effect
 
 inspect_candidate(kimi_k27 / 1m / high)
@@ -81,24 +76,16 @@ inspect_candidate(kimi_k27 / 1m / high)
 → no transport/secret fields
 ```
 
-Existing valid cases must remain unchanged:
+Existing valid cases remain unchanged:
 
 - DeepSeek/K3 Medium → effective High;
 - K2.7 / 256K valid fixed-thinking;
 - selected-provider credential bool only;
 - no cross-provider fallback.
 
-## Scope
+## Protected scope
 
-Expected changes only under:
-
-```text
-src/运行时设置/**
-tests/g4_09r1/** or task-owned correction tests
-docs/g4_09r1/** evidence
-```
-
-Do **not** change:
+C01A changed only Runtime Settings rules/process/public interface plus focused tests/evidence. It did not change:
 
 ```text
 src/main.tscn
@@ -110,35 +97,12 @@ src/persistence/**
 src/行动判定/**
 ```
 
-SQLite schema remains v4. Provider wire/model identities are already PASS and must not be reopened.
+SQLite schema remains v4. Provider wire/model identities remain accepted.
 
-## Required validation
+## Closeout
 
-At minimum:
+Focused Runtime Settings mechanism tests, B1 UI regression, no-write/no-secret assertions and `git diff --check` are accepted. Real DeepSeek/Kimi calls were not required because Provider/request code was unchanged.
 
-- focused Runtime Settings mechanism tests including the two new seams;
-- existing G4-09R1M1 mechanism suite green;
-- no settings/Game/Source write from default/candidate inspection;
-- secret/transport-field absence assertions;
-- `git diff --check`.
+Next task:
 
-Real DeepSeek/Kimi calls are **not required** unless Provider/request code is changed. If Provider code changes unexpectedly, stop and report why.
-
-## Return contract
-
-Return:
-
-```text
-START_HEAD
-IMPLEMENTATION_HEAD
-EVIDENCE_HEAD
-changed paths
-exact L3 default API shape
-exact incompatible-candidate projection shape
-no-write / no-secret proof
-regression summary
-SQLite schema unchanged
-READY FOR INDEPENDENT REVIEW
-```
-
-Do not implement the UI correction and do not resume Owner UAT.
+`docs/tasks/G4-09R1B1C01B_UI_STATE_CONSISTENCY_CORRECTION_TASK.md` — **ACTIVE — KIMI**.
