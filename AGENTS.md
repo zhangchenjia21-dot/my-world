@@ -52,34 +52,35 @@ G4-09UATBC01 Narrative Responsiveness PASS / CLOSED — streaming goal retained
 G4-09UATBC02A d20 Protocol Decoupling PASS / CLOSED
 G4-09UATBC02B Failure Visibility      PASS / CLOSED AFTER C01
 G4-09UATBC02BC01 Persistence Visibility PASS / CLOSED
-G4-09UATBC02P1 Final Windows Freshness ACTIVE — CODEX
-G4-09UATB Owner Product UAT           HOLD — awaiting final current-head Windows freshness
+G4-09UATBC02P1 Final Windows Freshness PASS / CLOSED
+G4-09UATB Owner Product UAT           ACTIVE — OWNER focused reliability/responsiveness retest
 G4-GATE                               NOT YET
 ```
 
 Do not start G4-10 or G5 before Owner UAT/final gate closure.
 
-## 3. Current execution task — G4-09UATBC02P1
+## 3. Current execution task — G4-09UATB
 
-Formal packet:
+Owner: **OWNER**. Semantic owner / reviewer after verdict: **GPT**.
 
-`docs/tasks/G4-09UATBC02P1_FINAL_WINDOWS_FRESHNESS_TASK.md`
+Owner instructions:
 
-Current owner: **CODEX**. Reviewer / semantic owner: **GPT**.
+`docs/g4_09/G4-09UATB_Owner产品验收说明.md`
 
-This is validation-only. No production behavior change is expected.
+This is a narrow reliability/responsiveness retest only. The Owner already accepted Public d20 gameplay value and must not be asked to re-prove it.
 
-Required closeout:
+Required product observations:
 
-- refresh both `main` branches;
-- run canonical `.\run-game.ps1 -ValidateExportOnly` against the current final correction-02 source head, rebuilding stale Windows export if required;
-- run focused G4-08B/C02B/C02BC01 UI integration;
-- confirm SQLite v4 and protected Owner/Source/settings/credential surfaces untouched;
-- `git diff --check` clean.
+- ordinary action reaches free-form narrative and visibly streams;
+- risky action still shows durable d20 result before free-form result narrative;
+- model control formatting cannot dead-end play;
+- genuine terminal failures show concise safe reasons and remain retryable;
+- no duplicate turn/card/reroll;
+- Save/Continue remains intact.
 
-Do not rerun real Provider benchmarks solely for this task; C02A real DeepSeek/Kimi evidence remains authoritative because C02B/C02BC01 changed only UI projection.
+Final correction-02 Windows freshness is accepted at:
 
-Return ceiling: **READY FOR INDEPENDENT REVIEW**.
+`docs/g4_09/G4-09UATBC02P1_INDEPENDENT_REVIEW.md`
 
 ## 4. Protected Model Freedom / Narrative Responsiveness truth
 
@@ -110,8 +111,8 @@ Protected absent concrete regression:
 
 Do not add parser formatting special cases, provider fallback, retry frameworks, or new blocking gates.
 
-## 5. Owner UAT disposition
+## 5. Final gate disposition
 
-Owner already accepted Public d20 gameplay value. Do not reopen that question absent a concrete gameplay regression.
+Wait for the Owner verdict. Only after Owner PASS may GPT close G4-09UATB, G4-09 First Playable B and G4-08 Expansion Pack v0.1, then inspect current roadmap authority before shaping G4-10.
 
-After G4-09UATBC02P1 PASS, resume only a focused reliability/responsiveness Owner retest. Do not start G5 before G4-GATE.
+Do not start G5 before G4-GATE.
