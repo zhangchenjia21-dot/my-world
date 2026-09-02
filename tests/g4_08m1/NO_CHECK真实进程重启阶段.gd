@@ -64,7 +64,7 @@ func _accept(case_root: String, proof_path: String) -> void:
 	var process := Adjudication.new(runtime, stub, rng)
 	root.add_child(process)
 	process.start_action("no-check-process", "我读取军报页首已经写明的日期。")
-	stub.simulate_delta(JSON.stringify({"decision": "NO_CHECK", "reason": "事实已经写明", "narrative": "你展开军报，页首日期清晰可见。"}))
+	stub.simulate_delta(JSON.stringify({"decision": "NO_CHECK", "reason": "事实已经写明"}) + "\n你展开军报，页首日期清晰可见。")
 	stub.simulate_completed()
 	var marker := _find_marker(runtime.world_state)
 	_check(marker.success and marker.resolution.narrative_accepted, "Process A publishes accepted NO_CHECK marker")

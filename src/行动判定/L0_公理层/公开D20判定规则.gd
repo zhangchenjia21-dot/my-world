@@ -32,18 +32,18 @@ static func validate_action(action_id: String, player_text: String) -> Dictionar
 	return success()
 
 
+## 控制头只拥有分支与提案；NO_CHECK narrative 属于 LF 后的 raw body，不能混回 JSON authority。
 static func validate_envelope(value: Variant, expected_action_id: String) -> Dictionary:
 	if not value is Dictionary:
-		return failure("invalid_adjudication_envelope", "判定响应必须是 JSON object。")
+		return failure("invalid_adjudication_envelope", "判定控制头必须是 JSON object。")
 	var envelope := value as Dictionary
 	var decision := String(envelope.get("decision", ""))
 	if decision == "NO_CHECK":
-		if not _exact_fields(envelope, ["decision", "reason", "narrative"]):
-			return failure("invalid_adjudication_envelope", "NO_CHECK 只允许 decision/reason/narrative。")
-		for field: String in ["reason", "narrative"]:
-			if not envelope[field] is String or String(envelope[field]).strip_edges().is_empty():
-				return failure("invalid_adjudication_envelope", "NO_CHECK 文本字段不能为空。")
-		return success({"decision": decision, "reason": String(envelope.reason), "narrative": String(envelope.narrative)})
+		if not _exact_fields(envelope, ["decision", "reason"]):
+			return failure("invalid_adjudication_envelope", "NO_CHECK 控制头只允许 decision/reason；narrative 必须位于首行之后。")
+		if not envelope.reason is String or String(envelope.reason).strip_edges().is_empty():
+			return failure("invalid_adjudication_envelope", "NO_CHECK reason 不能为空。")
+		return success({"decision": decision, "reason": String(envelope.reason)})
 	if decision != "CHECK_REQUIRED" or not _exact_fields(envelope, ["decision", "proposal"]):
 		return failure("invalid_adjudication_envelope", "decision 必须是 NO_CHECK 或 CHECK_REQUIRED。")
 	if not envelope.proposal is Dictionary or not _exact_fields(envelope.proposal, PROVIDER_PROPOSAL_FIELDS):

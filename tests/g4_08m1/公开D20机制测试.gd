@@ -217,7 +217,7 @@ func _test_retry_restart_and_no_check() -> void:
 	var no_check := Adjudication.new(reopened, no_check_stub, no_check_rng)
 	root.add_child(no_check)
 	no_check.start_action("han-safe-2", "我向身边侍从询问今日日期。")
-	no_check_stub.simulate_delta(JSON.stringify({"decision": "NO_CHECK", "reason": "已知且无风险", "narrative": "侍从立即答出今日日期。"}))
+	no_check_stub.simulate_delta(JSON.stringify({"decision": "NO_CHECK", "reason": "已知且无风险"}) + "\n侍从立即答出今日日期。")
 	no_check_stub.simulate_completed()
 	_check(no_check_stub.requests.size() == 1 and no_check_rng.invocation_count == 0, "D/G NO_CHECK is one Provider call with no RNG/check")
 	_check(reopened.conversation.get_durable_accepted_entries().size() == 2, "G NO_CHECK normal narrative durable")

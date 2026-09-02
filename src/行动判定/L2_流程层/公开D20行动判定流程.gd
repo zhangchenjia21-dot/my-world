@@ -15,15 +15,20 @@ var session_runtime: Variant
 var provider_adapter: Node
 var random_source: RefCounted
 var last_result := {"success": false, "status": "not_started"}
+var last_timing: Dictionary = {}
 
 var _parser := Parser.new()
 var _projector := GameLocalContext.new()
 var _assembler := ContextAssembler.new()
 var _stage := ""
 var _buffer := ""
+var _narrative_buffer := ""
+var _narrative_attempt_active := false
 var _action_id := ""
 var _player_text := ""
 var _resolution: Dictionary = {}
+var _action_started_us := 0
+var _pending_terminal_failure: Dictionary = {}
 
 
 func _init(runtime: Variant = null, adapter_override: Node = null, rng_override: RefCounted = null) -> void:
@@ -52,6 +57,7 @@ func start_action(action_id: String, player_text: String) -> Dictionary:
 		return _finish(capability)
 	_action_id = action_id
 	_player_text = player_text
+	_reset_action_state()
 	var existing := _find_check(action_id)
 	var existing_no_check := _find_no_check_action(action_id)
 	if existing.success and existing_no_check.success:
@@ -93,18 +99,41 @@ func cancel() -> void:
 
 
 func _on_delta(text: String) -> void:
-	_buffer += text
+	if not text.is_empty():
+		_note_timing("first_provider_content_delta")
+	if _stage == "adjudication":
+		var parsed := _parser.push_delta(text)
+		if not parsed.success:
+			_abort_active_request(parsed)
+			return
+		if String(parsed.get("status", "")) == "header_validated":
+			_note_timing("adjudication_control_completed")
+		if parsed.has("narrative_delta") and not String(parsed.narrative_delta).is_empty():
+			var appended := _append_visible_narrative(String(parsed.narrative_delta))
+			if not appended.success:
+				_abort_active_request(appended)
+		return
+	if _stage == "resolution_narrative":
+		_note_timing("resolution_first_provider_content_delta")
+		var appended := _append_visible_narrative(text)
+		if not appended.success:
+			_abort_active_request(appended)
 
 
 func _on_completed() -> void:
 	if _stage == "adjudication":
-		var parsed := _parser.parse(_buffer, _action_id)
+		_note_timing("adjudication_provider_completed")
+		var parsed := _parser.finish()
 		if not parsed.success:
+			_fail_narrative_attempt(String(parsed.code))
 			_finish(parsed)
 			return
+		_note_timing("adjudication_control_completed")
 		if String(parsed.decision) == "NO_CHECK":
+			_note_timing("provider_completed")
 			var frozen := _freeze_no_check_resolution(parsed)
 			if not frozen.success:
+				_fail_narrative_attempt(String(frozen.code))
 				_finish(frozen)
 				return
 			_resolution = frozen.resolution
@@ -115,6 +144,7 @@ func _on_completed() -> void:
 			_finish(resolved)
 			return
 		_resolution = resolved.check
+		_note_timing("durable_check_completed")
 		var capability := _materialized_capability()
 		if not capability.success:
 			_finish(capability)
@@ -122,14 +152,29 @@ func _on_completed() -> void:
 		_start_resolution_narrative(capability.expansion)
 		return
 	if _stage == "resolution_narrative":
-		_accept_narrative(_buffer, _resolution)
+		_note_timing("provider_completed")
+		_accept_narrative(_narrative_buffer, _resolution)
 
 
 func _on_cancelled() -> void:
+	if not _pending_terminal_failure.is_empty():
+		var failure := _pending_terminal_failure.duplicate(true)
+		_pending_terminal_failure = {}
+		_fail_narrative_attempt(String(failure.code))
+		_finish(failure)
+		return
+	_cancel_narrative_attempt()
 	_finish(Rules.failure("cancelled", "Provider request 已取消；未接受任何 narrative。"))
 
 
 func _on_failed(code: String, message: String) -> void:
+	if not _pending_terminal_failure.is_empty():
+		var failure := _pending_terminal_failure.duplicate(true)
+		_pending_terminal_failure = {}
+		_fail_narrative_attempt(String(failure.code))
+		_finish(failure)
+		return
+	_fail_narrative_attempt(code)
 	_finish(Rules.failure(code, message))
 
 
@@ -168,11 +213,20 @@ func _accept_narrative(
 	if narrative.strip_edges().is_empty():
 		_finish(Rules.failure("empty_generation", "Provider narrative 为空。"))
 		return
-	if session_runtime.conversation.begin_turn(_player_text) == null:
-		_finish(Rules.failure("generation_active", "Conversation 无法建立 Player turn。"))
+	var prepared := _ensure_narrative_attempt()
+	if not prepared.success:
+		_finish(prepared)
 		return
-	session_runtime.conversation.append_delta(narrative)
+	var latest: RefCounted = session_runtime.conversation.latest_turn()
+	var current_draft := String(latest.draft_text) if latest != null else ""
+	if current_draft.is_empty():
+		session_runtime.conversation.append_delta(narrative)
+	elif current_draft != narrative:
+		_fail_narrative_attempt("narrative_identity_conflict")
+		_finish(Rules.failure("narrative_identity_conflict", "provisional narrative 与待冻结 exact narrative 不一致。"))
+		return
 	var accepted: Dictionary = session_runtime.complete_active_generation_durably()
+	_narrative_attempt_active = false
 	if not accepted.success:
 		_finish(Rules.failure("persistence_failure", String(accepted.get("message", "Narrative 未 durable accept。"))))
 		return
@@ -188,6 +242,8 @@ func _accept_narrative(
 		if not no_check_marked.success:
 			_finish(no_check_marked)
 			return
+	_note_timing("finalize_completed")
+	_note_timing("turn_ready")
 	_finish(Rules.success({
 		"status": "accepted", "provider_calls": provider_calls if provider_calls >= 0 else (1 if check.is_empty() else 2),
 		"check": {} if check.is_empty() else _find_check(_action_id).get("check", {}).duplicate(true),
@@ -384,7 +440,7 @@ func _rules_text(expansion: Dictionary) -> String:
 
 
 func _adjudication_contract() -> String:
-	return "先判断行动是否需要检定。只输出一个 JSON object，不要 Markdown。NO_CHECK: {\"decision\":\"NO_CHECK\",\"reason\":\"...\",\"narrative\":\"...\"}。CHECK_REQUIRED: {\"decision\":\"CHECK_REQUIRED\",\"proposal\":{\"intent\":\"...\",\"dc\":10..30整数,\"modifier\":0..6整数,\"stance\":\"normal|advantage|disadvantage\",\"modifier_reason\":\"...\",\"situation_reason\":\"...\",\"success_intent\":\"...\",\"failure_stakes\":\"...\"}}。不要提供 action_id、骰面、total 或 outcome；stable action identity 由 Program 注入。"
+	return "先判断行动是否需要检定。禁止 Markdown fence 或前言。NO_CHECK 必须输出首个物理行 {\"decision\":\"NO_CHECK\",\"reason\":\"...\"}，紧接一个 LF，随后直接输出 raw GM narrative body。CHECK_REQUIRED 只输出单行 {\"decision\":\"CHECK_REQUIRED\",\"proposal\":{\"intent\":\"...\",\"dc\":10..30整数,\"modifier\":0..6整数,\"stance\":\"normal|advantage|disadvantage\",\"modifier_reason\":\"...\",\"situation_reason\":\"...\",\"success_intent\":\"...\",\"failure_stakes\":\"...\"}}，不得附加正文。不要提供 action_id、骰面、total 或 outcome；stable action identity 由 Program 注入。"
 
 
 func _start_resolution_narrative(expansion: Dictionary) -> Dictionary:
@@ -394,18 +450,111 @@ func _start_resolution_narrative(expansion: Dictionary) -> Dictionary:
 func _start_provider(stage: String, messages: Array) -> Dictionary:
 	_stage = stage
 	_buffer = ""
+	_narrative_buffer = ""
+	if stage == "adjudication":
+		_parser.reset(_action_id)
+		_note_timing("adjudication_request_started")
 	request_assembled.emit(stage, messages.duplicate(true))
-	last_result = Rules.success({"status": "streaming", "stage": stage})
+	if stage == "resolution_narrative":
+		var prepared := _ensure_narrative_attempt()
+		if not prepared.success:
+			return _finish(prepared)
+		_note_timing("resolution_narrative_request_started")
+	_note_timing("request_started")
+	last_result = Rules.success({"status": "streaming", "stage": stage, "timing": timing_snapshot()})
 	var error: Error = provider_adapter.start_stream(messages)
 	if error != OK and String(last_result.get("status", "")) == "streaming":
+		_fail_narrative_attempt("provider_start_failure")
 		return _finish(Rules.failure("provider_start_failure", "Provider request 未能启动。"))
 	return last_result.duplicate(true)
 
 
 func _finish(result: Dictionary) -> Dictionary:
 	last_result = result.duplicate(true)
+	last_result["timing"] = timing_snapshot()
 	finished.emit(last_result.duplicate(true))
 	return last_result.duplicate(true)
+
+
+## 仅公开相对 action start 的 monotonic 微秒点；不包含 prompt、正文、凭据或持久化副本。
+func timing_snapshot() -> Dictionary:
+	return last_timing.duplicate(true)
+
+
+func _reset_action_state() -> void:
+	_stage = ""
+	_buffer = ""
+	_narrative_buffer = ""
+	_narrative_attempt_active = false
+	_resolution = {}
+	_pending_terminal_failure = {}
+	_action_started_us = Time.get_ticks_usec()
+	last_timing = {}
+
+
+func _note_timing(name: String) -> void:
+	if not last_timing.has(name):
+		last_timing[name] = maxi(0, Time.get_ticks_usec() - _action_started_us)
+
+
+## d20 retry 只复用最新、未 accepted 且 Player text 相同的 provisional Turn；
+## 不同文本代表新的 action，可另建 Turn，而旧失败草稿仍不会进入 Context。
+func _ensure_narrative_attempt() -> Dictionary:
+	var conversation: RefCounted = session_runtime.conversation
+	if conversation.is_generating():
+		var active: RefCounted = conversation.latest_turn()
+		if active == null or String(active.pending_player_text) != _player_text:
+			return Rules.failure("generation_active", "Conversation 已有其它 active generation。")
+		_narrative_attempt_active = true
+		return Rules.success()
+	var latest: RefCounted = conversation.latest_turn()
+	var turn: RefCounted = null
+	if latest != null and not bool(latest.has_accepted_response) and String(latest.pending_player_text) == _player_text:
+		turn = conversation.retry_or_regenerate_latest()
+	else:
+		turn = conversation.begin_turn(_player_text)
+	if turn == null:
+		return Rules.failure("generation_active", "Conversation 无法建立或复用 Player turn。")
+	_narrative_attempt_active = true
+	return Rules.success()
+
+
+func _append_visible_narrative(text: String) -> Dictionary:
+	if text.is_empty():
+		return Rules.success()
+	var prepared := _ensure_narrative_attempt()
+	if not prepared.success:
+		return prepared
+	_narrative_buffer += text
+	session_runtime.conversation.append_delta(text)
+	if not _narrative_buffer.strip_edges().is_empty():
+		_note_timing("first_visible_narrative_delta")
+	return Rules.success()
+
+
+func _cancel_narrative_attempt() -> void:
+	if session_runtime != null and session_runtime.conversation != null and session_runtime.conversation.is_generating():
+		session_runtime.conversation.cancel_generation()
+	_narrative_attempt_active = false
+
+
+func _fail_narrative_attempt(code: String) -> void:
+	if session_runtime != null and session_runtime.conversation != null and session_runtime.conversation.is_generating():
+		session_runtime.conversation.fail_generation(code)
+	_narrative_attempt_active = false
+
+
+## Framing/Conversation trust-boundary failure 必须先终止 transport，再发布原始失败；
+## 避免 adapter 继续占用 busy，同时不让 cancel terminal 覆盖更具体的根因。
+func _abort_active_request(result: Dictionary) -> void:
+	_pending_terminal_failure = result.duplicate(true)
+	if provider_adapter != null and provider_adapter.is_busy():
+		provider_adapter.cancel()
+		return
+	var failure := _pending_terminal_failure.duplicate(true)
+	_pending_terminal_failure = {}
+	_fail_narrative_attempt(String(failure.code))
+	_finish(failure)
 
 
 func _connect_provider() -> void:

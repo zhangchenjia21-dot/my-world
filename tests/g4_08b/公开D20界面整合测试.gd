@@ -226,6 +226,9 @@ func _test_checked_action_ui() -> void:
 	_check(card_text.contains("DC 15") and card_text.contains("骰面 7 → 7") and card_text.contains("总计 7") and card_text.contains("失败"), "D transient card projects exact durable truth")
 	_check(_count_mechanic_cards(shell.narrative_view) == 1, "D transient public result appears before resolution narrative completes")
 	adjudication_stub.simulate_delta("守卫截断了你的退路；失败结果生效。")
+	await _settle(2)
+	_check(adjudication_stub.busy and shell.narrative_view._current_gm_content.get_parsed_text().contains("守卫截断"), "D result narrative delta is visible before Provider completion")
+	_check(shell.session_runtime.conversation.get_durable_accepted_entries().size() == 1 and shell.narrative_view.send_button.disabled, "D Turn Finalize Barrier blocks next action while visible draft is provisional")
 	adjudication_stub.simulate_completed()
 	await _settle(4)
 	_check(shell.session_runtime.conversation.get_durable_accepted_entries().size() == 2, "D accepted history appends Player/GM exactly once")
@@ -244,10 +247,18 @@ func _test_no_check_ui() -> void:
 		return
 	var adjudication_stub: Node = shell.test_adjudication_adapter_override
 	var rng: RefCounted = shell.test_adjudication_rng_override
+	var visible_before: String = shell.narrative_view._current_gm_content.get_parsed_text()
 	shell.narrative_view.player_input.text = "我向身边侍从询问今日日期。"
 	shell.narrative_view._on_send_pressed()
 	await _settle(2)
-	adjudication_stub.simulate_delta(JSON.stringify({"decision": "NO_CHECK", "reason": "已知且无风险", "narrative": "侍从立即答出今日日期。"}))
+	adjudication_stub.simulate_delta('{"decision":"NO_')
+	await _settle(2)
+	_check(shell.narrative_view._current_gm_content.get_parsed_text() == visible_before, "E incomplete NO_CHECK control header is never projected")
+	adjudication_stub.simulate_delta('CHECK","reason":"已知且无风险"}\n侍从立即答出')
+	await _settle(2)
+	_check(adjudication_stub.busy and shell.narrative_view._current_gm_content.get_parsed_text() == "侍从立即答出", "E NO_CHECK body streams through existing UI before completion without control JSON")
+	_check(shell.session_runtime.conversation.get_durable_accepted_entries().size() == 1, "E visible NO_CHECK draft remains non-durable before completion")
+	adjudication_stub.simulate_delta("今日日期。")
 	adjudication_stub.simulate_completed()
 	await _settle(4)
 	_check(adjudication_stub.requests.size() == 1 and rng.invocation_count == 0, "E NO_CHECK is one Provider call with zero RNG")
@@ -303,7 +314,7 @@ func _test_retry_no_reroll_ui() -> void:
 	shell.narrative_view._on_send_pressed()
 	await _settle(2)
 	_check(String(shell.narrative_view._pending_action_id) != first_attempt_id, "F edited replacement mints a new action_id")
-	adjudication_stub.simulate_delta(JSON.stringify({"decision": "NO_CHECK", "reason": "日常可行", "narrative": "你沿芦苇荡无声前行。"}))
+	adjudication_stub.simulate_delta(JSON.stringify({"decision": "NO_CHECK", "reason": "日常可行"}) + "\n你沿芦苇荡无声前行。")
 	adjudication_stub.simulate_completed()
 	await _settle(4)
 	_check(shell.session_runtime.conversation.get_durable_accepted_entries().size() == 3, "F edited action accepts once")

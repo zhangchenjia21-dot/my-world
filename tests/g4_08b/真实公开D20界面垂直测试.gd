@@ -6,6 +6,8 @@ extends SceneTree
 ## Key 只经 DEEPSEEK_API_KEY 环境变量进入 adapter；本脚本与证据文件绝不记录 key。
 
 const Fixture := preload("res://tests/g4_05/G4_05测试夹具.gd")
+const ModelSettings := preload("res://src/运行时设置/L3_外交层/模型运行时设置公开接口.gd")
+const RuntimeAdapter := preload("res://src/provider/L3_外交层/运行时模型流式适配公开接口.gd")
 
 var _failures := 0
 var _fixture := Fixture.new()
@@ -85,6 +87,8 @@ func _test_han_real_d20_vertical(source_root: String) -> void:
 	await _shot("han-d20-check-transient")
 	var continued: bool = await _wait_for(func() -> bool: return shell.session_runtime == null or shell.session_runtime.conversation.get_durable_accepted_entries().size() >= 2, 420.0)
 	_check(continued and shell.session_runtime.conversation.get_durable_accepted_entries().size() == 2, "I GM continuation accepted respecting outcome")
+	var check_timing: Dictionary = shell.action_adjudication.timing_snapshot()
+	_check(_timing_ordered(check_timing, ["durable_check_completed", "first_visible_narrative_delta", "provider_completed", "finalize_completed"]) and int(check_timing.first_visible_narrative_delta) < int(check_timing.provider_completed), "I real CHECK_REQUIRED timing proves durable -> visible-before-completed -> finalize")
 	var card_text := _first_mechanic_card_text(shell.narrative_view)
 	_check(card_text.contains("判定") and (card_text.contains("成功") or card_text.contains("失败")), "I durable mechanic card shows public outcome")
 	await _shot("han-d20-check-accepted")
@@ -96,6 +100,9 @@ func _test_han_real_d20_vertical(source_root: String) -> void:
 	var no_check_done: bool = await _wait_for(func() -> bool: return shell.session_runtime == null or shell.session_runtime.conversation.get_durable_accepted_entries().size() >= 3, 600.0)
 	_check(no_check_done and shell.session_runtime.conversation.get_durable_accepted_entries().size() == 3, "I ordinary action accepted")
 	_check(_count_mechanic_cards(shell.narrative_view) == card_count_before, "I NO_CHECK renders no dice card")
+	var no_check_timing: Dictionary = shell.action_adjudication.timing_snapshot()
+	_check(int(shell.action_adjudication.last_result.get("provider_calls", -1)) == 1, "I real NO_CHECK remains one selected-provider call")
+	_check(_timing_ordered(no_check_timing, ["first_provider_content_delta", "first_visible_narrative_delta", "provider_completed", "finalize_completed"]) and int(no_check_timing.first_visible_narrative_delta) < int(no_check_timing.provider_completed), "I real NO_CHECK timing proves provider delta -> visible-before-completed -> finalize")
 	await _shot("han-d20-no-check")
 	_evidence.cases.append({
 		"case": "han-d20",
@@ -106,6 +113,9 @@ func _test_han_real_d20_vertical(source_root: String) -> void:
 		"check_total": int(durable.check.get("total", 0)),
 		"accepted_after_vertical": 3,
 		"no_check_no_card": true,
+		"selected_profile": "deepseek_v4_pro",
+		"check_timing_us": check_timing,
+		"no_check_timing_us": no_check_timing,
 	})
 	await _shutdown_shell(shell)
 
@@ -132,7 +142,17 @@ func _boot_shell(case_root: String, source_root: String) -> Variant:
 	OS.set_environment("MY_WORLD_TEST_GAME_LIBRARY_ROOT", case_root.path_join("game-library"))
 	OS.set_environment("MY_WORLD_TEST_GAMES_ROOT", case_root.path_join("games"))
 	OS.set_environment("MY_WORLD_TEST_CREATION_ROOT", case_root.path_join("creation"))
+	var settings_path := case_root.path_join("settings/provider-runtime.json")
+	OS.set_environment("MY_WORLD_TEST_SETTINGS_PATH", settings_path)
+	var saved: Dictionary = ModelSettings.new(settings_path).save_settings({
+		"profile_id": "deepseek_v4_pro", "context_limit": "256k", "reasoning_request": "high",
+	})
+	_check(saved.success, "task-owned selected-provider settings saved for real vertical")
 	var shell: Variant = load("res://src/main.tscn").instantiate()
+	# Opening 与 Public d20 各自持有独立 adapter；二者都从同一 task-owned 设置快照读取，
+	# 避免真实验证读取或覆盖 Owner 默认 user:// 设置。
+	shell.test_opening_adapter_override = RuntimeAdapter.new(ModelSettings.new(settings_path))
+	shell.test_adjudication_adapter_override = RuntimeAdapter.new(ModelSettings.new(settings_path))
 	root.add_child(shell)
 	await _settle(4)
 	_check(shell.application_state == shell.ApplicationState.MENU_READY, "shell boots to Main Menu")
@@ -259,8 +279,17 @@ func _write_evidence() -> void:
 
 
 func _clear_environment() -> void:
-	for key: String in ["MY_WORLD_TEST_SOURCE_LIBRARY_ROOT", "MY_WORLD_TEST_CURRENT_GAME_DB", "MY_WORLD_TEST_GAME_LIBRARY_ROOT", "MY_WORLD_TEST_GAMES_ROOT", "MY_WORLD_TEST_CREATION_ROOT"]:
+	for key: String in ["MY_WORLD_TEST_SOURCE_LIBRARY_ROOT", "MY_WORLD_TEST_CURRENT_GAME_DB", "MY_WORLD_TEST_GAME_LIBRARY_ROOT", "MY_WORLD_TEST_GAMES_ROOT", "MY_WORLD_TEST_CREATION_ROOT", "MY_WORLD_TEST_SETTINGS_PATH"]:
 		OS.set_environment(key, "")
+
+
+func _timing_ordered(timing: Dictionary, names: Array[String]) -> bool:
+	var previous := -1
+	for name: String in names:
+		if not timing.has(name) or int(timing[name]) < previous:
+			return false
+		previous = int(timing[name])
+	return true
 
 
 func _argument(prefix: String) -> String:
