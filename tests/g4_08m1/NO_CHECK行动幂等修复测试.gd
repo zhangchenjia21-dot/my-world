@@ -109,10 +109,9 @@ func _test_first_replay_conflict_and_pre_result_failure() -> void:
 	_check(runtime.open_existing_game(_database_path).success, "A opens existing Game")
 	var first := _new_process(runtime)
 	first.process.start_action("no-check-a", "我向侍从询问今日日期。")
-	first.stub.simulate_delta(_no_check("已知且无风险", "侍从立即答出今日日期。"))
-	first.stub.simulate_completed()
+	_complete_no_check(first.stub, "已知且无风险", "侍从立即答出今日日期。")
 	var marker := _find_no_check(runtime.world_state, "no-check-a")
-	_check(first.stub.requests.size() == 1 and first.rng.invocation_count == 0, "A first execution uses one Provider call and zero RNG")
+	_check(first.stub.requests.size() == 2 and first.rng.invocation_count == 0, "A first execution uses decoupled control/narrative and zero RNG")
 	_check(runtime.conversation.get_durable_accepted_entries().size() == 1, "A accepts exactly one durable Conversation turn")
 	_check(marker.success and marker.resolution.narrative_accepted and _check_count(runtime.world_state) == 0, "A durable NO_CHECK replay identity exists without fake check")
 
@@ -142,11 +141,13 @@ func _test_first_replay_conflict_and_pre_result_failure() -> void:
 	invalid.process.start_action("no-check-invalid", "我询问当前时辰。")
 	invalid.stub.simulate_delta("{invalid")
 	invalid.stub.simulate_completed()
+	invalid.stub.simulate_delta("still invalid")
+	invalid.stub.simulate_completed()
+	invalid.stub.simulate_failed("transport")
 	_check(not _find_no_check(reopened.world_state, "no-check-invalid").success, "E invalid envelope creates no false marker")
 	var retry := _new_process(reopened)
 	retry.process.start_action("no-check-retry", "我向军吏询问营门位置。")
-	retry.stub.simulate_delta(_no_check("营门位置明确", "军吏抬手指出营门方向。"))
-	retry.stub.simulate_completed()
+	_complete_no_check(retry.stub, "营门位置明确", "军吏抬手指出营门方向。")
 	_check(_find_no_check(reopened.world_state, "no-check-retry").success and reopened.conversation.get_durable_accepted_entries().size() == 2, "E pre-result failure remains safely retryable")
 	reopened.close()
 
@@ -158,8 +159,7 @@ func _test_lost_ack_window_a() -> void:
 	var interrupted := _new_process(proxy)
 	var before_count: int = runtime.conversation.get_durable_accepted_entries().size()
 	interrupted.process.start_action("window-a", "我询问已经写在军报上的日期。")
-	interrupted.stub.simulate_delta(_no_check("军报可直接读取", "你展开军报，日期清楚地写在页首。"))
-	interrupted.stub.simulate_completed()
+	_complete_no_check(interrupted.stub, "军报可直接读取", "你展开军报，日期清楚地写在页首。")
 	_check(_find_no_check(runtime.world_state, "window-a").success and runtime.conversation.get_durable_accepted_entries().size() == before_count, "F1 Window A leaves frozen result before Conversation")
 	runtime.close()
 
@@ -179,8 +179,7 @@ func _test_lost_ack_window_b() -> void:
 	var interrupted := _new_process(proxy)
 	var before_count: int = runtime.conversation.get_durable_accepted_entries().size()
 	interrupted.process.start_action("window-b", "我查看桌上已经摊开的地图。")
-	interrupted.stub.simulate_delta(_no_check("地图已在眼前", "你俯身看清地图上标出的渡口。"))
-	interrupted.stub.simulate_completed()
+	_complete_no_check(interrupted.stub, "地图已在眼前", "你俯身看清地图上标出的渡口。")
 	var marker := _find_no_check(runtime.world_state, "window-b")
 	_check(marker.success and not marker.resolution.narrative_accepted and runtime.conversation.get_durable_accepted_entries().size() == before_count + 1, "F2 Window B leaves accepted Conversation before final marker")
 	runtime.close()
@@ -203,8 +202,11 @@ func _new_process(runtime: Variant) -> Dictionary:
 	return {"process": process, "stub": stub, "rng": rng}
 
 
-func _no_check(reason: String, narrative: String) -> String:
-	return JSON.stringify({"decision": "NO_CHECK", "reason": reason}) + "\n" + narrative
+func _complete_no_check(stub: Node, reason: String, narrative: String) -> void:
+	stub.simulate_delta(JSON.stringify({"decision": "NO_CHECK", "reason": reason}))
+	stub.simulate_completed()
+	stub.simulate_delta(narrative)
+	stub.simulate_completed()
 
 
 func _find_no_check(world_state: Dictionary, action_id: String) -> Dictionary:

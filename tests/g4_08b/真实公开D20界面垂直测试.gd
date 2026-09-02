@@ -75,8 +75,8 @@ func _test_han_real_d20_vertical(source_root: String) -> void:
 	# I：风险行动自然触发 CHECK_REQUIRED；Program 结果公开展示。
 	shell.narrative_view.player_input.text = "我独自潜入曹军水寨，试图盗取军令。"
 	shell.narrative_view._on_send_pressed()
-	var adjudicating: bool = await _wait_for(func() -> bool: return shell.action_adjudication != null and String(shell.action_adjudication._stage) == "adjudication", 30.0)
-	_check(adjudicating, "I risky action starts adjudication stage")
+	var adjudicating: bool = await _wait_for(func() -> bool: return shell.action_adjudication != null and String(shell.action_adjudication._stage) == "control", 30.0)
+	_check(adjudicating, "I risky action starts isolated control stage")
 	var adjudicated: bool = await _wait_for(func() -> bool: return shell.action_adjudication != null and String(shell.action_adjudication._stage) == "resolution_narrative", 180.0)
 	_check(adjudicated, "I adjudication completes and starts resolution narrative")
 	var action_id := String(shell.narrative_view._pending_action_id)
@@ -101,7 +101,7 @@ func _test_han_real_d20_vertical(source_root: String) -> void:
 	_check(no_check_done and shell.session_runtime.conversation.get_durable_accepted_entries().size() == 3, "I ordinary action accepted")
 	_check(_count_mechanic_cards(shell.narrative_view) == card_count_before, "I NO_CHECK renders no dice card")
 	var no_check_timing: Dictionary = shell.action_adjudication.timing_snapshot()
-	_check(int(shell.action_adjudication.last_result.get("provider_calls", -1)) == 1, "I real NO_CHECK remains one selected-provider call")
+	_check(int(shell.action_adjudication.last_result.get("provider_calls", -1)) == 2, "I real NO_CHECK uses isolated control plus free-form narrative")
 	_check(_timing_ordered(no_check_timing, ["first_provider_content_delta", "first_visible_narrative_delta", "provider_completed", "finalize_completed"]) and int(no_check_timing.first_visible_narrative_delta) < int(no_check_timing.provider_completed), "I real NO_CHECK timing proves provider delta -> visible-before-completed -> finalize")
 	await _shot("han-d20-no-check")
 	_evidence.cases.append({

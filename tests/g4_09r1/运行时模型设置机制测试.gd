@@ -232,6 +232,11 @@ func _test_product_routes() -> void:
 		var text := file.get_as_text() if file != null else ""
 		_check(text.contains(route_path), "F product call site routes through shared runtime profile seam: %s" % path.get_file())
 	var adjudication := FileAccess.open(product_files[2], FileAccess.READ).get_as_text()
-	_check(adjudication.contains('"adjudication"') and adjudication.contains('"resolution_narrative"'), "F d20 adjudication and resolution narrative share one adapter seam")
+	_check(
+		adjudication.contains('"control"')
+		and adjudication.contains('"no_check_narrative"')
+		and adjudication.contains('"resolution_narrative"'),
+		"F d20 isolated control and both narrative branches share one selected-provider adapter seam"
+	)
 	var launcher := FileAccess.open("res://run-game.ps1", FileAccess.READ).get_as_text()
 	_check(launcher.contains("'DEEPSEEK_API_KEY'") and launcher.contains("'KIMI_API_KEY'") and not launcher.contains("$requiredVariables") and not launcher.contains("MY_WORLD_DEEPSEEK_MODEL"), "F launcher permits either/both/no key and has no arbitrary model override")

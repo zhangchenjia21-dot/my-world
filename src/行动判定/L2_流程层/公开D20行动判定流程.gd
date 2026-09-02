@@ -23,10 +23,14 @@ var _assembler := ContextAssembler.new()
 var _stage := ""
 var _buffer := ""
 var _narrative_buffer := ""
-var _narrative_attempt_active := false
 var _action_id := ""
 var _player_text := ""
 var _resolution: Dictionary = {}
+var _control_result: Dictionary = {}
+var _control_attempts := 0
+var _provider_call_count := 0
+var _control_status := ""
+var _degradation_code := ""
 var _action_started_us := 0
 var _pending_terminal_failure: Dictionary = {}
 
@@ -63,6 +67,7 @@ func start_action(action_id: String, player_text: String) -> Dictionary:
 	if existing.success and existing_no_check.success:
 		return _finish(Rules.failure("durable_action_identity_conflict", "同一 action_id 同时存在 check 与 NO_CHECK durable truth。"))
 	if existing.success:
+		_control_status = "replayed"
 		if String(existing.check.player_text) != player_text:
 			return _finish(Rules.failure("action_payload_conflict", "同一 action_id 已绑定不同 Player action。"))
 		_resolution = existing.check.duplicate(true)
@@ -76,6 +81,7 @@ func start_action(action_id: String, player_text: String) -> Dictionary:
 			return _finish(recovered)
 		return _start_resolution_narrative(capability.expansion)
 	if existing_no_check.success:
+		_control_status = "replayed"
 		var resolution: Dictionary = existing_no_check.resolution
 		if String(resolution.player_text) != player_text:
 			return _finish(Rules.failure("action_payload_conflict", "同一 action_id 已绑定不同 Player action。"))
@@ -90,7 +96,7 @@ func start_action(action_id: String, player_text: String) -> Dictionary:
 			return _finish(Rules.success({"status": "already_accepted", "resolution": _resolution.duplicate(true)}))
 		_accept_narrative(String(_resolution.narrative), {}, _resolution, 0)
 		return last_result.duplicate(true)
-	return _start_provider("adjudication", _adjudication_messages(capability.expansion))
+	return _start_provider("control", _control_messages(capability.expansion, false))
 
 
 func cancel() -> void:
@@ -99,45 +105,59 @@ func cancel() -> void:
 
 
 func _on_delta(text: String) -> void:
-	if not text.is_empty():
-		_note_timing("first_provider_content_delta")
-	if _stage == "adjudication":
-		var parsed := _parser.push_delta(text)
-		if not parsed.success:
-			_abort_active_request(parsed)
-			return
-		if String(parsed.get("status", "")) == "header_validated":
-			_note_timing("adjudication_control_completed")
-		if parsed.has("narrative_delta") and not String(parsed.narrative_delta).is_empty():
-			var appended := _append_visible_narrative(String(parsed.narrative_delta))
-			if not appended.success:
-				_abort_active_request(appended)
+	if _is_control_stage(_stage):
+		if not text.is_empty():
+			_note_timing("control_first_provider_content_delta")
+		_buffer += text
 		return
-	if _stage == "resolution_narrative":
-		_note_timing("resolution_first_provider_content_delta")
+	if _is_narrative_stage(_stage):
+		if not text.is_empty():
+			_note_timing("first_provider_content_delta")
+			_note_timing("narrative_first_provider_content_delta")
+		if _stage == "resolution_narrative":
+			_note_timing("resolution_first_provider_content_delta")
 		var appended := _append_visible_narrative(text)
 		if not appended.success:
 			_abort_active_request(appended)
 
 
 func _on_completed() -> void:
-	if _stage == "adjudication":
-		_note_timing("adjudication_provider_completed")
-		var parsed := _parser.finish()
+	if _is_control_stage(_stage):
+		_note_timing("control_provider_completed")
+		var completed_stage := _stage
+		if completed_stage == "control_recovery":
+			_note_timing("control_recovery_provider_completed")
+		var parsed := _parser.parse(_buffer, _action_id)
 		if not parsed.success:
-			_fail_narrative_attempt(String(parsed.code))
-			_finish(parsed)
-			return
-		_note_timing("adjudication_control_completed")
-		if String(parsed.decision) == "NO_CHECK":
-			_note_timing("provider_completed")
-			var frozen := _freeze_no_check_resolution(parsed)
-			if not frozen.success:
-				_fail_narrative_attempt(String(frozen.code))
-				_finish(frozen)
+			if _control_attempts < 2:
+				_note_timing("control_recovery_started")
+				var retry_capability := _materialized_capability()
+				if not retry_capability.success:
+					_finish(retry_capability)
+					return
+				_start_provider("control_recovery", _control_messages(retry_capability.expansion, true))
 				return
-			_resolution = frozen.resolution
-			_accept_narrative(String(_resolution.narrative), {}, _resolution)
+			_control_status = "degraded"
+			_degradation_code = "control_unresolved"
+			_note_timing("control_recovery_completed")
+			_note_timing("control_degraded")
+			var degraded_capability := _materialized_capability()
+			if not degraded_capability.success:
+				_finish(degraded_capability)
+				return
+			_start_degraded_narrative(degraded_capability.expansion)
+			return
+		_control_result = parsed.duplicate(true)
+		_control_status = "resolved"
+		_note_timing("control_completed")
+		if completed_stage == "control_recovery":
+			_note_timing("control_recovery_completed")
+		var capability := _materialized_capability()
+		if not capability.success:
+			_finish(capability)
+			return
+		if String(parsed.decision) == "NO_CHECK":
+			_start_no_check_narrative(capability.expansion)
 			return
 		var resolved := _roll_and_persist(parsed.proposal)
 		if not resolved.success:
@@ -145,14 +165,23 @@ func _on_completed() -> void:
 			return
 		_resolution = resolved.check
 		_note_timing("durable_check_completed")
-		var capability := _materialized_capability()
-		if not capability.success:
-			_finish(capability)
-			return
 		_start_resolution_narrative(capability.expansion)
 		return
-	if _stage == "resolution_narrative":
+	if _is_narrative_stage(_stage):
 		_note_timing("provider_completed")
+		_note_timing("narrative_provider_completed")
+		if _stage == "no_check_narrative":
+			var frozen := _freeze_no_check_resolution(_control_result, _narrative_buffer)
+			if not frozen.success:
+				_fail_narrative_attempt(String(frozen.code))
+				_finish(frozen)
+				return
+			_resolution = frozen.resolution
+			_accept_narrative(_narrative_buffer, {}, _resolution)
+			return
+		if _stage == "degraded_narrative":
+			_accept_narrative(_narrative_buffer, {})
+			return
 		_accept_narrative(_narrative_buffer, _resolution)
 
 
@@ -226,7 +255,6 @@ func _accept_narrative(
 		_finish(Rules.failure("narrative_identity_conflict", "provisional narrative 与待冻结 exact narrative 不一致。"))
 		return
 	var accepted: Dictionary = session_runtime.complete_active_generation_durably()
-	_narrative_attempt_active = false
 	if not accepted.success:
 		_finish(Rules.failure("persistence_failure", String(accepted.get("message", "Narrative 未 durable accept。"))))
 		return
@@ -245,22 +273,26 @@ func _accept_narrative(
 	_note_timing("finalize_completed")
 	_note_timing("turn_ready")
 	_finish(Rules.success({
-		"status": "accepted", "provider_calls": provider_calls if provider_calls >= 0 else (1 if check.is_empty() else 2),
+		"status": "accepted",
+		"provider_calls": provider_calls if provider_calls >= 0 else _provider_call_count,
+		"control_status": _control_status,
+		"degraded": _control_status == "degraded",
+		"degradation_code": _degradation_code,
 		"check": {} if check.is_empty() else _find_check(_action_id).get("check", {}).duplicate(true),
 		"resolution": _find_no_check_action(_action_id).get("resolution", {}).duplicate(true) if not no_check_resolution.is_empty() else {},
 	}))
 
 
-## validated NO_CHECK envelope 必须先于 Conversation durable acceptance 冻结；之后的 retry
-## 只消费这里保存的 exact narrative，不再次询问 Provider。
-func _freeze_no_check_resolution(parsed: Dictionary) -> Dictionary:
+## Isolated control 与 free-form narrative 均完成后，先冻结 exact NO_CHECK resolution，
+## 再接受 Conversation；lost-ACK/reopen 只消费这里保存的 narrative，不重复调用 Provider。
+func _freeze_no_check_resolution(control: Dictionary, narrative: String) -> Dictionary:
 	var resolution := {
 		"resolution_id": Rules.no_check_resolution_id(String(session_runtime.game_id), _action_id),
 		"action_id": _action_id,
 		"player_text": _player_text,
 		"branch": "NO_CHECK",
-		"reason": String(parsed.reason),
-		"narrative": String(parsed.narrative),
+		"reason": String(control.reason),
+		"narrative": narrative,
 		"conversation_base_count": session_runtime.conversation.get_durable_accepted_entries().size(),
 		"narrative_accepted": false,
 	}
@@ -415,9 +447,9 @@ func _normalize_check(value: Dictionary) -> Dictionary:
 	return check
 
 
-func _adjudication_messages(expansion: Dictionary) -> Array:
+func _control_messages(expansion: Dictionary, recovery: bool) -> Array:
 	var projected := _projector.project(session_runtime.world_state)
-	var game_context := String(projected.get("context_text", "")) + "\n\n" + _rules_text(expansion) + "\n\n" + _adjudication_contract()
+	var game_context := String(projected.get("context_text", "")) + "\n\n" + _rules_text(expansion) + "\n\n" + _control_contract(recovery)
 	return _assembler.assemble_messages(session_runtime.conversation.get_context_projection().merged({
 		"active_attempt": {"turn_index": session_runtime.conversation.get_durable_accepted_entries().size(), "player_text": _player_text}
 	}, true), game_context)
@@ -432,6 +464,19 @@ func _resolution_messages(expansion: Dictionary) -> Array:
 	}, true), game_context)
 
 
+func _ordinary_narrative_messages(expansion: Dictionary, degraded: bool) -> Array:
+	var projected := _projector.project(session_runtime.world_state)
+	var instruction := "判定控制已确定本行动不需要 d20。只输出自然、连贯的 GM narrative，不输出 JSON 或 mechanics control。"
+	if degraded:
+		instruction = "本次可选 d20 control 无法可靠解析；按未启用 Expansion 的普通自然语言续写处理。不要掷骰、虚构判定结果或输出 mechanics control，只输出自然、连贯的 GM narrative。"
+	var game_context := String(projected.get("context_text", "")) + "\n\n" + instruction
+	if not degraded:
+		game_context += "\nControl reason: " + String(_control_result.get("reason", ""))
+	return _assembler.assemble_messages(session_runtime.conversation.get_context_projection().merged({
+		"active_attempt": {"turn_index": session_runtime.conversation.get_durable_accepted_entries().size(), "player_text": _player_text}
+	}, true), game_context)
+
+
 func _rules_text(expansion: Dictionary) -> String:
 	var output := "Materialized Expansion rules:\n"
 	for section: Dictionary in expansion.get("semantic_sections", []):
@@ -439,29 +484,52 @@ func _rules_text(expansion: Dictionary) -> String:
 	return output
 
 
-func _adjudication_contract() -> String:
-	return "先判断行动是否需要检定。禁止 Markdown fence 或前言。NO_CHECK 必须输出首个物理行 {\"decision\":\"NO_CHECK\",\"reason\":\"...\"}，紧接一个 LF，随后直接输出 raw GM narrative body。CHECK_REQUIRED 只输出单行 {\"decision\":\"CHECK_REQUIRED\",\"proposal\":{\"intent\":\"...\",\"dc\":10..30整数,\"modifier\":0..6整数,\"stance\":\"normal|advantage|disadvantage\",\"modifier_reason\":\"...\",\"situation_reason\":\"...\",\"success_intent\":\"...\",\"failure_stakes\":\"...\"}}，不得附加正文。不要提供 action_id、骰面、total 或 outcome；stable action identity 由 Program 注入。"
+func _control_contract(recovery: bool) -> String:
+	var prefix := "此前 control 输出无法解析；这是唯一一次修复机会。" if recovery else ""
+	return prefix + "只判断行动是否需要检定，只输出一个 JSON object，不输出 narrative、Markdown fence 或前言。NO_CHECK: {\"decision\":\"NO_CHECK\",\"reason\":\"...\"}。CHECK_REQUIRED: {\"decision\":\"CHECK_REQUIRED\",\"proposal\":{\"intent\":\"...\",\"dc\":10..30整数,\"modifier\":0..6整数,\"stance\":\"normal|advantage|disadvantage\",\"modifier_reason\":\"...\",\"situation_reason\":\"...\",\"success_intent\":\"...\",\"failure_stakes\":\"...\"}}。不要提供 action_id、骰面、total 或 outcome；stable action identity 由 Program 注入。"
 
 
 func _start_resolution_narrative(expansion: Dictionary) -> Dictionary:
 	return _start_provider("resolution_narrative", _resolution_messages(expansion))
 
 
+func _start_no_check_narrative(expansion: Dictionary) -> Dictionary:
+	return _start_provider("no_check_narrative", _ordinary_narrative_messages(expansion, false))
+
+
+func _start_degraded_narrative(expansion: Dictionary) -> Dictionary:
+	return _start_provider("degraded_narrative", _ordinary_narrative_messages(expansion, true))
+
+
+func _is_control_stage(stage: String) -> bool:
+	return stage == "control" or stage == "control_recovery"
+
+
+func _is_narrative_stage(stage: String) -> bool:
+	return stage == "no_check_narrative" or stage == "degraded_narrative" or stage == "resolution_narrative"
+
+
 func _start_provider(stage: String, messages: Array) -> Dictionary:
 	_stage = stage
 	_buffer = ""
 	_narrative_buffer = ""
-	if stage == "adjudication":
-		_parser.reset(_action_id)
-		_note_timing("adjudication_request_started")
+	if _is_control_stage(stage):
+		_control_attempts += 1
+		if stage == "control":
+			_note_timing("control_request_started")
+		else:
+			_note_timing("control_recovery_request_started")
 	request_assembled.emit(stage, messages.duplicate(true))
-	if stage == "resolution_narrative":
+	if _is_narrative_stage(stage):
 		var prepared := _ensure_narrative_attempt()
 		if not prepared.success:
 			return _finish(prepared)
-		_note_timing("resolution_narrative_request_started")
+		_note_timing("narrative_request_started")
+		if stage == "resolution_narrative":
+			_note_timing("resolution_narrative_request_started")
 	_note_timing("request_started")
 	last_result = Rules.success({"status": "streaming", "stage": stage, "timing": timing_snapshot()})
+	_provider_call_count += 1
 	var error: Error = provider_adapter.start_stream(messages)
 	if error != OK and String(last_result.get("status", "")) == "streaming":
 		_fail_narrative_attempt("provider_start_failure")
@@ -485,8 +553,12 @@ func _reset_action_state() -> void:
 	_stage = ""
 	_buffer = ""
 	_narrative_buffer = ""
-	_narrative_attempt_active = false
 	_resolution = {}
+	_control_result = {}
+	_control_attempts = 0
+	_provider_call_count = 0
+	_control_status = ""
+	_degradation_code = ""
 	_pending_terminal_failure = {}
 	_action_started_us = Time.get_ticks_usec()
 	last_timing = {}
@@ -505,7 +577,6 @@ func _ensure_narrative_attempt() -> Dictionary:
 		var active: RefCounted = conversation.latest_turn()
 		if active == null or String(active.pending_player_text) != _player_text:
 			return Rules.failure("generation_active", "Conversation 已有其它 active generation。")
-		_narrative_attempt_active = true
 		return Rules.success()
 	var latest: RefCounted = conversation.latest_turn()
 	var turn: RefCounted = null
@@ -515,7 +586,6 @@ func _ensure_narrative_attempt() -> Dictionary:
 		turn = conversation.begin_turn(_player_text)
 	if turn == null:
 		return Rules.failure("generation_active", "Conversation 无法建立或复用 Player turn。")
-	_narrative_attempt_active = true
 	return Rules.success()
 
 
@@ -535,13 +605,11 @@ func _append_visible_narrative(text: String) -> Dictionary:
 func _cancel_narrative_attempt() -> void:
 	if session_runtime != null and session_runtime.conversation != null and session_runtime.conversation.is_generating():
 		session_runtime.conversation.cancel_generation()
-	_narrative_attempt_active = false
 
 
 func _fail_narrative_attempt(code: String) -> void:
 	if session_runtime != null and session_runtime.conversation != null and session_runtime.conversation.is_generating():
 		session_runtime.conversation.fail_generation(code)
-	_narrative_attempt_active = false
 
 
 ## Framing/Conversation trust-boundary failure 必须先终止 transport，再发布原始失败；

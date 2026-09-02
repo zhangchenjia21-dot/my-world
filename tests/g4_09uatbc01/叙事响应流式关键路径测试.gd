@@ -33,8 +33,8 @@ func _initialize() -> void:
 
 func _run() -> void:
 	_task_root = _argument("--root=")
-	if _task_root.find("g4_09uatbc01") < 0:
-		_fail("task-owned --root must contain g4_09uatbc01")
+	if _task_root.find("g4_09uatbc01") < 0 and _task_root.find("g4_09uatbc02a") < 0:
+		_fail("task-owned --root must contain g4_09uatbc01 or g4_09uatbc02a")
 		return _finish()
 	_fixture.reset_directory(_task_root)
 	_test_incremental_framing()
@@ -44,6 +44,7 @@ func _run() -> void:
 	_check(runtime.open_existing_game(_database_path).success, "setup opens schema-v4 Expansion Game")
 	if runtime.is_ready():
 		await _test_no_check_progressive(runtime)
+		await _test_bounded_recovery_fail_soft(runtime)
 		await _test_no_check_failure_cancel_retry(runtime)
 		await _test_check_progressive_retry(runtime)
 		runtime.close()
@@ -52,32 +53,15 @@ func _run() -> void:
 
 func _test_incremental_framing() -> void:
 	var parser := Parser.new()
-	parser.reset("split-no-check")
-	var first := parser.push_delta('{"deci')
-	var second := parser.push_delta('sion":"NO_CHECK","reason":"无风险"}\n第一段')
-	var third := parser.push_delta("，第二段。")
-	var completed := parser.finish()
-	_check(first.success and String(first.status) == "awaiting_header", "A arbitrary split buffers incomplete control header")
-	_check(second.success and String(second.narrative_delta) == "第一段", "A valid NO_CHECK header releases same-chunk body only")
-	_check(third.success and String(third.narrative_delta) == "，第二段。", "A later raw body remains exact delta")
-	_check(completed.success and String(completed.narrative) == "第一段，第二段。", "A finish returns exact accumulated NO_CHECK body")
-
-	var check_parser := Parser.new()
-	check_parser.reset("split-check")
-	var wire := JSON.stringify(_proposal(15, 2, "normal"))
-	check_parser.push_delta(wire.substr(0, 11))
-	check_parser.push_delta(wire.substr(11))
-	var check_completed := check_parser.finish()
-	_check(check_completed.success and String(check_completed.decision) == "CHECK_REQUIRED", "A CHECK_REQUIRED accepts one compact control line without fallback")
-
-	var trailing := Parser.new()
-	trailing.reset("trailing-check")
-	var rejected := trailing.push_delta(JSON.stringify(_proposal(15, 2, "normal")) + "\n不得出现正文")
-	_check(not rejected.success and String(rejected.code) == "unexpected_check_body", "A CHECK_REQUIRED rejects non-whitespace body")
-	var fenced := Parser.new()
-	fenced.reset("fenced")
-	var fenced_result := fenced.push_delta("```json\n")
-	_check(not fenced_result.success, "A fenced/preamble control fails loud without guessing")
+	var no_check := parser.parse(" \n\t{\n  \"decision\": \"NO_CHECK\",\n  \"reason\": \"无风险\"\n}\r\n ", "pretty-no-check")
+	_check(no_check.success and String(no_check.decision) == "NO_CHECK", "A isolated control accepts harmless whitespace and pretty-print JSON")
+	var check_completed := parser.parse(JSON.stringify(_proposal(15, 2, "normal")), "pretty-check")
+	_check(check_completed.success and String(check_completed.decision) == "CHECK_REQUIRED", "A CHECK_REQUIRED remains exact structured mechanics control")
+	var mixed := parser.parse(JSON.stringify({"decision": "NO_CHECK", "reason": "无风险"}) + "\n玩家可见正文", "mixed")
+	_check(not mixed.success, "A mixed control plus narrative protocol is retired")
+	var fenced := parser.parse("```json\n{}\n```", "fenced")
+	var preamble := parser.parse("判定如下：" + JSON.stringify({"decision": "NO_CHECK", "reason": "无风险"}), "preamble")
+	_check(not fenced.success and not preamble.success, "A fenced/preamble control fails without object guessing")
 
 
 func _test_no_check_progressive(runtime: RefCounted) -> void:
@@ -85,14 +69,20 @@ func _test_no_check_progressive(runtime: RefCounted) -> void:
 	var accepted_before: int = runtime.conversation.get_durable_accepted_entries().size()
 	var world_before := JSON.stringify(runtime.world_state)
 	case.process.start_action("c01-no-check-stream", "我询问军报上的日期。")
-	case.stub.simulate_delta('{"decision":"NO_')
+	case.stub.simulate_delta("  {\n  \"decision\": \"NO_CHECK\",")
 	await _delay()
-	_check(not runtime.conversation.is_generating(), "B NO_CHECK exposes nothing before complete validated header")
-	case.stub.simulate_delta('CHECK","reason":"军报明确"}\n第一段')
+	_check(not runtime.conversation.is_generating(), "B control lane never exposes structured content as narrative")
+	case.stub.simulate_delta('\n  "reason": "军报明确"\n}\n ')
+	case.stub.simulate_completed()
+	await _delay()
+	_check(case.stub.requests.size() == 2 and String(case.process._stage) == "no_check_narrative", "B valid NO_CHECK starts a separate free-form narrative request")
+	var narrative_request := JSON.stringify(case.stub.requests[1])
+	_check(not narrative_request.contains("必须输出首个物理行") and not narrative_request.contains("raw GM narrative body"), "B narrative request has no mixed framing contract")
+	case.stub.simulate_delta("第一段")
 	await _delay()
 	var turn: RefCounted = runtime.conversation.latest_turn()
 	var timing: Dictionary = case.process.timing_snapshot()
-	_check(case.stub.requests.size() == 1 and case.stub.busy, "B NO_CHECK stays one active Provider call while body streams")
+	_check(case.stub.requests.size() == 2 and case.stub.busy, "B NO_CHECK narrative streams in the second selected-provider call")
 	_check(runtime.conversation.is_generating() and String(turn.draft_text) == "第一段", "B first body delta reaches provisional Conversation before completion")
 	_check(runtime.conversation.get_durable_accepted_entries().size() == accepted_before and JSON.stringify(runtime.world_state) == world_before, "B body delta performs no durable Conversation/world write")
 	_check(timing.has("first_visible_narrative_delta") and not timing.has("provider_completed"), "B timing proves first visible narrative precedes Provider completion")
@@ -102,35 +92,75 @@ func _test_no_check_progressive(runtime: RefCounted) -> void:
 	var final_timing: Dictionary = case.process.timing_snapshot()
 	var resolution := _find_no_check(runtime.world_state, "c01-no-check-stream")
 	_check(resolution.success and String(resolution.resolution.narrative) == "第一段，第二段。", "B exact streamed body freezes once at completion")
+	_check(int(case.process.last_result.provider_calls) == 2 and not bool(case.process.last_result.degraded), "B normal NO_CHECK uses isolated control plus narrative with no degradation")
 	_check(runtime.conversation.get_durable_accepted_entries().size() == accepted_before + 1, "B finalize durably accepts exactly one Conversation turn")
-	_check(_ordered(final_timing, ["first_provider_content_delta", "first_visible_narrative_delta", "provider_completed", "finalize_completed", "turn_ready"]), "B non-secret monotonic timing orders delta -> visible -> complete -> finalize")
+	_check(_ordered(final_timing, ["control_request_started", "control_completed", "narrative_request_started", "first_provider_content_delta", "first_visible_narrative_delta", "provider_completed", "finalize_completed", "turn_ready"]), "B timing separates control from free-form narrative and finalize")
+
+
+func _test_bounded_recovery_fail_soft(runtime: RefCounted) -> void:
+	var recovered := _new_process(runtime, [20])
+	recovered.process.start_action("c02a-recovered-control", "我询问今日日期。")
+	recovered.stub.simulate_delta("无法解析的首次 control")
+	recovered.stub.simulate_completed()
+	_check(recovered.stub.requests.size() == 2 and String(recovered.process._stage) == "control_recovery", "C malformed control triggers exactly one internal recovery request")
+	recovered.stub.simulate_delta(" \n" + JSON.stringify({"decision": "NO_CHECK", "reason": "日期明确"}) + " \n")
+	recovered.stub.simulate_completed()
+	_check(recovered.stub.requests.size() == 3 and String(recovered.process._stage) == "no_check_narrative", "C recovered control continues through separate narrative lane")
+	recovered.stub.simulate_delta("军吏答出今日日期。")
+	recovered.stub.simulate_completed()
+	_check(recovered.process.last_result.success and not bool(recovered.process.last_result.degraded) and int(recovered.process.last_result.provider_calls) == 3, "C one recovery can resolve normally without fake degradation")
+
+	var degraded := _new_process(runtime, [20])
+	var checks_before := _check_count(runtime.world_state)
+	var no_checks_before := _no_check_count(runtime.world_state)
+	degraded.process.start_action("c02a-degraded-control", "我查看江面风向。")
+	degraded.stub.simulate_delta("RAW_CONTROL_MARKER_A")
+	degraded.stub.simulate_completed()
+	degraded.stub.simulate_delta("RAW_CONTROL_MARKER_B")
+	degraded.stub.simulate_completed()
+	_check(degraded.stub.requests.size() == 3 and String(degraded.process._stage) == "degraded_narrative", "C second malformed control fail-softs without a third control attempt")
+	_check(not JSON.stringify(degraded.stub.requests[2]).contains("RAW_CONTROL_MARKER"), "C degraded narrative request does not echo raw control payload")
+	degraded.stub.simulate_delta("江面东南风渐起，战船随浪轻摆。")
+	_check(runtime.conversation.is_generating(), "C fail-soft narrative is progressively visible instead of dead-end unfinished")
+	degraded.stub.simulate_completed()
+	_check(degraded.process.last_result.success and String(degraded.process.last_result.status) == "accepted" and bool(degraded.process.last_result.degraded), "C degraded action returns accepted plus stable non-secret flag")
+	_check(String(degraded.process.last_result.degradation_code) == "control_unresolved" and int(degraded.process.last_result.provider_calls) == 3, "C degradation status is bounded and non-secret")
+	_check(_check_count(runtime.world_state) == checks_before and _no_check_count(runtime.world_state) == no_checks_before, "C degraded action creates no check and no fake NO_CHECK marker")
 
 
 func _test_no_check_failure_cancel_retry(runtime: RefCounted) -> void:
 	var failed := _new_process(runtime, [20])
 	var accepted_before: int = runtime.conversation.get_durable_accepted_entries().size()
 	failed.process.start_action("c01-no-check-fail", "我询问营门方向。")
-	failed.stub.simulate_delta(_no_check_wire("方向明确", "屏幕可见但不会接受"))
+	failed.stub.simulate_delta(_no_check_control("方向明确"))
+	failed.stub.simulate_completed()
+	failed.stub.simulate_delta("屏幕可见但不会接受")
 	var turns_after_first: int = runtime.conversation.turns.size()
 	failed.stub.simulate_failed("transport")
 	_check(runtime.conversation.get_durable_accepted_entries().size() == accepted_before and not _find_no_check(runtime.world_state, "c01-no-check-fail").success, "C mid-stream failure leaves zero durable result/Conversation")
 	_check(not JSON.stringify(runtime.conversation.get_context_projection()).contains("屏幕可见但不会接受"), "C failed partial draft is excluded from future Context")
 	failed.process.start_action("c01-no-check-fail", "我询问营门方向。")
-	failed.stub.simulate_delta(_no_check_wire("方向明确", "军吏重新指出营门。"))
+	failed.stub.simulate_delta(_no_check_control("方向明确"))
 	failed.stub.simulate_completed()
-	_check(runtime.conversation.turns.size() == turns_after_first and failed.stub.requests.size() == 2, "C same-process retry reuses provisional Turn without duplicate Player turn")
+	failed.stub.simulate_delta("军吏重新指出营门。")
+	failed.stub.simulate_completed()
+	_check(runtime.conversation.turns.size() == turns_after_first and failed.stub.requests.size() == 4, "D same-process retry reuses provisional Turn across decoupled calls")
 
 	var cancelled := _new_process(runtime, [20])
 	accepted_before = runtime.conversation.get_durable_accepted_entries().size()
 	cancelled.process.start_action("c01-no-check-cancel", "我查看眼前的旗号。")
-	cancelled.stub.simulate_delta(_no_check_wire("旗号可见", "这段在取消前可见"))
+	cancelled.stub.simulate_delta(_no_check_control("旗号可见"))
+	cancelled.stub.simulate_completed()
+	cancelled.stub.simulate_delta("这段在取消前可见")
 	var cancel_turns: int = runtime.conversation.turns.size()
 	cancelled.process.cancel()
 	_check(runtime.conversation.get_durable_accepted_entries().size() == accepted_before and not _find_no_check(runtime.world_state, "c01-no-check-cancel").success, "C cancel leaves no accepted/durable NO_CHECK result")
 	cancelled.process.start_action("c01-no-check-cancel", "我查看眼前的旗号。")
-	cancelled.stub.simulate_delta(_no_check_wire("旗号可见", "旗号属于本营。"))
+	cancelled.stub.simulate_delta(_no_check_control("旗号可见"))
 	cancelled.stub.simulate_completed()
-	_check(runtime.conversation.turns.size() == cancel_turns and cancelled.stub.requests.size() == 2, "C cancelled action retry reuses one Turn and one stable action")
+	cancelled.stub.simulate_delta("旗号属于本营。")
+	cancelled.stub.simulate_completed()
+	_check(runtime.conversation.turns.size() == cancel_turns and cancelled.stub.requests.size() == 4, "D cancelled action retry reuses one Turn and one stable action")
 
 
 func _test_check_progressive_retry(runtime: RefCounted) -> void:
@@ -147,7 +177,7 @@ func _test_check_progressive_retry(runtime: RefCounted) -> void:
 	_check(durable.success and int(durable.check.raw_rolls[0]) == 3 and String(durable.check.outcome) == "failure", "D exact Program check is durable before result narrative")
 	_check(case.rng.invocation_count == 1 and case.stub.requests.size() == 2, "D validated control performs one RNG then starts second Provider call")
 	_check(runtime.conversation.is_generating() and runtime.conversation.get_durable_accepted_entries().size() == accepted_before, "D provisional Turn is active behind finalize barrier")
-	_check(_ordered(timing, ["adjudication_control_completed", "durable_check_completed", "resolution_narrative_request_started"]), "D timing proves durable check before narrative request")
+	_check(_ordered(timing, ["control_completed", "durable_check_completed", "resolution_narrative_request_started"]), "E timing proves durable check before narrative request")
 	await _delay()
 	case.stub.simulate_delta("守卫发现了你的踪迹；")
 	await _delay()
@@ -207,8 +237,16 @@ func _proposal(dc: int, modifier: int, stance: String) -> Dictionary:
 	}}
 
 
-func _no_check_wire(reason: String, narrative: String) -> String:
-	return JSON.stringify({"decision": "NO_CHECK", "reason": reason}) + "\n" + narrative
+func _no_check_control(reason: String) -> String:
+	return JSON.stringify({"decision": "NO_CHECK", "reason": reason})
+
+
+func _check_count(world_state: Dictionary) -> int:
+	return world_state.get("expansion_runtime", {}).get("public_d20_checks", []).size()
+
+
+func _no_check_count(world_state: Dictionary) -> int:
+	return world_state.get("expansion_runtime", {}).get("public_d20_no_check_actions", []).size()
 
 
 func _find_no_check(world_state: Dictionary, action_id: String) -> Dictionary:
@@ -247,16 +285,16 @@ func _argument(prefix: String) -> String:
 
 func _check(condition: bool, label: String) -> void:
 	if condition:
-		print("G4-09UATBC01 PASS | " + label)
+		print("G4-09UATBC02A PASS | " + label)
 	else:
 		_fail(label)
 
 
 func _fail(label: String) -> void:
 	_failures += 1
-	push_error("G4-09UATBC01 FAIL | " + label)
+	push_error("G4-09UATBC02A FAIL | " + label)
 
 
 func _finish() -> void:
-	print("G4-09UATBC01 | done failures=%d" % _failures)
+	print("G4-09UATBC02A | done failures=%d" % _failures)
 	quit(0 if _failures == 0 else 1)

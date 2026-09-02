@@ -53,11 +53,11 @@ func _run_han() -> void:
 	var risk_check := _find_check(runtime.world_state, "han-risk-real")
 	_check(risk.success and risk_check.success, "H Han high-risk action produces CHECK_REQUIRED and accepted continuation")
 	if risk_check.success:
-		_check((risk.stages as Array) == ["adjudication", "resolution_narrative"], "H Han CHECK_REQUIRED uses exactly two Provider stages")
+		_check((risk.stages as Array) == ["control", "resolution_narrative"], "H Han CHECK_REQUIRED uses isolated control plus result narrative")
 		_check(int(risk_check.check.selected_roll) >= 1 and int(risk_check.check.selected_roll) <= 20, "H Han die face is Program-owned legal d20")
 	var before_count := _check_count(runtime.world_state)
 	var ordinary := await _perform(runtime, "han-ordinary-real", "我留在安全的军帐内，向身边书记询问案牍上已经写明的今日日期。")
-	_check(ordinary.success and (ordinary.stages as Array) == ["adjudication"] and _check_count(runtime.world_state) == before_count, "H Han ordinary action produces NO_CHECK one-call path")
+	_check(ordinary.success and (ordinary.stages as Array) == ["control", "no_check_narrative"] and _check_count(runtime.world_state) == before_count, "H Han ordinary action uses decoupled NO_CHECK narrative path")
 	var game_id := String(runtime.game_id)
 	var exact_check: Dictionary = _find_check(runtime.world_state, "han-risk-real").check.duplicate(true) if risk_check.success else {}
 	var accepted_before: Array = runtime.conversation.get_durable_accepted_entries().duplicate(true)
@@ -78,7 +78,7 @@ func _run_afterglow() -> void:
 	var runtime: RefCounted = route.runtime
 	var risk := await _perform(runtime, "afterglow-risk-real", "莉维娅独自进入正在失稳的主魔力管线，试图在防护崩溃前手动闭合核心阀门；失败会让她受伤并扩大泄漏。")
 	var check := _find_check(runtime.world_state, "afterglow-risk-real")
-	_check(risk.success and check.success and (risk.stages as Array) == ["adjudication", "resolution_narrative"], "I Afterglow/Livia uses same real Public d20 vertical")
+	_check(risk.success and check.success and (risk.stages as Array) == ["control", "resolution_narrative"], "I Afterglow/Livia uses same real Public d20 vertical")
 	_check(not JSON.stringify(runtime.world_state.expansions).contains("汉末"), "I materialized Host capability has no Han-specific rule")
 	_evidence.routes.append(_route_evidence("afterglow", route, risk, {}, check.get("check", {}), runtime.conversation.get_durable_accepted_entries()))
 	runtime.close()
@@ -132,7 +132,6 @@ func _perform(runtime: RefCounted, action_id: String, player_text: String) -> Di
 
 
 func _route_evidence(route: String, created: Dictionary, risk: Dictionary, ordinary: Dictionary, check: Dictionary, accepted: Array) -> Dictionary:
-	var last_text := String(accepted[-1].gm_text) if not accepted.is_empty() else ""
 	return {
 		"route": route, "game_id": created.game_id, "root_node_id": created.root_node_id,
 		"model": OS.get_environment("MY_WORLD_DEEPSEEK_MODEL") if not OS.get_environment("MY_WORLD_DEEPSEEK_MODEL").is_empty() else "deepseek-v4-pro",
@@ -141,7 +140,7 @@ func _route_evidence(route: String, created: Dictionary, risk: Dictionary, ordin
 		"check_id": check.get("check_id", ""), "dc": check.get("dc", null), "modifier": check.get("modifier", null),
 		"stance": check.get("stance", ""), "raw_rolls": check.get("raw_rolls", []), "selected_roll": check.get("selected_roll", null),
 		"total": check.get("total", null), "outcome": check.get("outcome", ""), "narrative_accepted": check.get("narrative_accepted", false),
-		"accepted_count": accepted.size(), "last_response_sha256": last_text.sha256_text(), "last_response_chars": last_text.length(), "last_response_excerpt": last_text.left(240),
+		"accepted_count": accepted.size(),
 	}
 
 
