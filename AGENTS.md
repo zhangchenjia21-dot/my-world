@@ -49,56 +49,39 @@ G4-09R1M1 Backend Mechanism           PASS / CLOSED
 G4-09R1B1 Settings UI                 PASS / CLOSED AFTER CORRECTION-01
 G4-09R1P1 Final Integration/Freshness PASS / CLOSED
 G4-09UATBC01 Narrative Responsiveness PASS / CLOSED — streaming goal retained
-G4-09UATB Owner Product UAT           HOLD — CORRECTION-02
 G4-09UATBC02A d20 Protocol Decoupling PASS / CLOSED
-G4-09UATBC02B Failure Visibility      CORRECTION REQUIRED
-G4-09UATBC02BC01 Persistence Visibility ACTIVE — KIMI
+G4-09UATBC02B Failure Visibility      PASS / CLOSED AFTER C01
+G4-09UATBC02BC01 Persistence Visibility PASS / CLOSED
+G4-09UATBC02P1 Final Windows Freshness ACTIVE — CODEX
+G4-09UATB Owner Product UAT           HOLD — awaiting final current-head Windows freshness
 G4-GATE                               NOT YET
 ```
 
-Do not start G4-10 or G5 while correction-02 is active.
+Do not start G4-10 or G5 before Owner UAT/final gate closure.
 
-## 3. Current execution task — G4-09UATBC02BC01
+## 3. Current execution task — G4-09UATBC02P1
 
 Formal packet:
 
-`docs/tasks/G4-09UATBC02BC01_PERSISTENCE_FAILURE_VISIBILITY_CORRECTION_TASK.md`
+`docs/tasks/G4-09UATBC02P1_FINAL_WINDOWS_FRESHNESS_TASK.md`
 
-C02B Independent Review:
+Current owner: **CODEX**. Reviewer / semantic owner: **GPT**.
 
-`docs/g4_09/G4-09UATBC02B_INDEPENDENT_REVIEW.md`
+This is validation-only. No production behavior change is expected.
 
-Canonical decision:
+Required closeout:
 
-`Vibe-Coding/my world/architecture/foundation/G4_NARRATIVE_RESPONSIVENESS_V0_1_DECISION.md`
+- refresh both `main` branches;
+- run canonical `.\run-game.ps1 -ValidateExportOnly` against the current final correction-02 source head, rebuilding stale Windows export if required;
+- run focused G4-08B/C02B/C02BC01 UI integration;
+- confirm SQLite v4 and protected Owner/Source/settings/credential surfaces untouched;
+- `git diff --check` clean.
 
-Current owner: **KIMI**. Reviewer / semantic owner: **GPT**.
-
-The first C02B delivery is partially accepted:
-
-- transport failure visibility accepted;
-- missing-key failure visibility accepted;
-- degraded fail-soft notice accepted;
-- no backend/protocol/gate changes accepted.
-
-The only active gap is persistence/finalize hard-failure visibility. Public d20 durable failure codes must map to one concise safe save/persistence category while preserving `重试行动` and never exposing raw storage details.
-
-Allowed production path remains only:
-
-- `src/ui/叙事对话视图.gd`
-
-Protected:
-
-- Action Adjudication backend
-- Provider
-- Persistence / Runtime
-- Runtime Model Settings
-- Source / Final Create
-- SQLite schema
+Do not rerun real Provider benchmarks solely for this task; C02A real DeepSeek/Kimi evidence remains authoritative because C02B/C02BC01 changed only UI projection.
 
 Return ceiling: **READY FOR INDEPENDENT REVIEW**.
 
-## 4. Accepted Model Freedom / Narrative Responsiveness truth
+## 4. Protected Model Freedom / Narrative Responsiveness truth
 
 Core principle:
 
@@ -115,39 +98,20 @@ Protected absent concrete regression:
 - player-visible GM narrative is free-form natural language;
 - narrative has no JSON header, sentinel, exact-line or physical-LF framing contract;
 - Public d20 mechanics control and narrative are separate selected-provider requests;
-- the old `NO_CHECK = exactly one Provider call` optimization is superseded;
-- isolated control accepts harmless whitespace / pretty-print formatting;
-- malformed control gets at most one bounded internal recovery attempt;
-- if control remains unresolved, the action fails soft to ordinary free-form narrative, remains playable, creates no d20 check and no fake NO_CHECK marker;
-- valid CHECK_REQUIRED still freezes Program RNG/outcome durably before result narrative;
+- old `NO_CHECK = exactly one Provider call` optimization is superseded;
+- malformed isolated control gets at most one bounded recovery attempt;
+- if still unresolved, action fails soft to ordinary narrative with no fake d20/NO_CHECK truth;
+- valid CHECK_REQUIRED freezes Program RNG/outcome durably before result narrative;
 - narrative streams provisionally with no per-token canonical persistence;
 - partial visible draft after fail/cancel is excluded from future Context;
 - stable action/check identity and no-reroll remain protected;
 - selected Provider only; no cross-provider fallback;
-- hard gates remain only where authoritative integrity requires them or no Provider narrative can be produced.
+- legitimate hard failures show concise safe player-readable reasons and retain recovery controls.
 
-The active UI correction must **not** add a model-format parser, fallback, automatic Provider switching, retry policy, or new blocking state.
+Do not add parser formatting special cases, provider fallback, retry frameworks, or new blocking gates.
 
-## 5. Accepted Runtime Model Settings v0.1 truth
-
-Protected absent concrete regression:
-
-- app-local settings `user://my-world/settings/provider-runtime.json`;
-- exact four player-facing profiles: DeepSeek V4 Pro, DeepSeek V4 Flash, Kimi K3, Kimi K2.7;
-- DeepSeek/K3 256K/1M compatibility; K2.7 256K-only;
-- DeepSeek/K3 requested reasoning `low/medium/high/max`, with `medium -> effective high`;
-- K2.7 fixed Thinking ON / no graded effective effort;
-- selected-provider credentials only: `DEEPSEEK_API_KEY` / `KIMI_API_KEY`;
-- no cross-provider fallback;
-- Main Menu settings UI behavior accepted;
-- Source/Final Create semantics and SQLite schema v4 remain unchanged.
-
-## 6. Owner UAT disposition
+## 5. Owner UAT disposition
 
 Owner already accepted Public d20 gameplay value. Do not reopen that question absent a concrete gameplay regression.
 
-Owner UAT remains HOLD until C02B correction passes GPT Independent Review. After correction and product/Windows freshness are current, resume only a focused reliability/responsiveness retest.
-
-If the same decoupled control-lane seam repeatedly fails in real Provider use, do not add more formatting patches. Return for a control-capability redesign per correction-budget governance.
-
-Do not start G5 before G4-GATE.
+After G4-09UATBC02P1 PASS, resume only a focused reliability/responsiveness Owner retest. Do not start G5 before G4-GATE.
