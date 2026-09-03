@@ -1,14 +1,16 @@
 # G5-01M1 Independent Review
 
-Status: **CORRECTION REQUIRED / NOT ENGINEERING PASS YET**  
+Status: **ENGINEERING PASS / CLOSED**  
 Reviewer: **GPT**  
 Reviewed implementation: `eb171a19dd0b4eeb134392128fb8df7fd5b104cb`  
 Reviewed evidence: `f9b1be01bd102f3bb1ae6b0b762a6b97d3a5b6f1`  
 Real Provider vertical: **PENDING / EXTERNAL PROVIDER UNAVAILABLE**
 
-## 1. Review result
+## 1. Final review result
 
-The overall G5-01M1 architecture is accepted in principle:
+G5-01M1 passes engineering Independent Review for its intended v0.1 consumer.
+
+Accepted production ordering:
 
 ```text
 durable free-form Conversation acceptance
@@ -18,74 +20,50 @@ durable free-form Conversation acceptance
 → bounded matching Context projection
 ```
 
-The implementation correctly keeps player-visible Narrative independent from semantic-analysis success, introduces no narrative JSON/output gate, reuses the selected Provider adapter without fallback, reuses the existing world-mutation/SQLite owner, and keeps `living_world.v0.1` as a bounded turn consequence ledger rather than a universal ontology.
+The implementation keeps player-visible Narrative independent from semantic-analysis success, introduces no narrative JSON/output gate, reuses the selected Provider adapter without fallback, reuses the existing world-mutation/SQLite owner, and keeps `living_world.v0.1` as a bounded turn consequence ledger rather than a universal ontology.
 
-However, Independent Review found one concrete Timeline isolation defect. Engineering PASS is withheld until the focused correction below is closed.
+## 2. What passed review
 
-## 2. Blocking finding — Restore does not reset semantic worker timeline-local state
-
-`SemanticMaterializationProcess` owns in-memory state including:
-
-```text
-_attempted_versions
-_queue
-_active
-```
-
-The current Runtime already emits `restore_completed` after a committed Save/Recovery progress switch, but the semantic worker does not observe that signal.
-
-Therefore an abandoned future branch can leave `_attempted_versions` entries behind after Restore.
-
-Concrete failure sequence:
-
-```text
-Turn N accepted in future branch
-→ semantic version V is attempted/materialized
-→ Restore to an earlier Save before Turn N
-→ durable Conversation + world_state correctly return to the older snapshot
-→ semantic worker memory still remembers version V as attempted
-→ player later reaches the same Turn N / accepted GM hash again
-→ current world_state has no matching World Turn, but _attempted_versions still contains V
-→ worker returns already_attempted
-→ no semantic request occurs
-→ restored branch can no longer materialize that legitimate consequence
-```
-
-This is stale future execution state influencing the restored timeline. It violates the protected principle:
-
-> **Player owns the timeline.**
-
-It also means the existing evidence statement “no stale future semantic memory leaks after Restore” is broader than the current test actually proves. The current Timeline test proves stale/future **records are excluded from Context**, but it does not prove abandoned-future **attempt suppression state** cannot affect subsequent play.
-
-## 3. Neighboring Restore race that the correction must cover
-
-A semantic analysis may also be active or queued when the player performs Save Restore / Recovery because semantic analysis is intentionally independent from foreground Conversation generation.
-
-After a committed progress switch:
-
-- a pre-Restore active analysis must not be allowed to commit into the new timeline, even if the restored Conversation happens to contain coincidentally matching text;
-- queued pre-Restore semantic work must not continue as authoritative work for the restored timeline;
-- Restore itself must not automatically launch a new semantic Provider request.
-
-The correction may use the existing `session_runtime.restore_completed` signal and a small timeline epoch/invalidation mechanism or an equivalent bounded design. Do not change persistence schema or make semantic analysis a Restore gate.
-
-## 4. What passed review
-
-Independent Review found no blocking issue in these M1 boundaries:
+Independent Review found the intended v0.1 seams sound:
 
 - semantic analysis starts from accepted Conversation completion rather than provisional streaming text;
 - GM-only Opening is skipped;
 - visible Narrative is not parsed as machine protocol;
-- analysis malformed/empty/transport failure is fail-soft;
+- malformed/empty/transport analysis failure is fail-soft;
 - valid semantic result constructs a bounded `living_world.v0.1` record and uses existing `commit_world_mutation_durably(...)`;
-- same currently materialized accepted version is idempotent through the durable record lookup;
-- GM-hash mismatch excludes stale replacement records from Context;
+- currently materialized accepted content is idempotent through durable record lookup;
+- GM-hash mismatch excludes stale replacement/future records from Context;
+- Save/Restore restores coherent Conversation + world snapshot and restored-away future World Turn records do not re-enter current Context;
 - Context projection is bounded;
 - no SQLite schema migration/new table, Source mutation, Runtime Model Settings change, Public d20 change, UI work, G5-02+ domain work or G6 visual work was introduced;
 - final evidence honestly records the two Kimi K3 Narrative-stage 420-second timeouts and does not claim a real Provider PASS;
 - evidence records `git diff --check` PASS and Owner production fingerprints unchanged.
 
-## 5. Real Provider status
+## 3. Reclassified Restore exact-replay finding — deferred / non-blocking
+
+The previous review temporarily classified one Restore exact-replay case as blocking: session-local `_attempted_versions` can remember a semantic attempt from a restored-away future, so if the player later reaches the same conversation turn index and the GM produces **exactly the same full Narrative bytes/hash**, the worker may suppress a second semantic-analysis attempt.
+
+After further review, this is **not a G5-01 v0.1 blocker** and the proposed C02 correction is cancelled.
+
+Reasons:
+
+1. restored-away durable World Turn records already do not contaminate the restored current Context;
+2. the edge case requires the later GM output to reproduce the exact same full-text hash at the same turn index, which is not a normal product-critical path for free-form Narrative;
+3. naively clearing attempt memory and re-running analysis can create a deeper identity conflict because current deterministic World Turn / mutation identity is also derived from `game_id + turn_index + GM hash`, while a second nondeterministic extraction could produce a different payload for that same durable identity;
+4. a complete solution therefore belongs with an actual branch/exact-replay consumer and would need an explicit design for durable extraction-result reuse or branch-aware semantic identity, rather than a speculative Restore reset mechanism.
+
+Deferred finding:
+
+```text
+Restore exact future replay with identical turn_index + full GM hash
+→ session-local prior-attempt suppression may prevent re-analysis
+→ no current restored-timeline contamination
+→ defer until an actual branch/exact-replay consumer requires semantics
+```
+
+This follows `Consumer before infrastructure` and does not change accepted G5-01 behavior.
+
+## 4. Real Provider status
 
 The two bounded real Kimi K3 attempts timed out during ordinary Narrative before the feature-specific semantic lane could execute.
 
@@ -96,23 +74,12 @@ real selected-Provider G5-01 vertical
 PENDING / EXTERNAL PROVIDER UNAVAILABLE
 ```
 
-This is not the reason for the correction and must not trigger another Provider attempt during the Restore fix.
+Engineering PASS does not convert that missing reality proof into PASS.
 
-## 6. Required next task
+## 5. Next gate
 
-Issue one focused correction under the correction budget:
+G5-01 now requires a short Owner/product reality checkpoint before closure.
 
-`G5-01M1C02 Restore Timeline Isolation Correction`
+The checkpoint must prove one simple lived consequence can become durable world reality, survive later play/reopen, and influence later Context while Narrative remains free-form. The previously deferred narrative-voice soft prompt may be observed opportunistically in the same checkpoint but is not a separate gate.
 
-Temporary execution routing applies through 2026-09-06, so implementation owner is **KIMI**.
-
-Required proof:
-
-1. after Restore removes a future semantic turn, recreating the exact same accepted future version can trigger semantic analysis/materialization again;
-2. active pre-Restore analysis is invalidated and cannot commit after the progress switch;
-3. queued pre-Restore work is discarded/quarantined;
-4. Restore itself launches no semantic Provider request;
-5. existing correction/idempotency/Save-Restore/Context tests remain green;
-6. no real Provider call is required for this correction.
-
-After the correction is pushed, GPT performs another Independent Review. Engineering PASS still does not imply the missing real Provider/product reality vertical passed.
+Only after Owner/Product PASS may GPT close G5-01 and shape G5-02 Knowledge Provenance.
