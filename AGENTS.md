@@ -40,6 +40,22 @@ The authorization removes a repeated permission gate; it does not authorize scop
 
 Future Task Packets that require real Provider proof should cite the standing authorization and state the smallest reasonable call/turn/attempt ceiling.
 
+### Provider outage / reviewability
+
+External Provider availability may block reality proof; it does **not** block code review.
+
+If the Task Packet's bounded real attempts are honestly exhausted because the current Provider times out or is unavailable before the feature-specific real vertical can be exercised, and all required offline/integration gates are green:
+
+```text
+commit + push implementation/tests/evidence
+→ mark real Provider proof PENDING / EXTERNAL PROVIDER UNAVAILABLE
+→ return READY FOR INDEPENDENT REVIEW — REAL PROVIDER PROOF PENDING
+```
+
+Do not switch Provider, add fallback, exceed the bounded attempt ceiling, or keep reviewable work uncommitted merely because external reality proof is unavailable.
+
+GPT may review engineering evidence but must not falsely claim the missing real Provider vertical passed. Product/reality acceptance remains pending until a later successful real run or Owner UAT supplies it.
+
 ## 3. Current state
 
 ```text
@@ -56,7 +72,8 @@ G4-GATE                               PASS
 G5 World Semantics & GM Runtime       ACTIVE
 G5-01 Minimum Playable T0 + World Turn / Semantic Materialization
                                       ACTIVE
-G5-01M1 Semantic Materialization Spine ACTIVE — CODEX
+G5-01M1 Semantic Materialization Spine IMPLEMENTED LOCALLY / REVIEW PENDING
+G5-01M1C01 Provider Outage Reviewability ACTIVE — CODEX
 G5-02 Knowledge Provenance            NOT YET
 G5-03 NPC / Faction Agency            NOT YET
 G5-04 Event / Priority Evolution      NOT YET
@@ -65,9 +82,13 @@ G5-GATE                               NOT YET
 
 Do not start G5-02 before G5-01M1 Independent Review + G5-01 Owner product checkpoint.
 
-## 4. Current execution task — G5-01M1
+## 4. Current execution task — G5-01M1C01
 
-Formal packet:
+Correction packet:
+
+`docs/tasks/G5-01M1C01_PROVIDER_OUTAGE_REVIEWABILITY_CORRECTION_TASK.md`
+
+Parent implementation packet:
 
 `docs/tasks/G5-01M1_WORLD_TURN_SEMANTIC_MATERIALIZATION_TASK.md`
 
@@ -77,7 +98,14 @@ Canonical semantic decision:
 
 Current owner: **CODEX**. Reviewer / semantic owner: **GPT**.
 
-Return ceiling: **READY FOR INDEPENDENT REVIEW**.
+Current instruction:
+
+- preserve existing local G5-01M1 implementation/tests/evidence;
+- do not perform a third Provider attempt;
+- reconcile latest docs without discarding local work;
+- finalize evidence with the two 420-second Kimi K3 Narrative-stage timeouts;
+- commit and push reviewable implementation/evidence;
+- return `READY FOR INDEPENDENT REVIEW — REAL PROVIDER PROOF PENDING`.
 
 ## 5. G5-01 core ordering
 
@@ -209,6 +237,6 @@ Do not implement portrait / scene / authored-map runtime during G5-01.
 
 ## 14. After G5-01M1
 
-If GPT Independent Review passes M1, Owner receives a short G5-01 product checkpoint. Owner should prove one simple lived consequence remains part of the world after later play/reopen while Narrative remains free-form.
+If GPT Independent Review passes the engineering implementation while real Provider proof remains pending, G5-01 product/reality acceptance remains open. A later successful real Provider run or short Owner checkpoint must still prove one simple lived consequence survives later play/reopen while Narrative remains free-form.
 
-Only after Owner PASS may GPT close G5-01 and shape G5-02 Knowledge Provenance.
+Only after Owner/Product PASS may GPT close G5-01 and shape G5-02 Knowledge Provenance.
