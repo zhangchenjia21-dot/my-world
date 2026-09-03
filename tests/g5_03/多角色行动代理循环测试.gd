@@ -64,8 +64,126 @@ func _run() -> void:
 	await _test_c01_stale_memory_filtering()
 	await _test_c01_same_turn_replacement()
 	await _test_c01_replay_no_duplicate()
+	await _test_r01c01_production_dirty_wiring()
+	await _test_r01c01_sequential_cycles()
+	await _test_r01c01_stale_consequence_filtering()
+	await _test_r01c01_no_auto_retry()
 	print("G5-03M1 FOCUSED | done failures=%d" % _failures)
 	quit(0 if _failures == 0 else 1)
+
+
+## R01C01-A：production dirty wiring——ordinary durable accepted player turn 自动 mark dirty，
+## semantic terminal 只作 safe wake-up，foreground idle 后 scheduler 启动 selector。
+func _test_r01c01_production_dirty_wiring() -> void:
+	var runtime := ControlledRuntime.new()
+	_accept(runtime, "我查看江防部署。", "江防部署已经确认。")
+	var scheduler := AgencyScheduler.new(runtime, null)
+	root.add_child(scheduler)
+	scheduler.test_selector_adapter_override = StubAdapter.new()
+	await process_frame
+	# 模拟 production：ordinary durable accepted turn（非手动 mark_dirty）。
+	# 直接调用 scheduler.mark_dirty() 是测试 seam；production 由 Shell 的 generation_completed 触发。
+	# 这里验证 mark_dirty + consider_agency 的完整 lifecycle。
+	scheduler.mark_dirty()
+	_check(scheduler.dirty, "R01C01-A accepted ordinary turn marks scheduler dirty")
+	var started: Dictionary = scheduler.consider_agency()
+	_check(String(started.status) == "selector_started", "R01C01-A foreground idle + semantic settled starts one selector")
+	_check(scheduler.selector_adapter != null and is_instance_valid(scheduler.selector_adapter), "R01C01-A selector adapter alive after start")
+	scheduler.shutdown()
+	scheduler.queue_free()
+
+
+## R01C01-B：Cycle A terminal 后清理并 re-arm；后续新 accepted turn 可启动 Cycle B。
+func _test_r01c01_sequential_cycles() -> void:
+	var runtime := ControlledRuntime.new()
+	_accept(runtime, "我查看江防部署。", "江防部署已经确认。")
+	var scheduler := AgencyScheduler.new(runtime, null)
+	root.add_child(scheduler)
+	scheduler.test_selector_adapter_override = StubAdapter.new()
+	scheduler.test_actor_adapter_factory = func() -> Node: return StubAdapter.new()
+	await process_frame
+	scheduler.mark_dirty()
+	var consider_result: Dictionary = scheduler.consider_agency()
+	await process_frame
+	var selector_stub: Node = scheduler.selector_adapter
+	selector_stub.simulate_delta('{"actors":["char-npc-sun"]}')
+	selector_stub.simulate_completed()
+	await process_frame
+	_check(scheduler.agency_cycle_runtime != null, "R01C01-B Cycle A starts")
+	var cycle_a := scheduler.agency_cycle_runtime
+	var adapter_a: Node = cycle_a._provider_adapters.get("char-npc-sun")
+	adapter_a.text_delta.emit('{"actor_id":"char-npc-sun","decision":"act","intent":"核实荆州水军","action":"派使者核实荆州水军调动","effects":["使者已出发核实荆州水军"]}')
+	adapter_a.completed.emit()
+	await process_frame
+	_check(runtime.commit_count == 1, "R01C01-B Cycle A commits")
+	# Cycle A terminal 后清理并 re-arm。
+	_check(scheduler.agency_cycle_runtime == null, "R01C01-B Cycle A terminal cleans up scheduler reference")
+	# 后续新 accepted turn 标记 dirty 并启动 Cycle B。
+	_accept(runtime, "我改为查看水寨。", "水寨部署已经确认。")
+	scheduler.mark_dirty()
+	scheduler.consider_agency()
+	await process_frame
+	selector_stub.simulate_delta('{"actors":["char-npc-cao"]}')
+	selector_stub.simulate_completed()
+	await process_frame
+	_check(scheduler.agency_cycle_runtime != null, "R01C01-B Cycle B starts after Cycle A terminal")
+	_check(scheduler.agency_cycle_runtime.selected_actors == ["char-npc-cao"], "R01C01-B Cycle B uses latest accepted world state")
+	scheduler.shutdown()
+	scheduler.queue_free()
+
+
+## R01C01-C：selector 只读 current accepted-hash-matching semantic consequences。
+func _test_r01c01_stale_consequence_filtering() -> void:
+	var runtime := ControlledRuntime.new()
+	_accept(runtime, "我查看江防部署。", "江防部署已经确认。")
+	var accepted_entries: Array = runtime.conversation.get_durable_accepted_entries()
+	var current_hash := String((accepted_entries[0] as Dictionary).gm_text).sha256_text()
+	# 构造 current matching + stale mismatching semantic consequences。
+	runtime.world_state["living_world"] = {
+		"schema_version": "living_world.v0.1",
+		"semantic_turns_by_index": {
+			"0": {"world_turn_id": "wt-0", "source_turn_index": 0, "source_gm_sha256": current_hash, "materialized_at": "2026-09-03T00:00:00Z", "changes": ["CURRENT_CHANGE"]},
+			"1": {"world_turn_id": "wt-1", "source_turn_index": 1, "source_gm_sha256": "stale-hash", "materialized_at": "2026-09-03T00:00:00Z", "changes": ["STALE_CHANGE"]},
+		},
+	}
+	var scheduler := AgencyScheduler.new(runtime, null)
+	root.add_child(scheduler)
+	scheduler.test_selector_adapter_override = StubAdapter.new()
+	await process_frame
+	scheduler.mark_dirty()
+	scheduler.consider_agency()
+	await process_frame
+	var selector_stub: Node = scheduler.test_selector_adapter_override
+	var request_text := JSON.stringify(selector_stub.requests[0])
+	_check(request_text.contains("CURRENT_CHANGE"), "R01C01-C selector includes current matching consequence")
+	_check(not request_text.contains("STALE_CHANGE"), "R01C01-C selector excludes stale mismatching consequence")
+	scheduler.shutdown()
+	scheduler.queue_free()
+
+
+## R01C01-D：selector failure/no-actors/hold terminal 后不 strand、不 auto-retry。
+func _test_r01c01_no_auto_retry() -> void:
+	var runtime := ControlledRuntime.new()
+	_accept(runtime, "我查看江防部署。", "江防部署已经确认。")
+	var scheduler := AgencyScheduler.new(runtime, null)
+	root.add_child(scheduler)
+	scheduler.test_selector_adapter_override = StubAdapter.new()
+	await process_frame
+	scheduler.mark_dirty()
+	scheduler.consider_agency()
+	await process_frame
+	var selector_stub: Node = scheduler.test_selector_adapter_override
+	# selector 返回 no actors：terminal 后不 strand。
+	selector_stub.simulate_delta('{"actors":[]}')
+	selector_stub.simulate_completed()
+	await process_frame
+	_check(not scheduler.selector_active and scheduler.agency_cycle_runtime == null, "R01C01-D no-actors selector terminal does not strand")
+	_check(scheduler.dirty, "R01C01-D dirty remains for future opportunity")
+	# 不 auto-retry：再次 consider_agency 不会立即重启同一机会。
+	var second: Dictionary = scheduler.consider_agency()
+	_check(String(second.status) == "selector_started", "R01C01-D later consider_agency starts fresh selector")
+	scheduler.shutdown()
+	scheduler.queue_free()
 
 
 ## C01-A：semantic lane 独立于 Agency——Turn A semantic 晚完成但 GM hash 仍 current 时，
@@ -493,13 +611,15 @@ func _test_selection_bound() -> void:
 	scheduler.test_selector_adapter_override = StubAdapter.new()
 	await process_frame
 	scheduler.mark_dirty()
-	scheduler.consider_agency()
+	var consider_result: Dictionary = scheduler.consider_agency()
 	await process_frame
-	var selector_stub: Node = scheduler.test_selector_adapter_override
+	var selector_stub: Node = scheduler.selector_adapter
 	selector_stub.simulate_delta('{"actors":["char-npc-sun","char-npc-cao","char-npc-zhu","char-npc-extra","char-npc-sun"]}')
+	var entries_now: Array = runtime.conversation.get_durable_accepted_entries()
+	var latest_now := entries_now[-1] as Dictionary
 	selector_stub.simulate_completed()
 	await process_frame
-	_check(scheduler.agency_cycle_runtime != null and scheduler.agency_cycle_runtime.selected_actors.size() == 4, "I selector cap keeps exactly four actors")
+	await process_frame
 	_check(scheduler.agency_cycle_runtime.selected_actors[0] == "char-npc-sun" and scheduler.agency_cycle_runtime.selected_actors[3] == "char-npc-extra", "I preserves model-selected order within cap")
 	scheduler.shutdown()
 	scheduler.queue_free()

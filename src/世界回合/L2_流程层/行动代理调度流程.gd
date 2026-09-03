@@ -110,13 +110,19 @@ func _selector_request() -> Array:
 	if typeof(living_world_value) == TYPE_DICTIONARY:
 		var records_value: Variant = (living_world_value as Dictionary).get("semantic_turns_by_index", {})
 		if typeof(records_value) == TYPE_DICTIONARY:
+			# R01C01 修正 C：selector 只读 current accepted-hash-matching semantic consequences。
+			var accepted_hashes := _current_accepted_hashes()
 			var matching: Array = []
 			for record_value: Variant in (records_value as Dictionary).values():
 				if typeof(record_value) != TYPE_DICTIONARY:
 					continue
 				var record := record_value as Dictionary
-				if Rules.record_is_valid(record):
-					matching.append(record)
+				if not Rules.record_is_valid(record):
+					continue
+				var record_turn := int(record.get("source_turn_index", -1))
+				if not accepted_hashes.has(record_turn) or String(record.get("source_gm_sha256", "")) != String(accepted_hashes[record_turn]):
+					continue
+				matching.append(record)
 			matching.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a.source_turn_index) < int(b.source_turn_index))
 			if matching.size() > 4:
 				matching = matching.slice(matching.size() - 4)
@@ -144,6 +150,7 @@ func _on_selector_completed() -> void:
 	selector_active = false
 	var parsed := _parse_selector_response(_selector_buffer)
 	_selector_buffer = ""
+	_cleanup_selector_adapter()
 	if not parsed.success:
 		selector_finished.emit({"success": false, "status": String(parsed.status)})
 		return
@@ -157,6 +164,8 @@ func _on_selector_completed() -> void:
 		return
 	agency_cycle_runtime = AgencyCycle.new(session_runtime)
 	add_child(agency_cycle_runtime)
+	# R01C01 修正 B：Scheduler 拥有 cycle 生命周期；terminal 后安全 detach/free 并 re-arm。
+	agency_cycle_runtime.cycle_finished.connect(_on_agency_cycle_finished)
 	if test_actor_adapter_factory.is_valid():
 		agency_cycle_runtime.test_actor_adapter_factory = test_actor_adapter_factory
 	var started: Dictionary = agency_cycle_runtime.start_cycle(
@@ -169,10 +178,51 @@ func _on_selector_completed() -> void:
 	selector_finished.emit({"success": true, "status": "started", "actor_count": int(started.get("actor_count", 0)), "actors": validated})
 
 
+## 当前 accepted Conversation 的 turn_index → GM hash 映射；只读。
+func _current_accepted_hashes() -> Dictionary:
+	var accepted_hashes: Dictionary = {}
+	if session_runtime == null or session_runtime.conversation == null:
+		return accepted_hashes
+	for entry_value: Variant in session_runtime.conversation.get_durable_accepted_entries():
+		if typeof(entry_value) != TYPE_DICTIONARY:
+			continue
+		var entry := entry_value as Dictionary
+		var turn_index := int(entry.get("turn_index", -1))
+		var gm_text_value: Variant = entry.get("gm_text", null)
+		if turn_index >= 0 and typeof(gm_text_value) == TYPE_STRING:
+			accepted_hashes[turn_index] = Rules.gm_sha256(String(gm_text_value))
+	return accepted_hashes
+
+
+## R01C01 修正 B：cycle terminal 后安全 detach/free 并 re-arm；late callback 不影响新 cycle。
+func _on_agency_cycle_finished(result: Dictionary) -> void:
+	if agency_cycle_runtime == null:
+		return
+	# 只清理仍引用该 cycle 的 scheduler；late callback 不影响新 cycle。
+	var finished_cycle := agency_cycle_runtime
+	agency_cycle_runtime = null
+	if is_instance_valid(finished_cycle):
+		remove_child(finished_cycle)
+		finished_cycle.queue_free()
+	# 已 committed 的 durable actions 保持；Scheduler 可处理后续新 dirty 机会。
+	# 不自动 retry 同一机会；后续新 accepted turn 会再次 mark_dirty。
+	if dirty and not selector_active:
+		consider_agency()
+
+
+## R01C01 修正 D：selector terminal 后清理 adapter；不 strand、不 auto-retry。
+func _cleanup_selector_adapter() -> void:
+	if selector_adapter != null and is_instance_valid(selector_adapter):
+		remove_child(selector_adapter)
+		selector_adapter.queue_free()
+		selector_adapter = null
+
+
 func _on_selector_cancelled() -> void:
 	if selector_active:
 		selector_active = false
 		_selector_buffer = ""
+		_cleanup_selector_adapter()
 		selector_finished.emit({"success": false, "status": "cancelled"})
 
 
@@ -180,6 +230,7 @@ func _on_selector_failed(code: String, _message: String) -> void:
 	if selector_active:
 		selector_active = false
 		_selector_buffer = ""
+		_cleanup_selector_adapter()
 		selector_finished.emit({"success": false, "status": "provider_failure", "provider_status": code})
 
 
