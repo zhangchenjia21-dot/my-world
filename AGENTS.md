@@ -45,28 +45,26 @@ G4-09UATB Owner Product UAT           PASS / CLOSED
 G4-10 Runtime Asset Resolution        DEFERRED / MOVED TO G6
 G4-10M1 Mechanism                     SUPERSEDED / DO NOT EXECUTE
 G4-11 Two Primary Asset Families      ACTIVE
-G4-11P1 Engineering Reality Prep      ACTIVE — CODEX
-G4-11UAT Owner Reality Test           NOT YET
+G4-11P1 Engineering Reality Prep      PASS / CLOSED
+G4-11UAT Owner Reality Test           ACTIVE — OWNER
 G4-GATE                               NOT YET
 ```
 
-Do not start G5 before G4-11P1 Independent Review + G4-11UAT Owner PASS + G4-GATE.
+Do not start G5 before G4-11UAT Owner PASS + G4-GATE. Do not start a new implementation task while this Owner product gate is active unless the Owner reports a concrete blocker.
 
-## 3. Current execution task — G4-11P1
+## 3. Current task — G4-11UAT Owner Reality Test
 
-Formal packet:
+Formal Owner packet:
 
-`docs/tasks/G4-11P1_TWO_FAMILY_REALITY_PREP_TASK.md`
+`docs/tasks/G4-11UAT_OWNER_TWO_FAMILY_REALITY_TASK.md`
 
-Canonical product-test decision:
+P1 Independent Review:
 
-`Vibe-Coding/my world/architecture/source/G4_TWO_FAMILY_REALITY_TEST_V0_1_DECISION.md`
+`docs/g4_11/G4-11P1_INDEPENDENT_REVIEW.md`
 
-Current owner: **CODEX**. Reviewer / semantic owner: **GPT**.
+Current owner: **OWNER**. GPT owns interpretation / closeout.
 
-Type: **validation / UAT-support**. No production behavior change is expected.
-
-Fixed families:
+Fixed comparison:
 
 ```text
 A
@@ -82,13 +80,34 @@ Player:     莉维娅·塞兰
 Expansion:  none
 ```
 
-Both real-provider engineering verticals must use the same effective current selected runtime model profile through the canonical shared adapter. Do not change Owner persisted model settings merely for the comparison.
+Owner judges whether ordinary play materially feels like two different Source-grounded RPG realities rather than one generic AI chat with swapped names.
 
-Return ceiling: **READY FOR INDEPENDENT REVIEW**.
+Visual polish is explicitly not part of this UAT.
 
-If validation exposes a production behavior blocker, stop and return it rather than silently fixing it inside P1.
+## 4. G4-11P1 accepted engineering truth
 
-## 4. Visual deferral — protected current route
+P1 passed GPT Independent Review at implementation evidence head:
+
+`8a8426b17906f06582ea6503aa7854eaa0ed04de`
+
+Accepted evidence:
+
+- no production code change; only task-owned test harness / wrapper / evidence;
+- both families used real current selected Provider through the shared production path;
+- effective profile was `kimi_k3 / kimi / k3-256k / 256k / high` for both verticals;
+- each family completed real Opening + 3 durable continuations;
+- each family completed named Save → close → exact Game Library reopen / Continue;
+- A/B Game IDs and SQLite files are distinct;
+- same Host completed `A → B → A → B → A` without Game/Conversation identity crossover;
+- assembled requests contained exact selected family/T0 markers and excluded opposite-family/new-current markers;
+- bounded task-owned newer Source generations did not mutate already-created Game ancestry/materialized truth;
+- Owner production Source/Games/settings/current DB fingerprints were unchanged;
+- no output-side genre keyword validator, mandatory prose format, classifier or scripted beat was introduced;
+- no visual runtime or G5 semantics were implemented.
+
+P1 Engineering PASS does not itself prove product-value differentiation.
+
+## 5. Visual deferral — protected current route
 
 Owner explicitly deferred visual runtime work on 2026-09-02.
 
@@ -117,23 +136,6 @@ map image
 
 Visual runtime work will be re-audited in G6 from a real presentation consumer.
 
-## 5. G4-11 protected invariants
-
-- exercise real Source Library / Composition / Final Create / Game Session / Opening / Conversation / Save-Continue seams;
-- mutable validation Source/Game roots are task-owned;
-- Owner production Source/Games/settings/credentials remain untouched;
-- A and B have distinct Game identities and SQLite files;
-- switch A→B→A must not leak Session/Conversation/Source identity;
-- exact World/Character generation ancestry remains stable after task-owned Source current changes;
-- Han model-visible Context must not receive Afterglow Source bytes/identity, and vice versa;
-- T0 quarantine remains intact;
-- Expansion = none for both family comparison verticals;
-- no Provider fallback; selected provider only;
-- no G5 NPC/faction/event/knowledge/relationship systems;
-- no G6 visual/UI work.
-
-Engineering evidence does not prove product-value differentiation. Owner UAT owns that verdict after GPT Independent Review.
-
 ## 6. Protected Model Freedom / Narrative Responsiveness truth
 
 Core principle:
@@ -157,15 +159,16 @@ Do not add:
 
 Public d20 semantics and Runtime Model Settings are already PASS/CLOSED and must not be reopened absent a concrete regression.
 
-## 7. After G4-11P1
+## 7. Owner verdict routing
 
-If GPT Independent Review passes P1:
+If Owner returns `PASS`:
 
 ```text
-G4-11UAT Owner Two-Family Reality Test
-ACTIVE — OWNER
+G4-11UAT PASS / CLOSED
+→ G4-11 PASS / CLOSED
+→ G4-GATE PASS
+→ G4 CLOSED
+→ GPT refreshes roadmap and shapes G5
 ```
 
-Owner judges whether the two actual play experiences materially feel like different RPG worlds. Visual polish is not part of that UAT.
-
-Only after Owner PASS may GPT close G4-11, pass G4-GATE, close G4, and shape G5.
+If Owner returns `FAIL`, capture the concrete Source / Context / Game symptom and correct only that seam. Do not reintroduce visual work or model-output gates as a substitute for world differentiation.
