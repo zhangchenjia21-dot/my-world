@@ -27,11 +27,42 @@ func parse(response_text: String) -> Dictionary:
 			return _failure("invalid_change")
 		if not changes.has(change):
 			changes.append(change)
-	return {
+	var result := {
 		"success": true,
 		"status": "no_changes" if changes.is_empty() else "changes_ready",
 		"changes": changes,
 	}
+	# G5-02M1：knowledge_events 是独立可选字段；其解析失败绝不 invalidate 已有效的 changes。
+	var knowledge := parse_knowledge_events((json.data as Dictionary).get("knowledge_events", null))
+	result["knowledge_events"] = knowledge.events
+	result["knowledge_dropped"] = knowledge.dropped
+	return result
+
+
+## knowledge_events 解析与 changes 完全隔离：absent/invalid/oversized 均 fail-soft 为空，
+## 绝不让 knowledge 字段错误破坏 otherwise valid 的 G5-01 changes 结果。
+func parse_knowledge_events(value: Variant) -> Dictionary:
+	if value == null:
+		return {"events": [], "dropped": 0}
+	if typeof(value) != TYPE_ARRAY:
+		return {"events": [], "dropped": 1}
+	var events: Array = []
+	var dropped := 0
+	for event_value: Variant in value as Array:
+		if typeof(event_value) != TYPE_DICTIONARY:
+			dropped += 1
+			continue
+		var event := (event_value as Dictionary).duplicate(true)
+		if not Rules.knowledge_event_is_valid(event):
+			dropped += 1
+			continue
+		event["knower_id"] = String(event.knower_id).strip_edges()
+		event["fact"] = String(event.fact).strip_edges()
+		events.append(event)
+		if events.size() >= Rules.MAX_KNOWLEDGE_EVENTS_PER_TURN:
+			dropped += 1
+			break
+	return {"events": events, "dropped": dropped}
 
 
 func _strip_code_fence(text: String) -> String:

@@ -8,7 +8,7 @@ const ProviderAdapter := preload("res://src/provider/L3_外交层/运行时模�
 signal analysis_requested(turn_index, messages)
 signal finished(result)
 
-const ANALYSIS_INSTRUCTIONS := "你是 my world 的后台语义物化器。只根据已经接受的玩家行动与 GM 叙事，提取叙事中已经明确成立、值得跨句持续的世界后果。不要把气氛、文风、假设、尚未实现的意图或新编造的幕后事实写成后果。只输出一个 JSON 对象：{\"changes\":[\"简洁的持久后果\"]}；没有持久后果时输出 {\"changes\":[]}。不要输出解释、Markdown 或推理过程。"
+const ANALYSIS_INSTRUCTIONS := "你是 my world 的后台语义物化器。只根据已经接受的玩家行动与 GM 叙事，提取两类 durable 事实：\n1. changes：叙事中已经明确成立、值得跨句持续的世界后果。\n2. knowledge_events：叙事明确建立给特定 stable actor 的 post-T0 新知识。只提取该 accepted turn 新建立的、有明确根据的知识；不要因为事实在叙事中为真就授予知识；不要因为某 NPC 在阵容中就推断其知情；不要编造未知 actor/ID；不要输出推理过程。\n只输出一个 JSON 对象：{\"changes\":[\"简洁的持久后果\"],\"knowledge_events\":[{\"knower_id\":\"stable-local-id\",\"fact\":\"简洁事实\",\"basis\":\"witnessed|told|discovered|participated\"}]}；没有持久后果时 changes=[]；没有新知识时 knowledge_events=[]。不要输出解释、Markdown 或推理过程。"
 
 var session_runtime: Variant = null
 var provider_adapter: Node = null
@@ -89,7 +89,15 @@ func _consider_entry(entry: Dictionary) -> Dictionary:
 	var stable := Rules.identities(String(session_runtime.game_id), turn_index, source_hash)
 	var version_key := String(stable.world_turn_id)
 	var existing := Rules.matching_record(session_runtime.world_state, turn_index, source_hash)
-	if not existing.is_empty():
+	var existing_knowledge := Rules.matching_knowledge_record(session_runtime.world_state, turn_index, source_hash)
+	if not existing.is_empty() and not existing_knowledge.is_empty():
+		_attempted_versions[version_key] = true
+		return _publish({"success": true, "status": "already_materialized", "source_turn_index": turn_index, "world_turn_id": version_key})
+	if not existing.is_empty() and existing_knowledge.is_empty():
+		# changes 已提交但 knowledge 未提交：允许 knowledge-only 补交（同一 accepted 版本）。
+		_attempted_versions[version_key] = true
+		return _publish({"success": true, "status": "already_materialized", "source_turn_index": turn_index, "world_turn_id": version_key})
+	if existing.is_empty() and not existing_knowledge.is_empty():
 		_attempted_versions[version_key] = true
 		return _publish({"success": true, "status": "already_materialized", "source_turn_index": turn_index, "world_turn_id": version_key})
 	if _attempted_versions.has(version_key):
@@ -143,8 +151,11 @@ func _on_completed() -> void:
 	if not parsed.success:
 		_finish_active({"success": false, "status": String(parsed.status)})
 		return
-	if (parsed.changes as Array).is_empty():
-		_finish_active({"success": true, "status": "no_changes", "source_turn_index": int(_active.source_turn_index), "change_count": 0})
+	var changes: Array = parsed.changes
+	var knowledge_events: Array = parsed.get("knowledge_events", [])
+	var knowledge_dropped := int(parsed.get("knowledge_dropped", 0))
+	if changes.is_empty() and knowledge_events.is_empty():
+		_finish_active({"success": true, "status": "no_changes", "source_turn_index": int(_active.source_turn_index), "change_count": 0, "knowledge_count": 0, "knowledge_dropped": knowledge_dropped})
 		return
 
 	# 分析期间 latest turn 可能被 regenerate/correct；只有仍匹配 current accepted truth 的
@@ -154,11 +165,27 @@ func _on_completed() -> void:
 		return
 	var identities := _active.identities as Dictionary
 	var existing := Rules.matching_record(session_runtime.world_state, int(_active.source_turn_index), String(_active.source_gm_sha256))
-	if not existing.is_empty():
+	var existing_knowledge := Rules.matching_knowledge_record(session_runtime.world_state, int(_active.source_turn_index), String(_active.source_gm_sha256))
+	if not existing.is_empty() and not existing_knowledge.is_empty():
 		_finish_active({"success": true, "status": "already_materialized", "source_turn_index": int(_active.source_turn_index), "world_turn_id": String(identities.world_turn_id)})
 		return
-	var record := Rules.build_record(String(session_runtime.game_id), int(_active.source_turn_index), String(_active.gm_text), parsed.changes as Array, Time.get_datetime_string_from_system(true, true))
-	var candidate := Rules.build_world_candidate(session_runtime.world_state, record)
+	# actor allowlist 只读当前 Game-local durable setup；unknown/non-roster knower_id 被丢弃。
+	var roster := Rules.actor_roster(session_runtime.world_state)
+	var validated_events: Array = []
+	var roster_dropped := 0
+	for event: Dictionary in knowledge_events:
+		if roster.has(String(event.knower_id)):
+			validated_events.append(event)
+		else:
+			roster_dropped += 1
+	knowledge_dropped += roster_dropped
+	var materialized_at := Time.get_datetime_string_from_system(true, true)
+	var record := Rules.build_record(String(session_runtime.game_id), int(_active.source_turn_index), String(_active.gm_text), changes, materialized_at) if not changes.is_empty() else {}
+	var knowledge_record := Rules.build_knowledge_record(String(session_runtime.game_id), int(_active.source_turn_index), String(_active.gm_text), validated_events, materialized_at) if not validated_events.is_empty() else {}
+	if record.is_empty() and knowledge_record.is_empty():
+		_finish_active({"success": true, "status": "no_changes", "source_turn_index": int(_active.source_turn_index), "change_count": 0, "knowledge_count": 0, "knowledge_dropped": knowledge_dropped})
+		return
+	var candidate := Rules.build_world_candidate_with_knowledge(session_runtime.world_state, record, knowledge_record)
 	var committed: Dictionary = session_runtime.commit_world_mutation_durably(String(identities.mutation_id), String(identities.node_id), candidate)
 	if not committed.success:
 		_finish_active({
@@ -174,7 +201,9 @@ func _on_completed() -> void:
 		"source_turn_index": int(_active.source_turn_index),
 		"source_gm_sha256": String(_active.source_gm_sha256),
 		"world_turn_id": String(identities.world_turn_id),
-		"change_count": (parsed.changes as Array).size(),
+		"change_count": changes.size(),
+		"knowledge_count": validated_events.size(),
+		"knowledge_dropped": knowledge_dropped,
 		"head_id": String(committed.head_id),
 	})
 
