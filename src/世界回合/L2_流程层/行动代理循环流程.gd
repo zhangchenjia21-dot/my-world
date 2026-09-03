@@ -22,6 +22,9 @@ var committed_actors: Array = []
 var cycle_closed := false
 var _provider_adapters: Dictionary = {}
 var _cycle_epoch := 0
+## C01 修正 C：cycle-owned expected head；sibling commit 后前进，unrelated change 失效。
+var _expected_head_id := ""
+var _source_accepted_count := 0
 ## 测试 seam：每 actor 一个 stub adapter；production 恒 null。
 var test_actor_adapter_factory: Callable = Callable()
 
@@ -47,6 +50,21 @@ func start_cycle(source_turn_index: int, source_gm_sha256: String, cycle_base_he
 	var materialized_at := Time.get_datetime_string_from_system(true, true)
 	agency_cycle = Rules.build_agency_cycle(String(session_runtime.game_id), source_turn_index, _gm_text_for(source_turn_index), cycle_base_head_id, materialized_at)
 	selected_actors = actors.duplicate(true)
+	_expected_head_id = cycle_base_head_id
+	_source_accepted_count = session_runtime.conversation.get_durable_accepted_entries().size()
+	# C01 修正 F：已 committed 的 actor 不再执行；replay 同一 source version 不重复。
+	var world_cycles: Dictionary = session_runtime.world_state.get("living_world", {}).get("agency_cycles_by_source_turn", {})
+	var gm_hash := Rules.gm_sha256(_gm_text_for(source_turn_index))
+	var existing_cycle := Rules.matching_agency_cycle(session_runtime.world_state, source_turn_index, gm_hash)
+	if not existing_cycle.is_empty():
+		var existing_actions: Dictionary = existing_cycle.get("actions_by_actor", {})
+		var remaining: Array = []
+		for actor_id: String in selected_actors:
+			if not existing_actions.has(actor_id):
+				remaining.append(actor_id)
+		selected_actors = remaining
+		if selected_actors.is_empty():
+			return {"success": true, "status": "already_committed", "cycle_id": String(agency_cycle.agency_cycle_id), "actor_count": 0}
 	for actor_id: String in selected_actors:
 		_start_actor_execution(actor_id)
 	return {"success": true, "status": "started", "cycle_id": String(agency_cycle.agency_cycle_id), "actor_count": selected_actors.size()}
@@ -57,6 +75,22 @@ func _gm_text_for(turn_index: int) -> String:
 	if turn_index < 0 or turn_index >= entries.size():
 		return ""
 	return String((entries[turn_index] as Dictionary).get("gm_text", ""))
+
+
+## 当前 accepted Conversation 的 turn_index → GM hash 映射；只读。
+func _current_accepted_hashes() -> Dictionary:
+	var accepted_hashes: Dictionary = {}
+	if session_runtime == null or session_runtime.conversation == null:
+		return accepted_hashes
+	for entry_value: Variant in session_runtime.conversation.get_durable_accepted_entries():
+		if typeof(entry_value) != TYPE_DICTIONARY:
+			continue
+		var entry := entry_value as Dictionary
+		var turn_index := int(entry.get("turn_index", -1))
+		var gm_text_value: Variant = entry.get("gm_text", null)
+		if turn_index >= 0 and typeof(gm_text_value) == TYPE_STRING:
+			accepted_hashes[turn_index] = Rules.gm_sha256(String(gm_text_value))
+	return accepted_hashes
 
 
 ## 每个 actor 的 execution request 只含该 actor 的 Source/knowledge/history；
@@ -93,6 +127,8 @@ func _actor_request(actor_id: String) -> Array:
 			continue
 		var section := section_value as Dictionary
 		sections.append("- %s：%s" % [String(section.get("title", "")), String(section.get("content", "")).left(400)])
+	# C01 修正 D：Knowledge/Agency History 只含 current-hash matching 的 durable 记录。
+	var accepted_hashes := _current_accepted_hashes()
 	var knowledge := PackedStringArray()
 	var knowledge_records_value: Variant = session_runtime.world_state.get("living_world", {}).get("knowledge_turns_by_index", {})
 	if typeof(knowledge_records_value) == TYPE_DICTIONARY:
@@ -100,6 +136,9 @@ func _actor_request(actor_id: String) -> Array:
 			if typeof(record_value) != TYPE_DICTIONARY:
 				continue
 			var record := record_value as Dictionary
+			var record_turn := int(record.get("source_turn_index", -1))
+			if not accepted_hashes.has(record_turn) or String(record.get("source_gm_sha256", "")) != String(accepted_hashes[record_turn]):
+				continue
 			for event_value: Variant in record.get("events", []):
 				if typeof(event_value) != TYPE_DICTIONARY:
 					continue
@@ -113,6 +152,9 @@ func _actor_request(actor_id: String) -> Array:
 			if typeof(cycle_value) != TYPE_DICTIONARY:
 				continue
 			var cycle := cycle_value as Dictionary
+			var cycle_turn := int(cycle.get("source_turn_index", -1))
+			if not accepted_hashes.has(cycle_turn) or String(cycle.get("source_gm_sha256", "")) != String(accepted_hashes[cycle_turn]):
+				continue
 			var actions_value: Variant = cycle.get("actions_by_actor", {})
 			if typeof(actions_value) != TYPE_DICTIONARY:
 				continue
@@ -148,6 +190,10 @@ func _npc_for(actor_id: String) -> Dictionary:
 func _on_actor_completed(actor_id: String) -> void:
 	if cycle_closed or not active_requests.has(actor_id):
 		return
+	# C01 修正 C：commit-time currentness guard——unrelated head change 使剩余失效。
+	if not _cycle_still_current():
+		_mark_actor_terminal(actor_id, {"success": false, "status": "stale_cycle"})
+		return
 	var request := active_requests[actor_id] as Dictionary
 	var buffer := String(request.buffer)
 	var parsed := _parse_actor_response(buffer, actor_id)
@@ -169,8 +215,34 @@ func _on_actor_completed(actor_id: String) -> void:
 	if not committed.success:
 		_mark_actor_terminal(actor_id, {"success": false, "status": "persistence_failure"})
 		return
+	# sibling commit 成功后前进 cycle-owned expected head。
+	_expected_head_id = String(committed.head_id)
 	committed_actors.append(actor_id)
 	_mark_actor_terminal(actor_id, {"success": true, "status": "committed", "actor_id": actor_id, "action": action.duplicate(true)})
+
+
+## C01 修正 C：cycle 仍 current 才允许 commit；sibling commit 前进 expected head。
+func _cycle_still_current() -> bool:
+	if cycle_closed or session_runtime == null or not session_runtime.is_ready():
+		return false
+	# 当前 head 必须等于 cycle-owned expected head（sibling commit 后已前进）。
+	if String(session_runtime.active_head_id) != _expected_head_id:
+		return false
+	# source accepted GM hash 必须仍匹配 current accepted Conversation。
+	var entries: Array = session_runtime.conversation.get_durable_accepted_entries()
+	var source_turn_index := int(agency_cycle.get("source_turn_index", -1))
+	if source_turn_index < 0 or source_turn_index >= entries.size():
+		return false
+	var current := entries[source_turn_index] as Dictionary
+	if Rules.gm_sha256(String(current.get("gm_text", ""))) != String(agency_cycle.get("source_gm_sha256", "")):
+		return false
+	# accepted Conversation 不得在 cycle source 之后前进。
+	if entries.size() > _source_accepted_count:
+		return false
+	# 无更新 foreground generation active。
+	if session_runtime.conversation.is_generating():
+		return false
+	return true
 
 
 func _on_actor_cancelled(actor_id: String) -> void:

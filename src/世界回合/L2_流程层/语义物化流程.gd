@@ -145,11 +145,14 @@ func _analysis_messages(turn: Dictionary) -> Array:
 
 
 ## Agency Selection 材料：只给 selector 每个 eligible NPC 的 bounded actor-local 材料，
+## Agency Selection 材料：只给 selector 每个 eligible NPC 的 bounded actor-local 材料，
 ## 不 dump 全知 GM Context；Player 永不进入 eligible roster。
+## C01 修正 D：Knowledge/Agency History 只含 current-hash matching 的 durable 记录。
 func _agency_selection_block() -> String:
 	var npcs_value: Variant = session_runtime.world_state.get("guaranteed_npcs", [])
 	if typeof(npcs_value) != TYPE_ARRAY or (npcs_value as Array).is_empty():
 		return "Eligible Agency Actors\n（无）"
+	var accepted_hashes := _current_accepted_hashes()
 	var knowledge_records_value: Variant = session_runtime.world_state.get("living_world", {}).get("knowledge_turns_by_index", {})
 	var knowledge_records := knowledge_records_value as Dictionary if typeof(knowledge_records_value) == TYPE_DICTIONARY else {}
 	var agency_cycles_value: Variant = session_runtime.world_state.get("living_world", {}).get("agency_cycles_by_source_turn", {})
@@ -175,6 +178,10 @@ func _agency_selection_block() -> String:
 			if typeof(record_value) != TYPE_DICTIONARY:
 				continue
 			var record := record_value as Dictionary
+			# C01 修正 D：stale Knowledge 按 current accepted hash 过滤。
+			var record_turn := int(record.get("source_turn_index", -1))
+			if not accepted_hashes.has(record_turn) or String(record.get("source_gm_sha256", "")) != String(accepted_hashes[record_turn]):
+				continue
 			for event_value: Variant in record.get("events", []):
 				if typeof(event_value) != TYPE_DICTIONARY:
 					continue
@@ -188,6 +195,10 @@ func _agency_selection_block() -> String:
 			if typeof(cycle_value) != TYPE_DICTIONARY:
 				continue
 			var cycle := cycle_value as Dictionary
+			# C01 修正 D：stale Agency History 按 current accepted hash 过滤。
+			var cycle_turn := int(cycle.get("source_turn_index", -1))
+			if not accepted_hashes.has(cycle_turn) or String(cycle.get("source_gm_sha256", "")) != String(accepted_hashes[cycle_turn]):
+				continue
 			var actions_value: Variant = cycle.get("actions_by_actor", {})
 			if typeof(actions_value) != TYPE_DICTIONARY:
 				continue
@@ -199,6 +210,22 @@ func _agency_selection_block() -> String:
 		if not agency_history.is_empty():
 			lines.append("Own Recent Agency History\n" + "\n".join(agency_history))
 	return "\n".join(lines)
+
+
+## 当前 accepted Conversation 的 turn_index → GM hash 映射；只读。
+func _current_accepted_hashes() -> Dictionary:
+	var accepted_hashes: Dictionary = {}
+	if session_runtime == null or session_runtime.conversation == null:
+		return accepted_hashes
+	for entry_value: Variant in session_runtime.conversation.get_durable_accepted_entries():
+		if typeof(entry_value) != TYPE_DICTIONARY:
+			continue
+		var entry := entry_value as Dictionary
+		var turn_index := int(entry.get("turn_index", -1))
+		var gm_text_value: Variant = entry.get("gm_text", null)
+		if turn_index >= 0 and typeof(gm_text_value) == TYPE_STRING:
+			accepted_hashes[turn_index] = Rules.gm_sha256(String(gm_text_value))
+	return accepted_hashes
 
 
 func _on_text_delta(text: String) -> void:
@@ -219,15 +246,14 @@ func _on_completed() -> void:
 	var knowledge_dropped := int(parsed.get("knowledge_dropped", 0))
 	var agency_candidates := validated_agency_candidates(_active, parsed)
 	var agency_dropped := int(parsed.get("agency_dropped", 0))
+	# C01 修正 A：stale 检测先于 no_changes 分支——agency_candidates 存在时也检查 currentness。
+	if not _accepted_version_still_current(_active):
+		_finish_active({"success": false, "status": "stale_analysis", "source_turn_index": int(_active.source_turn_index), "agency_candidates": [], "agency_dropped": agency_dropped})
+		return
 	if changes.is_empty() and knowledge_events.is_empty():
 		_finish_active({"success": true, "status": "no_changes", "source_turn_index": int(_active.source_turn_index), "change_count": 0, "knowledge_count": 0, "knowledge_dropped": knowledge_dropped, "agency_candidates": agency_candidates, "agency_dropped": agency_dropped})
 		return
 
-	# 分析期间 latest turn 可能被 regenerate/correct；只有仍匹配 current accepted truth 的
-	# candidate 才可进入世界 CAS，旧分析不会成为新版本的事实。
-	if not _accepted_version_still_current(_active):
-		_finish_active({"success": false, "status": "stale_analysis", "source_turn_index": int(_active.source_turn_index)})
-		return
 	var identities := _active.identities as Dictionary
 	var existing := Rules.matching_record(session_runtime.world_state, int(_active.source_turn_index), String(_active.source_gm_sha256))
 	var existing_knowledge := Rules.matching_knowledge_record(session_runtime.world_state, int(_active.source_turn_index), String(_active.source_gm_sha256))
@@ -302,10 +328,16 @@ func validated_agency_candidates(turn: Dictionary, parsed: Dictionary) -> Array:
 	return validated
 
 
+## 分析期间 latest turn 可能被 regenerate/correct 或 foreground 已开始新 attempt；
+## 只有仍匹配 current accepted truth 且 foreground 未前进的 candidate 才可进入世界 CAS。
 func _accepted_version_still_current(candidate: Dictionary) -> bool:
 	var entries: Array = session_runtime.conversation.get_durable_accepted_entries()
 	var index := int(candidate.source_turn_index)
 	if index < 0 or index >= entries.size():
+		return false
+	# C01 修正 A：foreground 已开始新 attempt（latest turn 已前进或正在生成）时，
+	# 旧 semantic 结果不得启动 Agency。
+	if index != entries.size() - 1 or session_runtime.conversation.is_generating():
 		return false
 	var current := entries[index] as Dictionary
 	return Rules.gm_sha256(String(current.get("gm_text", ""))) == String(candidate.source_gm_sha256)

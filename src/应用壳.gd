@@ -13,6 +13,7 @@ const FirstOpening := preload("res://src/首次开场/L3_外交层/首次开场�
 const ActionAdjudication := preload("res://src/行动判定/L3_外交层/行动判定公开接口.gd")
 const ModelRuntimeSettings := preload("res://src/运行时设置/L3_外交层/模型运行时设置公开接口.gd")
 const AgencyCycle := preload("res://src/世界回合/L3_外交层/行动代理循环公开接口.gd")
+const WorldTurnRules := preload("res://src/世界回合/L0_公理层/世界回合规则.gd")
 const WorldTurn := preload("res://src/世界回合/L3_外交层/世界回合公开接口.gd")
 
 enum ApplicationState {
@@ -509,8 +510,21 @@ func _prepare_world_turn_after_activation() -> void:
 func _on_world_turn_finished(result: Dictionary) -> void:
 	if session_runtime == null or not session_runtime.is_ready():
 		return
+	# C01 修正 A：stale semantic handoff 不得启动 Agency。
+	# 要求：source turn 仍是 latest accepted ordinary turn、source GM hash 仍匹配、
+	# Conversation 空闲、foreground 未在 semantic 完成前开始新 attempt。
 	var candidates: Array = result.get("agency_candidates", [])
 	if candidates.is_empty():
+		return
+	var source_turn_index := int(result.get("source_turn_index", -1))
+	var source_gm_sha256 := String(result.get("source_gm_sha256", ""))
+	var entries: Array = session_runtime.conversation.get_durable_accepted_entries()
+	if entries.is_empty() or source_turn_index != entries.size() - 1:
+		return
+	var current := entries[source_turn_index] as Dictionary
+	if WorldTurnRules.gm_sha256(String(current.get("gm_text", ""))) != source_gm_sha256:
+		return
+	if session_runtime.conversation.is_generating():
 		return
 	if agency_cycle_runtime != null:
 		agency_cycle_runtime.shutdown()
@@ -518,8 +532,6 @@ func _on_world_turn_finished(result: Dictionary) -> void:
 		agency_cycle_runtime = null
 	agency_cycle_runtime = AgencyCycle.new(session_runtime)
 	add_child(agency_cycle_runtime)
-	var source_turn_index := int(result.get("source_turn_index", -1))
-	var source_gm_sha256 := String(result.get("source_gm_sha256", ""))
 	var cycle_base_head_id := String(session_runtime.active_head_id)
 	agency_cycle_runtime.start_cycle(source_turn_index, source_gm_sha256, cycle_base_head_id, candidates)
 
@@ -1103,6 +1115,9 @@ func _on_load_confirmed() -> void:
 
 
 func _on_restore_completed(_result: Dictionary) -> void:
+	# C01 修正 B：production Restore 自动 invalidate 剩余 uncommitted Agency。
+	if agency_cycle_runtime != null:
+		agency_cycle_runtime.invalidate_remaining()
 	_update_save_controls()
 
 

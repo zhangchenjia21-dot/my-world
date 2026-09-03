@@ -326,6 +326,7 @@ static func build_agency_action(game_id: String, agency_cycle_id: String, actor_
 
 
 ## 把一条 agency 行动并入既有 cycle 的 candidate snapshot；不覆盖其它 actor 的既有行动。
+## C01 修正 E：只有同一 current cycle identity 才合并 sibling；stale 同 turn-index cycle 被替换。
 static func build_agency_candidate(current_world_state: Dictionary, cycle: Dictionary, action: Dictionary) -> Dictionary:
 	var candidate := current_world_state.duplicate(true)
 	var living_world_value: Variant = candidate.get("living_world", {})
@@ -335,6 +336,10 @@ static func build_agency_candidate(current_world_state: Dictionary, cycle: Dicti
 	var cycle_key := str(int(cycle.source_turn_index))
 	var existing_cycle_value: Variant = cycles.get(cycle_key, {})
 	var existing_cycle := (existing_cycle_value as Dictionary).duplicate(true) if typeof(existing_cycle_value) == TYPE_DICTIONARY and not (existing_cycle_value as Dictionary).is_empty() else cycle.duplicate(true)
+	# C01 修正 E：stale 同 turn-index cycle（不同 current source hash / cycle identity）被替换而非合并。
+	if String(existing_cycle.get("source_gm_sha256", "")) != String(cycle.get("source_gm_sha256", "")) \
+		or String(existing_cycle.get("agency_cycle_id", "")) != String(cycle.get("agency_cycle_id", "")):
+		existing_cycle = cycle.duplicate(true)
 	var actions_value: Variant = existing_cycle.get("actions_by_actor", {})
 	var actions := (actions_value as Dictionary).duplicate(true) if typeof(actions_value) == TYPE_DICTIONARY else {}
 	actions[String(action.actor_id)] = action.duplicate(true)
