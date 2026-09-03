@@ -32,7 +32,7 @@ Canonical temporary Owner decision:
 
 `Vibe-Coding/my world/architecture/foundation/TEMPORARY_EXECUTION_ROUTING_2026-09-03_TO_2026-09-06.md`
 
-Because Codex weekly quota is exhausted until 2026-09-07, the following override applies through 2026-09-06 23:59 (+08:00):
+Through 2026-09-06 23:59 (+08:00):
 
 ```text
 GPT        → Meaning / architecture / governance / task shaping / final Independent Review
@@ -41,9 +41,7 @@ Grok Build → external research / evidence discovery / Provider-reality support
 Owner      → Product UAT / explicit product verdict
 ```
 
-Prefer `Kimi implementation + Grok evidence/research when useful → GPT Independent Review`. Do not create artificial multi-agent work merely to use both.
-
-The temporary override auto-expires at 2026-09-07 00:00 (+08:00), after which the long-term routing resumes absent a newer Owner instruction. Correct in-flight Kimi work may finish under its issued packet rather than being interrupted solely by expiry.
+The override auto-expires at 2026-09-07 00:00 (+08:00). Correct in-flight Kimi work may finish under its issued packet.
 
 ## 2. Standing authorization for required real Provider validation
 
@@ -51,19 +49,13 @@ Canonical Owner decision:
 
 `Vibe-Coding/my world/architecture/foundation/REAL_PROVIDER_VALIDATION_STANDING_AUTHORIZATION.md`
 
-For this project, bounded real Provider validation is **pre-authorized** when the approved Task Packet explicitly requires it and the run remains inside the packet's stated scenario/call/turn/attempt ceiling using the current approved runtime Provider/profile.
+Bounded real Provider validation is pre-authorized when the approved Task Packet explicitly requires it and the run remains inside the packet's stated scenario/call/turn/attempt ceiling using the current approved runtime Provider/profile.
 
-Do **not** stop mid-task to ask the Owner again merely because required evidence will make the already-specified model API call.
+Do **not** pause mid-task to ask Owner again merely because required evidence makes the already-specified model API call.
 
-The authorization removes a repeated permission gate; it does not authorize scope expansion. It does not permit open-ended benchmark loops, hidden Provider/model switching, billing/account changes, sending secrets/credentials/unrelated private data, or new external services outside the approved task.
+The authorization does not permit open-ended benchmark loops, hidden Provider/model switching, billing/account changes, sending secrets/credentials/unrelated private data, or new external services outside approved scope.
 
-Future Task Packets that require real Provider proof should cite the standing authorization and state the smallest reasonable call/turn/attempt ceiling.
-
-### Provider outage / reviewability
-
-External Provider availability may block reality proof; it does **not** block code review.
-
-If the Task Packet's bounded real attempts are honestly exhausted because the current Provider times out or is unavailable before the feature-specific real vertical can be exercised, and all required offline/integration gates are green:
+If bounded attempts are exhausted by external Provider timeout/unavailability and offline/integration gates are green:
 
 ```text
 commit + push implementation/tests/evidence
@@ -71,9 +63,7 @@ commit + push implementation/tests/evidence
 → return READY FOR INDEPENDENT REVIEW — REAL PROVIDER PROOF PENDING
 ```
 
-Do not switch Provider, add fallback, exceed the bounded attempt ceiling, or keep reviewable work uncommitted merely because external reality proof is unavailable.
-
-GPT may review engineering evidence but must not falsely claim the missing real Provider vertical passed. Product/reality acceptance remains pending until a later successful real run or Owner UAT supplies it.
+External Provider availability may block reality proof; it does not block code review.
 
 ## 3. Current state
 
@@ -89,185 +79,198 @@ G4-11C01 Narrative Voice Soft Prompt  PASS / CLOSED
 G4-GATE                               PASS
 
 G5 World Semantics & GM Runtime       ACTIVE
-G5-01 Minimum Playable T0 + World Turn / Semantic Materialization
-                                      ACTIVE
-G5-01M1 Semantic Materialization Spine CORRECTION REQUIRED
-G5-01M1C02 Restore Timeline Isolation ACTIVE — KIMI
-G5-01 real Provider vertical          PENDING / EXTERNAL PROVIDER UNAVAILABLE
-G5-02 Knowledge Provenance            NOT YET
+G5-01 World Turn / Semantic Materialization
+                                      PASS / CLOSED
+G5-01M1 Semantic Materialization Spine ENGINEERING PASS / CLOSED
+G5-01M1C02 Restore Timeline Isolation CANCELLED / DO NOT EXECUTE
+G5-02 Knowledge Provenance            ACTIVE
+G5-02M1 Known-Actor Knowledge Spine   ACTIVE — KIMI
 G5-03 NPC / Faction Agency            NOT YET
 G5-04 Event / Priority Evolution      NOT YET
 G5-GATE                               NOT YET
 ```
 
-Do not start G5-02 before G5-01M1 correction Independent Review + G5-01 Owner/product checkpoint.
+Do not start G5-03 before G5-02M1 Independent Review and G5-02 closeout.
 
-## 4. Current execution task — G5-01M1C02
+## 4. Current execution task — G5-02M1
 
-Independent Review:
+Task packet:
 
-`docs/g5_01/G5-01M1_INDEPENDENT_REVIEW.md`
+`docs/tasks/G5-02M1_KNOWN_ACTOR_KNOWLEDGE_PROVENANCE_TASK.md`
 
-Correction packet:
+Canonical decision:
 
-`docs/tasks/G5-01M1C02_RESTORE_TIMELINE_ISOLATION_CORRECTION_TASK.md`
+`Vibe-Coding/my world/architecture/world/G5_KNOWLEDGE_PROVENANCE_V0_1_DECISION.md`
 
-Canonical semantic decision:
+Owner: **KIMI** under temporary routing. Reviewer / semantic owner: **GPT**.
 
-`Vibe-Coding/my world/architecture/world/G5_WORLD_TURN_SEMANTIC_MATERIALIZATION_V0_1_DECISION.md`
-
-Current implementation owner: **KIMI** under the temporary routing decision. Reviewer / semantic owner: **GPT**.
-
-Blocking finding:
-
-> Save/Restore correctly replaces durable Conversation + world snapshot, but the semantic worker's timeline-local `_attempted_versions` / queued/active state is not reset or invalidated at `restore_completed`. Abandoned-future execution state can therefore suppress or cross-contaminate a later restored branch.
-
-Required correction is narrow:
-
-- abandoned-future attempt suppression must not survive Restore;
-- queued pre-Restore semantic work must be dropped/quarantined;
-- active pre-Restore analysis must be unable to commit after Restore, including a late callback;
-- Restore itself must not launch a semantic Provider request;
-- recreating the exact same future accepted version after Restore must be able to materialize again;
-- no real Provider call is required for this correction.
-
-Do not redo the parent M1 architecture from scratch.
-
-## 5. G5-01 core ordering
+Core product distinction:
 
 ```text
-Player action
-→ free-form visible GM Narrative streaming
+Game / World Truth
+!= actor knowledge
+!= human-player disclosure
+!= omniscient GM model context
+```
+
+Protected principle:
+
+> **GM omniscience must not become actor omniscience.**
+
+Current Source `disclosure: gm_reference` remains GM/reference metadata. Do not reinterpret it as “all actors know this.”
+
+## 5. G5-02M1 actor scope
+
+Track only post-T0 knowledge acquisition for existing stable Game-local actor IDs:
+
+```text
+player_character.local_character_id
++
+guaranteed_npcs[*].local_character_id
+```
+
+No durable identity for incidental/emergent NPCs, Factions, groups or arbitrary entities in this task.
+
+Do not convert all T0 Source into a knowledge graph.
+
+## 6. One auxiliary request, not two
+
+Extend the existing G5-01 semantic-analysis request; do not add a second Provider request per ordinary accepted turn.
+
+Conceptual response:
+
+```json
+{
+  "changes": ["durable world consequence"],
+  "knowledge_events": [
+    {
+      "knower_id": "stable-local-id",
+      "fact": "post-T0 fact this actor now has grounds to know",
+      "basis": "witnessed|told|discovered|participated"
+    }
+  ]
+}
+```
+
+Knowledge parsing/validation failure must not invalidate an otherwise valid G5-01 `changes` result.
+
+Unknown/non-roster `knower_id` must never become durable authority.
+
+## 7. Durable semantics
+
+Knowledge provenance belongs inside the existing game-local `world_state.living_world`, adjacent to G5-01 semantic turn records. Do not add a SQLite schema/table or second persistence owner.
+
+One accepted semantic result may produce:
+
+- changes only;
+- knowledge only;
+- both;
+- neither.
+
+If durable material exists, at most one `commit_world_mutation_durably(...)` call for that accepted turn version.
+
+Persist only bounded validated provenance records tied to the accepted source turn + GM hash. Never persist raw Provider prompt/response/reasoning.
+
+## 8. Context consumer
+
+The first consumer is later ordinary GM Context.
+
+GM may still receive broad Game-local World/Source truth. Add a bounded actor-knowledge provenance projection that communicates which stable actors have durable post-T0 grounds to know which facts.
+
+The semantic guidance is:
+
+> A post-T0 fact present in World/GM context is not automatically actor knowledge. Let an actor speak, plan, react or decide from it only when durable provenance below or the current scene supports awareness.
+
+This is soft model guidance, not an output gate.
+
+Do not add keyword validators, “omniscience” classifiers, retry-on-style logic, or mandatory Narrative format.
+
+## 9. G5-01 remains protected
+
+G5-01 is PASS/CLOSED. Do not reopen it absent concrete regression.
+
+Core ordering remains:
+
+```text
+free-form visible Narrative
 → durable Conversation acceptance
-→ separate best-effort Semantic Materialization Lane
-→ optional Program-owned World Turn
-→ existing atomic world mutation / Timeline
-→ committed matching changes may re-enter later Context
+→ separate best-effort semantic analysis
+→ optional atomic world semantic mutation
 ```
 
-Protected distinction:
+Narrative acceptance remains independent of semantic-analysis success.
 
-> **Narrative acceptance != semantic-analysis success.**
+`G5-01M1C02` is cancelled/do-not-execute. Do not implement speculative Restore exact-replay infrastructure.
 
-Semantic extraction failure must not convert an already accepted player action into a failed action.
+## 10. First G5-02 proof
 
-## 6. World Turn v0.1
-
-Conceptual durable namespace:
+At minimum prove with task-owned state:
 
 ```text
-living_world
-  schema_version = living_world.v0.1
-  semantic_turns_by_index
-    <turn_index>
-      world_turn_id
-      source_turn_index
-      source_gm_sha256
-      materialized_at
-      changes[]
+Player Character + Guaranteed NPC A
+→ Player alone discovers private fact F
+→ Player gets durable knowledge provenance
+→ NPC A does not
+→ later Context preserves asymmetry
+→ later accepted Narrative explicitly tells NPC A
+→ NPC A gains provenance
+→ Save/reopen preserves the boundary
 ```
 
-This is a turn-level durable consequence ledger only.
+Also prove:
 
-Do not turn it into a universal fact/entity ontology or prematurely implement Knowledge/Relationship/Location/Inventory/NPC/Faction/Event domains.
+- unknown actor IDs rejected;
+- knowledge parse failure does not break valid G5-01 changes;
+- knowledge-only result can make one atomic mutation;
+- stale GM-hash knowledge does not project;
+- replay/reopen does not duplicate knowledge.
 
-## 7. Semantic analysis lane
+## 11. Provider proof
 
-- trigger only from a **durably accepted** ordinary player/GM turn;
-- GM-only Opening is skipped in v0.1;
-- use current selected Runtime Model Settings provider/profile through existing adapter;
-- no cross-provider fallback or hidden model switch;
-- exactly one semantic-analysis attempt per newly accepted ordinary version within the active timeline;
-- small machine data such as `{"changes":[...]}` is allowed because this is a separate analysis lane, not visible prose;
-- malformed/transport/missing-key/empty analysis fails soft: no fake mutation, no action failure, no automatic recovery loop;
-- never persist raw prompts/payload/reasoning/credentials.
+After offline/integration gates are green, at most **one** task-owned real selected-Provider attempt is authorized by the standing decision.
 
-## 8. Model Freedom / narrative protection
+No fallback, hidden model switch or second attempt.
 
-```text
-Model Freedom First
-+
-Visible Narrative First
-+
-Canonical Commit Behind durable infrastructure boundaries
-```
+If Provider is externally unavailable, push reviewable work/evidence and mark real proof pending.
 
-Do not add:
+## 12. Protected scope
 
-- JSON/header/sentinel requirements to player-visible Narrative;
-- mandatory prose structure;
-- genre/style keyword gates;
-- output classifiers that block acceptance;
-- semantic-analysis success as a prerequisite to Conversation acceptance;
-- per-token world persistence.
+Expected code scope is bounded around `src/世界回合/**` and the existing continuation Context projection seam.
 
-The G4-11C01 soft narrative-voice guidance is PASS/CLOSED. Do not reopen it absent a concrete regression; its product effect will be observed opportunistically in the next Owner UAT.
+Protected unless GPT approves a returned blocker first:
 
-## 9. Replay / correction / Restore
-
-Same accepted content in the same active timeline must not duplicate a World Turn.
-
-After regenerate/latest-turn correction, a semantic record whose `source_gm_sha256` does not match the currently accepted GM text at that turn index must never be projected into Context.
-
-A committed Restore/Recovery is also a timeline boundary: stale in-memory semantic execution state from the abandoned future must not suppress or mutate the restored branch. Existing Timeline/Save/Restore owns historical reversal.
-
-## 10. Existing seams to reuse
-
-Current implementation already has:
-
-- T0-scoped exact Source materialization;
-- durable Conversation;
-- `src/runtime/当前游戏会话运行时.gd::commit_world_mutation_durably(...)`;
-- `restore_completed` after committed progress switch;
-- current Timeline head/world snapshot;
-- Save/Restore/Recovery;
-- One Game = One SQLite.
-
-Extend these seams. Do not create a second persistence owner or schema forest.
-
-## 11. Protected scope
-
-Expected correction production scope is preferably only:
-
-`src/世界回合/L2_流程层/语义物化流程.gd`
-
-plus focused tests/evidence.
-
-Protected unless GPT has approved a returned blocker:
-
-- `src/domain/会话.gd` semantics;
-- `src/ui/**` unless a UI-owned task explicitly opens them;
-- Persistence schema/migrations;
-- Source package/schema/generation;
+- `src/domain/会话.gd` acceptance semantics;
+- `src/ui/**`;
+- persistence schema/migrations;
+- Source schema/generation;
 - Runtime Model Settings;
 - Public d20;
-- G6 visuals.
-
-If a SQLite schema migration or unrelated scope expansion appears necessary, STOP and return the boundary finding instead of silently expanding scope.
-
-## 12. G5-01 non-scope
-
-Do not implement early:
-
-- G5-02 Knowledge Provenance;
 - G5-03 NPC/Faction Agency;
-- G5-04 Event/Priority-driven World Evolution;
-- generic world graph/platform;
-- G6 RPG/visual UI;
-- G7 long-session retrieval architecture.
+- G5-04 Event/Priority evolution;
+- G6 visuals;
+- G7 retrieval platform.
 
-## 13. Visual deferral remains protected
+Do not build:
+
+- generic Entity/Knowledge Graph;
+- false-belief/inference engine;
+- rumor network;
+- confidence/reliability scoring;
+- Faction knowledge;
+- emergent NPC identity platform.
+
+## 13. Completion
+
+Kimi commits/pushes implementation/tests/evidence and returns:
 
 ```text
-G4-10 Runtime Asset Resolution = DEFERRED / MOVED TO G6
+READY FOR INDEPENDENT REVIEW
 ```
 
-Do not implement portrait / scene / authored-map runtime during G5-01.
+or, only if bounded real proof is unavailable:
 
-## 14. After G5-01M1C02
+```text
+READY FOR INDEPENDENT REVIEW — REAL PROVIDER PROOF PENDING
+```
 
-Kimi commits/pushes the focused correction and returns `READY FOR INDEPENDENT REVIEW`.
-
-GPT then re-reviews the actual diff/tests. If Engineering PASS is achieved while the real Provider proof remains pending, G5-01 product/reality acceptance remains open. A later successful real Provider run or short Owner checkpoint must still prove one simple lived consequence survives later play/reopen while Narrative remains free-form.
-
-Only after Owner/Product PASS may GPT close G5-01 and shape G5-02 Knowledge Provenance.
+GPT owns Independent Review and G5-02 closeout. Do not start G5-03 early.
