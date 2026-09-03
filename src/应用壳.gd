@@ -12,6 +12,7 @@ const FinalCreate := preload("res://src/最终建局/L3_外交层/原子最终�
 const FirstOpening := preload("res://src/首次开场/L3_外交层/首次开场公开接口.gd")
 const ActionAdjudication := preload("res://src/行动判定/L3_外交层/行动判定公开接口.gd")
 const ModelRuntimeSettings := preload("res://src/运行时设置/L3_外交层/模型运行时设置公开接口.gd")
+const WorldTurn := preload("res://src/世界回合/L3_外交层/世界回合公开接口.gd")
 
 enum ApplicationState {
 	BOOTING,
@@ -97,10 +98,13 @@ var _isolated_narrative_test_mode := false
 var opening_runtime: Node = null
 ## Game-local materialized Public d20 capability 存在时挂载的 G4-08 行动判定 Host。
 var action_adjudication: Node = null
+## durable Conversation acceptance 后运行的独立 best-effort semantic lane；不拥有 Narrative/UI truth。
+var world_turn_runtime: Node = null
 ## 测试专用 seam：focused/real-vertical 测试在激活前注入 stub 或受控 adapter；production 恒为 null。
 var test_opening_adapter_override: Node = null
 var test_adjudication_adapter_override: Node = null
 var test_adjudication_rng_override: RefCounted = null
+var test_world_turn_adapter_override: Node = null
 ## Opening UI 状态机："" / streaming / accepted / failed / cancelled；终态处理幂等。
 var _opening_state := ""
 ## 模型设置 UI：backend 接口与当前编辑候选（未保存；预览只走 inspect_candidate）。
@@ -454,6 +458,7 @@ func _activate_game_surface() -> void:
 	_refresh_save_points()
 	_refresh_recovery_availability()
 	_update_save_controls()
+	_prepare_world_turn_after_activation()
 	_prepare_action_adjudication_after_activation()
 	_prepare_opening_after_activation()
 	_update_responsive_layout()
@@ -474,6 +479,7 @@ func _close_game_session() -> Dictionary:
 		session_state = SessionState.ABSENT
 		return {"status": "absent", "success": true}
 	session_state = SessionState.CLOSING
+	_teardown_world_turn_runtime()
 	_teardown_action_adjudication()
 	_teardown_opening_runtime()
 	if narrative_view != null:
@@ -486,6 +492,23 @@ func _close_game_session() -> Dictionary:
 	_reset_session_controls()
 	print("[shell] session=absent close_status=%s" % String(closed.get("status", "unknown")))
 	return closed
+
+
+func _prepare_world_turn_after_activation() -> void:
+	if session_runtime == null or not session_runtime.is_ready() or world_turn_runtime != null:
+		return
+	world_turn_runtime = WorldTurn.new(session_runtime, test_world_turn_adapter_override)
+	add_child(world_turn_runtime)
+
+
+func _teardown_world_turn_runtime() -> void:
+	if world_turn_runtime == null:
+		return
+	world_turn_runtime.shutdown()
+	if is_instance_valid(world_turn_runtime):
+		remove_child(world_turn_runtime)
+		world_turn_runtime.queue_free()
+	world_turn_runtime = null
 
 
 func _show_main_menu() -> void:

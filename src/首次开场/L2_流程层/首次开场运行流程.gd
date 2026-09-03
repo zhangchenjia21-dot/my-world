@@ -5,6 +5,7 @@ const Rules := preload("res://src/首次开场/L0_公理层/首次开场规则.g
 const Projector := preload("res://src/首次开场/L1_器件层/游戏本地开场上下文投影器.gd")
 const ContextAssembler := preload("res://src/context/L3_外交层/上下文组装公开接口.gd")
 const ProviderAdapter := preload("res://src/provider/L3_外交层/运行时模型流式适配公开接口.gd")
+const WorldTurnContext := preload("res://src/世界回合/L3_外交层/世界回合上下文公开接口.gd")
 
 signal request_assembled(messages, context_stats)
 signal text_delta(text)
@@ -18,6 +19,7 @@ var last_result: Dictionary = {"success": false, "status": "not_started", "messa
 
 var _projector := Projector.new()
 var _context_assembler := ContextAssembler.new()
+var _world_turn_context := WorldTurnContext.new()
 
 
 func _init(runtime: Variant = null, adapter_override: Node = null) -> void:
@@ -74,13 +76,23 @@ func assemble_continuation_messages() -> Dictionary:
 	var projected := _projector.project(session_runtime.world_state)
 	if not projected.success:
 		return projected
+	var materialized := _world_turn_context.project(
+		session_runtime.world_state,
+		session_runtime.conversation.get_durable_accepted_entries()
+	)
+	var game_context_text := String(projected.context_text)
+	if not String(materialized.context_text).is_empty():
+		game_context_text += "\n\n" + String(materialized.context_text)
 	var messages := _context_assembler.assemble_messages(
 		session_runtime.conversation.get_context_projection(),
-		String(projected.context_text)
+		game_context_text
 	)
+	var stats := (projected.stats as Dictionary).duplicate(true)
+	stats["materialized_world_turns"] = int(materialized.record_count)
+	stats["rejected_world_turns"] = int(materialized.rejected_count)
 	return Rules.success({
 		"messages": messages,
-		"context_stats": (projected.stats as Dictionary).duplicate(true),
+		"context_stats": stats,
 	})
 
 
