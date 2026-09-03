@@ -32,137 +32,169 @@ Owner      → Product UAT / explicit product verdict
 G1 Foundation                         PASS / CLOSED
 G2 AI Conversation Spine              PASS / CLOSED
 G3 Persistence / Save / Timeline      PASS / CLOSED
-G4-01 Application Shell / Lifecycle   PASS / CLOSED
-G4-02R1 Source semantic re-audit      PASS / CLOSED
-G4-03 Managed Local Source Library    PASS / CLOSED
-G4-04 Multi-Game / Game Library       PASS / CLOSED
-G4-05 New Game Wizard                 PASS / CLOSED
-G4-06 Atomic Final Create             PASS / CLOSED
-G4-07 First Playable A                PASS / CLOSED
-G4-08 Expansion Pack v0.1             PASS / CLOSED
-G4-09 First Playable B                PASS / CLOSED
-G4-09UATB Owner Product UAT           PASS / CLOSED
+G4 Primary Source Assets & Local Game Creation
+                                      PASS / CLOSED
 G4-10 Runtime Asset Resolution        DEFERRED / MOVED TO G6
-G4-10M1 Mechanism                     SUPERSEDED / DO NOT EXECUTE
-G4-11 Two Primary Asset Families      ACTIVE — CLOSEOUT
-G4-11P1 Engineering Reality Prep      PASS / CLOSED
-G4-11UAT Owner Reality Test           PASS / CLOSED
-G4-11C01 Narrative Voice Soft Prompt  ACTIVE — CODEX
-G4-GATE                               HOLD — awaiting C01 review only
+G4-11 Two Primary Asset Families      PASS / CLOSED
+G4-11C01 Narrative Voice Soft Prompt  PASS / CLOSED
+G4-GATE                               PASS
+
+G5 World Semantics & GM Runtime       ACTIVE
+G5-01 Minimum Playable T0 + World Turn / Semantic Materialization
+                                      ACTIVE
+G5-01M1 Semantic Materialization Spine ACTIVE — CODEX
+G5-02 Knowledge Provenance            NOT YET
+G5-03 NPC / Faction Agency            NOT YET
+G5-04 Event / Priority Evolution      NOT YET
+G5-GATE                               NOT YET
 ```
 
-Do not start G5 before G4-11C01 Independent Review + formal G4-GATE closeout.
+Do not start G5-02 before G5-01M1 Independent Review + G5-01 Owner product checkpoint.
 
-## 3. Current task — G4-11C01 Narrative Voice Soft Prompt Tuning
+## 3. Current execution task — G5-01M1
 
 Formal packet:
 
-`docs/tasks/G4-11C01_NARRATIVE_VOICE_SOFT_PROMPT_TUNING_TASK.md`
+`docs/tasks/G5-01M1_WORLD_TURN_SEMANTIC_MATERIALIZATION_TASK.md`
 
-Canonical decision:
+Canonical semantic decision:
 
-`Vibe-Coding/my world/architecture/foundation/G4_NARRATIVE_VOICE_SOFT_PROMPT_TUNING_DECISION.md`
+`Vibe-Coding/my world/architecture/world/G5_WORLD_TURN_SEMANTIC_MATERIALIZATION_V0_1_DECISION.md`
 
 Current owner: **CODEX**. Reviewer / semantic owner: **GPT**.
 
-Expected production scope:
-
-```text
-src/context/上下文组装器.gd
-+ focused tests/evidence
-```
-
-Owner has already passed the G4-11 two-family reality product gate. This task addresses only a non-blocking finding that different worlds still converge too strongly toward the same general narrative prose voice.
-
-The intended change is one generic shared-GM soft creative instruction encouraging language texture to follow current World / Character / scene naturally.
-
-No standalone Owner UAT or real Provider run is required for this micro-fix.
-
 Return ceiling: **READY FOR INDEPENDENT REVIEW**.
 
-## 4. C01 hard boundaries
-
-Core invariant:
-
-> **Narrative style is guidance, not an acceptance gate.**
-
-Do not add:
-
-- required narrative format;
-- mandatory vocabulary;
-- genre keyword validators;
-- style similarity scoring/thresholds;
-- output classifiers;
-- reject/retry/regenerate because prose style is judged insufficient;
-- second-model style review;
-- world-specific hardcoded templates;
-- Provider/model-settings changes;
-- Source package/schema/generation changes;
-- d20 changes;
-- persistence/SQLite changes;
-- G5 world semantics.
-
-Tests may assert prompt projection only. They must not assert that model output contains Han/fantasy keywords or a required prose style.
-
-## 5. G4-11 accepted product/engineering truth
-
-Owner result:
-
-`docs/g4_11/G4-11UAT_OWNER_RESULT.md`
-
-Owner confirmed the two worlds are materially different. Narrative prose convergence is a non-blocking quality finding only.
-
-P1 engineering evidence remains accepted:
-
-- real current selected Provider for both family verticals;
-- Opening + 3 durable continuations each;
-- Save / close / exact reopen / Continue;
-- distinct Game IDs and SQLite files;
-- A→B→A→B→A isolation;
-- exact Source ancestry under newer task-owned Source-current publication;
-- no opposite-family Context leakage;
-- no visual dependency;
-- Owner production surfaces unchanged.
-
-Do not reopen this evidence absent a concrete regression.
-
-## 6. Visual deferral — protected current route
-
-Owner explicitly deferred visual runtime work to G6.
+## 4. G5-01 core ordering
 
 ```text
-G4-10 Runtime Asset Resolution = DEFERRED / MOVED TO G6
-G4-10M1 = SUPERSEDED / DO NOT EXECUTE
+Player action
+→ free-form visible GM Narrative streaming
+→ durable Conversation acceptance
+→ separate best-effort Semantic Materialization Lane
+→ optional Program-owned World Turn
+→ existing atomic world mutation / Timeline
+→ committed matching changes may re-enter later Context
 ```
 
-Do not implement portrait / scene / authored-map loading, image pipeline, visual resolver or map presentation during C01/G5.
+Protected distinction:
 
-## 7. Protected Model Freedom / Narrative Responsiveness truth
+> **Narrative acceptance != semantic-analysis success.**
+
+Semantic extraction failure must not convert an already accepted player action into a failed action.
+
+## 5. World Turn v0.1
+
+Conceptual durable namespace:
+
+```text
+living_world
+  schema_version = living_world.v0.1
+  semantic_turns_by_index
+    <turn_index>
+      world_turn_id
+      source_turn_index
+      source_gm_sha256
+      materialized_at
+      changes[]
+```
+
+This is a turn-level durable consequence ledger only.
+
+Do not turn it into a universal fact/entity ontology or prematurely implement Knowledge/Relationship/Location/Inventory/NPC/Faction/Event domains.
+
+## 6. Semantic analysis lane
+
+- trigger only from a **durably accepted** ordinary player/GM turn;
+- GM-only Opening is skipped in v0.1;
+- use current selected Runtime Model Settings provider/profile through existing adapter;
+- no cross-provider fallback or hidden model switch;
+- exactly one semantic-analysis attempt per new accepted turn in v0.1;
+- small machine data such as `{"changes":[...]}` is allowed because this is a separate analysis lane, not visible prose;
+- malformed/transport/missing-key/empty analysis fails soft: no fake mutation, no action failure, no automatic recovery loop;
+- never persist raw prompts/payload/reasoning/credentials.
+
+## 7. Model Freedom / narrative protection
 
 ```text
 Model Freedom First
 +
 Visible Narrative First
 +
-Canonical Commit Behind a Turn Finalize Barrier
+Canonical Commit Behind durable infrastructure boundaries
 ```
 
-Public d20 semantics and Runtime Model Settings are PASS/CLOSED and must not be reopened absent a concrete regression.
+Do not add:
 
-## 8. After C01
+- JSON/header/sentinel requirements to player-visible Narrative;
+- mandatory prose structure;
+- genre/style keyword gates;
+- output classifiers that block acceptance;
+- semantic-analysis success as a prerequisite to Conversation acceptance;
+- per-token world persistence.
 
-If GPT Independent Review passes C01:
+The G4-11C01 soft narrative-voice guidance is PASS/CLOSED. Do not reopen it absent a concrete regression; its product effect will be observed opportunistically in the next Owner UAT.
+
+## 8. Replay / correction / Restore
+
+Same accepted content must not duplicate a World Turn.
+
+After regenerate/latest-turn correction, a semantic record whose `source_gm_sha256` does not match the currently accepted GM text at that turn index must never be projected into Context.
+
+Successful rematerialization may replace the record for that turn in a new world snapshot. Existing Timeline/Save/Restore owns historical reversal.
+
+## 9. Existing seams to reuse
+
+Current implementation already has:
+
+- T0-scoped exact Source materialization;
+- durable Conversation;
+- `src/runtime/当前游戏会话运行时.gd::commit_world_mutation_durably(...)`;
+- current Timeline head/world snapshot;
+- Save/Restore/Recovery;
+- One Game = One SQLite.
+
+Extend these seams. Do not create a second persistence owner or schema forest.
+
+## 10. Protected scope
+
+Preferred new backend module: `src/世界回合/**` or equivalent bounded layered module.
+
+Focused backend integration may touch current Game Runtime / Application Shell / existing Game-context projection seams when required.
+
+Protected unless GPT has approved a returned blocker:
+
+- `src/domain/会话.gd` semantics;
+- `src/ui/**`;
+- Persistence schema/migrations;
+- Source package/schema/generation;
+- Runtime Model Settings;
+- Public d20;
+- G6 visuals.
+
+If UI changes or a SQLite schema migration appear necessary, STOP and return the boundary finding instead of silently expanding scope.
+
+## 11. G5-01 non-scope
+
+Do not implement early:
+
+- G5-02 Knowledge Provenance;
+- G5-03 NPC/Faction Agency;
+- G5-04 Event/Priority-driven World Evolution;
+- generic world graph/platform;
+- G6 RPG/visual UI;
+- G7 long-session retrieval architecture.
+
+## 12. Visual deferral remains protected
 
 ```text
-G4-11C01 PASS / CLOSED
-→ G4-11 PASS / CLOSED
-→ G4-GATE PASS
-→ G4 CLOSED
-→ GPT shapes G5-01
+G4-10 Runtime Asset Resolution = DEFERRED / MOVED TO G6
 ```
 
-Current roadmap title for the first G5 task:
+Do not implement portrait / scene / authored-map runtime during G5-01.
 
-`G5-01 Minimum Playable T0 + World Turn / Semantic Materialization`
+## 13. After G5-01M1
 
-Do not implement G5-01 from the title alone. GPT must first freeze its semantics/ownership/acceptance boundary.
+If GPT Independent Review passes M1, Owner receives a short G5-01 product checkpoint. Owner should prove one simple lived consequence remains part of the world after later play/reopen while Narrative remains free-form.
+
+Only after Owner PASS may GPT close G5-01 and shape G5-02 Knowledge Provenance.
