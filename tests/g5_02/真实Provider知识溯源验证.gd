@@ -87,35 +87,38 @@ func _run() -> void:
 		return _finish()
 	_result = turn_result.duplicate(true)
 	var semantic_status := String(turn_result.semantic_status)
-	_check(semantic_status in ["committed", "no_changes"], "combined semantic request reaches terminal result")
-	if semantic_status == "committed":
-		var knowledge_records := _runtime.world_state.living_world.get("knowledge_turns_by_index", {}) as Dictionary
-		if not knowledge_records.is_empty():
-			var events: Array = (knowledge_records.values()[0] as Dictionary).events
-			var roster := {"char-player": true}
-			var roster_ids: Array = []
-			var player_id := String(_runtime.world_state.player_character.local_character_id)
-			roster_ids.append(player_id)
-			for npc: Dictionary in _runtime.world_state.guaranteed_npcs:
-				roster_ids.append(String(npc.local_character_id))
-			var only_roster := true
-			for event: Dictionary in events:
-				if not roster_ids.has(String(event.knower_id)):
-					only_roster = false
-			_check(only_roster, "knowledge events identify only supported stable actors")
-			_result["knowledge_event_count"] = events.size()
-			_result["knowledge_knower_ids"] = events.map(func(e: Dictionary) -> String: return String(e.knower_id))
-		else:
-			_result["knowledge_event_count"] = 0
-		# 后续 Context 包含 actor-knowledge 边界。
-		_runtime.conversation.begin_turn("我核对刚才已经记下的安排。")
-		var continuation: Dictionary = _opening.assemble_continuation_messages()
-		_runtime.conversation.cancel_generation()
-		var projected_text := JSON.stringify(continuation.get("messages", []))
-		_result["context_contains_knowledge_boundary"] = projected_text.contains("Actor Knowledge Provenance") or knowledge_records.is_empty()
-		_check(continuation.success, "later Provider request assembles with knowledge boundary")
-	_runtime.conversation.begin_turn("占位")
+	_check(semantic_status == "committed", "combined semantic request reaches terminal success")
+	if semantic_status != "committed":
+		return _finish()
+	var knowledge_records := _runtime.world_state.living_world.get("knowledge_turns_by_index", {}) as Dictionary
+	_check(not knowledge_records.is_empty(), "real proof requires at least one committed knowledge record")
+	if knowledge_records.is_empty():
+		return _finish()
+	var events: Array = (knowledge_records.values()[0] as Dictionary).events
+	_check(not events.is_empty(), "real proof requires at least one committed knowledge event")
+	if events.is_empty():
+		return _finish()
+	var roster_ids: Array = []
+	var player_id := String(_runtime.world_state.player_character.local_character_id)
+	roster_ids.append(player_id)
+	for npc: Dictionary in _runtime.world_state.guaranteed_npcs:
+		roster_ids.append(String(npc.local_character_id))
+	var only_roster := true
+	for event: Dictionary in events:
+		if not roster_ids.has(String(event.knower_id)):
+			only_roster = false
+	_check(only_roster, "knowledge events identify only supported stable actors")
+	_result["knowledge_event_count"] = events.size()
+	_result["knowledge_knower_ids"] = events.map(func(e: Dictionary) -> String: return String(e.knower_id))
+	# 后续 Context 必须包含 actor-knowledge 边界与已提交事件。
+	_runtime.conversation.begin_turn("我核对刚才已经记下的安排。")
+	var continuation: Dictionary = _opening.assemble_continuation_messages()
 	_runtime.conversation.cancel_generation()
+	var projected_text := JSON.stringify(continuation.get("messages", []))
+	_check(projected_text.contains("Actor Knowledge Provenance"), "later Context contains Actor Knowledge Provenance section")
+	_check(projected_text.contains(String(events[0].fact)), "later Context contains committed knowledge fact")
+	_result["context_contains_knowledge_boundary"] = true
+	_check(continuation.success, "later Provider request assembles with knowledge boundary")
 	_finish()
 
 

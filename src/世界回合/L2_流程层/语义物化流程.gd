@@ -8,7 +8,7 @@ const ProviderAdapter := preload("res://src/provider/L3_外交层/运行时模�
 signal analysis_requested(turn_index, messages)
 signal finished(result)
 
-const ANALYSIS_INSTRUCTIONS := "你是 my world 的后台语义物化器。只根据已经接受的玩家行动与 GM 叙事，提取两类 durable 事实：\n1. changes：叙事中已经明确成立、值得跨句持续的世界后果。\n2. knowledge_events：叙事明确建立给特定 stable actor 的 post-T0 新知识。只提取该 accepted turn 新建立的、有明确根据的知识；不要因为事实在叙事中为真就授予知识；不要因为某 NPC 在阵容中就推断其知情；不要编造未知 actor/ID；不要输出推理过程。\n只输出一个 JSON 对象：{\"changes\":[\"简洁的持久后果\"],\"knowledge_events\":[{\"knower_id\":\"stable-local-id\",\"fact\":\"简洁事实\",\"basis\":\"witnessed|told|discovered|participated\"}]}；没有持久后果时 changes=[]；没有新知识时 knowledge_events=[]。不要输出解释、Markdown 或推理过程。"
+const ANALYSIS_INSTRUCTIONS := "你是 my world 的后台语义物化器。只根据已经接受的玩家行动与 GM 叙事，提取两类 durable 事实：\n1. changes：叙事中已经明确成立、值得跨句持续的世界后果。\n2. knowledge_events：叙事明确建立给特定 stable actor 的 post-T0 新知识。只提取该 accepted turn 新建立的、有明确根据的知识；不要因为事实在叙事中为真就授予知识；不要因为某 NPC 在阵容中就推断其知情；不要编造未知 actor/ID；不要输出推理过程。\n只输出一个 JSON 对象：{\"changes\":[\"简洁的持久后果\"],\"knowledge_events\":[{\"knower_id\":\"stable-local-id\",\"fact\":\"简洁事实\",\"basis\":\"witnessed|told|discovered|participated\"}]}；没有持久后果时 changes=[]；没有新知识时 knowledge_events=[]。knower_id 必须且只能来自 Allowed Stable Actors 列表；不要输出列表之外的 ID。不要输出解释、Markdown 或推理过程。"
 
 var session_runtime: Variant = null
 var provider_adapter: Node = null
@@ -132,9 +132,14 @@ func _drain_queue() -> void:
 
 
 func _analysis_messages(turn: Dictionary) -> Array:
+	var roster := Rules.actor_roster(session_runtime.world_state)
+	var roster_lines := PackedStringArray()
+	for local_id: String in roster.keys():
+		roster_lines.append("- %s | %s" % [String(roster[local_id]), local_id])
+	var roster_block := "Allowed Stable Actors\n" + "\n".join(roster_lines) if not roster_lines.is_empty() else "Allowed Stable Actors\n（无）"
 	return [
 		{"role": "system", "content": ANALYSIS_INSTRUCTIONS},
-		{"role": "user", "content": "Accepted Player Action\n%s\n\nAccepted GM Narrative\n%s" % [String(turn.player_text), String(turn.gm_text)]},
+		{"role": "user", "content": "%s\n\nAccepted Player Action\n%s\n\nAccepted GM Narrative\n%s" % [roster_block, String(turn.player_text), String(turn.gm_text)]},
 	]
 
 

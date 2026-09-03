@@ -98,10 +98,11 @@ func _project_knowledge(world_state: Dictionary, accepted_hashes: Dictionary, pr
 			continue
 		matching.append(record)
 	matching.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a.source_turn_index) < int(b.source_turn_index))
-	# 按 actor 聚合最近 provenance； bounded actor/event 上限。
+	# 有界工作集选择最新 matching 事件/turn；渲染时再转回时间序保持可读。
 	var by_actor: Dictionary = {}
 	var event_count := 0
-	for record: Dictionary in matching:
+	for record_index: int in range(matching.size() - 1, -1, -1):
+		var record := matching[record_index] as Dictionary
 		for event: Dictionary in record.events as Array:
 			if event_count >= MAX_KNOWLEDGE_EVENTS_PROJECTED:
 				break
@@ -110,7 +111,7 @@ func _project_knowledge(world_state: Dictionary, accepted_hashes: Dictionary, pr
 				if by_actor.size() >= MAX_KNOWLEDGE_ACTORS_PROJECTED:
 					continue
 				by_actor[knower_id] = []
-			(by_actor[knower_id] as Array).append({"fact": String(event.fact), "basis": String(event.basis)})
+			(by_actor[knower_id] as Array).append({"fact": String(event.fact), "basis": String(event.basis), "turn_index": int(record.source_turn_index)})
 			event_count += 1
 	if by_actor.is_empty():
 		return _empty_knowledge(rejected)
@@ -119,10 +120,15 @@ func _project_knowledge(world_state: Dictionary, accepted_hashes: Dictionary, pr
 		"GM has broader world reference; actors do not automatically share GM knowledge.",
 		"A post-T0 fact present in World/GM context is not automatically actor knowledge. Let an actor speak, plan, react or decide from it only when durable provenance below or the current scene supports awareness.",
 	])
-	for knower_id: String in by_actor.keys():
+	# 渲染时按 turn_index 升序，保持同 actor 内时间序可读。
+	var actor_ids := by_actor.keys()
+	actor_ids.sort()
+	for knower_id: String in actor_ids:
 		var display := String(roster.get(knower_id, knower_id))
 		lines.append("%s [%s]" % [display, knower_id])
-		for event: Dictionary in by_actor[knower_id] as Array:
+		var events: Array = by_actor[knower_id] as Array
+		events.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a.turn_index) < int(b.turn_index))
+		for event: Dictionary in events:
 			lines.append("- [%s] %s" % [String(event.basis), String(event.fact)])
 	var text := "\n".join(lines)
 	if projected_chars + text.length() > MAX_PROJECTED_CHARS:

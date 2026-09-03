@@ -50,8 +50,77 @@ func _run() -> void:
 	await _test_knowledge_parse_isolation()
 	await _test_knowledge_only_mutation()
 	await _test_replay_reopen_hash_matching()
+	await _test_c01_roster_in_request()
+	await _test_c01_recent_knowledge_projection()
+	await _test_c01_harness_truthfulness()
 	print("G5-02M1 FOCUSED | done failures=%d" % _failures)
 	quit(0 if _failures == 0 else 1)
+
+
+## C01-1/2：语义请求含 exact Player + Guaranteed NPC display-name/local-ID roster；
+## 不含 incidental/unknown actor。
+func _test_c01_roster_in_request() -> void:
+	var runtime := ControlledRuntime.new()
+	var stub := StubAdapter.new()
+	var worker := WorldTurn.new(runtime, stub)
+	root.add_child(worker)
+	await process_frame
+	_accept(runtime, "我独自查看北门守军的换防记录。", "你从记录中发现北门守军每夜三更换防。")
+	await process_frame
+	_check(stub.requests.size() == 1, "C01 one semantic request emitted")
+	var request_text := JSON.stringify(stub.requests[0])
+	_check(request_text.contains("Allowed Stable Actors"), "C01 request contains roster block")
+	_check(request_text.contains("刘备 | char-player-001"), "C01 request contains Player display name + exact local ID")
+	_check(request_text.contains("孙权 | char-npc-002"), "C01 request contains Guaranteed NPC display name + exact local ID")
+	_check(not request_text.contains("char-unknown-999") and not request_text.contains("糜竺"), "C01 request never adds incidental/unknown actors")
+	stub.simulate_delta('{"changes":[],"knowledge_events":[]}')
+	stub.simulate_completed()
+	await process_frame
+	worker.shutdown()
+	worker.queue_free()
+
+
+## C01-3：>8 matching 知识事件时投影最新事件，淘汰 bounded-old 事件。
+func _test_c01_recent_knowledge_projection() -> void:
+	var runtime := ControlledRuntime.new()
+	var accepted: Array = []
+	var knowledge_records: Dictionary = {}
+	# 构造 10 个 matching 知识记录（turn 0..9），每 turn 一个事件。
+	for index: int in range(10):
+		var gm := "已接受叙事 %d" % index
+		accepted.append({"turn_index": index, "player_text": "行动", "gm_text": gm})
+		var hash := gm.sha256_text()
+		knowledge_records[str(index)] = {
+			"knowledge_turn_id": "knowledge-turn-%d" % index,
+			"source_turn_index": index,
+			"source_gm_sha256": hash,
+			"materialized_at": "2026-09-03T00:00:00Z",
+			"events": [{"knower_id": "char-player-001", "fact": "KNOWLEDGE_EVENT_%d" % index, "basis": "witnessed"}],
+		}
+	runtime.world_state["living_world"] = {"schema_version": "living_world.v0.1", "knowledge_turns_by_index": knowledge_records}
+	var projected := WorldTurnContext.new().project(runtime.world_state, accepted)
+	var text := String(projected.context_text)
+	_check(text.contains("KNOWLEDGE_EVENT_9"), "C01 latest knowledge event is projected")
+	_check(text.contains("KNOWLEDGE_EVENT_2"), "C01 cap boundary keeps recent event")
+	_check(not text.contains("KNOWLEDGE_EVENT_0") and not text.contains("KNOWLEDGE_EVENT_1"), "C01 oldest events beyond cap are absent")
+	_check(int(projected.knowledge_event_count) == 8, "C01 bounded to eight recent events")
+	# 渲染保持时间序可读（同 actor 内升序）。
+	var first_idx := text.find("KNOWLEDGE_EVENT_2")
+	var last_idx := text.find("KNOWLEDGE_EVENT_9")
+	_check(first_idx >= 0 and last_idx > first_idx, "C01 rendered output preserves chronological order after selection")
+
+
+## C01-7：real-provider harness 结构性要求非空有效知识证明，不执行真实调用。
+func _test_c01_harness_truthfulness() -> void:
+	var file := FileAccess.open("res://tests/g5_02/真实Provider知识溯源验证.gd", FileAccess.READ)
+	var source := file.get_as_text()
+	file.close()
+	_check(source.contains("_check(not knowledge_records.is_empty()"), "C01 harness requires non-empty committed knowledge record")
+	_check(source.contains("_check(not events.is_empty()"), "C01 harness requires non-empty committed knowledge event")
+	_check(source.contains("_check(projected_text.contains(\"Actor Knowledge Provenance\")"), "C01 harness requires Context contains Actor Knowledge Provenance section")
+	_check(source.contains("_check(projected_text.contains(String(events[0].fact))"), "C01 harness requires Context contains committed fact")
+	_check(not source.contains("semantic_status in [\"committed\", \"no_changes\"]"), "C01 harness never accepts no_changes as feature proof")
+	_check(source.contains("real proof requires"), "C01 harness labels knowledge requirements as real proof gates")
 
 
 ## A：Player 单独发现私有事实 F → 只有 Player 获得 durable provenance；NPC A 没有；
