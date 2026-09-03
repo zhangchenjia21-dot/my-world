@@ -212,3 +212,151 @@ static func matching_knowledge_record(world_state: Dictionary, source_turn_index
 	if not knowledge_record_is_valid(record) or int(record.source_turn_index) != source_turn_index or String(record.source_gm_sha256) != source_gm_sha256:
 		return {}
 	return record.duplicate(true)
+
+
+## ---- G5-03M1 Multi-Actor Agency Cycle ----
+## Agency Cycle 是 accepted ordinary turn 的可选后续：0..4 个 stable NPC 独立行动。
+## 不引入 round-robin、Faction agency 或通用 actor 模拟平台。
+
+const AGENCY_CYCLE_MAX_ACTORS := 4
+const MAX_AGENCY_INTENT_CHARS := 256
+const MAX_AGENCY_ACTION_CHARS := 512
+const MAX_AGENCY_EFFECTS := 4
+const MAX_AGENCY_EFFECT_CHARS := 512
+
+
+## 一个 eligible source turn 至多一个 Agency Cycle；identity 绑定 game/turn/hash/base head。
+static func agency_cycle_identities(game_id: String, source_turn_index: int, source_gm_sha256: String, cycle_base_head_id: String) -> Dictionary:
+	var hashing := HashingContext.new()
+	hashing.start(HashingContext.HASH_SHA256)
+	hashing.update(("%s|%d|%s|%s" % [game_id, source_turn_index, source_gm_sha256, cycle_base_head_id]).to_utf8_buffer())
+	var digest := hashing.finish().hex_encode()
+	return {
+		"agency_cycle_id": "agency-cycle-%s" % digest,
+	}
+
+
+## 同一 cycle 内 sibling commit 是 cycle-owned head progression，不是 external staleness。
+## 任何 unrelated head change 使剩余 uncommitted 结果失效。
+static func agency_action_identities(game_id: String, agency_cycle_id: String, actor_id: String) -> Dictionary:
+	var hashing := HashingContext.new()
+	hashing.start(HashingContext.HASH_SHA256)
+	hashing.update(("%s|%s|%s" % [game_id, agency_cycle_id, actor_id]).to_utf8_buffer())
+	var digest := hashing.finish().hex_encode()
+	return {
+		"agency_action_id": "agency-action-%s" % digest,
+		"mutation_id": "agency-mutation-%s" % digest,
+		"node_id": "agency-node-%s" % digest,
+	}
+
+
+## 单条 agency 行动的 v0.2 不变量。
+static func agency_action_is_valid(action: Dictionary) -> bool:
+	if typeof(action.get("agency_action_id")) != TYPE_STRING or String(action.agency_action_id).is_empty():
+		return false
+	if typeof(action.get("actor_id")) != TYPE_STRING or String(action.actor_id).strip_edges().is_empty():
+		return false
+	if typeof(action.get("intent")) != TYPE_STRING:
+		return false
+	var intent := String(action.intent).strip_edges()
+	if intent.is_empty() or intent.length() > MAX_AGENCY_INTENT_CHARS:
+		return false
+	if typeof(action.get("action")) != TYPE_STRING:
+		return false
+	var action_text := String(action.action).strip_edges()
+	if action_text.is_empty() or action_text.length() > MAX_AGENCY_ACTION_CHARS:
+		return false
+	var effects_value: Variant = action.get("effects")
+	if typeof(effects_value) != TYPE_ARRAY or (effects_value as Array).size() > MAX_AGENCY_EFFECTS:
+		return false
+	for effect_value: Variant in effects_value as Array:
+		if typeof(effect_value) != TYPE_STRING:
+			return false
+		var effect := String(effect_value).strip_edges()
+		if effect.is_empty() or effect.length() > MAX_AGENCY_EFFECT_CHARS:
+			return false
+	return true
+
+
+static func agency_cycle_is_valid(cycle: Dictionary) -> bool:
+	if typeof(cycle.get("agency_cycle_id")) != TYPE_STRING or String(cycle.agency_cycle_id).is_empty():
+		return false
+	var source_index_value: Variant = cycle.get("source_turn_index")
+	if typeof(source_index_value) not in [TYPE_INT, TYPE_FLOAT]:
+		return false
+	var source_index := int(source_index_value)
+	if source_index < 0 or float(source_index_value) != float(source_index):
+		return false
+	if typeof(cycle.get("source_gm_sha256")) != TYPE_STRING or String(cycle.source_gm_sha256).length() != 64:
+		return false
+	if typeof(cycle.get("cycle_base_head_id")) != TYPE_STRING or String(cycle.cycle_base_head_id).is_empty():
+		return false
+	var actions_value: Variant = cycle.get("actions_by_actor")
+	if typeof(actions_value) != TYPE_DICTIONARY:
+		return false
+	for action_value: Variant in (actions_value as Dictionary).values():
+		if typeof(action_value) != TYPE_DICTIONARY or not agency_action_is_valid(action_value as Dictionary):
+			return false
+	return true
+
+
+static func build_agency_cycle(game_id: String, source_turn_index: int, gm_text: String, cycle_base_head_id: String, materialized_at: String) -> Dictionary:
+	var source_hash := gm_sha256(gm_text)
+	var stable := agency_cycle_identities(game_id, source_turn_index, source_hash, cycle_base_head_id)
+	return {
+		"agency_cycle_id": String(stable.agency_cycle_id),
+		"source_turn_index": source_turn_index,
+		"source_gm_sha256": source_hash,
+		"cycle_base_head_id": cycle_base_head_id,
+		"materialized_at": materialized_at,
+		"actions_by_actor": {},
+	}
+
+
+static func build_agency_action(game_id: String, agency_cycle_id: String, actor_id: String, intent: String, action_text: String, effects: Array, materialized_at: String) -> Dictionary:
+	var stable := agency_action_identities(game_id, agency_cycle_id, actor_id)
+	return {
+		"agency_action_id": String(stable.agency_action_id),
+		"actor_id": actor_id,
+		"intent": intent.strip_edges(),
+		"action": action_text.strip_edges(),
+		"effects": effects.duplicate(true),
+		"materialized_at": materialized_at,
+	}
+
+
+## 把一条 agency 行动并入既有 cycle 的 candidate snapshot；不覆盖其它 actor 的既有行动。
+static func build_agency_candidate(current_world_state: Dictionary, cycle: Dictionary, action: Dictionary) -> Dictionary:
+	var candidate := current_world_state.duplicate(true)
+	var living_world_value: Variant = candidate.get("living_world", {})
+	var living_world := (living_world_value as Dictionary).duplicate(true) if typeof(living_world_value) == TYPE_DICTIONARY else {}
+	var cycles_value: Variant = living_world.get("agency_cycles_by_source_turn", {})
+	var cycles := (cycles_value as Dictionary).duplicate(true) if typeof(cycles_value) == TYPE_DICTIONARY else {}
+	var cycle_key := str(int(cycle.source_turn_index))
+	var existing_cycle_value: Variant = cycles.get(cycle_key, {})
+	var existing_cycle := (existing_cycle_value as Dictionary).duplicate(true) if typeof(existing_cycle_value) == TYPE_DICTIONARY and not (existing_cycle_value as Dictionary).is_empty() else cycle.duplicate(true)
+	var actions_value: Variant = existing_cycle.get("actions_by_actor", {})
+	var actions := (actions_value as Dictionary).duplicate(true) if typeof(actions_value) == TYPE_DICTIONARY else {}
+	actions[String(action.actor_id)] = action.duplicate(true)
+	existing_cycle["actions_by_actor"] = actions
+	cycles[cycle_key] = existing_cycle
+	living_world["schema_version"] = LIVING_WORLD_SCHEMA
+	living_world["agency_cycles_by_source_turn"] = cycles
+	candidate["living_world"] = living_world
+	return candidate
+
+
+static func matching_agency_cycle(world_state: Dictionary, source_turn_index: int, source_gm_sha256: String) -> Dictionary:
+	var living_world_value: Variant = world_state.get("living_world", {})
+	if typeof(living_world_value) != TYPE_DICTIONARY:
+		return {}
+	var cycles_value: Variant = (living_world_value as Dictionary).get("agency_cycles_by_source_turn", {})
+	if typeof(cycles_value) != TYPE_DICTIONARY:
+		return {}
+	var cycle_value: Variant = (cycles_value as Dictionary).get(str(source_turn_index), {})
+	if typeof(cycle_value) != TYPE_DICTIONARY:
+		return {}
+	var cycle := cycle_value as Dictionary
+	if not agency_cycle_is_valid(cycle) or int(cycle.source_turn_index) != source_turn_index or String(cycle.source_gm_sha256) != source_gm_sha256:
+		return {}
+	return cycle.duplicate(true)

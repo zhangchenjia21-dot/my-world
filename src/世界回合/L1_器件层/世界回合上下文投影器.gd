@@ -61,6 +61,9 @@ func project(world_state: Dictionary, accepted_entries: Array) -> Dictionary:
 	var knowledge := _project_knowledge(world_state, accepted_hashes, projected_chars)
 	if not String(knowledge.context_text).is_empty():
 		text += "\n\n" + String(knowledge.context_text)
+	var agency := _project_agency(world_state, accepted_hashes, projected_chars + text.length())
+	if not String(agency.context_text).is_empty():
+		text += "\n\n" + String(agency.context_text)
 	return {
 		"success": true,
 		"status": "projected" if not text.is_empty() else "empty",
@@ -68,7 +71,9 @@ func project(world_state: Dictionary, accepted_entries: Array) -> Dictionary:
 		"record_count": selected.size(),
 		"knowledge_record_count": int(knowledge.knowledge_record_count),
 		"knowledge_event_count": int(knowledge.knowledge_event_count),
-		"rejected_count": rejected + matching.size() - selected.size() + int(knowledge.rejected_count),
+		"agency_cycle_count": int(agency.agency_cycle_count),
+		"agency_action_count": int(agency.agency_action_count),
+		"rejected_count": rejected + matching.size() - selected.size() + int(knowledge.rejected_count) + int(agency.rejected_count),
 	}
 
 
@@ -156,6 +161,64 @@ func _accepted_hashes(accepted_entries: Array) -> Dictionary:
 
 func _empty_knowledge(rejected_count: int = 0) -> Dictionary:
 	return {"context_text": "", "knowledge_record_count": 0, "knowledge_event_count": 0, "rejected_count": rejected_count}
+
+
+## Independent Actor Actions 是 omniscient GM world reference only：
+## 不自动成为 Player/其它 actor 的知识或 G5-02 provenance。
+func _project_agency(world_state: Dictionary, accepted_hashes: Dictionary, projected_chars: int) -> Dictionary:
+	var living_world_value: Variant = world_state.get("living_world", {})
+	if typeof(living_world_value) != TYPE_DICTIONARY:
+		return _empty_agency()
+	var cycles_value: Variant = (living_world_value as Dictionary).get("agency_cycles_by_source_turn", {})
+	if typeof(cycles_value) != TYPE_DICTIONARY:
+		return _empty_agency()
+	var roster := Rules.actor_roster(world_state)
+	var matching: Array = []
+	var rejected := 0
+	for cycle_value: Variant in (cycles_value as Dictionary).values():
+		if typeof(cycle_value) != TYPE_DICTIONARY:
+			rejected += 1
+			continue
+		var cycle := cycle_value as Dictionary
+		if not Rules.agency_cycle_is_valid(cycle):
+			rejected += 1
+			continue
+		var turn_index := int(cycle.source_turn_index)
+		if not accepted_hashes.has(turn_index) or String(cycle.get("source_gm_sha256", "")) != String(accepted_hashes[turn_index]):
+			rejected += 1
+			continue
+		matching.append(cycle)
+	if matching.is_empty():
+		return _empty_agency(rejected)
+	matching.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a.source_turn_index) < int(b.source_turn_index))
+	# 只投影最近一个 matching cycle 的 committed actions。
+	var latest := matching[-1] as Dictionary
+	var lines := PackedStringArray(["## Independent Actor Actions", "Agency Cycle source turn %d" % int(latest.source_turn_index)])
+	var action_count := 0
+	var actions_value: Variant = latest.get("actions_by_actor", {})
+	if typeof(actions_value) == TYPE_DICTIONARY:
+		var actor_ids := (actions_value as Dictionary).keys()
+		actor_ids.sort()
+		for actor_id: String in actor_ids:
+			var action := (actions_value as Dictionary)[actor_id] as Dictionary
+			if not Rules.agency_action_is_valid(action):
+				continue
+			var display := String(roster.get(actor_id, actor_id))
+			lines.append("- %s [%s]: %s" % [display, actor_id, String(action.action).left(200)])
+			action_count += 1
+	var text := "\n".join(lines)
+	if projected_chars + text.length() > MAX_PROJECTED_CHARS:
+		return _empty_agency(rejected)
+	return {
+		"context_text": text,
+		"agency_cycle_count": matching.size(),
+		"agency_action_count": action_count,
+		"rejected_count": rejected,
+	}
+
+
+func _empty_agency(rejected_count: int = 0) -> Dictionary:
+	return {"context_text": "", "agency_cycle_count": 0, "agency_action_count": 0, "rejected_count": rejected_count}
 
 
 func _record_block(record: Dictionary) -> String:
