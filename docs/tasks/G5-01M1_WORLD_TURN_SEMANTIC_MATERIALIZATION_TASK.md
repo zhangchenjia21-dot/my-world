@@ -7,6 +7,16 @@ Parent: **G5-01 Minimum Playable T0 + World Turn / Semantic Materialization**
 Prerequisite: **G4-GATE PASS / G4 CLOSED**  
 Return ceiling: **READY FOR INDEPENDENT REVIEW**
 
+## 0. Real Provider authorization — already granted
+
+Owner standing authorization applies under:
+
+`Vibe-Coding/my world/architecture/foundation/REAL_PROVIDER_VALIDATION_STANDING_AUTHORIZATION.md`
+
+The required bounded real-selected-Provider validation in this Task Packet is **already authorized**. Do not pause to request another Owner confirmation before executing it.
+
+For this task the authorization ceiling is exactly the scenario in §12.E: one initial natural ordinary action, plus at most one additional natural action only if the first legitimately yields no durable consequence. Use the current selected Runtime Model Settings profile; do not change Provider/model settings, add fallback, or loop until pass.
+
 ## 1. Read first
 
 Refresh both repository `main`s, then read the minimum authority set:
@@ -252,7 +262,9 @@ Run directly affected Conversation / Context / Opening / Save-Restore / world-mu
 
 Do not alter G4 accepted semantics merely to make new tests easier.
 
-### E. Real selected-Provider proof
+### E. Real selected-Provider proof — PRE-AUTHORIZED
+
+Owner standing authorization applies. **Do not ask for another confirmation.**
 
 Use task-owned Source/Game roots and `Expansion = none`.
 
@@ -269,7 +281,7 @@ free-form Narrative accepted durable
 
 Choose one natural action likely to establish a persistent consequence. If the first real turn legitimately yields no durable changes, at most one additional natural turn may be used; do not loop until the model satisfies a benchmark.
 
-If repository/tool policy requires explicit authorization before the real call and authorization is not already available, return the exact blocker after all offline gates are green; do not fake real-provider evidence.
+This exact bounded proof is already authorized by the Owner. Proceed directly after offline gates are green.
 
 Owner production Source/Games/settings/credentials must remain unchanged. Use task-owned mutable roots and safe before/after fingerprints.
 
@@ -295,7 +307,7 @@ Record:
 - changed paths;
 - architecture summary;
 - offline test results;
-- real-provider safe summary when authorized;
+- real-provider safe summary;
 - idempotency/correction/restore proof;
 - Owner safety proof;
 - final `git diff --check` result;
