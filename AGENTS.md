@@ -1,17 +1,17 @@
 # my world — Repository Agent Rules
 
 Status: current repository instruction  
-Scope: entire `zhangchenjia21-dot/my-world` repository unless a deeper `AGENTS.md` narrows a subtree.
+Scope: entire repository unless a deeper `AGENTS.md` narrows a subtree.
 
 ## 1. Authority / freshness
 
-Resolve authority in this order:
+Authority order:
 
 1. Owner current explicit instruction.
-2. `zhangchenjia21-dot/Vibe-Coding/AGENTS.md`.
-3. current Product / Principles / Architecture / Roadmap / Status under `Vibe-Coding/my world/`.
-4. relevant current architecture decisions.
-5. this repository `AGENTS.md` and current task packet.
+2. `Vibe-Coding/AGENTS.md`.
+3. current Product / Architecture / Roadmap / Status under `Vibe-Coding/my world/`.
+4. current architecture decisions.
+5. this `AGENTS.md` + current Task Packet.
 6. verifiable implementation/tests/current HEAD.
 
 Refresh both `main`s before authoritative work. Never overwrite unknown dirty/newer work.
@@ -26,24 +26,13 @@ Grok Build → search / external research / evidence discovery
 Owner      → Product UAT / explicit product verdict
 ```
 
-### Temporary routing through 2026-09-06 23:59 (+08:00)
-
-```text
-GPT        → semantics / architecture / governance / final Independent Review
-Kimi       → all code-changing implementation tasks, temporarily substituting for Codex
-Grok Build → external research / evidence support / secondary cross-check
-Owner      → Product UAT / verdict
-```
-
-Auto-expiry: 2026-09-07 00:00 (+08:00). Correct in-flight Kimi work may finish under its issued packet.
+Temporary through 2026-09-06 23:59 (+08:00): Kimi owns all code-changing implementation tasks; GPT remains semantic owner/reviewer. Correct in-flight Kimi work may finish after expiry.
 
 ## 2. Standing Provider rule
 
 Canonical: `Vibe-Coding/my world/architecture/foundation/REAL_PROVIDER_VALIDATION_STANDING_AUTHORIZATION.md`.
 
-Bounded real validation explicitly required by an approved packet is pre-authorized. No repeated Owner confirmation, fallback, hidden Provider/model switch, open-ended retry or secret disclosure.
-
-External Provider outage may leave reality proof pending but does not block reviewable code from commit/push.
+Bounded validation explicitly required by an approved packet is pre-authorized. No fallback, hidden Provider/model switch, open-ended retry or repeated Owner confirmation. External Provider outage may leave reality proof pending without blocking reviewable code from commit/push.
 
 ## 3. Current state
 
@@ -58,107 +47,126 @@ G5 World Semantics & GM Runtime             ACTIVE
 G5-01 World Turn / Semantic Materialization PASS / CLOSED
 G5-02 Knowledge Provenance                  PASS / CLOSED
 G5-03 NPC / Faction Agency                  ACTIVE
-G5-03M1 old single-NPC packet               SUPERSEDED / DO NOT EXECUTE
-G5-03M1 Multi-Actor Agency Cycle            CORRECTION REQUIRED
-G5-03M1C01 Agency Currentness + Timeline Isolation
-                                             PARTIAL PASS / CLOSED INTO C02
-G5-03M1C02 Semantic-vs-Agency Currentness Separation
-                                             ACTIVE — KIMI
+G5-03M1 Multi-Actor Agency                  REDESIGN ACTIVE
+G5-03M1C01                                  HISTORICAL PARTIAL PASS
+G5-03M1C02                                  SUPERSEDED / DO NOT EXECUTE
+G5-03M1R01 Agency Scheduler v0.3            ACTIVE — KIMI
 G5-03M2 Stable Actor Materialization        NOT YET
 G5-04 Event / Priority Evolution            NOT YET
 ```
 
-Do not start G5-03M2/G5-04 before C02 passes GPT Independent Review.
+Do not execute the old C02 packet. Do not start M2/G5-04 before R01 Independent Review PASS.
 
 ## 4. Current execution task
 
-Review:
+Task:
 
-`docs/g5_03/G5-03M1C01_INDEPENDENT_REVIEW.md`
+`docs/tasks/G5-03M1R01_AGENCY_SCHEDULER_V0_3_SIMPLIFICATION_REDESIGN_TASK.md`
 
-Current packet:
+Canonical decision:
 
-`docs/tasks/G5-03M1C02_SEMANTIC_AGENCY_CURRENTNESS_SEPARATION_CORRECTION_TASK.md`
+`Vibe-Coding/my world/architecture/world/G5_AGENCY_SCHEDULER_V0_3_DECISION.md`
 
-Canonical Agency design remains:
+Historical v0.2 decision and C02 packet are superseded.
 
-`Vibe-Coding/my world/architecture/world/G5_MULTI_ACTOR_AGENCY_CYCLE_V0_2_DECISION.md`
+## 5. Redesign rule
 
-Owner: **KIMI** under temporary routing. Reviewer / semantic owner: **GPT**.
+**Do not rollback the existing G5-03 codebase.** Preserve accepted downstream behavior and replace only the upstream semantic-selection coupling.
 
-## 5. C02 blocking seam
+Preserve:
 
-Do not conflate these predicates:
+- multi-actor actor-scoped execution;
+- concurrent selected actor requests, max 4;
+- actor-private Source/current Knowledge/own history;
+- serialized atomic sibling commits;
+- same-cycle sibling expected-head progression;
+- foreground/Restore cancellation;
+- stale actor-memory filtering;
+- same-version replay no duplicate;
+- bounded Independent Actor Actions GM Context projection.
+
+Replace:
 
 ```text
-semantic source version is still accepted
-!=
-Agency handoff is still current
+semantic analysis
+→ agency_candidates
+→ Application starts Agency
 ```
 
-Required semantics:
+with:
 
 ```text
-source turn still exists + same accepted GM hash
-→ valid G5-01 changes / G5-02 knowledge may materialize
-
-even if a newer foreground turn has started/finished
-→ suppress old agency_candidates
-→ do not erase accepted semantic truth
+accepted ordinary turn
+→ semantic lane handles changes + knowledge only
+→ scheduler marks Agency dirty
+→ once foreground idle + semantic queue settled
+→ standalone lightweight selector over latest current world snapshot
+→ validated 0..4 stable actors
+→ existing concurrent per-actor Agency Cycle execution
 ```
 
-Agency handoff additionally requires source turn still latest + foreground idle + same hash.
+## 6. Semantic lane protection
 
-Actual regenerate/correction hash replacement remains stale for both semantic truth and Agency.
+G5-01/G5-02 semantic analysis must not depend on Agency currentness.
 
-## 6. Selection-only handoff
+An older accepted turn whose GM hash is still current at that index may still materialize valid `changes` / `knowledge_events` even if the player has advanced foreground.
 
-A valid current result may be:
+Remove Agency Selection from the semantic prompt/result/handoff. Do not erase accepted semantic truth merely because an Agency opportunity was missed.
+
+## 7. Scheduler / coalescing
+
+A durable accepted ordinary player turn marks Agency dirty.
+
+Agency does not owe every turn a cycle. Fast A→B→C foreground may coalesce into one later selector evaluation of the latest C snapshot.
+
+Selector may run only when Session ready, dirty=true, foreground idle, semantic worker has no active/queued work, and no selector/cycle is active.
+
+Selector may use bounded GM-level current-world information and returns only:
 
 ```json
-{"changes":[],"knowledge_events":[],"agency_candidates":["stable-npc-id"]}
+{"actors":["stable-id-a","stable-id-b"]}
 ```
 
-This must be able to start Agency without creating a fake semantic mutation.
+Validate current Guaranteed-NPC stable IDs, dedupe, reject Player/unknown, cap 4. No round-robin fallback or retry-until-nonempty.
 
-Every successful semantic terminal result that can carry Agency Selection must preserve exact:
+Selector omniscience does not grant actor knowledge.
 
-- `source_turn_index`;
-- `source_gm_sha256`;
-- validated/suppressed `agency_candidates`;
-- `agency_dropped` where applicable.
+## 8. Foreground / timeline
 
-This also applies when parsed knowledge exists but all knowledge events are dropped by actor allowlist.
+New foreground attempt cancels active selector and remaining uncommitted actor work; already committed actor actions remain durable. The obsolete Agency opportunity is not rescued. A later successfully accepted turn marks dirty again.
 
-Application keeps its own latest/hash/foreground-idle validation before `start_cycle()`.
+Restore/Recovery/session close cancels active background Agency and clears obsolete dirty work. Do not auto-run Agency merely because a Save was loaded.
 
-## 7. Preserve passing M1/C01 behavior
+Before selector output may start a cycle, latest accepted turn/hash + world head must still match its frozen snapshot and foreground must remain idle.
 
-Do not regress:
+Actor execution keeps the existing sibling expected-head/source-currentness guards.
 
-- one existing semantic-analysis request performs selection; no mandatory selector call;
-- 0..4 selected stable Guaranteed NPCs in M1;
-- separate concurrent actor-scoped execution requests;
-- actor private-knowledge isolation;
-- serialized durable sibling commits;
-- production Restore invalidation;
-- commit-time source/head guards;
-- current-hash Knowledge/Agency History filtering;
-- stale same-turn cycle replacement;
-- replay no duplicate committed actor execution;
-- foreground never waits for Agency;
-- no SQLite schema/UI/Source/Faction/M2/G5-04 scope.
+## 9. Provider proof for R01
 
-## 8. Provider rule for C02
+After deterministic/integration gates are green, R01 may use at most:
 
-**No real Provider call.** Parent M1 real proof remains `PENDING / EXTERNAL PROVIDER UNAVAILABLE`.
+```text
+1 real standalone selector request
++
+up to 2 real actor execution requests
+```
 
-## 9. Completion
+Stub Narrative and semantic prerequisites. Do not spend real Narrative calls just to reach Agency. If Provider unavailable, push reviewable work with real proof pending.
 
-Kimi runs deterministic/integration regressions, `git diff --check`, writes evidence, commits/pushes, and returns:
+## 10. Scope ceiling
+
+Do not implement M2 actor registry, Faction agency, G5-04 scheduler, generic universe polling, new SQLite schema/table, UI, Source changes, mechanics/d20 changes, G6 or G7.
+
+## 11. Completion
+
+Kimi runs focused + regression tests, records `git diff --check`, writes R01 evidence, commits/pushes and returns:
+
+```text
+READY FOR INDEPENDENT REVIEW
+```
+
+or:
 
 ```text
 READY FOR INDEPENDENT REVIEW — REAL PROVIDER PROOF PENDING
 ```
-
-Do not declare M1/G5-03 PASS or start M2 early.
