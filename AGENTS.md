@@ -16,7 +16,7 @@ Resolve authority in this order:
 
 Before authoritative work, refresh both `main`s; never overwrite unknown dirty/newer work.
 
-Execution routing:
+Long-term execution routing:
 
 ```text
 GPT        → Meaning / architecture / governance / task shaping / Independent Review
@@ -25,6 +25,25 @@ Kimi       → frontend / UI / interaction implementation
 Grok Build → search / external research / evidence discovery
 Owner      → Product UAT / explicit product verdict
 ```
+
+### Temporary execution routing｜effective through 2026-09-06
+
+Canonical temporary Owner decision:
+
+`Vibe-Coding/my world/architecture/foundation/TEMPORARY_EXECUTION_ROUTING_2026-09-03_TO_2026-09-06.md`
+
+Because Codex weekly quota is exhausted until 2026-09-07, the following override applies through 2026-09-06 23:59 (+08:00):
+
+```text
+GPT        → Meaning / architecture / governance / task shaping / final Independent Review
+Kimi       → primary owner for all code-changing implementation tasks, including temporary Codex substitution
+Grok Build → external research / evidence discovery / Provider-reality support / secondary technical cross-check
+Owner      → Product UAT / explicit product verdict
+```
+
+Prefer `Kimi implementation + Grok evidence/research when useful → GPT Independent Review`. Do not create artificial multi-agent work merely to use both.
+
+The temporary override auto-expires at 2026-09-07 00:00 (+08:00), after which the long-term routing resumes absent a newer Owner instruction. Correct in-flight Kimi work may finish under its issued packet rather than being interrupted solely by expiry.
 
 ## 2. Standing authorization for required real Provider validation
 
@@ -72,40 +91,39 @@ G4-GATE                               PASS
 G5 World Semantics & GM Runtime       ACTIVE
 G5-01 Minimum Playable T0 + World Turn / Semantic Materialization
                                       ACTIVE
-G5-01M1 Semantic Materialization Spine IMPLEMENTED LOCALLY / REVIEW PENDING
-G5-01M1C01 Provider Outage Reviewability ACTIVE — CODEX
+G5-01M1 Semantic Materialization Spine IMPLEMENTED / INDEPENDENT REVIEW ACTIVE — GPT
+G5-01 real Provider vertical          PENDING / EXTERNAL PROVIDER UNAVAILABLE
 G5-02 Knowledge Provenance            NOT YET
 G5-03 NPC / Faction Agency            NOT YET
 G5-04 Event / Priority Evolution      NOT YET
 G5-GATE                               NOT YET
 ```
 
-Do not start G5-02 before G5-01M1 Independent Review + G5-01 Owner product checkpoint.
+Do not start G5-02 before G5-01M1 Independent Review + G5-01 Owner/product checkpoint.
 
-## 4. Current execution task — G5-01M1C01
+## 4. Current review target — G5-01M1
 
-Correction packet:
+Implementation head:
 
-`docs/tasks/G5-01M1C01_PROVIDER_OUTAGE_REVIEWABILITY_CORRECTION_TASK.md`
+`eb171a19dd0b4eeb134392128fb8df7fd5b104cb`
 
-Parent implementation packet:
+Evidence head:
 
-`docs/tasks/G5-01M1_WORLD_TURN_SEMANTIC_MATERIALIZATION_TASK.md`
+`f9b1be01bd102f3bb1ae6b0b762a6b97d3a5b6f1`
+
+Evidence:
+
+`docs/g5_01/G5-01M1_WORLD_TURN_SEMANTIC_MATERIALIZATION_EVIDENCE.md`
 
 Canonical semantic decision:
 
 `Vibe-Coding/my world/architecture/world/G5_WORLD_TURN_SEMANTIC_MATERIALIZATION_V0_1_DECISION.md`
 
-Current owner: **CODEX**. Reviewer / semantic owner: **GPT**.
+Current owner/reviewer: **GPT**.
 
-Current instruction:
+Codex's provider-outage correction is complete and pushed. Do not ask Kimi to redo G5-01M1 from scratch.
 
-- preserve existing local G5-01M1 implementation/tests/evidence;
-- do not perform a third Provider attempt;
-- reconcile latest docs without discarding local work;
-- finalize evidence with the two 420-second Kimi K3 Narrative-stage timeouts;
-- commit and push reviewable implementation/evidence;
-- return `READY FOR INDEPENDENT REVIEW — REAL PROVIDER PROOF PENDING`.
+If GPT finds a focused implementation correction before 2026-09-07, assign it to **Kimi** under the temporary routing decision; Grok may assist with evidence/research if useful.
 
 ## 5. G5-01 core ordering
 
@@ -200,21 +218,19 @@ Extend these seams. Do not create a second persistence owner or schema forest.
 
 ## 11. Protected scope
 
-Preferred new backend module: `src/世界回合/**` or equivalent bounded layered module.
-
 Focused backend integration may touch current Game Runtime / Application Shell / existing Game-context projection seams when required.
 
 Protected unless GPT has approved a returned blocker:
 
 - `src/domain/会话.gd` semantics;
-- `src/ui/**`;
+- `src/ui/**` unless a UI-owned task explicitly opens them;
 - Persistence schema/migrations;
 - Source package/schema/generation;
 - Runtime Model Settings;
 - Public d20;
 - G6 visuals.
 
-If UI changes or a SQLite schema migration appear necessary, STOP and return the boundary finding instead of silently expanding scope.
+If a SQLite schema migration or unrelated scope expansion appears necessary, STOP and return the boundary finding instead of silently expanding scope.
 
 ## 12. G5-01 non-scope
 
