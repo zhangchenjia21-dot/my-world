@@ -91,7 +91,8 @@ G4-GATE                               PASS
 G5 World Semantics & GM Runtime       ACTIVE
 G5-01 Minimum Playable T0 + World Turn / Semantic Materialization
                                       ACTIVE
-G5-01M1 Semantic Materialization Spine IMPLEMENTED / INDEPENDENT REVIEW ACTIVE — GPT
+G5-01M1 Semantic Materialization Spine CORRECTION REQUIRED
+G5-01M1C02 Restore Timeline Isolation ACTIVE — KIMI
 G5-01 real Provider vertical          PENDING / EXTERNAL PROVIDER UNAVAILABLE
 G5-02 Knowledge Provenance            NOT YET
 G5-03 NPC / Faction Agency            NOT YET
@@ -99,31 +100,38 @@ G5-04 Event / Priority Evolution      NOT YET
 G5-GATE                               NOT YET
 ```
 
-Do not start G5-02 before G5-01M1 Independent Review + G5-01 Owner/product checkpoint.
+Do not start G5-02 before G5-01M1 correction Independent Review + G5-01 Owner/product checkpoint.
 
-## 4. Current review target — G5-01M1
+## 4. Current execution task — G5-01M1C02
 
-Implementation head:
+Independent Review:
 
-`eb171a19dd0b4eeb134392128fb8df7fd5b104cb`
+`docs/g5_01/G5-01M1_INDEPENDENT_REVIEW.md`
 
-Evidence head:
+Correction packet:
 
-`f9b1be01bd102f3bb1ae6b0b762a6b97d3a5b6f1`
-
-Evidence:
-
-`docs/g5_01/G5-01M1_WORLD_TURN_SEMANTIC_MATERIALIZATION_EVIDENCE.md`
+`docs/tasks/G5-01M1C02_RESTORE_TIMELINE_ISOLATION_CORRECTION_TASK.md`
 
 Canonical semantic decision:
 
 `Vibe-Coding/my world/architecture/world/G5_WORLD_TURN_SEMANTIC_MATERIALIZATION_V0_1_DECISION.md`
 
-Current owner/reviewer: **GPT**.
+Current implementation owner: **KIMI** under the temporary routing decision. Reviewer / semantic owner: **GPT**.
 
-Codex's provider-outage correction is complete and pushed. Do not ask Kimi to redo G5-01M1 from scratch.
+Blocking finding:
 
-If GPT finds a focused implementation correction before 2026-09-07, assign it to **Kimi** under the temporary routing decision; Grok may assist with evidence/research if useful.
+> Save/Restore correctly replaces durable Conversation + world snapshot, but the semantic worker's timeline-local `_attempted_versions` / queued/active state is not reset or invalidated at `restore_completed`. Abandoned-future execution state can therefore suppress or cross-contaminate a later restored branch.
+
+Required correction is narrow:
+
+- abandoned-future attempt suppression must not survive Restore;
+- queued pre-Restore semantic work must be dropped/quarantined;
+- active pre-Restore analysis must be unable to commit after Restore, including a late callback;
+- Restore itself must not launch a semantic Provider request;
+- recreating the exact same future accepted version after Restore must be able to materialize again;
+- no real Provider call is required for this correction.
+
+Do not redo the parent M1 architecture from scratch.
 
 ## 5. G5-01 core ordering
 
@@ -169,7 +177,7 @@ Do not turn it into a universal fact/entity ontology or prematurely implement Kn
 - GM-only Opening is skipped in v0.1;
 - use current selected Runtime Model Settings provider/profile through existing adapter;
 - no cross-provider fallback or hidden model switch;
-- exactly one semantic-analysis attempt per new accepted turn in v0.1;
+- exactly one semantic-analysis attempt per newly accepted ordinary version within the active timeline;
 - small machine data such as `{"changes":[...]}` is allowed because this is a separate analysis lane, not visible prose;
 - malformed/transport/missing-key/empty analysis fails soft: no fake mutation, no action failure, no automatic recovery loop;
 - never persist raw prompts/payload/reasoning/credentials.
@@ -197,11 +205,11 @@ The G4-11C01 soft narrative-voice guidance is PASS/CLOSED. Do not reopen it abse
 
 ## 9. Replay / correction / Restore
 
-Same accepted content must not duplicate a World Turn.
+Same accepted content in the same active timeline must not duplicate a World Turn.
 
 After regenerate/latest-turn correction, a semantic record whose `source_gm_sha256` does not match the currently accepted GM text at that turn index must never be projected into Context.
 
-Successful rematerialization may replace the record for that turn in a new world snapshot. Existing Timeline/Save/Restore owns historical reversal.
+A committed Restore/Recovery is also a timeline boundary: stale in-memory semantic execution state from the abandoned future must not suppress or mutate the restored branch. Existing Timeline/Save/Restore owns historical reversal.
 
 ## 10. Existing seams to reuse
 
@@ -210,6 +218,7 @@ Current implementation already has:
 - T0-scoped exact Source materialization;
 - durable Conversation;
 - `src/runtime/当前游戏会话运行时.gd::commit_world_mutation_durably(...)`;
+- `restore_completed` after committed progress switch;
 - current Timeline head/world snapshot;
 - Save/Restore/Recovery;
 - One Game = One SQLite.
@@ -218,7 +227,11 @@ Extend these seams. Do not create a second persistence owner or schema forest.
 
 ## 11. Protected scope
 
-Focused backend integration may touch current Game Runtime / Application Shell / existing Game-context projection seams when required.
+Expected correction production scope is preferably only:
+
+`src/世界回合/L2_流程层/语义物化流程.gd`
+
+plus focused tests/evidence.
 
 Protected unless GPT has approved a returned blocker:
 
@@ -251,8 +264,10 @@ G4-10 Runtime Asset Resolution = DEFERRED / MOVED TO G6
 
 Do not implement portrait / scene / authored-map runtime during G5-01.
 
-## 14. After G5-01M1
+## 14. After G5-01M1C02
 
-If GPT Independent Review passes the engineering implementation while real Provider proof remains pending, G5-01 product/reality acceptance remains open. A later successful real Provider run or short Owner checkpoint must still prove one simple lived consequence survives later play/reopen while Narrative remains free-form.
+Kimi commits/pushes the focused correction and returns `READY FOR INDEPENDENT REVIEW`.
+
+GPT then re-reviews the actual diff/tests. If Engineering PASS is achieved while the real Provider proof remains pending, G5-01 product/reality acceptance remains open. A later successful real Provider run or short Owner checkpoint must still prove one simple lived consequence survives later play/reopen while Narrative remains free-form.
 
 Only after Owner/Product PASS may GPT close G5-01 and shape G5-02 Knowledge Provenance.
