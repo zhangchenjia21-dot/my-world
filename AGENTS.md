@@ -28,6 +28,8 @@ Owner      → Product UAT / explicit product verdict
 
 Temporary through 2026-09-06 23:59 (+08:00): Kimi owns all code-changing implementation tasks; GPT remains semantic owner/reviewer. Correct in-flight Kimi work may finish after expiry.
 
+Owner has temporarily declined Gemini adversarial review. `docs/tasks/G5-03M1R01_GEMINI_ADVERSARIAL_REVIEW_TASK.md` is CANCELLED / DO NOT EXECUTE. Review flow remains Kimi implementation → GPT Independent Review.
+
 ## 2. Standing Provider rule
 
 Canonical: `Vibe-Coding/my world/architecture/foundation/REAL_PROVIDER_VALIDATION_STANDING_AUTHORIZATION.md`.
@@ -50,122 +52,73 @@ G5-03 NPC / Faction Agency                  ACTIVE
 G5-03M1 Multi-Actor Agency                  REDESIGN ACTIVE
 G5-03M1C01                                  HISTORICAL PARTIAL PASS
 G5-03M1C02                                  SUPERSEDED / DO NOT EXECUTE
-G5-03M1R01 Agency Scheduler v0.3            ACTIVE — KIMI
+G5-03M1R01 Agency Scheduler v0.3            CORRECTION REQUIRED
+G5-03M1R01C01 Scheduler Lifecycle/Snapshot  ACTIVE — KIMI
 G5-03M2 Stable Actor Materialization        NOT YET
 G5-04 Event / Priority Evolution            NOT YET
 ```
 
-Do not execute the old C02 packet. Do not start M2/G5-04 before R01 Independent Review PASS.
+Do not execute old C02 or Gemini review packets. Do not start M2/G5-04 before R01C01 Independent Review PASS.
 
 ## 4. Current execution task
 
-Task:
+Independent Review:
 
-`docs/tasks/G5-03M1R01_AGENCY_SCHEDULER_V0_3_SIMPLIFICATION_REDESIGN_TASK.md`
+`docs/g5_03/G5-03M1R01_INDEPENDENT_REVIEW.md`
 
-Canonical decision:
+Current correction:
+
+`docs/tasks/G5-03M1R01C01_SCHEDULER_PRODUCTION_LIFECYCLE_CURRENT_SNAPSHOT_CORRECTION_TASK.md`
+
+Canonical decision remains:
 
 `Vibe-Coding/my world/architecture/world/G5_AGENCY_SCHEDULER_V0_3_DECISION.md`
 
-Historical v0.2 decision and C02 packet are superseded.
+## 5. Accepted v0.3 architecture
 
-## 5. Redesign rule
-
-**Do not rollback the existing G5-03 codebase.** Preserve accepted downstream behavior and replace only the upstream semantic-selection coupling.
-
-Preserve:
-
-- multi-actor actor-scoped execution;
-- concurrent selected actor requests, max 4;
-- actor-private Source/current Knowledge/own history;
-- serialized atomic sibling commits;
-- same-cycle sibling expected-head progression;
-- foreground/Restore cancellation;
-- stale actor-memory filtering;
-- same-version replay no duplicate;
-- bounded Independent Actor Actions GM Context projection.
-
-Replace:
-
-```text
-semantic analysis
-→ agency_candidates
-→ Application starts Agency
-```
-
-with:
+Do not redesign:
 
 ```text
 accepted ordinary turn
 → semantic lane handles changes + knowledge only
-→ scheduler marks Agency dirty
+→ standalone Agency Scheduler marks dirty
 → once foreground idle + semantic queue settled
-→ standalone lightweight selector over latest current world snapshot
+→ standalone selector over latest current world snapshot
 → validated 0..4 stable actors
-→ existing concurrent per-actor Agency Cycle execution
+→ existing concurrent actor-scoped Agency Cycle
 ```
 
-## 6. Semantic lane protection
+Preserve:
 
-G5-01/G5-02 semantic analysis must not depend on Agency currentness.
+- multi-actor concurrent actor requests;
+- actor-private Source/current Knowledge/own history;
+- serialized sibling durable commits and expected-head progression;
+- foreground/Restore cancellation;
+- replay no duplicate;
+- no automatic Player/other-actor knowledge grant.
 
-An older accepted turn whose GM hash is still current at that index may still materialize valid `changes` / `knowledge_events` even if the player has advanced foreground.
+## 6. Current blocking correction seam
 
-Remove Agency Selection from the semantic prompt/result/handoff. Do not erase accepted semantic truth merely because an Agency opportunity was missed.
+R01C01 fixes only production Scheduler lifecycle/current snapshot:
 
-## 7. Scheduler / coalescing
+1. production durable ordinary-turn acceptance must actually call Scheduler dirty wiring; tests must not be the only caller of `mark_dirty()`;
+2. terminal `AgencyCycleRuntimeProcess` must be cleaned so later accepted turns can run future Agency cycles;
+3. selector `Recent World Changes` must exclude semantic records whose source GM hash no longer matches current accepted Conversation;
+4. selector/cycle terminal cleanup must not strand Scheduler or create an automatic retry loop.
 
-A durable accepted ordinary player turn marks Agency dirty.
+Do not re-couple Agency selection into semantic analysis.
 
-Agency does not owe every turn a cycle. Fast A→B→C foreground may coalesce into one later selector evaluation of the latest C snapshot.
+## 7. Provider rule for R01C01
 
-Selector may run only when Session ready, dirty=true, foreground idle, semantic worker has no active/queued work, and no selector/cycle is active.
+**Zero real Provider calls.** This correction is deterministic production wiring/lifecycle only. Parent real G5-03 proof remains pending honestly.
 
-Selector may use bounded GM-level current-world information and returns only:
-
-```json
-{"actors":["stable-id-a","stable-id-b"]}
-```
-
-Validate current Guaranteed-NPC stable IDs, dedupe, reject Player/unknown, cap 4. No round-robin fallback or retry-until-nonempty.
-
-Selector omniscience does not grant actor knowledge.
-
-## 8. Foreground / timeline
-
-New foreground attempt cancels active selector and remaining uncommitted actor work; already committed actor actions remain durable. The obsolete Agency opportunity is not rescued. A later successfully accepted turn marks dirty again.
-
-Restore/Recovery/session close cancels active background Agency and clears obsolete dirty work. Do not auto-run Agency merely because a Save was loaded.
-
-Before selector output may start a cycle, latest accepted turn/hash + world head must still match its frozen snapshot and foreground must remain idle.
-
-Actor execution keeps the existing sibling expected-head/source-currentness guards.
-
-## 9. Provider proof for R01
-
-After deterministic/integration gates are green, R01 may use at most:
-
-```text
-1 real standalone selector request
-+
-up to 2 real actor execution requests
-```
-
-Stub Narrative and semantic prerequisites. Do not spend real Narrative calls just to reach Agency. If Provider unavailable, push reviewable work with real proof pending.
-
-## 10. Scope ceiling
+## 8. Scope ceiling
 
 Do not implement M2 actor registry, Faction agency, G5-04 scheduler, generic universe polling, new SQLite schema/table, UI, Source changes, mechanics/d20 changes, G6 or G7.
 
-## 11. Completion
+## 9. Completion
 
-Kimi runs focused + regression tests, records `git diff --check`, writes R01 evidence, commits/pushes and returns:
-
-```text
-READY FOR INDEPENDENT REVIEW
-```
-
-or:
+Kimi runs focused + regression tests, `git diff --check`, writes evidence, commits/pushes and returns:
 
 ```text
 READY FOR INDEPENDENT REVIEW — REAL PROVIDER PROOF PENDING
