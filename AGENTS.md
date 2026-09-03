@@ -49,21 +49,13 @@ Canonical Owner decision:
 
 `Vibe-Coding/my world/architecture/foundation/REAL_PROVIDER_VALIDATION_STANDING_AUTHORIZATION.md`
 
-Bounded real Provider validation is pre-authorized when the approved Task Packet explicitly requires it and the run remains inside the packet's stated scenario/call/turn/attempt ceiling using the current approved runtime Provider/profile.
+Bounded real Provider validation is pre-authorized when an approved Task Packet explicitly requires it and the run remains inside the packet's stated ceiling using the current approved runtime Provider/profile.
 
-Do **not** pause mid-task to ask Owner again merely because required evidence makes the already-specified model API call.
+Do **not** pause mid-task to ask Owner again merely because the already-specified validation makes a model API call.
 
-The authorization does not permit open-ended benchmark loops, hidden Provider/model switching, billing/account changes, sending secrets/credentials/unrelated private data, or new external services outside approved scope.
+The authorization does not permit open-ended loops, hidden Provider/model switching, billing/account changes, sending secrets/unrelated private data, or new external services outside approved scope.
 
-If bounded attempts are exhausted by external Provider timeout/unavailability and offline/integration gates are green:
-
-```text
-commit + push implementation/tests/evidence
-→ mark real Provider proof PENDING / EXTERNAL PROVIDER UNAVAILABLE
-→ return READY FOR INDEPENDENT REVIEW — REAL PROVIDER PROOF PENDING
-```
-
-External Provider availability may block reality proof; it does not block code review.
+If bounded attempts are exhausted by external Provider timeout/unavailability and offline/integration gates are green, commit/push reviewable work, mark the real proof pending, and return for Independent Review. External Provider availability may block reality proof; it does not block code review.
 
 ## 3. Current state
 
@@ -84,19 +76,26 @@ G5-01 World Turn / Semantic Materialization
 G5-01M1 Semantic Materialization Spine ENGINEERING PASS / CLOSED
 G5-01M1C02 Restore Timeline Isolation CANCELLED / DO NOT EXECUTE
 G5-02 Knowledge Provenance            ACTIVE
-G5-02M1 Known-Actor Knowledge Spine   ACTIVE — KIMI
+G5-02M1 Known-Actor Knowledge Spine   CORRECTION REQUIRED
+G5-02M1C01 Actor Roster + Recent Knowledge Projection
+                                      ACTIVE — KIMI
+G5-02 real Provider vertical          PENDING / EXTERNAL PROVIDER UNAVAILABLE
 G5-03 NPC / Faction Agency            NOT YET
 G5-04 Event / Priority Evolution      NOT YET
 G5-GATE                               NOT YET
 ```
 
-Do not start G5-03 before G5-02M1 Independent Review and G5-02 closeout.
+Do not start G5-03 before G5-02M1C01 Independent Review and G5-02 closeout.
 
-## 4. Current execution task — G5-02M1
+## 4. Current execution task — G5-02M1C01
 
-Task packet:
+Independent Review:
 
-`docs/tasks/G5-02M1_KNOWN_ACTOR_KNOWLEDGE_PROVENANCE_TASK.md`
+`docs/g5_02/G5-02M1_INDEPENDENT_REVIEW.md`
+
+Correction packet:
+
+`docs/tasks/G5-02M1C01_ACTOR_ROSTER_RECENCY_CORRECTION_TASK.md`
 
 Canonical decision:
 
@@ -104,7 +103,23 @@ Canonical decision:
 
 Owner: **KIMI** under temporary routing. Reviewer / semantic owner: **GPT**.
 
-Core product distinction:
+Blocking findings:
+
+1. the production semantic-analysis request requires exact stable `knower_id` values but currently does not provide the Player/Guaranteed-NPC local-ID roster to the model;
+2. bounded knowledge Context currently consumes the oldest events first, so after the cap newer knowledge can disappear from later GM Context;
+3. the real-provider harness must require actual non-empty valid knowledge provenance before a future feature-specific PASS.
+
+Correction rules:
+
+- add the compact stable actor roster to the **same existing** semantic-analysis request;
+- keep one auxiliary Provider request per accepted turn;
+- select newest matching knowledge within the existing cap;
+- no additional real Provider attempt in this correction; the parent one-attempt ceiling is already consumed;
+- do not redesign G5-02 or start G5-03.
+
+## 5. G5-02 protected semantics
+
+Core distinction:
 
 ```text
 Game / World Truth
@@ -117,11 +132,7 @@ Protected principle:
 
 > **GM omniscience must not become actor omniscience.**
 
-Current Source `disclosure: gm_reference` remains GM/reference metadata. Do not reinterpret it as “all actors know this.”
-
-## 5. G5-02M1 actor scope
-
-Track only post-T0 knowledge acquisition for existing stable Game-local actor IDs:
+Track only post-T0 knowledge acquisition for stable Game-local actor IDs:
 
 ```text
 player_character.local_character_id
@@ -129,113 +140,52 @@ player_character.local_character_id
 guaranteed_npcs[*].local_character_id
 ```
 
-No durable identity for incidental/emergent NPCs, Factions, groups or arbitrary entities in this task.
+No emergent/incidental NPC identity, Faction knowledge, group knowledge or generic Entity/Knowledge Graph in G5-02M1.
 
-Do not convert all T0 Source into a knowledge graph.
+Current Source `disclosure: gm_reference` remains GM/reference metadata, not automatic actor knowledge.
 
-## 6. One auxiliary request, not two
+## 6. One auxiliary request, failure isolation
 
-Extend the existing G5-01 semantic-analysis request; do not add a second Provider request per ordinary accepted turn.
+G5-02 extends the existing G5-01 semantic-analysis request. Do not add a second Provider tax.
 
-Conceptual response:
-
-```json
-{
-  "changes": ["durable world consequence"],
-  "knowledge_events": [
-    {
-      "knower_id": "stable-local-id",
-      "fact": "post-T0 fact this actor now has grounds to know",
-      "basis": "witnessed|told|discovered|participated"
-    }
-  ]
-}
-```
-
-Knowledge parsing/validation failure must not invalidate an otherwise valid G5-01 `changes` result.
+Knowledge parsing/validation failure must not invalidate otherwise valid G5-01 `changes`.
 
 Unknown/non-roster `knower_id` must never become durable authority.
 
-## 7. Durable semantics
+Narrative remains free-form and accepted independently from semantic-analysis success. No JSON/header/sentinel requirement, output classifier, knowledge keyword gate, or retry-on-omniscience behavior.
 
-Knowledge provenance belongs inside the existing game-local `world_state.living_world`, adjacent to G5-01 semantic turn records. Do not add a SQLite schema/table or second persistence owner.
+## 7. Durable / Context semantics
 
-One accepted semantic result may produce:
+Knowledge provenance belongs inside existing game-local `world_state.living_world`, adjacent to G5-01 turn records. No SQLite schema/table or second persistence owner.
 
-- changes only;
-- knowledge only;
-- both;
-- neither.
+One accepted semantic response may produce changes only, knowledge only, both, or neither. If durable material exists, at most one `commit_world_mutation_durably(...)` call for that accepted turn version.
 
-If durable material exists, at most one `commit_world_mutation_durably(...)` call for that accepted turn version.
+Later ordinary GM Context may project a bounded `Actor Knowledge Provenance` section. It must use committed/current-hash-matching provenance and a recent working set; G7 owns long-session retrieval.
 
-Persist only bounded validated provenance records tied to the accepted source turn + GM hash. Never persist raw Provider prompt/response/reasoning.
+## 8. G5-01 remains protected
 
-## 8. Context consumer
-
-The first consumer is later ordinary GM Context.
-
-GM may still receive broad Game-local World/Source truth. Add a bounded actor-knowledge provenance projection that communicates which stable actors have durable post-T0 grounds to know which facts.
-
-The semantic guidance is:
-
-> A post-T0 fact present in World/GM context is not automatically actor knowledge. Let an actor speak, plan, react or decide from it only when durable provenance below or the current scene supports awareness.
-
-This is soft model guidance, not an output gate.
-
-Do not add keyword validators, “omniscience” classifiers, retry-on-style logic, or mandatory Narrative format.
-
-## 9. G5-01 remains protected
-
-G5-01 is PASS/CLOSED. Do not reopen it absent concrete regression.
-
-Core ordering remains:
-
-```text
-free-form visible Narrative
-→ durable Conversation acceptance
-→ separate best-effort semantic analysis
-→ optional atomic world semantic mutation
-```
-
-Narrative acceptance remains independent of semantic-analysis success.
+G5-01 is PASS/CLOSED. Do not reopen it absent a concrete regression.
 
 `G5-01M1C02` is cancelled/do-not-execute. Do not implement speculative Restore exact-replay infrastructure.
 
-## 10. First G5-02 proof
+## 9. Real Provider status
 
-At minimum prove with task-owned state:
+The G5-02M1 packet authorized at most one task-owned real selected-Provider attempt after offline gates. That attempt timed out during ordinary Narrative before feature-specific knowledge proof.
 
 ```text
-Player Character + Guaranteed NPC A
-→ Player alone discovers private fact F
-→ Player gets durable knowledge provenance
-→ NPC A does not
-→ later Context preserves asymmetry
-→ later accepted Narrative explicitly tells NPC A
-→ NPC A gains provenance
-→ Save/reopen preserves the boundary
+G5-02M1 real selected-Provider vertical
+PENDING / EXTERNAL PROVIDER UNAVAILABLE
 ```
 
-Also prove:
+Do not make another real Provider call during G5-02M1C01, do not switch Provider, and do not add fallback.
 
-- unknown actor IDs rejected;
-- knowledge parse failure does not break valid G5-01 changes;
-- knowledge-only result can make one atomic mutation;
-- stale GM-hash knowledge does not project;
-- replay/reopen does not duplicate knowledge.
+## 10. Protected scope
 
-## 11. Provider proof
+Expected correction scope is bounded around:
 
-After offline/integration gates are green, at most **one** task-owned real selected-Provider attempt is authorized by the standing decision.
-
-No fallback, hidden model switch or second attempt.
-
-If Provider is externally unavailable, push reviewable work/evidence and mark real proof pending.
-
-## 12. Protected scope
-
-Expected code scope is bounded around `src/世界回合/**` and the existing continuation Context projection seam.
+- `src/世界回合/L2_流程层/语义物化流程.gd`;
+- `src/世界回合/L1_器件层/世界回合上下文投影器.gd`;
+- focused G5-02 tests / real-provider harness / evidence.
 
 Protected unless GPT approves a returned blocker first:
 
@@ -250,27 +200,12 @@ Protected unless GPT approves a returned blocker first:
 - G6 visuals;
 - G7 retrieval platform.
 
-Do not build:
+## 11. Completion
 
-- generic Entity/Knowledge Graph;
-- false-belief/inference engine;
-- rumor network;
-- confidence/reliability scoring;
-- Faction knowledge;
-- emergent NPC identity platform.
-
-## 13. Completion
-
-Kimi commits/pushes implementation/tests/evidence and returns:
-
-```text
-READY FOR INDEPENDENT REVIEW
-```
-
-or, only if bounded real proof is unavailable:
+Kimi commits/pushes the focused correction and returns:
 
 ```text
 READY FOR INDEPENDENT REVIEW — REAL PROVIDER PROOF PENDING
 ```
 
-GPT owns Independent Review and G5-02 closeout. Do not start G5-03 early.
+GPT owns Independent Review and G5-02 transition. Do not start G5-03 early.
