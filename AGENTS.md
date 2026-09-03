@@ -34,7 +34,7 @@ Owner has temporarily declined Gemini adversarial review. `docs/tasks/G5-03M1R01
 
 Canonical: `Vibe-Coding/my world/architecture/foundation/REAL_PROVIDER_VALIDATION_STANDING_AUTHORIZATION.md`.
 
-Bounded validation explicitly required by an approved packet is pre-authorized. No fallback, hidden Provider/model switch, open-ended retry or repeated Owner confirmation. External Provider outage may leave reality proof pending without blocking reviewable code from commit/push.
+No fallback, hidden Provider/model switch, open-ended retry or repeated Owner confirmation. External Provider outage may leave reality proof pending without blocking reviewable code.
 
 ## 3. Current state
 
@@ -53,22 +53,23 @@ G5-03M1 Multi-Actor Agency                  REDESIGN ACTIVE
 G5-03M1C01                                  HISTORICAL PARTIAL PASS
 G5-03M1C02                                  SUPERSEDED / DO NOT EXECUTE
 G5-03M1R01 Agency Scheduler v0.3            CORRECTION REQUIRED
-G5-03M1R01C01 Scheduler Lifecycle/Snapshot  ACTIVE — KIMI
+G5-03M1R01C01 Scheduler Lifecycle/Snapshot  CORRECTION REQUIRED / CLOSED INTO C02
+G5-03M1R01C02 Dirty Opportunity Consumption ACTIVE — KIMI
 G5-03M2 Stable Actor Materialization        NOT YET
 G5-04 Event / Priority Evolution            NOT YET
 ```
 
-Do not execute old C02 or Gemini review packets. Do not start M2/G5-04 before R01C01 Independent Review PASS.
+Do not execute old C02 or Gemini review packets. Do not start M2/G5-04 before R01C02 Independent Review PASS.
 
 ## 4. Current execution task
 
-Independent Review:
+Review:
 
-`docs/g5_03/G5-03M1R01_INDEPENDENT_REVIEW.md`
+`docs/g5_03/G5-03M1R01C01_INDEPENDENT_REVIEW.md`
 
 Current correction:
 
-`docs/tasks/G5-03M1R01C01_SCHEDULER_PRODUCTION_LIFECYCLE_CURRENT_SNAPSHOT_CORRECTION_TASK.md`
+`docs/tasks/G5-03M1R01C02_DIRTY_OPPORTUNITY_CONSUMPTION_CORRECTION_TASK.md`
 
 Canonical decision remains:
 
@@ -79,42 +80,39 @@ Canonical decision remains:
 Do not redesign:
 
 ```text
-accepted ordinary turn
+ordinary durable accepted turn
 → semantic lane handles changes + knowledge only
-→ standalone Agency Scheduler marks dirty
-→ once foreground idle + semantic queue settled
-→ standalone selector over latest current world snapshot
+→ standalone Scheduler marks one Agency opportunity dirty
+→ safe standalone selector over latest current world snapshot
 → validated 0..4 stable actors
 → existing concurrent actor-scoped Agency Cycle
 ```
 
-Preserve:
+Preserve multi-actor concurrency, actor-private Knowledge/History, sibling durable commits/head progression, foreground/Restore cancellation, current-hash selector material and replay no duplicate.
 
-- multi-actor concurrent actor requests;
-- actor-private Source/current Knowledge/own history;
-- serialized sibling durable commits and expected-head progression;
-- foreground/Restore cancellation;
-- replay no duplicate;
-- no automatic Player/other-actor knowledge grant.
+## 6. Current correction seam
 
-## 6. Current blocking correction seam
+C01 fixed production wiring/current snapshot, but failed to consume `dirty` when a selector starts. The same accepted turn can therefore immediately start another selector when its cycle finishes.
 
-R01C01 fixes only production Scheduler lifecycle/current snapshot:
+C02 must enforce:
 
-1. production durable ordinary-turn acceptance must actually call Scheduler dirty wiring; tests must not be the only caller of `mark_dirty()`;
-2. terminal `AgencyCycleRuntimeProcess` must be cleaned so later accepted turns can run future Agency cycles;
-3. selector `Recent World Changes` must exclude semantic records whose source GM hash no longer matches current accepted Conversation;
-4. selector/cycle terminal cleanup must not strand Scheduler or create an automatic retry loop.
+```text
+one dirty opportunity
+→ one selector attempt
+→ dirty=false once selector starts
+→ every terminal outcome consumes that opportunity
+→ no automatic/manual re-consider retry without a later newly accepted ordinary turn
+```
 
-Do not re-couple Agency selection into semantic analysis.
+Also replace the current false “production dirty” test that directly calls `mark_dirty()` with a real Application/production callback proof, and bind cycle terminal cleanup to the exact finished cycle where practical.
 
-## 7. Provider rule for R01C01
+## 7. Provider rule
 
-**Zero real Provider calls.** This correction is deterministic production wiring/lifecycle only. Parent real G5-03 proof remains pending honestly.
+**Zero real Provider calls in C02.** Parent G5-03 feature proof remains pending honestly.
 
 ## 8. Scope ceiling
 
-Do not implement M2 actor registry, Faction agency, G5-04 scheduler, generic universe polling, new SQLite schema/table, UI, Source changes, mechanics/d20 changes, G6 or G7.
+Do not implement M2 actor registry, Faction agency, G5-04 scheduler, generic polling, new SQLite schema/table, UI, Source changes, mechanics/d20 changes, G6 or G7.
 
 ## 9. Completion
 
