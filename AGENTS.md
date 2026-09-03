@@ -26,7 +26,21 @@ Grok Build → search / external research / evidence discovery
 Owner      → Product UAT / explicit product verdict
 ```
 
-## 2. Current state
+## 2. Standing authorization for required real Provider validation
+
+Canonical Owner decision:
+
+`Vibe-Coding/my world/architecture/foundation/REAL_PROVIDER_VALIDATION_STANDING_AUTHORIZATION.md`
+
+For this project, bounded real Provider validation is **pre-authorized** when the approved Task Packet explicitly requires it and the run remains inside the packet's stated scenario/call/turn/attempt ceiling using the current approved runtime Provider/profile.
+
+Do **not** stop mid-task to ask the Owner again merely because required evidence will make the already-specified model API call.
+
+The authorization removes a repeated permission gate; it does not authorize scope expansion. It does not permit open-ended benchmark loops, hidden Provider/model switching, billing/account changes, sending secrets/credentials/unrelated private data, or new external services outside the approved task.
+
+Future Task Packets that require real Provider proof should cite the standing authorization and state the smallest reasonable call/turn/attempt ceiling.
+
+## 3. Current state
 
 ```text
 G1 Foundation                         PASS / CLOSED
@@ -51,7 +65,7 @@ G5-GATE                               NOT YET
 
 Do not start G5-02 before G5-01M1 Independent Review + G5-01 Owner product checkpoint.
 
-## 3. Current execution task — G5-01M1
+## 4. Current execution task — G5-01M1
 
 Formal packet:
 
@@ -65,7 +79,7 @@ Current owner: **CODEX**. Reviewer / semantic owner: **GPT**.
 
 Return ceiling: **READY FOR INDEPENDENT REVIEW**.
 
-## 4. G5-01 core ordering
+## 5. G5-01 core ordering
 
 ```text
 Player action
@@ -83,7 +97,7 @@ Protected distinction:
 
 Semantic extraction failure must not convert an already accepted player action into a failed action.
 
-## 5. World Turn v0.1
+## 6. World Turn v0.1
 
 Conceptual durable namespace:
 
@@ -103,7 +117,7 @@ This is a turn-level durable consequence ledger only.
 
 Do not turn it into a universal fact/entity ontology or prematurely implement Knowledge/Relationship/Location/Inventory/NPC/Faction/Event domains.
 
-## 6. Semantic analysis lane
+## 7. Semantic analysis lane
 
 - trigger only from a **durably accepted** ordinary player/GM turn;
 - GM-only Opening is skipped in v0.1;
@@ -114,7 +128,7 @@ Do not turn it into a universal fact/entity ontology or prematurely implement Kn
 - malformed/transport/missing-key/empty analysis fails soft: no fake mutation, no action failure, no automatic recovery loop;
 - never persist raw prompts/payload/reasoning/credentials.
 
-## 7. Model Freedom / narrative protection
+## 8. Model Freedom / narrative protection
 
 ```text
 Model Freedom First
@@ -135,7 +149,7 @@ Do not add:
 
 The G4-11C01 soft narrative-voice guidance is PASS/CLOSED. Do not reopen it absent a concrete regression; its product effect will be observed opportunistically in the next Owner UAT.
 
-## 8. Replay / correction / Restore
+## 9. Replay / correction / Restore
 
 Same accepted content must not duplicate a World Turn.
 
@@ -143,7 +157,7 @@ After regenerate/latest-turn correction, a semantic record whose `source_gm_sha2
 
 Successful rematerialization may replace the record for that turn in a new world snapshot. Existing Timeline/Save/Restore owns historical reversal.
 
-## 9. Existing seams to reuse
+## 10. Existing seams to reuse
 
 Current implementation already has:
 
@@ -156,7 +170,7 @@ Current implementation already has:
 
 Extend these seams. Do not create a second persistence owner or schema forest.
 
-## 10. Protected scope
+## 11. Protected scope
 
 Preferred new backend module: `src/世界回合/**` or equivalent bounded layered module.
 
@@ -174,7 +188,7 @@ Protected unless GPT has approved a returned blocker:
 
 If UI changes or a SQLite schema migration appear necessary, STOP and return the boundary finding instead of silently expanding scope.
 
-## 11. G5-01 non-scope
+## 12. G5-01 non-scope
 
 Do not implement early:
 
@@ -185,7 +199,7 @@ Do not implement early:
 - G6 RPG/visual UI;
 - G7 long-session retrieval architecture.
 
-## 12. Visual deferral remains protected
+## 13. Visual deferral remains protected
 
 ```text
 G4-10 Runtime Asset Resolution = DEFERRED / MOVED TO G6
@@ -193,7 +207,7 @@ G4-10 Runtime Asset Resolution = DEFERRED / MOVED TO G6
 
 Do not implement portrait / scene / authored-map runtime during G5-01.
 
-## 13. After G5-01M1
+## 14. After G5-01M1
 
 If GPT Independent Review passes M1, Owner receives a short G5-01 product checkpoint. Owner should prove one simple lived consequence remains part of the world after later play/reopen while Narrative remains free-form.
 
