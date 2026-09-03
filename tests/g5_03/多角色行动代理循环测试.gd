@@ -9,6 +9,7 @@ const Conversation := preload("res://src/domain/会话.gd")
 const WorldTurn := preload("res://src/世界回合/L3_外交层/世界回合公开接口.gd")
 const WorldTurnContext := preload("res://src/世界回合/L3_外交层/世界回合上下文公开接口.gd")
 const AgencyCycle := preload("res://src/世界回合/L3_外交层/行动代理循环公开接口.gd")
+const AgencyScheduler := preload("res://src/世界回合/L3_外交层/行动代理调度公开接口.gd")
 const StubAdapter := preload("res://tests/g5_01/世界回合语义桩适配器.gd")
 
 class ControlledRuntime:
@@ -67,7 +68,8 @@ func _run() -> void:
 	quit(0 if _failures == 0 else 1)
 
 
-## C01-A：stale semantic handoff 不启动 Agency——source turn/hash 已过期或 foreground 已开始新 attempt。
+## C01-A：semantic lane 独立于 Agency——Turn A semantic 晚完成但 GM hash 仍 current 时，
+## changes/knowledge 仍提交；foreground 前进不丢弃 otherwise-valid truth；不启动 Agency。
 func _test_c01_stale_semantic_handoff() -> void:
 	var runtime := ControlledRuntime.new()
 	var stub := StubAdapter.new()
@@ -77,13 +79,18 @@ func _test_c01_stale_semantic_handoff() -> void:
 	# Turn A accepted → semantic A active → 玩家开始 Turn B → semantic A 晚完成
 	_accept(runtime, "我查看江防部署。", "江防部署已经确认。")
 	await process_frame
-	# 模拟玩家开始 Turn B（foreground 已开始新 attempt）
+	# 模拟玩家开始 Turn B（foreground 已开始新 attempt，latest turn 已前进）
 	runtime.conversation.begin_turn("我改为查看水寨。")
-	# semantic A 晚完成，含 agency_candidates
-	stub.simulate_delta('{"changes":[],"knowledge_events":[],"agency_candidates":["char-npc-sun"]}')
+	# semantic A 晚完成，含 valid changes/knowledge（无 agency_candidates 字段——R01 已移除）
+	stub.simulate_delta('{"changes":["江防部署已确认"],"knowledge_events":[{"knower_id":"char-player-001","fact":"江防部署已确认","basis":"witnessed"}]}')
 	stub.simulate_completed()
 	await process_frame
-	_check(worker.last_result.status == "stale_analysis", "C01-A stale semantic result is rejected before handoff")
+	# R01：semantic lane 恢复纯 source-version 语义；foreground 前进不丢弃 otherwise-valid truth。
+	_check(worker.last_result.status == "committed" or worker.last_result.status == "no_changes", "C01-A semantic result commits valid changes/knowledge regardless of foreground")
+	_check(not runtime.world_state.has("living_world") or not runtime.world_state.living_world.has("agency_cycles_by_source_turn"), "C01-A semantic lane never starts Agency")
+	runtime.conversation.cancel_generation()
+	worker.shutdown()
+	worker.queue_free()
 	_check(not runtime.world_state.has("living_world") or not runtime.world_state.living_world.has("agency_cycles_by_source_turn"), "C01-A zero Agency Cycle for stale handoff")
 	runtime.conversation.cancel_generation()
 	worker.shutdown()
@@ -178,15 +185,17 @@ func _test_c01_stale_memory_filtering() -> void:
 	var text := JSON.stringify(request)
 	_check(not text.contains("STALE_SECRET_F"), "C01-D stale Knowledge filtered from actor execution")
 	_check(not text.contains("STALE_AGENCY_ACTION"), "C01-D stale Agency History filtered from actor execution")
-	# selector 材料同样过滤。
-	var worker := WorldTurn.new(runtime, StubAdapter.new())
-	root.add_child(worker)
+	# selector 材料同样过滤（R01：selector 已由 standalone scheduler 拥有）。
+	var scheduler := AgencyScheduler.new(runtime, null)
+	root.add_child(scheduler)
 	await process_frame
-	var selection_block := worker._agency_selection_block()
-	_check(not selection_block.contains("STALE_SECRET_F"), "C01-D stale Knowledge filtered from selector input")
-	_check(not selection_block.contains("STALE_AGENCY_ACTION"), "C01-D stale Agency History filtered from selector input")
-	worker.shutdown()
-	worker.queue_free()
+	scheduler.mark_dirty()
+	var selector_request := scheduler._selector_request()
+	var selector_text := JSON.stringify(selector_request)
+	_check(not selector_text.contains("STALE_SECRET_F"), "C01-D stale Knowledge filtered from selector input")
+	_check(not selector_text.contains("STALE_AGENCY_ACTION"), "C01-D stale Agency History filtered from selector input")
+	scheduler.shutdown()
+	scheduler.queue_free()
 	cycle.queue_free()
 
 
@@ -252,25 +261,31 @@ func _test_c01_replay_no_duplicate() -> void:
 	replay_cycle.queue_free()
 
 
-## A：controlled semantic response 选 A+B → 一次语义请求、验证 A+B、无 round-robin 额外 C、
+## A：controlled selector response 选 A+B → 一次 standalone selector 请求、验证 A+B、无 round-robin 额外 C、
 ## 两个 agency execution 启动、Player/unknown 被拒绝。
 func _test_multi_actor_selection() -> void:
 	var runtime := ControlledRuntime.new()
-	var stub := StubAdapter.new()
-	var worker := WorldTurn.new(runtime, stub)
-	root.add_child(worker)
-	await process_frame
 	_accept(runtime, "我查看江防部署。", "江防部署已经确认。")
+	var scheduler := AgencyScheduler.new(runtime, null)
+	root.add_child(scheduler)
+	scheduler.test_selector_adapter_override = StubAdapter.new()
+	scheduler.test_actor_adapter_factory = func() -> Node: return StubAdapter.new()
 	await process_frame
-	stub.simulate_delta('{"changes":[],"knowledge_events":[],"agency_candidates":["char-npc-sun","char-npc-cao","char-player-001","char-unknown-999"]}')
-	stub.simulate_completed()
+	scheduler.mark_dirty()
+	_check(scheduler.dirty, "A accepted turn marks scheduler dirty")
+	var started: Dictionary = scheduler.consider_agency()
+	_check(String(started.status) == "selector_started", "A foreground idle + semantic settled starts one selector")
 	await process_frame
-	_check(stub.requests.size() == 1, "A one existing semantic-analysis request only")
-	var candidates: Array = worker.last_result.get("agency_candidates", [])
-	_check(candidates == ["char-npc-sun", "char-npc-cao"], "A selection validates A+B and rejects Player/unknown")
-	_check(not candidates.has("char-npc-zhu"), "A no round-robin extra C")
-	worker.shutdown()
-	worker.queue_free()
+	var selector_stub: Node = scheduler.test_selector_adapter_override
+	selector_stub.simulate_delta('{"actors":["char-npc-sun","char-npc-cao","char-player-001","char-unknown-999"]}')
+	selector_stub.simulate_completed()
+	await process_frame
+	_check(scheduler.agency_cycle_runtime != null, "A selector starts Agency Cycle")
+	_check(scheduler.agency_cycle_runtime.selected_actors == ["char-npc-sun", "char-npc-cao"], "A selection validates A+B and rejects Player/unknown")
+	_check(not scheduler.agency_cycle_runtime.selected_actors.has("char-npc-zhu"), "A no round-robin extra C")
+	_check(scheduler.agency_cycle_runtime.active_requests.size() == 2, "A two agency executions launched")
+	scheduler.shutdown()
+	scheduler.queue_free()
 
 
 ## B：valid changes + valid knowledge + malformed/oversized agency_candidates →
@@ -472,20 +487,22 @@ func _test_selection_bound() -> void:
 	var runtime := ControlledRuntime.new()
 	# 构造 5 个 eligible NPC。
 	runtime.world_state.guaranteed_npcs.append({"local_character_id": "char-npc-extra", "source_projection": {"display_name": "额外", "semantic_sections": []}})
-	var stub := StubAdapter.new()
-	var worker := WorldTurn.new(runtime, stub)
-	root.add_child(worker)
-	await process_frame
 	_accept(runtime, "我查看江防部署。", "江防部署已经确认。")
+	var scheduler := AgencyScheduler.new(runtime, null)
+	root.add_child(scheduler)
+	scheduler.test_selector_adapter_override = StubAdapter.new()
 	await process_frame
-	stub.simulate_delta('{"changes":[],"knowledge_events":[],"agency_candidates":["char-npc-sun","char-npc-cao","char-npc-zhu","char-npc-extra","char-npc-sun"]}')
-	stub.simulate_completed()
+	scheduler.mark_dirty()
+	scheduler.consider_agency()
 	await process_frame
-	var candidates: Array = worker.last_result.get("agency_candidates", [])
-	_check(candidates.size() == 4, "I selector cap keeps exactly four actors")
-	_check(candidates[0] == "char-npc-sun" and candidates[3] == "char-npc-extra", "I preserves model-selected order within cap")
-	worker.shutdown()
-	worker.queue_free()
+	var selector_stub: Node = scheduler.test_selector_adapter_override
+	selector_stub.simulate_delta('{"actors":["char-npc-sun","char-npc-cao","char-npc-zhu","char-npc-extra","char-npc-sun"]}')
+	selector_stub.simulate_completed()
+	await process_frame
+	_check(scheduler.agency_cycle_runtime != null and scheduler.agency_cycle_runtime.selected_actors.size() == 4, "I selector cap keeps exactly four actors")
+	_check(scheduler.agency_cycle_runtime.selected_actors[0] == "char-npc-sun" and scheduler.agency_cycle_runtime.selected_actors[3] == "char-npc-extra", "I preserves model-selected order within cap")
+	scheduler.shutdown()
+	scheduler.queue_free()
 
 
 func _accept(runtime: ControlledRuntime, player: String, gm: String) -> void:

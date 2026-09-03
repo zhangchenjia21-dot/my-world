@@ -12,8 +12,7 @@ const FinalCreate := preload("res://src/最终建局/L3_外交层/原子最终�
 const FirstOpening := preload("res://src/首次开场/L3_外交层/首次开场公开接口.gd")
 const ActionAdjudication := preload("res://src/行动判定/L3_外交层/行动判定公开接口.gd")
 const ModelRuntimeSettings := preload("res://src/运行时设置/L3_外交层/模型运行时设置公开接口.gd")
-const AgencyCycle := preload("res://src/世界回合/L3_外交层/行动代理循环公开接口.gd")
-const WorldTurnRules := preload("res://src/世界回合/L0_公理层/世界回合规则.gd")
+const AgencyScheduler := preload("res://src/世界回合/L3_外交层/行动代理调度公开接口.gd")
 const WorldTurn := preload("res://src/世界回合/L3_外交层/世界回合公开接口.gd")
 
 enum ApplicationState {
@@ -102,7 +101,7 @@ var opening_runtime: Node = null
 var action_adjudication: Node = null
 ## durable Conversation acceptance 后运行的独立 best-effort semantic lane；不拥有 Narrative/UI truth。
 var world_turn_runtime: Node = null
-var agency_cycle_runtime: Node = null
+var agency_scheduler: Node = null
 ## 测试专用 seam：focused/real-vertical 测试在激活前注入 stub 或受控 adapter；production 恒为 null。
 var test_opening_adapter_override: Node = null
 var test_adjudication_adapter_override: Node = null
@@ -482,7 +481,7 @@ func _close_game_session() -> Dictionary:
 		session_state = SessionState.ABSENT
 		return {"status": "absent", "success": true}
 	session_state = SessionState.CLOSING
-	_teardown_agency_cycle()
+	_teardown_agency_scheduler()
 	_teardown_world_turn_runtime()
 	_teardown_action_adjudication()
 	_teardown_opening_runtime()
@@ -503,47 +502,28 @@ func _prepare_world_turn_after_activation() -> void:
 		return
 	world_turn_runtime = WorldTurn.new(session_runtime, test_world_turn_adapter_override)
 	add_child(world_turn_runtime)
-	# G5-03M1：Agency Cycle 复用 WorldTurn 的 semantic finished 结果；不新增 selector 调用。
-	world_turn_runtime.finished.connect(_on_world_turn_finished)
+	# G5-03M1R01：standalone Agency Scheduler 复用 WorldTurn 的 lifecycle；不消费 semantic result。
+	world_turn_runtime.finished.connect(_on_world_turn_finished_for_scheduler)
+	agency_scheduler = AgencyScheduler.new(session_runtime, world_turn_runtime)
+	add_child(agency_scheduler)
 
 
-func _on_world_turn_finished(result: Dictionary) -> void:
+## Semantic finished 只作 scheduling wake-up；不消费 candidates；foreground idle 后 scheduler 自行评估。
+func _on_world_turn_finished_for_scheduler(_result: Dictionary) -> void:
 	if session_runtime == null or not session_runtime.is_ready():
 		return
-	# C01 修正 A：stale semantic handoff 不得启动 Agency。
-	# 要求：source turn 仍是 latest accepted ordinary turn、source GM hash 仍匹配、
-	# Conversation 空闲、foreground 未在 semantic 完成前开始新 attempt。
-	var candidates: Array = result.get("agency_candidates", [])
-	if candidates.is_empty():
-		return
-	var source_turn_index := int(result.get("source_turn_index", -1))
-	var source_gm_sha256 := String(result.get("source_gm_sha256", ""))
-	var entries: Array = session_runtime.conversation.get_durable_accepted_entries()
-	if entries.is_empty() or source_turn_index != entries.size() - 1:
-		return
-	var current := entries[source_turn_index] as Dictionary
-	if WorldTurnRules.gm_sha256(String(current.get("gm_text", ""))) != source_gm_sha256:
-		return
-	if session_runtime.conversation.is_generating():
-		return
-	if agency_cycle_runtime != null:
-		agency_cycle_runtime.shutdown()
-		agency_cycle_runtime.queue_free()
-		agency_cycle_runtime = null
-	agency_cycle_runtime = AgencyCycle.new(session_runtime)
-	add_child(agency_cycle_runtime)
-	var cycle_base_head_id := String(session_runtime.active_head_id)
-	agency_cycle_runtime.start_cycle(source_turn_index, source_gm_sha256, cycle_base_head_id, candidates)
+	if agency_scheduler != null:
+		agency_scheduler.consider_agency()
 
 
-func _teardown_agency_cycle() -> void:
-	if agency_cycle_runtime == null:
+func _teardown_agency_scheduler() -> void:
+	if agency_scheduler == null:
 		return
-	agency_cycle_runtime.shutdown()
-	if is_instance_valid(agency_cycle_runtime):
-		remove_child(agency_cycle_runtime)
-		agency_cycle_runtime.queue_free()
-	agency_cycle_runtime = null
+	agency_scheduler.shutdown()
+	if is_instance_valid(agency_scheduler):
+		remove_child(agency_scheduler)
+		agency_scheduler.queue_free()
+	agency_scheduler = null
 
 
 func _teardown_world_turn_runtime() -> void:
@@ -1116,8 +1096,8 @@ func _on_load_confirmed() -> void:
 
 func _on_restore_completed(_result: Dictionary) -> void:
 	# C01 修正 B：production Restore 自动 invalidate 剩余 uncommitted Agency。
-	if agency_cycle_runtime != null:
-		agency_cycle_runtime.invalidate_remaining()
+	if agency_scheduler != null:
+		agency_scheduler.invalidate_remaining()
 	_update_save_controls()
 
 
@@ -1199,8 +1179,8 @@ func _on_generation_state_changed(_turn: RefCounted) -> void:
 
 ## Foreground 永远优先：新 Conversation attempt 使剩余 uncommitted agency 失效。
 func _on_foreground_attempt_started(_turn: RefCounted) -> void:
-	if agency_cycle_runtime != null:
-		agency_cycle_runtime.invalidate_remaining()
+	if agency_scheduler != null:
+		agency_scheduler.invalidate_remaining()
 
 
 func _on_generation_failed_state_changed(_turn: RefCounted, _code: String) -> void:
