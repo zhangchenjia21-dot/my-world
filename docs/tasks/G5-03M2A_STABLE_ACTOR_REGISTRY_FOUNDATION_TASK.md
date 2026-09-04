@@ -1,7 +1,10 @@
 # G5-03M2A — Stable Actor Registry Foundation
 
-Status: **ACTIVE — KIMI**  
+Status: **CORRECTION REQUIRED — REVISION 2 — KIMI**  
 Reviewer: GPT  
+Revision: **2**  
+Independent Review: **IR#1 = CORRECTION REQUIRED**  
+Review evidence: `docs/g5_03/G5-03M2A_INDEPENDENT_REVIEW_IR1.md`  
 Return ceiling: **READY FOR INDEPENDENT REVIEW**
 
 Canonical decision:
@@ -25,6 +28,7 @@ Refresh both mains, then read:
 
 - `AGENTS.md`;
 - the canonical v0.2 decision;
+- `docs/g5_03/G5-03M2A_INDEPENDENT_REVIEW_IR1.md`;
 - `src/最终建局/L0_公理层/最终建局规则.gd`;
 - `src/最终建局/L2_流程层/原子最终建局流程.gd`;
 - existing Source exact T0 projection contract;
@@ -207,5 +211,41 @@ Write compact evidence under `docs/g5_03/`:
 - `git diff --check`.
 
 Commit/push and return:
+
+`READY FOR INDEPENDENT REVIEW`
+
+## 8. Revision 2 — IR#1 focused correction only
+
+This revision does **not** change the M2A Outcome or architecture. Do not create a new recursive Task ID.
+
+### IR1-F01 — strict string contract
+
+Current `_canonicalize_game_local_npcs` coerces values through `String(...)`. Correct it so raw `display_name` and `profile_text` values must first be `TYPE_STRING`; only then trim and apply the existing non-empty / max-length validation.
+
+Focused proof must reject at least:
+
+- non-string `display_name`;
+- non-string `profile_text`.
+
+Do not accept arbitrary values by stringification.
+
+### IR1-F02 — actual Restore proof
+
+Extend focused proof 9 through the **existing production Restore path**. After a later durable mutation/head change, restore to a snapshot that contains the creation-time registry and assert the exact `stable_npcs` records / Program-owned IDs are preserved.
+
+Do not add persistence schema or registry-specific persistence machinery unless this direct proof reveals an actual production defect.
+
+### Revision 2 validation budget
+
+Run focused-first:
+
+1. updated `tests/g5_03m2a/稳定演员注册表基础测试.gd`;
+2. only the minimal directly affected Final Create validation and Save/Restore regressions if focused is green;
+3. `git diff --check`;
+4. real Provider calls = 0.
+
+Do not rerun unrelated G5-02/G5-03 suites unless production code outside Final Create validation/persistence proof is changed or a concrete regression reason appears.
+
+After commit/push, return only up to:
 
 `READY FOR INDEPENDENT REVIEW`
