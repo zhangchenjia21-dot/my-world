@@ -180,6 +180,7 @@ static func validate_intent(intent: Dictionary) -> Dictionary:
 
 ## G5-03M2A：no-Card NPC 输入只携带 bounded Game-local material；
 ## 不要求也不编造 Source provenance；不做 display-name dedupe（重名是合法的不同人）。
+## IR1-F01：raw value 必须先确证为 String；拒绝任何靠 String(...) coercion 混入的非字符串。
 static func _canonicalize_game_local_npcs(value: Variant) -> Dictionary:
 	if not value is Array:
 		return failure("invalid_composition", "game_local_npcs 必须是 Array。")
@@ -191,8 +192,12 @@ static func _canonicalize_game_local_npcs(value: Variant) -> Dictionary:
 		if not item is Dictionary:
 			return failure("invalid_composition", "game_local_npcs 条目类型无效。")
 		var npc := item as Dictionary
-		var display_name := String(npc.get("display_name", "")).strip_edges()
-		var profile_text := String(npc.get("profile_text", "")).strip_edges()
+		var name_value: Variant = npc.get("display_name", null)
+		var profile_value: Variant = npc.get("profile_text", null)
+		if typeof(name_value) != TYPE_STRING or typeof(profile_value) != TYPE_STRING:
+			return failure("invalid_composition", "game_local_npcs 条目的 display_name/profile_text 必须是字符串。")
+		var display_name := String(name_value).strip_edges()
+		var profile_text := String(profile_value).strip_edges()
 		if display_name.is_empty() or display_name.length() > MAX_GAME_LOCAL_NPC_NAME_CHARS \
 			or profile_text.is_empty() or profile_text.length() > MAX_GAME_LOCAL_NPC_PROFILE_CHARS:
 			return failure("invalid_composition", "game_local_npcs 条目需要 bounded 非空 display_name/profile_text。")

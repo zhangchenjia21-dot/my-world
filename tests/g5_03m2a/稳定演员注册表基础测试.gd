@@ -206,6 +206,7 @@ func _test_retry_authority_after_source_current_change() -> void:
 
 
 ## 证明 2 附：非法 game_local_npcs 输入 fail-closed。
+## IR1-F01：raw 非字符串必须拒绝，不允许 String(...) coercion 混入。
 func _test_invalid_game_local_npc_rejected() -> void:
 	var case_root := _case_root("invalid")
 	var bad := _composition(ENTRY_208, LIU_BEI, [], [{"display_name": "", "profile_text": "x"}])
@@ -214,6 +215,13 @@ func _test_invalid_game_local_npc_rejected() -> void:
 	var oversized := _composition(ENTRY_208, LIU_BEI, [], [{"display_name": "陈安", "profile_text": "x".repeat(2000)}])
 	var result2: Dictionary = _creator(case_root).create_or_resume("creation-m2a-invalid-2", oversized)
 	_check(not result2.success and String(result2.get("code", "")) == "invalid_composition", "2 oversized profile_text rejected by bounded validation")
+	# 123 stringify 后是非空文本；raw type 不是 String 时必须拒绝。
+	var non_string_name := _composition(ENTRY_208, LIU_BEI, [], [{"display_name": 123, "profile_text": "合法材料。"}])
+	var result3: Dictionary = _creator(case_root).create_or_resume("creation-m2a-invalid-3", non_string_name)
+	_check(not result3.success and String(result3.get("code", "")) == "invalid_composition", "2 non-string display_name rejected without coercion")
+	var non_string_profile := _composition(ENTRY_208, LIU_BEI, [], [{"display_name": "陈安", "profile_text": 42}])
+	var result4: Dictionary = _creator(case_root).create_or_resume("creation-m2a-invalid-4", non_string_profile)
+	_check(not result4.success and String(result4.get("code", "")) == "invalid_composition", "2 non-string profile_text rejected without coercion")
 
 
 ## 证明 5：旧 Game 兼容——missing stable_npcs 合法、无 Source lookup、Guaranteed-only 行为精确。
@@ -332,7 +340,8 @@ func _test_runtime_narrative_currentness_contract() -> void:
 	_check(broken_records.size() == 1 and String(broken_records[0].get("local_character_id", "")) == "char-dup", "8 empty/duplicate local IDs rejected deterministically")
 
 
-## 证明 9：Save/reopen 保留 creation-time registry 记录与 Program-owned ID。
+## 证明 9：Save/reopen/Restore 保留 creation-time registry 记录与 Program-owned ID。
+## IR1-F02：必须走 production Restore path——mutation 前进 head 后 Restore 回含 registry 的 Save snapshot。
 func _test_persistence_reopen_preserves_registry() -> void:
 	var created := _created_result("snapshot-d", "creation-m2a-d")
 	var expected: Array = _read_setup(created).get("stable_npcs", [])
@@ -342,17 +351,28 @@ func _test_persistence_reopen_preserves_registry() -> void:
 	if not session.is_ready():
 		return
 	_check(_stable_ids(session.world_state) == _stable_ids({"stable_npcs": expected}), "9 reopen preserves registry Program-owned IDs")
-	# 一次 durable world mutation 后 registry 原样保留。
+	# 在含 creation-time registry 的 snapshot 上创建 production Save Point。
+	var head_at_save := String(session.active_head_id)
+	var saved: Dictionary = session.create_save_point("注册表基线")
+	_check(bool(saved.get("success", false)) and not String(saved.get("save_id", "")).is_empty(), "9 production Save Point created on registry snapshot")
+	var save_id := String(saved.get("save_id", ""))
+	# 后续 durable mutation 前进 head。
 	var candidate: Dictionary = (session.world_state as Dictionary).duplicate(true)
 	candidate["living_world"] = {"schema_version": "living_world.v0.1"}
 	var committed: Dictionary = session.commit_world_mutation_durably("m2a-registry-mutation", "m2a-registry-node", candidate)
 	_check(bool(committed.get("success", false)), "9 durable mutation commits on top of registry Game")
+	_check(String(session.active_head_id) == "m2a-registry-node", "9 durable head advanced normally")
+	# production Restore path：回到含 creation-time registry 的 snapshot。
+	var restored: Dictionary = session.restore_save_point(save_id)
+	_check(bool(restored.get("success", false)), "9 production Restore path succeeds")
+	_check(String(session.active_head_id) == head_at_save, "9 Restore returns head to registry snapshot")
+	_check(_stable_ids(session.world_state) == _stable_ids({"stable_npcs": expected}), "9 Restore preserves stable_npcs records and Program-owned IDs unchanged")
 	session.close()
 	var reopened := SessionRuntime.new()
-	_check(reopened.open_existing_game(String(created.database_path)).success, "9 Game reopens after mutation")
+	_check(reopened.open_existing_game(String(created.database_path)).success, "9 Game reopens after Restore")
 	if reopened.is_ready():
-		_check(_stable_ids(reopened.world_state) == _stable_ids({"stable_npcs": expected}), "9 mutation + reopen preserves registry records and IDs")
-		_check(String(reopened.active_head_id) == "m2a-registry-node", "9 durable head advanced normally")
+		_check(_stable_ids(reopened.world_state) == _stable_ids({"stable_npcs": expected}), "9 Restore result survives close/reopen")
+		_check(String(reopened.active_head_id) == head_at_save, "9 reopened head stays at restored snapshot")
 	reopened.close()
 
 
