@@ -64,6 +64,9 @@ func project(world_state: Dictionary, accepted_entries: Array) -> Dictionary:
 	var agency := _project_agency(world_state, accepted_hashes, projected_chars + text.length())
 	if not String(agency.context_text).is_empty():
 		text += "\n\n" + String(agency.context_text)
+	var evolution := _project_evolution(world_state, accepted_hashes, projected_chars + text.length())
+	if not String(evolution.context_text).is_empty():
+		text += "\n\n" + String(evolution.context_text)
 	return {
 		"success": true,
 		"status": "projected" if not text.is_empty() else "empty",
@@ -73,7 +76,8 @@ func project(world_state: Dictionary, accepted_entries: Array) -> Dictionary:
 		"knowledge_event_count": int(knowledge.knowledge_event_count),
 		"agency_cycle_count": int(agency.agency_cycle_count),
 		"agency_action_count": int(agency.agency_action_count),
-		"rejected_count": rejected + matching.size() - selected.size() + int(knowledge.rejected_count) + int(agency.rejected_count),
+		"evolution_event_count": int(evolution.evolution_event_count),
+		"rejected_count": rejected + matching.size() - selected.size() + int(knowledge.rejected_count) + int(agency.rejected_count) + int(evolution.rejected_count),
 	}
 
 
@@ -219,6 +223,61 @@ func _project_agency(world_state: Dictionary, accepted_hashes: Dictionary, proje
 
 func _empty_agency(rejected_count: int = 0) -> Dictionary:
 	return {"context_text": "", "agency_cycle_count": 0, "agency_action_count": 0, "rejected_count": rejected_count}
+
+
+## MW-002：World Evolution Events 是 omniscient GM current-world facts——不自动成为
+## Player knowledge 或任何 actor 的 Knowledge Provenance；GM 自行决定何时以何种
+## 场景/信息流节奏呈现。只投影 committed 且 opportunity turn/hash 匹配 current
+## accepted truth 的事件；stale 物理历史不删除，但也不进入 current Context。
+func _project_evolution(world_state: Dictionary, accepted_hashes: Dictionary, projected_chars: int) -> Dictionary:
+	var living_world_value: Variant = world_state.get("living_world", {})
+	if typeof(living_world_value) != TYPE_DICTIONARY:
+		return _empty_evolution()
+	var events_value: Variant = (living_world_value as Dictionary).get("world_evolution_events_by_turn", {})
+	if typeof(events_value) != TYPE_DICTIONARY:
+		return _empty_evolution()
+	var matching: Array = []
+	var rejected := 0
+	for record_value: Variant in (events_value as Dictionary).values():
+		if typeof(record_value) != TYPE_DICTIONARY:
+			rejected += 1
+			continue
+		var record := record_value as Dictionary
+		if not Rules.world_evolution_event_is_valid(record):
+			rejected += 1
+			continue
+		var turn_index := int(record.opportunity_turn_index)
+		if not accepted_hashes.has(turn_index) or String(record.get("opportunity_gm_sha256", "")) != String(accepted_hashes[turn_index]):
+			rejected += 1
+			continue
+		matching.append(record)
+	if matching.is_empty():
+		return _empty_evolution(rejected)
+	matching.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return int(a.opportunity_turn_index) < int(b.opportunity_turn_index))
+	if matching.size() > Rules.RECENT_EVOLUTION_EVENTS_LIMIT:
+		matching = matching.slice(matching.size() - Rules.RECENT_EVOLUTION_EVENTS_LIMIT)
+	var lines := PackedStringArray([
+		"## World Evolution Events",
+		"These are omniscient GM current-world facts. They are not automatically Player knowledge and not automatically actor knowledge. Surface them only when scene, information flow and pacing make them relevant.",
+	])
+	var event_count := 0
+	for record: Dictionary in matching:
+		lines.append("- %s" % String(record.event))
+		for effect: String in record.get("effects", []):
+			lines.append("  - %s" % effect)
+		event_count += 1
+	var text := "\n".join(lines)
+	if projected_chars + text.length() > MAX_PROJECTED_CHARS:
+		return _empty_evolution(rejected)
+	return {
+		"context_text": text,
+		"evolution_event_count": event_count,
+		"rejected_count": rejected,
+	}
+
+
+func _empty_evolution(rejected_count: int = 0) -> Dictionary:
+	return {"context_text": "", "evolution_event_count": 0, "rejected_count": rejected_count}
 
 
 func _record_block(record: Dictionary) -> String:

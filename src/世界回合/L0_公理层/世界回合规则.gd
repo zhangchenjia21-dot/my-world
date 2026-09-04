@@ -477,3 +477,111 @@ static func matching_agency_cycle(world_state: Dictionary, source_turn_index: in
 	if not agency_cycle_is_valid(cycle) or int(cycle.source_turn_index) != source_turn_index or String(cycle.source_gm_sha256) != source_gm_sha256:
 		return {}
 	return cycle.duplicate(true)
+
+
+## ---- MW-002 Selective World Evolution ----
+## World Evolution 只推进不归属于单一 stable NPC intentional 决策的世界过程；
+## hold 是一等正确结果；一次 evaluation 至多推进一个事件（v0.1 安全上限，不是世界语义限制）。
+## 不引入 numeric priority / pressure queue / every-N-turn cadence / random-event engine。
+
+const MAX_EVOLUTION_EVENT_CHARS := 512
+const MAX_EVOLUTION_EFFECTS := 4
+const MAX_EVOLUTION_EFFECT_CHARS := 512
+## GM Context 只投影最近若干个 current 事件。
+const RECENT_EVOLUTION_EVENTS_LIMIT := 4
+
+
+## Program-owned deterministic identity：game + exact opportunity turn/hash + base head。
+## opportunity_* 是 scheduling/currentness 元数据，不是 Player-causation 元数据；
+## identity 不含 wall-clock/随机，replay 同一机会只能回到同一 durable intent。
+static func world_evolution_identities(game_id: String, opportunity_turn_index: int, opportunity_gm_sha256: String, evolution_base_head_id: String) -> Dictionary:
+	var hashing := HashingContext.new()
+	hashing.start(HashingContext.HASH_SHA256)
+	hashing.update(("evolution|%s|%d|%s|%s" % [game_id, opportunity_turn_index, opportunity_gm_sha256, evolution_base_head_id]).to_utf8_buffer())
+	var digest := hashing.finish().hex_encode()
+	return {
+		"world_evolution_id": "world-evolution-%s" % digest,
+		"mutation_id": "evolution-mutation-%s" % digest,
+		"node_id": "evolution-node-%s" % digest,
+	}
+
+
+static func build_world_evolution_event(game_id: String, opportunity_turn_index: int, opportunity_gm_sha256: String, evolution_base_head_id: String, event: String, effects: Array, materialized_at: String) -> Dictionary:
+	var stable := world_evolution_identities(game_id, opportunity_turn_index, opportunity_gm_sha256, evolution_base_head_id)
+	return {
+		"world_evolution_id": String(stable.world_evolution_id),
+		"opportunity_turn_index": opportunity_turn_index,
+		"opportunity_gm_sha256": opportunity_gm_sha256,
+		"evolution_base_head_id": evolution_base_head_id,
+		"materialized_at": materialized_at,
+		"event": event,
+		"effects": effects.duplicate(true),
+	}
+
+
+## 单条 world evolution event 的 v0.1 不变量；损坏/篡改数据不能借宽松类型转换进入
+## 模型可见事实或幂等判断。
+static func world_evolution_event_is_valid(record: Dictionary) -> bool:
+	if typeof(record.get("world_evolution_id")) != TYPE_STRING or String(record.world_evolution_id).is_empty():
+		return false
+	var turn_value: Variant = record.get("opportunity_turn_index")
+	if typeof(turn_value) not in [TYPE_INT, TYPE_FLOAT]:
+		return false
+	var turn_index := int(turn_value)
+	# SQLite JSON round-trip 会把整数恢复为 integral float；接受该等价表示。
+	if turn_index < 0 or float(turn_value) != float(turn_index):
+		return false
+	if typeof(record.get("opportunity_gm_sha256")) != TYPE_STRING or String(record.opportunity_gm_sha256).length() != 64:
+		return false
+	if typeof(record.get("evolution_base_head_id")) != TYPE_STRING or String(record.evolution_base_head_id).is_empty():
+		return false
+	if typeof(record.get("materialized_at")) != TYPE_STRING or String(record.materialized_at).is_empty():
+		return false
+	if typeof(record.get("event")) != TYPE_STRING:
+		return false
+	var event := String(record.event).strip_edges()
+	if event.is_empty() or event.length() > MAX_EVOLUTION_EVENT_CHARS:
+		return false
+	var effects_value: Variant = record.get("effects")
+	if typeof(effects_value) != TYPE_ARRAY or (effects_value as Array).is_empty() or (effects_value as Array).size() > MAX_EVOLUTION_EFFECTS:
+		return false
+	for effect_value: Variant in effects_value as Array:
+		if typeof(effect_value) != TYPE_STRING:
+			return false
+		var effect := String(effect_value).strip_edges()
+		if effect.is_empty() or effect.length() > MAX_EVOLUTION_EFFECT_CHARS:
+			return false
+	return true
+
+
+## 同一 accepted 机会已提交的 current event；是 evaluator 的 durable replay 信号——
+## reopen/fresh worker 再进入同一机会时不得重发评估请求或追加重复事件。
+static func matching_world_evolution_event(world_state: Dictionary, opportunity_turn_index: int, opportunity_gm_sha256: String) -> Dictionary:
+	var living_world_value: Variant = world_state.get("living_world", {})
+	if typeof(living_world_value) != TYPE_DICTIONARY:
+		return {}
+	var events_value: Variant = (living_world_value as Dictionary).get("world_evolution_events_by_turn", {})
+	if typeof(events_value) != TYPE_DICTIONARY:
+		return {}
+	var record_value: Variant = (events_value as Dictionary).get(str(opportunity_turn_index), {})
+	if typeof(record_value) != TYPE_DICTIONARY:
+		return {}
+	var record := record_value as Dictionary
+	if not world_evolution_event_is_valid(record) or int(record.opportunity_turn_index) != opportunity_turn_index or String(record.opportunity_gm_sha256) != opportunity_gm_sha256:
+		return {}
+	return record.duplicate(true)
+
+
+## event 进入同一 living_world.v0.1 World document 的 additive collection；
+## 无 SQLite schema/table/migration；一个机会至多一条 current 记录（按 turn 覆盖 stale）。
+static func build_world_candidate_with_evolution(current_world_state: Dictionary, event_record: Dictionary) -> Dictionary:
+	var candidate := current_world_state.duplicate(true)
+	var living_world_value: Variant = candidate.get("living_world", {})
+	var living_world := (living_world_value as Dictionary).duplicate(true) if typeof(living_world_value) == TYPE_DICTIONARY else {}
+	var events_value: Variant = living_world.get("world_evolution_events_by_turn", {})
+	var events := (events_value as Dictionary).duplicate(true) if typeof(events_value) == TYPE_DICTIONARY else {}
+	events[str(int(event_record.opportunity_turn_index))] = event_record.duplicate(true)
+	living_world["schema_version"] = LIVING_WORLD_SCHEMA
+	living_world["world_evolution_events_by_turn"] = events
+	candidate["living_world"] = living_world
+	return candidate

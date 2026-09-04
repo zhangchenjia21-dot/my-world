@@ -53,6 +53,27 @@ func project(setup_value: Variant) -> Dictionary:
 	return Rules.success({"context_text": text, "stats": stats})
 
 
+## MW-002：World-only T0 baseline——只投影 durable setup 的 World 部分（World identity /
+## instructions / selected Entry / World semantic sections），不含 Player/Character 私有材料。
+## 超限/无效 fail-soft；不截断、不摘要、不查询 mutable Source current。
+func project_world_only(setup_value: Variant) -> Dictionary:
+	var validation := Rules.validate_setup(setup_value)
+	if not validation.success:
+		return validation
+	var setup := (setup_value as Dictionary).duplicate(true)
+	var blocks: Array[String] = []
+	_append_runtime_contract(blocks, setup)
+	_append_game(blocks, setup.game as Dictionary, setup.get("selected_entry_id"))
+	var world_result := _append_world(blocks, setup.world as Dictionary)
+	if not world_result.success:
+		return world_result
+	var text := "\n\n".join(blocks)
+	var stats := {"world_sections": int(world_result.section_count), "context_chars": text.length()}
+	if text.length() > MAX_CONTEXT_CHARS:
+		return Rules.failure("context_too_large", "Game-local World-only baseline 超出安全上限；World Evolution 本次 fail-soft 为 hold。", stats)
+	return Rules.success({"context_text": text, "stats": stats})
+
+
 func _append_runtime_contract(blocks: Array[String], setup: Dictionary) -> void:
 	var no_entry := setup.get("selected_entry_id") == null
 	var entry_rule := "No Entry was selected. Do not infer a default Entry, profile, year, or historical cut." if no_entry else "Only the exact durable selected Entry/profile material below is authoritative."

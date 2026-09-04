@@ -14,6 +14,7 @@ const ActionAdjudication := preload("res://src/行动判定/L3_外交层/行动�
 const ModelRuntimeSettings := preload("res://src/运行时设置/L3_外交层/模型运行时设置公开接口.gd")
 const AgencyScheduler := preload("res://src/世界回合/L3_外交层/行动代理调度公开接口.gd")
 const WorldTurn := preload("res://src/世界回合/L3_外交层/世界回合公开接口.gd")
+const WorldEvolution := preload("res://src/世界回合/L3_外交层/世界演化评估公开接口.gd")
 
 enum ApplicationState {
 	BOOTING,
@@ -102,11 +103,15 @@ var action_adjudication: Node = null
 ## durable Conversation acceptance 后运行的独立 best-effort semantic lane；不拥有 Narrative/UI truth。
 var world_turn_runtime: Node = null
 var agency_scheduler: Node = null
+## MW-002：Agency opportunity 终态后运行的独立 best-effort World Evolution lane；
+## 不拥有 Narrative/UI truth，不阻塞任何 foreground 路径。
+var world_evolution_evaluator: Node = null
 ## 测试专用 seam：focused/real-vertical 测试在激活前注入 stub 或受控 adapter；production 恒为 null。
 var test_opening_adapter_override: Node = null
 var test_adjudication_adapter_override: Node = null
 var test_adjudication_rng_override: RefCounted = null
 var test_world_turn_adapter_override: Node = null
+var test_world_evolution_adapter_override: Node = null
 ## Opening UI 状态机："" / streaming / accepted / failed / cancelled；终态处理幂等。
 var _opening_state := ""
 ## 模型设置 UI：backend 接口与当前编辑候选（未保存；预览只走 inspect_candidate）。
@@ -481,6 +486,7 @@ func _close_game_session() -> Dictionary:
 		session_state = SessionState.ABSENT
 		return {"status": "absent", "success": true}
 	session_state = SessionState.CLOSING
+	_teardown_world_evolution_evaluator()
 	_teardown_agency_scheduler()
 	_teardown_world_turn_runtime()
 	_teardown_action_adjudication()
@@ -506,6 +512,11 @@ func _prepare_world_turn_after_activation() -> void:
 	world_turn_runtime.finished.connect(_on_world_turn_finished_for_scheduler)
 	agency_scheduler = AgencyScheduler.new(session_runtime, world_turn_runtime)
 	add_child(agency_scheduler)
+	# MW-002：World Evolution 只在 Agency opportunity 终态信号后被唤醒；顺序不可变：
+	# accepted Narrative → semantic → Agency opportunity terminal → World Evolution。
+	world_evolution_evaluator = WorldEvolution.new(session_runtime, world_turn_runtime, test_world_evolution_adapter_override)
+	add_child(world_evolution_evaluator)
+	agency_scheduler.opportunity_finished.connect(_on_agency_opportunity_finished)
 
 
 ## Semantic finished 只作 scheduling wake-up；不消费 candidates；foreground idle 后 scheduler 自行评估。
@@ -514,6 +525,24 @@ func _on_world_turn_finished_for_scheduler(_result: Dictionary) -> void:
 		return
 	if agency_scheduler != null:
 		agency_scheduler.consider_agency()
+
+
+## MW-002：Agency opportunity 终态是 World Evolution 的唯一正常 wake；result 携带 frozen
+## opportunity turn/hash，evaluator 自行做 latest/currentness/foreground 校验。
+func _on_agency_opportunity_finished(result: Dictionary) -> void:
+	if world_evolution_evaluator == null or session_runtime == null or not session_runtime.is_ready():
+		return
+	world_evolution_evaluator.consider_opportunity(int(result.get("source_turn_index", -1)), String(result.get("source_gm_sha256", "")))
+
+
+func _teardown_world_evolution_evaluator() -> void:
+	if world_evolution_evaluator == null:
+		return
+	world_evolution_evaluator.shutdown()
+	if is_instance_valid(world_evolution_evaluator):
+		remove_child(world_evolution_evaluator)
+		world_evolution_evaluator.queue_free()
+	world_evolution_evaluator = null
 
 
 func _teardown_agency_scheduler() -> void:
@@ -1099,6 +1128,9 @@ func _on_restore_completed(_result: Dictionary) -> void:
 	# C01 修正 B：production Restore 自动 invalidate 剩余 uncommitted Agency。
 	if agency_scheduler != null:
 		agency_scheduler.invalidate_remaining()
+	# MW-002：Restore 同时使 uncommitted World Evolution 评估失效。
+	if world_evolution_evaluator != null:
+		world_evolution_evaluator.invalidate()
 	_update_save_controls()
 
 
@@ -1182,6 +1214,9 @@ func _on_generation_state_changed(_turn: RefCounted) -> void:
 func _on_foreground_attempt_started(_turn: RefCounted) -> void:
 	if agency_scheduler != null:
 		agency_scheduler.invalidate_remaining()
+	# MW-002：新 foreground attempt 立即使 uncommitted World Evolution 评估失效。
+	if world_evolution_evaluator != null:
+		world_evolution_evaluator.invalidate()
 
 
 ## R02 wake-ownership：ordinary durable accepted player turn 只标记 Agency dirty。

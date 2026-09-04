@@ -13,6 +13,10 @@ const ProviderAdapter := preload("res://src/provider/L3_外交层/运行时模�
 signal selector_started()
 signal selector_finished(result)
 signal cycle_started(cycle_id, actor_count)
+## MW-002：整个 dirty opportunity 真正到达终态的 observability-only 信号（含 no actors /
+## selector terminal / actor cycle terminal）。携带 frozen opportunity turn/hash；
+## 不改变 dirty/foreground/selector cap/concurrency/retry 任何语义。
+signal opportunity_finished(result)
 
 const SELECTOR_INSTRUCTIONS := "你是 my world 的后台 Agency Selector。只根据当前最新世界状态，判断哪些 Eligible Stable Actors 有合理理由立即独立行动。只输出一个 JSON 对象：{\"actors\":[\"stable-id-a\",\"stable-id-b\"]}；没有 actor 需要行动时输出 {\"actors\":[]}。只从 Eligible Stable Actors 列表选择；不要选择 Player；不要编造列表之外的 ID；不要输出解释、Markdown 或推理过程。"
 
@@ -147,15 +151,21 @@ func _on_selector_completed() -> void:
 	_selector_buffer = ""
 	_cleanup_selector_adapter()
 	if not parsed.success:
-		selector_finished.emit({"success": false, "status": String(parsed.status)})
+		var failure_result := {"success": false, "status": String(parsed.status)}
+		selector_finished.emit(failure_result)
+		_emit_opportunity_finished(failure_result)
 		return
 	var validated := _validate_candidates(parsed.actors)
 	# C01 修正 A：selector output 启动 cycle 前校验 currentness。
 	if not _selector_still_current():
-		selector_finished.emit({"success": false, "status": "stale_selector"})
+		var stale_result := {"success": false, "status": "stale_selector"}
+		selector_finished.emit(stale_result)
+		_emit_opportunity_finished(stale_result)
 		return
 	if validated.is_empty():
-		selector_finished.emit({"success": true, "status": "no_actors", "actor_count": 0})
+		var no_actors_result := {"success": true, "status": "no_actors", "actor_count": 0}
+		selector_finished.emit(no_actors_result)
+		_emit_opportunity_finished(no_actors_result)
 		return
 	agency_cycle_runtime = AgencyCycle.new(session_runtime)
 	add_child(agency_cycle_runtime)
@@ -201,6 +211,8 @@ func _on_agency_cycle_finished(result: Dictionary) -> void:
 		finished_cycle.queue_free()
 	# 已 committed 的 durable actions 保持；Scheduler 可处理后续新 dirty 机会。
 	# R01C02：不自动 retry 同一机会；后续新 accepted turn 才会再次 mark_dirty。
+	# MW-002：actor cycle terminal = 整个 opportunity 的终态。
+	_emit_opportunity_finished(result)
 
 
 ## R01C01 修正 D：selector terminal 后清理 adapter；不 strand、不 auto-retry。
@@ -216,7 +228,9 @@ func _on_selector_cancelled() -> void:
 		selector_active = false
 		_selector_buffer = ""
 		_cleanup_selector_adapter()
-		selector_finished.emit({"success": false, "status": "cancelled"})
+		var cancelled_result := {"success": false, "status": "cancelled"}
+		selector_finished.emit(cancelled_result)
+		_emit_opportunity_finished(cancelled_result)
 
 
 func _on_selector_failed(code: String, _message: String) -> void:
@@ -224,7 +238,9 @@ func _on_selector_failed(code: String, _message: String) -> void:
 		selector_active = false
 		_selector_buffer = ""
 		_cleanup_selector_adapter()
-		selector_finished.emit({"success": false, "status": "provider_failure", "provider_status": code})
+		var failure_result := {"success": false, "status": "provider_failure", "provider_status": code}
+		selector_finished.emit(failure_result)
+		_emit_opportunity_finished(failure_result)
 
 
 ## C01 修正 A：selector output 启动 cycle 前校验：latest turn/hash + world head + foreground idle。
@@ -267,6 +283,17 @@ func _validate_candidates(candidates: Array) -> Array:
 		if validated.size() >= Rules.AGENCY_CYCLE_MAX_ACTORS:
 			break
 	return validated
+
+
+## MW-002：observability-only——把 frozen opportunity turn/hash 附到 terminal result 上发出；
+## 只在 selector/cycle 已经真正到达终态的路径调用，每个 started 机会恰好一次。
+func _emit_opportunity_finished(result: Dictionary) -> void:
+	if _selector_snapshot.is_empty():
+		return
+	var terminal := result.duplicate()
+	terminal["source_turn_index"] = int(_selector_snapshot.source_turn_index)
+	terminal["source_gm_sha256"] = String(_selector_snapshot.source_gm_sha256)
+	opportunity_finished.emit(terminal)
 
 
 ## Foreground 优先：新 Conversation attempt 取消 selector 与剩余 uncommitted actor work。
