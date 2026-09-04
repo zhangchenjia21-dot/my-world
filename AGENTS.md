@@ -30,7 +30,7 @@ Owner      → Product UAT / explicit product verdict
 
 Temporary through 2026-09-06 23:59 (+08:00): Kimi owns all code-changing implementation tasks; GPT remains semantic owner/reviewer. Correct in-flight Kimi work may finish after expiry.
 
-Gemini review remains CANCELLED / DO NOT EXECUTE. Review flow: Kimi implementation → GPT actual-code Independent Review.
+Gemini review remains CANCELLED / DO NOT EXECUTE.
 
 ## 2. Current state
 
@@ -38,27 +38,27 @@ Gemini review remains CANCELLED / DO NOT EXECUTE. Review flow: Kimi implementati
 G1-G4                                        PASS / CLOSED
 G5-01 World Turn / Semantic Materialization PASS / CLOSED
 G5-02 Knowledge Provenance                  PASS / CLOSED
-G5-03 NPC / Faction Agency                  ACTIVE
+G5-03 NPC / Faction Agency                  ENGINEERING PASS / CLOSED
 G5-03M1 Multi-Actor Agency v0.3             ENGINEERING PASS / CLOSED
-G5-03M2 Stable Actor Registry               ACTIVE
+G5-03M2 Stable Actor Registry               ENGINEERING PASS / CLOSED
 G5-03M2A Registry Foundation                ENGINEERING PASS / CLOSED
-MW-001 Runtime Narrative Actor Materialization ACTIVE — KIMI
-  Capability Anchor                         G5-03
-  Legacy Planning Ref                       G5-03M2B
-G5-04 Event / Priority Evolution            NOT YET
+MW-001 Runtime Narrative Actor Materialization PASS / CLOSED
+G5-04 Event / Priority Evolution            ARCHITECTURE SHAPING — GPT
 ```
 
-M2A Independent Review IR#2 = PASS. Evidence:
+Current closeout evidence:
 
-`docs/g5_03/G5-03M2A_INDEPENDENT_REVIEW_IR2.md`
+- `docs/g5_03/G5-03M2A_INDEPENDENT_REVIEW_IR2.md`
+- `docs/g5_03/MW-001_INDEPENDENT_REVIEW_IR1.md`
+- `docs/g5_03/G5-03_CLOSEOUT.md`
 
 Parent real G5-03 Provider proof remains `PENDING / EXTERNAL PROVIDER UNAVAILABLE`; do not relabel it PASS and do not switch Provider to manufacture evidence.
 
-## 3. Owner-corrected product rule
+## 3. Stable actor / Agency product rule
 
 A Character Card is **not** required for a character to become a durable NPC.
 
-The Stable Actor Registry must support:
+The closed G5-03 stable actor system supports:
 
 ```text
 Guaranteed Source NPC
@@ -69,40 +69,36 @@ Guaranteed Source NPC
 
 All receive Program-owned Game-local identity. Display name is never authoritative identity. Model output never mints final actor IDs.
 
-## 4. Current canonical decision / task
-
-Canonical:
-
-`Vibe-Coding/my world/architecture/world/G5_STABLE_ACTOR_REGISTRY_AND_MATERIALIZATION_V0_2_DECISION.md`
-
-Current executable Work Item:
-
-`docs/tasks/G5-03M2B_RUNTIME_NARRATIVE_ACTOR_MATERIALIZATION_TASK.md`
-
-Identity:
+Agency v0.3 remains:
 
 ```text
-Work Item: MW-001
-Name: Runtime Narrative Actor Materialization
-Capability-Anchor: G5-03
-Legacy Planning Ref: G5-03M2B
-Revision: 1
-Review-Round: 0
-Owner: Kimi
-Reviewer: GPT
+ordinary accepted player Narrative
+→ mark Agency dirty
+→ semantic lane terminal
+→ standalone Selector on latest world
+→ 0..4 current stable NPCs
+→ independent actor-scoped requests
+→ optional durable actor actions
 ```
 
-M2A is closed:
+Player foreground always wins. Actor-private material / Knowledge / history remain isolated.
 
-`docs/tasks/G5-03M2A_STABLE_ACTOR_REGISTRY_FOUNDATION_TASK.md`
+## 4. G5-03 closeout / Faction decision
 
-Historical source-only packet is superseded and must not be executed:
+G5-03 is closed after MW-001 PASS.
 
-`docs/tasks/G5-03M2_STABLE_NPC_CREATION_SNAPSHOT_AND_REGISTRY_EXPANSION_TASK.md`
+Do **not** add a separate Faction-agency slice merely for symmetry. Current architecture has no concrete stable Faction identity / private Faction Knowledge / Faction action consumer that justifies a new platform seam. Faction/shared knowledge was explicitly deferred earlier.
 
-Agency v0.3 remains protected:
+Faction-level capability may be pulled out later only by a real consumer, most plausibly G5-04 pressure/priority world evolution or a later product surface.
 
-`Vibe-Coding/my world/architecture/world/G5_AGENCY_SCHEDULER_V0_3_DECISION.md`
+This deferral does not mean:
+
+- treating Factions as NPCs;
+- granting shared Faction knowledge;
+- inventing Faction identity now;
+- silently claiming Faction agency is already implemented.
+
+Read `docs/g5_03/G5-03_CLOSEOUT.md` for the decision.
 
 ## 5. Task Identity / Lineage
 
@@ -120,86 +116,60 @@ Roadmap / Capability Anchor
 
 Do not create recursive suffix chains for correction/review history. Same-Outcome defects stay on the same Work Item and advance Revision / Review-Round. Mint a new flat Work Item only for a distinct Outcome/seam/prerequisite/Owner-inserted goal.
 
-`MW-001` is the first new flat executable identity after this rule was adopted. `G5-03M2B` remains only a legacy planning reference.
+`MW-001` is closed and remains the first flat Work Item under this rule. `G5-03M2B` remains only its legacy planning reference.
 
-## 6. Frozen M2A foundation
+## 6. Protected G5-03 behavior
 
-Do not reopen absent a concrete regression:
+Do not reopen absent concrete regression or a real new consumer:
 
+- Model Freedom First / Visible Narrative First;
+- Narrative acceptance independent of semantic/agency extraction;
+- standalone Agency Selector after semantic terminal;
+- ordinary accepted turn marks dirty, selector start consumes dirty once;
+- Player foreground invalidates remaining uncommitted background work;
+- committed actor actions remain durable;
+- selector fan-out 0..4;
+- separate actor-scoped execution requests;
+- actor-private material / Knowledge / history;
 - first-intent automatic exact-profile Source-backed stable NPC snapshot;
 - optional creation-time no-Card `game_local_npcs`;
-- strict raw string material validation;
 - Program-owned local IDs;
 - honest Source-backed vs Game-local material families;
 - unified `stable_npc_records` / `stable_actor_material` / `actor_roster`;
-- Knowledge / Agency consumption by exact local identity;
-- existing Games missing `stable_npcs` stay valid with no Source retrofit;
-- runtime-origin currentness helper contract based on accepted turn/hash;
-- Save/reopen/Restore preserves the opaque stable registry World document.
-
-## 7. MW-001 protected semantics
-
-MW-001 adds only runtime Narrative ingress through the existing semantic lane.
-
-Protect these rules:
-
-- optional independently fail-soft `new_actor_candidates`;
+- optional fail-soft runtime `new_actor_candidates` in the existing semantic lane only;
 - no extra mandatory Provider call;
-- visible Narrative acceptance never depends on actor extraction;
-- candidate contains bounded descriptive material only;
-- Program, never model, mints final local ID;
-- runtime origin binds exact `source_turn_index + source_gm_sha256`;
-- actor materialization shares the existing single semantic durable mutation with changes/knowledge;
-- actor-only semantic commit is valid without fake changes;
-- same accepted-version replay must not duplicate runtime actors, including actor-only results;
-- stale runtime-origin actors remain physically historical but are filtered out of current roster/Agency by accepted hash;
-- materialization grants no automatic Knowledge or action;
-- semantic request includes current exact stable roster and instructs against reproposing existing stable actors;
-- no display-name authoritative dedupe;
+- actor-only semantic commit without fake changes;
+- runtime actor origin bound to exact accepted turn/hash;
+- stale runtime actors retained physically but filtered from current roster/Agency;
+- no automatic Knowledge from registry membership or actor materialization;
 - no runtime mutable Source lookup;
-- semantic `agency_candidates` must not be reactivated; standalone Agency Scheduler remains authoritative for selection;
-- after semantic commit, existing semantic-terminal wake may expose the new actor to same-turn Agency without scheduling redesign.
+- Save/reopen/Restore preserves stable actor identity/history;
+- semantic `agency_candidates` remains non-authoritative/dead; do not reactivate it.
 
-## 8. Scope ceilings
+MW-001 IR#1 recorded one non-blocking advisory: `actors_dropped` over-reports by one when exactly eight valid unique actor candidates reach the safety ceiling. No production authority depends on this count; correct opportunistically if that parser is next touched.
 
-Do not:
+## 7. Current next work: G5-04 shaping only
 
-- add UI;
-- add SQLite schema/table/migration;
-- implement Faction agency or G5-04;
-- change Public d20/mechanics;
-- introduce a universal entity ontology;
-- use display-name identity;
-- let models mint IDs;
-- fabricate Source provenance;
-- change Multi-Actor Agency v0.3 dirty/foreground/concurrency semantics;
-- make real Provider calls for deterministic MW-001 acceptance.
+G5-04 Event / Priority-driven World Evolution is now the current capability, but **implementation is not yet authorized**.
 
-## 9. Validation
+GPT must first shape the smallest product semantics / architecture for a real pressure/priority/event consumer.
 
-Use focused-first.
+Do not prebuild:
 
-During implementation run only `tests/g5_03m2b/` focused tests.
+- a universal simulation engine;
+- minute-by-minute NPC simulation;
+- a generic Faction platform;
+- universal entity/relationship ontology;
+- new UI;
+- new SQLite schema merely for symmetry;
+- mechanics/Public-d20 redesign.
 
-After focused green, one minimal affected pass only:
+Until a G5-04 canonical decision + Task Packet exists, Kimi/Codex should not start G5-04 code changes.
 
-- directly affected G5-01/G5-02 semantic/parser tests;
-- one relevant G5-03 Scheduler/Cycle regression;
-- one G3-04 Save/Restore regression;
-- `git diff --check`.
+## 8. Validation / evidence discipline
 
-No unrelated UI/G4/Public-d20/full-project matrix absent a concrete reason.
+Independent Review must inspect actual code/diff/tests/evidence, not Agent self-report.
 
-Parent real G5-03 Provider evidence remains pending if external Provider is unavailable.
+Focused-first validation remains the default. Do not restore broad project matrices without a concrete cross-system reason.
 
-## 10. Completion
-
-Kimi writes compact evidence at:
-
-`docs/g5_03/MW-001_RUNTIME_NARRATIVE_ACTOR_MATERIALIZATION_EVIDENCE.md`
-
-then commits/pushes and returns at most:
-
-`READY FOR INDEPENDENT REVIEW`
-
-GPT performs actual-code Independent Review. M2 is complete only after MW-001 PASS. G5-04 remains blocked until G5-03 sequencing is explicitly closed.
+Real Provider evidence must remain honest. External-provider unavailability is not permission to switch Provider or relabel deterministic proof as real integration proof.
