@@ -39,162 +39,126 @@ G1-G4                                        PASS / CLOSED
 G5-01 World Turn / Semantic Materialization PASS / CLOSED
 G5-02 Knowledge Provenance                  PASS / CLOSED
 G5-03 NPC / Faction Agency                  ENGINEERING PASS / CLOSED
-G5-03M1 Multi-Actor Agency v0.3             ENGINEERING PASS / CLOSED
-G5-03M2 Stable Actor Registry               ENGINEERING PASS / CLOSED
-G5-03M2A Registry Foundation                ENGINEERING PASS / CLOSED
 MW-001 Runtime Narrative Actor Materialization PASS / CLOSED
-G5-04 Event / Priority Evolution            ACTIVE — OWNER UAT
+G5-04 Event / Priority Evolution            ACTIVE — OWNER UAT PAUSED
 MW-002 Selective World Evolution Evaluator ENGINEERING PASS / CLOSED
+MW-003 Visual Comfort Theme Pass            ACTIVE — KIMI
 G5-GATE                                     NOT YET
 ```
 
-Current canonical:
+`MW-003` is an Owner-inserted **early G6 visual-polish slice**. It does not advance the project stage to G6, does not reopen MW-002, and does not authorize G5-05.
 
-`Vibe-Coding/my world/architecture/world/G5_SELECTIVE_WORLD_EVOLUTION_V0_1_DECISION.md`
+Current executable packet:
 
-MW-002 final packet:
+`docs/tasks/MW-003_VISUAL_COMFORT_THEME_PASS_TASK.md`
 
-`docs/tasks/MW-002_SELECTIVE_WORLD_EVOLUTION_EVALUATOR_TASK.md`
+After MW-003 Engineering Review + Owner Product PASS, resume G5-04 Owner UAT exactly where it was.
 
-Independent Reviews:
-
-- `docs/g5_04/MW-002_INDEPENDENT_REVIEW_IR1.md` — CORRECTION REQUIRED
-- `docs/g5_04/MW-002_INDEPENDENT_REVIEW_IR2.md` — ENGINEERING PASS / CLOSED
-
-Do not start G5-05 until Owner Product UAT closes G5-04.
-
-## 3. Final MW-002 lineage
+## 3. Current Work Item identity
 
 ```text
-Work Item: MW-002
-Name: Selective World Evolution Evaluator
-Capability-Anchor: G5-04
-Revision: 2
-Review-Round: IR#2
-Triggered-By: MW-002 IR#1
-Revision-2 Implementation: 5459c4f8a1d92928129c1d3217a40c6622522496
-Revision-2 Evidence: 001106f2c790e70935ea4e54eb721b4aef9e07b4
-Verdict: ENGINEERING PASS / CLOSED
+Work Item: MW-003
+Name: Visual Comfort Theme Pass
+Capability-Anchor: G6 RPG Experience & Internal Declarative UI Host
+Inserted-By: Owner
+Blocks: resume of G5-04 Owner UAT
+Revision: 1
+Review-Round: 0
+Base: 895adb1576e9dd7501a2d07740accc1b05e9a50a
+Owner: Kimi
+Reviewer: GPT
+Status: ACTIVE — KIMI
+Return ceiling: READY FOR INDEPENDENT REVIEW
 ```
 
-Same Outcome correction stayed on `MW-002`; do not create C01/R02/PATCH-style identities for historical reference.
+This is a distinct Owner-inserted Outcome, so it uses a new flat Work Item ID under `Vibe-Coding/governance/TASK_IDENTITY_AND_LINEAGE_V1_0.md`.
 
-## 4. Protected G5-03 behavior
+## 4. MW-003 product goal
 
-G5-03 remains closed. Protect:
+Owner reported that the current dark palette is visually harsh enough to cause eye strain.
+
+Target experience:
+
+> **Low glare, clear hierarchy, readable narrative, calm surfaces, restrained semantic color.**
+
+The pass must improve sustained reading comfort across Main Menu, Settings/Wizard, the in-game three-column shell, Narrative/composer, controls, Save/Restore states and semantic status/error surfaces.
+
+Narrative remains the visual center of gravity.
+
+## 5. MW-003 implementation boundary
+
+Prefer a small Godot-native central palette/theme ownership seam rather than adding more scattered hard-coded colors.
+
+Protect:
+
+- existing layouts and navigation;
+- typography family/hierarchy;
+- Main Menu / Settings / New Game / First Opening;
+- Narrative send/cancel/regenerate;
+- Public d20;
+- Save/Load/Restore;
+- all G5 semantic/runtime behavior;
+- persistence schema.
+
+Explicit non-scope:
+
+- light mode;
+- user-selectable themes/accent preferences;
+- large design-system platform;
+- responsive-layout architecture;
+- new visual asset pipeline/images/icons;
+- new RPG surfaces;
+- G5-04/G5-05 behavior changes;
+- Provider/Timeline/Agency/World Evolution changes.
+
+Minor surface/border/hover/focus/pressed/disabled styling required for palette coherence is allowed.
+
+## 6. Preferred visual direction
+
+Starting palette from the Task Packet:
 
 ```text
-ordinary accepted Player Narrative
-→ mark Agency dirty
-→ semantic terminal
-→ standalone Selector
-→ 0..4 current stable NPCs
-→ actor-scoped execution
-→ optional durable actor actions
+canvas/background      #1B1E24
+surface/base           #22262D
+surface/raised         #292E36
+surface/input          #252A31
+border/subtle          #343A44
+text/primary           #D8DCE3
+text/secondary         #A7AFBA
+text/muted             #7F8996
+accent                 #8FA9C4
+success                #88AD96
+warning                #C0A06B
+danger                 #C57D78
 ```
 
-Also protect:
+Small tuning is allowed; relative hierarchy is authoritative. Avoid pure/near-black large surfaces, maximum-bright body text, neon accents and large saturated red/orange regions.
 
-- Player foreground always wins;
-- selector start consumes one dirty opportunity;
-- no same-opportunity automatic retry;
-- actor-private material / Knowledge / history;
-- Program-owned stable actor identity;
-- runtime actor accepted-hash currentness;
-- no automatic Knowledge from registry/materialization;
-- no mutable Source lookup;
-- semantic `agency_candidates` remains non-authoritative/dead.
+## 7. Review route
 
-The MW-002 `opportunity_finished` seam is observational only. It covers no-actors, selector terminal, actor-cycle terminal and equivalent immediate terminal such as `already_committed`, while preserving dirty ownership, 0..4 cap, concurrency and retry semantics.
+```text
+MW-003 implementation — Kimi
+→ GPT actual-code Independent Review
+→ if Engineering PASS: Owner visual-comfort UAT via run-game.cmd
+→ Owner Product PASS closes MW-003
+→ resume G5-04 Owner UAT
+```
 
-Do not create a generic Faction actor/shared-Knowledge platform merely for symmetry. Current Faction deferral remains protected.
+Kimi must not self-certify Engineering PASS or Product PASS.
 
-## 5. Frozen G5-04 product semantics
+## 8. Protected G5-04 state
+
+G5-04 remains ACTIVE and MW-002 remains ENGINEERING PASS / CLOSED. The UAT interruption is scheduling only.
+
+Frozen product rule remains:
 
 > **The world can move without the Player causing every change, without forcing an event every turn.**
 
-```text
-World Independence + Player Spotlight
-Persistent != Fully Simulated
-Evaluation opportunity != event obligation
-```
+Do not modify G5-04 architecture or implementation as part of MW-003.
 
-Frozen runtime order:
+G5-04 Owner UAT still needs both:
 
-```text
-visible ordinary Player Narrative accepted
-→ semantic lane
-→ existing Agency Selector / optional actor cycle
-→ Agency opportunity truly terminal
-→ one best-effort World Evolution evaluation
-→ hold OR at most one causally-ready world event
-→ optional durable mutation
-→ next GM continuation may consume the current event
-```
+1. Quiet / Life Loop — genuine `hold`, no artificial escalation;
+2. Genuine ripe pressure — one credible independent world consequence that remains durable and later surfaces naturally.
 
-The Player turn is the scheduling opportunity, not causal authority. Opening-only GM generation creates no opportunity. No offline/wall-clock progression.
-
-## 6. Protected MW-002 behavior
-
-Do not reopen absent a concrete regression/new consumer:
-
-- `hold` is valid, creates no fake mutation and does not auto-retry the same runtime opportunity;
-- at most one event per evaluator opportunity;
-- priority judgment is model-owned; no numeric priority, keyword gate, persistent pressure queue, fixed cadence, random-event engine or universal event taxonomy;
-- intentional stable-NPC choices remain G5-03 Agency territory;
-- Program owns deterministic world-event / mutation / node IDs;
-- identity binds exact Game + opportunity turn/hash + evaluated base head;
-- storage remains additive under `living_world.v0.1`; no SQLite migration/table;
-- committed event replay is idempotent;
-- current consumers require exact accepted turn/hash match;
-- new ordinary foreground, Public-d20 control start, Restore/progress switch, shutdown or unrelated head change invalidates uncommitted evolution work;
-- late callbacks cannot commit obsolete work;
-- evaluator input uses frozen Game-local **World-only** T0 authority + bounded current world consequences;
-- `opening_supplement`, protagonist control mode, Character-private Source and Actor Knowledge Provenance are excluded from evaluator causal input;
-- mutable Source Library current is never queried during gameplay;
-- first real consumer is next GM continuation Context;
-- event truth is omniscient GM world truth, not automatic Player or actor knowledge;
-- no automatic G5-02 Knowledge creation;
-- no forced visible event announcement;
-- no generic Faction platform / universal simulator / offline evolution / UI / G5-05 work.
-
-## 7. Engineering evidence
-
-Revision-2 committed evidence reports:
-
-- G5-04 focused: **144 PASS / 0 FAIL**;
-- G5-03 Scheduler/Cycle regression: **0 FAIL**;
-- G4-08M1 Public-d20 regression: **0 FAIL**;
-- G4-07A continuation/context regression: **0 FAIL**;
-- G3-04 Save/Restore regression: **PASS**;
-- `git diff --check`: clean;
-- real Provider calls = 0.
-
-GPT IR#2 independently inspected the actual correction diff, production seams, focused test source and evidence. Reviewer environment had no Godot executable and the final commit had no external CI statuses, so GPT did not independently rerun Godot.
-
-## 8. Current Owner UAT gate
-
-G5-04 is not closed yet. Owner UAT is mandatory because automated tests cannot prove pacing quality.
-
-UAT must counterpose:
-
-1. **Quiet / Life Loop** — no causally ripe world process. Expected: evaluator can hold; no artificial escalation; free activity / downtime / relationships retain breathing room.
-2. **Genuine ripe pressure** — a real T0/current world pressure is ready even without direct Player causation. Expected: one credible consequence advances, remains durable, and subsequent GM Narrative uses/surfaces it naturally without feeling like a forced random event.
-
-Only Owner Product PASS closes G5-04. Until then:
-
-- do not mint/start G5-05 work;
-- do not reinterpret Engineering PASS as Product PASS;
-- do not change the frozen G5-04 architecture merely to optimize a UAT scenario.
-
-## 9. Other protected state
-
-G5-03 closeout / Faction deferral:
-
-`Vibe-Coding/my world/architecture/world/G5_03_AGENCY_CLOSEOUT_AND_FACTION_DEFERRAL_V1_0_DECISION.md`
-
-Parent real G5-03 Provider proof remains honestly:
-
-`PENDING / EXTERNAL PROVIDER UNAVAILABLE`
-
-Do not switch Provider merely to manufacture evidence.
+Do not start G5-05 before Owner later closes G5-04.
