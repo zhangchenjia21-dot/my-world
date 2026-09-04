@@ -55,6 +55,8 @@ func project(setup_value: Variant) -> Dictionary:
 
 ## MW-002：World-only T0 baseline——只投影 durable setup 的 World 部分（World identity /
 ## instructions / selected Entry / World semantic sections），不含 Player/Character 私有材料。
+## R2 F03：不得复用 _append_game——Game settings（control_mode / opening_supplement /
+## display_name 等）不属于 World-only authority；只用最小中性 Game-local header。
 ## 超限/无效 fail-soft；不截断、不摘要、不查询 mutable Source current。
 func project_world_only(setup_value: Variant) -> Dictionary:
 	var validation := Rules.validate_setup(setup_value)
@@ -63,7 +65,7 @@ func project_world_only(setup_value: Variant) -> Dictionary:
 	var setup := (setup_value as Dictionary).duplicate(true)
 	var blocks: Array[String] = []
 	_append_runtime_contract(blocks, setup)
-	_append_game(blocks, setup.game as Dictionary, setup.get("selected_entry_id"))
+	_append_world_only_game_header(blocks, setup.game as Dictionary, setup.get("selected_entry_id"))
 	var world_result := _append_world(blocks, setup.world as Dictionary)
 	if not world_result.success:
 		return world_result
@@ -72,6 +74,15 @@ func project_world_only(setup_value: Variant) -> Dictionary:
 	if text.length() > MAX_CONTEXT_CHARS:
 		return Rules.failure("context_too_large", "Game-local World-only baseline 超出安全上限；World Evolution 本次 fail-soft 为 hold。", stats)
 	return Rules.success({"context_text": text, "stats": stats})
+
+
+## MW-002 R2 F03：World-only baseline 的最小中性 Game-local authority header——
+## 只含 Game ID 与 Selected Entry；排除 control_mode / opening_supplement 等 Game settings。
+func _append_world_only_game_header(blocks: Array[String], game: Dictionary, selected_entry: Variant) -> void:
+	blocks.append("## Game-local World Authority\nGame ID: %s\nSelected Entry: %s" % [
+		String(game.get("game_id", "")),
+		"none" if selected_entry == null else String(selected_entry),
+	])
 
 
 func _append_runtime_contract(blocks: Array[String], setup: Dictionary) -> void:

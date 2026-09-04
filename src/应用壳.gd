@@ -950,6 +950,9 @@ func _prepare_action_adjudication_after_activation() -> void:
 			return
 		action_adjudication = ActionAdjudication.new(session_runtime, test_adjudication_adapter_override, test_adjudication_rng_override)
 		add_child(action_adjudication)
+		# MW-002 R2 F01：Public-d20 foreground 在 control request 启动时即开始（早于
+		# Conversation.attempt_started）；request_assembled 是首个已有 start observability。
+		action_adjudication.request_assembled.connect(_on_adjudication_request_assembled)
 		narrative_view.bind_action_adjudication(action_adjudication)
 		return
 
@@ -1215,6 +1218,17 @@ func _on_foreground_attempt_started(_turn: RefCounted) -> void:
 	if agency_scheduler != null:
 		agency_scheduler.invalidate_remaining()
 	# MW-002：新 foreground attempt 立即使 uncommitted World Evolution 评估失效。
+	if world_evolution_evaluator != null:
+		world_evolution_evaluator.invalidate()
+
+
+## MW-002 R2 F01：d20-enabled 时 Player Send 先进入 adjudication control request，
+## Conversation attempt 要到 narrative stage 才开始——只监听 attempt_started 太晚。
+## adjudication 任一 stage 的 request_assembled 即执行同一 background invalidation。
+## 幂等：narrative stage / attempt_started 后续再次 invalidate 无副作用。
+func _on_adjudication_request_assembled(_stage: String, _messages: Array) -> void:
+	if agency_scheduler != null:
+		agency_scheduler.invalidate_remaining()
 	if world_evolution_evaluator != null:
 		world_evolution_evaluator.invalidate()
 

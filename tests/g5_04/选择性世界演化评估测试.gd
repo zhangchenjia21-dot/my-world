@@ -5,6 +5,8 @@ extends SceneTree
 ## 输入构成与隐私边界 / Program identity / replay / regenerate currentness /
 ## foreground-head 安全 / Save-reopen-Restore / 真实 GM consumer / G5-03 保护 /
 ## one-event ceiling。
+## R2（IR#1 F01–F04）：d20 control 开始即 foreground invalidation / already_committed
+## 立即 terminal / 真 World-only baseline（排除 Game settings）/ production Restore-active proof。
 ## 零真实 Provider 调用；ControlledRuntime 不含任何 Source 对象。
 
 const Conversation := preload("res://src/domain/会话.gd")
@@ -17,6 +19,7 @@ const FirstOpening := preload("res://src/首次开场/L3_外交层/首次开场�
 const FinalCreate := preload("res://src/最终建局/L3_外交层/原子最终建局公开接口.gd")
 const Creation := preload("res://src/建局/L3_外交层/建局公开接口.gd")
 const StubAdapter := preload("res://tests/g5_01/世界回合语义桩适配器.gd")
+const AgencyScheduler := preload("res://src/世界回合/L2_流程层/行动代理调度流程.gd")
 const Fixture := preload("res://tests/g4_05/G4_05测试夹具.gd")
 const OpeningStub := preload("res://tests/g4_07a/首次开场桩适配器.gd")
 const ViewStub := preload("res://tests/g2_03_桩适配器.gd")
@@ -79,6 +82,9 @@ func _run() -> void:
 	await _test_foreground_and_head_safety()
 	await _test_production_save_restore_and_gm_consumer()
 	await _test_production_ordering()
+	await _test_already_committed_terminal()
+	await _test_d20_foreground_invalidation()
+	await _test_restore_active_invalidation()
 	_finish()
 
 
@@ -259,6 +265,10 @@ func _test_input_composition_and_privacy() -> void:
 	_check(request_text.contains("PRIOR_EVOLUTION_MARKER") and request_text.contains("PRIOR_EFFECT_MARKER"), "6 input carries prior current evolution events")
 	_check(not request_text.contains("KNOWLEDGE_PRIVATE_MARKER"), "7 Actor Knowledge Provenance never enters evaluator input")
 	_check(not request_text.contains("PRIVATE_PLAYER_MARKER") and not request_text.contains("PRIVATE_NPC_MARKER"), "7 Character-private material never enters evaluator input")
+	_check(request_text.contains("ENTRY_SEED_MARKER") and request_text.contains("ENTRY_DISPLAY_MARKER"), "F03 exact selected Entry material stays in World-only baseline")
+	_check(request_text.contains(GAME_ID) and request_text.contains("entry-t0-marker"), "F03 minimal neutral Game-local authority header retained")
+	_check(not request_text.contains("PRIVATE_OPENING_SUPPLEMENT_MARKER"), "F03 opening_supplement never enters evaluator input")
+	_check(not request_text.contains("PRIVATE_CONTROL_MODE_MARKER") and not request_text.contains("Control mode:"), "F03 control_mode / Game settings never enter evaluator input")
 	stub.simulate_delta('{"decision":"hold"}')
 	stub.simulate_completed()
 	await process_frame
@@ -585,18 +595,249 @@ func _test_production_ordering() -> void:
 	_clear_wiring_environment()
 
 
+## F02（IR#1）：matching durable cycle 已含全部 selected actors 时 start_cycle 返回
+## already_committed / actor_count=0——Scheduler 立即 terminal：清理 cycle runtime、
+## 零 actor request、恰好一次 opportunity_finished（frozen turn/hash）、evaluator 恰好
+## wake 一次；后续新 dirty opportunity 仍正常运行。dirty/0..4/concurrency/retry 语义不变。
+func _test_already_committed_terminal() -> void:
+	var runtime := ControlledRuntime.new()
+	runtime.world_state = _setup_world()
+	_accept(runtime, PLAYER_A, GM_A)
+	# 预置 matching durable cycle：覆盖 selector 将选出的全部 actor。
+	var gm_hash_a := Rules.gm_sha256(GM_A)
+	var cycle := Rules.build_agency_cycle(GAME_ID, 0, GM_A, "root", "2026-09-04T00:00:00Z")
+	cycle["actions_by_actor"] = {"char-npc-sun": Rules.build_agency_action(GAME_ID, String(cycle.agency_cycle_id), "char-npc-sun", "核实", "派使者核实荆州水军调动", ["使者已出发"], "2026-09-04T00:00:00Z")}
+	runtime.world_state["living_world"] = {
+		"schema_version": "living_world.v0.1",
+		"agency_cycles_by_source_turn": {"0": cycle},
+	}
+	var selector_stub := StubAdapter.new()
+	var evolution_stub := StubAdapter.new()
+	var scheduler := AgencyScheduler.new(runtime, null)
+	root.add_child(scheduler)
+	scheduler.test_selector_adapter_override = selector_stub
+	var evaluator := WorldEvolution.new(runtime, null, evolution_stub)
+	root.add_child(evaluator)
+	var opportunity_results: Array = []
+	scheduler.opportunity_finished.connect(func(r: Dictionary) -> void:
+		opportunity_results.append(r)
+		evaluator.consider_opportunity(int(r.get("source_turn_index", -1)), String(r.get("source_gm_sha256", ""))))
+	await process_frame
+	scheduler.mark_dirty()
+	var considered: Dictionary = scheduler.consider_agency()
+	_check(String(considered.get("status", "")) == "selector_started", "F02 dirty opportunity starts the selector")
+	selector_stub.simulate_delta('{"actors":["char-npc-sun"]}')
+	selector_stub.simulate_completed()
+	await _settle(2)
+	_check(scheduler.agency_cycle_runtime == null, "F02 already_committed cycle runtime cleaned immediately")
+	_check(opportunity_results.size() == 1, "F02 already_committed emits opportunity_finished exactly once")
+	if opportunity_results.size() == 1:
+		_check(String(opportunity_results[0].get("status", "")) == "already_committed" and int(opportunity_results[0].get("actor_count", -1)) == 0, "F02 terminal carries already_committed / actor_count=0")
+		_check(int(opportunity_results[0].get("source_turn_index", -1)) == 0 and String(opportunity_results[0].get("source_gm_sha256", "")) == gm_hash_a, "F02 terminal carries frozen opportunity turn/hash")
+	_check(evolution_stub.requests.size() == 1, "F02 World Evolution wakes exactly once after already_committed terminal")
+	evolution_stub.simulate_delta('{"decision":"hold"}')
+	evolution_stub.simulate_completed()
+	await _settle(2)
+	_check(String(evaluator.last_result.get("status", "")) == "hold" and runtime.commit_count == 0, "F02 evaluator settles the wake without fake mutation")
+	# 后续新 dirty opportunity 仍可正常运行：scheduler 未被 already_committed strand。
+	# terminal 后 selector adapter 已被清理；新机会用新 stub。
+	_accept(runtime, PLAYER_B, GM_B)
+	var selector_stub_b := StubAdapter.new()
+	scheduler.test_selector_adapter_override = selector_stub_b
+	scheduler.mark_dirty()
+	var considered_b: Dictionary = scheduler.consider_agency()
+	_check(String(considered_b.get("status", "")) == "selector_started" and selector_stub_b.requests.size() == 1, "F02 a later dirty opportunity still starts the selector normally")
+	selector_stub_b.simulate_delta('{"actors":[]}')
+	selector_stub_b.simulate_completed()
+	await _settle(2)
+	_check(opportunity_results.size() == 2 and evolution_stub.requests.size() == 2, "F02 later opportunity terminates and wakes evaluator normally")
+	evolution_stub.simulate_delta('{"decision":"hold"}')
+	evolution_stub.simulate_completed()
+	await _settle(2)
+	evaluator.shutdown()
+	scheduler.shutdown()
+	evaluator.queue_free()
+	scheduler.queue_free()
+
+
+## F01（IR#1）：d20-enabled 时 Player Send 先进入 adjudication control request，
+## Conversation.attempt_started 更晚——只监听 attempt_started 会错过 foreground 开始。
+## active evolution → Player 开始 d20 control（request_assembled）→ evolution 立即
+## invalidated → late completion → 0 commit。不改 d20 mechanics/protocol/UI。
+func _test_d20_foreground_invalidation() -> void:
+	var d20_setup := _shell_game_setup("")
+	d20_setup["expansions"] = [{
+		"capability_slot": "action_resolution",
+		"capability_id": "action_check.public_d20.v1",
+		"provenance": {"asset_id": "task.expansion", "generation_fingerprint": "task-generation"},
+		"semantic_sections": [{"section_id": "e1", "title": "检定规则", "section_type": "rules", "disclosure": "public", "content": "冒险行动需要公开 d20 检定。"}],
+	}]
+	var booted: Dictionary = await _boot_wired_shell("d20_foreground", d20_setup, true)
+	if booted.is_empty():
+		return
+	var shell: Variant = booted.shell
+	var semantic_stub: Node = booted.semantic_stub
+	var selector_stub: Node = booted.selector_stub
+	var evolution_stub: Node = booted.evolution_stub
+	var adjudication_stub: Node = booted.adjudication_stub
+	_check(shell.action_adjudication != null, "F01 d20 capability mounts the adjudication Host")
+	# Turn A：真实 production d20 NO_CHECK 路径产出 ordinary accepted turn。
+	shell.narrative_view.player_input.text = "我查看江防部署。"
+	shell.narrative_view._on_send_pressed()
+	await _settle(2)
+	_check(adjudication_stub.requests.size() == 1 and bool(adjudication_stub.is_busy()), "F01 Player send enters adjudication control request first")
+	adjudication_stub.simulate_delta('{"decision":"NO_CHECK","reason":"例行查看"}')
+	adjudication_stub.simulate_completed()
+	await _settle(2)
+	adjudication_stub.simulate_delta("江防部署已经确认。")
+	adjudication_stub.simulate_completed()
+	await _settle(4)
+	_check(bool(semantic_stub.is_busy()), "F01 accepted d20 turn enters the semantic lane")
+	semantic_stub.simulate_delta('{"changes":[],"knowledge_events":[]}')
+	semantic_stub.simulate_completed()
+	await _settle(4)
+	_check(selector_stub.requests.size() == 1, "F01 selector starts after semantic terminal")
+	selector_stub.simulate_delta('{"actors":[]}')
+	selector_stub.simulate_completed()
+	await _settle(3)
+	_check(evolution_stub.requests.size() == 1 and bool(evolution_stub.is_busy()), "F01 evolution evaluation active before d20 foreground")
+	var head_before := String(shell.session_runtime.active_head_id)
+	# Player 开始冒险行动：control request assembled 的瞬间 evolution 必须已失效。
+	shell.narrative_view.player_input.text = "我冒险夜渡激流。"
+	shell.narrative_view._on_send_pressed()
+	_check(adjudication_stub.requests.size() == 3, "F01 risky send starts a new d20 control request")
+	_check(String(shell.world_evolution_evaluator.last_result.get("status", "")) == "evaluation_cancelled", "F01 d20 control request start invalidates active evolution immediately")
+	await _settle(3)
+	evolution_stub.simulate_delta('{"decision":"advance","event":"迟到的演化事件","effects":["迟到效果"]}')
+	evolution_stub.simulate_completed()
+	await _settle(3)
+	_check(not JSON.stringify(shell.session_runtime.world_state).contains("迟到的演化事件") and String(shell.session_runtime.active_head_id) == head_before, "F01 late evolution completion after d20 invalidation commits nothing")
+	_check(not shell.agency_scheduler.dirty and not shell.agency_scheduler.selector_active and shell.agency_scheduler.agency_cycle_runtime == null, "F01 dirty/selector/cycle semantics unchanged by foreground invalidation")
+	shell.action_adjudication.cancel()
+	await _settle(2)
+	shell._close_game_session()
+	await _settle(2)
+	shell.queue_free()
+	await process_frame
+	_clear_wiring_environment()
+
+
+## F04（IR#1）：active World Evolution → production Restore/progress switch → evaluator
+## 立即 invalidated → late callback 0 commit；restored head/world 不变；Restore 引起的
+## Agency invalidation 不留存活 evolution request/commit、不发多余 opportunity terminal。
+func _test_restore_active_invalidation() -> void:
+	var booted: Dictionary = await _boot_wired_shell("restore_active", _shell_game_setup(""), false)
+	if booted.is_empty():
+		return
+	var shell: Variant = booted.shell
+	var semantic_stub: Node = booted.semantic_stub
+	var selector_stub: Node = booted.selector_stub
+	var evolution_stub: Node = booted.evolution_stub
+	var opportunity_results: Array = []
+	shell.agency_scheduler.opportunity_finished.connect(func(r: Dictionary) -> void: opportunity_results.append(r))
+	var saved: Dictionary = shell.session_runtime.create_save_point("F04 基线")
+	_check(bool(saved.get("success", false)), "F04 baseline Save Point created before any turn")
+	var baseline_head := String(shell.session_runtime.active_head_id)
+	# Turn A → semantic → selector no_actors → evolution active。
+	var view_stub := _swap_view_stub(shell.narrative_view)
+	shell.narrative_view.player_input.text = "我查看江防部署。"
+	shell.narrative_view._on_send_pressed()
+	await _settle(3)
+	view_stub.text_delta.emit("江防部署已经确认。")
+	view_stub.simulate_completed()
+	await _settle(4)
+	semantic_stub.simulate_delta('{"changes":[],"knowledge_events":[]}')
+	semantic_stub.simulate_completed()
+	await _settle(4)
+	selector_stub.simulate_delta('{"actors":[]}')
+	selector_stub.simulate_completed()
+	await _settle(3)
+	_check(evolution_stub.requests.size() == 1 and bool(evolution_stub.is_busy()), "F04 evolution evaluation active before Restore")
+	_check(opportunity_results.size() == 1, "F04 opportunity terminal fired once before Restore")
+	var restored: Dictionary = shell.session_runtime.restore_save_point(String(saved.get("save_id", "")))
+	_check(bool(restored.get("success", false)), "F04 production Restore succeeds while evaluation is active")
+	await _settle(3)
+	_check(String(shell.world_evolution_evaluator.last_result.get("status", "")) == "evaluation_cancelled", "F04 Restore invalidates active evaluation immediately")
+	_check(String(shell.session_runtime.active_head_id) == baseline_head, "F04 restored head unchanged")
+	_check(not JSON.stringify(shell.session_runtime.world_state).contains("world_evolution_events_by_turn"), "F04 restored world carries no evolution event")
+	_check(opportunity_results.size() == 1 and evolution_stub.requests.size() == 1, "F04 Restore agency invalidation leaves no surviving/new evolution request or extra terminal")
+	evolution_stub.simulate_delta('{"decision":"advance","event":"迟到的演化事件","effects":["迟到效果"]}')
+	evolution_stub.simulate_completed()
+	await _settle(3)
+	_check(not JSON.stringify(shell.session_runtime.world_state).contains("迟到的演化事件") and String(shell.session_runtime.active_head_id) == baseline_head, "F04 late completion after Restore commits nothing")
+	_check(not shell.agency_scheduler.dirty and not shell.agency_scheduler.selector_active and shell.agency_scheduler.agency_cycle_runtime == null, "F04 scheduler not stranded after Restore")
+	shell._close_game_session()
+	await _settle(2)
+	shell.queue_free()
+	await process_frame
+	_clear_wiring_environment()
+
+
+## Shell 接线公共 boot：task-owned 环境 + created-schema seed + 真实 main.tscn Shell +
+## 全部 Provider seam 换桩；完成 Opening 后返回各桩引用。game_id 由 seed runtime 分配。
+func _boot_wired_shell(case_name: String, game_setup: Dictionary, with_d20: bool) -> Dictionary:
+	var case_root := _case_root(case_name)
+	var database_path := case_root.path_join("current-game.sqlite")
+	OS.set_environment("MY_WORLD_TEST_CURRENT_GAME_DB", database_path)
+	OS.set_environment("MY_WORLD_TEST_GAME_LIBRARY_ROOT", case_root.path_join("game-library"))
+	OS.set_environment("MY_WORLD_TEST_GAMES_ROOT", case_root.path_join("games"))
+	OS.set_environment("MY_WORLD_TEST_SOURCE_LIBRARY_ROOT", case_root.path_join("source-library"))
+	OS.set_environment("MY_WORLD_TEST_CREATION_ROOT", case_root.path_join("creation"))
+	var seed := SessionRuntime.new()
+	if not seed.open_current_game(database_path).success:
+		_fail("%s wiring fixture opens task-owned Game" % case_name)
+		return {}
+	var setup := game_setup.duplicate(true)
+	(setup.game as Dictionary)["game_id"] = String(seed.game_id)
+	var committed: Dictionary = seed.commit_world_mutation_durably("mw002-setup", "mw002-setup-node", setup)
+	seed.close()
+	if not bool(committed.get("success", false)):
+		_fail("%s wiring fixture commits created-schema setup" % case_name)
+		return {}
+	var shell: Variant = load("res://src/main.tscn").instantiate()
+	root.add_child(shell)
+	await _settle(2)
+	if shell.application_state != shell.ApplicationState.MENU_READY:
+		_fail("%s shell boots to Main Menu" % case_name)
+		return {}
+	var opening_stub := OpeningStub.new()
+	var semantic_stub := StubAdapter.new()
+	var evolution_stub := StubAdapter.new()
+	var selector_stub := StubAdapter.new()
+	var adjudication_stub := StubAdapter.new()
+	shell.test_opening_adapter_override = opening_stub
+	shell.test_world_turn_adapter_override = semantic_stub
+	shell.test_world_evolution_adapter_override = evolution_stub
+	if with_d20:
+		shell.test_adjudication_adapter_override = adjudication_stub
+	shell.continue_button.pressed.emit()
+	await _settle(4)
+	if shell.session_runtime == null or not shell.session_runtime.is_ready():
+		_fail("%s Continue opens created Game Session" % case_name)
+		_clear_wiring_environment()
+		return {}
+	shell.agency_scheduler.test_actor_adapter_factory = func() -> Node: return StubAdapter.new()
+	shell.agency_scheduler.test_selector_adapter_override = selector_stub
+	opening_stub.simulate_delta("开场叙事。")
+	opening_stub.simulate_completed()
+	await _settle(4)
+	return {"shell": shell, "opening_stub": opening_stub, "semantic_stub": semantic_stub, "evolution_stub": evolution_stub, "selector_stub": selector_stub, "adjudication_stub": adjudication_stub}
+
+
 func _setup_world() -> Dictionary:
 	var world_section := {"section_id": "w1", "title": "世界前提", "section_type": "premise", "disclosure": "public", "content": "WORLD_ONLY_BASELINE_MARKER 北方旱情持续发展。"}
 	return {
 		"schema_version": "game_local_setup.v0.1",
 		"creation_origin": {},
-		"game": {"game_id": GAME_ID, "display_name": "MW-002 测试局", "control_mode": "Narrative", "opening_supplement": ""},
+		# F03：opening_supplement / control_mode 是玩家私有 Game settings，绝不属于
+		# World-only evaluator baseline；用显式 marker 证明它们不进 evaluator request。
+		"game": {"game_id": GAME_ID, "display_name": "MW-002 测试局", "control_mode": "PRIVATE_CONTROL_MODE_MARKER", "opening_supplement": "PRIVATE_OPENING_SUPPLEMENT_MARKER"},
 		"setup_ancestry": {},
-		"selected_entry_id": null,
+		"selected_entry_id": "entry-t0-marker",
 		"world": {
 			"local_world_id": "local-world-mw002",
 			"provenance": {"asset_id": "task.world", "generation_fingerprint": "task-generation"},
-			"source_projection": {"display_name": "演化测试世界", "world_instructions": "WORLD_INSTRUCTION_MARKER", "gm_instructions": "", "semantic_sections": [world_section]},
+			"source_projection": {"display_name": "演化测试世界", "world_instructions": "WORLD_INSTRUCTION_MARKER", "gm_instructions": "", "selected_entry": {"entry_id": "entry-t0-marker", "display_name": "ENTRY_DISPLAY_MARKER", "opening_seed": "ENTRY_SEED_MARKER"}, "semantic_sections": [world_section]},
 		},
 		"player_character": {
 			"local_character_id": "char-player-mw002",

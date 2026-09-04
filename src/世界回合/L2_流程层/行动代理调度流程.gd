@@ -179,6 +179,20 @@ func _on_selector_completed() -> void:
 		String(_selector_snapshot.cycle_base_head_id),
 		validated
 	)
+	# MW-002 R2 F02：matching durable cycle 已含全部 selected actors 时 start_cycle 返回
+	# already_committed / actor_count=0——不发 actor request、不发 cycle_finished。
+	# Scheduler 必须立即清理 cycle runtime 并恰好一次 opportunity_finished（携带 frozen
+	# turn/hash），否则 evaluator 永不唤醒且 agency_cycle_runtime 非 null 会 strand 后续新 dirty 机会。
+	if String(started.get("status", "")) == "already_committed":
+		var finished_cycle := agency_cycle_runtime
+		agency_cycle_runtime = null
+		if is_instance_valid(finished_cycle):
+			remove_child(finished_cycle)
+			finished_cycle.queue_free()
+		var terminal := {"success": true, "status": "already_committed", "cycle_id": String(started.get("cycle_id", "")), "actor_count": 0, "actors": validated}
+		selector_finished.emit(terminal)
+		_emit_opportunity_finished(terminal)
+		return
 	cycle_started.emit(String(started.get("cycle_id", "")), int(started.get("actor_count", 0)))
 	selector_finished.emit({"success": true, "status": "started", "actor_count": int(started.get("actor_count", 0)), "actors": validated})
 
