@@ -66,6 +66,8 @@ func _start_selector() -> Dictionary:
 	var entries: Array = session_runtime.conversation.get_durable_accepted_entries()
 	if entries.is_empty():
 		return {"success": true, "status": "no_accepted_turn"}
+	# R01C02：selector 真正启动时消费该 dirty opportunity；terminal 后不自动重试。
+	dirty = false
 	var latest := entries[-1] as Dictionary
 	_selector_snapshot = {
 		"source_turn_index": int(latest.get("turn_index", -1)),
@@ -205,9 +207,7 @@ func _on_agency_cycle_finished(result: Dictionary) -> void:
 		remove_child(finished_cycle)
 		finished_cycle.queue_free()
 	# 已 committed 的 durable actions 保持；Scheduler 可处理后续新 dirty 机会。
-	# 不自动 retry 同一机会；后续新 accepted turn 会再次 mark_dirty。
-	if dirty and not selector_active:
-		consider_agency()
+	# R01C02：不自动 retry 同一机会；后续新 accepted turn 才会再次 mark_dirty。
 
 
 ## R01C01 修正 D：selector terminal 后清理 adapter；不 strand、不 auto-retry。

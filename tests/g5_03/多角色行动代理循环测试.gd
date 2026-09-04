@@ -11,6 +11,9 @@ const WorldTurnContext := preload("res://src/世界回合/L3_外交层/世界回
 const AgencyCycle := preload("res://src/世界回合/L3_外交层/行动代理循环公开接口.gd")
 const AgencyScheduler := preload("res://src/世界回合/L3_外交层/行动代理调度公开接口.gd")
 const StubAdapter := preload("res://tests/g5_01/世界回合语义桩适配器.gd")
+const SessionRuntime := preload("res://src/runtime/当前游戏会话运行时.gd")
+const OpeningStub := preload("res://tests/g4_07a/首次开场桩适配器.gd")
+const ViewStub := preload("res://tests/g2_03_桩适配器.gd")
 
 class ControlledRuntime:
 	extends RefCounted
@@ -68,8 +71,195 @@ func _run() -> void:
 	await _test_r01c01_sequential_cycles()
 	await _test_r01c01_stale_consequence_filtering()
 	await _test_r01c01_no_auto_retry()
+	await _test_r01c02_completed_cycle_consumes_opportunity()
+	await _test_r01c02_terminal_classes_consume_opportunity()
+	await _test_r01c02_sequential_a_b()
+	await _test_r01c02_production_wiring_proof()
 	print("G5-03M1 FOCUSED | done failures=%d" % _failures)
 	quit(0 if _failures == 0 else 1)
+
+
+## R01C02-A：completed cycle 消费机会——selector request count 不增长；同一机会不 auto-retry。
+func _test_r01c02_completed_cycle_consumes_opportunity() -> void:
+	var runtime := ControlledRuntime.new()
+	_accept(runtime, "我查看江防部署。", "江防部署已经确认。")
+	var scheduler := AgencyScheduler.new(runtime, null)
+	root.add_child(scheduler)
+	scheduler.test_selector_adapter_override = StubAdapter.new()
+	scheduler.test_actor_adapter_factory = func() -> Node: return StubAdapter.new()
+	await process_frame
+	scheduler.mark_dirty()
+	scheduler.consider_agency()
+	await process_frame
+	var selector_stub: Node = scheduler.test_selector_adapter_override
+	selector_stub.simulate_delta('{"actors":["char-npc-sun"]}')
+	# 同一机会不 auto-retry：selector request count 不增长（completion 前保存计数）。
+	var selector_requests_after_a: int = selector_stub.requests.size()
+	selector_stub.simulate_completed()
+	await process_frame
+	_check(scheduler.agency_cycle_runtime != null, "R01C02-A Cycle A starts")
+	var adapter: Node = scheduler.agency_cycle_runtime._provider_adapters.get("char-npc-sun")
+	adapter.text_delta.emit('{"actor_id":"char-npc-sun","decision":"act","intent":"核实荆州水军","action":"派使者核实荆州水军调动","effects":["使者已出发核实荆州水军"]}')
+	adapter.completed.emit()
+	await process_frame
+	_check(runtime.commit_count == 1, "R01C02-A Cycle A commits")
+	_check(scheduler.agency_cycle_runtime == null, "R01C02-A Cycle A terminal cleans up")
+	_check(not scheduler.dirty, "R01C02-A dirty consumed at selector start")
+	_check(not scheduler.selector_active, "R01C02-A selector not active after completion")
+	await process_frame
+	await process_frame
+	_check(selector_requests_after_a == 1, "R01C02-A selector request count stays exactly one for Turn A")
+	var second: Dictionary = scheduler.consider_agency()
+	_check(String(second.status) == "not_ready", "R01C02-A same opportunity does not auto-retry")
+	scheduler.shutdown()
+	scheduler.queue_free()
+
+
+## R01C02-B：malformed/provider-failure/no-actors 都消费机会；later accepted turn 才重新 mark_dirty。
+func _test_r01c02_terminal_classes_consume_opportunity() -> void:
+	for mode: String in ["malformed", "provider_failure", "no_actors"]:
+		var runtime := ControlledRuntime.new()
+		_accept(runtime, "我查看江防部署。", "江防部署已经确认。")
+		var scheduler := AgencyScheduler.new(runtime, null)
+		root.add_child(scheduler)
+		scheduler.test_selector_adapter_override = StubAdapter.new()
+		await process_frame
+		scheduler.mark_dirty()
+		scheduler.consider_agency()
+		await process_frame
+		var selector_stub: Node = scheduler.test_selector_adapter_override
+		match mode:
+			"malformed":
+				selector_stub.simulate_delta("not json")
+				selector_stub.simulate_completed()
+			"provider_failure":
+				selector_stub.simulate_failed("transport")
+			"no_actors":
+				selector_stub.simulate_delta('{"actors":[]}')
+				selector_stub.simulate_completed()
+		await process_frame
+		_check(not scheduler.dirty, "R01C02-B %s consumes dirty opportunity" % mode)
+		_check(not scheduler.selector_active, "R01C02-B %s does not strand selector active" % mode)
+		_check(scheduler.selector_adapter == null or not is_instance_valid(scheduler.selector_adapter), "R01C02-B %s terminal cleans up selector adapter" % mode)
+		var second: Dictionary = scheduler.consider_agency()
+		_check(String(second.status) == "not_ready", "R01C02-B %s does not auto-retry same opportunity" % mode)
+		# 只有真正新的 Turn B 才允许 fresh dirty → selector B。
+		# 第一个 selector stub 已被 Scheduler terminal cleanup 正确释放；新机会需要 fresh stub。
+		_accept(runtime, "我改为查看水寨。", "水寨部署已经确认。")
+		scheduler.test_selector_adapter_override = StubAdapter.new()
+		scheduler.mark_dirty()
+		var third: Dictionary = scheduler.consider_agency()
+		_check(String(third.status) == "selector_started", "R01C02-B %s later accepted turn starts fresh selector" % mode)
+		_check(is_instance_valid(scheduler.selector_adapter), "R01C02-B %s fresh selector uses a live adapter" % mode)
+		scheduler.shutdown()
+		scheduler.queue_free()
+
+
+## R01C02-C：Cycle A terminal 后零 selector 活动直到 Turn B acceptance；Turn B 才启动 selector B。
+func _test_r01c02_sequential_a_b() -> void:
+	var runtime := ControlledRuntime.new()
+	_accept(runtime, "我查看江防部署。", "江防部署已经确认。")
+	var scheduler := AgencyScheduler.new(runtime, null)
+	root.add_child(scheduler)
+	scheduler.test_selector_adapter_override = StubAdapter.new()
+	scheduler.test_actor_adapter_factory = func() -> Node: return StubAdapter.new()
+	await process_frame
+	scheduler.mark_dirty()
+	scheduler.consider_agency()
+	await process_frame
+	var selector_stub: Node = scheduler.test_selector_adapter_override
+	selector_stub.simulate_delta('{"actors":["char-npc-sun"]}')
+	# Cycle A terminal 后零 selector 活动直到 Turn B acceptance（completion 前保存计数）。
+	var selector_requests_after_a: int = selector_stub.requests.size()
+	selector_stub.simulate_completed()
+	await process_frame
+	var adapter: Node = scheduler.agency_cycle_runtime._provider_adapters.get("char-npc-sun")
+	adapter.text_delta.emit('{"actor_id":"char-npc-sun","decision":"act","intent":"核实荆州水军","action":"派使者核实荆州水军调动","effects":["使者已出发核实荆州水军"]}')
+	adapter.completed.emit()
+	await process_frame
+	_check(runtime.commit_count == 1, "R01C02-C Cycle A commits")
+	await process_frame
+	await process_frame
+	_check(selector_requests_after_a == 1, "R01C02-C zero selector activity between Cycle A terminal and Turn B acceptance")
+	_check(scheduler.agency_cycle_runtime == null and not scheduler.selector_active and not scheduler.dirty, "R01C02-C scheduler idle after Cycle A terminal")
+	# Turn B production acceptance 后才启动 selector B。
+	# 第一个 selector stub 已被 Scheduler terminal cleanup 正确释放；新机会需要 fresh stub。
+	_accept(runtime, "我改为查看水寨。", "水寨部署已经确认。")
+	scheduler.test_selector_adapter_override = StubAdapter.new()
+	scheduler.mark_dirty()
+	var second_consider: Dictionary = scheduler.consider_agency()
+	_check(String(second_consider.status) == "selector_started", "Turn B starts fresh selector")
+	# selector 启动后立即保存引用（completion 后会被清理）。
+	selector_stub = scheduler.selector_adapter
+	_check(selector_stub != null and is_instance_valid(selector_stub), "selector adapter alive after Turn B consider_agency")
+	selector_stub.simulate_delta('{"actors":["char-npc-cao"]}')
+	selector_stub.simulate_completed()
+	await process_frame
+	_check(scheduler.agency_cycle_runtime != null and scheduler.agency_cycle_runtime.selected_actors == ["char-npc-cao"], "R01C02-C Turn B starts selector B with latest snapshot")
+	scheduler.shutdown()
+	scheduler.queue_free()
+
+
+## R01C02-D：production wiring proof——真实 Application seam。
+## 真实 main.tscn Shell 的 _connect_save_runtime 把 Conversation.generation_completed
+## 接到 _on_ordinary_turn_accepted_for_agency；本测试不得手动调用 mark_dirty()。
+## Provider 边界全部走 production 自带 test seam（opening / world-turn / selector / view stub）。
+func _test_r01c02_production_wiring_proof() -> void:
+	var case_root := ProjectSettings.globalize_path("res://build/g5_03_r01c02_wiring")
+	_remove_tree(case_root)
+	DirAccess.make_dir_recursive_absolute(case_root)
+	var database_path := case_root.path_join("current-game.sqlite")
+	OS.set_environment("MY_WORLD_TEST_CURRENT_GAME_DB", database_path)
+	OS.set_environment("MY_WORLD_TEST_GAME_LIBRARY_ROOT", case_root.path_join("game-library"))
+	OS.set_environment("MY_WORLD_TEST_GAMES_ROOT", case_root.path_join("games"))
+	OS.set_environment("MY_WORLD_TEST_SOURCE_LIBRARY_ROOT", case_root.path_join("source-library"))
+	OS.set_environment("MY_WORLD_TEST_CREATION_ROOT", case_root.path_join("creation"))
+	# task-owned created-schema Game：经 production Runtime durable 提交 setup。
+	var seed := SessionRuntime.new()
+	_check(seed.open_current_game(database_path).success, "R01C02-D wiring fixture opens task-owned Game")
+	var setup: Dictionary = seed.commit_world_mutation_durably("g5-03-setup", "g5-03-setup-node", _minimal_game_setup(String(seed.game_id)))
+	_check(bool(setup.get("success", false)), "R01C02-D wiring fixture commits created-schema setup")
+	seed.close()
+	var shell: Variant = load("res://src/main.tscn").instantiate()
+	root.add_child(shell)
+	await process_frame
+	await process_frame
+	_check(shell.application_state == shell.ApplicationState.MENU_READY, "R01C02-D shell boots to Main Menu")
+	shell.test_opening_adapter_override = OpeningStub.new()
+	shell.test_world_turn_adapter_override = StubAdapter.new()
+	shell.continue_button.pressed.emit()
+	await _settle(4)
+	_check(shell.session_runtime != null and shell.session_runtime.is_ready(), "R01C02-D Continue opens created Game Session")
+	_check(shell.agency_scheduler != null, "R01C02-D production activation mounts Agency Scheduler")
+	var selector_stub := StubAdapter.new()
+	shell.agency_scheduler.test_selector_adapter_override = selector_stub
+	# Opening：created Game 自动开始第一幕（GM-only turn），完成不得 dirty。
+	var opening_stub: Node = shell.test_opening_adapter_override
+	_check(shell.opening_runtime != null and opening_stub.requests.size() == 1, "R01C02-D created Game auto-starts first Opening")
+	opening_stub.simulate_delta("开场叙事。")
+	opening_stub.simulate_completed()
+	await _settle(4)
+	_check(shell.session_runtime.conversation.get_durable_accepted_entries().size() == 1, "R01C02-D Opening accepted durable")
+	_check(not shell.agency_scheduler.dirty, "R01C02-D Opening completion does not dirty Agency through real Application wiring")
+	_check(selector_stub.requests.is_empty(), "R01C02-D Opening completion starts no selector")
+	# ordinary player turn：真实 View send → durable accepted → 真实 generation_completed wiring。
+	var view_stub := _swap_view_stub(shell.narrative_view)
+	shell.narrative_view.player_input.text = "我查看江防部署。"
+	shell.narrative_view._on_send_pressed()
+	await _settle(3)
+	_check(view_stub.start_calls.size() == 1, "R01C02-D ordinary player action issues one Provider request")
+	view_stub.text_delta.emit("江防部署已经确认。")
+	view_stub.simulate_completed()
+	await _settle(4)
+	_check(shell.session_runtime.conversation.get_durable_accepted_entries().size() == 2, "R01C02-D ordinary player turn accepted durable")
+	# mark_dirty 的唯一可观察效果是 selector 真正启动（C02：启动即消费 dirty）。
+	_check(selector_stub.requests.size() == 1, "R01C02-D real generation_completed wiring marks dirty and starts exactly one selector")
+	_check(not shell.agency_scheduler.dirty, "R01C02-D wiring-started selector consumes the dirty opportunity")
+	shell._close_game_session()
+	await _settle(2)
+	shell.queue_free()
+	await process_frame
+	_clear_wiring_environment()
 
 
 ## R01C01-A：production dirty wiring——ordinary durable accepted player turn 自动 mark dirty，
@@ -119,15 +309,18 @@ func _test_r01c01_sequential_cycles() -> void:
 	# Cycle A terminal 后清理并 re-arm。
 	_check(scheduler.agency_cycle_runtime == null, "R01C01-B Cycle A terminal cleans up scheduler reference")
 	# 后续新 accepted turn 标记 dirty 并启动 Cycle B。
+	# 第一个 selector stub 已被 Scheduler terminal cleanup 正确释放；新机会需要 fresh stub。
 	_accept(runtime, "我改为查看水寨。", "水寨部署已经确认。")
+	scheduler.test_selector_adapter_override = StubAdapter.new()
 	scheduler.mark_dirty()
 	scheduler.consider_agency()
 	await process_frame
+	selector_stub = scheduler.selector_adapter
+	_check(selector_stub != null and is_instance_valid(selector_stub), "selector adapter alive after second consider_agency")
 	selector_stub.simulate_delta('{"actors":["char-npc-cao"]}')
 	selector_stub.simulate_completed()
 	await process_frame
-	_check(scheduler.agency_cycle_runtime != null, "R01C01-B Cycle B starts after Cycle A terminal")
-	_check(scheduler.agency_cycle_runtime.selected_actors == ["char-npc-cao"], "R01C01-B Cycle B uses latest accepted world state")
+	_check(scheduler.agency_cycle_runtime != null and scheduler.agency_cycle_runtime.selected_actors == ["char-npc-cao"], "R01C01-B Cycle B uses latest accepted world state")
 	scheduler.shutdown()
 	scheduler.queue_free()
 
@@ -161,7 +354,8 @@ func _test_r01c01_stale_consequence_filtering() -> void:
 	scheduler.queue_free()
 
 
-## R01C01-D：selector failure/no-actors/hold terminal 后不 strand、不 auto-retry。
+## R01C02-D：selector failure/no-actors/hold terminal 后消费机会、不 auto-retry；
+## 只有 later newly accepted turn 才能重新 mark_dirty。
 func _test_r01c01_no_auto_retry() -> void:
 	var runtime := ControlledRuntime.new()
 	_accept(runtime, "我查看江防部署。", "江防部署已经确认。")
@@ -173,15 +367,22 @@ func _test_r01c01_no_auto_retry() -> void:
 	scheduler.consider_agency()
 	await process_frame
 	var selector_stub: Node = scheduler.test_selector_adapter_override
-	# selector 返回 no actors：terminal 后不 strand。
+	# selector 返回 no actors：terminal 后消费机会、不 strand。
 	selector_stub.simulate_delta('{"actors":[]}')
 	selector_stub.simulate_completed()
 	await process_frame
-	_check(not scheduler.selector_active and scheduler.agency_cycle_runtime == null, "R01C01-D no-actors selector terminal does not strand")
-	_check(scheduler.dirty, "R01C01-D dirty remains for future opportunity")
-	# 不 auto-retry：再次 consider_agency 不会立即重启同一机会。
+	_check(not scheduler.selector_active and scheduler.agency_cycle_runtime == null, "R01C02-D no-actors selector terminal does not strand")
+	_check(not scheduler.dirty, "R01C02-D dirty consumed at selector start")
+	# 不 auto-retry：再次 consider_agency 不启动同一机会。
 	var second: Dictionary = scheduler.consider_agency()
-	_check(String(second.status) == "selector_started", "R01C01-D later consider_agency starts fresh selector")
+	_check(String(second.status) == "not_ready", "R01C02-D same opportunity does not auto-retry")
+	# later newly accepted turn 才重新 mark_dirty；新机会需要 fresh stub（旧 stub 已被正确释放）。
+	_accept(runtime, "我改为查看水寨。", "水寨部署已经确认。")
+	scheduler.test_selector_adapter_override = StubAdapter.new()
+	scheduler.mark_dirty()
+	var third: Dictionary = scheduler.consider_agency()
+	_check(String(third.status) == "selector_started", "R01C02-D later accepted turn starts fresh selector")
+	_check(is_instance_valid(scheduler.selector_adapter), "R01C02-D fresh selector uses a live adapter")
 	scheduler.shutdown()
 	scheduler.queue_free()
 
@@ -603,24 +804,25 @@ func _test_replay_reopen() -> void:
 ## I：selector 返回 >4 valid IDs → 只有前 4 个执行；无隐藏 fallback loop。
 func _test_selection_bound() -> void:
 	var runtime := ControlledRuntime.new()
-	# 构造 5 个 eligible NPC。
+	# 构造 5 个 distinct eligible NPC IDs（第 5 个证明 cap 4 + 顺序保留）。
 	runtime.world_state.guaranteed_npcs.append({"local_character_id": "char-npc-extra", "source_projection": {"display_name": "额外", "semantic_sections": []}})
+	runtime.world_state.guaranteed_npcs.append({"local_character_id": "char-npc-fifth", "source_projection": {"display_name": "第五", "semantic_sections": []}})
 	_accept(runtime, "我查看江防部署。", "江防部署已经确认。")
 	var scheduler := AgencyScheduler.new(runtime, null)
 	root.add_child(scheduler)
 	scheduler.test_selector_adapter_override = StubAdapter.new()
+	scheduler.test_actor_adapter_factory = func() -> Node: return StubAdapter.new()
 	await process_frame
 	scheduler.mark_dirty()
 	var consider_result: Dictionary = scheduler.consider_agency()
 	await process_frame
 	var selector_stub: Node = scheduler.selector_adapter
-	selector_stub.simulate_delta('{"actors":["char-npc-sun","char-npc-cao","char-npc-zhu","char-npc-extra","char-npc-sun"]}')
-	var entries_now: Array = runtime.conversation.get_durable_accepted_entries()
-	var latest_now := entries_now[-1] as Dictionary
+	selector_stub.simulate_delta('{"actors":["char-npc-sun","char-npc-cao","char-npc-zhu","char-npc-extra","char-npc-fifth"]}')
 	selector_stub.simulate_completed()
 	await process_frame
-	await process_frame
-	_check(scheduler.agency_cycle_runtime.selected_actors[0] == "char-npc-sun" and scheduler.agency_cycle_runtime.selected_actors[3] == "char-npc-extra", "I preserves model-selected order within cap")
+	_check(scheduler.agency_cycle_runtime != null, "I selector starts Agency Cycle")
+	_check(scheduler.agency_cycle_runtime.selected_actors.size() == 4, "I selector cap keeps exactly four actors")
+	_check(scheduler.agency_cycle_runtime.selected_actors == ["char-npc-sun", "char-npc-cao", "char-npc-zhu", "char-npc-extra"], "I preserves model-selected order within cap and drops fifth")
 	scheduler.shutdown()
 	scheduler.queue_free()
 
@@ -629,6 +831,64 @@ func _accept(runtime: ControlledRuntime, player: String, gm: String) -> void:
 	runtime.conversation.begin_turn(player)
 	runtime.conversation.append_delta(gm)
 	runtime.conversation.complete_generation()
+
+
+## R01C02-D wiring fixture 的 created-schema 最小 setup（与 G5-01 timeline fixture 同构）。
+func _minimal_game_setup(game_id: String) -> Dictionary:
+	var section := {"section_id": "safe", "title": "安全起始语义", "section_type": "premise", "disclosure": "public", "content": "这是一份 task-owned 的最小 G4 兼容世界起始事实。"}
+	return {
+		"schema_version": "game_local_setup.v0.1",
+		"creation_origin": {},
+		"game": {"game_id": game_id, "display_name": "G5-03 接线测试局", "control_mode": "Narrative", "opening_supplement": ""},
+		"setup_ancestry": {},
+		"selected_entry_id": null,
+		"world": {
+			"local_world_id": "local-world-g5-03-wiring",
+			"provenance": {"asset_id": "task.world", "generation_fingerprint": "task-generation"},
+			"source_projection": {"display_name": "接线测试世界", "world_instructions": "", "gm_instructions": "", "semantic_sections": [section]},
+		},
+		"player_character": {
+			"local_character_id": "local-player-g5-03-wiring",
+			"provenance": {"asset_id": "task.player", "generation_fingerprint": "task-generation"},
+			"source_projection": {"display_name": "接线测试玩家", "semantic_sections": [section]},
+		},
+		"guaranteed_npcs": [],
+	}
+
+
+## 玩家 turn 使用 View 自有 adapter；换成 g2 桩，接线与 production 完全一致。
+func _swap_view_stub(view: Variant) -> Node:
+	var stub: Node = ViewStub.new()
+	view._disconnect_adapter_signals(view.adapter)
+	view.remove_child(view.adapter)
+	view.adapter.queue_free()
+	view.adapter = stub
+	view.add_child(stub)
+	stub.text_delta.connect(view._on_text_delta)
+	stub.completed.connect(view._on_completed)
+	stub.cancelled.connect(view._on_cancelled)
+	stub.failed.connect(view._on_failed)
+	return stub
+
+
+func _settle(frames: int) -> void:
+	for _index: int in range(frames):
+		await process_frame
+
+
+func _clear_wiring_environment() -> void:
+	for key: String in ["MY_WORLD_TEST_SOURCE_LIBRARY_ROOT", "MY_WORLD_TEST_CURRENT_GAME_DB", "MY_WORLD_TEST_GAME_LIBRARY_ROOT", "MY_WORLD_TEST_GAMES_ROOT", "MY_WORLD_TEST_CREATION_ROOT"]:
+		OS.set_environment(key, "")
+
+
+func _remove_tree(path: String) -> void:
+	if not DirAccess.dir_exists_absolute(path):
+		return
+	for file_name: String in DirAccess.get_files_at(path):
+		DirAccess.remove_absolute(path.path_join(file_name))
+	for directory_name: String in DirAccess.get_directories_at(path):
+		_remove_tree(path.path_join(directory_name))
+	DirAccess.remove_absolute(path)
 
 
 func _check(condition: bool, label: String) -> void:
