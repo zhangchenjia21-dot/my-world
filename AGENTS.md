@@ -33,73 +33,104 @@ Gemini review remains CANCELLED / DO NOT EXECUTE. Review flow: Kimi implementati
 ## 2. Current state
 
 ```text
-G1-G4                                      PASS / CLOSED
+G1-G4                                        PASS / CLOSED
 G5-01 World Turn / Semantic Materialization PASS / CLOSED
 G5-02 Knowledge Provenance                  PASS / CLOSED
 G5-03 NPC / Faction Agency                  ACTIVE
-G5-03M1R01 Agency Scheduler v0.3            REDESIGN ACTIVE
-G5-03M1R01C01                               CLOSED INTO C02
-G5-03M1R01C02 Dirty Opportunity             PASS
-G5-03M1R02 Semantic-Terminal Wake Ownership ACTIVE — KIMI
-G5-03M2 Stable Actor Materialization        NOT YET
+G5-03M1 Multi-Actor Agency v0.3             ENGINEERING PASS / CLOSED
+G5-03M1R01C02 Dirty Opportunity             PASS / CLOSED
+G5-03M1R02 Semantic-Terminal Wake Ownership PASS / CLOSED
+G5-03M2 Stable NPC Materialization          ACTIVE — KIMI
 G5-04 Event / Priority Evolution            NOT YET
 ```
 
-Do not start M2/G5-04 before R02 Independent Review PASS.
+Parent real G5-03 Provider proof remains `PENDING / EXTERNAL PROVIDER UNAVAILABLE`; do not relabel it PASS and do not switch Provider to manufacture evidence.
 
 ## 3. Current task
 
-Review:
+R02 review / M1 closeout:
 
-`docs/g5_03/G5-03M1R01C02_INDEPENDENT_REVIEW.md`
+- `docs/g5_03/G5-03M1R02_INDEPENDENT_REVIEW.md`
+- `docs/g5_03/G5-03M1_CLOSEOUT.md`
 
 Execute:
 
-`docs/tasks/G5-03M1R02_SEMANTIC_TERMINAL_WAKE_OWNERSHIP_SIMPLIFICATION_TASK.md`
+`docs/tasks/G5-03M2_STABLE_NPC_CREATION_SNAPSHOT_AND_REGISTRY_EXPANSION_TASK.md`
 
-Canonical decision remains:
+Canonical M2 decision:
+
+`Vibe-Coding/my world/architecture/world/G5_STABLE_NPC_MATERIALIZATION_V0_1_DECISION.md`
+
+Agency v0.3 remains protected:
 
 `Vibe-Coding/my world/architecture/world/G5_AGENCY_SCHEDULER_V0_3_DECISION.md`
 
-## 4. Frozen behavior
+## 4. Frozen M2 behavior
 
-Keep:
-
-```text
-ordinary accepted turn
-→ semantic changes + knowledge only
-→ one dirty Agency opportunity
-→ semantic worker settles
-→ standalone selector over post-semantic latest current world
-→ 0..4 stable actors
-→ concurrent actor-scoped Agency Cycle
-```
-
-The normal wake ownership is now explicit:
+New Game creation may expand the stable NPC pool beyond explicit Guaranteed NPCs, but identity/material authority remains Program-owned and Game-local:
 
 ```text
-generation_completed → mark_dirty only
-semantic finished     → consider_agency
+first creation-intent build
+→ validated current Source inventory
+→ Character Cards with exact_profile for selected World+Entry only
+→ exclude Player + explicit Guaranteed asset IDs
+→ deterministic stable_npcs snapshot
+→ Program-owned local_character_id
+→ exact provenance + frozen T0 source_projection
+→ creation intent owns exact initial_setup
 ```
 
-Do not re-couple Agency Selection into semantic analysis. Do not add timers/polling/retry loops.
+Same `creation_id` retry/resume must reuse the frozen intent and must not rescan Source current.
 
-Preserve C02 dirty consumption, multi-actor concurrency, actor-private Knowledge/History, current-hash filtering, sibling durable commits/head progression, foreground/Restore cancellation and replay no duplicate.
+Existing Game with no `stable_npcs`:
 
-## 5. Validation rule for R02
+```text
+missing → []
+no retrofit
+no Source lookup
+Guaranteed-only behavior remains valid
+```
 
-Keep this task narrow. Iterate on G5-03 focused tests only. After focused green, run one final affected pass: G5-01 semantic, G4-01 Application lifecycle, G4-07B Application integration, Public d20 Application regression, and `git diff --check`.
+Runtime consumers use one unified stable-NPC helper:
 
-Do not rerun unrelated full G2/G3/G5-02 suites absent a concrete failure reason.
+- G5-02 actor roster = Player + Guaranteed + automatic stable NPCs;
+- Agency eligible actor pool = Guaranteed + automatic stable NPCs, Player excluded;
+- actor execution resolves frozen Source by exact local ID.
 
-**Zero real Provider calls.** Parent real G5-03 proof remains pending honestly.
+Registry membership grants identity/material only, not knowledge or an automatic action.
 
-## 6. Scope ceiling
+## 5. Protected boundaries
 
-Do not implement M2 actor registry, Faction agency, G5-04, new SQLite schema/table, UI, Source changes, mechanics changes, G6 or G7.
+Do not:
+
+- use display-name matching as authoritative identity;
+- let models mint authoritative actor IDs;
+- read mutable Source current during ordinary gameplay/Continue/Save/Restore/Agency;
+- merge automatic stable NPCs into `guaranteed_npcs`;
+- build a universal entity registry/simulator;
+- implement Faction agency or G5-04;
+- add SQLite schema/table/migration;
+- change Source schema/UI/Public d20/mechanics;
+- make real Provider calls for M2.
+
+## 6. Slim validation rule
+
+Keep focused work focused.
+
+During implementation: run the M2 focused suite only.
+
+After focused green, one final affected pass only:
+
+- G4-06 Final Create / creation integration;
+- G5-03 focused;
+- G5-02 focused;
+- one directly relevant G3 Save/Restore suite;
+- `git diff --check`.
+
+Do not rerun unrelated full G2/UI/Public-d20/project suites absent a concrete failure reason.
 
 ## 7. Completion
 
-Return:
+Kimi writes compact evidence, commits/pushes, and returns:
 
-`READY FOR INDEPENDENT REVIEW — REAL PROVIDER PROOF PENDING`
+`READY FOR INDEPENDENT REVIEW`
