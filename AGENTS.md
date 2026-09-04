@@ -43,64 +43,26 @@ G5-03M1 Multi-Actor Agency v0.3             ENGINEERING PASS / CLOSED
 G5-03M2 Stable Actor Registry               ENGINEERING PASS / CLOSED
 G5-03M2A Registry Foundation                ENGINEERING PASS / CLOSED
 MW-001 Runtime Narrative Actor Materialization PASS / CLOSED
-G5-04 Event / Priority Evolution            ARCHITECTURE SHAPING — GPT
+G5-04 Event / Priority Evolution            ACTIVE
+MW-002 Selective World Evolution Evaluator ACTIVE — KIMI
+G5-GATE                                     NOT YET
 ```
 
-Current closeout evidence:
+Current executable task:
 
-- `docs/g5_03/G5-03M2A_INDEPENDENT_REVIEW_IR2.md`
-- `docs/g5_03/MW-001_INDEPENDENT_REVIEW_IR1.md`
-- `docs/g5_03/G5-03_CLOSEOUT.md`
+`docs/tasks/MW-002_SELECTIVE_WORLD_EVOLUTION_EVALUATOR_TASK.md`
 
-Parent real G5-03 Provider proof remains `PENDING / EXTERNAL PROVIDER UNAVAILABLE`; do not relabel it PASS and do not switch Provider to manufacture evidence.
+Canonical G5-04 decision:
 
-## 3. Stable actor / Agency product rule
+`Vibe-Coding/my world/architecture/world/G5_SELECTIVE_WORLD_EVOLUTION_V0_1_DECISION.md`
 
-A Character Card is **not** required for a character to become a durable NPC.
+G5-03 closeout / Faction deferral remains protected:
 
-The closed G5-03 stable actor system supports:
+`Vibe-Coding/my world/architecture/world/G5_03_AGENCY_CLOSEOUT_AND_FACTION_DEFERRAL_V1_0_DECISION.md`
 
-```text
-Guaranteed Source NPC
-+ automatic Source-backed NPC
-+ creation-authored Game-local NPC without a Card
-+ runtime Narrative-materialized NPC without a Card
-```
+Parent real G5-03 Provider proof remains `PENDING / EXTERNAL PROVIDER UNAVAILABLE`; do not switch Provider merely to manufacture evidence.
 
-All receive Program-owned Game-local identity. Display name is never authoritative identity. Model output never mints final actor IDs.
-
-Agency v0.3 remains:
-
-```text
-ordinary accepted player Narrative
-→ mark Agency dirty
-→ semantic lane terminal
-→ standalone Selector on latest world
-→ 0..4 current stable NPCs
-→ independent actor-scoped requests
-→ optional durable actor actions
-```
-
-Player foreground always wins. Actor-private material / Knowledge / history remain isolated.
-
-## 4. G5-03 closeout / Faction decision
-
-G5-03 is closed after MW-001 PASS.
-
-Do **not** add a separate Faction-agency slice merely for symmetry. Current architecture has no concrete stable Faction identity / private Faction Knowledge / Faction action consumer that justifies a new platform seam. Faction/shared knowledge was explicitly deferred earlier.
-
-Faction-level capability may be pulled out later only by a real consumer, most plausibly G5-04 pressure/priority world evolution or a later product surface.
-
-This deferral does not mean:
-
-- treating Factions as NPCs;
-- granting shared Faction knowledge;
-- inventing Faction identity now;
-- silently claiming Faction agency is already implemented.
-
-Read `docs/g5_03/G5-03_CLOSEOUT.md` for the decision.
-
-## 5. Task Identity / Lineage
+## 3. Task identity / lineage
 
 Use:
 
@@ -114,62 +76,207 @@ Roadmap / Capability Anchor
 != Revision / Review Lineage
 ```
 
-Do not create recursive suffix chains for correction/review history. Same-Outcome defects stay on the same Work Item and advance Revision / Review-Round. Mint a new flat Work Item only for a distinct Outcome/seam/prerequisite/Owner-inserted goal.
+Current identity:
 
-`MW-001` is closed and remains the first flat Work Item under this rule. `G5-03M2B` remains only its legacy planning reference.
+```text
+Work Item: MW-002
+Name: Selective World Evolution Evaluator
+Capability-Anchor: G5-04
+Revision: 1
+Review-Round: 0
+Owner: Kimi
+Reviewer: GPT
+```
 
-## 6. Protected G5-03 behavior
+Do not create recursive suffix chains. A same-Outcome correction keeps `MW-002` and advances Revision / Review-Round.
 
-Do not reopen absent concrete regression or a real new consumer:
+## 4. Protected G5-03 behavior
 
-- Model Freedom First / Visible Narrative First;
-- Narrative acceptance independent of semantic/agency extraction;
-- standalone Agency Selector after semantic terminal;
-- ordinary accepted turn marks dirty, selector start consumes dirty once;
-- Player foreground invalidates remaining uncommitted background work;
-- committed actor actions remain durable;
-- selector fan-out 0..4;
-- separate actor-scoped execution requests;
+G5-03 is closed. Do not reopen absent concrete regression/new consumer.
+
+Protect:
+
+```text
+ordinary accepted Player Narrative
+→ mark Agency dirty
+→ semantic terminal
+→ standalone Selector
+→ 0..4 current stable NPCs
+→ actor-scoped execution
+→ optional durable actor actions
+```
+
+Also protect:
+
+- Player foreground always wins;
+- selector start consumes one dirty opportunity;
+- no same-opportunity automatic retry;
 - actor-private material / Knowledge / history;
-- first-intent automatic exact-profile Source-backed stable NPC snapshot;
-- optional creation-time no-Card `game_local_npcs`;
-- Program-owned local IDs;
-- honest Source-backed vs Game-local material families;
-- unified `stable_npc_records` / `stable_actor_material` / `actor_roster`;
-- optional fail-soft runtime `new_actor_candidates` in the existing semantic lane only;
-- no extra mandatory Provider call;
-- actor-only semantic commit without fake changes;
-- runtime actor origin bound to exact accepted turn/hash;
-- stale runtime actors retained physically but filtered from current roster/Agency;
-- no automatic Knowledge from registry membership or actor materialization;
-- no runtime mutable Source lookup;
-- Save/reopen/Restore preserves stable actor identity/history;
-- semantic `agency_candidates` remains non-authoritative/dead; do not reactivate it.
+- Program-owned stable actor identity;
+- runtime actor accepted-hash currentness;
+- no automatic Knowledge from registry/materialization;
+- no mutable Source lookup;
+- semantic `agency_candidates` remains non-authoritative/dead.
 
-MW-001 IR#1 recorded one non-blocking advisory: `actors_dropped` over-reports by one when exactly eight valid unique actor candidates reach the safety ceiling. No production authority depends on this count; correct opportunistically if that parser is next touched.
+MW-002 may add only one **observational** Agency-opportunity terminal signal so G5-04 can wake after the entire Agency opportunity settles. It must not alter Agency scheduling semantics.
 
-## 7. Current next work: G5-04 shaping only
+Do not create a Faction actor/shared-Knowledge platform merely for G5-04. Aggregate faction-related processes may be represented as world events until a concrete Faction consumer proves stronger semantics are needed.
 
-G5-04 Event / Priority-driven World Evolution is now the current capability, but **implementation is not yet authorized**.
+## 5. G5-04 product rule
 
-GPT must first shape the smallest product semantics / architecture for a real pressure/priority/event consumer.
+G5-04 exists to prove:
 
-Do not prebuild:
+> **The world can move without the Player causing every change, without forcing an event every turn.**
 
-- a universal simulation engine;
-- minute-by-minute NPC simulation;
-- a generic Faction platform;
-- universal entity/relationship ontology;
-- new UI;
-- new SQLite schema merely for symmetry;
-- mechanics/Public-d20 redesign.
+Core distinction:
 
-Until a G5-04 canonical decision + Task Packet exists, Kimi/Codex should not start G5-04 code changes.
+```text
+World Independence + Player Spotlight
+Persistent != Fully Simulated
+Evaluation opportunity != event obligation
+```
 
-## 8. Validation / evidence discipline
+`hold` is a correct first-class result.
 
-Independent Review must inspect actual code/diff/tests/evidence, not Agent self-report.
+Do not build a random-event machine, universal simulation engine, persistent pressure queue or numeric priority system.
 
-Focused-first validation remains the default. Do not restore broad project matrices without a concrete cross-system reason.
+## 6. Frozen MW-002 ordering
 
-Real Provider evidence must remain honest. External-provider unavailability is not permission to switch Provider or relabel deterministic proof as real integration proof.
+For one ordinary accepted Player turn:
+
+```text
+visible Narrative accepted
+↓
+existing semantic lane
+↓
+existing Agency Selector / optional actor cycle
+↓
+Agency opportunity truly terminal
+↓
+World Evolution Evaluator gets one best-effort opportunity
+↓
+hold
+OR
+advance at most one causally-ready world event
+↓
+optional single durable world mutation
+↓
+next GM continuation Context can consume current event
+```
+
+The Player turn is the scheduling opportunity, **not causal authority** for the event.
+
+Opening-only GM generation creates no MW-002 opportunity. No offline/wall-clock progression is introduced.
+
+## 7. World-event ownership
+
+World Evolution is for concrete processes not necessarily owned by one stable NPC intentional decision, such as:
+
+- environment/weather/natural process;
+- aggregate conflict/front movement;
+- institutional/economic/social process;
+- deadline ripening;
+- disaster/accident;
+- chain reaction from prior consequences.
+
+A stable NPC's intentional action remains G5-03 Agency territory.
+
+One evaluation may advance at most one event. That is a v0.1 safety ceiling, not a semantic world limit.
+
+## 8. Evaluator authority / context
+
+Priority judgment stays model-owned. Program may validate only the bounded machine contract/currentness/integrity.
+
+Do not implement keyword gates, scores, fixed cadence or Program event taxonomy.
+
+Evaluator input is bounded GM-level world causality:
+
+1. frozen Game-local T0 **World-only** projection from the opened Game;
+2. latest accepted Player action + GM Narrative;
+3. recent current-hash semantic world changes;
+4. recent current-hash Agency actions/effects;
+5. recent current-hash prior evolution events.
+
+Do not include Actor Knowledge Provenance or Character-private Source material.
+
+Do not read mutable Source Library current during gameplay. If frozen world-only material is unexpectedly too large, fail-soft rather than query mutable Source or silently create misleading partial authority.
+
+## 9. Durable / currentness contract
+
+Keep `living_world.v0.1`; no SQLite migration/table.
+
+Durable event shape is equivalent to:
+
+```text
+world_evolution_id          Program-owned
+opportunity_turn_index
+opportunity_gm_sha256
+evolution_base_head_id
+materialized_at
+event
+effects[]
+```
+
+Program owns event/mutation/node IDs. Opportunity turn/hash is scheduling/currentness metadata, not Player-causation metadata.
+
+Matching committed event replay must not duplicate/re-call Provider. `hold`/failure creates no fake durable record and does not auto-retry same runtime opportunity.
+
+At evaluation start freeze opportunity turn/hash + accepted count + active head. Before commit all must still match and foreground must remain idle.
+
+New foreground / Restore / shutdown / unrelated head change invalidates uncommitted work; late callbacks are inert.
+
+Regenerate/correction leaves stale physical history but current GM Context filters it by accepted hash.
+
+## 10. First real consumer / disclosure
+
+MW-002 must extend the existing World Turn Context projection so the next production GM continuation can see current committed world-evolution events.
+
+Context must explicitly state:
+
+- event = omniscient GM world fact;
+- not automatic Player knowledge;
+- not automatic actor knowledge;
+- GM decides when/how scene and information flow make it relevant.
+
+Do not force a visible event announcement and do not auto-create Knowledge Provenance.
+
+Do not inject evolution events into actor execution requests in MW-002.
+
+## 11. Scope ceilings
+
+Do not:
+
+- gate or format-constrain visible Narrative;
+- require an event every turn;
+- build pressure DB / priority queue / Thread/Quest scheduler / event ontology;
+- build generic Faction identity/Knowledge/agency;
+- redesign G5-03 scheduling;
+- add UI;
+- add SQLite schema/table/migration;
+- read mutable Source current;
+- add offline simulation;
+- change Public d20/mechanics;
+- enter G5-05.
+
+MW-001's non-blocking `actors_dropped` ceiling-count advisory remains opportunistic only; do not expand MW-002 to fix unrelated parser code unless it becomes directly touched for a concrete reason.
+
+## 12. Validation / evidence
+
+Focused-first:
+
+- `tests/g5_04/` until green;
+- then only directly affected G5-01 context/semantic, G5-02 Knowledge-boundary, G5-03 Scheduler/Cycle, G4-07 continuation-context and one G3-04 Save/Restore regression;
+- `git diff --check`;
+- real Provider calls = 0 for deterministic Engineering Acceptance.
+
+Evidence path:
+
+`docs/g5_04/MW-002_SELECTIVE_WORLD_EVOLUTION_EVIDENCE.md`
+
+Kimi commits/pushes and returns at most:
+
+`READY FOR INDEPENDENT REVIEW`
+
+GPT then performs actual-code Independent Review.
+
+Because G5-04 changes core world pacing/product feel, **Owner UAT is mandatory after Engineering PASS before G5-04 closure**. Engineering evidence does not prove the world feels active-but-not-event-spammy.
