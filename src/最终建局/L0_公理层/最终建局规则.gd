@@ -6,6 +6,10 @@ const CREATED_SCHEMA := "atomic_game_creation_created.v0.1"
 const SETUP_SCHEMA := "game_local_setup.v0.1"
 const PRODUCTION_ROOT := "user://my-world/creation-protocol"
 const PIN_FIELDS := ["asset_type", "asset_id", "version", "generation_fingerprint"]
+## G5-03M2A：creation-authored no-Card NPC 输入的有界 v0.1 上限。
+const MAX_GAME_LOCAL_NPCS := 8
+const MAX_GAME_LOCAL_NPC_NAME_CHARS := 64
+const MAX_GAME_LOCAL_NPC_PROFILE_CHARS := 1024
 
 
 static func success(values: Dictionary = {}) -> Dictionary:
@@ -79,6 +83,11 @@ static func canonicalize_composition(composition: Dictionary) -> Dictionary:
 		entry_id = String(composition.entry.get("entry_id", ""))
 		if String(entry_id).is_empty():
 			return failure("invalid_composition", "selected Entry 缺少 entry_id。")
+	# G5-03M2A：optional additive no-Card NPC 输入；missing 一律 canonicalize 为 []，
+	# 既有 Composition 调用方保持有效。display name 不是 identity，重名是合法的不同人。
+	var game_local_npcs := _canonicalize_game_local_npcs(composition.get("game_local_npcs", []))
+	if not game_local_npcs.success:
+		return game_local_npcs
 	var payload := {
 		"world_pin": world_pin.pin,
 		"entry_id": entry_id,
@@ -86,6 +95,7 @@ static func canonicalize_composition(composition: Dictionary) -> Dictionary:
 		"expansions": expansion_pins,
 		"player_character_pin": player_pin.pin,
 		"guaranteed_npc_pins": npc_pins,
+		"game_local_npcs": game_local_npcs.records,
 		"display_name": String(composition.display_name),
 		"control_mode": String(composition.control_mode),
 		"opening_supplement": String(composition.opening_supplement),
@@ -151,7 +161,43 @@ static func validate_intent(intent: Dictionary) -> Dictionary:
 			return failure("invalid_creation_intent", "creating intent Expansion materialization 类型无效。")
 		if (expansions[index] as Dictionary).provenance != intent.canonical_payload.expansions[index]:
 			return failure("invalid_creation_intent", "creating intent Expansion exact provenance 不一致。")
+	# G5-03M2A：stable_npcs 是 optional additive 集合；缺失（旧 intent/旧 Game）合法。
+	# 存在时只做形状/identity 一致性校验：非空唯一 local ID，且不与 Player/Guaranteed 冲突。
+	var stable_value: Variant = setup.get("stable_npcs", [])
+	if not stable_value is Array:
+		return failure("invalid_creation_intent", "creating intent stable_npcs 集合类型无效。")
+	var stable_seen: Dictionary = {}
+	for stable_value_item: Variant in stable_value as Array:
+		if not stable_value_item is Dictionary:
+			return failure("invalid_creation_intent", "creating intent stable NPC 记录类型无效。")
+		var stable_id := String((stable_value_item as Dictionary).get("local_character_id", ""))
+		if stable_id.is_empty() or stable_seen.has(stable_id) \
+			or stable_id == String(intent.local_player_id) or intent.local_npc_ids.has(stable_id):
+			return failure("invalid_creation_intent", "creating intent stable NPC local identity 无效或冲突。")
+		stable_seen[stable_id] = true
 	return success()
+
+
+## G5-03M2A：no-Card NPC 输入只携带 bounded Game-local material；
+## 不要求也不编造 Source provenance；不做 display-name dedupe（重名是合法的不同人）。
+static func _canonicalize_game_local_npcs(value: Variant) -> Dictionary:
+	if not value is Array:
+		return failure("invalid_composition", "game_local_npcs 必须是 Array。")
+	var input := value as Array
+	if input.size() > MAX_GAME_LOCAL_NPCS:
+		return failure("invalid_composition", "game_local_npcs 超过有界上限。")
+	var records: Array = []
+	for item: Variant in input:
+		if not item is Dictionary:
+			return failure("invalid_composition", "game_local_npcs 条目类型无效。")
+		var npc := item as Dictionary
+		var display_name := String(npc.get("display_name", "")).strip_edges()
+		var profile_text := String(npc.get("profile_text", "")).strip_edges()
+		if display_name.is_empty() or display_name.length() > MAX_GAME_LOCAL_NPC_NAME_CHARS \
+			or profile_text.is_empty() or profile_text.length() > MAX_GAME_LOCAL_NPC_PROFILE_CHARS:
+			return failure("invalid_composition", "game_local_npcs 条目需要 bounded 非空 display_name/profile_text。")
+		records.append({"display_name": display_name, "profile_text": profile_text})
+	return success({"records": records})
 
 
 static func _pin_from_selection(selection: Dictionary, expected_type: String) -> Dictionary:

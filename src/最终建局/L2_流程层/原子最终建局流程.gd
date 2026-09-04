@@ -5,6 +5,7 @@ const Rules := preload("res://src/最终建局/L0_公理层/最终建局规则.g
 const IntentStore := preload("res://src/最终建局/L1_器件层/创建Intent存储.gd")
 const CreationReview := preload("res://src/建局/L3_外交层/建局公开接口.gd")
 const SourceContract := preload("res://src/source/L3_外交层/Source合同公开接口.gd")
+const SourceRules := preload("res://src/source/L0_公理层/Source合同规则.gd")
 const GameLibrary := preload("res://src/游戏库/L3_外交层/游戏库公开接口.gd")
 const Persistence := preload("res://src/persistence/L3_外交层/世界持久化公开接口.gd")
 const DatabaseSafety := preload("res://src/persistence/L3_外交层/数据库安全公开接口.gd")
@@ -110,6 +111,14 @@ func _build_intent(creation_id: String, canonical: Dictionary) -> Dictionary:
 			return projected
 		npc_projections.append(projected.projection)
 
+	# G5-03M2A：只在首次 intent 构建时检查一次 validated current Character inventory。
+	# 同 creation_id retry/resume 走 _resume_existing 复用冻结 intent，绝不重扫 later Source current。
+	var stable_snapshot := _source_backed_stable_npcs(canonical.payload, String(canonical.payload.world_pin.asset_id), entry_id)
+	if not stable_snapshot.success:
+		return stable_snapshot
+	var stable_npcs: Array = stable_snapshot.records
+	stable_npcs.append_array(_creation_authored_stable_npcs(canonical.payload))
+
 	var game_id := _identity("game")
 	var root_node_id := _identity("root")
 	var local_world_id := _identity("world")
@@ -122,7 +131,7 @@ func _build_intent(creation_id: String, canonical: Dictionary) -> Dictionary:
 		creation_id, String(canonical.fingerprint), game_id, root_node_id, local_world_id,
 		local_player_id, local_npc_ids, created_at, canonical.payload,
 		world_projection.projection, player_projection.projection, npc_projections,
-		expansion_materialization.expansions
+		expansion_materialization.expansions, stable_npcs
 	)
 	return Rules.success({"intent": {
 		"schema_version": Rules.INTENT_SCHEMA,
@@ -295,7 +304,7 @@ func _setup_envelope(
 	creation_id: String, fingerprint: String, game_id: String, root_node_id: String,
 	local_world_id: String, local_player_id: String, local_npc_ids: Array, created_at: String,
 	payload: Dictionary, world_projection: Dictionary, player_projection: Dictionary, npc_projections: Array,
-	expansions: Array
+	expansions: Array, stable_npcs: Array
 ) -> Dictionary:
 	var npcs: Array = []
 	for index: int in npc_projections.size():
@@ -329,7 +338,71 @@ func _setup_envelope(
 			"source_projection": player_projection.duplicate(true),
 		},
 		"guaranteed_npcs": npcs,
+		# G5-03M2A：optional additive Game-local stable registry；Guaranteed 保持 distinct product role。
+		"stable_npcs": stable_npcs.duplicate(true),
 	}
+
+
+## G5-03M2A：automatic Source-backed stable NPC snapshot。
+## 只包含对 selected exact World+Entry compatibility_state == exact_profile 的 Character；
+## 排除 Player 与显式 Guaranteed 的 asset_id；按 exact Source identity deterministic 排序；
+## 冻结 exact provenance + T0 source_projection；Program 分配 Game-local ID。
+func _source_backed_stable_npcs(payload: Dictionary, world_asset_id: String, entry_id: String) -> Dictionary:
+	# 无 exact Entry 时没有 T0 projection contract，automatic snapshot 为空。
+	if entry_id.is_empty():
+		return Rules.success({"records": []})
+	var excluded_asset_ids: Dictionary = {String(payload.player_character_pin.asset_id): true}
+	for pin: Dictionary in payload.guaranteed_npc_pins:
+		excluded_asset_ids[String(pin.asset_id)] = true
+	var inventory: Dictionary = _source_library.list_current_sources()
+	if not inventory.success:
+		return Rules.failure("source_inventory_unavailable", "automatic stable NPC snapshot 无法检查 validated current Character inventory。")
+	var candidates: Array = []
+	for generation: RefCounted in inventory.sources:
+		var identity: Dictionary = generation.identity
+		if String(identity.get("asset_type", "")) != "character_card":
+			continue
+		if excluded_asset_ids.has(String(identity.get("asset_id", ""))):
+			continue
+		var projected: Dictionary = _source_contract.project_character_t0(generation.source, world_asset_id, entry_id)
+		# 无 v0.2 T0 contract 的 Character 不参与 automatic snapshot；不是创建失败。
+		if not projected.success:
+			continue
+		if String(projected.compatibility_state) != SourceRules.COMPATIBILITY_EXACT_PROFILE:
+			continue
+		var provenance := {}
+		for field: String in Rules.PIN_FIELDS:
+			provenance[field] = String(identity.get(field, ""))
+		candidates.append({"provenance": provenance, "projection": (projected.projection as Dictionary).duplicate(true)})
+	candidates.sort_custom(func(left: Dictionary, right: Dictionary) -> bool:
+		return Rules._pin_sort_key(left.provenance) < Rules._pin_sort_key(right.provenance)
+	)
+	var records: Array = []
+	for candidate: Dictionary in candidates:
+		records.append({
+			"local_character_id": _identity("character"),
+			"role": "stable_npc",
+			"origin": {"kind": "source_character"},
+			"provenance": candidate.provenance.duplicate(true),
+			"source_projection": candidate.projection.duplicate(true),
+		})
+	return Rules.success({"records": records})
+
+
+## G5-03M2A：creation-authored no-Card NPC；诚实的 game_local_material，绝不伪造 Source provenance。
+func _creation_authored_stable_npcs(payload: Dictionary) -> Array:
+	var records: Array = []
+	for item: Dictionary in payload.get("game_local_npcs", []):
+		records.append({
+			"local_character_id": _identity("character"),
+			"role": "stable_npc",
+			"origin": {"kind": "creation_authored"},
+			"game_local_material": {
+				"display_name": String(item.display_name),
+				"profile_text": String(item.profile_text),
+			},
+		})
+	return records
 
 
 ## Final Create 只接受 Host 已知 capability；Source rules 作为 immutable data materialize，不执行 Source 代码。

@@ -9,6 +9,8 @@ var expansion_none_confirmed := false
 var expansions: Array[Dictionary] = []
 var player_character: Dictionary = {}
 var guaranteed_npcs: Array[Dictionary] = []
+## G5-03M2A：optional additive no-Card NPC 输入；空集合语义 = 未提供。
+var game_local_npcs: Array = []
 var display_name := ""
 var control_mode := Rules.DEFAULT_CONTROL_MODE
 var opening_supplement := ""
@@ -21,6 +23,7 @@ func reset() -> void:
 	expansions.clear()
 	player_character = {}
 	guaranteed_npcs.clear()
+	game_local_npcs.clear()
 	display_name = ""
 	control_mode = Rules.DEFAULT_CONTROL_MODE
 	opening_supplement = ""
@@ -110,6 +113,13 @@ func set_npc(generation: RefCounted, selected: bool) -> Dictionary:
 	return Rules.success({"npcs": guaranteed_npcs.duplicate(true)})
 
 
+## G5-03M2A：creation-authored no-Card NPC 的 programmatic 入口；
+## 只存 bounded material 原样副本，canonical 校验由 Final Create 规则拥有。
+func set_game_local_npcs(npcs: Array) -> Dictionary:
+	game_local_npcs = npcs.duplicate(true)
+	return Rules.success({"game_local_npcs": game_local_npcs.duplicate(true)})
+
+
 func set_settings(name: String, mode: String, supplement: String) -> Dictionary:
 	var normalized_name := name.strip_edges()
 	if normalized_name.is_empty():
@@ -130,6 +140,7 @@ func snapshot() -> Dictionary:
 		"expansion_none_confirmed": expansion_none_confirmed,
 		"player_character": player_character.duplicate(true),
 		"guaranteed_npcs": guaranteed_npcs.duplicate(true),
+		"game_local_npcs": game_local_npcs.duplicate(true),
 		"display_name": display_name,
 		"control_mode": control_mode,
 		"opening_supplement": opening_supplement,

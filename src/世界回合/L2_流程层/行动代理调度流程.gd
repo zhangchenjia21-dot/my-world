@@ -94,26 +94,19 @@ func _start_selector() -> Dictionary:
 func _selector_request() -> Array:
 	var entries: Array = session_runtime.conversation.get_durable_accepted_entries()
 	var latest := entries[-1] as Dictionary
-	var roster := Rules.actor_roster(session_runtime.world_state)
-	var npcs_value: Variant = session_runtime.world_state.get("guaranteed_npcs", [])
+	# G5-03M2A：eligible roster 走统一 registry helper（Guaranteed + Source-backed stable + creation-authored）。
+	var accepted_hashes := _current_accepted_hashes()
 	var roster_lines := PackedStringArray()
-	if typeof(npcs_value) == TYPE_ARRAY:
-		for npc_value: Variant in npcs_value as Array:
-			if typeof(npc_value) != TYPE_DICTIONARY:
-				continue
-			var npc := npc_value as Dictionary
-			var local_id := String(npc.get("local_character_id", ""))
-			if local_id.is_empty():
-				continue
-			var display := String(npc.get("source_projection", {}).get("display_name", local_id))
-			roster_lines.append("- %s | %s" % [display, local_id])
+	for record: Dictionary in Rules.stable_npc_records(session_runtime.world_state, accepted_hashes):
+		var local_id := String(record.get("local_character_id", ""))
+		var display := String(Rules.stable_actor_material(record).get("display_name", local_id))
+		roster_lines.append("- %s | %s" % [display, local_id])
 	var changes_text := ""
 	var living_world_value: Variant = session_runtime.world_state.get("living_world", {})
 	if typeof(living_world_value) == TYPE_DICTIONARY:
 		var records_value: Variant = (living_world_value as Dictionary).get("semantic_turns_by_index", {})
 		if typeof(records_value) == TYPE_DICTIONARY:
 			# R01C01 修正 C：selector 只读 current accepted-hash-matching semantic consequences。
-			var accepted_hashes := _current_accepted_hashes()
 			var matching: Array = []
 			for record_value: Variant in (records_value as Dictionary).values():
 				if typeof(record_value) != TYPE_DICTIONARY:
@@ -255,20 +248,15 @@ func _selector_still_current() -> bool:
 	return true
 
 
-## Selector 验证：只保留 eligible stable NPC roster 中的 ID；deduplicate；cap 4；
+## Selector 验证：只保留 current eligible stable NPC roster 中的 ID；deduplicate；cap 4；
 ## unknown/Player/empty 丢弃；无 round-robin fallback。
 func _validate_candidates(candidates: Array) -> Array:
 	if candidates.is_empty():
 		return []
-	var npcs_value: Variant = session_runtime.world_state.get("guaranteed_npcs", [])
-	if typeof(npcs_value) != TYPE_ARRAY:
-		return []
+	# G5-03M2A：eligibility = 统一 stable_npc_records（含 no-Card Game-local actor）；Player 不在此列。
 	var eligible: Array = []
-	for npc_value: Variant in npcs_value as Array:
-		if typeof(npc_value) != TYPE_DICTIONARY:
-			continue
-		var npc := npc_value as Dictionary
-		var local_id := String(npc.get("local_character_id", ""))
+	for record: Dictionary in Rules.stable_npc_records(session_runtime.world_state, _current_accepted_hashes()):
+		var local_id := String(record.get("local_character_id", ""))
 		if not local_id.is_empty():
 			eligible.append(local_id)
 	var validated: Array = []

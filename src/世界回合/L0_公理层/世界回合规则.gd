@@ -105,24 +105,64 @@ static func matching_record(world_state: Dictionary, source_turn_index: int, sou
 ## 知识事件不是普遍事实对象：只表示「该 stable actor 在此 accepted turn 后有 durable 根据
 ## 知道该事实」。不携带 confidence/truth-maintenance/inference。
 
+## ---- G5-03M2A Stable Actor Registry ----
+## 统一 stable actor 视图：Guaranteed + creation-time stable_npcs（+ 未来 runtime_narrative）。
+## Display name 永不作为 authoritative identity；空/重复 local ID deterministic fail-soft 丢弃。
+
+## 当前 stable NPC 记录：Guaranteed（product role 保持 distinct）+ world_state.stable_npcs。
+## creation-time origin 永远 current；origin.kind == runtime_narrative 的记录只在
+## accepted_hashes[source_turn_index] == source_gm_sha256 时 current（M2B 契约预留）。
+static func stable_npc_records(world_state: Dictionary, accepted_hashes: Dictionary = {}) -> Array:
+	var records: Array = []
+	var seen: Dictionary = {}
+	for collection: String in ["guaranteed_npcs", "stable_npcs"]:
+		var list_value: Variant = world_state.get(collection, [])
+		if typeof(list_value) != TYPE_ARRAY:
+			continue
+		for record_value: Variant in list_value as Array:
+			if typeof(record_value) != TYPE_DICTIONARY:
+				continue
+			var record := record_value as Dictionary
+			var local_id := String(record.get("local_character_id", "")).strip_edges()
+			if local_id.is_empty() or seen.has(local_id):
+				continue
+			var origin_value: Variant = record.get("origin", {})
+			var origin := origin_value as Dictionary if typeof(origin_value) == TYPE_DICTIONARY else {}
+			if String(origin.get("kind", "")) == "runtime_narrative":
+				var origin_turn := int(origin.get("source_turn_index", -1))
+				var origin_hash := String(origin.get("source_gm_sha256", ""))
+				if not accepted_hashes.has(origin_turn) or String(accepted_hashes[origin_turn]) != origin_hash:
+					continue
+			seen[local_id] = true
+			records.append(record)
+	return records
+
+
+## 两种 material family 不做假等价：Source-backed/Guaranteed 返回 source_projection；
+## no-Card Game-local actor 返回 game_local_material；都没有时返回空。
+static func stable_actor_material(record: Dictionary) -> Dictionary:
+	var source_value: Variant = record.get("source_projection", {})
+	if typeof(source_value) == TYPE_DICTIONARY and not (source_value as Dictionary).is_empty():
+		return source_value as Dictionary
+	var local_value: Variant = record.get("game_local_material", {})
+	if typeof(local_value) == TYPE_DICTIONARY:
+		return local_value as Dictionary
+	return {}
+
+
 ## 从当前 Game-local durable setup 构造只读 actor allowlist；incidental/emergent NPC 不在此列。
-static func actor_roster(world_state: Dictionary) -> Dictionary:
+## roster = Player + stable_npc_records；Player 永不进入 Agency eligibility（由消费方保证）。
+static func actor_roster(world_state: Dictionary, accepted_hashes: Dictionary = {}) -> Dictionary:
 	var roster: Dictionary = {}
 	var player_value: Variant = world_state.get("player_character", {})
 	if typeof(player_value) == TYPE_DICTIONARY:
 		var player := player_value as Dictionary
 		var local_id := String(player.get("local_character_id", ""))
 		if not local_id.is_empty():
-			roster[local_id] = String(player.get("source_projection", {}).get("display_name", local_id))
-	var npcs_value: Variant = world_state.get("guaranteed_npcs", [])
-	if typeof(npcs_value) == TYPE_ARRAY:
-		for npc_value: Variant in npcs_value as Array:
-			if typeof(npc_value) != TYPE_DICTIONARY:
-				continue
-			var npc := npc_value as Dictionary
-			var npc_id := String(npc.get("local_character_id", ""))
-			if not npc_id.is_empty():
-				roster[npc_id] = String(npc.get("source_projection", {}).get("display_name", npc_id))
+			roster[local_id] = String(stable_actor_material(player).get("display_name", local_id))
+	for record: Dictionary in stable_npc_records(world_state, accepted_hashes):
+		var record_id := String(record.get("local_character_id", ""))
+		roster[record_id] = String(stable_actor_material(record).get("display_name", record_id))
 	return roster
 
 

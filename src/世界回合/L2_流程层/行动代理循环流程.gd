@@ -117,18 +117,24 @@ func _start_actor_execution(actor_id: String) -> void:
 
 
 func _actor_request(actor_id: String) -> Array:
-	var roster := Rules.actor_roster(session_runtime.world_state)
+	var accepted_hashes := _current_accepted_hashes()
+	var roster := Rules.actor_roster(session_runtime.world_state, accepted_hashes)
 	var display := String(roster.get(actor_id, actor_id))
 	var npc := _npc_for(actor_id)
+	# G5-03M2A：material family 解析——Source-backed 用 frozen T0 source_projection，
+	# no-Card Game-local actor 用 game_local_material；不假装两者 provenance 相同。
+	var actor_material := Rules.stable_actor_material(npc)
 	var sections := PackedStringArray()
-	var source_sections: Array = npc.get("source_projection", {}).get("semantic_sections", [])
+	var source_sections: Array = actor_material.get("semantic_sections", [])
 	for section_value: Variant in source_sections:
 		if typeof(section_value) != TYPE_DICTIONARY:
 			continue
 		var section := section_value as Dictionary
 		sections.append("- %s：%s" % [String(section.get("title", "")), String(section.get("content", "")).left(400)])
+	var profile_text := String(actor_material.get("profile_text", "")).strip_edges()
+	if not profile_text.is_empty():
+		sections.append("- 人物材料：%s" % profile_text.left(400))
 	# C01 修正 D：Knowledge/Agency History 只含 current-hash matching 的 durable 记录。
-	var accepted_hashes := _current_accepted_hashes()
 	var knowledge := PackedStringArray()
 	var knowledge_records_value: Variant = session_runtime.world_state.get("living_world", {}).get("knowledge_turns_by_index", {})
 	if typeof(knowledge_records_value) == TYPE_DICTIONARY:
@@ -162,7 +168,7 @@ func _actor_request(actor_id: String) -> Array:
 			if typeof(action_value) != TYPE_DICTIONARY:
 				continue
 			history.append("- %s" % String((action_value as Dictionary).get("action", "")).left(120))
-	var material := "Actor: %s | %s\n\nSource\n%s\n\nOwn Knowledge\n%s\n\nOwn Recent Agency History\n%s" % [
+	var material := "Actor: %s | %s\n\nActor Material\n%s\n\nOwn Knowledge\n%s\n\nOwn Recent Agency History\n%s" % [
 		display, actor_id,
 		"\n".join(sections) if not sections.is_empty() else "（无）",
 		"\n".join(knowledge) if not knowledge.is_empty() else "（无）",
@@ -174,16 +180,12 @@ func _actor_request(actor_id: String) -> Array:
 	]
 
 
+## G5-03M2A：按 exact local_character_id 在统一 registry（Guaranteed + stable_npcs）解析；
+## runtime_narrative origin 记录只认 current accepted hash。
 func _npc_for(actor_id: String) -> Dictionary:
-	var npcs_value: Variant = session_runtime.world_state.get("guaranteed_npcs", [])
-	if typeof(npcs_value) != TYPE_ARRAY:
-		return {}
-	for npc_value: Variant in npcs_value as Array:
-		if typeof(npc_value) != TYPE_DICTIONARY:
-			continue
-		var npc := npc_value as Dictionary
-		if String(npc.get("local_character_id", "")) == actor_id:
-			return npc
+	for record: Dictionary in Rules.stable_npc_records(session_runtime.world_state, _current_accepted_hashes()):
+		if String(record.get("local_character_id", "")) == actor_id:
+			return record
 	return {}
 
 

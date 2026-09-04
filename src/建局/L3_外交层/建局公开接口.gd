@@ -64,6 +64,11 @@ func set_guaranteed_npc(generation: RefCounted, selected: bool) -> Dictionary:
 	return _state.set_npc(generation, selected)
 
 
+## G5-03M2A：optional additive no-Card NPC 输入；M2A 无 UI surface，供未来 producer 使用。
+func set_game_local_npcs(npcs: Array) -> Dictionary:
+	return _state.set_game_local_npcs(npcs)
+
+
 func set_settings(display_name: String, control_mode: String, opening_supplement: String) -> Dictionary:
 	return _state.set_settings(display_name, control_mode, opening_supplement)
 
