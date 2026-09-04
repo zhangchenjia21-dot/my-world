@@ -28,7 +28,7 @@ Owner      → Product UAT / explicit product verdict
 
 Temporary through 2026-09-06 23:59 (+08:00): Kimi owns all code-changing implementation tasks; GPT remains semantic owner/reviewer. Correct in-flight Kimi work may finish after expiry.
 
-Gemini review remains CANCELLED / DO NOT EXECUTE. Review flow: Kimi implementation → GPT Independent Review.
+Gemini review remains CANCELLED / DO NOT EXECUTE. Review flow: Kimi implementation → GPT actual-code Independent Review.
 
 ## 2. Current state
 
@@ -38,98 +38,97 @@ G5-01 World Turn / Semantic Materialization PASS / CLOSED
 G5-02 Knowledge Provenance                  PASS / CLOSED
 G5-03 NPC / Faction Agency                  ACTIVE
 G5-03M1 Multi-Actor Agency v0.3             ENGINEERING PASS / CLOSED
-G5-03M1R01C02 Dirty Opportunity             PASS / CLOSED
-G5-03M1R02 Semantic-Terminal Wake Ownership PASS / CLOSED
-G5-03M2 Stable NPC Materialization          ACTIVE — KIMI
+G5-03M2 Stable Actor Registry               ACTIVE
+G5-03M2A Registry Foundation                ACTIVE — KIMI
+G5-03M2B Runtime Narrative Materialization  PLANNED / MUST FOLLOW M2A PASS
 G5-04 Event / Priority Evolution            NOT YET
 ```
 
 Parent real G5-03 Provider proof remains `PENDING / EXTERNAL PROVIDER UNAVAILABLE`; do not relabel it PASS and do not switch Provider to manufacture evidence.
 
-## 3. Current task
+## 3. Owner-corrected product rule
 
-R02 review / M1 closeout:
+A Character Card is **not** required for a character to become a durable NPC.
 
-- `docs/g5_03/G5-03M1R02_INDEPENDENT_REVIEW.md`
-- `docs/g5_03/G5-03M1_CLOSEOUT.md`
+The Stable Actor Registry must ultimately support:
 
-Execute:
+```text
+Guaranteed Source NPC
++ automatic Source-backed NPC
++ creation-authored Game-local NPC without a Card
++ runtime Narrative-materialized NPC without a Card
+```
+
+All receive Program-owned Game-local identity. Display name is never authoritative identity. Model output never mints final actor IDs.
+
+## 4. Current canonical decision / task
+
+Canonical:
+
+`Vibe-Coding/my world/architecture/world/G5_STABLE_ACTOR_REGISTRY_AND_MATERIALIZATION_V0_2_DECISION.md`
+
+Current task:
+
+`docs/tasks/G5-03M2A_STABLE_ACTOR_REGISTRY_FOUNDATION_TASK.md`
+
+Mandatory next after M2A Independent Review PASS:
+
+`docs/tasks/G5-03M2B_RUNTIME_NARRATIVE_ACTOR_MATERIALIZATION_TASK.md`
+
+Historical source-only packet is superseded and must not be executed:
 
 `docs/tasks/G5-03M2_STABLE_NPC_CREATION_SNAPSHOT_AND_REGISTRY_EXPANSION_TASK.md`
-
-Canonical M2 decision:
-
-`Vibe-Coding/my world/architecture/world/G5_STABLE_NPC_MATERIALIZATION_V0_1_DECISION.md`
 
 Agency v0.3 remains protected:
 
 `Vibe-Coding/my world/architecture/world/G5_AGENCY_SCHEDULER_V0_3_DECISION.md`
 
-## 4. Frozen M2 behavior
+## 5. Frozen M2A behavior
 
-New Game creation may expand the stable NPC pool beyond explicit Guaranteed NPCs, but identity/material authority remains Program-owned and Game-local:
+M2A builds the registry foundation only:
 
-```text
-first creation-intent build
-→ validated current Source inventory
-→ Character Cards with exact_profile for selected World+Entry only
-→ exclude Player + explicit Guaranteed asset IDs
-→ deterministic stable_npcs snapshot
-→ Program-owned local_character_id
-→ exact provenance + frozen T0 source_projection
-→ creation intent owns exact initial_setup
-```
+- automatic exact-profile Source-backed NPC snapshot at first creation intent;
+- optional `game_local_npcs` creation input for no-Card Game-local NPCs; missing means `[]` and existing callers remain valid;
+- Program-owned local IDs for both families;
+- Source-backed actors keep exact provenance + frozen T0 projection;
+- no-Card actors keep honest `game_local_material`, never fake Source provenance;
+- unified stable-NPC/actor-material/actor-roster helpers;
+- G5-02/G5-03 consumers can use both material families;
+- existing Games missing `stable_npcs` remain valid with no Source retrofit;
+- helper currentness contract is prepared for future `runtime_narrative` origin records.
 
-Same `creation_id` retry/resume must reuse the frozen intent and must not rescan Source current.
+Do **not** implement runtime `new_actor_candidates` in M2A. That is M2B immediately after review.
 
-Existing Game with no `stable_npcs`:
-
-```text
-missing → []
-no retrofit
-no Source lookup
-Guaranteed-only behavior remains valid
-```
-
-Runtime consumers use one unified stable-NPC helper:
-
-- G5-02 actor roster = Player + Guaranteed + automatic stable NPCs;
-- Agency eligible actor pool = Guaranteed + automatic stable NPCs, Player excluded;
-- actor execution resolves frozen Source by exact local ID.
-
-Registry membership grants identity/material only, not knowledge or an automatic action.
-
-## 5. Protected boundaries
+## 6. Protected boundaries
 
 Do not:
 
+- require Character Cards for all stable NPCs;
 - use display-name matching as authoritative identity;
 - let models mint authoritative actor IDs;
+- invent fake Source provenance for Game-local actors;
 - read mutable Source current during ordinary gameplay/Continue/Save/Restore/Agency;
-- merge automatic stable NPCs into `guaranteed_npcs`;
-- build a universal entity registry/simulator;
+- alter Multi-Actor Agency v0.3 scheduling;
+- add UI or SQLite migration/table;
 - implement Faction agency or G5-04;
-- add SQLite schema/table/migration;
-- change Source schema/UI/Public d20/mechanics;
-- make real Provider calls for M2.
+- change Public d20/mechanics;
+- make real Provider calls for M2A.
 
-## 6. Slim validation rule
+## 7. Slim validation rule
 
-Keep focused work focused.
-
-During implementation: run the M2 focused suite only.
+During M2A implementation: run M2A focused tests only.
 
 After focused green, one final affected pass only:
 
 - G4-06 Final Create / creation integration;
-- G5-03 focused;
 - G5-02 focused;
+- G5-03 focused;
 - one directly relevant G3 Save/Restore suite;
 - `git diff --check`.
 
-Do not rerun unrelated full G2/UI/Public-d20/project suites absent a concrete failure reason.
+Do not rerun unrelated full project/UI/Public-d20 suites absent a concrete reason.
 
-## 7. Completion
+## 8. Completion
 
 Kimi writes compact evidence, commits/pushes, and returns:
 
