@@ -28,96 +28,78 @@ Owner      → Product UAT / explicit product verdict
 
 Temporary through 2026-09-06 23:59 (+08:00): Kimi owns all code-changing implementation tasks; GPT remains semantic owner/reviewer. Correct in-flight Kimi work may finish after expiry.
 
-Owner has temporarily declined Gemini adversarial review. `docs/tasks/G5-03M1R01_GEMINI_ADVERSARIAL_REVIEW_TASK.md` is CANCELLED / DO NOT EXECUTE. Review flow remains Kimi implementation → GPT Independent Review.
+Gemini review remains CANCELLED / DO NOT EXECUTE. Review flow: Kimi implementation → GPT Independent Review.
 
-## 2. Standing Provider rule
-
-Canonical: `Vibe-Coding/my world/architecture/foundation/REAL_PROVIDER_VALIDATION_STANDING_AUTHORIZATION.md`.
-
-No fallback, hidden Provider/model switch, open-ended retry or repeated Owner confirmation. External Provider outage may leave reality proof pending without blocking reviewable code.
-
-## 3. Current state
+## 2. Current state
 
 ```text
-G1 Foundation                               PASS / CLOSED
-G2 AI Conversation Spine                    PASS / CLOSED
-G3 Persistence / Save / Timeline            PASS / CLOSED
-G4 Primary Source Assets & Local Game       PASS / CLOSED
-G4-10 Runtime Asset Resolution              DEFERRED / MOVED TO G6
-
-G5 World Semantics & GM Runtime             ACTIVE
+G1-G4                                      PASS / CLOSED
 G5-01 World Turn / Semantic Materialization PASS / CLOSED
 G5-02 Knowledge Provenance                  PASS / CLOSED
 G5-03 NPC / Faction Agency                  ACTIVE
-G5-03M1 Multi-Actor Agency                  REDESIGN ACTIVE
-G5-03M1C01                                  HISTORICAL PARTIAL PASS
-G5-03M1C02                                  SUPERSEDED / DO NOT EXECUTE
-G5-03M1R01 Agency Scheduler v0.3            CORRECTION REQUIRED
-G5-03M1R01C01 Scheduler Lifecycle/Snapshot  CORRECTION REQUIRED / CLOSED INTO C02
-G5-03M1R01C02 Dirty Opportunity Consumption ACTIVE — KIMI
+G5-03M1R01 Agency Scheduler v0.3            REDESIGN ACTIVE
+G5-03M1R01C01                               CLOSED INTO C02
+G5-03M1R01C02 Dirty Opportunity             PASS
+G5-03M1R02 Semantic-Terminal Wake Ownership ACTIVE — KIMI
 G5-03M2 Stable Actor Materialization        NOT YET
 G5-04 Event / Priority Evolution            NOT YET
 ```
 
-Do not execute old C02 or Gemini review packets. Do not start M2/G5-04 before R01C02 Independent Review PASS.
+Do not start M2/G5-04 before R02 Independent Review PASS.
 
-## 4. Current execution task
+## 3. Current task
 
 Review:
 
-`docs/g5_03/G5-03M1R01C01_INDEPENDENT_REVIEW.md`
+`docs/g5_03/G5-03M1R01C02_INDEPENDENT_REVIEW.md`
 
-Current correction:
+Execute:
 
-`docs/tasks/G5-03M1R01C02_DIRTY_OPPORTUNITY_CONSUMPTION_CORRECTION_TASK.md`
+`docs/tasks/G5-03M1R02_SEMANTIC_TERMINAL_WAKE_OWNERSHIP_SIMPLIFICATION_TASK.md`
 
 Canonical decision remains:
 
 `Vibe-Coding/my world/architecture/world/G5_AGENCY_SCHEDULER_V0_3_DECISION.md`
 
-## 5. Accepted v0.3 architecture
+## 4. Frozen behavior
 
-Do not redesign:
-
-```text
-ordinary durable accepted turn
-→ semantic lane handles changes + knowledge only
-→ standalone Scheduler marks one Agency opportunity dirty
-→ safe standalone selector over latest current world snapshot
-→ validated 0..4 stable actors
-→ existing concurrent actor-scoped Agency Cycle
-```
-
-Preserve multi-actor concurrency, actor-private Knowledge/History, sibling durable commits/head progression, foreground/Restore cancellation, current-hash selector material and replay no duplicate.
-
-## 6. Current correction seam
-
-C01 fixed production wiring/current snapshot, but failed to consume `dirty` when a selector starts. The same accepted turn can therefore immediately start another selector when its cycle finishes.
-
-C02 must enforce:
+Keep:
 
 ```text
-one dirty opportunity
-→ one selector attempt
-→ dirty=false once selector starts
-→ every terminal outcome consumes that opportunity
-→ no automatic/manual re-consider retry without a later newly accepted ordinary turn
+ordinary accepted turn
+→ semantic changes + knowledge only
+→ one dirty Agency opportunity
+→ semantic worker settles
+→ standalone selector over post-semantic latest current world
+→ 0..4 stable actors
+→ concurrent actor-scoped Agency Cycle
 ```
 
-Also replace the current false “production dirty” test that directly calls `mark_dirty()` with a real Application/production callback proof, and bind cycle terminal cleanup to the exact finished cycle where practical.
-
-## 7. Provider rule
-
-**Zero real Provider calls in C02.** Parent G5-03 feature proof remains pending honestly.
-
-## 8. Scope ceiling
-
-Do not implement M2 actor registry, Faction agency, G5-04 scheduler, generic polling, new SQLite schema/table, UI, Source changes, mechanics/d20 changes, G6 or G7.
-
-## 9. Completion
-
-Kimi runs focused + regression tests, `git diff --check`, writes evidence, commits/pushes and returns:
+The normal wake ownership is now explicit:
 
 ```text
-READY FOR INDEPENDENT REVIEW — REAL PROVIDER PROOF PENDING
+generation_completed → mark_dirty only
+semantic finished     → consider_agency
 ```
+
+Do not re-couple Agency Selection into semantic analysis. Do not add timers/polling/retry loops.
+
+Preserve C02 dirty consumption, multi-actor concurrency, actor-private Knowledge/History, current-hash filtering, sibling durable commits/head progression, foreground/Restore cancellation and replay no duplicate.
+
+## 5. Validation rule for R02
+
+Keep this task narrow. Iterate on G5-03 focused tests only. After focused green, run one final affected pass: G5-01 semantic, G4-01 Application lifecycle, G4-07B Application integration, Public d20 Application regression, and `git diff --check`.
+
+Do not rerun unrelated full G2/G3/G5-02 suites absent a concrete failure reason.
+
+**Zero real Provider calls.** Parent real G5-03 proof remains pending honestly.
+
+## 6. Scope ceiling
+
+Do not implement M2 actor registry, Faction agency, G5-04, new SQLite schema/table, UI, Source changes, mechanics changes, G6 or G7.
+
+## 7. Completion
+
+Return:
+
+`READY FOR INDEPENDENT REVIEW — REAL PROVIDER PROOF PENDING`
