@@ -6,6 +6,7 @@ signal cancelled
 signal final_create_requested(creation_id, composition)
 
 const Composition := preload("res://src/建局/L3_外交层/建局公开接口.gd")
+const Palette := preload("res://src/ui/视觉舒适调色板.gd")
 const STEPS := ["世界", "开局", "拓展", "主角", "保证加入的角色", "设置", "兼容性审查"]
 
 @onready var step_label: Label = %WizardStepLabel
@@ -175,7 +176,7 @@ func _toggle_expansion(toggle: CheckButton, generation: RefCounted, selected: bo
 		return
 	toggle.set_pressed_no_signal(not selected)
 	result_label.text = _player_facing_expansion_failure(result)
-	result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
+	result_label.add_theme_color_override("font_color", Palette.DANGER)
 
 
 func _player_facing_expansion_failure(result: Dictionary) -> String:
@@ -229,9 +230,9 @@ func _render_review() -> void:
 	var result: Dictionary = composition.build_compatibility_review()
 	if not result.success:
 		var message := _player_facing_review_failure(result)
-		review_text.text = "[color=#E68576]%s[/color]" % message
+		review_text.text = "[color=#%s]%s[/color]" % [Palette.DANGER.to_html(false), message]
 		result_label.text = message
-		result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
+		result_label.add_theme_color_override("font_color", Palette.DANGER)
 		final_create_button.disabled = true
 		final_create_button.text = "创建游戏"
 		return
@@ -262,7 +263,7 @@ func _render_review() -> void:
 		review.opening_supplement if not String(review.opening_supplement).is_empty() else "无",
 	]
 	result_label.text = "兼容性检查通过；所选内容均已按安装版本复核。"
-	result_label.add_theme_color_override("font_color", Color(0.58, 0.78, 0.62))
+	result_label.add_theme_color_override("font_color", Palette.SUCCESS)
 	if not _create_completed and not _create_in_progress:
 		final_create_button.disabled = false
 		final_create_button.text = "创建游戏"
@@ -282,7 +283,7 @@ func _on_final_create_pressed() -> void:
 	final_create_button.disabled = true
 	final_create_button.text = "正在创建…"
 	result_label.text = "正在创建游戏…"
-	result_label.add_theme_color_override("font_color", Color(0.72, 0.74, 0.82))
+	result_label.add_theme_color_override("font_color", Palette.ACCENT)
 	final_create_requested.emit(_creation_id, frozen)
 
 
@@ -293,7 +294,7 @@ func create_succeeded() -> void:
 	final_create_button.disabled = true
 	final_create_button.text = "已创建"
 	result_label.text = "创建成功，正在进入游戏…"
-	result_label.add_theme_color_override("font_color", Color(0.58, 0.78, 0.62))
+	result_label.add_theme_color_override("font_color", Palette.SUCCESS)
 
 
 func create_failed(message: String) -> void:
@@ -301,7 +302,7 @@ func create_failed(message: String) -> void:
 	final_create_button.disabled = false
 	final_create_button.text = "重试创建"
 	result_label.text = message
-	result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
+	result_label.add_theme_color_override("font_color", Palette.DANGER)
 
 
 func _reset_create_attempt() -> void:
@@ -404,7 +405,7 @@ func _show_inventory_failure(result: Dictionary) -> void:
 
 func _show_result(result: Dictionary, success_message: String = "选择已更新。") -> void:
 	result_label.text = success_message if result.success else String(result.get("message", result.get("code", "操作失败")))
-	result_label.add_theme_color_override("font_color", Color(0.58, 0.78, 0.62) if result.success else Color(0.90, 0.52, 0.46))
+	result_label.add_theme_color_override("font_color", Palette.SUCCESS if result.success else Palette.DANGER)
 
 
 func _clear_choices() -> void:

@@ -12,6 +12,7 @@ extends PanelContainer
 const ADAPTER := preload("res://src/provider/L3_外交层/运行时模型流式适配公开接口.gd")
 const Conversation := preload("res://src/domain/会话.gd")
 const ContextAssembler := preload("res://src/context/L3_外交层/上下文组装公开接口.gd")
+const Palette := preload("res://src/ui/视觉舒适调色板.gd")
 
 ## 一次性 derived request 的观测 seam；测试可捕获，UI 不保存或持久化 messages。
 signal request_messages_assembled(messages)
@@ -392,6 +393,7 @@ func _append_mechanic_card(check: Dictionary, transient: bool = false) -> void:
 			return
 	var card := PanelContainer.new()
 	card.name = "MechanicCard_%s" % check_id
+	card.theme_type_variation = &"PanelCard"
 	card.set_meta("mechanic_card", true)
 	card.set_meta("check_id", check_id)
 	card.set_meta("transient", transient)
@@ -403,7 +405,7 @@ func _append_mechanic_card(check: Dictionary, transient: bool = false) -> void:
 	var title := Label.new()
 	title.text = "判定｜%s" % String(check.get("intent", ""))
 	title.add_theme_font_size_override("font_size", 14)
-	title.add_theme_color_override("font_color", Color(0.82, 0.76, 0.60))
+	title.add_theme_color_override("font_color", Palette.WARNING)
 	column.add_child(title)
 
 	var stance_text := String({"normal": "普通", "advantage": "优势", "disadvantage": "劣势"}.get(String(check.get("stance", "normal")), "普通"))
@@ -421,7 +423,7 @@ func _append_mechanic_card(check: Dictionary, transient: bool = false) -> void:
 	var detail := Label.new()
 	detail.text = "\n".join(lines)
 	detail.add_theme_font_size_override("font_size", 13)
-	detail.add_theme_color_override("font_color", Color(0.72, 0.74, 0.80))
+	detail.add_theme_color_override("font_color", Palette.TEXT_SECONDARY)
 	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(detail)
 
@@ -429,13 +431,13 @@ func _append_mechanic_card(check: Dictionary, transient: bool = false) -> void:
 	var succeeded := String(check.get("outcome", "")) == "success"
 	outcome.text = "成功" if succeeded else "失败"
 	outcome.add_theme_font_size_override("font_size", 15)
-	outcome.add_theme_color_override("font_color", Color(0.58, 0.78, 0.62) if succeeded else Color(0.90, 0.52, 0.46))
+	outcome.add_theme_color_override("font_color", Palette.SUCCESS if succeeded else Palette.DANGER)
 	column.add_child(outcome)
 	if not succeeded:
 		var stakes := Label.new()
 		stakes.text = "失败代价：%s" % String(check.get("failure_stakes", ""))
 		stakes.add_theme_font_size_override("font_size", 13)
-		stakes.add_theme_color_override("font_color", Color(0.85, 0.62, 0.52))
+		stakes.add_theme_color_override("font_color", Palette.DANGER)
 		stakes.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		column.add_child(stakes)
 
@@ -464,7 +466,7 @@ func _update_mechanic_card(card: PanelContainer, check: Dictionary, transient: b
 	var outcome: Label = column.get_child(2)
 	var succeeded := String(check.get("outcome", "")) == "success"
 	outcome.text = "成功" if succeeded else "失败"
-	outcome.add_theme_color_override("font_color", Color(0.58, 0.78, 0.62) if succeeded else Color(0.90, 0.52, 0.46))
+	outcome.add_theme_color_override("font_color", Palette.SUCCESS if succeeded else Palette.DANGER)
 	if column.get_child_count() > 3:
 		var stakes: Label = column.get_child(3)
 		stakes.text = "失败代价：%s" % String(check.get("failure_stakes", ""))
@@ -496,7 +498,7 @@ func _append_player_entry(text: String) -> void:
 	var header := Label.new()
 	header.text = "你的行动"
 	header.add_theme_font_size_override("font_size", 14)
-	header.add_theme_color_override("font_color", Color(0.63, 0.68, 0.78))
+	header.add_theme_color_override("font_color", Palette.ACCENT)
 	box.add_child(header)
 
 	var content := RichTextLabel.new()
@@ -516,12 +518,12 @@ func _begin_gm_entry(opening: bool = false) -> void:
 	var title := Label.new()
 	title.text = "GM · 开场" if opening else "GM"
 	title.add_theme_font_size_override("font_size", 14)
-	title.add_theme_color_override("font_color", Color(0.78, 0.72, 0.55))
+	title.add_theme_color_override("font_color", Palette.WARNING)
 	header_row.add_child(title)
 
 	_current_gm_marker = Label.new()
 	_current_gm_marker.add_theme_font_size_override("font_size", 14)
-	_current_gm_marker.add_theme_color_override("font_color", Color(0.85, 0.55, 0.45))
+	_current_gm_marker.add_theme_color_override("font_color", Palette.DANGER)
 	header_row.add_child(_current_gm_marker)
 	box.add_child(header_row)
 

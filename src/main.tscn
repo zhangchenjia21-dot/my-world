@@ -28,7 +28,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.105882, 0.113725, 0.137255, 1)
 
 [node name="MainMenuSurface" type="CenterContainer" parent="."]
 unique_name_in_owner = true
@@ -56,14 +55,13 @@ theme_override_constants/separation = 12
 
 [node name="ProductTitle" type="Label" parent="MainMenuSurface/MainMenuPanel/MainMenuMargin/MainMenuColumn"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.937255, 0.937255, 0.94902, 1)
 theme_override_font_sizes/font_size = 40
 text = "my world"
 horizontal_alignment = 1
 
 [node name="ProductSubtitle" type="Label" parent="MainMenuSurface/MainMenuPanel/MainMenuMargin/MainMenuColumn"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.627451, 0.65098, 0.698039, 1)
+theme_type_variation = &"LabelSecondary"
 theme_override_font_sizes/font_size = 15
 text = "一个由 AI GM 驱动、持续演化的角色扮演世界"
 horizontal_alignment = 1
@@ -101,7 +99,7 @@ text = "退出游戏"
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.627451, 0.65098, 0.698039, 1)
+theme_type_variation = &"LabelSecondary"
 theme_override_font_sizes/font_size = 14
 horizontal_alignment = 1
 autowrap_mode = 2
@@ -150,13 +148,12 @@ layout_mode = 2
 
 [node name="Title" type="Label" parent="Margin/Layout/TopBar/TitleBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.937255, 0.937255, 0.94902, 1)
 theme_override_font_sizes/font_size = 28
 text = "my world"
 
 [node name="Subtitle" type="Label" parent="Margin/Layout/TopBar/TitleBox"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.627451, 0.65098, 0.698039, 1)
+theme_type_variation = &"LabelSecondary"
 theme_override_font_sizes/font_size = 14
 text = "自然语言 AI 角色扮演"
 
@@ -246,13 +243,12 @@ theme_override_constants/separation = 8
 
 [node name="PlayerHeader" type="Label" parent="Margin/Layout/HostLayout/PlayerPanelHost/PlayerPanelMargin/PlayerPanelColumn"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.839216, 0.847059, 0.878431, 1)
 theme_override_font_sizes/font_size = 20
 text = "主角"
 
 [node name="PlayerEmpty" type="Label" parent="Margin/Layout/HostLayout/PlayerPanelHost/PlayerPanelMargin/PlayerPanelColumn"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.556863, 0.580392, 0.631373, 1)
+theme_type_variation = &"LabelMuted"
 theme_override_font_sizes/font_size = 14
 text = "主角信息将在新游戏与角色状态成立后显示。"
 autowrap_mode = 2
@@ -302,7 +298,7 @@ theme_override_constants/separation = 10
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.717647, 0.737255, 0.819608, 1)
+theme_type_variation = &"LabelAccent"
 theme_override_font_sizes/font_size = 14
 autowrap_mode = 3
 vertical_alignment = 1
@@ -317,7 +313,7 @@ text = "重试行动"
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-theme_override_colors/font_color = Color(0.898039, 0.521569, 0.462745, 1)
+theme_type_variation = &"LabelDanger"
 theme_override_font_sizes/font_size = 14
 autowrap_mode = 2
 
@@ -382,13 +378,12 @@ theme_override_constants/separation = 8
 
 [node name="WorldHeader" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.839216, 0.847059, 0.878431, 1)
 theme_override_font_sizes/font_size = 20
 text = "世界"
 
 [node name="WorldEmpty" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.556863, 0.580392, 0.631373, 1)
+theme_type_variation = &"LabelMuted"
 theme_override_font_sizes/font_size = 14
 text = "世界信息将在游戏状态成立后显示。"
 autowrap_mode = 2
@@ -403,7 +398,7 @@ text = "进度存档"
 
 [node name="SaveHint" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.627451, 0.65098, 0.698039, 1)
+theme_type_variation = &"LabelSecondary"
 theme_override_font_sizes/font_size = 13
 text = "为重要进度命名保存；读取旧存档会切换当前进度。"
 autowrap_mode = 2
@@ -446,7 +441,7 @@ layout_mode = 2
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-theme_override_colors/font_color = Color(0.72, 0.74, 0.82, 1)
+theme_type_variation = &"LabelAccent"
 theme_override_font_sizes/font_size = 13
 autowrap_mode = 2
 
@@ -464,7 +459,7 @@ layout_mode = 2
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.556863, 0.580392, 0.631373, 1)
+theme_type_variation = &"LabelMuted"
 theme_override_font_sizes/font_size = 14
 text = "状态：启动中…"
 autowrap_mode = 2
@@ -512,14 +507,12 @@ theme_override_constants/separation = 12
 
 [node name="StartupFailureTitle" type="Label" parent="StartupFailureOverlay/StartupFailurePanel/StartupFailureMargin/StartupFailureColumn"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.937255, 0.937255, 0.94902, 1)
 theme_override_font_sizes/font_size = 20
 text = "无法继续当前游戏"
 
 [node name="StartupFailureLabel" type="Label" parent="StartupFailureOverlay/StartupFailurePanel/StartupFailureMargin/StartupFailureColumn"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.83, 0.83, 0.87, 1)
 theme_override_font_sizes/font_size = 15
 autowrap_mode = 2
 
@@ -562,20 +555,19 @@ theme_override_constants/separation = 10
 
 [node name="ModelSettingsTitle" type="Label" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.937255, 0.937255, 0.94902, 1)
 theme_override_font_sizes/font_size = 20
 text = "模型设置"
 
 [node name="ModelSettingsHint" type="Label" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.627451, 0.65098, 0.698039, 1)
+theme_type_variation = &"LabelSecondary"
 theme_override_font_sizes/font_size = 13
 text = "设置只作用于之后的生成请求；不会改变已创建的游戏。"
 autowrap_mode = 2
 
 [node name="ModelRowLabel" type="Label" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.717647, 0.737255, 0.819608, 1)
+theme_type_variation = &"LabelAccent"
 theme_override_font_sizes/font_size = 14
 text = "模型"
 
@@ -585,7 +577,7 @@ layout_mode = 2
 
 [node name="ContextRowLabel" type="Label" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.717647, 0.737255, 0.819608, 1)
+theme_type_variation = &"LabelAccent"
 theme_override_font_sizes/font_size = 14
 text = "上下文上限"
 
@@ -595,7 +587,7 @@ layout_mode = 2
 
 [node name="ReasoningRowLabel" type="Label" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn"]
 layout_mode = 2
-theme_override_colors/font_color = Color(0.717647, 0.737255, 0.819608, 1)
+theme_type_variation = &"LabelAccent"
 theme_override_font_sizes/font_size = 14
 text = "思考强度"
 
@@ -607,21 +599,20 @@ layout_mode = 2
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-theme_override_colors/font_color = Color(0.627451, 0.65098, 0.698039, 1)
+theme_type_variation = &"LabelSecondary"
 theme_override_font_sizes/font_size = 13
 autowrap_mode = 2
 
 [node name="CredentialLabel" type="Label" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.717647, 0.737255, 0.819608, 1)
+theme_type_variation = &"LabelAccent"
 theme_override_font_sizes/font_size = 13
 autowrap_mode = 2
 
 [node name="SummaryLabel" type="Label" parent="ModelSettingsOverlay/ModelSettingsPanel/ModelSettingsMargin/ModelSettingsColumn"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.83, 0.83, 0.87, 1)
 theme_override_font_sizes/font_size = 14
 autowrap_mode = 2
 
@@ -629,7 +620,7 @@ autowrap_mode = 2
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-theme_override_colors/font_color = Color(0.898039, 0.521569, 0.462745, 1)
+theme_type_variation = &"LabelDanger"
 theme_override_font_sizes/font_size = 13
 autowrap_mode = 2
 

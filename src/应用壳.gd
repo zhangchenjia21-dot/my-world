@@ -15,6 +15,7 @@ const ModelRuntimeSettings := preload("res://src/运行时设置/L3_外交层/�
 const AgencyScheduler := preload("res://src/世界回合/L3_外交层/行动代理调度公开接口.gd")
 const WorldTurn := preload("res://src/世界回合/L3_外交层/世界回合公开接口.gd")
 const WorldEvolution := preload("res://src/世界回合/L3_外交层/世界演化评估公开接口.gd")
+const Palette := preload("res://src/ui/视觉舒适调色板.gd")
 
 enum ApplicationState {
 	BOOTING,
@@ -129,6 +130,10 @@ func _ready() -> void:
 	if OS.has_feature(G3_01_EXPORT_SPIKE_FEATURE):
 		_run_g3_01_export_spike()
 		return
+	# MW-003：核心 palette 集中装配到根 Theme（字体/字号保持 tscn 既有定义）；
+	# 全产品表面经 Theme 继承获得同一视觉系统。
+	Palette.apply_theme(theme)
+	$Background.color = Palette.CANVAS
 	_ensure_game_library()
 	exit_button.pressed.connect(_request_exit)
 	return_menu_button.pressed.connect(_return_to_main_menu)
@@ -428,7 +433,7 @@ func _begin_session_open(message: String) -> void:
 	session_state = SessionState.OPENING
 	_set_menu_busy(true)
 	menu_result_label.text = message
-	menu_result_label.add_theme_color_override("font_color", Color(0.72, 0.74, 0.82))
+	menu_result_label.add_theme_color_override("font_color", Palette.ACCENT)
 
 
 func _abort_open_for_library_failure(failure: Dictionary) -> Dictionary:
@@ -642,7 +647,7 @@ func _show_model_settings() -> void:
 	if _settings_persisted_invalid:
 		settings_result_label.text = "已保存的设置无效；已载入默认值供修改，保存后生效。"
 		settings_result_label.visible = true
-		settings_result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
+		settings_result_label.add_theme_color_override("font_color", Palette.DANGER)
 	main_menu_surface.visible = false
 	model_settings_overlay.visible = true
 	settings_cancel_button.grab_focus.call_deferred()
@@ -711,7 +716,7 @@ func _refresh_settings_projection() -> void:
 			summary_label.text = ""
 		settings_result_label.text = _plain_settings_failure(String(inspected.get("status", "")))
 		settings_result_label.visible = true
-		settings_result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
+		settings_result_label.add_theme_color_override("font_color", Palette.DANGER)
 		return
 	var projection: Dictionary = inspected.candidate
 	settings_save_button.disabled = false
@@ -733,7 +738,7 @@ func _refresh_settings_projection() -> void:
 	if not bool(projection.credential_configured):
 		settings_result_label.text = "当前模型的凭证未配置；保存后生成将失败，直到配置凭证。"
 		settings_result_label.visible = true
-		settings_result_label.add_theme_color_override("font_color", Color(0.90, 0.66, 0.46))
+		settings_result_label.add_theme_color_override("font_color", Palette.WARNING)
 
 
 ## 摘要只来自 backend 投影：Medium 必披露实际 High；K2.7 显示固定思考。
@@ -764,7 +769,7 @@ func _on_settings_save_pressed() -> void:
 	if not saved.success:
 		settings_result_label.text = _plain_settings_failure(String(saved.get("status", "")))
 		settings_result_label.visible = true
-		settings_result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
+		settings_result_label.add_theme_color_override("font_color", Palette.DANGER)
 		return
 	_close_model_settings("已保存模型设置。")
 
@@ -780,7 +785,7 @@ func _close_model_settings(message: String) -> void:
 	_settings_persisted_invalid = false
 	menu_result_label.text = message
 	if not message.is_empty():
-		menu_result_label.add_theme_color_override("font_color", Color(0.58, 0.78, 0.62))
+		menu_result_label.add_theme_color_override("font_color", Palette.SUCCESS)
 	model_settings_button.grab_focus.call_deferred()
 
 
@@ -819,7 +824,7 @@ func _open_created_game(game_id: String) -> void:
 		return
 	_show_main_menu()
 	menu_result_label.text = "游戏已创建；本次进入未完成。可在主菜单使用「继续游戏」重试。"
-	menu_result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
+	menu_result_label.add_theme_color_override("font_color", Palette.DANGER)
 	print("[shell] create succeeded but open failed: %s" % String(opened.get("status", opened.get("code", "unknown"))))
 
 
@@ -1002,7 +1007,7 @@ func _show_session_startup_failure(startup: Dictionary) -> void:
 	else:
 		var player_message := String(startup.get("message", "当前游戏暂时无法打开。"))
 		menu_result_label.text = player_message
-		menu_result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
+		menu_result_label.add_theme_color_override("font_color", Palette.DANGER)
 		startup_failure_overlay.visible = false
 		database_recovery_button.visible = false
 		if session_runtime != null:
@@ -1203,9 +1208,9 @@ func _on_database_recovery_confirmed() -> void:
 	startup_failure_overlay.visible = false
 	menu_result_label.text = String(result.message)
 	if result.success or String(result.status) == "reopen_required":
-		menu_result_label.add_theme_color_override("font_color", Color(0.58, 0.78, 0.62))
+		menu_result_label.add_theme_color_override("font_color", Palette.SUCCESS)
 	else:
-		menu_result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46))
+		menu_result_label.add_theme_color_override("font_color", Palette.DANGER)
 	_set_menu_busy(false)
 
 
@@ -1266,7 +1271,7 @@ func _update_save_controls() -> void:
 
 func _show_save_result(message: String, is_error: bool) -> void:
 	save_result_label.text = message
-	save_result_label.add_theme_color_override("font_color", Color(0.90, 0.52, 0.46) if is_error else Color(0.58, 0.78, 0.62))
+	save_result_label.add_theme_color_override("font_color", Palette.DANGER if is_error else Palette.SUCCESS)
 
 
 func _product_database_path() -> String:

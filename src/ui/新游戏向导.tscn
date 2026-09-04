@@ -38,13 +38,13 @@ text = "新游戏"
 [node name="WizardStepLabel" type="Label" parent="Panel/Margin/Column/Header"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.72, 0.74, 0.82, 1)
+theme_type_variation = &"LabelSecondary"
 text = "步骤 1 / 7"
 
 [node name="WizardHintLabel" type="Label" parent="Panel/Margin/Column"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.72, 0.74, 0.82, 1)
+theme_type_variation = &"LabelSecondary"
 autowrap_mode = 2
 
 [node name="Content" type="ScrollContainer" parent="Panel/Margin/Column"]
@@ -113,7 +113,7 @@ scroll_active = false
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 22)
 layout_mode = 2
-theme_override_colors/font_color = Color(0.58, 0.78, 0.62, 1)
+theme_type_variation = &"LabelSuccess"
 autowrap_mode = 2
 
 [node name="Footer" type="HBoxContainer" parent="Panel/Margin/Column"]
