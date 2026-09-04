@@ -13,7 +13,7 @@ Canonical decision: `Vibe-Coding/my world/architecture/world/G5_AGENCY_SCHEDULER
 ## 1. 交付标识
 
 - START_HEAD：`c08358de7db619916e450b6ed5020b85cae34e3a`（G5-03M1R01C01 已评审实现）
-- 实现/证据 HEAD：见 FINAL HEAD（push 后回填）
+- 实现/证据 HEAD：`2c24381`（fix(g5_03): consume dirty opportunity at selector start, no terminal auto-retry）
 - 证据文档：本文件
 
 ## 2. 修正内容（dirty opportunity lifecycle）
