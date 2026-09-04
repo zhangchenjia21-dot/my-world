@@ -43,8 +43,8 @@ G5-03M1 Multi-Actor Agency v0.3             ENGINEERING PASS / CLOSED
 G5-03M2 Stable Actor Registry               ENGINEERING PASS / CLOSED
 G5-03M2A Registry Foundation                ENGINEERING PASS / CLOSED
 MW-001 Runtime Narrative Actor Materialization PASS / CLOSED
-G5-04 Event / Priority Evolution            ACTIVE
-MW-002 Selective World Evolution Evaluator CORRECTION REQUIRED — REVISION 2 / KIMI
+G5-04 Event / Priority Evolution            ACTIVE — OWNER UAT
+MW-002 Selective World Evolution Evaluator ENGINEERING PASS / CLOSED
 G5-GATE                                     NOT YET
 ```
 
@@ -52,53 +52,36 @@ Current canonical:
 
 `Vibe-Coding/my world/architecture/world/G5_SELECTIVE_WORLD_EVOLUTION_V0_1_DECISION.md`
 
-Current executable packet:
+MW-002 final packet:
 
 `docs/tasks/MW-002_SELECTIVE_WORLD_EVOLUTION_EVALUATOR_TASK.md`
 
-Independent Review:
+Independent Reviews:
 
-`docs/g5_04/MW-002_INDEPENDENT_REVIEW_IR1.md`
+- `docs/g5_04/MW-002_INDEPENDENT_REVIEW_IR1.md` — CORRECTION REQUIRED
+- `docs/g5_04/MW-002_INDEPENDENT_REVIEW_IR2.md` — ENGINEERING PASS / CLOSED
 
-G5-03 closeout / Faction deferral remains protected:
+Do not start G5-05 until Owner Product UAT closes G5-04.
 
-`Vibe-Coding/my world/architecture/world/G5_03_AGENCY_CLOSEOUT_AND_FACTION_DEFERRAL_V1_0_DECISION.md`
-
-Parent real G5-03 Provider proof remains `PENDING / EXTERNAL PROVIDER UNAVAILABLE`; do not switch Provider merely to manufacture evidence.
-
-## 3. Task identity / lineage
-
-Use:
-
-`Vibe-Coding/governance/TASK_IDENTITY_AND_LINEAGE_V1_0.md`
-
-Keep separate:
-
-```text
-Roadmap / Capability Anchor
-!= Executable Work Item ID
-!= Revision / Review Lineage
-```
-
-Current identity:
+## 3. Final MW-002 lineage
 
 ```text
 Work Item: MW-002
 Name: Selective World Evolution Evaluator
 Capability-Anchor: G5-04
 Revision: 2
-Review-Round: 1
+Review-Round: IR#2
 Triggered-By: MW-002 IR#1
-Correction Base: d42477c45d4699c91ec0e40124ced374101135b9
-Owner: Kimi
-Reviewer: GPT
+Revision-2 Implementation: 5459c4f8a1d92928129c1d3217a40c6622522496
+Revision-2 Evidence: 001106f2c790e70935ea4e54eb721b4aef9e07b4
+Verdict: ENGINEERING PASS / CLOSED
 ```
 
-Same Outcome correction stays on `MW-002`. Do not create MW-002C01/R02/PATCH-style IDs.
+Same Outcome correction stayed on `MW-002`; do not create C01/R02/PATCH-style identities for historical reference.
 
 ## 4. Protected G5-03 behavior
 
-G5-03 is closed. Protect:
+G5-03 remains closed. Protect:
 
 ```text
 ordinary accepted Player Narrative
@@ -122,11 +105,11 @@ Also protect:
 - no mutable Source lookup;
 - semantic `agency_candidates` remains non-authoritative/dead.
 
-MW-002 may add only observational whole-opportunity terminal handling; it may not redesign Agency scheduling.
+The MW-002 `opportunity_finished` seam is observational only. It covers no-actors, selector terminal, actor-cycle terminal and equivalent immediate terminal such as `already_committed`, while preserving dirty ownership, 0..4 cap, concurrency and retry semantics.
 
-Do not create a Faction actor/shared-Knowledge platform merely for G5-04. Aggregate faction-related processes may remain world events until a real later Faction consumer requires more.
+Do not create a generic Faction actor/shared-Knowledge platform merely for symmetry. Current Faction deferral remains protected.
 
-## 5. Frozen G5-04 product rule
+## 5. Frozen G5-04 product semantics
 
 > **The world can move without the Player causing every change, without forcing an event every turn.**
 
@@ -136,9 +119,7 @@ Persistent != Fully Simulated
 Evaluation opportunity != event obligation
 ```
 
-`hold` is a correct first-class result.
-
-Frozen order:
+Frozen runtime order:
 
 ```text
 visible ordinary Player Narrative accepted
@@ -151,101 +132,69 @@ visible ordinary Player Narrative accepted
 → next GM continuation may consume the current event
 ```
 
-Player turn is scheduling opportunity, not event causation. Opening-only GM generation creates no opportunity. No offline/wall-clock progression.
+The Player turn is the scheduling opportunity, not causal authority. Opening-only GM generation creates no opportunity. No offline/wall-clock progression.
 
-## 6. Protected MW-002 Revision-1 behavior
+## 6. Protected MW-002 behavior
 
-Do not rewrite working architecture while correcting IR#1:
+Do not reopen absent a concrete regression/new consumer:
 
-- dedicated evaluator after Agency terminal;
-- hold with no fake mutation;
-- one-event ceiling;
-- Program deterministic event/mutation/node identity;
-- bounded raw-string parser and fail-soft invalid/provider results;
-- additive `living_world.v0.1`, no SQLite schema change;
-- committed-event replay idempotence;
-- current accepted-hash event filtering;
-- first real consumer = next GM World Turn Context;
-- event is omniscient GM world fact, not automatic Player/actor knowledge;
-- no Actor Knowledge Provenance in evaluator input;
-- no mutable Source Library current lookup;
-- no pressure DB / numeric priority / fixed cadence / random-event engine;
-- no Faction platform / UI / offline simulation / G5-05.
+- `hold` is valid, creates no fake mutation and does not auto-retry the same runtime opportunity;
+- at most one event per evaluator opportunity;
+- priority judgment is model-owned; no numeric priority, keyword gate, persistent pressure queue, fixed cadence, random-event engine or universal event taxonomy;
+- intentional stable-NPC choices remain G5-03 Agency territory;
+- Program owns deterministic world-event / mutation / node IDs;
+- identity binds exact Game + opportunity turn/hash + evaluated base head;
+- storage remains additive under `living_world.v0.1`; no SQLite migration/table;
+- committed event replay is idempotent;
+- current consumers require exact accepted turn/hash match;
+- new ordinary foreground, Public-d20 control start, Restore/progress switch, shutdown or unrelated head change invalidates uncommitted evolution work;
+- late callbacks cannot commit obsolete work;
+- evaluator input uses frozen Game-local **World-only** T0 authority + bounded current world consequences;
+- `opening_supplement`, protagonist control mode, Character-private Source and Actor Knowledge Provenance are excluded from evaluator causal input;
+- mutable Source Library current is never queried during gameplay;
+- first real consumer is next GM continuation Context;
+- event truth is omniscient GM world truth, not automatic Player or actor knowledge;
+- no automatic G5-02 Knowledge creation;
+- no forced visible event announcement;
+- no generic Faction platform / universal simulator / offline evolution / UI / G5-05 work.
 
-## 7. MW-002 IR#1 correction requirements
+## 7. Engineering evidence
 
-Revision 1 actual-code Independent Review found four bounded issues.
+Revision-2 committed evidence reports:
 
-### F01 — Public-d20 foreground start
-
-With Public d20 enabled, Player Send starts the adjudication `control` Provider request before `Conversation.begin_turn()`. Therefore `Conversation.attempt_started` alone is too late to invalidate old background work.
-
-Revision 2 must use the earliest existing adjudication-start observability in Application composition (prefer existing `request_assembled`) to invalidate both Agency and World Evolution immediately. Do not redesign Public d20 mechanics/protocol/UI.
-
-Required focused proof: active evolution → Public-d20 control starts → evolution invalidates → late callback cannot commit.
-
-### F02 — Agency `already_committed` immediate terminal
-
-`AgencyCycle.start_cycle()` can return `already_committed` with zero actors and no later `cycle_finished`. Scheduler must treat that as an immediate terminal, clean the runtime, emit exactly one frozen-turn/hash `opportunity_finished`, wake World Evolution once, and remain re-armed for a later dirty opportunity.
-
-No dirty/cap/concurrency/retry change.
-
-### F03 — true World-only baseline
-
-Current `project_world_only()` reuses the general Game block and leaks protagonist control mode + arbitrary `opening_supplement` into evaluator causal input.
-
-Revision 2 must project only frozen World/selected Entry/world instructions/GM instructions/World semantic sections plus a neutral Game-local authority header. It must exclude opening supplement, control mode, all Character material and Actor Knowledge.
-
-Required test uses a nonempty private opening-supplement marker.
-
-### F04 — production Restore-active proof
-
-Add the missing focused path:
-
-```text
-active World Evolution
-→ production Restore/progress switch
-→ evaluator invalidated
-→ late callback
-→ restored head/world unchanged
-→ no event commit
-```
-
-Also prove any synchronous Agency invalidation terminal during Restore cannot leave a surviving evolution request/commit.
-
-## 8. Revision-2 edit / validation ceiling
-
-Preferred production edits only:
-
-- `src/应用壳.gd`;
-- `src/世界回合/L2_流程层/行动代理调度流程.gd`;
-- `src/首次开场/L1_器件层/游戏本地开场上下文投影器.gd`;
-- `tests/g5_04/选择性世界演化评估测试.gd`;
-- evidence/task docs.
-
-Read-only unless existing seams prove insufficient:
-
-- `src/ui/叙事对话视图.gd`;
-- `src/行动判定/L2_流程层/公开D20行动判定流程.gd`;
-- `src/世界回合/L2_流程层/行动代理循环流程.gd`.
-
-Focused-first. After G5-04 focused green, run only:
-
-- one G5-03 Scheduler/Cycle regression;
-- one minimal G4-08/Public-d20 regression;
-- one G4-07 continuation/context regression;
-- one G3-04 Save/Restore regression;
-- `git diff --check`;
+- G5-04 focused: **144 PASS / 0 FAIL**;
+- G5-03 Scheduler/Cycle regression: **0 FAIL**;
+- G4-08M1 Public-d20 regression: **0 FAIL**;
+- G4-07A continuation/context regression: **0 FAIL**;
+- G3-04 Save/Restore regression: **PASS**;
+- `git diff --check`: clean;
 - real Provider calls = 0.
 
-Do not restore broad matrices.
+GPT IR#2 independently inspected the actual correction diff, production seams, focused test source and evidence. Reviewer environment had no Godot executable and the final commit had no external CI statuses, so GPT did not independently rerun Godot.
 
-## 9. Review / UAT route
+## 8. Current Owner UAT gate
 
-Kimi commits/pushes Revision 2 and returns at most:
+G5-04 is not closed yet. Owner UAT is mandatory because automated tests cannot prove pacing quality.
 
-`READY FOR INDEPENDENT REVIEW`
+UAT must counterpose:
 
-GPT then performs **MW-002 IR#2** against correction base `d42477c45d4699c91ec0e40124ced374101135b9`.
+1. **Quiet / Life Loop** — no causally ripe world process. Expected: evaluator can hold; no artificial escalation; free activity / downtime / relationships retain breathing room.
+2. **Genuine ripe pressure** — a real T0/current world pressure is ready even without direct Player causation. Expected: one credible consequence advances, remains durable, and subsequent GM Narrative uses/surfaces it naturally without feeling like a forced random event.
 
-Owner UAT remains blocked until Engineering PASS. G5-04 may close only after Owner Product PASS on both quiet/hold and genuine-ripe-pressure scenarios.
+Only Owner Product PASS closes G5-04. Until then:
+
+- do not mint/start G5-05 work;
+- do not reinterpret Engineering PASS as Product PASS;
+- do not change the frozen G5-04 architecture merely to optimize a UAT scenario.
+
+## 9. Other protected state
+
+G5-03 closeout / Faction deferral:
+
+`Vibe-Coding/my world/architecture/world/G5_03_AGENCY_CLOSEOUT_AND_FACTION_DEFERRAL_V1_0_DECISION.md`
+
+Parent real G5-03 Provider proof remains honestly:
+
+`PENDING / EXTERNAL PROVIDER UNAVAILABLE`
+
+Do not switch Provider merely to manufacture evidence.
