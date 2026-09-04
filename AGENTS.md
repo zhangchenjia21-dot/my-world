@@ -41,10 +41,19 @@ G5-02 Knowledge Provenance                  PASS / CLOSED
 G5-03 NPC / Faction Agency                  ACTIVE
 G5-03M1 Multi-Actor Agency v0.3             ENGINEERING PASS / CLOSED
 G5-03M2 Stable Actor Registry               ACTIVE
-G5-03M2A Registry Foundation                ACTIVE — KIMI
+G5-03M2A Registry Foundation                CORRECTION REQUIRED — REVISION 2 — KIMI
 G5-03M2B Runtime Narrative Materialization  PLANNED / MUST FOLLOW M2A PASS
 G5-04 Event / Priority Evolution            NOT YET
 ```
+
+M2A Independent Review IR#1 found two bounded correction items only:
+
+1. `game_local_npcs.display_name/profile_text` must reject non-string raw values instead of coercing them with `String(...)`;
+2. M2A focused persistence proof must actually exercise the production Restore path and prove stable registry records/IDs survive.
+
+Review evidence:
+
+`docs/g5_03/G5-03M2A_INDEPENDENT_REVIEW_IR1.md`
 
 Parent real G5-03 Provider proof remains `PENDING / EXTERNAL PROVIDER UNAVAILABLE`; do not relabel it PASS and do not switch Provider to manufacture evidence.
 
@@ -73,7 +82,15 @@ Current task:
 
 `docs/tasks/G5-03M2A_STABLE_ACTOR_REGISTRY_FOUNDATION_TASK.md`
 
-Mandatory next after M2A Independent Review PASS:
+Current revision:
+
+```text
+Task: G5-03M2A
+Revision: 2
+Review-Round: IR#1 correction required
+```
+
+Mandatory next only after M2A Independent Review PASS:
 
 `docs/tasks/G5-03M2B_RUNTIME_NARRATIVE_ACTOR_MATERIALIZATION_TASK.md`
 
@@ -85,7 +102,25 @@ Agency v0.3 remains protected:
 
 `Vibe-Coding/my world/architecture/world/G5_AGENCY_SCHEDULER_V0_3_DECISION.md`
 
-## 5. Frozen M2A behavior
+## 5. Task Identity / Lineage
+
+Use the current cross-project rule:
+
+`Vibe-Coding/governance/TASK_IDENTITY_AND_LINEAGE_V1_0.md`
+
+Keep these facts separate:
+
+```text
+Roadmap / Capability Anchor
+!= Executable Work Item ID
+!= Revision / Review Lineage
+```
+
+Do not create recursive suffix chains for correction/review history. If an Independent Review defect does not change the primary Outcome, keep the same task/work identity and increase `Revision` / `Review-Round`. Mint a new short flat Work Item ID only for a genuinely distinct new Outcome, seam, prerequisite, or Owner-inserted goal, and express relationships through metadata (`Triggered-By`, `Depends-On`, `Blocks`, `Supersedes`, etc.).
+
+Do not rename legacy/in-flight tasks merely for cleanup. G5-03M2A therefore remains the same legacy task for Revision 2; no `C01`/`R02` suffix is created.
+
+## 6. Frozen M2A behavior
 
 M2A builds the registry foundation only:
 
@@ -99,9 +134,9 @@ M2A builds the registry foundation only:
 - existing Games missing `stable_npcs` remain valid with no Source retrofit;
 - helper currentness contract is prepared for future `runtime_narrative` origin records.
 
-Do **not** implement runtime `new_actor_candidates` in M2A. That is M2B immediately after review.
+Do **not** implement runtime `new_actor_candidates` in M2A. That is M2B immediately after review PASS.
 
-## 6. Protected boundaries
+## 7. Protected boundaries
 
 Do not:
 
@@ -116,22 +151,26 @@ Do not:
 - change Public d20/mechanics;
 - make real Provider calls for M2A.
 
-## 7. Slim validation rule
+## 8. Slim validation rule
 
-During M2A implementation: run M2A focused tests only.
+For M2A Revision 2, stay focused-first.
 
-After focused green, one final affected pass only:
+Required correction proof:
 
-- G4-06 Final Create / creation integration;
-- G5-02 focused;
-- G5-03 focused;
-- one directly relevant G3 Save/Restore suite;
-- `git diff --check`.
+- non-string `display_name` rejected;
+- non-string `profile_text` rejected;
+- production Restore path preserves creation-time `stable_npcs` records and Program-owned IDs;
+- `git diff --check`;
+- zero real Provider calls.
+
+After focused green, rerun only directly affected Final Create validation / Save-Restore regressions unless production code outside those seams changed or a concrete regression risk appears.
 
 Do not rerun unrelated full project/UI/Public-d20 suites absent a concrete reason.
 
-## 8. Completion
+## 9. Completion
 
-Kimi writes compact evidence, commits/pushes, and returns:
+Kimi updates compact evidence, commits/pushes, and returns:
 
 `READY FOR INDEPENDENT REVIEW`
+
+GPT then performs IR#2. M2B remains blocked until explicit M2A PASS.
