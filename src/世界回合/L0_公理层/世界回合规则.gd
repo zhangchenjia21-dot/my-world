@@ -166,6 +166,78 @@ static func actor_roster(world_state: Dictionary, accepted_hashes: Dictionary = 
 	return roster
 
 
+## ---- MW-001 Runtime Narrative Actor Materialization ----
+## runtime_narrative actor 是 Game-local stable NPC 的 runtime ingress：Program 拥有 identity，
+## 模型只提供 bounded material，永不提供 authoritative ID 或 Source provenance。
+
+## 单回合 semantic lane 的 extraction 安全上限；不是世界 actor 上限。
+const MAX_NEW_ACTOR_CANDIDATES_PER_TURN := 8
+## 与 M2A creation-authored bounds（64/1024）对齐，不为 runtime actor 发明更宽的 material contract。
+const MAX_RUNTIME_ACTOR_NAME_CHARS := 64
+const MAX_RUNTIME_ACTOR_PROFILE_CHARS := 1024
+
+
+## deterministic Program-owned identity：同一 accepted 版本 + canonical material + candidate
+## ordinal 永远推出同一 local ID；不含 wall-clock 或随机数，replay/reopen 同一版本不会
+## mint 第二个身份。
+static func runtime_actor_identities(game_id: String, source_turn_index: int, source_gm_sha256: String, ordinal: int, display_name: String, profile_text: String) -> Dictionary:
+	var hashing := HashingContext.new()
+	hashing.start(HashingContext.HASH_SHA256)
+	hashing.update(("runtime-actor|%s|%d|%s|%d|%s|%s" % [game_id, source_turn_index, source_gm_sha256, ordinal, display_name, profile_text]).to_utf8_buffer())
+	var digest := hashing.finish().hex_encode()
+	return {"local_character_id": "character-runtime-%s" % digest}
+
+
+## runtime_narrative 记录形状（canonical v0.2 INV-06）：无 provenance/source_projection，
+## 只有 honest game_local_material；origin 绑定 exact accepted turn/hash 供 currentness 过滤。
+static func build_runtime_actor_record(local_character_id: String, source_turn_index: int, source_gm_sha256: String, display_name: String, profile_text: String) -> Dictionary:
+	return {
+		"local_character_id": local_character_id,
+		"role": "stable_npc",
+		"origin": {"kind": "runtime_narrative", "source_turn_index": source_turn_index, "source_gm_sha256": source_gm_sha256},
+		"game_local_material": {"display_name": display_name, "profile_text": profile_text},
+	}
+
+
+## 同一 accepted 版本已物化的 runtime actor local IDs。这是 actor-only commit 的 durable
+## replay 信号：reopen 后同版本再进入 semantic lane 时可识别，不依赖内存 _attempted_versions。
+static func runtime_actor_ids_for_version(world_state: Dictionary, source_turn_index: int, source_gm_sha256: String) -> Array:
+	var ids: Array = []
+	var list_value: Variant = world_state.get("stable_npcs", [])
+	if typeof(list_value) != TYPE_ARRAY:
+		return ids
+	for record_value: Variant in list_value as Array:
+		if typeof(record_value) != TYPE_DICTIONARY:
+			continue
+		var record := record_value as Dictionary
+		var origin_value: Variant = record.get("origin", {})
+		if typeof(origin_value) != TYPE_DICTIONARY:
+			continue
+		var origin := origin_value as Dictionary
+		if String(origin.get("kind", "")) != "runtime_narrative":
+			continue
+		if int(origin.get("source_turn_index", -1)) != source_turn_index or String(origin.get("source_gm_sha256", "")) != source_gm_sha256:
+			continue
+		var local_id := String(record.get("local_character_id", "")).strip_edges()
+		if not local_id.is_empty():
+			ids.append(local_id)
+	return ids
+
+
+## actor 与 changes/knowledge 共用同一 semantic mutation seam；actor-only 合法，不伪造
+## changes。不创建第二个 actor-registration mutation。
+static func build_world_candidate_with_actors(current_world_state: Dictionary, record: Dictionary, knowledge_record: Dictionary, actor_records: Array) -> Dictionary:
+	var candidate := build_world_candidate_with_knowledge(current_world_state, record, knowledge_record)
+	if actor_records.is_empty():
+		return candidate
+	var stable_value: Variant = candidate.get("stable_npcs", [])
+	var stable := (stable_value as Array).duplicate(true) if typeof(stable_value) == TYPE_ARRAY else []
+	for actor_record: Dictionary in actor_records:
+		stable.append(actor_record.duplicate(true))
+	candidate["stable_npcs"] = stable
+	return candidate
+
+
 ## 单条知识事件的 v0.1 不变量；unknown/non-roster knower_id 在上层被丢弃，这里不猜 roster。
 static func knowledge_event_is_valid(event: Dictionary) -> bool:
 	if typeof(event.get("knower_id")) != TYPE_STRING or String(event.knower_id).strip_edges().is_empty():

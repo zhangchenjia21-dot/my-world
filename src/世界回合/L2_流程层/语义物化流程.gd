@@ -8,7 +8,7 @@ const ProviderAdapter := preload("res://src/provider/L3_外交层/运行时模�
 signal analysis_requested(turn_index, messages)
 signal finished(result)
 
-const ANALYSIS_INSTRUCTIONS := "你是 my world 的后台语义物化器。只根据已经接受的玩家行动与 GM 叙事，提取两类 durable 事实：\n1. changes：叙事中已经明确成立、值得跨句持续的世界后果。\n2. knowledge_events：叙事明确建立给特定 stable actor 的 post-T0 新知识。只提取该 accepted turn 新建立的、有明确根据的知识；不要因为事实在叙事中为真就授予知识；不要因为某 NPC 在阵容中就推断其知情；不要编造未知 actor/ID；不要输出推理过程。\n只输出一个 JSON 对象：{\"changes\":[\"简洁的持久后果\"],\"knowledge_events\":[{\"knower_id\":\"stable-local-id\",\"fact\":\"简洁事实\",\"basis\":\"witnessed|told|discovered|participated\"}]}；没有持久后果时 changes=[]；没有新知识时 knowledge_events=[]。knower_id 必须且只能来自 Allowed Stable Actors 列表；不要输出列表之外的 ID。不要输出解释、Markdown 或推理过程。"
+const ANALYSIS_INSTRUCTIONS := "你是 my world 的后台语义物化器。只根据已经接受的玩家行动与 GM 叙事，提取三类 durable 事实：\n1. changes：叙事中已经明确成立、值得跨句持续的世界后果。\n2. knowledge_events：叙事明确建立给特定 stable actor 的 post-T0 新知识。只提取该 accepted turn 新建立的、有明确根据的知识；不要因为事实在叙事中为真就授予知识；不要因为某 NPC 在阵容中就推断其知情；不要编造未知 actor/ID；不要输出推理过程。\n3. new_actor_candidates：叙事明确确立了身份、且有可信持续相关性的独立个体。只提供 bounded material；不要提议已在 Allowed Stable Actors 列表中的人；没有持续相关性的路人保持 ephemeral，以后仍可成为 stable；不要编造 ID 或任何出处。\n只输出一个 JSON 对象：{\"changes\":[\"简洁的持久后果\"],\"knowledge_events\":[{\"knower_id\":\"stable-local-id\",\"fact\":\"简洁事实\",\"basis\":\"witnessed|told|discovered|participated\"}],\"new_actor_candidates\":[{\"display_name\":\"名字\",\"profile_text\":\"仅由该 accepted 叙事确立的 bounded 角色材料\"}]}；没有持久后果时 changes=[]；没有新知识时 knowledge_events=[]；没有新 stable actor 时 new_actor_candidates=[] 或省略。knower_id 必须且只能来自 Allowed Stable Actors 列表；不要输出列表之外的 ID。不要输出解释、Markdown 或推理过程。"
 
 var session_runtime: Variant = null
 var provider_adapter: Node = null
@@ -100,6 +100,11 @@ func _consider_entry(entry: Dictionary) -> Dictionary:
 	if existing.is_empty() and not existing_knowledge.is_empty():
 		_attempted_versions[version_key] = true
 		return _publish({"success": true, "status": "already_materialized", "source_turn_index": turn_index, "world_turn_id": version_key})
+	# MW-001：actor-only commit 的 durable replay 信号——同 accepted 版本已物化 runtime actor
+	# 时，reopen 后不依赖内存 _attempted_versions 也能识别，绝不重发请求或重 mint 身份。
+	if not Rules.runtime_actor_ids_for_version(session_runtime.world_state, turn_index, source_hash).is_empty():
+		_attempted_versions[version_key] = true
+		return _publish({"success": true, "status": "already_materialized", "source_turn_index": turn_index, "world_turn_id": version_key})
 	if _attempted_versions.has(version_key):
 		return _publish({"success": true, "status": "already_attempted", "source_turn_index": turn_index, "world_turn_id": version_key})
 	_attempted_versions[version_key] = true
@@ -132,7 +137,9 @@ func _drain_queue() -> void:
 
 
 func _analysis_messages(turn: Dictionary) -> Array:
-	var roster := Rules.actor_roster(session_runtime.world_state)
+	# MW-001 INV-05：roster 必须按 current accepted turn→hash 过滤，stale runtime-origin
+	# actor 不作为 current roster 呈现给模型。
+	var roster := Rules.actor_roster(session_runtime.world_state, _current_accepted_hashes())
 	var roster_lines := PackedStringArray()
 	for local_id: String in roster.keys():
 		roster_lines.append("- %s | %s" % [String(roster[local_id]), local_id])
@@ -175,13 +182,16 @@ func _on_completed() -> void:
 	var changes: Array = parsed.changes
 	var knowledge_events: Array = parsed.get("knowledge_events", [])
 	var knowledge_dropped := int(parsed.get("knowledge_dropped", 0))
+	var actor_candidates: Array = parsed.get("new_actor_candidates", [])
+	var actors_dropped := int(parsed.get("actors_dropped", 0))
 	# G5-03M1R01：semantic lane 恢复为纯 accepted source-version 语义；Agency currentness 由
 	# standalone scheduler 拥有，semantic 不因 Agency 机会过期而丢弃 otherwise-valid truth。
 	if not _accepted_version_still_current(_active):
 		_finish_active({"success": false, "status": "stale_analysis", "source_turn_index": int(_active.source_turn_index)})
 		return
-	if changes.is_empty() and knowledge_events.is_empty():
-		_finish_active({"success": true, "status": "no_changes", "source_turn_index": int(_active.source_turn_index), "change_count": 0, "knowledge_count": 0, "knowledge_dropped": knowledge_dropped})
+	# MW-001 INV-08：三类输出全无有效 material 时才保持原 no-op；actor-only 是合法提交。
+	if changes.is_empty() and knowledge_events.is_empty() and actor_candidates.is_empty():
+		_finish_active({"success": true, "status": "no_changes", "source_turn_index": int(_active.source_turn_index), "change_count": 0, "knowledge_count": 0, "knowledge_dropped": knowledge_dropped, "actor_count": 0, "actors_dropped": actors_dropped})
 		return
 
 	var identities := _active.identities as Dictionary
@@ -191,7 +201,8 @@ func _on_completed() -> void:
 		_finish_active({"success": true, "status": "already_materialized", "source_turn_index": int(_active.source_turn_index), "world_turn_id": String(identities.world_turn_id)})
 		return
 	# actor allowlist 只读当前 Game-local durable setup；unknown/non-roster knower_id 被丢弃。
-	var roster := Rules.actor_roster(session_runtime.world_state)
+	# MW-001 INV-10：Knowledge targeting 也走 accepted-hash currentness 过滤后的 roster。
+	var roster := Rules.actor_roster(session_runtime.world_state, _current_accepted_hashes())
 	var validated_events: Array = []
 	var roster_dropped := 0
 	for event: Dictionary in knowledge_events:
@@ -203,10 +214,26 @@ func _on_completed() -> void:
 	var materialized_at := Time.get_datetime_string_from_system(true, true)
 	var record := Rules.build_record(String(session_runtime.game_id), int(_active.source_turn_index), String(_active.gm_text), changes, materialized_at) if not changes.is_empty() else {}
 	var knowledge_record := Rules.build_knowledge_record(String(session_runtime.game_id), int(_active.source_turn_index), String(_active.gm_text), validated_events, materialized_at) if not validated_events.is_empty() else {}
-	if record.is_empty() and knowledge_record.is_empty():
-		_finish_active({"success": true, "status": "no_changes", "source_turn_index": int(_active.source_turn_index), "change_count": 0, "knowledge_count": 0, "knowledge_dropped": knowledge_dropped})
+	# MW-001 INV-06/09：Program mint deterministic local identity；同 accepted 版本已物化的
+	# candidate（相同 ordinal+material 推出相同 ID）deterministic skip，replay 不产生第二身份。
+	var existing_actor_ids := Rules.runtime_actor_ids_for_version(session_runtime.world_state, int(_active.source_turn_index), String(_active.source_gm_sha256))
+	var actor_records: Array = []
+	var actor_ordinal := 0
+	for candidate_material: Dictionary in actor_candidates:
+		var display_name := String(candidate_material.get("display_name", ""))
+		var profile_text := String(candidate_material.get("profile_text", ""))
+		var actor_identity := Rules.runtime_actor_identities(String(session_runtime.game_id), int(_active.source_turn_index), String(_active.source_gm_sha256), actor_ordinal, display_name, profile_text)
+		actor_ordinal += 1
+		var local_id := String(actor_identity.local_character_id)
+		if existing_actor_ids.has(local_id):
+			continue
+		actor_records.append(Rules.build_runtime_actor_record(local_id, int(_active.source_turn_index), String(_active.source_gm_sha256), display_name, profile_text))
+		existing_actor_ids.append(local_id)
+	if record.is_empty() and knowledge_record.is_empty() and actor_records.is_empty():
+		_finish_active({"success": true, "status": "no_changes", "source_turn_index": int(_active.source_turn_index), "change_count": 0, "knowledge_count": 0, "knowledge_dropped": knowledge_dropped, "actor_count": 0, "actors_dropped": actors_dropped})
 		return
-	var candidate := Rules.build_world_candidate_with_knowledge(session_runtime.world_state, record, knowledge_record)
+	# MW-001 INV-07：actor 与 changes/knowledge 走同一 semantic durable mutation。
+	var candidate := Rules.build_world_candidate_with_actors(session_runtime.world_state, record, knowledge_record, actor_records)
 	var committed: Dictionary = session_runtime.commit_world_mutation_durably(String(identities.mutation_id), String(identities.node_id), candidate)
 	if not committed.success:
 		_finish_active({
@@ -225,6 +252,8 @@ func _on_completed() -> void:
 		"change_count": changes.size(),
 		"knowledge_count": validated_events.size(),
 		"knowledge_dropped": knowledge_dropped,
+		"actor_count": actor_records.size(),
+		"actors_dropped": actors_dropped,
 		"head_id": String(committed.head_id),
 	})
 

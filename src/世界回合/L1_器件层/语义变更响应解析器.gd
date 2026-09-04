@@ -40,7 +40,48 @@ func parse(response_text: String) -> Dictionary:
 	var agency := parse_agency_candidates((json.data as Dictionary).get("agency_candidates", null))
 	result["agency_candidates"] = agency.candidates
 	result["agency_dropped"] = agency.dropped
+	# MW-001：new_actor_candidates 是独立可选字段；其解析失败绝不 invalidate 已有效的
+	# changes/knowledge（INV-02/INV-08）。模型只被允许提供 bounded material。
+	var actors := parse_new_actor_candidates((json.data as Dictionary).get("new_actor_candidates", null))
+	result["new_actor_candidates"] = actors.candidates
+	result["actors_dropped"] = actors.dropped
 	return result
+
+
+## MW-001：runtime Narrative actor candidate 只保留 display_name/profile_text 两个 bounded
+## material 字段；模型给出的 local_character_id/asset_id/provenance/origin 等一律剥离不信。
+## raw 值必须是 String，不做 String(...) coercion；同名不视为同一人，只有完全相同的
+## canonical material 才 fail-soft dedupe。绝不让 actor 字段错误破坏 otherwise valid 的结果。
+func parse_new_actor_candidates(value: Variant) -> Dictionary:
+	if value == null:
+		return {"candidates": [], "dropped": 0}
+	if typeof(value) != TYPE_ARRAY:
+		return {"candidates": [], "dropped": 1}
+	var candidates: Array = []
+	var dropped := 0
+	for entry_value: Variant in value as Array:
+		if typeof(entry_value) != TYPE_DICTIONARY:
+			dropped += 1
+			continue
+		var entry := entry_value as Dictionary
+		var name_value: Variant = entry.get("display_name", null)
+		var profile_value: Variant = entry.get("profile_text", null)
+		if typeof(name_value) != TYPE_STRING or typeof(profile_value) != TYPE_STRING:
+			dropped += 1
+			continue
+		var display_name := String(name_value).strip_edges()
+		var profile_text := String(profile_value).strip_edges()
+		if display_name.is_empty() or display_name.length() > Rules.MAX_RUNTIME_ACTOR_NAME_CHARS \
+			or profile_text.is_empty() or profile_text.length() > Rules.MAX_RUNTIME_ACTOR_PROFILE_CHARS:
+			dropped += 1
+			continue
+		var candidate := {"display_name": display_name, "profile_text": profile_text}
+		if not candidates.has(candidate):
+			candidates.append(candidate)
+		if candidates.size() >= Rules.MAX_NEW_ACTOR_CANDIDATES_PER_TURN:
+			dropped += 1
+			break
+	return {"candidates": candidates, "dropped": dropped}
 
 
 ## agency_candidates 解析与 changes/knowledge 完全隔离：absent/invalid/oversized 均 fail-soft 为空，
