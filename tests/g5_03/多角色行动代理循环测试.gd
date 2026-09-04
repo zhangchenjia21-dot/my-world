@@ -74,7 +74,7 @@ func _run() -> void:
 	await _test_r01c02_completed_cycle_consumes_opportunity()
 	await _test_r01c02_terminal_classes_consume_opportunity()
 	await _test_r01c02_sequential_a_b()
-	await _test_r01c02_production_wiring_proof()
+	await _test_r02_production_wake_ownership_proof()
 	print("G5-03M1 FOCUSED | done failures=%d" % _failures)
 	quit(0 if _failures == 0 else 1)
 
@@ -200,12 +200,14 @@ func _test_r01c02_sequential_a_b() -> void:
 	scheduler.queue_free()
 
 
-## R01C02-D：production wiring proof——真实 Application seam。
+## R02 wake-ownership proof——真实 Application seam。
 ## 真实 main.tscn Shell 的 _connect_save_runtime 把 Conversation.generation_completed
-## 接到 _on_ordinary_turn_accepted_for_agency；本测试不得手动调用 mark_dirty()。
+## 接到 _on_ordinary_turn_accepted_for_agency（只 mark_dirty）；selector 的唯一正常 wake 是
+## world_turn_runtime.finished → _on_world_turn_finished_for_scheduler → consider_agency。
+## 本测试不得手动调用 mark_dirty()/consider_agency()。
 ## Provider 边界全部走 production 自带 test seam（opening / world-turn / selector / view stub）。
-func _test_r01c02_production_wiring_proof() -> void:
-	var case_root := ProjectSettings.globalize_path("res://build/g5_03_r01c02_wiring")
+func _test_r02_production_wake_ownership_proof() -> void:
+	var case_root := ProjectSettings.globalize_path("res://build/g5_03_r02_wake_ownership")
 	_remove_tree(case_root)
 	DirAccess.make_dir_recursive_absolute(case_root)
 	var database_path := case_root.path_join("current-game.sqlite")
@@ -216,45 +218,107 @@ func _test_r01c02_production_wiring_proof() -> void:
 	OS.set_environment("MY_WORLD_TEST_CREATION_ROOT", case_root.path_join("creation"))
 	# task-owned created-schema Game：经 production Runtime durable 提交 setup。
 	var seed := SessionRuntime.new()
-	_check(seed.open_current_game(database_path).success, "R01C02-D wiring fixture opens task-owned Game")
+	_check(seed.open_current_game(database_path).success, "R02 wiring fixture opens task-owned Game")
 	var setup: Dictionary = seed.commit_world_mutation_durably("g5-03-setup", "g5-03-setup-node", _minimal_game_setup(String(seed.game_id)))
-	_check(bool(setup.get("success", false)), "R01C02-D wiring fixture commits created-schema setup")
+	_check(bool(setup.get("success", false)), "R02 wiring fixture commits created-schema setup")
 	seed.close()
 	var shell: Variant = load("res://src/main.tscn").instantiate()
 	root.add_child(shell)
 	await process_frame
 	await process_frame
-	_check(shell.application_state == shell.ApplicationState.MENU_READY, "R01C02-D shell boots to Main Menu")
+	_check(shell.application_state == shell.ApplicationState.MENU_READY, "R02 shell boots to Main Menu")
 	shell.test_opening_adapter_override = OpeningStub.new()
 	shell.test_world_turn_adapter_override = StubAdapter.new()
 	shell.continue_button.pressed.emit()
 	await _settle(4)
-	_check(shell.session_runtime != null and shell.session_runtime.is_ready(), "R01C02-D Continue opens created Game Session")
-	_check(shell.agency_scheduler != null, "R01C02-D production activation mounts Agency Scheduler")
+	_check(shell.session_runtime != null and shell.session_runtime.is_ready(), "R02 Continue opens created Game Session")
+	_check(shell.agency_scheduler != null, "R02 production activation mounts Agency Scheduler")
 	var selector_stub := StubAdapter.new()
 	shell.agency_scheduler.test_selector_adapter_override = selector_stub
 	# Opening：created Game 自动开始第一幕（GM-only turn），完成不得 dirty。
 	var opening_stub: Node = shell.test_opening_adapter_override
-	_check(shell.opening_runtime != null and opening_stub.requests.size() == 1, "R01C02-D created Game auto-starts first Opening")
+	_check(shell.opening_runtime != null and opening_stub.requests.size() == 1, "R02 created Game auto-starts first Opening")
 	opening_stub.simulate_delta("开场叙事。")
 	opening_stub.simulate_completed()
 	await _settle(4)
-	_check(shell.session_runtime.conversation.get_durable_accepted_entries().size() == 1, "R01C02-D Opening accepted durable")
-	_check(not shell.agency_scheduler.dirty, "R01C02-D Opening completion does not dirty Agency through real Application wiring")
-	_check(selector_stub.requests.is_empty(), "R01C02-D Opening completion starts no selector")
-	# ordinary player turn：真实 View send → durable accepted → 真实 generation_completed wiring。
+	_check(shell.session_runtime.conversation.get_durable_accepted_entries().size() == 1, "R02 Opening accepted durable")
+	_check(not shell.agency_scheduler.dirty, "R02 Opening completion does not dirty Agency through real Application wiring")
+	_check(selector_stub.requests.is_empty(), "R02 Opening completion starts no selector")
+	var semantic_stub: Node = shell.test_world_turn_adapter_override
 	var view_stub := _swap_view_stub(shell.narrative_view)
+
+	# Turn A ordinary（no-change semantic）：accepted 只 mark_dirty；semantic active 期间 selector=0；
+	# semantic terminal 是唯一 wake → selector=1、dirty 消费。no-change 同时证明 terminal fail-soft wake。
 	shell.narrative_view.player_input.text = "我查看江防部署。"
 	shell.narrative_view._on_send_pressed()
 	await _settle(3)
-	_check(view_stub.start_calls.size() == 1, "R01C02-D ordinary player action issues one Provider request")
+	_check(view_stub.start_calls.size() == 1, "R02 Turn A issues one Provider request")
 	view_stub.text_delta.emit("江防部署已经确认。")
 	view_stub.simulate_completed()
 	await _settle(4)
-	_check(shell.session_runtime.conversation.get_durable_accepted_entries().size() == 2, "R01C02-D ordinary player turn accepted durable")
-	# mark_dirty 的唯一可观察效果是 selector 真正启动（C02：启动即消费 dirty）。
-	_check(selector_stub.requests.size() == 1, "R01C02-D real generation_completed wiring marks dirty and starts exactly one selector")
-	_check(not shell.agency_scheduler.dirty, "R01C02-D wiring-started selector consumes the dirty opportunity")
+	_check(shell.session_runtime.conversation.get_durable_accepted_entries().size() == 2, "R02 Turn A accepted durable")
+	_check(shell.agency_scheduler.dirty, "R02 Turn A real generation_completed wiring marks dirty only")
+	_check(semantic_stub.requests.size() == 1 and bool(semantic_stub.is_busy()), "R02 semantic request active after Turn A accepted")
+	_check(selector_stub.requests.is_empty(), "R02 zero selector while semantic is active")
+	semantic_stub.simulate_delta('{"changes":[],"knowledge_events":[]}')
+	semantic_stub.simulate_completed()
+	await _settle(4)
+	_check(selector_stub.requests.size() == 1, "R02 semantic terminal wake starts exactly one selector")
+	_check(not shell.agency_scheduler.dirty, "R02 wake-started selector consumes the dirty opportunity")
+	selector_stub.simulate_delta('{"actors":[]}')
+	selector_stub.simulate_completed()
+	await _settle(3)
+
+	# Turn B（durable semantic change）：selector 只在 post-semantic materialization 后启动，
+	# 且 request 含 current consequence；snapshot head anchor 等于 post-semantic head。
+	var selector_stub_b := StubAdapter.new()
+	shell.agency_scheduler.test_selector_adapter_override = selector_stub_b
+	shell.narrative_view.player_input.text = "我命人增设江防哨所。"
+	shell.narrative_view._on_send_pressed()
+	await _settle(3)
+	_check(view_stub.start_calls.size() == 2, "R02 Turn B issues one Provider request")
+	view_stub.text_delta.emit("江防哨所已经增设完毕。")
+	view_stub.simulate_completed()
+	await _settle(4)
+	_check(shell.session_runtime.conversation.get_durable_accepted_entries().size() == 3, "R02 Turn B accepted durable")
+	_check(shell.agency_scheduler.dirty, "R02 Turn B marks dirty only")
+	var head_before_b := String(shell.session_runtime.active_head_id)
+	_check(semantic_stub.requests.size() == 2 and bool(semantic_stub.is_busy()), "R02 Turn B semantic request active")
+	_check(selector_stub_b.requests.is_empty(), "R02 Turn B zero selector while semantic is active")
+	semantic_stub.simulate_delta('{"changes":["江防哨所已增设。"],"knowledge_events":[]}')
+	semantic_stub.simulate_completed()
+	await _settle(4)
+	var head_after_b := String(shell.session_runtime.active_head_id)
+	_check(head_after_b != head_before_b, "R02 Turn B semantic materialization commits durable current world change")
+	_check(selector_stub_b.requests.size() == 1, "R02 Turn B selector starts only after post-semantic commit")
+	_check(not shell.agency_scheduler.dirty, "R02 Turn B wake-started selector consumes dirty")
+	_check(JSON.stringify(selector_stub_b.requests[0]).contains("江防哨所已增设"), "R02 selector request includes committed current consequence")
+	_check(String(shell.agency_scheduler._selector_snapshot.get("cycle_base_head_id", "")) == head_after_b, "R02 selector snapshot anchors post-semantic head")
+	selector_stub_b.simulate_delta('{"actors":[]}')
+	selector_stub_b.simulate_completed()
+	await _settle(3)
+
+	# Turn C（malformed semantic）：terminal fail-soft 仍释放 scheduler 一次；Narrative 保持 accepted；无 retry。
+	var selector_stub_c := StubAdapter.new()
+	shell.agency_scheduler.test_selector_adapter_override = selector_stub_c
+	shell.narrative_view.player_input.text = "我巡视新设哨所。"
+	shell.narrative_view._on_send_pressed()
+	await _settle(3)
+	view_stub.text_delta.emit("哨所运转如常。")
+	view_stub.simulate_completed()
+	await _settle(4)
+	_check(shell.session_runtime.conversation.get_durable_accepted_entries().size() == 4, "R02 Turn C accepted durable")
+	_check(semantic_stub.requests.size() == 3 and bool(semantic_stub.is_busy()), "R02 Turn C semantic request active")
+	_check(selector_stub_c.requests.is_empty(), "R02 Turn C zero selector while semantic is active")
+	semantic_stub.simulate_delta("not json at all")
+	semantic_stub.simulate_completed()
+	await _settle(4)
+	_check(selector_stub_c.requests.size() == 1, "R02 malformed semantic terminal still releases scheduler exactly once")
+	_check(not shell.agency_scheduler.dirty, "R02 malformed-terminal wake consumes dirty; no retry loop")
+	_check(shell.session_runtime.conversation.get_durable_accepted_entries().size() == 4, "R02 malformed semantic leaves Narrative accepted")
+	selector_stub_c.simulate_delta('{"actors":[]}')
+	selector_stub_c.simulate_completed()
+	await _settle(3)
 	shell._close_game_session()
 	await _settle(2)
 	shell.queue_free()
@@ -833,7 +897,7 @@ func _accept(runtime: ControlledRuntime, player: String, gm: String) -> void:
 	runtime.conversation.complete_generation()
 
 
-## R01C02-D wiring fixture 的 created-schema 最小 setup（与 G5-01 timeline fixture 同构）。
+## R02 wake-ownership wiring fixture 的 created-schema 最小 setup（与 G5-01 timeline fixture 同构）。
 func _minimal_game_setup(game_id: String) -> Dictionary:
 	var section := {"section_id": "safe", "title": "安全起始语义", "section_type": "premise", "disclosure": "public", "content": "这是一份 task-owned 的最小 G4 兼容世界起始事实。"}
 	return {

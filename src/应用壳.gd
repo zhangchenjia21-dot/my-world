@@ -1184,7 +1184,9 @@ func _on_foreground_attempt_started(_turn: RefCounted) -> void:
 		agency_scheduler.invalidate_remaining()
 
 
-## R01C01 修正 A：ordinary durable accepted player turn 自动标记 Agency dirty。
+## R02 wake-ownership：ordinary durable accepted player turn 只标记 Agency dirty。
+## 正常 selector wake 只属于 semantic terminal（_on_world_turn_finished_for_scheduler）；
+## 此处不得立即 consider_agency——WorldTurn 尚未收到 generation_completed，semantic 未 settle。
 ## Opening-only GM generation（empty player_text）不标记；不阻塞 Narrative。
 func _on_ordinary_turn_accepted_for_agency(turn: RefCounted) -> void:
 	if agency_scheduler == null or session_runtime == null or not session_runtime.is_ready():
@@ -1193,8 +1195,6 @@ func _on_ordinary_turn_accepted_for_agency(turn: RefCounted) -> void:
 	if String(turn.pending_player_text).is_empty():
 		return
 	agency_scheduler.mark_dirty()
-	# semantic worker terminal 只作 safe wake-up；foreground idle 后 scheduler 自行评估。
-	agency_scheduler.consider_agency()
 
 
 func _on_generation_failed_state_changed(_turn: RefCounted, _code: String) -> void:
