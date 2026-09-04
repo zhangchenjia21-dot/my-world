@@ -16,7 +16,7 @@ Authority order:
 
 Refresh both `main`s before authoritative work. Never overwrite unknown dirty/newer work.
 
-Repository remotes (Owner GitHub account): this repo is `github.com/zhangchenjia21-dot/my-world`; the companion governance repo is `github.com/zhangchenjia21-dot/Vibe-Coding`. "Refresh main / read doc X" instructions resolve against these two origins — fetch the local clones (`D:\AI\Projects\my-world`, `D:\AI\Projects\Vibe-Coding`) from `origin` first, then read the in-repo path.
+Repository remotes: `github.com/zhangchenjia21-dot/my-world` and `github.com/zhangchenjia21-dot/Vibe-Coding`.
 
 Long-term routing:
 
@@ -41,19 +41,16 @@ G5-02 Knowledge Provenance                  PASS / CLOSED
 G5-03 NPC / Faction Agency                  ACTIVE
 G5-03M1 Multi-Actor Agency v0.3             ENGINEERING PASS / CLOSED
 G5-03M2 Stable Actor Registry               ACTIVE
-G5-03M2A Registry Foundation                CORRECTION REQUIRED — REVISION 2 — KIMI
-G5-03M2B Runtime Narrative Materialization  PLANNED / MUST FOLLOW M2A PASS
+G5-03M2A Registry Foundation                ENGINEERING PASS / CLOSED
+MW-001 Runtime Narrative Actor Materialization ACTIVE — KIMI
+  Capability Anchor                         G5-03
+  Legacy Planning Ref                       G5-03M2B
 G5-04 Event / Priority Evolution            NOT YET
 ```
 
-M2A Independent Review IR#1 found two bounded correction items only:
+M2A Independent Review IR#2 = PASS. Evidence:
 
-1. `game_local_npcs.display_name/profile_text` must reject non-string raw values instead of coercing them with `String(...)`;
-2. M2A focused persistence proof must actually exercise the production Restore path and prove stable registry records/IDs survive.
-
-Review evidence:
-
-`docs/g5_03/G5-03M2A_INDEPENDENT_REVIEW_IR1.md`
+`docs/g5_03/G5-03M2A_INDEPENDENT_REVIEW_IR2.md`
 
 Parent real G5-03 Provider proof remains `PENDING / EXTERNAL PROVIDER UNAVAILABLE`; do not relabel it PASS and do not switch Provider to manufacture evidence.
 
@@ -61,7 +58,7 @@ Parent real G5-03 Provider proof remains `PENDING / EXTERNAL PROVIDER UNAVAILABL
 
 A Character Card is **not** required for a character to become a durable NPC.
 
-The Stable Actor Registry must ultimately support:
+The Stable Actor Registry must support:
 
 ```text
 Guaranteed Source NPC
@@ -78,21 +75,26 @@ Canonical:
 
 `Vibe-Coding/my world/architecture/world/G5_STABLE_ACTOR_REGISTRY_AND_MATERIALIZATION_V0_2_DECISION.md`
 
-Current task:
-
-`docs/tasks/G5-03M2A_STABLE_ACTOR_REGISTRY_FOUNDATION_TASK.md`
-
-Current revision:
-
-```text
-Task: G5-03M2A
-Revision: 2
-Review-Round: IR#1 correction required
-```
-
-Mandatory next only after M2A Independent Review PASS:
+Current executable Work Item:
 
 `docs/tasks/G5-03M2B_RUNTIME_NARRATIVE_ACTOR_MATERIALIZATION_TASK.md`
+
+Identity:
+
+```text
+Work Item: MW-001
+Name: Runtime Narrative Actor Materialization
+Capability-Anchor: G5-03
+Legacy Planning Ref: G5-03M2B
+Revision: 1
+Review-Round: 0
+Owner: Kimi
+Reviewer: GPT
+```
+
+M2A is closed:
+
+`docs/tasks/G5-03M2A_STABLE_ACTOR_REGISTRY_FOUNDATION_TASK.md`
 
 Historical source-only packet is superseded and must not be executed:
 
@@ -104,11 +106,11 @@ Agency v0.3 remains protected:
 
 ## 5. Task Identity / Lineage
 
-Use the current cross-project rule:
+Use:
 
 `Vibe-Coding/governance/TASK_IDENTITY_AND_LINEAGE_V1_0.md`
 
-Keep these facts separate:
+Keep separate:
 
 ```text
 Roadmap / Capability Anchor
@@ -116,61 +118,88 @@ Roadmap / Capability Anchor
 != Revision / Review Lineage
 ```
 
-Do not create recursive suffix chains for correction/review history. If an Independent Review defect does not change the primary Outcome, keep the same task/work identity and increase `Revision` / `Review-Round`. Mint a new short flat Work Item ID only for a genuinely distinct new Outcome, seam, prerequisite, or Owner-inserted goal, and express relationships through metadata (`Triggered-By`, `Depends-On`, `Blocks`, `Supersedes`, etc.).
+Do not create recursive suffix chains for correction/review history. Same-Outcome defects stay on the same Work Item and advance Revision / Review-Round. Mint a new flat Work Item only for a distinct Outcome/seam/prerequisite/Owner-inserted goal.
 
-Do not rename legacy/in-flight tasks merely for cleanup. G5-03M2A therefore remains the same legacy task for Revision 2; no `C01`/`R02` suffix is created.
+`MW-001` is the first new flat executable identity after this rule was adopted. `G5-03M2B` remains only a legacy planning reference.
 
-## 6. Frozen M2A behavior
+## 6. Frozen M2A foundation
 
-M2A builds the registry foundation only:
+Do not reopen absent a concrete regression:
 
-- automatic exact-profile Source-backed NPC snapshot at first creation intent;
-- optional `game_local_npcs` creation input for no-Card Game-local NPCs; missing means `[]` and existing callers remain valid;
-- Program-owned local IDs for both families;
-- Source-backed actors keep exact provenance + frozen T0 projection;
-- no-Card actors keep honest `game_local_material`, never fake Source provenance;
-- unified stable-NPC/actor-material/actor-roster helpers;
-- G5-02/G5-03 consumers can use both material families;
-- existing Games missing `stable_npcs` remain valid with no Source retrofit;
-- helper currentness contract is prepared for future `runtime_narrative` origin records.
+- first-intent automatic exact-profile Source-backed stable NPC snapshot;
+- optional creation-time no-Card `game_local_npcs`;
+- strict raw string material validation;
+- Program-owned local IDs;
+- honest Source-backed vs Game-local material families;
+- unified `stable_npc_records` / `stable_actor_material` / `actor_roster`;
+- Knowledge / Agency consumption by exact local identity;
+- existing Games missing `stable_npcs` stay valid with no Source retrofit;
+- runtime-origin currentness helper contract based on accepted turn/hash;
+- Save/reopen/Restore preserves the opaque stable registry World document.
 
-Do **not** implement runtime `new_actor_candidates` in M2A. That is M2B immediately after review PASS.
+## 7. MW-001 protected semantics
 
-## 7. Protected boundaries
+MW-001 adds only runtime Narrative ingress through the existing semantic lane.
+
+Protect these rules:
+
+- optional independently fail-soft `new_actor_candidates`;
+- no extra mandatory Provider call;
+- visible Narrative acceptance never depends on actor extraction;
+- candidate contains bounded descriptive material only;
+- Program, never model, mints final local ID;
+- runtime origin binds exact `source_turn_index + source_gm_sha256`;
+- actor materialization shares the existing single semantic durable mutation with changes/knowledge;
+- actor-only semantic commit is valid without fake changes;
+- same accepted-version replay must not duplicate runtime actors, including actor-only results;
+- stale runtime-origin actors remain physically historical but are filtered out of current roster/Agency by accepted hash;
+- materialization grants no automatic Knowledge or action;
+- semantic request includes current exact stable roster and instructs against reproposing existing stable actors;
+- no display-name authoritative dedupe;
+- no runtime mutable Source lookup;
+- semantic `agency_candidates` must not be reactivated; standalone Agency Scheduler remains authoritative for selection;
+- after semantic commit, existing semantic-terminal wake may expose the new actor to same-turn Agency without scheduling redesign.
+
+## 8. Scope ceilings
 
 Do not:
 
-- require Character Cards for all stable NPCs;
-- use display-name matching as authoritative identity;
-- let models mint authoritative actor IDs;
-- invent fake Source provenance for Game-local actors;
-- read mutable Source current during ordinary gameplay/Continue/Save/Restore/Agency;
-- alter Multi-Actor Agency v0.3 scheduling;
-- add UI or SQLite migration/table;
+- add UI;
+- add SQLite schema/table/migration;
 - implement Faction agency or G5-04;
 - change Public d20/mechanics;
-- make real Provider calls for M2A.
+- introduce a universal entity ontology;
+- use display-name identity;
+- let models mint IDs;
+- fabricate Source provenance;
+- change Multi-Actor Agency v0.3 dirty/foreground/concurrency semantics;
+- make real Provider calls for deterministic MW-001 acceptance.
 
-## 8. Slim validation rule
+## 9. Validation
 
-For M2A Revision 2, stay focused-first.
+Use focused-first.
 
-Required correction proof:
+During implementation run only `tests/g5_03m2b/` focused tests.
 
-- non-string `display_name` rejected;
-- non-string `profile_text` rejected;
-- production Restore path preserves creation-time `stable_npcs` records and Program-owned IDs;
-- `git diff --check`;
-- zero real Provider calls.
+After focused green, one minimal affected pass only:
 
-After focused green, rerun only directly affected Final Create validation / Save-Restore regressions unless production code outside those seams changed or a concrete regression risk appears.
+- directly affected G5-01/G5-02 semantic/parser tests;
+- one relevant G5-03 Scheduler/Cycle regression;
+- one G3-04 Save/Restore regression;
+- `git diff --check`.
 
-Do not rerun unrelated full project/UI/Public-d20 suites absent a concrete reason.
+No unrelated UI/G4/Public-d20/full-project matrix absent a concrete reason.
 
-## 9. Completion
+Parent real G5-03 Provider evidence remains pending if external Provider is unavailable.
 
-Kimi updates compact evidence, commits/pushes, and returns:
+## 10. Completion
+
+Kimi writes compact evidence at:
+
+`docs/g5_03/MW-001_RUNTIME_NARRATIVE_ACTOR_MATERIALIZATION_EVIDENCE.md`
+
+then commits/pushes and returns at most:
 
 `READY FOR INDEPENDENT REVIEW`
 
-GPT then performs IR#2. M2B remains blocked until explicit M2A PASS.
+GPT performs actual-code Independent Review. M2 is complete only after MW-001 PASS. G5-04 remains blocked until G5-03 sequencing is explicitly closed.
