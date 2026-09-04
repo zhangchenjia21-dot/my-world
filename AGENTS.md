@@ -16,6 +16,8 @@ Authority order:
 
 Refresh both `main`s before authoritative work. Never overwrite unknown dirty/newer work.
 
+Repository remotes (Owner GitHub account): this repo is `github.com/zhangchenjia21-dot/my-world`; the companion governance repo is `github.com/zhangchenjia21-dot/Vibe-Coding`. "Refresh main / read doc X" instructions resolve against these two origins — fetch the local clones (`D:\AI\Projects\my-world`, `D:\AI\Projects\Vibe-Coding`) from `origin` first, then read the in-repo path.
+
 Long-term routing:
 
 ```text
