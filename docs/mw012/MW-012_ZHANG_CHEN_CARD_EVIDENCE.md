@@ -1,6 +1,7 @@
 # MW-012 Zhang Chen Player Character Card — Implementation Evidence
 
-Status: **READY FOR INDEPENDENT REVIEW（候选）**
+Status: **READY FOR INDEPENDENT REVIEW（候选）— Revision 2**
+Revision: 2（per `docs/mw012/MW-012_INDEPENDENT_REVIEW_IR1.md` F01/F02/F03）
 Implementer: Zcode + GLM-5.3-Flash（Owner weekend routing override）
 Reviewer: GPT
 Task Packet: `docs/tasks/MW-012_ZHANG_CHEN_PLAYER_CHARACTER_CARD_TASK.md`
@@ -61,7 +62,7 @@ asset_type:    character_card
 schema:        character_card.v0.2（无 schema 变更）
 version:       0.1.0
 display_name:  张琛
-generation:    6a55ecdaf965851a72bd8cc61bced9c6f91a53ed5ee862a7210d93c058d288bf
+generation:    b1a1e5d58fe1383ff41b1f9745199aafe97fed8a1015299cf21dfb6f02091553（R2 内容修正后的 immutable generation；R1 候选为 6a55ecda…）
 player_character_supported: true
 
 T0 binding matrix（单 profile "han-t0-transport"「现代来客起点」× 7 bindings，
@@ -116,6 +117,42 @@ git diff --check                          clean
 Windows export validation                 PASS（--export-release；新包进入 pck）
 Real Provider calls                       0
 Production 代码 diff                      0（全部为新增内容/脚本/测试文件）
+```
+
+## 6b. Revision 2 repairs（IR#1 F01/F02/F03）
+
+**F01 — literacy-only 措辞**：`t0/han_t0_transport.md` 中“没有本地语言文字能力（不识隶书）”改为
+“**没有本地书面文字识读能力**（尚未学会隶书，起初读不懂这个时代的书面材料，识字可在游玩中学习）”，
+并显式声明“这一限制只涉及书面文字的识读；口语听说与本地人交流不存在额外障碍”。未新增语言模拟系统。
+
+**F02 — production publish proof real**：
+- focused 测试中的 prep-script 冒烟从 `_finish(); return` 之后的 dead code 移到终止前**真实执行**
+  （脚本可加载 + ASSET_ID/PACKAGE_PATH/CONFIRMATION 契约常量断言，R2-02 PASS）；
+- 修正后的 candidate 在 mw-012 worktree 上**执行了 Owner 已批准的 bounded production 发布命令**：
+  `godot --headless --path . --script scripts/MW-012_张琛角色卡生产Source发布.gd -- --confirm-owner-production-source-prep`
+  安全证据（脚本 JSON 输出）：
+  ```json
+  {"success": true, "status": "installed",
+   "character": {"asset_id": "character.han_end.zhang_chen", "version": "0.1.0",
+                 "display_name": "张琛", "player_character_supported": true,
+                 "generation_fingerprint": "b1a1e5d58fe1383ff41b1f9745199aafe97fed8a1015299cf21dfb6f02091553"},
+   "inventory": {"world_count": 2, "character_count": 7, "zhang_chen_present": true},
+   "owner_games_modified": false}
+  ```
+- 显式 New Game inventory 发现 probe：production library `get_current_character()` 收敛到同一
+  fingerprint；`Composition.load_current_inventory()` 发现该卡且 player_character_supported=true
+  （characters 总数 7）。
+
+**F03 — unrelated file**：`tests/mw004/最小玩家主权原则测试.gd.uid` 已从 candidate 删除（git rm）。
+
+## 6c. R2 validation
+
+```text
+tests/mw012/张琛角色卡集成测试.gd   failures=0（R2-02 smoke 现为可达并真实执行）
+production 发布命令                 success / installed；production inventory zhang_chen_present=true；
+                                    owner_games_modified=false；无秘密或任意文件系统内容输出
+git diff --check                    clean
+Real Provider calls                 0
 ```
 
 ## 7. Residual product caveats / notes for GPT
