@@ -144,13 +144,12 @@ func _run() -> void:
 		_check(liu_runtime.open_existing_game(String(liu_created.database_path)).success and String((liu_runtime.world_state.player_character as Dictionary).source_projection.display_name) == "刘备", "6b 刘备 frozen projection unchanged")
 		liu_runtime.close()
 	runtime.close()
+
+	# R2-02：production prep 脚本冒烟——真实加载执行（不触碰 Owner production 数据）
+	var prep_script := load("res://scripts/MW-012_张琛角色卡生产Source发布.gd")
+	_check(prep_script != null and prep_script.get_script_constant_map().get("ASSET_ID", "") == ZHANG_ID and prep_script.get_script_constant_map().get("PACKAGE_PATH", "") == ZHANG_PACKAGE and prep_script.get_script_constant_map().get("CONFIRMATION", "") == "--confirm-owner-production-source-prep", "R2-02 production prep script loads with the reviewed Zhang Chen contract constants")
 	_finish()
 	return
-
-
-	# production prep 脚本可加载且契约常量正确（实际安装由 Owner 执行）
-	var prep_script := load("res://scripts/MW-012_张琛角色卡生产Source发布.gd")
-	_check(prep_script != null and prep_script.get_script_constant_map().get("ASSET_ID", "") == ZHANG_ID and prep_script.get_script_constant_map().get("PACKAGE_PATH", "") == ZHANG_PACKAGE, "production prep script compiles with correct contract constants")
 
 
 func _liubei_generation(library: RefCounted) -> RefCounted:
