@@ -71,7 +71,7 @@ G5 World Semantics & GM Runtime             PRODUCT PASS / CLOSED
 G5-GATE                                     PRODUCT PASS
 
 G6 RPG Experience & Internal Declarative UI Host ACTIVE
-MW-011 G6 RPG Host ViewModel Baseline       ACTIVE — ZCODE
+MW-011 G6 RPG Host ViewModel Baseline       ENGINEERING PASS — READY TO INTEGRATE / OWNER UAT AFTER INTEGRATION
 MW-012 Zhang Chen Player Character Card     OWNER-INSERTED — READY FOR ZCODE
 ```
 
@@ -134,7 +134,7 @@ Do not pass omniscient `world_state` into leaf UI and then filter it there.
 
 Literary Style Reference is expression-only. It is not Game truth, future canon, Player/actor Knowledge, semantic consequence authority, World Evolution input, mechanics-control authority, or mandatory output protocol.
 
-## 4. G6 first vertical
+## 4. G6 first vertical — MW-011
 
 Canonical architecture:
 
@@ -143,6 +143,10 @@ Canonical architecture:
 Executable packet:
 
 `docs/tasks/MW-011_G6_RPG_HOST_VIEWMODEL_BASELINE_TASK.md`
+
+Formal review:
+
+`docs/mw011/MW-011_INDEPENDENT_REVIEW_IR1.md`
 
 Identity:
 
@@ -153,13 +157,14 @@ Capability-Anchor: G6 RPG Experience & Internal Declarative UI Host
 Implementer: Zcode + GLM-5.3-flash
 Reviewer: GPT
 Revision: 1
-Review-Round: 0
-Status: ACTIVE — ZCODE
+Review-Round: IR#1
+Reviewed candidate: 066aff2487cd1059af1943eb5282bf5cfe2c89fb
+Status: ENGINEERING PASS — READY TO INTEGRATE / OWNER UAT AFTER INTEGRATION
 Branch: mw-011-g6-rpg-host-viewmodel-baseline
 Worktree: D:/AI/Projects/.worktrees/my-world/mw-011
 ```
 
-G6 starts with the canonical order:
+Reviewed outcome:
 
 ```text
 Runtime projection
@@ -167,14 +172,11 @@ Runtime projection
 → real RPG UI consumer
 ```
 
-MW-011 must improve the existing Player Host / World Surface information architecture using real existing safe data. It must not fabricate HP/location/inventory/relationship/faction/quest state just to fill space.
+The candidate provides Player Host identity/profile + safe World/Entry context + bounded recent accepted Player actions + turn count, and a World Surface whose default Overview shows World/Entry + Player-known facts + safe session metadata while existing G3 Save controls live behind a bounded `存档` surface.
 
-Required first product behavior:
+Disclosure, Restore/reopen currentness and non-persistence boundaries passed review. No fabricated HP/location/inventory/relationship/faction/quest state, generic declarative platform, new persistence schema or Provider summarization was introduced.
 
-- Player Host: identity/profile + safe World/Entry context + bounded recent accepted Player actions + turn count;
-- World Surface default Overview: World/Entry + current Player-known facts + small safe session metadata;
-- World Surface `存档`: existing G3 Save controls/semantics behind bounded navigation instead of dominating default overview;
-- Restore/reopen/currentness and MW-009 disclosure boundaries remain correct.
+Current `main` advanced after the candidate was cut to register MW-012. Reconcile/rebase MW-011 onto refreshed current `main` without semantic code changes before Owner UAT. Keep the worktree until the integrated SHA is verified.
 
 ## 5. Owner-inserted MW-012 Character Source
 
