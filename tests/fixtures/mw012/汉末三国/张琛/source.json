@@ -1,0 +1,70 @@
+{
+  "schema_version": "character_card.v0.2",
+  "asset_id": "character.han_end.zhang_chen",
+  "asset_type": "character_card",
+  "version": "0.1.0",
+  "display_name": "张琛",
+  "catalog_summary": "张琛的 T0-scoped rich Character Source：现代来客穿越 premise，可绑定当前全部汉末开局；历史记忆只是角色信念而非世界事实或未来必然。",
+  "player_character_supported": true,
+  "semantic_sections": [
+    {
+      "section_id": "zhang-chen-identity-origin",
+      "section_type": "identity",
+      "title": "身份与来历",
+      "disclosure": "gm_reference",
+      "content_path": "sections/01_identity_origin.md"
+    },
+    {
+      "section_id": "zhang-chen-personality-goals-boundaries",
+      "section_type": "background",
+      "title": "性格、初始目标与道德边界",
+      "disclosure": "gm_reference",
+      "content_path": "sections/02_personality_goals_boundaries.md"
+    },
+    {
+      "section_id": "zhang-chen-capabilities-limits",
+      "section_type": "capabilities",
+      "title": "能力与限制",
+      "disclosure": "gm_reference",
+      "content_path": "sections/03_capabilities_limits.md"
+    },
+    {
+      "section_id": "zhang-chen-historical-memory-boundary",
+      "section_type": "knowledge",
+      "title": "历史记忆及其权威边界",
+      "disclosure": "gm_reference",
+      "content_path": "sections/04_historical_memory_boundary.md"
+    },
+    {
+      "section_id": "zhang-chen-starting-possessions-state",
+      "section_type": "possessions",
+      "title": "随身物品与社交起点",
+      "disclosure": "gm_reference",
+      "content_path": "sections/05_starting_possessions_state.md"
+    }
+  ],
+  "t0_profiles": [
+    {
+      "profile_id": "han-t0-transport",
+      "display_name": "现代来客起点",
+      "bindings": [
+        { "world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-184-yellow-turban" },
+        { "world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-189-luoyang-crisis" },
+        { "world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-196-emperor-xu" },
+        { "world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-200-guandu-eve" },
+        { "world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-208-red-cliffs-eve" },
+        { "world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-214-yizhou-transition" },
+        { "world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-220-han-wei-transition" }
+      ],
+      "semantic_sections": [
+        {
+          "section_id": "zhang-chen-han-t0-transport",
+          "section_type": "t0_profile",
+          "title": "汉末穿越 T0 起点",
+          "disclosure": "gm_reference",
+          "content_path": "t0/han_t0_transport.md"
+        }
+      ]
+    }
+  ]
+}
