@@ -2,13 +2,14 @@ class_name SemanticMaterializationProcess
 extends Node
 
 const Rules := preload("res://src/世界回合/L0_公理层/世界回合规则.gd")
+const D20Rules := preload("res://src/行动判定/L0_公理层/公开D20判定规则.gd")
 const Parser := preload("res://src/世界回合/L1_器件层/语义变更响应解析器.gd")
 const ProviderAdapter := preload("res://src/provider/L3_外交层/运行时模型流式适配公开接口.gd")
 
 signal analysis_requested(turn_index, messages)
 signal finished(result)
 
-const ANALYSIS_INSTRUCTIONS := "你是 my world 的后台语义物化器。只根据已经接受的玩家行动与 GM 叙事，提取三类 durable 事实：\n1. changes：叙事中已经明确成立、值得跨句持续的世界后果。\n2. knowledge_events：叙事明确建立给特定 stable actor 的 post-T0 新知识。只提取该 accepted turn 新建立的、有明确根据的知识；不要因为事实在叙事中为真就授予知识；不要因为某 NPC 在阵容中就推断其知情；不要编造未知 actor/ID；不要输出推理过程。\n3. new_actor_candidates：叙事明确确立了身份、且有可信持续相关性的独立个体。只提供 bounded material；不要提议已在 Allowed Stable Actors 列表中的人；没有持续相关性的路人保持 ephemeral，以后仍可成为 stable；不要编造 ID 或任何出处。\n只输出一个 JSON 对象：{\"changes\":[\"简洁的持久后果\"],\"knowledge_events\":[{\"knower_id\":\"stable-local-id\",\"fact\":\"简洁事实\",\"basis\":\"witnessed|told|discovered|participated\"}],\"new_actor_candidates\":[{\"display_name\":\"名字\",\"profile_text\":\"仅由该 accepted 叙事确立的 bounded 角色材料\"}]}；没有持久后果时 changes=[]；没有新知识时 knowledge_events=[]；没有新 stable actor 时 new_actor_candidates=[] 或省略。knower_id 必须且只能来自 Allowed Stable Actors 列表；不要输出列表之外的 ID。不要输出解释、Markdown 或推理过程。"
+const ANALYSIS_INSTRUCTIONS := "你是 my world 的后台语义物化器。只根据已经接受的玩家行动、GM 叙事与（若提供）Durable Mechanical Resolution，提取三类 durable 事实：\n1. changes：叙事中已经明确成立、值得跨句持续的世界后果。若提供 Durable Mechanical Resolution，它是 Program 既定的权威判定结果：提取后果时必须尊重它，不得改写、重掷或虚构判定结果；但判定成功/失败本身不对应任何固定世界后果，仍只提取 accepted 叙事已明确支持的后果，没有则 changes=[]。\n2. knowledge_events：叙事明确建立给特定 stable actor 的 post-T0 新知识。只提取该 accepted turn 新建立的、有明确根据的知识；不要因为事实在叙事中为真就授予知识；不要因为某 NPC 在阵容中就推断其知情；不要编造未知 actor/ID；不要输出推理过程。\n3. new_actor_candidates：叙事明确确立了身份、且有可信持续相关性的独立个体。只提供 bounded material；不要提议已在 Allowed Stable Actors 列表中的人；没有持续相关性的路人保持 ephemeral，以后仍可成为 stable；不要编造 ID 或任何出处。\n只输出一个 JSON 对象：{\"changes\":[\"简洁的持久后果\"],\"knowledge_events\":[{\"knower_id\":\"stable-local-id\",\"fact\":\"简洁事实\",\"basis\":\"witnessed|told|discovered|participated\"}],\"new_actor_candidates\":[{\"display_name\":\"名字\",\"profile_text\":\"仅由该 accepted 叙事确立的 bounded 角色材料\"}]}；没有持久后果时 changes=[]；没有新知识时 knowledge_events=[]；没有新 stable actor 时 new_actor_candidates=[] 或省略。knower_id 必须且只能来自 Allowed Stable Actors 列表；不要输出列表之外的 ID。不要输出解释、Markdown 或推理过程。"
 
 var session_runtime: Variant = null
 var provider_adapter: Node = null
@@ -144,10 +145,35 @@ func _analysis_messages(turn: Dictionary) -> Array:
 	for local_id: String in roster.keys():
 		roster_lines.append("- %s | %s" % [String(roster[local_id]), local_id])
 	var roster_block := "Allowed Stable Actors\n" + "\n".join(roster_lines) if not roster_lines.is_empty() else "Allowed Stable Actors\n（无）"
+	# MW-006：既有 authoritative CHECK_REQUIRED durable resolution 只在此处只读进入语义
+	# request 一次；NO_CHECK / 普通路径 / marker 缺失或歧义时不存在该 block，不伪造 mechanics。
+	var grounding_block := _mechanical_grounding_block(turn)
+	var user_content := "%s\n\nAccepted Player Action\n%s\n\nAccepted GM Narrative\n%s" % [roster_block, String(turn.player_text), String(turn.gm_text)]
+	if not grounding_block.is_empty():
+		user_content += "\n\n" + grounding_block
 	return [
 		{"role": "system", "content": ANALYSIS_INSTRUCTIONS},
-		{"role": "user", "content": "%s\n\nAccepted Player Action\n%s\n\nAccepted GM Narrative\n%s" % [roster_block, String(turn.player_text), String(turn.gm_text)]},
+		{"role": "user", "content": user_content},
 	]
+
+
+## accepted turn 命中唯一 durable CHECK_REQUIRED resolution 时，输出有界权威事实块；
+## 0 或多个命中（NO_CHECK / 普通 / degraded / marker 缺失 / 数据歧义）一律返回空串。
+func _mechanical_grounding_block(turn: Dictionary) -> String:
+	var check := D20Rules.matching_accepted_check_for_turn(
+		session_runtime.world_state, int(turn.get("source_turn_index", -1)), String(turn.get("player_text", ""))
+	)
+	if check.is_empty():
+		return ""
+	var lines := PackedStringArray([
+		"Durable Mechanical Resolution (Program-owned authoritative truth)",
+		"本次玩家行动的结果已由 Program 的公开 d20 判定持久决定，权威且不可改写、重掷或质疑：",
+	])
+	for field: String in ["check_id", "action_id", "intent", "dc", "modifier", "stance", "raw_rolls", "selected_roll", "total", "outcome", "modifier_reason", "situation_reason", "success_intent", "failure_stakes"]:
+		if check.has(field):
+			lines.append("- %s: %s" % [field, JSON.stringify(check[field])])
+	lines.append("该判定结果本身不是世界后果清单；仍只提取 accepted 叙事已明确支持的 0..N 条持久后果。")
+	return "\n".join(lines)
 
 
 ## 当前 accepted Conversation 的 turn_index → GM hash 映射；只读。

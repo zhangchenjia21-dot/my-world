@@ -100,6 +100,51 @@ static func check_id(game_id: String, action_id: String) -> String:
 	return _stable_action_identity("check", game_id, action_id)
 
 
+## MW-006：accepted Conversation turn → durable CHECK_REQUIRED resolution 的只读取回。
+## 只有 acceptance marker 完整建立（narrative_accepted + accepted_turn_index + player_text
+## 全部一致）的 check 才是该 turn 的权威 mechanical resolution；命中 0 个或多个都返回空
+## 字典——调用方据此 fail-soft 跳过 grounding，不伪造、不猜测 mechanics truth。
+static func matching_accepted_check_for_turn(world_state: Dictionary, turn_index: int, player_text: String) -> Dictionary:
+	if turn_index < 0 or player_text.strip_edges().is_empty():
+		return {}
+	var runtime_state_value: Variant = world_state.get("expansion_runtime", {})
+	if typeof(runtime_state_value) != TYPE_DICTIONARY:
+		return {}
+	var checks_value: Variant = (runtime_state_value as Dictionary).get("public_d20_checks", [])
+	if typeof(checks_value) != TYPE_ARRAY:
+		return {}
+	var matched := {}
+	for value: Variant in checks_value as Array:
+		if not value is Dictionary:
+			continue
+		var check := value as Dictionary
+		if not bool(check.get("narrative_accepted", false)):
+			continue
+		var index_value: Variant = check.get("accepted_turn_index", -1)
+		if typeof(index_value) not in [TYPE_INT, TYPE_FLOAT] or float(index_value) != float(int(index_value)):
+			continue
+		if int(index_value) != turn_index or String(check.get("player_text", "")) != player_text:
+			continue
+		if not matched.is_empty():
+			return {}
+		matched = _normalize_durable_check(check)
+	return matched
+
+
+## durable check 的 UI-neutral 整数投影；SQLite JSON round-trip 会把 number 恢复为 float。
+static func _normalize_durable_check(value: Dictionary) -> Dictionary:
+	var check := value.duplicate(true)
+	for field: String in ["dc", "modifier", "selected_roll", "total", "accepted_turn_index", "conversation_base_count"]:
+		if check.has(field) and typeof(check[field]) in [TYPE_INT, TYPE_FLOAT]:
+			check[field] = int(check[field])
+	var raw: Array = []
+	for face: Variant in check.get("raw_rolls", []):
+		if typeof(face) in [TYPE_INT, TYPE_FLOAT]:
+			raw.append(int(face))
+	check["raw_rolls"] = raw
+	return check
+
+
 ## NO_CHECK 与真实检定共享 caller-owned action identity，但保留独立 durable 类型，
 ## 避免用虚构骰面把非检定行动伪装成 check。
 static func no_check_resolution_id(game_id: String, action_id: String) -> String:
