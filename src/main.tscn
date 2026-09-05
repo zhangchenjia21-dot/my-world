@@ -388,56 +388,80 @@ theme_override_font_sizes/font_size = 14
 text = "世界信息将在游戏状态成立后显示。"
 autowrap_mode = 2
 
-[node name="SaveSeparator" type="HSeparator" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+[node name="WorldNav" type="HBoxContainer" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="OverviewTab" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+button_pressed = true
+text = "概览"
+
+[node name="SaveTab" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+text = "存档"
+
+[node name="SaveSurface" type="VBoxContainer" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="SaveSeparator" type="HSeparator" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
 layout_mode = 2
 
-[node name="SaveHeader" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+[node name="SaveHeader" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "进度存档"
 
-[node name="SaveHint" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+[node name="SaveHint" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
 layout_mode = 2
 theme_type_variation = &"LabelSecondary"
 theme_override_font_sizes/font_size = 13
 text = "为重要进度命名保存；读取旧存档会切换当前进度。"
 autowrap_mode = 2
 
-[node name="SaveNameInput" type="LineEdit" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+[node name="SaveNameInput" type="LineEdit" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
 unique_name_in_owner = true
 layout_mode = 2
 placeholder_text = "输入存档名称"
 
-[node name="CreateSaveButton" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+[node name="CreateSaveButton" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
 unique_name_in_owner = true
 layout_mode = 2
 disabled = true
 text = "保存当前进度"
 
-[node name="SaveSelector" type="OptionButton" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+[node name="SaveSelector" type="OptionButton" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
 unique_name_in_owner = true
 layout_mode = 2
 disabled = true
 tooltip_text = "选择要读取的存档"
 
-[node name="LoadSaveButton" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+[node name="LoadSaveButton" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
 unique_name_in_owner = true
 layout_mode = 2
 disabled = true
 text = "读取所选存档"
 
-[node name="SaveResultLabel" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+[node name="SaveResultLabel" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 13
 autowrap_mode = 2
 
-[node name="RecoverySeparator" type="HSeparator" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+[node name="RecoverySeparator" type="HSeparator" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="RecoveryHint" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+[node name="RecoveryHint" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -445,7 +469,7 @@ theme_type_variation = &"LabelAccent"
 theme_override_font_sizes/font_size = 13
 autowrap_mode = 2
 
-[node name="RecoverButton" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+[node name="RecoverButton" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
