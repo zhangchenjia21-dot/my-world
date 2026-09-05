@@ -1,6 +1,7 @@
 # MW-010 G5 Living-World Integrated Reality Matrix — Implementation Evidence
 
-Status: **READY FOR INDEPENDENT REVIEW（候选）**
+Status: **READY FOR INDEPENDENT REVIEW（候选）— Revision 2**
+Revision: 2（per `docs/tasks/MW-010_REVISION2_COUNTERFACTUAL_KNOWLEDGE_COMPLETION_ADDENDUM.md` / IR#1 F01+F02）
 Implementer: Zcode + GLM-5.3-Flash（Owner weekend routing override）
 Reviewer: GPT
 Task Packet: `docs/tasks/MW-010_G5_LIVING_WORLD_INTEGRATED_REALITY_MATRIX_TASK.md`
@@ -102,6 +103,41 @@ tests/g3_04/会话恢复验证测试.gd            failures=0
 tests/g3_04/存档读取界面测试.gd            failures=0
 git diff --check                           clean
 ```
+
+## 4b. Revision 2 additions（F01 + F02，同一组合时间线，production diff 仍为 0）
+
+**F01 — restored-away non-player truth（Path-A 专属 Evolution event）**：
+
+```text
+Path A（Save S 后）经正常 production lane 创建 Path-A 专属 non-player truth：
+  evolution_stub2 → {"decision":"advance","event":"沿江烽火台因备战令依次点燃。",…}
+  → living_world.world_evolution_events_by_turn["4"] durably current（turn 4 = Path A turn）
+pre-Restore 断言：
+  · record current ＋ GM continuation context 含该事件
+  · player-safe projection/panel 不含它（World truth ≠ Player knowledge）
+Restore S 后断言：
+  · world_evolution_events_by_turn 无 "4"；GM Context 不含；面板不含
+  · Path B 后仍不重现
+pre-S T2 非玩家 truth（agency action "孙权密令…" + evolution "江面大雾…"）在 Restore S 后
+  仍保持 current —— pre-S 留存 vs restored-away 消失的区分被显式证明。
+```
+
+**F02 — NPC-only Knowledge → 后续 Player disclosure**：
+
+```text
+pre-S（T2，与孙权独立行动自然相关）：semantic seam 提交 turn-2 knowledge record——
+  唯一 event：knower_id = 孙权 local id，fact = "孙权知晓水军密令与船阵部署。"
+  ⇒ record durable/current；player-safe 面板隐藏（无 Player provenance）
+Path A（Save S 后）：Player Character 经正常 knowledge_events 获得实质相关事实
+  "军中来报：孙权已密令水军连夜加固船阵。"（basis=told）
+  ⇒ panel 显示 Player-known formulation；NPC formulation 仍隐藏
+Restore S 后：
+  · Player disclosure 从面板消失（knowledge record 随 snapshot 回滚）
+  · pre-S NPC provenance 仍 current（record/events 断言）且仍隐藏
+Path B 后：disclosure 保持消失；NPC provenance 仍隐藏
+```
+
+R2 后矩阵总计 **44 断言 / 0 失败**；未新增任何 production 行为；无新 truth store。
 
 ## 5. Discovered prior-capability blockers
 

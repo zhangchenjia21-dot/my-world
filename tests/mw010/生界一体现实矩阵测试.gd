@@ -29,6 +29,9 @@ const PATH_A_CHANGE := "全军进入备战状态。"
 const PATH_B_CHANGE := "密使已连夜渡江赴江东。"
 const MECHANICS_CONSEQUENCE := "曹军水寨因夜袭而加强巡江戒备。"
 const MECHANICS_KNOWLEDGE := "曹军水寨巡江戒备因夜袭提升。"
+const NPC_ONLY_FACT := "孙权知晓水军密令与船阵部署。"
+const PATH_A_EVOLUTION := "沿江烽火台因备战令依次点燃。"
+const PATH_A_PLAYER_KNOWLEDGE := "军中来报：孙权已密令水军连夜加固船阵。"
 
 class DeterministicRng:
 	extends RefCounted
@@ -157,7 +160,7 @@ func _run() -> void:
 	await process_frame
 	await process_frame
 	selector_stub = _fresh_selector(inst)
-	semantic_stub.simulate_delta(JSON.stringify({"changes": []}))
+	semantic_stub.simulate_delta(JSON.stringify({"changes": [], "knowledge_events": [{"knower_id": sun_id, "fact": NPC_ONLY_FACT, "basis": "participated"}]}))
 	semantic_stub.simulate_completed()
 	await process_frame
 	await process_frame
@@ -174,6 +177,11 @@ func _run() -> void:
 	await process_frame
 	_check(not _agency_cycles(runtime).is_empty() and String(_agency_action(runtime, 2, sun_id).action) == NPC_SECRET_ACTION, "2 stable NPC authors a durable independent action without the Player choosing it")
 	_check(not _evolution_events(runtime).is_empty() and String(_evolution_events(runtime)["2"].event) == EVOLUTION_EVENT, "2 world evolution advances through the existing evaluator seam")
+	var t2_knowledge: Dictionary = _knowledge_records(runtime).get("2", {})
+	var t2_events: Array = t2_knowledge.get("events", [])
+	_check(not t2_events.is_empty() and String((t2_events[0] as Dictionary).fact) == NPC_ONLY_FACT and String((t2_events[0] as Dictionary).knower_id) == sun_id, "F02 pre-S NPC-only knowledge provenance durable via normal semantic seam")
+	var t2_projection: Dictionary = PlayerSafe.new().project_session(runtime)
+	_check(not (t2_projection.known_facts as Array).has(NPC_ONLY_FACT) and not _panel_text(inst, false).contains(NPC_ONLY_FACT), "F02 NPC-only fact hidden from player-safe panel before any Player provenance")
 	var context_after_t2 := String(WorldTurnContext.new().project(runtime.world_state, runtime.conversation.get_durable_accepted_entries()).context_text)
 	_check(context_after_t2.contains(NPC_SECRET_ACTION) and context_after_t2.contains(EVOLUTION_EVENT), "2 GM continuation context carries independent actor action and evolution as current world reference")
 	var panel_world := _panel_text(inst, false)
@@ -266,7 +274,7 @@ func _run() -> void:
 	await process_frame
 	var player_id := String((reopened.world_state.player_character as Dictionary).local_character_id)
 	selector_stub2 = _fresh_selector(inst2)
-	semantic_stub2.simulate_delta(JSON.stringify({"changes": [PATH_A_CHANGE], "knowledge_events": [{"knower_id": player_id, "fact": PATH_A_CHANGE, "basis": "participated"}]}))
+	semantic_stub2.simulate_delta(JSON.stringify({"changes": [PATH_A_CHANGE], "knowledge_events": [{"knower_id": player_id, "fact": PATH_A_CHANGE, "basis": "participated"}, {"knower_id": player_id, "fact": PATH_A_PLAYER_KNOWLEDGE, "basis": "told"}]}))
 	semantic_stub2.simulate_completed()
 	await process_frame
 	await process_frame
@@ -274,7 +282,7 @@ func _run() -> void:
 	selector_stub2.simulate_completed()
 	await process_frame
 	await process_frame
-	evolution_stub2.simulate_delta(JSON.stringify({"decision": "hold"}))
+	evolution_stub2.simulate_delta(JSON.stringify({"decision": "advance", "event": PATH_A_EVOLUTION, "effects": ["烽火依次点燃，警戒至天明。"]}))
 	evolution_stub2.simulate_completed()
 	await process_frame
 	await process_frame
@@ -282,6 +290,12 @@ func _run() -> void:
 	_check(_semantic_changes(reopened, 4) == [PATH_A_CHANGE] and path_a_context.contains(PATH_A_CHANGE), "Path A establishes its own current truth in GM context")
 	_check(_panel_text(inst2, false).contains("• %s" % PATH_A_CHANGE), "Path A knowledge visible in player-safe panel while current")
 	_check(path_a_context.contains(NPC_SECRET_ACTION) and path_a_context.contains(EVOLUTION_EVENT), "pre-S independent truth remains current after Path A")
+	var path_a_evolution_events: Dictionary = _evolution_events(reopened)
+	_check(path_a_evolution_events.has("4") and String((path_a_evolution_events["4"] as Dictionary).event) == PATH_A_EVOLUTION, "F01 Path-A-specific evolution truth is durably current before Restore")
+	var path_a_projection: Dictionary = PlayerSafe.new().project_session(reopened)
+	_check(not (path_a_projection.known_facts as Array).has(PATH_A_EVOLUTION) and not _panel_text(inst2, false).contains(PATH_A_EVOLUTION), "F01 Path-A world truth alone never enters player-safe panel")
+	_check(_panel_text(inst2, false).contains("• %s" % PATH_A_PLAYER_KNOWLEDGE) and (path_a_projection.known_facts as Array).has(PATH_A_PLAYER_KNOWLEDGE), "F02 Player provenance allows disclosure of the related secret formulation")
+	_check(not (path_a_projection.known_facts as Array).has(NPC_ONLY_FACT) and not _panel_text(inst2, false).contains(NPC_ONLY_FACT), "F02 NPC formulation stays hidden; only Player-known formulation displays")
 
 	# Restore S → Path A current truth 从全部 current consumers 消失
 	var restored: Dictionary = reopened.restore_save_point(String(save_s.save_id))
@@ -291,7 +305,15 @@ func _run() -> void:
 	_check(_semantic_changes(reopened, 4) == [] and not _semantic_records(reopened).has("4"), "restored-away Path A semantic consequence gone from durable current")
 	_check(not String(WorldTurnContext.new().project(reopened.world_state, reopened.conversation.get_durable_accepted_entries()).context_text).contains(PATH_A_CHANGE), "Path A material absent from current GM context after Restore")
 	_check(not _panel_text(inst2, false).contains(PATH_A_CHANGE), "Path A knowledge absent from player-safe panel after Restore")
-	_check(not _agency_cycles(reopened).is_empty() and not _evolution_events(reopened).is_empty(), "pre-S agency/evolution truth remains current after Restore (currentness, not deletion)")
+	var post_restore_context := String(WorldTurnContext.new().project(reopened.world_state, reopened.conversation.get_durable_accepted_entries()).context_text)
+	_check(not _evolution_events(reopened).has("4") and not post_restore_context.contains(PATH_A_EVOLUTION) and not _panel_text(inst2, false).contains(PATH_A_EVOLUTION), "F01 Path-A non-player truth gone from current World / GM Context / player-safe consumer after Restore S")
+	var npc_record_after_restore: Dictionary = _knowledge_records(reopened).get("2", {})
+	var npc_events_after_restore: Array = npc_record_after_restore.get("events", [])
+	_check(not npc_events_after_restore.is_empty() and String((npc_events_after_restore[0] as Dictionary).fact) == NPC_ONLY_FACT and String((npc_events_after_restore[0] as Dictionary).knower_id) == sun_id, "F02 pre-S NPC provenance remains durable/current after Restore S")
+	var post_restore_projection: Dictionary = PlayerSafe.new().project_session(reopened)
+	_check(not (post_restore_projection.known_facts as Array).has(PATH_A_PLAYER_KNOWLEDGE) and not _panel_text(inst2, false).contains(PATH_A_PLAYER_KNOWLEDGE), "F02 Player disclosure disappears after Restore S")
+	_check(not (post_restore_projection.known_facts as Array).has(NPC_ONLY_FACT) and not _panel_text(inst2, false).contains(NPC_ONLY_FACT), "F02 NPC secret still hidden after Restore S (no provenance for Player)")
+	_check(not _agency_cycles(reopened).is_empty() and _evolution_events(reopened).has("2"), "pre-S agency/evolution truth remains current after Restore (currentness, not deletion)")
 
 	# Path B：可感知不同的另一分支
 	_send(view_of(inst2), "我遣密使联络江东。")
@@ -317,6 +339,8 @@ func _run() -> void:
 	var path_b_context := String(WorldTurnContext.new().project(reopened.world_state, reopened.conversation.get_durable_accepted_entries()).context_text)
 	_check(_semantic_changes(reopened, 4) == [PATH_B_CHANGE] and path_b_context.contains(PATH_B_CHANGE), "Path B establishes its own current truth after Restore")
 	_check(not path_b_context.contains(PATH_A_CHANGE) and not _panel_text(inst2, false).contains(PATH_A_CHANGE), "3 restored-away Path A never re-enters current consumers")
+	_check(not path_b_context.contains(PATH_A_EVOLUTION) and not _evolution_events(reopened).has("4"), "F01 Path-A non-player truth never reappears after Path B")
+	_check(not _panel_text(inst2, false).contains(PATH_A_PLAYER_KNOWLEDGE) and not _panel_text(inst2, false).contains(NPC_ONLY_FACT), "F02 disclosure stays gone and NPC provenance still hidden after Path B")
 	_check(path_b_context.contains(MECHANICS_CONSEQUENCE) and (reopened.world_state.expansion_runtime.public_d20_checks as Array).size() == 1, "pre-S mechanics consequence and d20 truth remain current through the counterfactual composition")
 
 	# 12：无第二 truth store；13：SQLite schema/table 由零 production diff 保证（见 evidence）
