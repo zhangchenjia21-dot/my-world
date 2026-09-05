@@ -68,35 +68,29 @@ G5-04 Event / Priority Evolution            PRODUCT PASS / CLOSED
 MW-002 Selective World Evolution Evaluator ENGINEERING PASS / CLOSED
 MW-003 Visual Comfort Theme Pass            ENGINEERING PASS — OWNER UAT
 MW-004 Minimal Player Agency Principle      IMPLEMENTED — OWNER UAT
-MW-005 Three Kingdoms Literary Style Primer ENGINEERING PASS — OWNER FOLLOW-UP POLISH/UAT DEFERRED
+MW-005 Three Kingdoms Literary Style Primer REVISION 4 ACTIVE — ZCODE
 G5-05 Meaningful Choice / Mechanics Integration ENGINEERING COMPLETE — OWNER UAT DEFERRED / PROGRESSION AUTHORIZED
 MW-006 Mechanics-Grounded World Consequence Vertical ENGINEERING PASS / CLOSED
 MW-007 Mechanics Consequence Timeline Continuity ENGINEERING PASS / CLOSED
 MW-008 Safe Markdown-Lite Narrative Rendering ENGINEERING PASS / CLOSED
 G5-06 Runtime → UI Projection               ENGINEERING PASS / CLOSED
 MW-009 Player-Safe Runtime Side Panels      ENGINEERING PASS / CLOSED
-G5-07 World Product Tests                   ACTIVE
-MW-010 G5 Living-World Integrated Reality Matrix REVISION 2 ACTIVE — ZCODE (IR#1 NOT PASS)
+G5-07 World Product Tests                   ENGINEERING PASS / CLOSED
+MW-010 G5 Living-World Integrated Reality Matrix ENGINEERING PASS / CLOSED (Revision 2 / IR#2)
 G5-GATE                                     NOT YET
 ```
 
-Owner explicitly directed the project back onto the G5 mainline and deferred remaining product-feel checks into one later combined UAT.
+Owner explicitly directed the project back onto the G5 mainline and deferred remaining product-feel checks into one combined UAT. G5-07 engineering proof is now closed; the only implementation work before that checkpoint is the bounded Owner-requested MW-005 Revision 4 style-weight polish.
 
 Current executable contract:
 
-- `docs/tasks/MW-010_G5_LIVING_WORLD_INTEGRATED_REALITY_MATRIX_TASK.md`
-- `docs/tasks/MW-010_REVISION2_COUNTERFACTUAL_KNOWLEDGE_COMPLETION_ADDENDUM.md`
+- `docs/tasks/MW-005_REVISION4_BOUNDED_STYLE_WEIGHT_POLISH_ADDENDUM.md`
 
-Current G5-07 architecture:
+Current recent review/closeout:
 
-- `Vibe-Coding/my world/architecture/world/G5_WORLD_PRODUCT_TEST_MATRIX_V0_1_DECISION.md`
-
-Current review:
-
-- `docs/mw010/MW-010_INDEPENDENT_REVIEW_IR1.md` — NOT PASS / Revision 2 required
-
-Recent closeout/reviews:
-
+- `docs/mw010/MW-010_INDEPENDENT_REVIEW_IR2.md` — ENGINEERING PASS / CLOSED
+- `docs/g5_07/G5-07_CLOSEOUT.md`
+- `docs/mw010/MW-010_INDEPENDENT_REVIEW_IR1.md`
 - `docs/mw009/MW-009_INDEPENDENT_REVIEW_IR1.md`
 - `docs/g5_06/G5-06_CLOSEOUT.md`
 - `docs/mw008/MW-008_INDEPENDENT_REVIEW_IR1.md`
@@ -113,13 +107,18 @@ Work Item: MW-005
 Name: Three Kingdoms Literary Style Primer v0.1
 Capability-Anchor: G4 Primary Source Assets & Local Game
 Current engineering baseline: Revision 3 / IR#3
-Revision-3 implementation SHA: a52236c5ec55bf07a727b4e07c4ef63572b18555
-Status: ENGINEERING PASS — OWNER FOLLOW-UP POLISH/UAT DEFERRED
+Revision 3 implementation SHA: a52236c5ec55bf07a727b4e07c4ef63572b18555
+Revision: 4
+Review target: IR#4
+Implementer: Zcode + GLM-5.3-flash
+Status: REVISION 4 ACTIVE — ZCODE
+Branch: mw-005-r4-bounded-style-weight
+Worktree: D:/AI/Projects/.worktrees/my-world/mw-005-r4
 ```
 
-Protected result: Style reference is expression-only, never Game truth, future canon, Player/actor Knowledge, World Evolution causality, mechanics-control authority or semantic-consequence authority. Current Source generation remains immutable `58966f73dfade50b0aa7536aad38a8840e614016975e8beba0735f7dd14ab443` until an explicit future Revision changes content.
+Protected result: Style reference is expression-only, never Game truth, future canon, Player/actor Knowledge, World Evolution causality, mechanics-control authority or semantic-consequence authority. Current Source generation remains immutable `58966f73dfade50b0aa7536aad38a8840e614016975e8beba0735f7dd14ab443`.
 
-Owner has requested one **bounded additional style-weight polish** before the later combined G5 product test. It is queued separately and must not contaminate MW-010. Do not create another style platform, output gate or mandatory pseudo-classical format.
+Revision 4 is a bounded Owner-requested weight polish only. Prefer changing the existing `STYLE_NARRATIVE_ANCHOR_CUE` wording and do not change Primer bytes, Source generation, style placement, consumer routing, control-lane exclusion, semantic/world-only exclusion, or output acceptance behavior unless the frozen contract explicitly requires it.
 
 ### G5-05 / MW-006 / MW-007
 
@@ -177,59 +176,40 @@ Runtime truth
 
 The player-safe projection exposes only safe Player identity, safe World/Entry identity and bounded current Player Character Knowledge facts. Hidden NPC Knowledge, raw consequences, Agency, World Evolution, GM/source instructions, Style Primer, internal IDs/hashes/fingerprints and mechanics-control material are absent from the projection object.
 
-### MW-010
+### MW-010 / G5-07
 
 ```text
 Work Item: MW-010
 Name: G5 Living-World Integrated Reality Matrix
 Capability-Anchor: G5-07 World Product Tests
-Implementer: Zcode + GLM-5.3-flash
-Reviewer: GPT
-Current candidate SHA: 78c05887600332b93a4d50cd1d63d639841fb2eb
+Final implementation/evidence SHA: 91f17a55115cde2de1c2eca19c6f610835deecce
 Revision: 2
-Review-Round: IR#1 completed / next IR#2
-Status: REVISION 2 ACTIVE — ZCODE
+Review-Round: IR#2
+Status: ENGINEERING PASS / CLOSED
+
+G5-07 = ENGINEERING PASS / CLOSED
 ```
 
-IR#1 accepted the candidate's zero-production-diff composition, quiet hold, independent Agency/Evolution, mechanics grounding, reopen reconstruction and semantic/Player-knowledge counterfactual behavior, but found two blocking proof gaps:
+Revision 2 closed the two IR#1 gaps with zero production diff:
 
-1. Path A after Save S did not create any Path-A-specific Agency/Evolution truth, so Restore did not prove restored-away non-player truth currentness.
-2. The integrated timeline did not create NPC-only Knowledge Provenance followed by later Player Character knowledge of the same/substantively related fact; hidden Agency/Evolution is not equivalent to NPC Knowledge.
+1. Path A after Save S creates a Path-A-specific World Evolution truth that is current before Restore, absent after Restore, and does not reappear on Path B, while pre-S Agency/Evolution remains current.
+2. Pre-S NPC-only Knowledge Provenance is durable/current but hidden from player-safe UI; later Path-A Player Character Knowledge allows related disclosure; Restore removes only the Player disclosure while NPC provenance remains current and hidden.
 
-Revision 2 must close those gaps in the same real Game timeline, preferably with **production code diff = 0**. Do not mint a new Work Item.
+The integrated matrix also retains quiet hold, independent NPC action, World Evolution, Program-owned d20 → MW-006 → G5-01 consequence, close/reopen reconstruction, no-reroll, and counterfactual currentness isolation.
 
-## 4. G5-07 protected semantics
+## 4. Combined UAT before G5-GATE
 
-G5-07 is an integrated reality proof, not another feature-growth phase.
-
-Required engineering scenarios include:
-
-```text
-Player Absence / World Independence
-Counterfactual Propagation via Save/Restore + alternate path
-Independent Actor
-Knowledge Boundary
-Public d20 → living-world consequence
-Save / reopen / Restore composition
-player-safe disclosure currentness
-```
-
-Use real production Runtime/persistence/composition and deterministic task-owned model stubs where needed. Do not create a generic scenario engine, branch simulator, event bus, ViewModel platform, new persistence schema, new mechanics protocol or G6 dynamic/declarative UI host.
-
-Automated proof does not substitute for Owner product judgment.
-
-## 5. Combined UAT before G5-GATE
-
-After MW-010 Engineering PASS, prepare one combined Owner checkpoint rather than isolated UAT loops.
+After MW-005 Revision 4 Engineering PASS, prepare one combined Owner checkpoint rather than isolated UAT loops.
 
 It must cover as appropriate:
 
 - G5-05 risky action → d20 → natural durable consequence → Save/reopen consistency;
 - player-safe disclosure usefulness/privacy;
 - world/actor independence and Knowledge boundaries;
-- MW-005 prose after the queued bounded style-weight polish;
+- MW-005 prose after Revision 4 bounded style-weight polish;
 - MW-004 protagonist-choice boundary;
 - MW-003 visual comfort;
-- MW-008 rendering unobtrusiveness.
+- MW-008 rendering unobtrusiveness;
+- overall living-world pacing/coherence.
 
 Only Owner may issue the final product/G5-GATE verdict.
