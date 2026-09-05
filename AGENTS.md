@@ -72,6 +72,7 @@ G5-GATE                                     PRODUCT PASS
 
 G6 RPG Experience & Internal Declarative UI Host ACTIVE
 MW-011 G6 RPG Host ViewModel Baseline       ACTIVE — ZCODE
+MW-012 Zhang Chen Player Character Card     OWNER-INSERTED — READY FOR ZCODE
 ```
 
 Formal G5 closeout:
@@ -79,6 +80,8 @@ Formal G5 closeout:
 `docs/g5_gate/G5_GATE_CLOSEOUT.md`
 
 Owner explicitly accepted G5 and authorized G6. The final G5 UAT also established a G6 product requirement: MW-009 side panels are safe and dynamic but too information-thin for the final RPG UI.
+
+MW-012 is a bounded Owner-inserted Character Source integration during G6. It does not reopen G4 and does not replace MW-011 as the G6 mainline.
 
 ## 3. Closed G5 results that remain protected
 
@@ -173,7 +176,55 @@ Required first product behavior:
 - World Surface `存档`: existing G3 Save controls/semantics behind bounded navigation instead of dominating default overview;
 - Restore/reopen/currentness and MW-009 disclosure boundaries remain correct.
 
-## 5. G6 platform discipline
+## 5. Owner-inserted MW-012 Character Source
+
+Executable packet:
+
+`docs/tasks/MW-012_ZHANG_CHEN_PLAYER_CHARACTER_CARD_TASK.md`
+
+Owner-approved content input:
+
+`docs/tasks/inputs/MW-012_ZHANG_CHEN_CHARACTER_CARD_V0_1.md`
+
+Identity:
+
+```text
+Work Item: MW-012
+Name: Zhang Chen Player Character Card
+Capability-Anchor: G4 Primary Source Assets & Local Game Creation
+Inserted-By: Owner during G6
+Implementer: Zcode + GLM-5.3-flash
+Reviewer: GPT
+Revision: 1
+Review-Round: 0
+Status: OWNER-INSERTED — READY FOR ZCODE
+Branch: mw-012-zhang-chen-player-character-card
+Worktree: D:/AI/Projects/.worktrees/my-world/mw-012
+```
+
+Required result:
+
+```text
+Owner-approved 张琛 concept
+→ existing Character Card v0.2 contract
+→ real first-party Managed Source ingress
+→ selectable Player Character for supported Han-end Entries
+→ exact Game-local frozen projection/context
+```
+
+Protected MW-012 semantics:
+
+- physical body transport into whichever selected Han-end Entry/T0 the Player chooses;
+- age 24, no prior local identity/network/history;
+- remembered Three Kingdoms history is protagonist memory/belief, not current Game truth, guaranteed future canon, NPC destiny or World Evolution command;
+- knowledge of famous figures does not grant automatic visual identification without in-world evidence;
+- future meaningful Zhang Chen choices remain Player-owned;
+- no new Character schema, inventory system, Creator, UI redesign, mechanic Expansion or declarative UI work;
+- do not satisfy the task with a test-only fixture or hardcoded picker entry: use the real product Source ingress that currently makes first-party cards selectable.
+
+MW-011 and MW-012 must use separate worktrees. Do not disturb either task's active work.
+
+## 6. G6 platform discipline
 
 Supporting design:
 
