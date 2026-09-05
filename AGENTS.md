@@ -16,124 +16,107 @@ Authority order:
 
 Refresh both `main`s before authoritative work. Never overwrite unknown dirty/newer work.
 
-Repository remotes: `github.com/zhangchenjia21-dot/my-world` and `github.com/zhangchenjia21-dot/Vibe-Coding`.
+Repositories:
+
+- implementation: `zhangchenjia21-dot/my-world`
+- governance: `zhangchenjia21-dot/Vibe-Coding`
 
 Long-term routing:
 
 ```text
-GPT        → meaning / architecture / governance / task shaping / Independent Review
-Codex      → backend / mechanism / build-launch / validation implementation
+GPT        → semantics / architecture / task shaping / Independent Review
+Codex      → backend / mechanism implementation
 Kimi       → frontend / UI / interaction implementation
-Grok Build → search / external research / evidence discovery
+Grok Build → research / evidence discovery
 Owner      → Product UAT / explicit product verdict
 ```
 
-Owner weekend routing override through **2026-09-06 23:59 (+08:00)**:
+Owner weekend override remains active through **2026-09-06 23:59 (+08:00)**:
 
 ```text
 Zcode + GLM-5.3-flash → primary implementation owner for NEW code-changing tasks
 GPT                    → semantics / architecture / task shaping / Independent Review
 ```
 
-Do not invent low-value work merely to consume quota. At **2026-09-07 00:00 (+08:00)**, absent a new Owner instruction, long-term routing resumes automatically. Gemini review remains CANCELLED / DO NOT EXECUTE.
+At **2026-09-07 00:00 (+08:00)**, absent a new Owner instruction, long-term routing resumes automatically. Gemini review remains CANCELLED / DO NOT EXECUTE.
 
-## 1A. Worktree hygiene — Owner rule
+## 1A. Task identity
+
+Use `Vibe-Coding/governance/TASK_IDENTITY_AND_LINEAGE_V1_0.md`.
+
+```text
+Capability Anchor != executable Work ID != revision/review lineage
+```
+
+New independent work uses flat immutable `MW-xxx`. Same-outcome defects stay the same Work ID with Revision + Review-Round increments.
+
+## 1B. Worktree hygiene
 
 All task worktrees:
 
 `D:/AI/Projects/.worktrees/my-world/<task-or-revision>`
 
-Before creating/removing a worktree, inspect `git worktree list --porcelain`. Remove a completed worktree only after confirming clean + pushed/reachable/integrated + closed/reviewed + no unknown user work. Use `git worktree remove`, then `git worktree prune`; never manually delete a registered worktree.
+Before creating/removing worktrees inspect `git worktree list --porcelain`. Remove only closed/reviewed + clean + pushed/reachable/integrated + no unknown user work. Registered worktrees are removed only with `git worktree remove`, followed by `git worktree prune`.
 
-## 2. Current state
+Keep the active task worktree through GPT Independent Review.
+
+## 2. Current phase
 
 ```text
-G1-G4                                        PASS / CLOSED
-G5-01 World Turn / Semantic Materialization PASS / CLOSED
-G5-02 Knowledge Provenance                  PASS / CLOSED
-G5-03 NPC / Faction Agency                  ENGINEERING PASS / CLOSED
-MW-001 Runtime Narrative Actor Materialization PASS / CLOSED
-G5-04 Event / Priority Evolution            PRODUCT PASS / CLOSED
-MW-002 Selective World Evolution Evaluator ENGINEERING PASS / CLOSED
-MW-003 Visual Comfort Theme Pass            ENGINEERING PASS — OWNER UAT
-MW-004 Minimal Player Agency Principle      IMPLEMENTED — OWNER UAT
-MW-005 Three Kingdoms Literary Style Primer ENGINEERING PASS — OWNER COMBINED UAT (Revision 4 / IR#4)
-G5-05 Meaningful Choice / Mechanics Integration ENGINEERING COMPLETE — OWNER COMBINED UAT
+G1 Foundation                               PASS / CLOSED
+G2 AI Conversation Spine                    PASS / CLOSED
+G3 Persistence / Save / Timeline            PASS / CLOSED
+G4 Primary Source Assets & Local Game       PASS / CLOSED
+G5 World Semantics & GM Runtime             PRODUCT PASS / CLOSED
+G5-GATE                                     PRODUCT PASS
+
+G6 RPG Experience & Internal Declarative UI Host ACTIVE
+MW-011 G6 RPG Host ViewModel Baseline       ACTIVE — ZCODE
+```
+
+Formal G5 closeout:
+
+`docs/g5_gate/G5_GATE_CLOSEOUT.md`
+
+Owner explicitly accepted G5 and authorized G6. The final G5 UAT also established a G6 product requirement: MW-009 side panels are safe and dynamic but too information-thin for the final RPG UI.
+
+## 3. Closed G5 results that remain protected
+
+```text
+G5-01 World Turn / Semantic Materialization           PASS / CLOSED
+G5-02 Knowledge Provenance                            PASS / CLOSED
+G5-03 NPC / Faction Agency                            ENGINEERING PASS / CLOSED
+MW-001 Runtime Narrative Actor Materialization        PASS / CLOSED
+G5-04 Event / Priority Evolution                      PRODUCT PASS / CLOSED
+MW-002 Selective World Evolution Evaluator            ENGINEERING PASS / CLOSED
+MW-003 Visual Comfort Theme Pass                      PRODUCT PASS / CLOSED
+MW-004 Minimal Player Agency Principle                PRODUCT PASS / CLOSED
+MW-005 Three Kingdoms Literary Style Primer R4        PRODUCT PASS / CLOSED
+G5-05 Meaningful Choice / Mechanics Integration       PRODUCT PASS / CLOSED
 MW-006 Mechanics-Grounded World Consequence Vertical ENGINEERING PASS / CLOSED
-MW-007 Mechanics Consequence Timeline Continuity ENGINEERING PASS / CLOSED
-MW-008 Safe Markdown-Lite Narrative Rendering ENGINEERING PASS / CLOSED
-G5-06 Runtime → UI Projection               ENGINEERING PASS / CLOSED
-MW-009 Player-Safe Runtime Side Panels      ENGINEERING PASS / CLOSED
-G5-07 World Product Tests                   ENGINEERING PASS / CLOSED
-MW-010 G5 Living-World Integrated Reality Matrix ENGINEERING PASS / CLOSED (Revision 2 / IR#2)
-G5-GATE                                     READY FOR OWNER COMBINED UAT / NOT YET PASS
+MW-007 Mechanics Consequence Timeline Continuity      ENGINEERING PASS / CLOSED
+MW-008 Safe Markdown-Lite Narrative Rendering         PRODUCT PASS / CLOSED
+G5-06 Runtime → UI Projection                         ENGINEERING PASS / CLOSED
+MW-009 Player-Safe Runtime Side Panels                ENGINEERING PASS / CLOSED
+G5-07 World Product Tests                             PRODUCT PASS / CLOSED
+MW-010 Living-World Integrated Reality Matrix R2      ENGINEERING PASS / CLOSED
 ```
 
-There is no active engineering implementation task. The next authoritative action is the Owner combined G5 product checkpoint:
+### Core world/runtime invariants
 
-`docs/g5_gate/G5_COMBINED_OWNER_UAT_CHECKPOINT.md`
+- Accepted free-form Narrative remains primary and is not gated by semantic/knowledge/agency/evolution extraction success.
+- Runtime makes established world consequences durable without creating a universal simulator.
+- World Truth != actor Knowledge != human-player disclosure.
+- Stable NPCs may act independently; Player foreground wins.
+- World Evolution may `hold` or advance selectively; Player turns are scheduling opportunities, not universal causes.
+- Program-owned Public d20 results ground normal G5-01 semantic opportunities; accepted Narrative remains the concrete scene consequence source.
+- Save/reopen/Restore currentness remains authoritative.
 
-Do not create another G5 feature/revision unless that real-play checkpoint exposes a concrete blocker.
+### MW-008 presentation invariant
 
-## 3. Current Work Item identities
+Raw GM Narrative remains authoritative in Conversation/persistence/context. Markdown-lite is disposable UI projection only. v0.1 whitelist: `**text**`, `*text*`, standalone `---`.
 
-### MW-005
-
-```text
-Work Item: MW-005
-Name: Three Kingdoms Literary Style Primer v0.1
-Capability-Anchor: G4 Primary Source Assets & Local Game
-Revision 4 implementation SHA: aacc65e0f92debb679a8b30708d1452c1426fd76
-Review-Round: IR#4
-Status: ENGINEERING PASS — OWNER COMBINED UAT
-```
-
-Revision 4 changes only the request-only `STYLE_NARRATIVE_ANCHOR_CUE` wording. The literary reference remains expression-only and never Game truth, future canon, Player/actor Knowledge, semantic consequence authority, World Evolution causal input, mechanics-control authority, or mandatory output protocol. Primer/source bytes and Source generation remain unchanged: `58966f73dfade50b0aa7536aad38a8840e614016975e8beba0735f7dd14ab443`.
-
-Formal review: `docs/mw005/MW-005_INDEPENDENT_REVIEW_IR4.md`.
-
-If Owner still finds the prose materially too weak, do not continue indefinite cue-weight escalation; revisit Primer content/selection in the MW-005 revision lineage. If too forceful, reduce the same cue in the same lineage.
-
-### G5-05 / MW-006 / MW-007
-
-```text
-MW-006 = ENGINEERING PASS / CLOSED
-MW-007 = ENGINEERING PASS / CLOSED
-G5-05  = ENGINEERING COMPLETE — OWNER COMBINED UAT
-```
-
-Protected mechanics semantics:
-
-```text
-Program-owned Public d20 result
-→ bounded grounding in normal G5-01 semantic opportunity
-→ accepted free-form Narrative remains concrete consequence source
-→ durable world consequence
-→ Save / close / reopen / Continue / Restore coherent
-```
-
-Do not introduce a second mechanics truth, fixed outcome→effect table, fake NO_CHECK mechanics, Narrative gate/retry, or new SQLite mechanics schema.
-
-### MW-008
-
-```text
-Work Item: MW-008
-Name: Safe Markdown-Lite Narrative Rendering
-Implementation SHA: 9f90e634d6d0302e9905f131410f7a33611e8d41
-Review-Round: IR#1
-Status: ENGINEERING PASS / CLOSED
-```
-
-Raw GM Narrative remains authoritative in Conversation/persistence/context; Markdown-lite is disposable UI projection only. Whitelist v0.1: `**text**`, `*text*`, standalone `---`.
-
-### MW-009 / G5-06
-
-```text
-MW-009 = ENGINEERING PASS / CLOSED
-G5-06  = ENGINEERING PASS / CLOSED
-```
-
-Protected projection rule:
+### MW-009 disclosure invariant
 
 ```text
 Runtime truth
@@ -142,34 +125,75 @@ Runtime truth
 != human-player-safe UI projection
 ```
 
-Player-safe projection exposes only safe Player identity, safe World/Entry identity and bounded current Player Character Knowledge facts.
+Do not pass omniscient `world_state` into leaf UI and then filter it there.
 
-### MW-010 / G5-07
+### MW-005 style invariant
+
+Literary Style Reference is expression-only. It is not Game truth, future canon, Player/actor Knowledge, semantic consequence authority, World Evolution input, mechanics-control authority, or mandatory output protocol.
+
+## 4. G6 first vertical
+
+Canonical architecture:
+
+`Vibe-Coding/my world/architecture/ui/G6_RPG_HOST_VIEWMODEL_V0_1_DECISION.md`
+
+Executable packet:
+
+`docs/tasks/MW-011_G6_RPG_HOST_VIEWMODEL_BASELINE_TASK.md`
+
+Identity:
 
 ```text
-MW-010 Revision 2 / IR#2 = ENGINEERING PASS / CLOSED
-G5-07                    = ENGINEERING PASS / CLOSED
+Work Item: MW-011
+Name: G6 RPG Host ViewModel Baseline
+Capability-Anchor: G6 RPG Experience & Internal Declarative UI Host
+Implementer: Zcode + GLM-5.3-flash
+Reviewer: GPT
+Revision: 1
+Review-Round: 0
+Status: ACTIVE — ZCODE
+Branch: mw-011-g6-rpg-host-viewmodel-baseline
+Worktree: D:/AI/Projects/.worktrees/my-world/mw-011
 ```
 
-The integrated matrix proves quiet hold, independent NPC Agency, World Evolution, NPC-only Knowledge vs later Player disclosure, Program-owned d20 → MW-006 → G5-01 consequence, close/reopen reconstruction, no-reroll, Save/Restore counterfactual currentness, and player-safe disclosure boundaries using real FinalCreate/Runtime/SQLite composition and deterministic stubs.
+G6 starts with the canonical order:
 
-## 4. Combined Owner UAT before G5-GATE
+```text
+Runtime projection
+→ presentation-only ViewModel
+→ real RPG UI consumer
+```
 
-Use:
+MW-011 must improve the existing Player Host / World Surface information architecture using real existing safe data. It must not fabricate HP/location/inventory/relationship/faction/quest state just to fill space.
 
-`docs/g5_gate/G5_COMBINED_OWNER_UAT_CHECKPOINT.md`
+Required first product behavior:
 
-The checkpoint covers:
+- Player Host: identity/profile + safe World/Entry context + bounded recent accepted Player actions + turn count;
+- World Surface default Overview: World/Entry + current Player-known facts + small safe session metadata;
+- World Surface `存档`: existing G3 Save controls/semantics behind bounded navigation instead of dominating default overview;
+- Restore/reopen/currentness and MW-009 disclosure boundaries remain correct.
 
-- living-world quiet/independent evolution;
-- NPC agency and knowledge secrecy;
-- meaningful risky action → Public d20 → natural durable consequence;
-- Save/reopen/Restore coherence;
-- protagonist-choice boundary;
-- player-safe side-panel usefulness/privacy;
-- Three Kingdoms prose after MW-005 R4;
-- Markdown-lite rendering and visual comfort.
+## 5. G6 platform discipline
 
-Only Owner may issue Product PASS statuses and the final **G5-GATE PASS**.
+Supporting design:
 
-If UAT finds a blocker, route it to the owning existing Work Item revision when it is the same outcome; mint a new flat Work Item only for a genuinely distinct outcome.
+`Vibe-Coding/my world/architecture/ui/声明式UIHost设计.md`
+
+Do **not** begin G6 by building a universal UI DSL.
+
+Canonical order is consumer-first:
+
+```text
+real safe projection / ViewModel / consumer
+→ real visual consumer needs
+→ Runtime Asset Resolution where actually required
+→ richer Character / Relationship / Inventory / Faction / Map / Save surfaces
+→ Expansion mechanic state consumer
+→ Internal Declarative UI Host v0.1
+→ bounded Action Intent
+→ responsive/navigation/polish
+```
+
+External World Pack / Mod UI declaration belongs to G8, not G6.
+
+Do not create generic event bus/reactive store/ViewModel platform, arbitrary expression binding, arbitrary GDScript callbacks, or raw Runtime access from declarative definitions.
