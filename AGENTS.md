@@ -40,7 +40,7 @@ GPT
 
 Do not invent low-value work merely to consume quota. Stage Gates, Task Packets, scope boundaries and implementer/reviewer separation remain unchanged. At **2026-09-07 00:00 (+08:00)**, absent a new Owner instruction, long-term routing resumes automatically.
 
-MW-004 was a one-item Owner-authorized GPT implementation exception. MW-006 and MW-007 were Owner-authorized Zcode + GLM-5.3-flash tasks and are closed. MW-005 Revision 3 is the current Owner-routed Zcode task under the weekend override. None changes long-term routing.
+MW-004 was a one-item Owner-authorized GPT implementation exception. MW-006 and MW-007 were Owner-authorized Zcode tasks and are closed. MW-005 Revision 3 was implemented by Zcode and passed GPT IR#3; it now awaits Owner UAT. MW-008 is the current Zcode task under the weekend override.
 
 Gemini review remains CANCELLED / DO NOT EXECUTE.
 
@@ -54,7 +54,7 @@ Required location for all new my-world task worktrees:
 D:/AI/Projects/.worktrees/my-world/<task-or-revision>
 ```
 
-Before creating a new task worktree, inspect registered worktrees with `git worktree list --porcelain`. A completed worktree may be removed only after confirming it is clean, its unique commits are safely pushed/reachable, its task is closed, and it contains no unknown user work. Use `git worktree remove`; do not manually delete a registered worktree directory. Run `git worktree prune` after safe removals.
+Before creating a new task worktree, inspect registered worktrees with `git worktree list --porcelain`. A completed worktree may be removed only after confirming it is clean, its unique commits are safely pushed/reachable, its task is closed/reviewed, and it contains no unknown user work. Use `git worktree remove`; do not manually delete a registered worktree directory. Run `git worktree prune` after safe removals.
 
 If an old directory is an ordinary clone/copy rather than a registered worktree, do not delete it merely by name; inspect status/branch/remote/unique commits first.
 
@@ -72,34 +72,34 @@ G5-04 Event / Priority Evolution            PRODUCT PASS / CLOSED
 MW-002 Selective World Evolution Evaluator ENGINEERING PASS / CLOSED
 MW-003 Visual Comfort Theme Pass            ENGINEERING PASS — OWNER UAT
 MW-004 Minimal Player Agency Principle      IMPLEMENTED — OWNER UAT
-MW-005 Three Kingdoms Literary Style Primer OWNER UAT NOT PASS — REVISION 3 / ZCODE
+MW-005 Three Kingdoms Literary Style Primer ENGINEERING PASS — OWNER UAT (Revision 3 / IR#3)
 G5-05 Meaningful Choice / Mechanics Integration ENGINEERING COMPLETION EVIDENCE READY — OWNER UAT
 MW-006 Mechanics-Grounded World Consequence Vertical ENGINEERING PASS / CLOSED
 MW-007 Mechanics Consequence Timeline Continuity ENGINEERING PASS / CLOSED
+MW-008 Safe Markdown-Lite Narrative Rendering ACTIVE — ZCODE
 G5-GATE                                     NOT YET
 ```
-
-MW-005 remains a distinct Owner-inserted source-content/runtime integration slice anchored to G4. IR#2 proved the v0.1 consumer boundaries, but Owner prose UAT did not observe a strong enough product-level style change. Revision 3 therefore stays on the same Work Item and addresses narrative style **salience/placement**, not mechanics or world truth.
 
 G5-04 is closed after Owner-completed UAT on 2026-09-05.
 
 G5-05 has engineering completion evidence from MW-006 + MW-007. It is not Product-closed until Owner validates a real risky-action path and confirms mechanics matter naturally without dominating play.
 
+MW-005 remains a distinct Owner-inserted source-content/runtime integration outcome anchored to G4. Revision 3 passed Engineering IR#3 after moving the existing Primer into a single late Narrative-only style anchor. Only Owner prose UAT remains; if the style change is still not perceptible, revisit Primer content rather than adding more prompt weight.
+
+MW-008 is a separate presentation task triggered by literal Markdown such as `**张飞**` and `---` appearing in the Narrative UI. It must not alter MW-005 style semantics or raw Narrative truth.
+
 Current active executable packet:
 
-- `docs/tasks/MW-005_REVISION3_NARRATIVE_STYLE_SALIENCE_TASK.md`
+- `docs/tasks/MW-008_SAFE_MARKDOWN_LITE_NARRATIVE_RENDERING_TASK.md`
 
-MW-005 records:
+Relevant review/task records:
 
 - `docs/tasks/MW-005_THREE_KINGDOMS_LITERARY_STYLE_PRIMER_TASK.md`
 - `docs/tasks/MW-005_REVISION2_CONTROL_LANE_STYLE_EXCLUSION_ADDENDUM.md`
 - `docs/tasks/MW-005_REVISION3_NARRATIVE_STYLE_SALIENCE_TASK.md`
 - `docs/mw005/MW-005_INDEPENDENT_REVIEW_IR1.md`
 - `docs/mw005/MW-005_INDEPENDENT_REVIEW_IR2.md`
-- `docs/tasks/inputs/MW-005_THREE_KINGDOMS_STYLE_PRIMER_V0_1.txt`
-
-MW-006 / MW-007 review records:
-
+- `docs/mw005/MW-005_INDEPENDENT_REVIEW_IR3.md`
 - `docs/mw006/MW-006_INDEPENDENT_REVIEW_IR1.md`
 - `docs/mw007/MW-007_INDEPENDENT_REVIEW_IR1.md`
 
@@ -111,15 +111,11 @@ MW-006 / MW-007 review records:
 Work Item: MW-005
 Name: Three Kingdoms Literary Style Primer v0.1
 Capability-Anchor: G4 Primary Source Assets & Local Game
-Inserted-By: Owner
-Triggered-By: G5-04 Owner UAT prose-quality observation
 Revision: 3
-Review-Round: IR#2 complete; target IR#3
-Revision-2 implementation SHA: 583dde4d4dc9e4b6f2b82dd5f0cae0960dcc62cc
-Revision-2 evidence SHA: 4e2c467fd9468dfa9c3d296c66e04e16ed9628df
-Implementer: Zcode + GLM-5.3-flash
+Review-Round: IR#3
+Revision-3 implementation SHA: a52236c5ec55bf07a727b4e07c4ef63572b18555
 Reviewer: GPT
-Status: OWNER UAT NOT PASS — REVISION 3 / ZCODE
+Status: ENGINEERING PASS — OWNER UAT
 ```
 
 ### MW-006
@@ -141,15 +137,28 @@ Name: Mechanics Consequence Timeline Continuity
 Capability-Anchor: G5-05 Meaningful Choice / Mechanics Integration
 Implementation/Evidence SHA: 9494c92ff3b6c9949ff97b86336dbf36baf90942
 Review-Round: IR#1
-Reviewer: GPT
 Status: ENGINEERING PASS / CLOSED
+```
+
+### MW-008
+
+```text
+Work Item: MW-008
+Name: Safe Markdown-Lite Narrative Rendering
+Capability-Anchor: G2 Narrative Conversation View / presentation
+Inserted-By: Owner UAT observation during G5
+Implementer: Zcode + GLM-5.3-flash
+Reviewer: GPT
+Revision: 1
+Review-Round: 0
+Status: ACTIVE — ZCODE
 ```
 
 Task identity and lineage follow `Vibe-Coding/governance/TASK_IDENTITY_AND_LINEAGE_V1_0.md`.
 
-## 4. MW-005 protected semantics and Revision-3 direction
+## 4. MW-005 protected result
 
-The Style Primer is expression reference only:
+The Style Primer remains expression reference only:
 
 ```text
 Literary Style Reference
@@ -165,36 +174,28 @@ Literary Style Reference
 != mandatory chapter-novel format
 ```
 
-Current Three Kingdoms carrier remains:
+Current Three Kingdoms carrier remains a World `semantic_section` with `section_type=literary_style_reference`, `disclosure=gm_reference`.
+
+Revision 3 / IR#3 establishes:
 
 ```text
-World semantic section
-section_type = literary_style_reference
-disclosure   = gm_reference
+Opening / ordinary continuation / d20 Narrative
+→ single late request-only style anchor
+→ factual/mechanics material first
+→ concise positive voice cue
+
+Public d20 control/control_recovery
+→ no style material/cue
+
+G5-04 world-only / G5-01 semantic
+→ no style material/cue
 ```
 
-IR#2 consumer boundary remains protected:
-
-```text
-first opening                         INCLUDE
-ordinary continuation GM narrative   INCLUDE
-Public d20 resolution narrative       INCLUDE
-Public d20 NO_CHECK narrative         INCLUDE
-Public d20 degraded narrative         INCLUDE
-Public d20 control                     EXCLUDE
-Public d20 control_recovery            EXCLUDE
-G5-04 project_world_only()             EXCLUDE
-```
-
-Owner UAT after IR#2 found the prose shift insufficiently perceptible. Revision 3 must keep Primer/source bytes and generation unchanged while making the existing reference a **single late narrative-only style anchor** with a concise positive steering cue. Do not solve this by duplication, longer negative prompts, output gates, mandatory formulas, blacklists or a generic style framework.
-
-The published Source generation remains immutable:
+Published Source generation remains immutable:
 
 `58966f73dfade50b0aa7536aad38a8840e614016975e8beba0735f7dd14ab443`
 
-If runtime salience correction still fails Owner UAT, revisit the Primer content itself in a later Revision instead of endlessly increasing prompt weight.
-
-Literal Markdown rendering (`**张飞**`, `---`) visible in the narrative UI is a separate presentation outcome and must not be folded into MW-005 Revision 3.
+Do not republish or change Primer bytes unless a later Owner-approved Revision explicitly changes content.
 
 ## 5. G5-05 protected result
 
@@ -219,11 +220,31 @@ No second mechanics truth, hardcoded outcome-effect table, reroll protocol, Narr
 
 One non-blocking advisory remains: after Restore, reusing the exact same caller-owned `action_id` for a restored-away future action fails loud on the existing mutation identity conflict rather than silently rerolling/reusing truth. Do not redesign identity absent a real product reproduction.
 
-## 6. Review / UAT boundaries
+## 6. MW-008 protected semantics
 
-MW-005 Revision 3 may return at most `READY FOR INDEPENDENT REVIEW`. GPT performs IR#3. Owner then repeats new-Game prose UAT.
+MW-008 is presentation-only:
 
-G5-05 is engineering-ready for Owner product validation. A suitable UAT path is:
+```text
+raw model GM Narrative
+→ Conversation / persistence / future context unchanged
+→ UI-only Markdown-lite rendering
+```
+
+Initial whitelist:
+
+- `**text**` bold;
+- `*text*` italic;
+- standalone `---` thematic separator.
+
+Do not feed raw model text to unrestricted Godot BBCode. Arbitrary `[color]`, `[url]`, `[img]`, `[font]` etc. must remain literal. Streaming chunk boundaries must not corrupt Markdown interpretation. A transient view-only current-GM raw buffer is allowed but must never become a second durable history store.
+
+Do not expand MW-008 into full CommonMark/GFM, HTML, links/images, a model-output Markdown protocol or G5-06 world-state UI projection.
+
+## 7. Review / UAT boundaries
+
+MW-005: Owner must repeat UAT with a **new Three Kingdoms Game**. If the visible style difference remains weak, next action is Primer-content review, not more salience prompt weight.
+
+G5-05: Owner may validate a real path:
 
 ```text
 meaningful risky action
@@ -233,8 +254,10 @@ meaningful risky action
 → Save/reopen remembers it
 ```
 
-Owner should also confirm `NO_CHECK` remains natural and mechanics do not dominate every action.
+Also confirm NO_CHECK remains natural and mechanics do not dominate every action.
 
-MW-004 remains `IMPLEMENTED — OWNER UAT`; do not silently close it. MW-003 remains `ENGINEERING PASS — OWNER UAT`.
+MW-008 may return at most `READY FOR INDEPENDENT REVIEW`. GPT reviews actual rendering code/tests. Owner then checks normal-play appearance.
 
-A pre-existing G3-04 assertion is stale after MW-004 because it treats the literal phrase `Current Game Context` in GM instructions as proof of raw-context leakage. Repair separately; do not fold it into MW-005/G5-05.
+MW-004 remains `IMPLEMENTED — OWNER UAT`; MW-003 remains `ENGINEERING PASS — OWNER UAT`.
+
+A pre-existing G3-04 assertion is stale after MW-004 because it treats the literal phrase `Current Game Context` in GM instructions as proof of raw-context leakage. Repair separately; do not fold it into MW-005/G5-05/MW-008.
