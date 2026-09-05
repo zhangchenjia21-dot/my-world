@@ -73,32 +73,30 @@ G5-05 Meaningful Choice / Mechanics Integration ENGINEERING COMPLETE — OWNER U
 MW-006 Mechanics-Grounded World Consequence Vertical ENGINEERING PASS / CLOSED
 MW-007 Mechanics Consequence Timeline Continuity ENGINEERING PASS / CLOSED
 MW-008 Safe Markdown-Lite Narrative Rendering ENGINEERING PASS / CLOSED
-G5-06 Runtime → UI Projection               ACTIVE
-MW-009 Player-Safe Runtime Side Panels      ACTIVE — ZCODE
-G5-07 World Product Tests                   NOT YET
+G5-06 Runtime → UI Projection               ENGINEERING PASS / CLOSED
+MW-009 Player-Safe Runtime Side Panels      ENGINEERING PASS / CLOSED
+G5-07 World Product Tests                   ACTIVE
+MW-010 G5 Living-World Integrated Reality Matrix ACTIVE — ZCODE
 G5-GATE                                     NOT YET
 ```
 
-Owner explicitly authorized proceeding to G5-06 without another isolated G5-05 UAT cycle. G5-05 is **not Product-closed**; its real-play validation is deferred to the later combined G5-07/G5-GATE pass.
-
-MW-005 Revision 3 passed Engineering IR#3. Owner still wants a modest additional style-weight adjustment before the later combined product test, but that work is deferred and must not interrupt G5-06. Do not silently create MW-005 Revision 4 inside MW-009.
-
-MW-008 Revision 1 / IR#1 is Engineering PASS / CLOSED. Its accepted presentation rule is UI-only Markdown-lite projection; raw Narrative truth remains unchanged.
+Owner explicitly directed the project back onto the G5 mainline and deferred remaining product-feel checks into one later combined UAT.
 
 Current active executable packet:
 
-- `docs/tasks/MW-009_PLAYER_SAFE_RUNTIME_SIDE_PANELS_TASK.md`
+- `docs/tasks/MW-010_G5_LIVING_WORLD_INTEGRATED_REALITY_MATRIX_TASK.md`
 
-Current G5-06 architecture:
+Current G5-07 architecture:
 
-- `Vibe-Coding/my world/architecture/world/G5_PLAYER_SAFE_RUNTIME_UI_PROJECTION_V0_1_DECISION.md`
+- `Vibe-Coding/my world/architecture/world/G5_WORLD_PRODUCT_TEST_MATRIX_V0_1_DECISION.md`
 
-Relevant records:
+Recent closeout/reviews:
 
-- `docs/g5_05/G5-05_ENGINEERING_COMPLETION_CHECKPOINT.md`
-- `docs/mw006/MW-006_INDEPENDENT_REVIEW_IR1.md`
-- `docs/mw007/MW-007_INDEPENDENT_REVIEW_IR1.md`
+- `docs/mw009/MW-009_INDEPENDENT_REVIEW_IR1.md`
+- `docs/g5_06/G5-06_CLOSEOUT.md`
 - `docs/mw008/MW-008_INDEPENDENT_REVIEW_IR1.md`
+- `docs/mw007/MW-007_INDEPENDENT_REVIEW_IR1.md`
+- `docs/mw006/MW-006_INDEPENDENT_REVIEW_IR1.md`
 - `docs/mw005/MW-005_INDEPENDENT_REVIEW_IR3.md`
 
 ## 3. Current Work Item identities
@@ -109,15 +107,16 @@ Relevant records:
 Work Item: MW-005
 Name: Three Kingdoms Literary Style Primer v0.1
 Capability-Anchor: G4 Primary Source Assets & Local Game
-Revision: 3 engineering result complete
-Review-Round: IR#3
+Current engineering baseline: Revision 3 / IR#3
 Revision-3 implementation SHA: a52236c5ec55bf07a727b4e07c4ef63572b18555
 Status: ENGINEERING PASS — OWNER FOLLOW-UP POLISH/UAT DEFERRED
 ```
 
 Protected result: Style reference is expression-only, never Game truth, future canon, Player/actor Knowledge, World Evolution causality, mechanics-control authority or semantic-consequence authority. Current Source generation remains immutable `58966f73dfade50b0aa7536aad38a8840e614016975e8beba0735f7dd14ab443` until an explicit future Revision changes content.
 
-### MW-006 / MW-007 / G5-05
+Owner has requested one **bounded additional style-weight polish** before the later combined G5 product test. It is queued separately and must not contaminate MW-010. Do not create another style platform, output gate or mandatory pseudo-classical format.
+
+### G5-05 / MW-006 / MW-007
 
 ```text
 MW-006 = ENGINEERING PASS / CLOSED
@@ -129,8 +128,8 @@ Protected mechanics semantics:
 
 ```text
 Program-owned Public d20 result
-→ bounded grounding in the normal G5-01 semantic opportunity
-→ accepted free-form Narrative remains the source of concrete consequence
+→ bounded grounding in normal G5-01 semantic opportunity
+→ accepted free-form Narrative remains concrete consequence source
 → durable world consequence
 → Save / close / reopen / Continue / Restore coherent
 ```
@@ -142,38 +141,27 @@ Do not introduce a second mechanics truth, fixed outcome→effect table, reroll 
 ```text
 Work Item: MW-008
 Name: Safe Markdown-Lite Narrative Rendering
-Capability-Anchor: G2 Narrative Conversation View / presentation
 Implementation SHA: 9f90e634d6d0302e9905f131410f7a33611e8d41
 Review-Round: IR#1
 Status: ENGINEERING PASS / CLOSED
 ```
 
-Protected presentation semantics:
+Protected presentation semantics: raw GM Narrative remains authoritative in Conversation/persistence/context; Markdown-lite is disposable UI projection only. Whitelist v0.1: `**text**`, `*text*`, standalone `---`.
 
-```text
-raw GM Narrative
-→ Conversation / persistence / future context unchanged
-→ disposable UI-only rendering
-```
-
-Whitelist v0.1: `**text**`, `*text*`, standalone `---`. Arbitrary Godot BBCode-like model text remains literal. IR#1 advisory: some unsupported mixed/nested emphasis may style oddly rather than fully literal-fail-soft; do not expand into a general Markdown engine absent real UAT evidence.
-
-### MW-009
+### MW-009 / G5-06
 
 ```text
 Work Item: MW-009
 Name: Player-Safe Runtime Side Panels
 Capability-Anchor: G5-06 Runtime → UI Projection
-Implementer: Zcode + GLM-5.3-flash
-Reviewer: GPT
-Revision: 1
-Review-Round: 0
-Status: ACTIVE — ZCODE
+Implementation/Evidence SHA: c2805e816d8bcda73b7bc662a2fe091e55daf0af
+Review-Round: IR#1
+Status: ENGINEERING PASS / CLOSED
+
+G5-06 = ENGINEERING PASS / CLOSED
 ```
 
-## 4. G5-06 protected semantics
-
-Core rule:
+Protected projection rule:
 
 ```text
 Runtime truth
@@ -182,43 +170,55 @@ Runtime truth
 != human-player-safe UI projection
 ```
 
-Disclosure belongs to the projection boundary. UI widgets must not receive the whole omniscient `world_state` and filter it themselves.
+The player-safe projection exposes only safe Player identity, safe World/Entry identity and bounded current Player Character Knowledge facts. Hidden NPC Knowledge, raw consequences, Agency, World Evolution, GM/source instructions, Style Primer, internal IDs/hashes/fingerprints and mechanics-control material are absent from the projection object.
 
-MW-009 first vertical may expose only:
-
-```text
-Player Character safe identity
-World / selected Entry safe identity
-recent current Player Character Knowledge Provenance facts
-```
-
-It must exclude raw:
+### MW-010
 
 ```text
-NPC knowledge
-semantic world-change ledger
-independent actor actions
-World Evolution events
-GM/source instructions
-Style Primer
-internal IDs/hashes/fingerprints
-mechanics-control/proposal payloads
+Work Item: MW-010
+Name: G5 Living-World Integrated Reality Matrix
+Capability-Anchor: G5-07 World Product Tests
+Implementer: Zcode + GLM-5.3-flash
+Reviewer: GPT
+Revision: 1
+Review-Round: 0
+Status: ACTIVE — ZCODE
 ```
 
-Currentness must follow accepted Conversation turn/hash matching. Restore/reopen must reconstruct the same safe projection; stale or invalid data fails closed.
+Preferred result is **zero production diff** plus real FinalCreate / CurrentGameRuntime / SQLite integration tests. If the matrix exposes a defect in a previously closed capability, STOP and report the owning capability; do not silently repair it under MW-010.
 
-Use the existing Player/World side panels. Do not build full G6 Character Sheet, journal, map, faction, inventory, visual asset runtime, generic ViewModel/event bus, Player Knowledge database or new persistence schema.
+## 4. G5-07 protected semantics
 
-## 5. Review / UAT boundary
+G5-07 is an integrated reality proof, not another feature-growth phase.
 
-MW-009 may return at most `READY FOR INDEPENDENT REVIEW`. GPT reviews actual code/tests.
+Required engineering scenarios include:
 
-Owner has chosen to combine remaining product checks later rather than stop the mainline after every slice. Before G5-GATE, combined validation must still cover:
+```text
+Player Absence / World Independence
+Counterfactual Propagation via Save/Restore + alternate path
+Independent Actor
+Knowledge Boundary
+Public d20 → living-world consequence
+Save / reopen / Restore composition
+player-safe disclosure currentness
+```
+
+Use real production Runtime/persistence/composition and deterministic task-owned model stubs where needed. Do not create a generic scenario engine, branch simulator, event bus, ViewModel platform, new persistence schema, new mechanics protocol or G6 dynamic/declarative UI host.
+
+Automated proof does not substitute for Owner product judgment.
+
+## 5. Combined UAT before G5-GATE
+
+After MW-010 Engineering PASS, prepare one combined Owner checkpoint rather than isolated UAT loops.
+
+It must cover as appropriate:
 
 - G5-05 risky action → d20 → natural durable consequence → Save/reopen consistency;
-- player-safe disclosure boundary;
+- player-safe disclosure usefulness/privacy;
 - world/actor independence and Knowledge boundaries;
-- MW-005 prose quality after the requested bounded follow-up weight adjustment;
-- MW-003/MW-004 open UAT items as appropriate.
+- MW-005 prose after the queued bounded style-weight polish;
+- MW-004 protagonist-choice boundary;
+- MW-003 visual comfort;
+- MW-008 rendering unobtrusiveness.
 
-Engineering completion does not substitute for G5-GATE product judgment.
+Only Owner may issue the final product/G5-GATE verdict.
