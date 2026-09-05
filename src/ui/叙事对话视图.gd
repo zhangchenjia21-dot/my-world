@@ -13,6 +13,8 @@ const ADAPTER := preload("res://src/provider/L3_外交层/运行时模型流式�
 const Conversation := preload("res://src/domain/会话.gd")
 const ContextAssembler := preload("res://src/context/L3_外交层/上下文组装公开接口.gd")
 const Palette := preload("res://src/ui/视觉舒适调色板.gd")
+## MW-008：GM 块的 Markdown-lite 安全展示投影（UI 边界一次性派生，不回写任何 truth）。
+const RichTextRenderer := preload("res://src/ui/叙事富文本渲染器.gd")
 
 ## 一次性 derived request 的观测 seam；测试可捕获，UI 不保存或持久化 messages。
 signal request_messages_assembled(messages)
@@ -87,6 +89,10 @@ var _adjudication_active := false
 var _current_gm_content: RichTextLabel = null
 var _current_gm_marker: Label = null
 var _follow_scroll := true
+## MW-008：仅当前 GM block 的 view-only raw 缓冲。用于把任意分片的 provider delta
+## 重新投影为同一个 Markdown-lite 渲染结果；它不是第二套 history/Conversation 存储，
+## 在新块/重试/重建/拆除时清空，永不回写 Conversation。
+var _current_gm_raw := ""
 
 
 func _ready() -> void:
@@ -341,6 +347,8 @@ func _on_attempt_started(turn: RefCounted) -> void:
 		_begin_gm_entry(String(turn.pending_player_text).is_empty())
 	else:
 		_current_gm_content.clear()
+		# MW-008：view-only raw 缓冲属于被替换的 attempt，必须与新块同步清空。
+		_current_gm_raw = ""
 	if _current_gm_marker != null:
 		_current_gm_marker.text = ""
 	_update_controls()
@@ -348,8 +356,20 @@ func _on_attempt_started(turn: RefCounted) -> void:
 
 func _on_draft_appended(text: String) -> void:
 	if _current_gm_content != null:
-		_current_gm_content.add_text(text)
+		# MW-008：delimiters 可能跨 delta 分裂；以 raw 缓冲整体重投影当前 GM block，
+		# 最终渲染 == 一次性渲染拼接全文。缓冲是 view-only，不是第二套 truth。
+		_current_gm_raw += text
+		_render_current_gm()
 		_follow_scroll_if_needed()
+
+
+## MW-008：当前 GM block 的唯一展示写入点——从 view-only raw 缓冲整体重投影。
+## 静态确定性 renderer 保证流式分段与 restore/redraw 的渲染完全一致。
+func _render_current_gm() -> void:
+	if _current_gm_content == null:
+		return
+	_current_gm_content.clear()
+	_current_gm_content.parse_bbcode(RichTextRenderer.render(_current_gm_raw))
 
 
 ## Public d20 行动被 Host accepted 后，玩家回合由 Host 通过 Conversation 落地；
@@ -532,6 +552,8 @@ func _begin_gm_entry(opening: bool = false) -> void:
 	_current_gm_content.selection_enabled = true
 	_current_gm_content.add_theme_font_size_override("normal_font_size", 20)
 	box.add_child(_current_gm_content)
+	# MW-008：新 GM block 从空 raw 缓冲开始。
+	_current_gm_raw = ""
 
 	entries.add_child(box)
 
@@ -836,6 +858,7 @@ func _clear_rendered_entries(clear_player_input: bool = false) -> void:
 		child.queue_free()
 	_current_gm_content = null
 	_current_gm_marker = null
+	_current_gm_raw = ""
 	if clear_player_input:
 		player_input.clear()
 
@@ -864,7 +887,10 @@ func _render_restored_entries() -> void:
 		if cards.has(index):
 			_append_mechanic_card(cards[index] as Dictionary)
 		_begin_gm_entry(player_text.is_empty())
-		_current_gm_content.add_text(String(entry.gm_text))
+		# MW-008：accepted 历史与 live streaming 共用同一确定性投影——
+		# reopen/redraw 的渲染与流式最终帧完全一致；raw durable bytes 不受影响。
+		_current_gm_raw = String(entry.gm_text)
+		_render_current_gm()
 		index += 1
 
 
