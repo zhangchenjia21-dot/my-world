@@ -7,7 +7,7 @@ Owner: Kimi / Reviewer: GPT
 
 ```text
 Implementation Base:  63262dfe52d9200115544bb0a1f2507795039e33
-Implementation SHA:   772fcb7 (rebased onto origin/main@378ac43; pre-rebase 807b01390b24e00d3e33f3aae6f58ddeee369a95)
+Implementation SHA:   97dbbbc36288129b4b21ac5556e5dd9378be5850 (rebased onto origin/main@ff7674c; pre-rebase 807b013)
 Evidence SHA:         <this document's own commit; see git log>
 Real Provider calls:  0
 ```
