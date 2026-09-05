@@ -38,13 +38,27 @@ GPT
 → remains semantic / architecture / task-shaping / Independent Review owner
 ```
 
-Kimi's already-assigned MW-005 Revision 2 is now engineering-complete and awaiting Owner UAT; it is no longer an active implementation lane.
-
 Do not invent low-value work merely to consume quota. Stage Gates, Task Packets, scope boundaries and implementer/reviewer separation remain unchanged. At **2026-09-07 00:00 (+08:00)**, absent a new Owner instruction, long-term routing resumes automatically.
 
-MW-004 was a one-item Owner-authorized GPT implementation exception. MW-006 was an Owner-authorized Zcode + GLM-5.3-flash implementation and is closed. MW-007 is the current Owner-routed Zcode task under the weekend override. None changes long-term routing.
+MW-004 was a one-item Owner-authorized GPT implementation exception. MW-006 and MW-007 were Owner-authorized Zcode + GLM-5.3-flash tasks and are closed. MW-005 Revision 3 is the current Owner-routed Zcode task under the weekend override. None changes long-term routing.
 
 Gemini review remains CANCELLED / DO NOT EXECUTE.
+
+## 1A. Worktree hygiene — Owner rule
+
+Task worktrees must not be scattered directly under `D:/AI/Projects`.
+
+Required location for all new my-world task worktrees:
+
+```text
+D:/AI/Projects/.worktrees/my-world/<task-or-revision>
+```
+
+Before creating a new task worktree, inspect registered worktrees with `git worktree list --porcelain`. A completed worktree may be removed only after confirming it is clean, its unique commits are safely pushed/reachable, its task is closed, and it contains no unknown user work. Use `git worktree remove`; do not manually delete a registered worktree directory. Run `git worktree prune` after safe removals.
+
+If an old directory is an ordinary clone/copy rather than a registered worktree, do not delete it merely by name; inspect status/branch/remote/unique commits first.
+
+Keep the active task worktree through Independent Review unless GPT/Owner explicitly authorizes cleanup.
 
 ## 2. Current state
 
@@ -58,37 +72,36 @@ G5-04 Event / Priority Evolution            PRODUCT PASS / CLOSED
 MW-002 Selective World Evolution Evaluator ENGINEERING PASS / CLOSED
 MW-003 Visual Comfort Theme Pass            ENGINEERING PASS — OWNER UAT
 MW-004 Minimal Player Agency Principle      IMPLEMENTED — OWNER UAT
-MW-005 Three Kingdoms Literary Style Primer ENGINEERING PASS — OWNER UAT
-G5-05 Meaningful Choice / Mechanics Integration ACTIVE
+MW-005 Three Kingdoms Literary Style Primer OWNER UAT NOT PASS — REVISION 3 / ZCODE
+G5-05 Meaningful Choice / Mechanics Integration ENGINEERING COMPLETION EVIDENCE READY — OWNER UAT
 MW-006 Mechanics-Grounded World Consequence Vertical ENGINEERING PASS / CLOSED
-MW-007 Mechanics Consequence Timeline Continuity ACTIVE — ZCODE
+MW-007 Mechanics Consequence Timeline Continuity ENGINEERING PASS / CLOSED
 G5-GATE                                     NOT YET
 ```
 
-MW-005 is a distinct Owner-inserted source-content/runtime integration slice anchored to G4. It does not reopen G4, does not make the literary reference World truth, and remains independent from G5-05. IR#2 passed; only Owner prose A/B UAT remains.
+MW-005 remains a distinct Owner-inserted source-content/runtime integration slice anchored to G4. IR#2 proved the v0.1 consumer boundaries, but Owner prose UAT did not observe a strong enough product-level style change. Revision 3 therefore stays on the same Work Item and addresses narrative style **salience/placement**, not mechanics or world truth.
 
-G5-04 is closed after Owner-completed UAT on 2026-09-05. Closeout:
+G5-04 is closed after Owner-completed UAT on 2026-09-05.
 
-`docs/g5_04/G5-04_CLOSEOUT.md`
-
-G5-05 is ACTIVE. MW-006 established the first mechanics-grounded consequence vertical. MW-007 is a second, bounded completion proof that composes the existing Public d20 + G5-01 + Save/Restore/Continue seams using production Runtime/SQLite ownership. It must not invent a new mechanics or persistence architecture.
+G5-05 has engineering completion evidence from MW-006 + MW-007. It is not Product-closed until Owner validates a real risky-action path and confirms mechanics matter naturally without dominating play.
 
 Current active executable packet:
 
-- `docs/tasks/MW-007_MECHANICS_CONSEQUENCE_TIMELINE_CONTINUITY_TASK.md`
+- `docs/tasks/MW-005_REVISION3_NARRATIVE_STYLE_SALIENCE_TASK.md`
 
 MW-005 records:
 
 - `docs/tasks/MW-005_THREE_KINGDOMS_LITERARY_STYLE_PRIMER_TASK.md`
 - `docs/tasks/MW-005_REVISION2_CONTROL_LANE_STYLE_EXCLUSION_ADDENDUM.md`
+- `docs/tasks/MW-005_REVISION3_NARRATIVE_STYLE_SALIENCE_TASK.md`
 - `docs/mw005/MW-005_INDEPENDENT_REVIEW_IR1.md`
 - `docs/mw005/MW-005_INDEPENDENT_REVIEW_IR2.md`
 - `docs/tasks/inputs/MW-005_THREE_KINGDOMS_STYLE_PRIMER_V0_1.txt`
 
-MW-006 records:
+MW-006 / MW-007 review records:
 
-- `docs/tasks/MW-006_MECHANICS_GROUNDED_WORLD_CONSEQUENCE_TASK.md` — post-implementation governance backfill; see provenance note inside.
-- `docs/mw006/MW-006_INDEPENDENT_REVIEW_IR1.md` — authoritative IR#1 PASS.
+- `docs/mw006/MW-006_INDEPENDENT_REVIEW_IR1.md`
+- `docs/mw007/MW-007_INDEPENDENT_REVIEW_IR1.md`
 
 ## 3. Current Work Item identities
 
@@ -100,13 +113,13 @@ Name: Three Kingdoms Literary Style Primer v0.1
 Capability-Anchor: G4 Primary Source Assets & Local Game
 Inserted-By: Owner
 Triggered-By: G5-04 Owner UAT prose-quality observation
-Revision: 2
-Review-Round: IR#2
+Revision: 3
+Review-Round: IR#2 complete; target IR#3
 Revision-2 implementation SHA: 583dde4d4dc9e4b6f2b82dd5f0cae0960dcc62cc
 Revision-2 evidence SHA: 4e2c467fd9468dfa9c3d296c66e04e16ed9628df
-Owner: Kimi
+Implementer: Zcode + GLM-5.3-flash
 Reviewer: GPT
-Status: ENGINEERING PASS — OWNER UAT
+Status: OWNER UAT NOT PASS — REVISION 3 / ZCODE
 ```
 
 ### MW-006
@@ -115,12 +128,8 @@ Status: ENGINEERING PASS — OWNER UAT
 Work Item: MW-006
 Name: Mechanics-Grounded World Consequence Vertical
 Capability-Anchor: G5-05 Meaningful Choice / Mechanics Integration
-Authorized-By: Owner
-Implementer: Zcode + GLM-5.3-flash
-Revision: 1
-Review-Round: IR#1
 Implementation SHA: adb3ca45c2e869c7685915de18664ee3ce7e6f39
-Reviewer: GPT
+Review-Round: IR#1
 Status: ENGINEERING PASS / CLOSED
 ```
 
@@ -130,24 +139,21 @@ Status: ENGINEERING PASS / CLOSED
 Work Item: MW-007
 Name: Mechanics Consequence Timeline Continuity
 Capability-Anchor: G5-05 Meaningful Choice / Mechanics Integration
-Triggered-By: MW-006 Engineering PASS / G5-05 completion audit
-Depends-On: MW-006 ENGINEERING PASS / CLOSED
-Implementer: Zcode + GLM-5.3-flash
+Implementation/Evidence SHA: 9494c92ff3b6c9949ff97b86336dbf36baf90942
+Review-Round: IR#1
 Reviewer: GPT
-Revision: 1
-Review-Round: 0
-Status: ACTIVE — ZCODE
+Status: ENGINEERING PASS / CLOSED
 ```
 
 Task identity and lineage follow `Vibe-Coding/governance/TASK_IDENTITY_AND_LINEAGE_V1_0.md`.
 
-## 4. MW-005 protected result
+## 4. MW-005 protected semantics and Revision-3 direction
 
 The Style Primer is expression reference only:
 
 ```text
 Literary Style Reference
-= diction / syntax / etiquette / dialogue / narrative-distance exemplar
+= diction / syntax / etiquette / dialogue / narrative-distance / information-delivery exemplar
 != Game world truth
 != future canon
 != original-novel plot authority
@@ -155,10 +161,11 @@ Literary Style Reference
 != Player/actor Knowledge
 != World Evolution causal input
 != mechanics-adjudication input
+!= semantic-consequence authority
 != mandatory chapter-novel format
 ```
 
-Current Three Kingdoms carrier:
+Current Three Kingdoms carrier remains:
 
 ```text
 World semantic section
@@ -166,7 +173,7 @@ section_type = literary_style_reference
 disclosure   = gm_reference
 ```
 
-IR#2 establishes the v0.1 consumer matrix:
+IR#2 consumer boundary remains protected:
 
 ```text
 first opening                         INCLUDE
@@ -179,19 +186,19 @@ Public d20 control_recovery            EXCLUDE
 G5-04 project_world_only()             EXCLUDE
 ```
 
+Owner UAT after IR#2 found the prose shift insufficiently perceptible. Revision 3 must keep Primer/source bytes and generation unchanged while making the existing reference a **single late narrative-only style anchor** with a concise positive steering cue. Do not solve this by duplication, longer negative prompts, output gates, mandatory formulas, blacklists or a generic style framework.
+
 The published Source generation remains immutable:
 
 `58966f73dfade50b0aa7536aad38a8840e614016975e8beba0735f7dd14ab443`
 
-Do not republish it merely for the Runtime consumer correction. Existing opened Games remain frozen to their prior exact generation and must not read mutable Source current.
+If runtime salience correction still fails Owner UAT, revisit the Primer content itself in a later Revision instead of endlessly increasing prompt weight.
 
-Model Freedom First remains protected. Do not turn the Primer into mandatory `却说` / `且说`, half-classical output, a modern-word blacklist, fixed output shape, parser/classifier gate, or retry loop. Do not commit/import the user's EPUB, full novel, publisher foreword, notes or editorial material.
+Literal Markdown rendering (`**张飞**`, `---`) visible in the narrative UI is a separate presentation outcome and must not be folded into MW-005 Revision 3.
 
-IR#2 includes one non-blocking future advisory: if a future product decision introduces Character-card `literary_style_reference` sections, mechanics-control exclusion must be re-audited for that new carrier. Do not build that speculative generalization now.
+## 5. G5-05 protected result
 
-## 5. MW-006 protected result
-
-MW-006 established this narrow authority flow:
+MW-006 established:
 
 ```text
 existing authoritative Public d20 CHECK_REQUIRED resolution
@@ -200,63 +207,34 @@ existing authoritative Public d20 CHECK_REQUIRED resolution
 → existing semantic mutation seam materializes supported durable consequences
 ```
 
-Do not regress this into:
-
-- `SUCCESS/FAILURE → fixed world effect` tables;
-- a second mechanics truth/store;
-- rerolls;
-- fake NO_CHECK mechanics;
-- Narrative parser/gate/retry protocols;
-- extra semantic replay opportunities;
-- direct raw-mechanics injection into G5-04;
-- Actor Knowledge shortcuts;
-- SQLite mechanics schema work.
-
-The accepted-turn reader deliberately fails closed when no unique accepted durable check matches; loss of optional grounding is preferable to guessed mechanics authority.
-
-## 6. MW-007 protected outcome
-
-MW-007 is an integration/durability proof, not a new mechanics feature.
-
-It must prove with task-owned SQLite and production Runtime seams that:
+MW-007 independently proved with zero production diff that the resulting mechanics-grounded consequence participates coherently in:
 
 ```text
-CHECK_REQUIRED
-→ authoritative d20 result
-→ accepted free-form Narrative
-→ MW-006-grounded G5-01 semantic consequence
-→ Save / close / reopen / Continue consistency
-→ Restore rewinds restored-away future truth coherently
+Save → close → reopen → Continue
+and
+pre-action Save → mechanics/consequence → Restore
 ```
 
-Preferred result when architecture is already correct is **test/evidence only with zero production diff**. A production fix is allowed only for a real defect already implied by current canonical semantics. If fixing it requires a new SQLite migration, mechanics truth, Public-d20 protocol, Timeline architecture, extra semantic replay, or collision with the now-merged MW-005 consumer boundary, STOP and return to GPT/Owner.
+No second mechanics truth, hardcoded outcome-effect table, reroll protocol, Narrative gate/retry, new SQLite schema or generic persistence framework was introduced.
 
-Zcode must refresh/rebase onto latest `main` containing MW-005 Revision 2 before final handoff and rerun the focused matrix.
+One non-blocking advisory remains: after Restore, reusing the exact same caller-owned `action_id` for a restored-away future action fails loud on the existing mutation identity conflict rather than silently rerolling/reusing truth. Do not redesign identity absent a real product reproduction.
 
-## 7. Required proof / review boundary
+## 6. Review / UAT boundaries
 
-MW-005 has passed Engineering IR#2. Owner UAT must now use a **new** Three Kingdoms Game and judge actual prose value, including period-rooted dialogue, intelligence delivery, war/administrative voice, readability, absence of mechanical chapter-novel tics, no future-plot leakage, and preserved Player Agency.
+MW-005 Revision 3 may return at most `READY FOR INDEPENDENT REVIEW`. GPT performs IR#3. Owner then repeats new-Game prose UAT.
 
-For MW-007, Engineering evidence must prove at least:
+G5-05 is engineering-ready for Owner product validation. A suitable UAT path is:
 
-- post-consequence Save + close/reopen preserves the accepted Narrative, exact d20 truth and semantic consequence without reroll/duplication;
-- later continuation Context sees the valid committed consequence through the existing World Turn context seam;
-- Restore to a pre-action Save removes restored-away Conversation/world consequence and does not leak ghost mechanics grounding/future Context according to current persistence ownership;
-- MW-006 and G5-01 timeline regressions remain green;
-- no SQLite schema/table/migration change;
-- no regression of MW-005 Revision-2 control/narrative consumer boundary;
-- `git diff --check` clean; export validation if production GDScript changes.
+```text
+meaningful risky action
+→ visible Public d20 result
+→ natural GM consequence
+→ later world remains consistent
+→ Save/reopen remembers it
+```
 
-Zcode may return at most `READY FOR INDEPENDENT REVIEW`. GPT performs actual-code Independent Review. Owner retains Product/UAT authority.
+Owner should also confirm `NO_CHECK` remains natural and mechanics do not dominate every action.
 
-## 8. Existing open UAT / debt items
+MW-004 remains `IMPLEMENTED — OWNER UAT`; do not silently close it. MW-003 remains `ENGINEERING PASS — OWNER UAT`.
 
-MW-005 is `ENGINEERING PASS — OWNER UAT`; do not claim Product PASS until Owner performs the new-Game A/B prose check.
-
-MW-004 remains `IMPLEMENTED — OWNER UAT`; do not silently close it. Its minimal Player Agency principle remains protected:
-
-> **The GM owns freedom to advance the world; the Player owns new meaningful choices for the protagonist.**
-
-MW-003 remains `ENGINEERING PASS — OWNER UAT`; positive visual feedback is not silently converted to Product PASS.
-
-A pre-existing G3-04 persistence assertion is stale after MW-004 because the shared GM instruction legitimately contains the literal phrase `Current Game Context`. MW-006 did not introduce this failure. Repair it separately; do not fold it into MW-005, MW-006 or MW-007.
+A pre-existing G3-04 assertion is stale after MW-004 because it treats the literal phrase `Current Game Context` in GM instructions as proof of raw-context leakage. Repair separately; do not fold it into MW-005/G5-05.
