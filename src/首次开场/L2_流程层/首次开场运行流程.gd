@@ -50,8 +50,14 @@ func start_first_opening() -> Dictionary:
 	if session_runtime.conversation.begin_gm_opening() == null:
 		return _publish_terminal(Rules.failure("generation_active", "无法建立首次 GM Opening attempt。"))
 
+	# MW-005 R3：style anchor 是 request-only 派生材料，作为 system content 的最后一块，
+	# 在全部事实 Game/World/Player/Character 材料之后保持 salience。
+	var game_context_text := String(projected.context_text)
+	var style_anchor := String(projected.get("style_reference_text", ""))
+	if not style_anchor.is_empty():
+		game_context_text += "\n\n" + style_anchor
 	last_context_stats = (projected.stats as Dictionary).duplicate(true)
-	last_request_messages = _context_assembler.assemble_first_opening_messages(String(projected.context_text))
+	last_request_messages = _context_assembler.assemble_first_opening_messages(game_context_text)
 	request_assembled.emit(last_request_messages.duplicate(true), last_context_stats.duplicate(true))
 	last_result = {"success": true, "status": "streaming", "message": "", "context_stats": last_context_stats.duplicate(true)}
 	var start_error: Error = provider_adapter.start_stream(last_request_messages)
@@ -83,6 +89,10 @@ func assemble_continuation_messages() -> Dictionary:
 	var game_context_text := String(projected.context_text)
 	if not String(materialized.context_text).is_empty():
 		game_context_text += "\n\n" + String(materialized.context_text)
+	# MW-005 R3：anchor 位于事实 World/Character 与 materialized World Turn 材料之后。
+	var style_anchor := String(projected.get("style_reference_text", ""))
+	if not style_anchor.is_empty():
+		game_context_text += "\n\n" + style_anchor
 	var messages := _context_assembler.assemble_messages(
 		session_runtime.conversation.get_context_projection(),
 		game_context_text

@@ -115,13 +115,18 @@ func _test_new_game_freeze_opening_and_world_only() -> void:
 	var projected: Dictionary = projector.project(setup)
 	_check(projected.success, "ordinary GM context projection succeeds on Primer setup")
 	if projected.success:
+		# MW-005 R3：事实 context 与派生 style anchor 分离。
 		var text := String(projected.context_text)
-		var boundary := text.find("## Literary Style Reference")
-		_check(boundary >= 0, "ordinary GM context carries a distinct non-factual literary boundary")
-		_check(text.find("不构成当前 Game 的世界事实或既定未来", boundary) > boundary, "boundary explicitly denies current-fact/future authority")
-		_check(text.count(PRIMER_MARKER) == 1, "ordinary GM context sees the Primer exactly once")
-		_check(boundary >= 0 and text.find(PRIMER_MARKER) > boundary, "Primer renders under the boundary, not inside factual World sections")
-		_check(text.find("world-identity-ownership") >= 0 and text.find("world-identity-ownership") < boundary, "factual World sections still render before the boundary")
+		var style_text := String(projected.get("style_reference_text", ""))
+		_check(text.count(PRIMER_MARKER) == 0 and not text.contains("## Literary Style Reference"),
+			"factual GM context_text carries no Primer and no literary boundary (R3 separation)")
+		_check(text.contains("world-identity-ownership"), "factual World sections still render in context_text")
+		_check(style_text.count(PRIMER_MARKER) == 1, "style anchor carries the Primer exactly once")
+		var boundary := style_text.find("## Literary Style Reference")
+		_check(boundary >= 0, "style anchor carries a distinct non-factual literary boundary")
+		_check(style_text.find("不构成当前 Game 的世界事实或既定未来", boundary) > boundary, "boundary explicitly denies current-fact/future authority")
+		_check(boundary >= 0 and style_text.find(PRIMER_MARKER) > boundary, "Primer renders under the boundary, not inside factual World sections")
+		_check(style_text.find("表达锚点") > style_text.find(PRIMER_MARKER), "positive style cue follows the Primer inside the anchor")
 
 	## first opening 与 ordinary Narrative 共用 project()；这里走真实 Opening 流程证明。
 	var runtime := Runtime.new()
@@ -183,7 +188,8 @@ func _test_old_game_freeze_across_current_advance() -> void:
 	var projector := Projector.new()
 	var old_projected: Dictionary = projector.project(old_setup)
 	_check(old_projected.success and not String(old_projected.context_text).contains(PRIMER_MARKER)
-		and not String(old_projected.context_text).contains("Literary Style Reference"),
+		and not String(old_projected.context_text).contains("Literary Style Reference")
+		and String(old_projected.get("style_reference_text", "")).is_empty(),
 		"old Game GM context has no Primer and no boundary")
 
 	var advanced: Dictionary = library.install_world_pack(WORLD_PKG)

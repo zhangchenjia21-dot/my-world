@@ -463,7 +463,7 @@ func _resolution_messages(expansion: Dictionary) -> Array:
 	var game_context := String(projected.get("context_text", "")) + "\n\n" + _rules_text(expansion) + "\n\n" + authority + "\n只输出尊重既定 outcome 的 GM narrative，不输出 JSON。"
 	return _assembler.assemble_messages(session_runtime.conversation.get_context_projection().merged({
 		"active_attempt": {"turn_index": session_runtime.conversation.get_durable_accepted_entries().size(), "player_text": _player_text}
-	}, true), game_context)
+	}, true), _append_style_anchor(game_context, projected))
 
 
 func _ordinary_narrative_messages(expansion: Dictionary, degraded: bool) -> Array:
@@ -476,7 +476,14 @@ func _ordinary_narrative_messages(expansion: Dictionary, degraded: bool) -> Arra
 		game_context += "\nControl reason: " + String(_control_result.get("reason", ""))
 	return _assembler.assemble_messages(session_runtime.conversation.get_context_projection().merged({
 		"active_attempt": {"turn_index": session_runtime.conversation.get_durable_accepted_entries().size(), "player_text": _player_text}
-	}, true), game_context)
+	}, true), _append_style_anchor(game_context, projected))
+
+
+## MW-005 R3：narrative stage 的单一 late style anchor——位于全部事实材料与 mechanics
+## 指令之后。control/control_recovery 走 include_style=false 投影且不调用本方法。
+func _append_style_anchor(game_context: String, projected: Dictionary) -> String:
+	var style_anchor := String(projected.get("style_reference_text", ""))
+	return game_context + "\n\n" + style_anchor if not style_anchor.is_empty() else game_context
 
 
 func _rules_text(expansion: Dictionary) -> String:
