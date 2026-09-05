@@ -28,7 +28,7 @@ Grok Build → search / external research / evidence discovery
 Owner      → Product UAT / explicit product verdict
 ```
 
-Temporary through 2026-09-06 23:59 (+08:00): Kimi owns all code-changing implementation tasks; GPT remains semantic owner/reviewer. Correct in-flight Kimi work may finish after expiry.
+Temporary through 2026-09-06 23:59 (+08:00): Kimi normally owns all code-changing implementation tasks; GPT remains semantic owner/reviewer. For **MW-004 only**, Owner explicitly delegated the tiny bounded prompt edit directly to GPT. This does not change general routing, and GPT must not issue an Independent Review verdict on its own implementation.
 
 Gemini review remains CANCELLED / DO NOT EXECUTE.
 
@@ -40,86 +40,94 @@ G5-01 World Turn / Semantic Materialization PASS / CLOSED
 G5-02 Knowledge Provenance                  PASS / CLOSED
 G5-03 NPC / Faction Agency                  ENGINEERING PASS / CLOSED
 MW-001 Runtime Narrative Actor Materialization PASS / CLOSED
-G5-04 Event / Priority Evolution            ACTIVE — OWNER UAT PAUSED
+G5-04 Event / Priority Evolution            ACTIVE — OWNER UAT PAUSED FOR MW-004 CHECK
 MW-002 Selective World Evolution Evaluator ENGINEERING PASS / CLOSED
 MW-003 Visual Comfort Theme Pass            ENGINEERING PASS — OWNER UAT
+MW-004 Minimal Player Agency Principle      IMPLEMENTED — OWNER UAT
 G5-GATE                                     NOT YET
 ```
 
-`MW-003` is an Owner-inserted **early G6 visual-polish slice**. It does not advance the project stage to G6, does not reopen MW-002, and does not authorize G5-05.
+MW-003 remains a separate early G6 visual-polish slice. Owner has reported the build looks much better; its explicit Product PASS is still not silently inferred.
+
+MW-004 is a distinct Owner-inserted cross-cutting product-semantics outcome anchored to G2 AI Conversation Spine. It does not reopen G2, alter G5-04 architecture, or authorize G5-05.
 
 Current executable packet:
 
-`docs/tasks/MW-003_VISUAL_COMFORT_THEME_PASS_TASK.md`
-
-Independent Review:
-
-`docs/mw003/MW-003_INDEPENDENT_REVIEW_IR1.md` — ENGINEERING PASS / OWNER UAT
-
-After Owner explicit Product PASS on MW-003, resume G5-04 Owner UAT exactly where it was.
+`docs/tasks/MW-004_MINIMAL_PLAYER_AGENCY_PRINCIPLE_TASK.md`
 
 ## 3. Current Work Item identity
 
 ```text
-Work Item: MW-003
-Name: Visual Comfort Theme Pass
-Capability-Anchor: G6 RPG Experience & Internal Declarative UI Host
+Work Item: MW-004
+Name: Minimal Player Agency Principle
+Capability-Anchor: G2 AI Conversation Spine
 Inserted-By: Owner
-Blocks: resume of G5-04 Owner UAT
+Triggered-By: G5-04 Owner UAT observation of GM making an unexpressed scene-exit choice for the protagonist
 Revision: 1
-Review-Round: IR#1
-Implementation Base: 42006215838c07910ab8b948cac628a4f43dde4e
-Implementation: eb13d559092e288506ce280ea01e9ef3c8a62290
-Evidence: 561ff0d5ff80ad1224c55d6f7768474da242ebd0
-Owner: Owner product verdict
-Reviewer: GPT
-Status: ENGINEERING PASS — OWNER UAT
+Implementation Base: b9ea5cb3ebe9e91c9c2ab1f4a93daf30b440767d
+Implementer: GPT — explicit Owner delegation
+Independent Reviewer: not self-assigned
+Status: IMPLEMENTED — OWNER UAT
 ```
 
-This is a distinct Owner-inserted Outcome, so it uses a new flat Work Item ID under `Vibe-Coding/governance/TASK_IDENTITY_AND_LINEAGE_V1_0.md`.
+This is a new independent Outcome, so it uses a new flat Work Item ID under `Vibe-Coding/governance/TASK_IDENTITY_AND_LINEAGE_V1_0.md`.
 
-## 4. MW-003 engineering result
+## 4. MW-004 protected semantics
 
-IR#1 confirms:
+Minimal canonical boundary for this Work Item:
 
-- one central semantic palette owns canvas/base/input/raised surfaces, text hierarchy and semantic accent/success/warning/danger colors;
-- root Theme assembly covers panels, labels, buttons, inputs, popup menus, focus/selection, separators and scrollbars;
-- runtime-created Narrative/mechanic/status controls consume the same palette;
-- Main Menu, Settings, Wizard and in-game surfaces are visually covered;
-- no layout/typography redesign or G6 theme-settings platform was introduced;
-- no G5 gameplay/runtime, Provider, persistence, Timeline, Agency, World Evolution or Public-d20 mechanism change was introduced.
+> **The GM owns freedom to advance the world; the Player owns new meaningful choices for the protagonist.**
 
-Committed evidence reports focused real-render **30 PASS / 0 FAIL**, directly affected UI regressions green, export freshness PASS, `git diff --check` clean, real Provider calls 0.
+The shared GM instructions may say only what is necessary to preserve this authority boundary:
 
-No Revision 2 is required absent a concrete new visual defect.
+- GM may freely advance world, NPCs, scenes, consequences of already expressed Player action, and connective behavior that is not itself a meaningful choice;
+- if narration would create a new meaningful protagonist choice that the Player did not express and current intent does not clearly imply, leave that choice to the Player;
+- `Light` does not expand GM authority to make meaningful protagonist choices; it only permits natural completion of non-decisional detail.
 
-## 5. MW-003 Product UAT
+Do **not** broaden this into:
 
-Owner is the final judge of eye comfort. The existing positive observation that the build "looks much better" is meaningful UAT evidence but is not silently converted into Product PASS.
+- parser/classifier enforcement;
+- Narrative rejection/finalize barrier;
+- retry loop;
+- keyword blacklist;
+- mandatory questions / stop points;
+- fixed response format;
+- Full/Narrative redesign;
+- control-mode platform work.
 
-Only continue tuning if a concrete issue remains, such as:
+Model Freedom First remains protected. Narrative still accepts any non-empty GM response under the existing Conversation rules.
 
-- sustained-reading discomfort after 10–20 minutes;
-- muted/disabled text unreadable in a real state;
-- focus/hover/selection ambiguity;
-- warning/error colors still too harsh or too weak;
-- a major reachable surface visibly breaks palette coherence.
+Focused test:
 
-Otherwise stop visual iteration and close MW-003 via explicit Owner Product PASS.
+`tests/mw004/最小玩家主权原则测试.gd`
+
+GPT's current environment has no Godot runtime; do not claim this test was executed by GPT.
+
+## 5. Owner MW-004 UAT
+
+Owner should continue through the real `run-game.cmd` path and observe a scene with an obvious still-open protagonist choice.
+
+PASS means:
+
+- prose remains natural and unconstrained;
+- GM freely advances NPC/world/scene response;
+- small connective protagonist behavior is still natural;
+- GM does not invent a new meaningful choice such as leaving, agreeing, refusing, revealing, committing or abandoning without Player expression/clear implication;
+- GM does not become timid or repeatedly ask permission.
+
+If behavior is satisfactory, resume the existing G5-04 Owner UAT immediately. Do not expand MW-004 without new concrete evidence.
 
 ## 6. Protected G5-04 state
 
-G5-04 remains ACTIVE and MW-002 remains ENGINEERING PASS / CLOSED. The UAT interruption is scheduling only.
+G5-04 remains ACTIVE and MW-002 remains ENGINEERING PASS / CLOSED. MW-004 is a brief UAT interruption only.
 
 Frozen product rule remains:
 
 > **The world can move without the Player causing every change, without forcing an event every turn.**
 
-Do not modify G5-04 architecture or implementation as part of MW-003.
-
-After MW-003 closes, G5-04 Owner UAT still needs both:
+G5-04 Owner UAT still needs both:
 
 1. Quiet / Life Loop — genuine `hold`, no artificial escalation;
 2. Genuine ripe pressure — one credible independent world consequence that remains durable and later surfaces naturally.
 
-Do not start G5-05 before Owner later closes G5-04.
+Do not start G5-05 before Owner closes G5-04.
