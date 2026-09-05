@@ -7,6 +7,11 @@ const Rules := preload("res://src/首次开场/L0_公理层/首次开场规则.g
 ## 上限以内的已选 section 按稳定顺序全文进入请求，不做逐节截断或一句话摘要。
 const MAX_CONTEXT_CHARS := 180000
 
+## MW-005：文学风格参考是唯一非事实 section_type——仅供 GM 吸收措辞/句法/称谓/叙事距离，
+## 不构成世界事实、未来 canon、NPC 命运、Knowledge 或 World Evolution 因果输入。
+const STYLE_SECTION_TYPE := "literary_style_reference"
+const STYLE_BOUNDARY_HEADER := "## Literary Style Reference | 文学风格参考（非世界事实）\n以下范例仅用于表达参考：措辞、句法节奏、称谓礼法、对白方式与叙事距离。其中人物、事件、地点与结局不构成当前 Game 的世界事实或既定未来，不是 Player/actor Knowledge，也不是任何因果推演依据。"
+
 
 func project(setup_value: Variant) -> Dictionary:
 	var validation := Rules.validate_setup(setup_value)
@@ -57,6 +62,7 @@ func project(setup_value: Variant) -> Dictionary:
 ## instructions / selected Entry / World semantic sections），不含 Player/Character 私有材料。
 ## R2 F03：不得复用 _append_game——Game settings（control_mode / opening_supplement /
 ## display_name 等）不属于 World-only authority；只用最小中性 Game-local header。
+## MW-005：literary_style_reference 整类排除——风格参考绝不进入 World Evolution 因果输入。
 ## 超限/无效 fail-soft；不截断、不摘要、不查询 mutable Source current。
 func project_world_only(setup_value: Variant) -> Dictionary:
 	var validation := Rules.validate_setup(setup_value)
@@ -66,7 +72,7 @@ func project_world_only(setup_value: Variant) -> Dictionary:
 	var blocks: Array[String] = []
 	_append_runtime_contract(blocks, setup)
 	_append_world_only_game_header(blocks, setup.game as Dictionary, setup.get("selected_entry_id"))
-	var world_result := _append_world(blocks, setup.world as Dictionary)
+	var world_result := _append_world(blocks, setup.world as Dictionary, false)
 	if not world_result.success:
 		return world_result
 	var text := "\n\n".join(blocks)
@@ -101,7 +107,7 @@ func _append_game(blocks: Array[String], game: Dictionary, selected_entry: Varia
 	])
 
 
-func _append_world(blocks: Array[String], world: Dictionary) -> Dictionary:
+func _append_world(blocks: Array[String], world: Dictionary, include_style: bool = true) -> Dictionary:
 	var projection_value: Variant = world.get("source_projection")
 	if typeof(projection_value) != TYPE_DICTIONARY:
 		return Rules.failure("invalid_game_setup", "World selected projection 无效。")
@@ -116,7 +122,7 @@ func _append_world(blocks: Array[String], world: Dictionary) -> Dictionary:
 	var selected_entry := projection.get("selected_entry", {}) as Dictionary
 	if not selected_entry.is_empty():
 		blocks.append("### Exact Selected World Entry\nEntry ID: %s\nName: %s\nOpening seed: %s" % [String(selected_entry.get("entry_id", "")), String(selected_entry.get("display_name", "")), String(selected_entry.get("opening_seed", ""))])
-	return _append_sections(blocks, projection.get("semantic_sections"), "World")
+	return _append_sections(blocks, projection.get("semantic_sections"), "World", include_style)
 
 
 func _append_character(blocks: Array[String], heading: String, character: Dictionary) -> Dictionary:
@@ -134,15 +140,24 @@ func _append_character(blocks: Array[String], heading: String, character: Dictio
 	return _append_sections(blocks, projection.get("semantic_sections"), heading)
 
 
-func _append_sections(blocks: Array[String], sections_value: Variant, owner: String) -> Dictionary:
+## MW-005：include_style=false 时（World-only baseline）literary_style_reference 整类排除；
+## include_style=true 时单独归入非事实边界块，不与事实性 World sections 混排。
+func _append_sections(blocks: Array[String], sections_value: Variant, owner: String, include_style: bool = true) -> Dictionary:
 	if typeof(sections_value) != TYPE_ARRAY:
 		return Rules.failure("invalid_game_setup", "%s semantic_sections 无效。" % owner)
 	var sections := sections_value as Array
+	var style_lines: Array[String] = []
 	for section_value: Variant in sections:
 		if typeof(section_value) != TYPE_DICTIONARY:
 			return Rules.failure("invalid_game_setup", "%s semantic section 无效。" % owner)
 		var section := section_value as Dictionary
 		if typeof(section.get("content")) != TYPE_STRING or String(section.content).strip_edges().is_empty():
 			return Rules.failure("invalid_game_setup", "%s semantic section 缺少已物化全文。" % owner)
-		blocks.append("### %s | %s | %s | %s\n%s" % [String(section.get("section_id", "")), String(section.get("title", "")), String(section.get("section_type", "")), String(section.get("disclosure", "")), String(section.content)])
+		var line := "### %s | %s | %s | %s\n%s" % [String(section.get("section_id", "")), String(section.get("title", "")), String(section.get("section_type", "")), String(section.get("disclosure", "")), String(section.content)]
+		if String(section.get("section_type", "")) == STYLE_SECTION_TYPE:
+			style_lines.append(line)
+		else:
+			blocks.append(line)
+	if include_style and not style_lines.is_empty():
+		blocks.append("%s\n\n%s" % [STYLE_BOUNDARY_HEADER, "\n\n".join(style_lines)])
 	return Rules.success({"section_count": sections.size()})
