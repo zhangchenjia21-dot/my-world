@@ -28,7 +28,22 @@ Grok Build → search / external research / evidence discovery
 Owner      → Product UAT / explicit product verdict
 ```
 
-Temporary through 2026-09-06 23:59 (+08:00): Kimi owns code-changing implementation; GPT remains semantic owner/reviewer. MW-004 was a one-item Owner-authorized GPT implementation exception. MW-006 was a separate Owner-authorized task-local Zcode + GLM-5.3-flash override and is now closed. Neither exception changes general routing.
+Owner weekend routing override through **2026-09-06 23:59 (+08:00)**:
+
+```text
+Zcode + GLM-5.3-flash
+→ primary implementation owner for NEW code-changing tasks issued after the Owner's 2026-09-05 routing decision
+
+Kimi
+→ completes MW-005 Revision 2 because it was already assigned before the override
+
+GPT
+→ remains semantic / architecture / task-shaping / Independent Review owner
+```
+
+Do not invent low-value work merely to consume quota. Stage Gates, Task Packets, scope boundaries and implementer/reviewer separation remain unchanged. At **2026-09-07 00:00 (+08:00)**, absent a new Owner instruction, long-term routing resumes automatically.
+
+MW-004 was a one-item Owner-authorized GPT implementation exception. MW-006 was an Owner-authorized Zcode + GLM-5.3-flash implementation and is closed. Neither changes long-term routing.
 
 Gemini review remains CANCELLED / DO NOT EXECUTE.
 
@@ -44,7 +59,7 @@ G5-04 Event / Priority Evolution            PRODUCT PASS / CLOSED
 MW-002 Selective World Evolution Evaluator ENGINEERING PASS / CLOSED
 MW-003 Visual Comfort Theme Pass            ENGINEERING PASS — OWNER UAT
 MW-004 Minimal Player Agency Principle      IMPLEMENTED — OWNER UAT
-MW-005 Three Kingdoms Literary Style Primer ACTIVE — KIMI
+MW-005 Three Kingdoms Literary Style Primer CORRECTION REQUIRED — REVISION 2 / KIMI
 G5-05 Meaningful Choice / Mechanics Integration ACTIVE
 MW-006 Mechanics-Grounded World Consequence Vertical ENGINEERING PASS / CLOSED
 G5-GATE                                     NOT YET
@@ -58,9 +73,10 @@ G5-04 is closed after Owner-completed UAT on 2026-09-05. Closeout:
 
 G5-05 is now authorized and ACTIVE. MW-006 is its first closed engineering vertical; it does not close G5-05 as a whole.
 
-Current active executable packet for Kimi's parallel lane:
+Current executable packets for MW-005:
 
-`docs/tasks/MW-005_THREE_KINGDOMS_LITERARY_STYLE_PRIMER_TASK.md`
+- `docs/tasks/MW-005_THREE_KINGDOMS_LITERARY_STYLE_PRIMER_TASK.md`
+- `docs/tasks/MW-005_REVISION2_CONTROL_LANE_STYLE_EXCLUSION_ADDENDUM.md`
 
 Canonical MW-005 task input:
 
@@ -81,12 +97,12 @@ Name: Three Kingdoms Literary Style Primer v0.1
 Capability-Anchor: G4 Primary Source Assets & Local Game
 Inserted-By: Owner
 Triggered-By: G5-04 Owner UAT prose-quality observation
-Revision: 1
-Review-Round: 0
-Implementation Base: 63262dfe52d9200115544bb0a1f2507795039e33
+Revision: 2
+Review-Round: IR#1 completed; target IR#2
+Implementation Base for correction: current main after IR#1 governance propagation
 Owner: Kimi
 Reviewer: GPT
-Status: ACTIVE — KIMI
+Status: CORRECTION REQUIRED — REVISION 2 / KIMI
 ```
 
 ### MW-006
@@ -119,6 +135,7 @@ Literary Style Reference
 != NPC destiny
 != Player/actor Knowledge
 != World Evolution causal input
+!= mechanics-adjudication input
 != mandatory chapter-novel format
 ```
 
@@ -126,9 +143,11 @@ Model Freedom First remains protected. Do not turn the correction into mandatory
 
 The approved Primer is bounded (~2.6k characters) and is the only content payload for v0.1. Do not commit/import the user's EPUB, full novel, publisher foreword, notes or editorial material.
 
+Revision 2 specifically requires style material to be excluded from Public-d20 `control` / `control_recovery` while remaining available to Opening and GM Narrative stages. Do not republish the Source generation for this runtime-only correction.
+
 ## 5. MW-005 architecture guardrails
 
-Current `world_pack.v0.2` already supports semantic sections whose `section_type` is an open safe token. Preferred minimal carrier is:
+Current `world_pack.v0.2` already supports semantic sections whose `section_type` is an open safe token. Current carrier:
 
 ```text
 section_type = literary_style_reference
@@ -137,14 +156,9 @@ disclosure   = gm_reference
 
 No schema v0.3/platform is authorized merely for this task.
 
-Before editing, perform the packet-required two-pass audit of:
+Normal first-opening + ordinary GM Narrative are the intended consumers. G5-04 `project_world_only()` and Public-d20 mechanics-control lanes must exclude the Primer completely. Existing opened Games remain frozen to their prior Source generation and must not read mutable Source current.
 
-1. the real Three Kingdoms authoring/source package + stable `asset_id`;
-2. every consumer of World `semantic_sections` / frozen `source_projection` that could treat style material as factual/causal.
-
-Normal first-opening + ordinary GM Narrative are the intended v0.1 consumers. G5-04 `project_world_only()` must exclude the Primer completely. Existing opened Games remain frozen to their prior Source generation and must not read mutable Source current.
-
-Publish/install a new immutable exact Source generation through the existing Source Library flow; do not mutate an existing managed generation in place.
+Current published Primer generation remains immutable; Revision 2 must not create a new generation merely to change a Runtime consumer.
 
 ## 6. MW-006 protected result
 
@@ -173,18 +187,17 @@ The accepted-turn reader deliberately fails closed when no unique accepted durab
 
 ## 7. Required proof / review boundary
 
-For MW-005, Engineering evidence must prove at least:
+For MW-005 Revision 2, Engineering evidence must prove at least:
 
-- new World generation carries the exact approved Primer and fingerprint changes;
-- new Game freezes the new reference and normal GM context sees it once under a non-factual literary boundary;
-- first opening sees it through the same frozen Game-local path;
-- `project_world_only()` contains neither the Primer nor `literary_style_reference`;
-- old frozen Game remains unchanged after Source current advances;
-- no Knowledge/Agency/World Evolution factual authority is granted to the reference;
-- directly affected Source/final-create/opening/context/G5-04 tests remain green;
+- Public-d20 `control` and `control_recovery` receive normal factual Game-local context but no literary style reference;
+- subsequent GM Narrative stages still receive the Primer exactly once under the non-factual boundary;
+- existing Opening / ordinary continuation / old-new generation freeze behavior remains green;
+- `project_world_only()` still excludes the Primer;
+- Source generation fingerprint remains unchanged;
+- directly affected Public-d20 retry/no-reroll and MW-006 grounding regressions remain green;
 - `git diff --check` clean; export validation if production GDScript changes require it.
 
-Kimi may return at most `READY FOR INDEPENDENT REVIEW`. GPT performs Independent Review from actual code/evidence. Owner later performs prose A/B UAT.
+Kimi may return at most `READY FOR INDEPENDENT REVIEW`. GPT performs IR#2 from actual code/evidence. Owner later performs prose A/B UAT.
 
 MW-006 is already `ENGINEERING PASS / CLOSED`; do not reopen or redesign it merely while doing later G5-05 work. A new independent Outcome requires a new flat Work Item ID.
 
