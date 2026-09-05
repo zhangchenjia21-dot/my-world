@@ -43,7 +43,7 @@ GPT
 
 Do not invent low-value work merely to consume quota. Stage Gates, Task Packets, scope boundaries and implementer/reviewer separation remain unchanged. At **2026-09-07 00:00 (+08:00)**, absent a new Owner instruction, long-term routing resumes automatically.
 
-MW-004 was a one-item Owner-authorized GPT implementation exception. MW-006 was an Owner-authorized Zcode + GLM-5.3-flash implementation and is closed. Neither changes long-term routing.
+MW-004 was a one-item Owner-authorized GPT implementation exception. MW-006 was an Owner-authorized Zcode + GLM-5.3-flash implementation and is closed. MW-007 is the current Owner-routed Zcode task under the weekend override. None changes long-term routing.
 
 Gemini review remains CANCELLED / DO NOT EXECUTE.
 
@@ -62,6 +62,7 @@ MW-004 Minimal Player Agency Principle      IMPLEMENTED — OWNER UAT
 MW-005 Three Kingdoms Literary Style Primer CORRECTION REQUIRED — REVISION 2 / KIMI
 G5-05 Meaningful Choice / Mechanics Integration ACTIVE
 MW-006 Mechanics-Grounded World Consequence Vertical ENGINEERING PASS / CLOSED
+MW-007 Mechanics Consequence Timeline Continuity ACTIVE — ZCODE
 G5-GATE                                     NOT YET
 ```
 
@@ -71,12 +72,13 @@ G5-04 is closed after Owner-completed UAT on 2026-09-05. Closeout:
 
 `docs/g5_04/G5-04_CLOSEOUT.md`
 
-G5-05 is now authorized and ACTIVE. MW-006 is its first closed engineering vertical; it does not close G5-05 as a whole.
+G5-05 is ACTIVE. MW-006 established the first mechanics-grounded consequence vertical. MW-007 is a second, bounded completion proof that composes the existing Public d20 + G5-01 + Save/Restore/Continue seams using production Runtime/SQLite ownership. It must not invent a new mechanics or persistence architecture.
 
-Current executable packets for MW-005:
+Current executable packets:
 
 - `docs/tasks/MW-005_THREE_KINGDOMS_LITERARY_STYLE_PRIMER_TASK.md`
 - `docs/tasks/MW-005_REVISION2_CONTROL_LANE_STYLE_EXCLUSION_ADDENDUM.md`
+- `docs/tasks/MW-007_MECHANICS_CONSEQUENCE_TIMELINE_CONTINUITY_TASK.md`
 
 Canonical MW-005 task input:
 
@@ -118,6 +120,22 @@ Review-Round: IR#1
 Implementation SHA: adb3ca45c2e869c7685915de18664ee3ce7e6f39
 Reviewer: GPT
 Status: ENGINEERING PASS / CLOSED
+```
+
+### MW-007
+
+```text
+Work Item: MW-007
+Name: Mechanics Consequence Timeline Continuity
+Capability-Anchor: G5-05 Meaningful Choice / Mechanics Integration
+Triggered-By: MW-006 Engineering PASS / G5-05 completion audit
+Depends-On: MW-006 ENGINEERING PASS / CLOSED
+Parallel-With: MW-005 Revision 2
+Implementer: Zcode + GLM-5.3-flash
+Reviewer: GPT
+Revision: 1
+Review-Round: 0
+Status: ACTIVE — ZCODE
 ```
 
 Task identity and lineage follow `Vibe-Coding/governance/TASK_IDENTITY_AND_LINEAGE_V1_0.md`.
@@ -185,7 +203,24 @@ Do not regress this into:
 
 The accepted-turn reader deliberately fails closed when no unique accepted durable check matches; loss of optional grounding is preferable to guessed mechanics authority.
 
-## 7. Required proof / review boundary
+## 7. MW-007 protected outcome
+
+MW-007 is an integration/durability proof, not a new mechanics feature.
+
+It must prove with task-owned SQLite and production Runtime seams that:
+
+```text
+CHECK_REQUIRED
+→ authoritative d20 result
+→ accepted free-form Narrative
+→ MW-006-grounded G5-01 semantic consequence
+→ Save / close / reopen / Continue consistency
+→ Restore rewinds restored-away future truth coherently
+```
+
+Preferred result when architecture is already correct is **test/evidence only with zero production diff**. A production fix is allowed only for a real defect already implied by current canonical semantics. If fixing it requires a new SQLite migration, mechanics truth, Public-d20 protocol, Timeline architecture, extra semantic replay, or collision with MW-005 Revision 2, STOP and return to GPT/Owner.
+
+## 8. Required proof / review boundary
 
 For MW-005 Revision 2, Engineering evidence must prove at least:
 
@@ -194,14 +229,21 @@ For MW-005 Revision 2, Engineering evidence must prove at least:
 - existing Opening / ordinary continuation / old-new generation freeze behavior remains green;
 - `project_world_only()` still excludes the Primer;
 - Source generation fingerprint remains unchanged;
-- directly affected Public-d20 retry/no-reroll and MW-006 grounding regressions remain green;
-- `git diff --check` clean; export validation if production GDScript changes require it.
+- directly affected Public-d20 retry/no-reroll and MW-006 grounding regressions remain green.
 
-Kimi may return at most `READY FOR INDEPENDENT REVIEW`. GPT performs IR#2 from actual code/evidence. Owner later performs prose A/B UAT.
+For MW-007, Engineering evidence must prove at least:
 
-MW-006 is already `ENGINEERING PASS / CLOSED`; do not reopen or redesign it merely while doing later G5-05 work. A new independent Outcome requires a new flat Work Item ID.
+- post-consequence Save + close/reopen preserves the accepted Narrative, exact d20 truth and semantic consequence without reroll/duplication;
+- later continuation Context sees the valid committed consequence through the existing World Turn context seam;
+- Restore to a pre-action Save removes restored-away Conversation/world consequence and does not leak ghost mechanics grounding/future Context according to current persistence ownership;
+- MW-006 and G5-01 timeline regressions remain green;
+- no SQLite schema/table/migration change;
+- no collision with MW-005 Revision 2;
+- `git diff --check` clean; export validation if production GDScript changes.
 
-## 8. Existing open UAT / debt items
+Kimi and Zcode may return at most `READY FOR INDEPENDENT REVIEW`. GPT performs actual-code Independent Review. Owner retains Product/UAT authority.
+
+## 9. Existing open UAT / debt items
 
 MW-004 remains `IMPLEMENTED — OWNER UAT`; do not silently close it. Its minimal Player Agency principle remains protected:
 
@@ -209,4 +251,4 @@ MW-004 remains `IMPLEMENTED — OWNER UAT`; do not silently close it. Its minima
 
 MW-003 remains `ENGINEERING PASS — OWNER UAT`; positive visual feedback is not silently converted to Product PASS.
 
-A pre-existing G3-04 persistence assertion is stale after MW-004 because the shared GM instruction legitimately contains the literal phrase `Current Game Context`. MW-006 did not introduce this failure. Repair it separately; do not fold it into MW-006.
+A pre-existing G3-04 persistence assertion is stale after MW-004 because the shared GM instruction legitimately contains the literal phrase `Current Game Context`. MW-006 did not introduce this failure. Repair it separately; do not fold it into MW-005, MW-006 or MW-007.
