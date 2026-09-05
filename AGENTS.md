@@ -42,7 +42,7 @@ G5-03 NPC / Faction Agency                  ENGINEERING PASS / CLOSED
 MW-001 Runtime Narrative Actor Materialization PASS / CLOSED
 G5-04 Event / Priority Evolution            ACTIVE — OWNER UAT PAUSED
 MW-002 Selective World Evolution Evaluator ENGINEERING PASS / CLOSED
-MW-003 Visual Comfort Theme Pass            ACTIVE — KIMI
+MW-003 Visual Comfort Theme Pass            ENGINEERING PASS — OWNER UAT
 G5-GATE                                     NOT YET
 ```
 
@@ -52,7 +52,11 @@ Current executable packet:
 
 `docs/tasks/MW-003_VISUAL_COMFORT_THEME_PASS_TASK.md`
 
-After MW-003 Engineering Review + Owner Product PASS, resume G5-04 Owner UAT exactly where it was.
+Independent Review:
+
+`docs/mw003/MW-003_INDEPENDENT_REVIEW_IR1.md` — ENGINEERING PASS / OWNER UAT
+
+After Owner explicit Product PASS on MW-003, resume G5-04 Owner UAT exactly where it was.
 
 ## 3. Current Work Item identity
 
@@ -63,90 +67,47 @@ Capability-Anchor: G6 RPG Experience & Internal Declarative UI Host
 Inserted-By: Owner
 Blocks: resume of G5-04 Owner UAT
 Revision: 1
-Review-Round: 0
-Base: 895adb1576e9dd7501a2d07740accc1b05e9a50a
-Owner: Kimi
+Review-Round: IR#1
+Implementation Base: 42006215838c07910ab8b948cac628a4f43dde4e
+Implementation: eb13d559092e288506ce280ea01e9ef3c8a62290
+Evidence: 561ff0d5ff80ad1224c55d6f7768474da242ebd0
+Owner: Owner product verdict
 Reviewer: GPT
-Status: ACTIVE — KIMI
-Return ceiling: READY FOR INDEPENDENT REVIEW
+Status: ENGINEERING PASS — OWNER UAT
 ```
 
 This is a distinct Owner-inserted Outcome, so it uses a new flat Work Item ID under `Vibe-Coding/governance/TASK_IDENTITY_AND_LINEAGE_V1_0.md`.
 
-## 4. MW-003 product goal
+## 4. MW-003 engineering result
 
-Owner reported that the current dark palette is visually harsh enough to cause eye strain.
+IR#1 confirms:
 
-Target experience:
+- one central semantic palette owns canvas/base/input/raised surfaces, text hierarchy and semantic accent/success/warning/danger colors;
+- root Theme assembly covers panels, labels, buttons, inputs, popup menus, focus/selection, separators and scrollbars;
+- runtime-created Narrative/mechanic/status controls consume the same palette;
+- Main Menu, Settings, Wizard and in-game surfaces are visually covered;
+- no layout/typography redesign or G6 theme-settings platform was introduced;
+- no G5 gameplay/runtime, Provider, persistence, Timeline, Agency, World Evolution or Public-d20 mechanism change was introduced.
 
-> **Low glare, clear hierarchy, readable narrative, calm surfaces, restrained semantic color.**
+Committed evidence reports focused real-render **30 PASS / 0 FAIL**, directly affected UI regressions green, export freshness PASS, `git diff --check` clean, real Provider calls 0.
 
-The pass must improve sustained reading comfort across Main Menu, Settings/Wizard, the in-game three-column shell, Narrative/composer, controls, Save/Restore states and semantic status/error surfaces.
+No Revision 2 is required absent a concrete new visual defect.
 
-Narrative remains the visual center of gravity.
+## 5. MW-003 Product UAT
 
-## 5. MW-003 implementation boundary
+Owner is the final judge of eye comfort. The existing positive observation that the build "looks much better" is meaningful UAT evidence but is not silently converted into Product PASS.
 
-Prefer a small Godot-native central palette/theme ownership seam rather than adding more scattered hard-coded colors.
+Only continue tuning if a concrete issue remains, such as:
 
-Protect:
+- sustained-reading discomfort after 10–20 minutes;
+- muted/disabled text unreadable in a real state;
+- focus/hover/selection ambiguity;
+- warning/error colors still too harsh or too weak;
+- a major reachable surface visibly breaks palette coherence.
 
-- existing layouts and navigation;
-- typography family/hierarchy;
-- Main Menu / Settings / New Game / First Opening;
-- Narrative send/cancel/regenerate;
-- Public d20;
-- Save/Load/Restore;
-- all G5 semantic/runtime behavior;
-- persistence schema.
+Otherwise stop visual iteration and close MW-003 via explicit Owner Product PASS.
 
-Explicit non-scope:
-
-- light mode;
-- user-selectable themes/accent preferences;
-- large design-system platform;
-- responsive-layout architecture;
-- new visual asset pipeline/images/icons;
-- new RPG surfaces;
-- G5-04/G5-05 behavior changes;
-- Provider/Timeline/Agency/World Evolution changes.
-
-Minor surface/border/hover/focus/pressed/disabled styling required for palette coherence is allowed.
-
-## 6. Preferred visual direction
-
-Starting palette from the Task Packet:
-
-```text
-canvas/background      #1B1E24
-surface/base           #22262D
-surface/raised         #292E36
-surface/input          #252A31
-border/subtle          #343A44
-text/primary           #D8DCE3
-text/secondary         #A7AFBA
-text/muted             #7F8996
-accent                 #8FA9C4
-success                #88AD96
-warning                #C0A06B
-danger                 #C57D78
-```
-
-Small tuning is allowed; relative hierarchy is authoritative. Avoid pure/near-black large surfaces, maximum-bright body text, neon accents and large saturated red/orange regions.
-
-## 7. Review route
-
-```text
-MW-003 implementation — Kimi
-→ GPT actual-code Independent Review
-→ if Engineering PASS: Owner visual-comfort UAT via run-game.cmd
-→ Owner Product PASS closes MW-003
-→ resume G5-04 Owner UAT
-```
-
-Kimi must not self-certify Engineering PASS or Product PASS.
-
-## 8. Protected G5-04 state
+## 6. Protected G5-04 state
 
 G5-04 remains ACTIVE and MW-002 remains ENGINEERING PASS / CLOSED. The UAT interruption is scheduling only.
 
@@ -156,7 +117,7 @@ Frozen product rule remains:
 
 Do not modify G5-04 architecture or implementation as part of MW-003.
 
-G5-04 Owner UAT still needs both:
+After MW-003 closes, G5-04 Owner UAT still needs both:
 
 1. Quiet / Life Loop — genuine `hold`, no artificial escalation;
 2. Genuine ripe pressure — one credible independent world consequence that remains durable and later surfaces naturally.
