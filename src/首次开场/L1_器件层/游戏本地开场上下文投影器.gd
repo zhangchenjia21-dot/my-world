@@ -12,9 +12,11 @@ const MAX_CONTEXT_CHARS := 180000
 const STYLE_SECTION_TYPE := "literary_style_reference"
 const STYLE_BOUNDARY_HEADER := "## Literary Style Reference | 文学风格参考（非世界事实）\n以下范例仅用于表达参考：措辞、句法节奏、称谓礼法、对白方式与叙事距离。其中人物、事件、地点与结局不构成当前 Game 的世界事实或既定未来，不是 Player/actor Knowledge，也不是任何因果推演依据。"
 
-## MW-005 R3：narrative-only 的正向表达 cue。它是 style anchor 的组成部分，
+## MW-005 R3/R4：narrative-only 的正向表达 cue。它是 style anchor 的组成部分，
 ## 只引导表达取向，不构成输出协议、门禁、评分或任何 authority；不随 section 增长。
-const STYLE_NARRATIVE_ANCHOR_CUE := "表达锚点：当存在以上 Literary Style Reference 时，它是本局中文 GM 叙事的默认声音锚点。让句法节奏、称谓礼法、对白方式、信息传递方式与叙事距离自然向它靠拢；军事、政治与政务信息优先作为场景、信使/塘报、问答或文书等当时之人自然获知的方式进入叙事，而不是现代战略简报式的罗列。保持清晰可读，不机械堆砌章回套语或古语标签。"
+## R4：按 Owner 反馈加权——从「默认声音锚点」提升为「主要表达偏好」，并明确
+## 现代叙述习惯与参考语体冲突时的优先级；仍是单一有界 cue，不新增示例/黑名单/协议。
+const STYLE_NARRATIVE_ANCHOR_CUE := "表达锚点：当存在以上 Literary Style Reference 时，它不是可有可无的古代词汇点缀，而是本局中文 GM 叙事的主要表达偏好之一。在不牺牲清晰、自然与当前 Game 事实准确性的前提下，让整段叙事持续体现其句法节奏、人物称谓与礼法、人物说话方式与叙事距离，并让消息与军政信息经由人物、使者、塘报、文书、问答与场景进入故事，而不是现代战略简报式的罗列。当通用现代叙述习惯与参考语体发生冲突时，在保持长期可读的前提下优先参考语体；不要只把现代通用 RPG / 网文骨架换上几个古代名词。仍不要机械模仿章回套语、强行半文言或照抄范例。"
 
 
 ## MW-005 R3：project() 返回分离的两份材料——
