@@ -1,11 +1,17 @@
 # MW-005 Revision 4 Addendum — Bounded Narrative Style Weight Polish
 
 Work Item: **MW-005 — Three Kingdoms Literary Style Primer v0.1**  
-Revision: **4 (QUEUED — execute only before combined G5 Owner UAT)**  
+Capability-Anchor: **G4 Primary Source Assets & Local Game**  
+Revision: **4**  
+Review target: **IR#4**  
 Triggered-By: Owner feedback after Revision 3: style direction is correct but still needs modest additional weight  
-Implementer: follow current routing when activated  
-Reviewer: GPT  
-Product UAT: **defer and combine with G5-07/G5-GATE Owner checkpoint**
+Implementer: **Zcode + GLM-5.3-flash**（Owner weekend routing override）  
+Reviewer: **GPT**  
+Status: **ACTIVE — ZCODE**  
+Task Branch: `mw-005-r4-bounded-style-weight`  
+Required worktree: `D:/AI/Projects/.worktrees/my-world/mw-005-r4`  
+Return ceiling: **READY FOR INDEPENDENT REVIEW**  
+Product UAT: **defer and combine with final G5 Owner checkpoint**
 
 ## 1. Purpose
 
@@ -63,7 +69,7 @@ Exact final copy may be tightened for prompt economy, but must preserve that sem
 - Public-d20 control style input;
 - G5-01/G5-04 style input.
 
-## 5. Validation when activated
+## 5. Validation
 
 No separate Owner UAT loop is required. Run only bounded engineering regression sufficient to prove the existing routing boundary remains intact:
 
@@ -73,10 +79,21 @@ No separate Owner UAT loop is required. Run only bounded engineering regression 
 - G5-01 semantic and G5-04 world-only remain style-free;
 - Primer/source bytes and generation fingerprint unchanged;
 - existing MW-005 focused tests green;
-- `git diff --check` clean.
+- MW-010 focused integrated matrix remains green;
+- `git diff --check` clean;
+- Windows export validation PASS because production GDScript changes.
 
 Owner prose judgment is intentionally deferred to the combined G5 product checkpoint.
 
-## 6. Scope discipline
+## 6. Worktree / scope discipline
 
-This Revision is queued, not active while MW-010 is running. It should be activated only after MW-010 engineering work is stable/under review, so G5-07 remains the mainline.
+Before starting:
+
+1. refresh current `my-world/main` and `Vibe-Coding/main`;
+2. inspect `git worktree list --porcelain`;
+3. MW-010 is Engineering PASS / CLOSED and integrated; remove its worktree only if clean, pushed/reachable and free of unknown user work, using `git worktree remove`, then `git worktree prune`;
+4. create exactly `D:/AI/Projects/.worktrees/my-world/mw-005-r4`;
+5. use branch `mw-005-r4-bounded-style-weight`;
+6. keep the active R4 worktree through GPT IR#4.
+
+Do not reopen G5-07, add another style platform, or start the combined Owner UAT inside this implementation task.
