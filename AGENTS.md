@@ -76,19 +76,24 @@ MW-008 Safe Markdown-Lite Narrative Rendering ENGINEERING PASS / CLOSED
 G5-06 Runtime → UI Projection               ENGINEERING PASS / CLOSED
 MW-009 Player-Safe Runtime Side Panels      ENGINEERING PASS / CLOSED
 G5-07 World Product Tests                   ACTIVE
-MW-010 G5 Living-World Integrated Reality Matrix ACTIVE — ZCODE
+MW-010 G5 Living-World Integrated Reality Matrix REVISION 2 ACTIVE — ZCODE (IR#1 NOT PASS)
 G5-GATE                                     NOT YET
 ```
 
 Owner explicitly directed the project back onto the G5 mainline and deferred remaining product-feel checks into one later combined UAT.
 
-Current active executable packet:
+Current executable contract:
 
 - `docs/tasks/MW-010_G5_LIVING_WORLD_INTEGRATED_REALITY_MATRIX_TASK.md`
+- `docs/tasks/MW-010_REVISION2_COUNTERFACTUAL_KNOWLEDGE_COMPLETION_ADDENDUM.md`
 
 Current G5-07 architecture:
 
 - `Vibe-Coding/my world/architecture/world/G5_WORLD_PRODUCT_TEST_MATRIX_V0_1_DECISION.md`
+
+Current review:
+
+- `docs/mw010/MW-010_INDEPENDENT_REVIEW_IR1.md` — NOT PASS / Revision 2 required
 
 Recent closeout/reviews:
 
@@ -180,12 +185,18 @@ Name: G5 Living-World Integrated Reality Matrix
 Capability-Anchor: G5-07 World Product Tests
 Implementer: Zcode + GLM-5.3-flash
 Reviewer: GPT
-Revision: 1
-Review-Round: 0
-Status: ACTIVE — ZCODE
+Current candidate SHA: 78c05887600332b93a4d50cd1d63d639841fb2eb
+Revision: 2
+Review-Round: IR#1 completed / next IR#2
+Status: REVISION 2 ACTIVE — ZCODE
 ```
 
-Preferred result is **zero production diff** plus real FinalCreate / CurrentGameRuntime / SQLite integration tests. If the matrix exposes a defect in a previously closed capability, STOP and report the owning capability; do not silently repair it under MW-010.
+IR#1 accepted the candidate's zero-production-diff composition, quiet hold, independent Agency/Evolution, mechanics grounding, reopen reconstruction and semantic/Player-knowledge counterfactual behavior, but found two blocking proof gaps:
+
+1. Path A after Save S did not create any Path-A-specific Agency/Evolution truth, so Restore did not prove restored-away non-player truth currentness.
+2. The integrated timeline did not create NPC-only Knowledge Provenance followed by later Player Character knowledge of the same/substantively related fact; hidden Agency/Evolution is not equivalent to NPC Knowledge.
+
+Revision 2 must close those gaps in the same real Game timeline, preferably with **production code diff = 0**. Do not mint a new Work Item.
 
 ## 4. G5-07 protected semantics
 
