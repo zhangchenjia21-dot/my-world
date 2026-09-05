@@ -448,7 +448,9 @@ func _normalize_check(value: Dictionary) -> Dictionary:
 
 
 func _control_messages(expansion: Dictionary, recovery: bool) -> Array:
-	var projected := _projector.project(session_runtime.world_state)
+	## MW-005 R2：control/control_recovery 是 mechanics adjudication——保留全部事实
+	## Game-local context，但整类排除 literary_style_reference（表达参考不得影响机制裁决）。
+	var projected := _projector.project(session_runtime.world_state, false)
 	var game_context := String(projected.get("context_text", "")) + "\n\n" + _rules_text(expansion) + "\n\n" + _control_contract(recovery)
 	return _assembler.assemble_messages(session_runtime.conversation.get_context_projection().merged({
 		"active_attempt": {"turn_index": session_runtime.conversation.get_durable_accepted_entries().size(), "player_text": _player_text}

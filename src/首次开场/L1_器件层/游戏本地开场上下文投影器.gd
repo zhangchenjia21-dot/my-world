@@ -13,7 +13,9 @@ const STYLE_SECTION_TYPE := "literary_style_reference"
 const STYLE_BOUNDARY_HEADER := "## Literary Style Reference | 文学风格参考（非世界事实）\n以下范例仅用于表达参考：措辞、句法节奏、称谓礼法、对白方式与叙事距离。其中人物、事件、地点与结局不构成当前 Game 的世界事实或既定未来，不是 Player/actor Knowledge，也不是任何因果推演依据。"
 
 
-func project(setup_value: Variant) -> Dictionary:
+## include_style=false 仅供 Public d20 control/control_recovery mechanics adjudication：
+## control 保留全部 Game/World/Player/Character 事实材料，只过滤 literary_style_reference。
+func project(setup_value: Variant, include_style: bool = true) -> Dictionary:
 	var validation := Rules.validate_setup(setup_value)
 	if not validation.success:
 		return validation
@@ -30,7 +32,7 @@ func project(setup_value: Variant) -> Dictionary:
 
 	_append_runtime_contract(blocks, setup)
 	_append_game(blocks, setup.game as Dictionary, setup.get("selected_entry_id"))
-	var world_result := _append_world(blocks, setup.world as Dictionary)
+	var world_result := _append_world(blocks, setup.world as Dictionary, include_style)
 	if not world_result.success:
 		return world_result
 	stats.world_sections = int(world_result.section_count)
