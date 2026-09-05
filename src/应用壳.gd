@@ -16,6 +16,9 @@ const AgencyScheduler := preload("res://src/世界回合/L3_外交层/行动代�
 const WorldTurn := preload("res://src/世界回合/L3_外交层/世界回合公开接口.gd")
 const WorldEvolution := preload("res://src/世界回合/L3_外交层/世界演化评估公开接口.gd")
 const Palette := preload("res://src/ui/视觉舒适调色板.gd")
+## MW-009 / G5-06：player-safe 投影边界。侧栏只消费本投影的展示字段；
+## 不接收 raw world_state，不自行过滤 omniscient truth。
+const PlayerSafeProjection := preload("res://src/玩家安全投影/L3_外交层/玩家安全投影公开接口.gd")
 
 enum ApplicationState {
 	BOOTING,
@@ -107,6 +110,10 @@ var agency_scheduler: Node = null
 ## MW-002：Agency opportunity 终态后运行的独立 best-effort World Evolution lane；
 ## 不拥有 Narrative/UI truth，不阻塞任何 foreground 路径。
 var world_evolution_evaluator: Node = null
+## MW-009：player-safe 侧栏动态内容容器与投影器；每次刷新全量重建，无独立状态存储。
+var _player_panel_body: VBoxContainer = null
+var _world_panel_body: VBoxContainer = null
+var _player_safe_projection: RefCounted = null
 ## 测试专用 seam：focused/real-vertical 测试在激活前注入 stub 或受控 adapter；production 恒为 null。
 var test_opening_adapter_override: Node = null
 var test_adjudication_adapter_override: Node = null
@@ -473,6 +480,8 @@ func _activate_game_surface() -> void:
 	_prepare_world_turn_after_activation()
 	_prepare_action_adjudication_after_activation()
 	_prepare_opening_after_activation()
+	# MW-009：初始激活/reopen 是 player-safe 侧栏的第一个刷新点。
+	_refresh_player_safe_panels()
 	_update_responsive_layout()
 	print("[shell] application=game_active session=ready")
 
@@ -525,9 +534,12 @@ func _prepare_world_turn_after_activation() -> void:
 
 
 ## Semantic finished 只作 scheduling wake-up；不消费 candidates；foreground idle 后 scheduler 自行评估。
+## MW-009：semantic lane terminal 是 player-safe 侧栏的第二个刷新点——主角 Knowledge
+## 只会在这里变化。Agency/World Evolution 的 hidden truth 不触发刷新。
 func _on_world_turn_finished_for_scheduler(_result: Dictionary) -> void:
 	if session_runtime == null or not session_runtime.is_ready():
 		return
+	_refresh_player_safe_panels()
 	if agency_scheduler != null:
 		agency_scheduler.consider_agency()
 
@@ -1139,6 +1151,8 @@ func _on_restore_completed(_result: Dictionary) -> void:
 	# MW-002：Restore 同时使 uncommitted World Evolution 评估失效。
 	if world_evolution_evaluator != null:
 		world_evolution_evaluator.invalidate()
+	# MW-009：Restore/进度切换是 player-safe 侧栏的第三个刷新点——restored-away 事实必须消失。
+	_refresh_player_safe_panels()
 	_update_save_controls()
 
 
@@ -1216,6 +1230,77 @@ func _on_database_recovery_confirmed() -> void:
 
 func _on_generation_state_changed(_turn: RefCounted) -> void:
 	_update_save_controls()
+
+
+## ---- MW-009：player-safe 侧栏渲染 ----
+## 只消费 PlayerSafeProjection 的展示字段；每次刷新全量重建动态内容。
+## 刷新点：激活/reopen、semantic lane terminal、Restore/进度切换。
+## Agency / World Evolution / GM 投影 / 内部 ID 永不出现在这两个 Host 中。
+
+func _refresh_player_safe_panels() -> void:
+	if _player_safe_projection == null:
+		_player_safe_projection = PlayerSafeProjection.new()
+	var projected: Dictionary = _player_safe_projection.project_session(session_runtime)
+	_render_player_safe_panel(projected)
+	_render_world_safe_panel(projected)
+
+
+func _panel_body(column: VBoxContainer, current_body: VBoxContainer, empty_label: Label, has_content: bool) -> VBoxContainer:
+	empty_label.visible = not has_content
+	if current_body != null and is_instance_valid(current_body) and current_body.get_parent() == column:
+		for child: Node in current_body.get_children():
+			current_body.remove_child(child)
+			child.queue_free()
+		return current_body
+	var body := VBoxContainer.new()
+	body.add_theme_constant_override("separation", 4)
+	column.add_child(body)
+	return body
+
+
+func _panel_label(parent: Control, text_value: String, size: int, color: Color, muted_variation: bool = false) -> Label:
+	var label := Label.new()
+	label.text = text_value
+	label.add_theme_font_size_override("font_size", size)
+	label.add_theme_color_override("font_color", color)
+	if muted_variation:
+		label.theme_type_variation = &"LabelMuted"
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	parent.add_child(label)
+	return label
+
+
+func _render_player_safe_panel(projected: Dictionary) -> void:
+	var column: VBoxContainer = get_node(NodePath("Margin/Layout/HostLayout/PlayerPanelHost/PlayerPanelMargin/PlayerPanelColumn"))
+	var empty_label: Label = column.get_node(NodePath("PlayerEmpty"))
+	var has_identity := String(projected.get("player_display_name", "")).strip_edges().is_empty() == false
+	_player_panel_body = _panel_body(column, _player_panel_body, empty_label, has_identity)
+	if not has_identity:
+		return
+	_panel_label(_player_panel_body, String(projected.player_display_name), 16, Palette.TEXT_PRIMARY)
+	var profile_name := String(projected.get("player_profile_name", ""))
+	if not profile_name.is_empty():
+		_panel_label(_player_panel_body, profile_name, 13, Palette.TEXT_SECONDARY, true)
+
+
+func _render_world_safe_panel(projected: Dictionary) -> void:
+	var column: VBoxContainer = get_node(NodePath("Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"))
+	var empty_label: Label = column.get_node(NodePath("WorldEmpty"))
+	var has_identity := String(projected.get("world_display_name", "")).strip_edges().is_empty() == false
+	_world_panel_body = _panel_body(column, _world_panel_body, empty_label, has_identity)
+	if not has_identity:
+		return
+	_panel_label(_world_panel_body, String(projected.world_display_name), 16, Palette.TEXT_PRIMARY)
+	var entry_name := String(projected.get("world_entry_name", ""))
+	if not entry_name.is_empty():
+		_panel_label(_world_panel_body, entry_name, 13, Palette.TEXT_SECONDARY, true)
+	_panel_label(_world_panel_body, "主角所知", 14, Palette.TEXT_SECONDARY)
+	var facts: Array = projected.get("known_facts", [])
+	if facts.is_empty():
+		_panel_label(_world_panel_body, "尚无新的已知事实。", 13, Palette.TEXT_SECONDARY, true)
+		return
+	for fact_value: Variant in facts:
+		_panel_label(_world_panel_body, "• %s" % String(fact_value), 13, Palette.TEXT_PRIMARY)
 
 
 ## Foreground 永远优先：新 Conversation attempt 使剩余 uncommitted agency 失效。
