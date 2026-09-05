@@ -28,7 +28,7 @@ Grok Build → search / external research / evidence discovery
 Owner      → Product UAT / explicit product verdict
 ```
 
-Temporary through 2026-09-06 23:59 (+08:00): Kimi owns code-changing implementation; GPT remains semantic owner/reviewer. MW-004 was a one-item Owner-authorized GPT implementation exception and does not change general routing.
+Temporary through 2026-09-06 23:59 (+08:00): Kimi owns code-changing implementation; GPT remains semantic owner/reviewer. MW-004 was a one-item Owner-authorized GPT implementation exception. MW-006 was a separate Owner-authorized task-local Zcode + GLM-5.3-flash override and is now closed. Neither exception changes general routing.
 
 Gemini review remains CANCELLED / DO NOT EXECUTE.
 
@@ -40,25 +40,40 @@ G5-01 World Turn / Semantic Materialization PASS / CLOSED
 G5-02 Knowledge Provenance                  PASS / CLOSED
 G5-03 NPC / Faction Agency                  ENGINEERING PASS / CLOSED
 MW-001 Runtime Narrative Actor Materialization PASS / CLOSED
-G5-04 Event / Priority Evolution            ACTIVE — OWNER UAT PAUSED FOR MW-005
+G5-04 Event / Priority Evolution            PRODUCT PASS / CLOSED
 MW-002 Selective World Evolution Evaluator ENGINEERING PASS / CLOSED
 MW-003 Visual Comfort Theme Pass            ENGINEERING PASS — OWNER UAT
 MW-004 Minimal Player Agency Principle      IMPLEMENTED — OWNER UAT
 MW-005 Three Kingdoms Literary Style Primer ACTIVE — KIMI
+G5-05 Meaningful Choice / Mechanics Integration ACTIVE
+MW-006 Mechanics-Grounded World Consequence Vertical ENGINEERING PASS / CLOSED
 G5-GATE                                     NOT YET
 ```
 
-MW-005 is a distinct Owner-inserted source-content/runtime integration slice anchored to G4. It does not reopen G4, does not make the literary reference World truth, and does not authorize G5-05.
+MW-005 is a distinct Owner-inserted source-content/runtime integration slice anchored to G4. It does not reopen G4, does not make the literary reference World truth, and remains independent from G5-05.
 
-Current executable packet:
+G5-04 is closed after Owner-completed UAT on 2026-09-05. Closeout:
+
+`docs/g5_04/G5-04_CLOSEOUT.md`
+
+G5-05 is now authorized and ACTIVE. MW-006 is its first closed engineering vertical; it does not close G5-05 as a whole.
+
+Current active executable packet for Kimi's parallel lane:
 
 `docs/tasks/MW-005_THREE_KINGDOMS_LITERARY_STYLE_PRIMER_TASK.md`
 
-Canonical task input:
+Canonical MW-005 task input:
 
 `docs/tasks/inputs/MW-005_THREE_KINGDOMS_STYLE_PRIMER_V0_1.txt`
 
-## 3. Current Work Item identity
+MW-006 records:
+
+- `docs/tasks/MW-006_MECHANICS_GROUNDED_WORLD_CONSEQUENCE_TASK.md` — post-implementation governance backfill; see provenance note inside.
+- `docs/mw006/MW-006_INDEPENDENT_REVIEW_IR1.md` — authoritative IR#1 PASS.
+
+## 3. Current parallel Work Item identities
+
+### MW-005
 
 ```text
 Work Item: MW-005
@@ -74,7 +89,22 @@ Reviewer: GPT
 Status: ACTIVE — KIMI
 ```
 
-This is a new independent Outcome under `Vibe-Coding/governance/TASK_IDENTITY_AND_LINEAGE_V1_0.md`.
+### MW-006
+
+```text
+Work Item: MW-006
+Name: Mechanics-Grounded World Consequence Vertical
+Capability-Anchor: G5-05 Meaningful Choice / Mechanics Integration
+Authorized-By: Owner
+Implementer: Zcode + GLM-5.3-flash
+Revision: 1
+Review-Round: IR#1
+Implementation SHA: adb3ca45c2e869c7685915de18664ee3ce7e6f39
+Reviewer: GPT
+Status: ENGINEERING PASS / CLOSED
+```
+
+Task identity and lineage follow `Vibe-Coding/governance/TASK_IDENTITY_AND_LINEAGE_V1_0.md`.
 
 ## 4. MW-005 protected semantics
 
@@ -116,9 +146,34 @@ Normal first-opening + ordinary GM Narrative are the intended v0.1 consumers. G5
 
 Publish/install a new immutable exact Source generation through the existing Source Library flow; do not mutate an existing managed generation in place.
 
-## 6. Required proof / review boundary
+## 6. MW-006 protected result
 
-Engineering evidence must prove at least:
+MW-006 established this narrow authority flow:
+
+```text
+existing authoritative Public d20 CHECK_REQUIRED resolution
+→ request-time grounding in the existing G5-01 semantic opportunity
+→ accepted Narrative remains the source of concrete scene consequence
+→ existing semantic mutation seam materializes supported durable consequences
+```
+
+Do not regress this into:
+
+- `SUCCESS/FAILURE → fixed world effect` tables;
+- a second mechanics truth/store;
+- rerolls;
+- fake NO_CHECK mechanics;
+- Narrative parser/gate/retry protocols;
+- extra semantic replay opportunities;
+- direct raw-mechanics injection into G5-04;
+- Actor Knowledge shortcuts;
+- SQLite mechanics schema work.
+
+The accepted-turn reader deliberately fails closed when no unique accepted durable check matches; loss of optional grounding is preferable to guessed mechanics authority.
+
+## 7. Required proof / review boundary
+
+For MW-005, Engineering evidence must prove at least:
 
 - new World generation carries the exact approved Primer and fingerprint changes;
 - new Game freezes the new reference and normal GM context sees it once under a non-factual literary boundary;
@@ -131,7 +186,9 @@ Engineering evidence must prove at least:
 
 Kimi may return at most `READY FOR INDEPENDENT REVIEW`. GPT performs Independent Review from actual code/evidence. Owner later performs prose A/B UAT.
 
-## 7. Existing open UAT items
+MW-006 is already `ENGINEERING PASS / CLOSED`; do not reopen or redesign it merely while doing later G5-05 work. A new independent Outcome requires a new flat Work Item ID.
+
+## 8. Existing open UAT / debt items
 
 MW-004 remains `IMPLEMENTED — OWNER UAT`; do not silently close it. Its minimal Player Agency principle remains protected:
 
@@ -139,4 +196,4 @@ MW-004 remains `IMPLEMENTED — OWNER UAT`; do not silently close it. Its minima
 
 MW-003 remains `ENGINEERING PASS — OWNER UAT`; positive visual feedback is not silently converted to Product PASS.
 
-G5-04 remains ACTIVE and MW-002 remains CLOSED. MW-005 is a temporary UAT insertion, not a G5-04 failure. Do not start G5-05 before Owner closes G5-04.
+A pre-existing G3-04 persistence assertion is stale after MW-004 because the shared GM instruction legitimately contains the literal phrase `Current Game Context`. MW-006 did not introduce this failure. Repair it separately; do not fold it into MW-006.
