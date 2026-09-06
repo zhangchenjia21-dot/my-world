@@ -111,6 +111,11 @@ func _validate_v2(data: Dictionary) -> Dictionary:
 		return Rules.failure("invalid_cardinality", "t0_profiles 必须是 0..N 数组。")
 	if not data.has("player_character_supported") or not data.player_character_supported is bool:
 		return Rules.failure("missing_or_invalid_field", "player_character_supported 必须是 bool。")
+	# MW-011 R2：player_profile 为 optional；存在则必须整体有效（fail-loud）。
+	if data.has("player_profile"):
+		var profile_validation := Rules.validate_player_profile(data.player_profile)
+		if not profile_validation.success:
+			return profile_validation
 	var section_ids := {}
 	var top_sections := _validate_sections(data.semantic_sections, section_ids, "semantic_sections")
 	if not top_sections.success:
@@ -250,6 +255,7 @@ func _project_v2(data: Dictionary, sections: Array, profiles: Array, portrait: D
 		"gm_private_profile": {},
 		"portrait": portrait,
 		"player_character_supported": data.player_character_supported,
+		"player_profile": Rules.validate_player_profile(data.player_profile).player_profile if data.has("player_profile") else {},
 	}
 
 

@@ -1318,7 +1318,7 @@ func _panel_label(parent: Control, text_value: String, size: int, color: Color, 
 
 
 func _render_player_host(view_model: Dictionary) -> void:
-	var column: VBoxContainer = get_node(NodePath("Margin/Layout/HostLayout/PlayerPanelHost/PlayerPanelMargin/PlayerPanelColumn"))
+	var column: VBoxContainer = get_node(NodePath("Margin/Layout/HostLayout/PlayerPanelHost/PlayerPanelMargin/PlayerPanelScroll/PlayerPanelColumn"))
 	var empty_label: Label = column.get_node(NodePath("PlayerEmpty"))
 	var has_identity := String(view_model.get("player_display_name", "")).strip_edges().is_empty() == false
 	_player_panel_body = _panel_body(column, _player_panel_body, empty_label, has_identity)
@@ -1328,6 +1328,16 @@ func _render_player_host(view_model: Dictionary) -> void:
 	var profile_name := String(view_model.get("player_profile_name", ""))
 	if not profile_name.is_empty():
 		_panel_label(_player_panel_body, profile_name, 13, Palette.TEXT_SECONDARY, true)
+	# MW-011 R2：authored player_profile（fail-closed 档案投影输出）——置于世界/行动材料之前。
+	var player_profile: Dictionary = view_model.get("player_profile", {})
+	if bool(player_profile.get("success", false)):
+		_panel_label(_player_panel_body, String(player_profile.get("headline", "")), 14, Palette.ACCENT)
+		_panel_label(_player_panel_body, String(player_profile.get("summary", "")), 13, Palette.TEXT_PRIMARY)
+		for group_value: Variant in player_profile.get("groups", []):
+			var group := group_value as Dictionary
+			_panel_label(_player_panel_body, String(group.get("title", "")), 14, Palette.TEXT_SECONDARY)
+			for item_value: Variant in group.get("items", []):
+				_panel_label(_player_panel_body, "• %s" % String(item_value), 13, Palette.TEXT_PRIMARY)
 	# G6 §3：安全 current World / Entry 上下文——回答「这一局处于什么世界」。
 	var world_line := String(view_model.get("world_display_name", ""))
 	var entry_name := String(view_model.get("world_entry_name", ""))

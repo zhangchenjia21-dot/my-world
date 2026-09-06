@@ -254,7 +254,7 @@ func _send(view: Node, text: String) -> void:
 
 
 func _panel_text(inst: Node, player_panel: bool) -> String:
-	var host_path := "Margin/Layout/HostLayout/PlayerPanelHost/PlayerPanelMargin/PlayerPanelColumn" if player_panel else "Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"
+	var host_path := "Margin/Layout/HostLayout/PlayerPanelHost/PlayerPanelMargin/PlayerPanelScroll/PlayerPanelColumn" if player_panel else "Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"
 	var column: VBoxContainer = inst.get_node(NodePath(host_path))
 	var parts := PackedStringArray()
 	for child: Node in column.get_children():
