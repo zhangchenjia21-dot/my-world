@@ -85,7 +85,8 @@ G6 RPG Experience & Internal Declarative UI Host ACTIVE
 MW-011 RPG Host / Player Profile            PRODUCT PASS / CLOSED
 MW-012 Zhang Chen Character Card            ENGINEERING PASS / INTEGRATED
 Visual Runtime re-entry                     AUDITED / IMPLEMENTATION DEFERRED
-G6 Surface / Information Architecture       ACTIVE — OWNER + GPT DISCUSSION
+Character + Important Experiences semantics FROZEN
+MW-014 Model-driven Information Curation    READY FOR CODEX
 MW-013 Internal Declarative UI Host v0.1    HOLD / NOT AUTHORIZED YET
 ```
 
@@ -110,16 +111,16 @@ Formal current status:
 Three Hosts:
 
 ```text
-Player Host
-→ who am I / how am I now
-→ long-term high-frequency compact HUD
+Player Status Host
+→ portrait + live mechanics/status HUD
+→ does NOT own “who am I” biography/profile information
 
 Narrative Host
 → what is happening / what do I do next
 → primary visual/interaction surface
 
-World Surface Host
-→ secondary RPG information actively queried by Player
+World Information Host
+→ active player information surfaces
 ```
 
 Canonical/domain truth ownership is not the same as player information architecture.
@@ -128,36 +129,83 @@ Historical The World evidence remains useful:
 
 > Workspace is organized for truth maintenance; UI is organized for player decisions.
 
-Current discussion draft:
-
-`Vibe-Coding/my world/architecture/ui/G6_SURFACE_INFORMATION_ARCHITECTURE_DRAFT_V0_1.md`
-
-This draft is NOT implementation authority.
-
-Candidate long-term Surface mother taxonomy:
+Current right-side mother taxonomy:
 
 ```text
-概览 / 角色 / 人物 / 行囊 / 事务 / 系统 / 地图 / 存档
+概览 / 角色 / 重要经历 / 人物 / 事务 / 行囊 / 系统 / 地图 / 存档
 ```
 
-Do not create a Surface unless it has:
+Do not create a Surface unless it has a real player question, real data ownership, player-safe projection and non-trivial product value. Never invent fake HP/location/inventory/faction/quest state merely to fill UI.
+
+## 7. Frozen Character + Important Experiences semantics
+
+Canonical decisions:
+
+- `Vibe-Coding/my world/architecture/ui/G6_CHARACTER_AND_IMPORTANT_EXPERIENCES_V1_0_DECISION.md`
+- `Vibe-Coding/my world/architecture/ui/G6_MODEL_DRIVEN_INFORMATION_CURATION_AUTHORITY_DECISION.md`
+
+Frozen product split:
 
 ```text
-real player question
-+ real domain owner
-+ player-safe projection
-+ non-trivial product value
+Character
+→ evolving current Character Sheet
+→ “现在的我是谁”
+→ current state, not mutation log
+
+Important Experiences
+→ protagonist-centered milestone history
+→ “我是怎样走到现在的”
+
+Inventory
+→ owns starting/current possessions in player IA
+→ starting possessions do not belong in Character Surface
 ```
 
-Never invent fake HP/location/inventory/faction/quest state just to fill UI.
+Character Surface groups include current identity/profile material such as origin/background, current social identity/role, personality/values/principles, non-numeric capabilities, long-term limitations/traits and long-term goals/self-direction.
 
-## 7. MW-011 accepted outcome
+Long-term goals belong to Character; current unresolved work belongs to future `事务`.
+
+## 8. Model-driven information curation authority
+
+Frozen rule:
+
+> **Model owns semantic interpretation and curation; Program owns normalized storage, temporal integrity and presentation.**
+
+The model, not Program heuristics, decides:
+
+- what changed semantically;
+- what is important;
+- whether Character current state changes;
+- whether an event belongs in Important Experiences;
+- whether accepted interaction already represents a meaningful protagonist decision;
+- how player-facing information should be summarized.
+
+Program must not build a parallel semantic judge from keyword rules, regexes, score tables, per-event-type branches, protagonist-choice evidence heuristics or mechanical long-term thresholds.
+
+Program remains responsible for machine-level structure and integrity:
+
+```text
+current Game/Timeline binding
+accepted Turn/version binding
+stable identities
+bounded payload syntax/type/size
+atomic persistence
+idempotent replay
+Save / Restore / Regenerate currentness
+stale-future isolation
+crash/retry correctness
+player-safe serialization/projection
+```
+
+Owner explicitly accepts an additional bounded model call to improve curation quality and reduce Runtime semantic complexity.
+
+## 9. MW-011 accepted outcome / transition note
 
 Final Owner record:
 
 `docs/mw011/MW-011_OWNER_UAT_R3_RESULT.md`
 
-Accepted chain:
+Existing accepted chain:
 
 ```text
 optional Character Card player_profile
@@ -170,9 +218,9 @@ optional Character Card player_profile
 
 Old Games do not backfill latest Source. No raw `semantic_sections` / GM-private / catalog/internal identity reaches Player profile UI.
 
-The rich left panel is accepted for MW-011, but future redistribution to right-side Character/World surfaces is deferred G6 IA work.
+The rich left panel remains accepted transitional implementation until the right-side Character Surface exists. After that, identity/profile information moves right; if no portrait/mechanic contribution exists, left may collapse rather than duplicate biography.
 
-## 8. Zhang Chen accepted generation
+## 10. Zhang Chen accepted generation
 
 ```text
 asset_id: character.han_end.zhang_chen
@@ -184,7 +232,7 @@ generation fingerprint:
 
 Protected semantics remain unchanged.
 
-## 9. Visual Runtime disposition
+## 11. Visual Runtime disposition
 
 ```text
 Runtime Asset Resolution = DEFERRED
@@ -198,7 +246,42 @@ authored visual presentation != gameplay/world/location/knowledge authority
 map image != topology/current location/travel/pathfinding/GIS
 ```
 
-## 10. MW-013 HOLD
+## 12. ACTIVE — MW-014
+
+Executable task:
+
+`docs/tasks/MW-014_MODEL_DRIVEN_CHARACTER_AND_MILESTONE_CURATION_V0_1_TASK.md`
+
+Identity:
+
+```text
+Work Item: MW-014
+Name: Model-driven Character + Important Experiences Curation v0.1
+Primary Implementer: Codex
+Reviewer: GPT
+Revision: 1
+Review-Round: 0
+Status: READY FOR CODEX
+Branch: mw-014-model-driven-information-curator-v01
+Worktree: D:/AI/Projects/.worktrees/my-world/mw-014
+Return ceiling: READY FOR INDEPENDENT REVIEW
+```
+
+Required outcome:
+
+```text
+accepted Player input + GM Narrative + bounded current player information
+→ Post-turn Information Curator model call
+→ bounded structured curation
+→ normalized durable Character current material
++ protagonist milestone material
+→ Save/Restore/Regenerate/reopen currentness
+→ player-safe Character + Important Experiences projections
+```
+
+This task is backend/projection only. Final Godot Character/Important Experiences Surface UI is a later KimiCode task after MW-014 Engineering PASS/integration.
+
+## 13. MW-013 HOLD
 
 Task packet exists:
 
@@ -210,30 +293,17 @@ But current status is:
 HOLD / NOT AUTHORIZED TO IMPLEMENT YET
 ```
 
-Hold notice:
-
-`docs/tasks/MW-013_HOLD_NOTICE.md`
-
-If Codex already created branch/worktree or local changes:
-
-- stop code-changing work;
-- do not merge/push to main;
-- preserve isolated work;
-- report branch/worktree/HEAD/status;
-- wait for explicit re-authorization.
-
 Do not continue Declarative UI Host until several grounded real Surfaces / mechanic consumers establish repeated patterns.
 
-## 11. Immediate route
+## 14. Immediate route
 
 ```text
-Owner + GPT discuss G6 Surface / IA draft
-→ freeze first real Surface
-→ GPT shapes exact Task Packet
-→ assign Codex or KimiCode based on seam/risk
-→ implementation
+MW-014 Codex implementation
+→ GPT Independent Review
+→ integrate only after Engineering PASS
+→ shape/authorize KimiCode Character + Important Experiences UI consumer
 → GPT Independent Review
 → Owner UAT
+→ People Surface / mechanic-state consumer / next grounded surfaces
+→ only later re-evaluate MW-013
 ```
-
-No new implementation task is authorized merely by this `AGENTS.md`.
