@@ -74,6 +74,9 @@ func _run() -> void:
 	var error_label: Label = inst.get_node("%ErrorLabel")
 	var entries: VBoxContainer = inst.get_node("%Entries")
 	var adapter: Node = view.adapter
+	# 离线缺 key / DNS fixture 固定默认模型，不依赖 Owner 当前选择的 Provider，也不写设置。
+	adapter.runtime_settings = preload("res://src/运行时设置/L3_外交层/模型运行时设置公开接口.gd").new(
+		"res://build/g2-03/offline-settings-%d.json" % Time.get_ticks_usec())
 	_check(String(view.game_context_text).is_empty(), "production 默认 Game Context material 为空")
 
 	# ---- T1：空输入不发送 ----

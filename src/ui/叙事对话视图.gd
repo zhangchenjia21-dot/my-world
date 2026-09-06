@@ -67,6 +67,10 @@ var opening_runtime: Node = null
 ## G4-08B：Game-local materialized Public d20 capability 存在时由 Shell 注入的
 ## 行动判定 Host（L3 seam）。null = 无 Expansion，保持既有 G4-07 单次续玩路径。
 var action_adjudication: Node = null
+var action_recommender: Node = null
+@onready var recommendation_area: VBoxContainer = %RecommendationArea
+@onready var recommendation_heading: Label = %RecommendationHeading
+@onready var recommendation_grid: GridContainer = %RecommendationGrid
 
 ## opening-pending（durable accepted Conversation = 0）时锁住玩家输入；由 Shell 驱动。
 var _opening_gate := false
@@ -158,6 +162,8 @@ func _on_retry_action_pressed() -> void:
 
 ## Public d20 路由：UI 不先调 conversation.begin_turn；acceptance ordering 归 Host。
 func _start_public_d20_action(text: String, fresh: bool) -> void:
+	if action_recommender != null:
+		action_recommender.interrupt_foreground()
 	if fresh:
 		_pending_action_id = "action-%s" % Crypto.new().generate_random_bytes(16).hex_encode()
 		_pending_action_text = text
@@ -635,12 +641,14 @@ func _on_player_input_gui(event: InputEvent) -> void:
 
 ## 正文列宽随窗口收窄铺满，超过 READABLE_MAX_WIDTH 后由 CenterContainer 居中限宽。
 func _update_readable_width() -> void:
+	_update_recommendation_layout()
 	entries.custom_minimum_size.x = minf(narrative_scroll.size.x, READABLE_MAX_WIDTH)
 
 
 ## UX-01：Composer 高度 = clamp(窗口高度 * 0.15, 112, 160)。
 ## 720p ≈ 112px（3-4 行），1080p+/Maximized ≈ 160px 封顶，960x540 窄窗口保持可用。
 func _update_composer_height() -> void:
+	_update_recommendation_layout()
 	player_input.custom_minimum_size.y = clampf(
 		float(get_tree().root.size.y) * COMPOSER_HEIGHT_FACTOR,
 		COMPOSER_MIN_HEIGHT,
@@ -749,6 +757,7 @@ func set_opening_gate(active: bool) -> void:
 ## Game -> Main Menu / App exit 的正式 View cleanup seam。Adapter cancel 同步发布 cancelled，
 ## 因而先终止 transport，再断开信号与释放 projection，未 accepted partial 不会 durable。
 func shutdown_session() -> void:
+	bind_action_recommender(null)
 	if adapter != null:
 		if adapter.is_busy():
 			adapter.cancel()
@@ -899,3 +908,60 @@ func redraw_from_conversation() -> void:
 	_render_restored_entries()
 	_follow_scroll = true
 	_follow_scroll_if_needed()
+
+
+## 固定的 first-party 草稿消费者：渲染/点击均不请求模型、不改变 accepted history。
+func bind_action_recommender(recommender: Node) -> void:
+	if is_instance_valid(action_recommender) and action_recommender.changed.is_connected(_render_recommendations):
+		action_recommender.changed.disconnect(_render_recommendations)
+	action_recommender = recommender
+	if action_recommender != null:
+		action_recommender.changed.connect(_render_recommendations)
+	_render_recommendations()
+
+func _render_recommendations() -> void:
+	for child: Node in recommendation_grid.get_children():
+		recommendation_grid.remove_child(child)
+		child.queue_free()
+	var projection: Dictionary = action_recommender.snapshot() if action_recommender != null else {"status": "empty", "actions": []}
+	recommendation_area.visible = projection.status != "empty"
+	recommendation_heading.text = "推荐行动 · 可自由输入或修改"
+	if projection.status == "loading":
+		recommendation_heading.text = "正在准备推荐行动，可自由输入"
+	elif projection.status == "unavailable":
+		recommendation_heading.text = "暂时没有推荐行动，可自由输入"
+	_update_recommendation_layout()
+	for action: String in projection.actions:
+		var button := Button.new()
+		# 只在按钮标签压平换行，完整草稿仍用于 tooltip 与 prefill。
+		button.text = action.replace("\r", " ").replace("\n", " ").replace("\t", " ")
+		button.tooltip_text = action
+		button.clip_text = true
+		button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		button.custom_minimum_size.y = 28
+		button.add_theme_font_size_override("font_size", 13)
+		# 推荐属于紧凑辅助区，沿用当前主题颜色，只减小垂直内边距。
+		for state: String in ["normal", "hover", "pressed", "disabled"]:
+			var style: StyleBox = get_theme_stylebox(state, "Button").duplicate()
+			style.content_margin_top = 4
+			style.content_margin_bottom = 4
+			button.add_theme_stylebox_override(state, style)
+		button.pressed.connect(_prefill_recommendation.bind(action))
+		recommendation_grid.add_child(button)
+
+func _prefill_recommendation(action: String) -> void:
+	if action_recommender == null or not player_input.editable or not action_recommender.snapshot().actions.has(action):
+		return
+	player_input.text = action
+	player_input.grab_focus()
+	player_input.set_caret_line(player_input.get_line_count() - 1)
+	player_input.set_caret_column(player_input.get_line(player_input.get_line_count() - 1).length())
+	_update_controls()
+
+
+func _update_recommendation_layout() -> void:
+	if recommendation_grid != null:
+		# 矮窗只占两排，为正文保留阅读空间；宽窗可容纳三列，其他窗口使用两列。
+		recommendation_grid.columns = 3 if get_tree().root.size.y <= 600 or narrative_scroll.size.x >= 800 else 2

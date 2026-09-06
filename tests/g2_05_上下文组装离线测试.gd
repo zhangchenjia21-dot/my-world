@@ -73,7 +73,7 @@ func _run() -> void:
 	var m1 := _assemble(c1)
 	_check(_roles(m1) == ["system", "user", "assistant", "user", "assistant", "user"], "M1 new/short 保留完整历史并以 user 结束")
 	_check(_count_message(m1, "user", "当前行动") == 1, "M1 current user 恰好一次")
-	_check(not String((m1[0] as Dictionary).get("content", "")).contains("Current Game Context"), "M1 empty Game Context 省略分节")
+	_check(not String((m1[0] as Dictionary).get("content", "")).contains("\n\nCurrent Game Context\n"), "M1 empty Game Context 省略分节")
 
 	# ---- M2：retry unaccepted latest；partial draft 不进入 request ----
 	var c2: RefCounted = Conversation.new()
@@ -156,12 +156,12 @@ func _run() -> void:
 	var projection_before: Dictionary = c6.get_context_projection()
 	var m7 := _assemble(c6, fixture)
 	var system_content := String((m7[0] as Dictionary).get("content", ""))
-	_check(system_content.contains("GM Instructions") and system_content.contains("Current Game Context"), "M7 system 含 GM Instructions 与 Game Context 分节")
+	_check(system_content.contains("GM Instructions") and system_content.contains("\n\nCurrent Game Context\n"), "M7 system 含 GM Instructions 与 Game Context 分节")
 	_check(_count_content_fragment(m7, fixture) == 1, "M7 non-empty fixture 在全部 messages 中恰好一次")
 	_check(m7.filter(func(value: Variant) -> bool: return String((value as Dictionary).get("role", "")) != "system" and String((value as Dictionary).get("content", "")).contains(fixture)).is_empty(), "M7 fixture 不冒充 user/assistant entry")
 	_check(c6.get_context_projection() == projection_before, "M7 assembly 不修改 Conversation projection")
 	var empty_system := String((_assemble(c6)[0] as Dictionary).get("content", ""))
-	_check(not empty_system.contains("Current Game Context") and not empty_system.contains("G2-05"), "M7 empty production 无 Game Context/工程阶段占位")
+	_check(not empty_system.contains("\n\nCurrent Game Context\n") and not empty_system.contains("G2-05"), "M7 empty production 无 Game Context/工程阶段占位")
 
 	# ---- M8：projection/messages 是 derived copy，调用方修改不能回写 Domain ----
 	var c8: RefCounted = Conversation.new()

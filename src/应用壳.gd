@@ -148,6 +148,9 @@ var _world_surface_mode := "overview"
 ## MW-011：RPG ViewModel 外交接口实例（presentation-only）。
 var _rpg_view_model: RefCounted = null
 ## 测试专用 seam：focused/real-vertical 测试在激活前注入 stub 或受控 adapter；production 恒为 null。
+const ActionRecommender := preload("res://src/行动推荐/L3_外交层/行动推荐公开接口.gd")
+var action_recommender: Node = null
+var test_action_recommender_adapter_override: Node = null
 var test_opening_adapter_override: Node = null
 var test_adjudication_adapter_override: Node = null
 var test_adjudication_rng_override: RefCounted = null
@@ -519,6 +522,7 @@ func _activate_game_surface() -> void:
 	_prepare_world_turn_after_activation()
 	_prepare_action_adjudication_after_activation()
 	_prepare_opening_after_activation()
+	_prepare_action_recommender()
 	# MW-009：初始激活/reopen 是 player-safe 侧栏的第一个刷新点。
 	_refresh_player_safe_panels()
 	_update_responsive_layout()
@@ -539,6 +543,7 @@ func _close_game_session() -> Dictionary:
 		session_state = SessionState.ABSENT
 		return {"status": "absent", "success": true}
 	session_state = SessionState.CLOSING
+	_teardown_action_recommender()
 	_teardown_world_evolution_evaluator()
 	_teardown_agency_scheduler()
 	_teardown_world_turn_runtime()
@@ -1656,3 +1661,20 @@ func _update_responsive_layout() -> void:
 		world_surface_host.visible = world_toggle.button_pressed
 	else:
 		world_surface_host.visible = true
+
+
+## 推荐独立于 World/Curator lane；只由 Game 激活与关闭装配/拆除。
+func _prepare_action_recommender() -> void:
+	if action_recommender != null:
+		return
+	action_recommender = ActionRecommender.new(session_runtime, test_action_recommender_adapter_override)
+	add_child(action_recommender)
+	narrative_view.bind_action_recommender(action_recommender)
+
+func _teardown_action_recommender() -> void:
+	if action_recommender == null:
+		return
+	narrative_view.bind_action_recommender(null)
+	action_recommender.shutdown()
+	action_recommender.queue_free()
+	action_recommender = null
