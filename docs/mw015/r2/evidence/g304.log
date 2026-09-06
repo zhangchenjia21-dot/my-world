@@ -1,0 +1,62 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Opened database successfully (D:/AI/Projects/.worktrees/my-world/mw-015-r2/build/mw015r2/verify-20260906-165814/g304/migration-success.sqlite)
+Closed database (D:/AI/Projects/.worktrees/my-world/mw-015-r2/build/mw015r2/verify-20260906-165814/g304/migration-success.sqlite)
+Opened database successfully (D:/AI/Projects/.worktrees/my-world/mw-015-r2/build/mw015r2/verify-20260906-165814/g304/migration-success.sqlite)
+Closed database (D:/AI/Projects/.worktrees/my-world/mw-015-r2/build/mw015r2/verify-20260906-165814/g304/migration-success.sqlite)
+G3-04 PASS | v2->current additive migration preserves Game/World/Conversation
+Opened database successfully (D:/AI/Projects/.worktrees/my-world/mw-015-r2/build/mw015r2/verify-20260906-165814/g304/migration-failure.sqlite)
+Closed database (D:/AI/Projects/.worktrees/my-world/mw-015-r2/build/mw015r2/verify-20260906-165814/g304/migration-failure.sqlite)
+ERROR:  --> SQL error: intentional v3 migration failure
+   at: execute_statement (src\gdsqlite.cpp:374)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:52)
+       [1] _ensure_schema (res://src/persistence/L2_流程层/世界持久化流程.gd:543)
+       [2] open (res://src/persistence/L2_流程层/世界持久化流程.gd:22)
+       [3] open_database (res://src/persistence/L3_外交层/世界持久化公开接口.gd:11)
+       [4] _test_v2_migration (res://tests/g3_04/存档恢复持久化测试.gd:42)
+       [5] _initialize (res://tests/g3_04/存档恢复持久化测试.gd:16)
+Opened database successfully (D:/AI/Projects/.worktrees/my-world/mw-015-r2/build/mw015r2/verify-20260906-165814/g304/migration-failure.sqlite)
+Closed database (D:/AI/Projects/.worktrees/my-world/mw-015-r2/build/mw015r2/verify-20260906-165814/g304/migration-failure.sqlite)
+G3-04 PASS | intentional v2->v3 failure leaves usable v2
+G3-04 PASS | Save exact history, World+Conversation Restore, retained future nodes, future isolation, reopen+continue
+Opened database successfully (D:/AI/Projects/.worktrees/my-world/mw-015-r2/build/mw015r2/verify-20260906-165814/g304/save-failure.sqlite)
+Closed database (D:/AI/Projects/.worktrees/my-world/mw-015-r2/build/mw015r2/verify-20260906-165814/g304/save-failure.sqlite)
+ERROR:  --> SQL error: intentional Save failure
+   at: execute_statement (src\gdsqlite.cpp:374)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:54)
+       [1] create_save_point (res://src/persistence/L2_流程层/世界持久化流程.gd:158)
+       [2] create_save_point (res://src/persistence/L3_外交层/世界持久化公开接口.gd:45)
+       [3] create_save_point (res://src/runtime/当前游戏会话运行时.gd:179)
+       [4] _test_save_failure (res://tests/g3_04/存档恢复持久化测试.gd:121)
+       [5] _initialize (res://tests/g3_04/存档恢复持久化测试.gd:18)
+G3-04 PASS | Save write failure is non-mutating and fail-loud
+Opened database successfully (D:/AI/Projects/.worktrees/my-world/mw-015-r2/build/mw015r2/verify-20260906-165814/g304/restore-late_head.sqlite)
+Closed database (D:/AI/Projects/.worktrees/my-world/mw-015-r2/build/mw015r2/verify-20260906-165814/g304/restore-late_head.sqlite)
+ERROR:  --> SQL error: intentional head Restore failure
+   at: execute_statement (src\gdsqlite.cpp:374)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:54)
+       [1] restore_save_point (res://src/persistence/L2_流程层/世界持久化流程.gd:271)
+       [2] restore_save_point (res://src/persistence/L3_外交层/世界持久化公开接口.gd:61)
+       [3] restore_save_point (res://src/runtime/当前游戏会话运行时.gd:235)
+       [4] _test_restore_failures (res://tests/g3_04/存档恢复持久化测试.gd:147)
+       [5] _initialize (res://tests/g3_04/存档恢复持久化测试.gd:19)
+Opened database successfully (D:/AI/Projects/.worktrees/my-world/mw-015-r2/build/mw015r2/verify-20260906-165814/g304/restore-late_conversation.sqlite)
+Closed database (D:/AI/Projects/.worktrees/my-world/mw-015-r2/build/mw015r2/verify-20260906-165814/g304/restore-late_conversation.sqlite)
+ERROR:  --> SQL error: intentional late Restore failure
+   at: execute_statement (src\gdsqlite.cpp:374)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:54)
+       [1] restore_save_point (res://src/persistence/L2_流程层/世界持久化流程.gd:273)
+       [2] restore_save_point (res://src/persistence/L3_外交层/世界持久化公开接口.gd:61)
+       [3] restore_save_point (res://src/runtime/当前游戏会话运行时.gd:235)
+       [4] _test_restore_failures (res://tests/g3_04/存档恢复持久化测试.gd:147)
+       [5] _initialize (res://tests/g3_04/存档恢复持久化测试.gd:19)
+Opened database successfully (D:/AI/Projects/.worktrees/my-world/mw-015-r2/build/mw015r2/verify-20260906-165814/g304/restore-missing_anchor.sqlite)
+Closed database (D:/AI/Projects/.worktrees/my-world/mw-015-r2/build/mw015r2/verify-20260906-165814/g304/restore-missing_anchor.sqlite)
+Opened database successfully (D:/AI/Projects/.worktrees/my-world/mw-015-r2/build/mw015r2/verify-20260906-165814/g304/restore-invalid_conversation.sqlite)
+Closed database (D:/AI/Projects/.worktrees/my-world/mw-015-r2/build/mw015r2/verify-20260906-165814/g304/restore-invalid_conversation.sqlite)
+G3-04 PASS | missing/invalid/late-step Restore failures preserve old current triple
+G3-04 PASS | current schema + Save + atomic Restore persistence suite

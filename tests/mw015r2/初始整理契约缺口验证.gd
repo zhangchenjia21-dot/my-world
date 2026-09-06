@@ -1,6 +1,6 @@
 extends SceneTree
 
-# 只执行 current main 的纯结构契约和投影器；不调用 Provider，不创建 Game，不修改生产状态。
+# cbe0f12 保存原 gap 复现；当前探针验证裁定后的兼容性，原日志仍为历史证据。
 const Contract := preload("res://src/信息整理/L0_公理层/信息整理契约.gd")
 const View := preload("res://src/信息整理/L1_器件层/角色经历投影器.gd")
 var failures := 0
@@ -21,14 +21,14 @@ func _initialize() -> void:
 	world.information_curation.turns = {"0": record}
 	check(Contract.current_records(world, entries).size() == 1, "a genuine accepted opening can carry a record structurally")
 	world.information_curation["initial"] = record
-	check(Contract.current_records(world, entries).is_empty(), "adding initial field requires changing exact owner schema")
-	check(not Contract.keys_exact(world.information_curation, ["schema", "turns"]), "existing writer rejects the extended owner shape")
-	print("MW-015 R2 ARCHITECTURE GAP REPRODUCED failures=%d" % failures)
+	check(Contract.current_records(world, entries).size() == 1, "optional initial does not invalidate original turn chain")
+	check(Contract.owner_valid(world.information_curation), "writer accepts backward-compatible optional initial")
+	print("MW-015 R2 ARCHITECTURE GAP RESOLVED failures=%d" % failures)
 	quit(0 if failures == 0 else 1)
 
 func check(condition: bool, text: String) -> void:
 	if not condition:
 		failures += 1
-		push_error("NOT REPRODUCED: " + text)
+		push_error("FAILED: " + text)
 	else:
 		print("OBSERVED: " + text)

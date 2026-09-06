@@ -1,0 +1,80 @@
+[
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-015-r2\\build\\mw015r2\\verify-20260906-165814\\initial.log",
+    "name": "initial",
+    "script_errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-015-r2\\build\\mw015r2\\verify-20260906-165814\\initial-ui.log",
+    "name": "initial-ui",
+    "script_errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-015-r2\\build\\mw015r2\\verify-20260906-165814\\contract.log",
+    "name": "contract",
+    "script_errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-015-r2\\build\\mw015r2\\verify-20260906-165814\\focused.log",
+    "name": "focused",
+    "script_errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-015-r2\\build\\mw015r2\\verify-20260906-165814\\mw014.log",
+    "name": "mw014",
+    "script_errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-015-r2\\build\\mw015r2\\verify-20260906-165814\\g304.log",
+    "name": "g304",
+    "script_errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-015-r2\\build\\mw015r2\\verify-20260906-165814\\g501-materialization.log",
+    "name": "g501-materialization",
+    "script_errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-015-r2\\build\\mw015r2\\verify-20260906-165814\\g501-timeline.log",
+    "name": "g501-timeline",
+    "script_errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-015-r2\\build\\mw015r2\\verify-20260906-165814\\mw009.log",
+    "name": "mw009",
+    "script_errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-015-r2\\build\\mw015r2\\verify-20260906-165814\\mw011.log",
+    "name": "mw011",
+    "script_errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-015-r2\\build\\mw015r2\\verify-20260906-165814\\mw011r2.log",
+    "name": "mw011r2",
+    "script_errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-015-r2\\build\\mw015r2\\verify-20260906-165814\\mw012.log",
+    "name": "mw012",
+    "script_errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-015-r2\\build\\mw015r2\\verify-20260906-165814\\windows-export.log",
+    "name": "windows-export",
+    "script_errors": 0
+  }
+]

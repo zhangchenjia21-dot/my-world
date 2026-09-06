@@ -6,6 +6,9 @@ const Contract := preload("res://src/信息整理/L0_公理层/信息整理契�
 # 分类成 Character（其中可能含起始携带物）。完整组只供模型整理，不直出本 seam。
 static func project(world: Dictionary, entries: Array, profile: Dictionary) -> Dictionary:
 	var character := {"headline": profile.get("headline", ""), "summary": profile.get("summary", ""), "groups": []}
+	var initial := Contract.current_initial(world, profile)
+	if not initial.is_empty():
+		character = initial.result.character.duplicate(true)
 	var experiences: Array = []
 	for record: Dictionary in Contract.current_records(world, entries):
 		var result: Dictionary = record.result

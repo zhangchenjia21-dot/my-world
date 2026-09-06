@@ -1,0 +1,27 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 616.56 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4070 Laptop GPU
+
+MW-015 PASS | real Zhang Chen Final Create
+MW-015 PASS | real frozen Game opens
+[shell] application=game_active session=ready
+MW-015 PASS | initial and opening independently in flight
+MW-015 PASS | opening failure leaves initial eligible
+MW-015 PASS | initial finished refreshes 基本资料
+MW-015 PASS | initial finished refreshes 出身 / 来历
+MW-015 PASS | initial finished refreshes 当前身份 / 社会角色
+MW-015 PASS | initial finished refreshes 性格 / 价值观 / 原则
+MW-015 PASS | initial finished refreshes 能力 / 专长说明
+MW-015 PASS | initial finished refreshes 局限 / 长期特征
+MW-015 PASS | initial finished refreshes 长期目标 / 自我方向
+MW-015 PASS | left status stays hidden
+MW-015 PASS | rich surface requires zero accepted turns
+MW-015 PASS | 1280x720 right visible and empty left hidden
+MW-015 PASS | 1280x720 sheet scroll inside viewport
+MW-015 PASS | 1280x720 no horizontal overflow
+MW-015 PASS | 960x540 right visible and empty left hidden
+MW-015 PASS | 960x540 sheet scroll inside viewport
+MW-015 PASS | 960x540 no horizontal overflow
+MW-015 PASS | maximized right visible and empty left hidden
+MW-015 PASS | maximized sheet scroll inside viewport
+MW-015 PASS | maximized no horizontal overflow
+MW-015 FOCUSED | done failures=0

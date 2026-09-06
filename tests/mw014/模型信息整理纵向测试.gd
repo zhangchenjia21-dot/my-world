@@ -31,6 +31,9 @@ func _run() -> void:
 	var worker := Curator.new(runtime, stub)
 	root.add_child(worker)
 	await frames()
+	# R2 初始 lane 独立完成；此回归继续验证原 lived 行为。
+	complete(stub, {"character": SafeView.project_session(runtime).character, "experiences": []})
+	await frames()
 	accept(runtime, "曹操这人确实比我想象中有意思。", "你们继续闲谈，并未作出任何承诺。")
 	await frames()
 	var request_text := JSON.stringify(stub.requests[-1])
@@ -218,6 +221,9 @@ func test_edges() -> void:
 	var stub := Stub.new()
 	var worker := Curator.new(runtime, stub)
 	root.add_child(worker)
+	await frames()
+	# R2 初始 lane 独立完成；此回归继续验证原 lived 行为。
+	complete(stub, {"character": SafeView.project_session(runtime).character, "experiences": []})
 	await frames()
 	accept(runtime, "任意甲", "语义由模型理解甲")
 	await frames()

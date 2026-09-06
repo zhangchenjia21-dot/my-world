@@ -60,7 +60,7 @@ static func record_id(prefix: String, parent: String, result: Dictionary) -> Str
 
 static func current_records(world: Dictionary, entries: Array) -> Array:
 	var owner: Variant = world.get("information_curation", {})
-	if not keys_exact(owner, ["schema", "turns"]) or owner.schema != SCHEMA or not owner.turns is Dictionary:
+	if not owner_valid(owner):
 		return []
 	var prefixes := prefix_hashes(entries)
 	var records: Array = []
@@ -77,3 +77,39 @@ static func current_records(world: Dictionary, entries: Array) -> Array:
 		records.append({"index": index, "id": record.id, "result": result})
 		parent = record.id
 	return records
+
+# 可选 initial 不进入历史回合父链；旧 owner 无需迁移。
+static func owner_valid(owner: Variant) -> bool:
+	return (keys_exact(owner, ["schema", "turns"]) or keys_exact(owner, ["schema", "initial", "turns"])) and owner.schema == SCHEMA and owner.turns is Dictionary
+
+# 输入已由 Profile L3 验证。仅规范结构，不按 authored 标题或内容筛选。
+static func initial_input(profile: Dictionary) -> Dictionary:
+	if not profile.get("success", false):
+		return {}
+	return {"headline": profile.headline, "summary": profile.summary, "groups": profile.groups.duplicate(true)}
+
+static func initial_binding(profile: Dictionary) -> String:
+	var material := initial_input(profile)
+	return "" if material.is_empty() else JSON.stringify(material, "", true).sha256_text()
+
+# 节点在当前 Game 的 SQLite 命名空间内稳定定位；Restore 后可只读找回同一 T0 结果。
+static func initial_node_id(binding: String) -> String:
+	return "initial-character-" + binding
+
+static func current_initial(world: Dictionary, profile: Dictionary) -> Dictionary:
+	var owner: Variant = world.get("information_curation", {})
+	if not owner_valid(owner):
+		return {}
+	var record: Variant = owner.get("initial", {})
+	if not keys_exact(record, ["binding", "id", "result"]):
+		return {}
+	var binding := initial_binding(profile)
+	var result := normalize(record.result)
+	if binding.is_empty() or record.binding != binding or result.is_empty():
+		return {}
+	# T0 没有 accepted lived event；不是按事件语义判断重要性。
+	if result.character == null or not result.experiences.is_empty():
+		return {}
+	if record.id != record_id("initial", binding, result):
+		return {}
+	return record.duplicate(true)
