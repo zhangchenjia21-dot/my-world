@@ -28,7 +28,7 @@ GPT
 → product semantics / architecture / Task Shaping / dispatch / Independent Review
 
 Codex
-→ sole default production implementer
+→ sole default production implementer and local UAT-build preparation agent
 
 Owner
 → Product UAT / explicit product verdict for player-facing outcomes
@@ -71,7 +71,7 @@ People Surface product semantics            FROZEN
 MW-016 People Architecture Audit            PASS / CLOSED
 People identity + curation architecture     FROZEN
 MW-017 People Identity Bridge               ENGINEERING PASS / INTEGRATED
-MW-018 People Curation + Card Surface        READY FOR CODEX
+MW-018 People Curation + Card Surface        ENGINEERING PASS / INTEGRATED / OWNER UAT PENDING
 MW-013 Internal Declarative UI Host          HOLD / NOT AUTHORIZED
 ```
 
@@ -79,9 +79,11 @@ Formal current status:
 
 `Vibe-Coding/my world/MY_WORLD_CURRENT_STATUS.md`
 
-Active Task Packet:
+Current product-facing Task Packet / evidence:
 
-`docs/tasks/MW-018_PEOPLE_CURATION_AND_CARD_SURFACE_TASK.md`
+- `docs/tasks/MW-018_PEOPLE_CURATION_AND_CARD_SURFACE_TASK.md`
+- `docs/mw018/MW-018_INDEPENDENT_REVIEW_IR1.md`
+- `docs/mw018/MW-018_INTEGRATION_VERIFICATION.md`
 
 ## 5. Protected world/runtime invariants
 
@@ -113,9 +115,9 @@ Mother taxonomy:
 
 `概览 / 角色 / 重要经历 / 人物 / 事务 / 行囊 / 系统 / 地图 / 存档`
 
-Current implemented set before MW-018:
+Current integrated set:
 
-`概览 / 角色 / 重要经历 / 存档`
+`概览 / 角色 / 重要经历 / 人物 / 存档`
 
 Never create fake HP/location/inventory/faction/quest state for completeness.
 
@@ -148,7 +150,7 @@ People
 → card-based
 → collapsed by default
 → collapsed = player-known identity + brief latest-known positioning
-→ expanded = relationship + identity + traits + latest-known details
+→ expanded = relationship + latest-known summary/details
 → one card = player's current latest-known snapshot of one stable person
 ```
 
@@ -227,40 +229,46 @@ accepted player-authored Turn
 
 MW-017 is backend-only and requires no Owner product UAT.
 
-## 11. CURRENT — MW-018
+## 11. MW-018 — ENGINEERING PASS / INTEGRATED / OWNER UAT PENDING
 
 Task:
 
 `docs/tasks/MW-018_PEOPLE_CURATION_AND_CARD_SURFACE_TASK.md`
 
-Product target:
+Reviewed candidate:
+
+`c8150a2ee9fa79d929cd0bb5f899132d3d2f6563`
+
+Independent Review:
+
+`docs/mw018/MW-018_INDEPENDENT_REVIEW_IR1.md`
+
+Integration verification:
+
+`docs/mw018/MW-018_INTEGRATION_VERIFICATION.md`
+
+Integrated product outcome:
 
 ```text
 right 信息 navigation
 → 概览 | 角色 | 重要经历 | 人物 | 存档
 
 人物
-→ card list
-→ cards collapsed by default
-→ collapsed = compact identity/headline
-→ expanded = player-known relationship + latest-known details
-→ later learned information updates the same card
-→ hidden/off-screen NPC truth never auto-refreshes the card
+→ safe latest-known card list
+→ cards default collapsed
+→ expand shows relationship / summary / details
+→ accepted replacement / Restore / reopen follow current accepted history
+→ hidden/off-screen NPC truth cannot auto-refresh cards
 ```
 
-Implementation must:
+Engineering evidence includes 135 focused checks / 0 failures, 127 rendered visual checks / 0 failures, MW-017/MW-014/MW-015 and relevant G5 regressions, Windows export, and one bounded real Kimi K3 vertical.
 
-- reuse the existing Information Curator call; no third People model call;
-- consume only MW-017 receipt-derived accepted evidence + prior player-known snapshot for bound people;
-- add a backward-compatible curation record/result variant without rewriting old MW-014/MW-015 IDs;
-- keep exact local IDs internal and strip them from leaf People DTO;
-- make Regenerate/Restore currentness visible immediately through projection;
-- keep GM-only opening / old-history backfill / numeric Relationship out of scope;
-- avoid MW-013/general declarative UI abstraction.
+Retained Product/UAT risk:
 
-Highest implementer return: `READY FOR INDEPENDENT REVIEW`.
+- one real new actor (`沈青`) was materialized but the model omitted its `candidate_ref`; the bridge correctly refused to guess, so no card appeared for that actor in that smoke;
+- do not add Program display-name matching to mask this; Owner UAT should intentionally test a newly introduced person.
 
-After GPT Engineering PASS + integration, MW-018 requires canonical Owner-build sync/export and Owner UAT.
+No Product PASS exists until Owner accepts the real application.
 
 ## 12. MW-013 HOLD
 
@@ -269,21 +277,42 @@ MW-013 Internal Declarative UI Host
 → HOLD until repeated grounded consumers prove stable patterns
 ```
 
-Do not pre-abstract People/Character into a generic external/internal renderer in MW-018.
+Do not pre-abstract People/Character into a generic external/internal renderer yet.
 
-## 13. Owner UAT build handoff
+## 13. Owner UAT build handoff — CURRENT
 
-Product-facing outcomes follow:
+The Owner's canonical playable checkout is:
+
+`D:/AI/Projects/my-world`
+
+Current required route:
 
 ```text
-Engineering PASS
-→ integrate reviewed main
-→ safely sync D:/AI/Projects/my-world
+inspect local branch/status/worktrees
+→ preserve unknown dirty/local work
+→ safely fetch + fast-forward main to exact current origin/main
 → verify exact local HEAD
 → run run-game.ps1 -ValidateExportOnly
-→ Owner UAT
+→ Owner Launch Ready
+→ Owner UAT MW-018
 ```
 
-Never install an unreviewed branch into the Owner checkout. Never use reset/clean/force to hide dirty/divergent work.
+Never install the task branch as the Owner build. Never use reset/clean/force to hide divergence.
 
 `run-game.cmd` / `run-game.ps1` prove export freshness only against the current local checkout; UAT preparation must first prove that checkout equals the intended reviewed main.
+
+## 14. Owner UAT target
+
+Owner should verify in the real application:
+
+```text
+人物 tab exists
+→ useful card appears/updates after a normal player-authored turn involving a person
+→ card starts collapsed
+→ collapsed state is quick to scan
+→ expansion reveals relationship / latest-known details
+→ no obvious private/omniscient/debug information appears
+→ later learned information updates the card
+```
+
+Prefer one existing/known person and one newly introduced person. Final verdict is `PASS` or `NOT PASS` with concrete findings.
