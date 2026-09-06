@@ -89,3 +89,9 @@ Godot 4.7.2；exit 0；7 项现状观察均复现；无脚本错误。它调用 
 - 未 merge main，未安装/导出候选到 Owner 主目录。
 - Owner 主目录原有 `.gitignore` 修改保持原样；只刷新远端引用。
 - 本分支仅包含此报告、复现脚本和日志。等待上述 baseline 表示/activation 覆盖决策后继续同一 MW-015 Revision 2。
+
+## 8. Pre-push freshness 复查
+
+Implementation main 仍为 `d71a970a8c71a591c1daa3bac35afb18c7a728ac`。Governance main 更新为 `388920d5deecb8721720e39330485af4e0966bba`；已审阅 delta 及新增 `governance/OWNER_AI_COLLABORATION_PREFERENCES_CURRENT.md`。变化要求用产品语言向 Owner 解释派工结果，不修改 my-world 的 initial baseline authority 或上述 schema 停止条件。
+
+产品后果：目标仍是让玩家不必先进行一轮行动，就能在右侧「角色」看到丰富的人物说明；左侧保持隐藏。本次只查明“尚无已接受剧情时，模型整理结果没有合法存放位置”，尚未修复玩家可见问题。
