@@ -175,7 +175,7 @@ visible = false
 layout_mode = 2
 size_flags_vertical = 4
 toggle_mode = true
-text = "世界"
+text = "信息"
 
 [node name="ExitButton" type="Button" parent="Margin/Layout/TopBar"]
 unique_name_in_owner = true
@@ -246,8 +246,6 @@ horizontal_scroll_mode = 0
 [node name="PlayerPanelColumn" type="VBoxContainer" parent="Margin/Layout/HostLayout/PlayerPanelHost/PlayerPanelMargin/PlayerPanelScroll"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/separation = 8
-layout_mode = 2
 theme_override_constants/separation = 8
 
 [node name="PlayerHeader" type="Label" parent="Margin/Layout/HostLayout/PlayerPanelHost/PlayerPanelMargin/PlayerPanelScroll/PlayerPanelColumn"]
@@ -388,7 +386,7 @@ theme_override_constants/separation = 8
 [node name="WorldHeader" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
-text = "世界"
+text = "信息"
 
 [node name="WorldEmpty" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
 layout_mode = 2
@@ -409,11 +407,35 @@ toggle_mode = true
 button_pressed = true
 text = "概览"
 
+[node name="CharacterTab" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+text = "角色"
+
+[node name="ExperiencesTab" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+text = "重要经历"
+
 [node name="SaveTab" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav"]
 unique_name_in_owner = true
 layout_mode = 2
 toggle_mode = true
 text = "存档"
+
+[node name="WorldSurfaceScroll" type="ScrollContainer" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="WorldSurfaceColumn" type="VBoxContainer" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
 
 [node name="SaveSurface" type="VBoxContainer" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
 unique_name_in_owner = true

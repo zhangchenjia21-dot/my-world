@@ -404,11 +404,16 @@ func _panel_text(inst: Node, player_panel: bool) -> String:
 	var host_path := "Margin/Layout/HostLayout/PlayerPanelHost/PlayerPanelMargin/PlayerPanelColumn" if player_panel else "Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"
 	var column: VBoxContainer = inst.get_node(NodePath(host_path))
 	var parts := PackedStringArray()
-	for child: Node in column.get_children():
-		parts.append(child.text if child is Label else "")
-		for grandchild: Node in child.get_children():
-			parts.append(grandchild.text if grandchild is Label else "")
+	_collect_label_texts(column, parts)
 	return "\n".join(parts)
+
+
+## MW-015：右侧 Surface 内容现位于 WorldSurfaceScroll/WorldSurfaceColumn 内，递归收集 Label 文本。
+func _collect_label_texts(node: Node, parts: PackedStringArray) -> void:
+	if node is Label:
+		parts.append(node.text)
+	for child: Node in node.get_children():
+		_collect_label_texts(child, parts)
 
 
 func _argument(prefix: String) -> String:

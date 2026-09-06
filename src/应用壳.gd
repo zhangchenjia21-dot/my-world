@@ -23,6 +23,9 @@ const PlayerSafeProjection := preload("res://src/玩家安全投影/L3_外交层
 ## MW-011 / G6：presentation-only ViewModel。组合 player-safe 投影输出与 current
 ## Conversation 派生材料；叶子 widget 只消费 ViewModel 字段。
 const RPGViewModel := preload("res://src/rpg视图模型/L3_外交层/RPG主机视图模型公开接口.gd")
+## MW-015：右侧 Character / Important Experiences 表面只消费 MW-014 player-safe L3 投影 seam；
+## 不读 raw world_state / curation 内部 id，不为渲染触发 Provider 调用。
+const CharacterExperiencesProjection := preload("res://src/信息整理/L3_外交层/角色经历投影公开接口.gd")
 
 enum ApplicationState {
 	BOOTING,
@@ -61,11 +64,15 @@ const GAME_LOCAL_SETUP_SCHEMA := "game_local_setup.v0.1"
 @onready var narrative_view: Control = %NarrativeHost
 @onready var player_panel_host: PanelContainer = %PlayerPanelHost
 @onready var world_surface_host: PanelContainer = %WorldSurfaceHost
-## MW-011：World Surface 的概览/存档有界导航与 Save 子表面。
+## MW-011/MW-015：World Surface 的概览/角色/重要经历/存档有界导航与 Save 子表面。
 @onready var world_nav: HBoxContainer = %WorldNav
 @onready var overview_tab: Button = %OverviewTab
+@onready var character_tab: Button = %CharacterTab
+@onready var experiences_tab: Button = %ExperiencesTab
 @onready var save_tab: Button = %SaveTab
 @onready var save_surface: VBoxContainer = %SaveSurface
+@onready var world_surface_scroll: ScrollContainer = %WorldSurfaceScroll
+@onready var world_surface_column: VBoxContainer = %WorldSurfaceColumn
 @onready var player_toggle: Button = %PlayerToggle
 @onready var world_toggle: Button = %WorldToggle
 @onready var save_name_input: LineEdit = %SaveNameInput
@@ -124,8 +131,14 @@ var world_evolution_evaluator: Node = null
 ## MW-009：player-safe 侧栏动态内容容器与投影器；每次刷新全量重建，无独立状态存储。
 var _player_panel_body: VBoxContainer = null
 var _world_panel_body: VBoxContainer = null
+## MW-015：右侧 Character / Important Experiences 表面的动态内容容器（挂在 WorldSurfaceColumn 滚动区）。
+var _character_panel_body: VBoxContainer = null
+var _experiences_panel_body: VBoxContainer = null
+## MW-015：左 Player Status Host 是否存在真实 portrait/mechanics 内容。v0.1 过渡 biography
+## 已迁出且无真实 consumer → 恒 false，Host collapse/hide；未来真实 consumer 置 true。
+var _player_status_has_content := false
 var _player_safe_projection: RefCounted = null
-## MW-011：World Surface 当前子表面（overview | save）；非通用导航框架。
+## MW-015：World Surface 当前子表面（overview | character | experiences | save）；非通用导航框架。
 var _world_surface_mode := "overview"
 ## MW-011：RPG ViewModel 外交接口实例（presentation-only）。
 var _rpg_view_model: RefCounted = null
@@ -183,8 +196,10 @@ func _ready() -> void:
 	database_recovery_confirmation.confirmed.connect(_on_database_recovery_confirmed)
 	startup_failure_back_button.pressed.connect(_dismiss_startup_failure)
 	save_name_input.text_changed.connect(_on_save_name_changed)
-	# MW-011：World Surface 概览/存档有界导航。
+	# MW-015：World Surface 概览/角色/重要经历/存档有界导航。
 	overview_tab.toggled.connect(_on_overview_tab_toggled)
+	character_tab.toggled.connect(_on_character_tab_toggled)
+	experiences_tab.toggled.connect(_on_experiences_tab_toggled)
 	save_tab.toggled.connect(_on_save_tab_toggled)
 	_update_responsive_layout()
 	if session_runtime != null:
@@ -540,6 +555,9 @@ func _prepare_world_turn_after_activation() -> void:
 		return
 	information_curator = InformationCurator.new(session_runtime, test_information_curator_adapter_override)
 	add_child(information_curator)
+	# MW-015：curator terminal 是 Character/Experiences 表面的专属刷新点；result 只含状态，
+	# 失败不阻断——表面重新投影 current durable records，绝不因此白屏。
+	information_curator.finished.connect(_on_information_curator_finished)
 	world_turn_runtime = WorldTurn.new(session_runtime, test_world_turn_adapter_override)
 	add_child(world_turn_runtime)
 	# G5-03M1R01：standalone Agency Scheduler 复用 WorldTurn 的 lifecycle；不消费 semantic result。
@@ -562,6 +580,15 @@ func _on_world_turn_finished_for_scheduler(_result: Dictionary) -> void:
 	_refresh_player_safe_panels()
 	if agency_scheduler != null:
 		agency_scheduler.consider_agency()
+
+
+## MW-015：后台整理终态只触发 Character/Experiences 重新投影；不消费模型原文，
+## 失败/无变化同样安全——投影自动反映 current durable records 与 prefix-hash currentness。
+func _on_information_curator_finished(_result: Dictionary) -> void:
+	if session_runtime == null or not session_runtime.is_ready():
+		return
+	_render_character_surface()
+	_render_experiences_surface()
 
 
 ## MW-002：Agency opportunity 终态是 World Evolution 的唯一正常 wake；result 携带 frozen
@@ -1067,11 +1094,8 @@ func _reset_session_controls() -> void:
 	recovery_separator.visible = false
 	recovery_hint.visible = false
 	recover_button.visible = false
-	# MW-011：会话关闭后 World Surface 回到默认 Overview 子表面。
-	_world_surface_mode = "overview"
-	overview_tab.set_pressed_no_signal(true)
-	save_tab.set_pressed_no_signal(false)
-	_apply_world_surface_visibility()
+	# MW-011/MW-015：会话关闭后 World Surface 回到默认 Overview 子表面。
+	_select_world_surface_mode("overview")
 	_update_save_controls()
 
 
@@ -1261,10 +1285,12 @@ func _on_generation_state_changed(_turn: RefCounted) -> void:
 	_update_save_controls()
 
 
-## ---- MW-009 / MW-011：player-safe 侧栏渲染 ----
-## 刷新点：激活/reopen、semantic lane terminal、Restore/进度切换。
-## MW-011：渲染输入升级为 presentation-only RPG ViewModel（组合 MW-009 投影输出 +
-## current Conversation 派生的 recent actions / turn count）；叶子 widget 不接触 raw truth。
+## ---- MW-009 / MW-011 / MW-015：player-safe 侧栏渲染 ----
+## 刷新点：激活/reopen、semantic lane terminal、Restore/进度切换（Character/Experiences
+## 另有 curator finished 专属刷新点）。
+## MW-011：渲染输入为 presentation-only RPG ViewModel（组合 MW-009 投影输出）。
+## MW-015：左 Host 过渡 biography 已迁出并 collapse；右侧扩为 概览/角色/重要经历/存档，
+## Character/Experiences 只消费 MW-014 L3 投影 seam。
 ## Agency / World Evolution / GM 投影 / 内部 ID 永不出现在这两个 Host 中。
 
 func _refresh_player_safe_panels() -> void:
@@ -1273,31 +1299,54 @@ func _refresh_player_safe_panels() -> void:
 	if _rpg_view_model == null:
 		_rpg_view_model = RPGViewModel.new()
 	var view_model: Dictionary = _rpg_view_model.build_from_runtime(session_runtime)
-	_render_player_host(view_model)
+	_render_player_host()
 	_render_world_overview(view_model)
+	_render_character_surface()
+	_render_experiences_surface()
 
 
 func _on_overview_tab_toggled(pressed: bool) -> void:
-	if not pressed:
-		return
-	save_tab.set_pressed_no_signal(false)
-	_world_surface_mode = "overview"
-	_apply_world_surface_visibility()
+	if pressed:
+		_select_world_surface_mode("overview")
+
+
+func _on_character_tab_toggled(pressed: bool) -> void:
+	if pressed:
+		_select_world_surface_mode("character")
+
+
+func _on_experiences_tab_toggled(pressed: bool) -> void:
+	if pressed:
+		_select_world_surface_mode("experiences")
 
 
 func _on_save_tab_toggled(pressed: bool) -> void:
-	if not pressed:
-		return
-	overview_tab.set_pressed_no_signal(false)
-	_world_surface_mode = "save"
+	if pressed:
+		_select_world_surface_mode("save")
+
+
+## MW-015：一次只显示一个 Surface；tab 互斥。切换是纯 UI 可见性操作，
+## 不产生任何 Runtime mutation，不触发 Provider 调用。
+func _select_world_surface_mode(mode: String) -> void:
+	_world_surface_mode = mode
+	overview_tab.set_pressed_no_signal(mode == "overview")
+	character_tab.set_pressed_no_signal(mode == "character")
+	experiences_tab.set_pressed_no_signal(mode == "experiences")
+	save_tab.set_pressed_no_signal(mode == "save")
 	_apply_world_surface_visibility()
 
 
-## 概览/存档切换只改变既有节点的可见性；Save 控件与其 G3 owner 完全不变。
+## 子表面切换只改变既有节点的可见性；Save 控件与其 G3 owner 完全不变。
 func _apply_world_surface_visibility() -> void:
 	var session_active: bool = session_runtime != null and session_runtime.is_ready()
+	var show_surface: bool = session_active and _world_surface_mode != "save"
+	world_surface_scroll.visible = show_surface
 	if _world_panel_body != null and is_instance_valid(_world_panel_body):
-		_world_panel_body.visible = session_active and _world_surface_mode == "overview"
+		_world_panel_body.visible = show_surface and _world_surface_mode == "overview"
+	if _character_panel_body != null and is_instance_valid(_character_panel_body):
+		_character_panel_body.visible = show_surface and _world_surface_mode == "character"
+	if _experiences_panel_body != null and is_instance_valid(_experiences_panel_body):
+		_experiences_panel_body.visible = show_surface and _world_surface_mode == "experiences"
 	save_surface.visible = session_active and _world_surface_mode == "save"
 
 
@@ -1314,6 +1363,19 @@ func _panel_body(column: VBoxContainer, current_body: VBoxContainer, empty_label
 	return body
 
 
+## MW-015：右栏 Surface 动态 body 复用/重建；body 统一挂在 WorldSurfaceColumn 滚动区内。
+func _surface_body(current_body: VBoxContainer) -> VBoxContainer:
+	if current_body != null and is_instance_valid(current_body) and current_body.get_parent() == world_surface_column:
+		for child: Node in current_body.get_children():
+			current_body.remove_child(child)
+			child.queue_free()
+		return current_body
+	var body := VBoxContainer.new()
+	body.add_theme_constant_override("separation", 4)
+	world_surface_column.add_child(body)
+	return body
+
+
 func _panel_label(parent: Control, text_value: String, size: int, color: Color, muted_variation: bool = false) -> Label:
 	var label := Label.new()
 	label.text = text_value
@@ -1326,43 +1388,24 @@ func _panel_label(parent: Control, text_value: String, size: int, color: Color, 
 	return label
 
 
-func _render_player_host(view_model: Dictionary) -> void:
+## MW-015：过渡 biography/profile/world/recent-actions/turn-count 从 Player Status Host 移除。
+## v0.1 没有真实 portrait/mechanics contribution → Host 保持空并 collapse/hide（节点保留）；
+## 未来真实 consumer 在此填充内容并置 _player_status_has_content = true，不造假 HP/立绘。
+func _render_player_host() -> void:
 	var column: VBoxContainer = get_node(NodePath("Margin/Layout/HostLayout/PlayerPanelHost/PlayerPanelMargin/PlayerPanelScroll/PlayerPanelColumn"))
 	var empty_label: Label = column.get_node(NodePath("PlayerEmpty"))
-	var has_identity := String(view_model.get("player_display_name", "")).strip_edges().is_empty() == false
-	_player_panel_body = _panel_body(column, _player_panel_body, empty_label, has_identity)
-	if not has_identity:
-		return
-	_panel_label(_player_panel_body, String(view_model.player_display_name), 16, Palette.TEXT_PRIMARY)
-	var profile_name := String(view_model.get("player_profile_name", ""))
-	if not profile_name.is_empty():
-		_panel_label(_player_panel_body, profile_name, 13, Palette.TEXT_SECONDARY, true)
-	# MW-011 R2：authored player_profile（fail-closed 档案投影输出）——置于世界/行动材料之前。
-	var player_profile: Dictionary = view_model.get("player_profile", {})
-	if bool(player_profile.get("success", false)):
-		_panel_label(_player_panel_body, String(player_profile.get("headline", "")), 14, Palette.ACCENT)
-		_panel_label(_player_panel_body, String(player_profile.get("summary", "")), 13, Palette.TEXT_PRIMARY)
-		for group_value: Variant in player_profile.get("groups", []):
-			var group := group_value as Dictionary
-			_panel_label(_player_panel_body, String(group.get("title", "")), 14, Palette.TEXT_SECONDARY)
-			for item_value: Variant in group.get("items", []):
-				_panel_label(_player_panel_body, "• %s" % String(item_value), 13, Palette.TEXT_PRIMARY)
-	# G6 §3：安全 current World / Entry 上下文——回答「这一局处于什么世界」。
-	var world_line := String(view_model.get("world_display_name", ""))
-	var entry_name := String(view_model.get("world_entry_name", ""))
-	if not entry_name.is_empty():
-		world_line += " · %s" % entry_name
-	if not world_line.is_empty():
-		_panel_label(_player_panel_body, "世界：%s" % world_line, 13, Palette.TEXT_SECONDARY, true)
-	# G6 §3：最近行动（current timeline，有界）+ 确定性玩家回合数。
-	_panel_label(_player_panel_body, "最近行动", 14, Palette.TEXT_SECONDARY)
-	var recent_actions: Array = view_model.get("recent_actions", [])
-	if recent_actions.is_empty():
-		_panel_label(_player_panel_body, "尚无已完成的行动。", 13, Palette.TEXT_SECONDARY, true)
+	_player_panel_body = _panel_body(column, _player_panel_body, empty_label, false)
+	_player_status_has_content = false
+	_apply_player_host_visibility()
+
+
+## MW-015：左 Host 仅在有真实内容时可见；narrow 模式下无内容时连 toggle 都不显示。
+func _apply_player_host_visibility() -> void:
+	if _narrow:
+		player_panel_host.visible = _player_status_has_content and player_toggle.button_pressed
 	else:
-		for action_value: Variant in recent_actions:
-			_panel_label(_player_panel_body, "• %s" % String(action_value), 13, Palette.TEXT_PRIMARY)
-	_panel_label(_player_panel_body, "已进行 %d 个玩家回合" % int(view_model.get("player_turn_count", 0)), 13, Palette.TEXT_SECONDARY, true)
+		player_panel_host.visible = _player_status_has_content
+	player_toggle.visible = _narrow and _player_status_has_content
 
 
 func _render_world_overview(view_model: Dictionary) -> void:
@@ -1371,7 +1414,7 @@ func _render_world_overview(view_model: Dictionary) -> void:
 	var has_identity := String(view_model.get("world_display_name", "")).strip_edges().is_empty() == false
 	# MW-011：有界导航只在有效 Game 会话下可见；默认 Overview，Save 控件不再占据默认层级。
 	world_nav.visible = has_identity
-	_world_panel_body = _panel_body(column, _world_panel_body, empty_label, has_identity)
+	_world_panel_body = _panel_body(world_surface_column, _world_panel_body, empty_label, has_identity)
 	_apply_world_surface_visibility()
 	if not has_identity:
 		return
@@ -1386,7 +1429,59 @@ func _render_world_overview(view_model: Dictionary) -> void:
 	else:
 		for fact_value: Variant in facts:
 			_panel_label(_world_panel_body, "• %s" % String(fact_value), 13, Palette.TEXT_PRIMARY)
-	_panel_label(_world_panel_body, "已进行 %d 个玩家回合" % int(view_model.get("player_turn_count", 0)), 13, Palette.TEXT_SECONDARY, true)
+	# MW-015 §8：recent actions / turn count 不是长期 RPG 信息 Surface，
+	# 不随左栏过渡内容清理而搬进概览。
+
+
+## MW-015：Character Surface——「现在的我是谁」（当前状态，非变更日志）。
+## 只消费 MW-014 player-safe L3 投影；空状态安静提示，不造假内容，不显示 ID/出处元数据。
+func _render_character_surface() -> void:
+	_character_panel_body = _surface_body(_character_panel_body)
+	_apply_world_surface_visibility()
+	if session_runtime == null or not session_runtime.is_ready():
+		return
+	var projection: Dictionary = CharacterExperiencesProjection.project_session(session_runtime)
+	var character := projection.get("character", {}) as Dictionary
+	var headline := String(character.get("headline", "")).strip_edges()
+	var summary := String(character.get("summary", "")).strip_edges()
+	var groups: Array = character.get("groups", [])
+	if headline.is_empty() and summary.is_empty() and groups.is_empty():
+		_panel_label(_character_panel_body, "角色信息将随游戏进展整理显示。", 13, Palette.TEXT_SECONDARY, true)
+		return
+	if not headline.is_empty():
+		_panel_label(_character_panel_body, headline, 16, Palette.TEXT_PRIMARY)
+	if not summary.is_empty():
+		_panel_label(_character_panel_body, summary, 13, Palette.TEXT_PRIMARY)
+	for group_value: Variant in groups:
+		var group := group_value as Dictionary
+		_panel_label(_character_panel_body, String(group.get("title", "")), 14, Palette.TEXT_SECONDARY)
+		for item_value: Variant in group.get("items", []):
+			_panel_label(_character_panel_body, "• %s" % String(item_value), 13, Palette.TEXT_PRIMARY)
+	if groups.is_empty():
+		_panel_label(_character_panel_body, "暂无更多角色信息。", 13, Palette.TEXT_SECONDARY, true)
+
+
+## MW-015：Important Experiences Surface——「我是怎样走到现在的」，按因果顺序展示。
+## 当前没有权威 game-world calendar label（time_label 恒为空）；只有非空才显示，绝不伪造日期。
+func _render_experiences_surface() -> void:
+	_experiences_panel_body = _surface_body(_experiences_panel_body)
+	_apply_world_surface_visibility()
+	if session_runtime == null or not session_runtime.is_ready():
+		return
+	var projection: Dictionary = CharacterExperiencesProjection.project_session(session_runtime)
+	var experiences: Array = projection.get("important_experiences", [])
+	if experiences.is_empty():
+		_panel_label(_experiences_panel_body, "尚无需要长期记录的重要经历。", 13, Palette.TEXT_SECONDARY, true)
+		return
+	for event_value: Variant in experiences:
+		var event := event_value as Dictionary
+		_panel_label(_experiences_panel_body, String(event.get("title", "")), 14, Palette.TEXT_SECONDARY)
+		var description := String(event.get("description", "")).strip_edges()
+		if not description.is_empty():
+			_panel_label(_experiences_panel_body, description, 13, Palette.TEXT_PRIMARY)
+		var time_label := String(event.get("time_label", "")).strip_edges()
+		if not time_label.is_empty():
+			_panel_label(_experiences_panel_body, time_label, 12, Palette.TEXT_SECONDARY, true)
 
 
 ## Foreground 永远优先：新 Conversation attempt 使剩余 uncommitted agency 失效。
@@ -1504,7 +1599,7 @@ func _command_argument(prefix: String) -> String:
 
 func _on_player_toggle(pressed: bool) -> void:
 	if _narrow:
-		player_panel_host.visible = pressed
+		player_panel_host.visible = pressed and _player_status_has_content
 
 
 func _on_world_toggle(pressed: bool) -> void:
@@ -1517,12 +1612,11 @@ func _update_responsive_layout() -> void:
 		return
 	var narrow := size.x < NARROW_BREAKPOINT
 	_narrow = narrow
-	player_toggle.visible = narrow
 	world_toggle.visible = narrow
+	# MW-015：左 Host 可见性统一由 _player_status_has_content 决定；wide 不再强制显示空 Host。
+	_apply_player_host_visibility()
 	if narrow:
 		# 窄窗口：侧 Host 由 toggle 控制，默认折叠。
-		player_panel_host.visible = player_toggle.button_pressed
 		world_surface_host.visible = world_toggle.button_pressed
 	else:
-		player_panel_host.visible = true
 		world_surface_host.visible = true
