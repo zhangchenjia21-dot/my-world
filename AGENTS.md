@@ -71,7 +71,9 @@ People Surface product semantics            FROZEN
 MW-016 People Architecture Audit            PASS / CLOSED
 People identity + curation architecture     FROZEN
 MW-017 People Identity Bridge               ENGINEERING PASS / INTEGRATED
-MW-018 People Curation + Card Surface        ENGINEERING PASS / INTEGRATED / OWNER UAT PENDING
+MW-018 People Curation + Card Surface        ENGINEERING PASS / INTEGRATED / OWNER UAT DEFERRED
+Five Recommended Actions semantics          FROZEN
+MW-019 Five Recommended Actions             READY FOR CODEX
 MW-013 Internal Declarative UI Host          HOLD / NOT AUTHORIZED
 ```
 
@@ -79,15 +81,18 @@ Formal current status:
 
 `Vibe-Coding/my world/MY_WORLD_CURRENT_STATUS.md`
 
-Current product-facing Task Packet / evidence:
+Active Task Packet:
 
-- `docs/tasks/MW-018_PEOPLE_CURATION_AND_CARD_SURFACE_TASK.md`
+`docs/tasks/MW-019_FIVE_RECOMMENDED_ACTIONS_TASK.md`
+
+Current MW-018 review evidence remains:
+
 - `docs/mw018/MW-018_INDEPENDENT_REVIEW_IR1.md`
 - `docs/mw018/MW-018_INTEGRATION_VERIFICATION.md`
 
 ## 5. Protected world/runtime invariants
 
-- Accepted free-form Narrative remains primary and is not gated by semantic/Knowledge/Agency/Evolution/curation success.
+- Accepted free-form Narrative remains primary and is not gated by semantic/Knowledge/Agency/Evolution/curation/recommendation success.
 - `World Truth != actor Knowledge != human-player disclosure`.
 - Stable actor existence does not imply Player disclosure.
 - Stable NPCs may act independently; Player foreground wins.
@@ -96,6 +101,7 @@ Current product-facing Task Packet / evidence:
 - Save/reopen/Restore currentness is authoritative.
 - raw accepted Narrative bytes remain authoritative; UI is projection.
 - leaf UI must never receive omniscient `world_state` and filter locally.
+- free-form Player natural-language action remains primary; recommendations never define the legal action set.
 
 ## 6. Current G6 shell / information architecture
 
@@ -106,6 +112,7 @@ Player Status Host
 
 Narrative Host
 → primary GM Narrative + Player natural-language action surface
+→ fixed first-party recommended-action guidance may live near composer
 
 World Information Host
 → grounded player information Surfaces
@@ -137,8 +144,6 @@ Program must not replicate open semantics using keyword/regex routers, importanc
 
 Program owns machine structure/currentness: IDs, versions, bounded payloads, atomic persistence, idempotence, Save/Restore/Regenerate, stale-future isolation and player-safe projection.
 
-Owner explicitly accepts bounded model calls when they materially improve semantic quality and reduce Runtime semantic-rule complexity.
-
 ## 8. People Surface product semantics
 
 Canonical:
@@ -157,13 +162,6 @@ People
 `latest-known != omniscient NPC current state`.
 
 Off-screen/private actor changes do not update a card until the Player actually learns them.
-
-People is not:
-
-- all stable actors;
-- NPC private state viewer;
-- biography/history log;
-- numeric Relationship/affinity system.
 
 Model decides card eligibility/content/update/removal. Program does not use name/encounter-count/affinity heuristics.
 
@@ -187,20 +185,7 @@ accepted player-authored Turn
 → card UI
 ```
 
-Protected decisions:
-
-- exact stable `local_character_id`, never authoritative display-name matching;
-- same-name ambiguity unresolved rather than guessed;
-- request-scoped actor/candidate refs only; model never mints durable ID;
-- identity receipt lives in existing `living_world` owner;
-- People latest-known snapshot lives in `information_curation`, not NPC truth;
-- no People-specific default third model call;
-- no raw stable actor/profile/private Knowledge/Agency/Evolution dump to People curation;
-- no new SQLite table;
-- old MW-014/MW-015 record identity chains remain valid through backward-compatible variants;
-- no GM-only opening People processing in v0.1;
-- no silent historical People backfill for old Games in v0.1;
-- People never reuses the MW-015 Initial Character displaced-future baseline recovery exception.
+Protected decisions include exact stable identity, no authoritative name matching, no People-specific third call, no raw actor/private material, backward-compatible curation history and no People opening/backfill in v0.1.
 
 ## 10. MW-017 — ENGINEERING PASS / INTEGRATED
 
@@ -216,28 +201,13 @@ Integration verification:
 
 `docs/mw017/MW-017_INTEGRATION_VERIFICATION.md`
 
-Reviewed outcome:
-
-```text
-accepted player-authored Turn
-→ exact request-scoped person identity binding
-→ same-turn runtime actor mint before binding when needed
-→ durable current receipt
-→ semantic terminal barrier
-→ Information Curator release
-```
-
 MW-017 is backend-only and requires no Owner product UAT.
 
-## 11. MW-018 — ENGINEERING PASS / INTEGRATED / OWNER UAT PENDING
+## 11. MW-018 — ENGINEERING PASS / INTEGRATED / OWNER UAT DEFERRED
 
 Task:
 
 `docs/tasks/MW-018_PEOPLE_CURATION_AND_CARD_SURFACE_TASK.md`
-
-Reviewed candidate:
-
-`c8150a2ee9fa79d929cd0bb5f899132d3d2f6563`
 
 Independent Review:
 
@@ -247,7 +217,7 @@ Integration verification:
 
 `docs/mw018/MW-018_INTEGRATION_VERIFICATION.md`
 
-Integrated product outcome:
+Integrated People outcome:
 
 ```text
 right 信息 navigation
@@ -261,58 +231,102 @@ right 信息 navigation
 → hidden/off-screen NPC truth cannot auto-refresh cards
 ```
 
-Engineering evidence includes 135 focused checks / 0 failures, 127 rendered visual checks / 0 failures, MW-017/MW-014/MW-015 and relevant G5 regressions, Windows export, and one bounded real Kimi K3 vertical.
+Owner explicitly deferred standalone MW-018 UAT. Do not mark Product PASS. After MW-019 integration, prepare one fresh Owner build and run combined UAT.
 
-Retained Product/UAT risk:
+Retained People UAT risk: real new-actor identity correlation may occasionally be omitted by the model; exact bridge must continue to refuse guessing rather than add display-name matching.
 
-- one real new actor (`沈青`) was materialized but the model omitted its `candidate_ref`; the bridge correctly refused to guess, so no card appeared for that actor in that smoke;
-- do not add Program display-name matching to mask this; Owner UAT should intentionally test a newly introduced person.
+## 12. Five Recommended Actions — FROZEN
 
-No Product PASS exists until Owner accepts the real application.
+Canonical:
 
-## 12. MW-013 HOLD
+`Vibe-Coding/my world/architecture/ui/G6_FIVE_RECOMMENDED_ACTIONS_V1_0_DECISION.md`
+
+Protected product rule:
+
+> **Five recommended actions != five allowed actions.**
+
+Target:
+
+```text
+accepted GM Narrative
+→ dedicated player-safe background Action Recommender
+→ exactly five model-generated recommendations
+→ click recommendation
+→ PREFILL existing PlayerInput only
+→ player may edit/ignore
+→ normal Send / Ctrl+Enter / Public d20 path remains authoritative
+```
+
+Important boundaries:
+
+- free-form input always available;
+- recommendation click never auto-sends;
+- recommendations use only bounded player-visible accepted Conversation history;
+- no raw World/stable actor/Source/private Knowledge/Agency/Evolution input;
+- recommendations are ephemeral derived UI and are not persisted;
+- accepted GM-only opening gets recommendations;
+- foreground action always wins and clears/cancels stale recommendation work;
+- Restore/reopen may issue one fresh current-prefix recommendation call;
+- failures are fail-soft and never block gameplay;
+- no hidden Provider switch;
+- no generic Action Intent/MW-013 infrastructure in this task.
+
+## 13. CURRENT — MW-019 Five Recommended Actions
+
+Task:
+
+`docs/tasks/MW-019_FIVE_RECOMMENDED_ACTIONS_TASK.md`
+
+Product target:
+
+```text
+GM Narrative accepted
+→ five useful recommendation buttons appear near composer
+→ player can ignore them and type freely
+→ click fills PlayerInput without submitting
+→ player edits freely
+→ Send follows existing action/adjudication path
+```
+
+Implementation must use a dedicated bounded recommendation call, independent from the authoritative Narrative response and from omniscient semantic/curation inputs.
+
+Highest implementer return:
+
+`READY FOR INDEPENDENT REVIEW`
+
+Do not install unreviewed MW-019 into Owner canonical checkout.
+
+## 14. Generic G6-G / MW-013 remain deferred
+
+MW-019 is one fixed first-party `prefill composer` consumer. It does not authorize generic Action Intent schema/dispatcher.
 
 ```text
 MW-013 Internal Declarative UI Host
-→ HOLD until repeated grounded consumers prove stable patterns
+→ HOLD
+
+generic bounded Action Intent
+→ later, after proven consumers
 ```
 
-Do not pre-abstract People/Character into a generic external/internal renderer yet.
+Do not introduce arbitrary callbacks, NodePath execution, generic command bus or external declarative action definitions.
 
-## 13. Owner UAT build handoff — CURRENT
+## 15. Combined Owner UAT after MW-019
 
-The Owner's canonical playable checkout is:
-
-`D:/AI/Projects/my-world`
-
-Current required route:
+Required route:
 
 ```text
-inspect local branch/status/worktrees
-→ preserve unknown dirty/local work
-→ safely fetch + fast-forward main to exact current origin/main
-→ verify exact local HEAD
-→ run run-game.ps1 -ValidateExportOnly
-→ Owner Launch Ready
-→ Owner UAT MW-018
+MW-019 candidate
+→ GPT Independent Review
+→ Engineering PASS
+→ integrate reviewed main
+→ safely sync D:/AI/Projects/my-world
+→ ValidateExportOnly
+→ combined Owner UAT: MW-018 + MW-019
 ```
 
-Never install the task branch as the Owner build. Never use reset/clean/force to hide divergence.
+Combined UAT keeps separate defect lineage:
 
-`run-game.cmd` / `run-game.ps1` prove export freshness only against the current local checkout; UAT preparation must first prove that checkout equals the intended reviewed main.
+- People defect → MW-018 revision;
+- recommendation defect → MW-019 revision.
 
-## 14. Owner UAT target
-
-Owner should verify in the real application:
-
-```text
-人物 tab exists
-→ useful card appears/updates after a normal player-authored turn involving a person
-→ card starts collapsed
-→ collapsed state is quick to scan
-→ expansion reveals relationship / latest-known details
-→ no obvious private/omniscient/debug information appears
-→ later learned information updates the card
-```
-
-Prefer one existing/known person and one newly introduced person. Final verdict is `PASS` or `NOT PASS` with concrete findings.
+Owner must confirm that recommendations reduce blank-composer friction without making the game feel like a forced branching-choice system.
