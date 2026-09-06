@@ -1,0 +1,85 @@
+{
+	"accepted_count": 1,
+	"attempt_count": 1,
+	"evidence": {
+		"bindings": {
+			"person-d4c2679aedf660663a46c03d-0": "character-runtime-d126bb5e479c723bf367e3e20ab48c6859afd254101c3ac6f402b8a131d0cc38",
+			"person-d4c2679aedf660663a46c03d-1": "npc-li"
+		},
+		"evidence": [
+			{
+				"actor_ref": "person-d4c2679aedf660663a46c03d-0",
+				"gm_span": {
+					"length": 2,
+					"start": 0
+				},
+				"quote": "沈青"
+			},
+			{
+				"actor_ref": "person-d4c2679aedf660663a46c03d-1",
+				"gm_span": {
+					"length": 2,
+					"start": 32
+				},
+				"quote": "李亭"
+			}
+		],
+		"prefix": "cf77fb58ebdb1d80c570184a2d9920bb0a8d43cbc4fd47992235827a6c63379d",
+		"receipt_id": "970f76658aa6ad9dc720b6a53fd7fdf7ed6d50be8cb7fbf701a7b4e607c433a7"
+	},
+	"model": "k3-256k",
+	"raw_response": "{\"changes\":[\"沈青答应明早渡旅人过河\"],\"knowledge_events\":[{\"knower_id\":\"player\",\"fact\":\"沈青是渡口摆渡人，住在河边小屋，并答应明早渡河\",\"basis\":\"told\"},{\"knower_id\":\"npc-li\",\"fact\":\"旅人与摆渡人约定明早渡河\",\"basis\":\"witnessed\"}],\"new_actor_candidates\":[{\"display_name\":\"沈青\",\"profile_text\":\"渡口的摆渡人，住在河边小屋，答应明早渡旅人过河\",\"candidate_ref\":\"cand-shenqing-1\"}],\"people_bindings\":[{\"candidate_ref\":\"cand-shenqing-1\",\"gm_span\":{\"start\":0,\"length\":2}},{\"actor_ref\":\"actor-1baa07f579a2ab84c325c074-0\",\"gm_span\":{\"start\":32,\"length\":2}}]}",
+	"receipt": {
+		"bindings": [
+			{
+				"gm_span": {
+					"length": 2,
+					"start": 0
+				},
+				"local_character_id": "character-runtime-d126bb5e479c723bf367e3e20ab48c6859afd254101c3ac6f402b8a131d0cc38"
+			},
+			{
+				"gm_span": {
+					"length": 2,
+					"start": 32
+				},
+				"local_character_id": "npc-li"
+			}
+		],
+		"game_id": "game-848ba4a8138d0c1bd15d8bb20f6cb4f2",
+		"id": "970f76658aa6ad9dc720b6a53fd7fdf7ed6d50be8cb7fbf701a7b4e607c433a7",
+		"prefix": "cf77fb58ebdb1d80c570184a2d9920bb0a8d43cbc4fd47992235827a6c63379d",
+		"schema": "accepted_people_identity.v0.1",
+		"status": "resolved",
+		"turn_index": 0
+	},
+	"request": [
+		{
+			"content": "你是 my world 的后台语义物化器。只根据已经接受的玩家行动、GM 叙事与（若提供）Durable Mechanical Resolution，提取三类 durable 事实：\n1. changes：叙事中已经明确成立、值得跨句持续的世界后果。若提供 Durable Mechanical Resolution，它是 Program 既定的权威判定结果：提取后果时必须尊重它，不得改写、重掷或虚构判定结果；但判定成功/失败本身不对应任何固定世界后果，仍只提取 accepted 叙事已明确支持的后果，没有则 changes=[]。\n2. knowledge_events：叙事明确建立给特定 stable actor 的 post-T0 新知识。只提取该 accepted turn 新建立的、有明确根据的知识；不要因为事实在叙事中为真就授予知识；不要因为某 NPC 在阵容中就推断其知情；不要编造未知 actor/ID；不要输出推理过程。\n3. new_actor_candidates：叙事明确确立了身份、且有可信持续相关性的独立个体。只提供 bounded material；不要提议已在 Allowed Stable Actors 列表中的人；没有持续相关性的路人保持 ephemeral，以后仍可成为 stable；不要编造 ID 或任何出处。\n只输出一个 JSON 对象：{\"changes\":[\"简洁的持久后果\"],\"knowledge_events\":[{\"knower_id\":\"stable-local-id\",\"fact\":\"简洁事实\",\"basis\":\"witnessed|told|discovered|participated\"}],\"new_actor_candidates\":[{\"display_name\":\"名字\",\"profile_text\":\"仅由该 accepted 叙事确立的 bounded 角色材料\"}]}；没有持久后果时 changes=[]；没有新知识时 knowledge_events=[]；没有新 stable actor 时 new_actor_candidates=[] 或省略。knower_id 必须且只能来自 Allowed Stable Actors 列表；不要输出列表之外的 ID。不要输出解释、Markdown 或推理过程。\n\r\n同时输出可选 people_bindings 数组，最多8项。已有 NPC 只使用下方 People Actor References 的 actor_ref；\r\n同响应新候选可附唯一 candidate_ref（非空字符串，最多64字符），binding 使用同一 candidate_ref。\r\n每项精确形状为 {\"actor_ref\":\"请求引用\",\"gm_span\":{\"start\":0,\"length\":2}} 或\r\n{\"candidate_ref\":\"候选引用\",\"gm_span\":{\"start\":0,\"length\":2}}。\r\nstart 为 Accepted GM Narrative 原文的零基 Unicode 字符位置，length 为1..600字符，不计算标题。\r\n只绑定该段原文真正对应的稳定人物。同名或其它歧义无法确定时 people_bindings=[]，不要猜第一个，\r\n不要为歧义另造重复 actor。Player 不允许绑定。引用不是姓名、local ID 或 durable identity；\r\n不得输出自由 cue、私密 profile 或隐藏状态。绑定不自动授予 Knowledge 或生成 People 内容。\r\n",
+			"role": "system"
+		},
+		{
+			"content": "Allowed Stable Actors\n- 旅人 | player\n- 李亭 | npc-li\n\nAccepted Player Action\n我请摆渡人说明身份，并约定明早渡河。\n\nAccepted GM Narrative\n沈青是渡口的摆渡人。她答应明早带你渡河，并告诉你她住在河边小屋。李亭站在你身旁，听见了这番约定。\n\nPeople Actor References (identity only)\n{\"actor_ref\":\"actor-1baa07f579a2ab84c325c074-0\",\"display_name\":\"李亭\"}",
+			"role": "user"
+		}
+	],
+	"status": "resolved",
+	"terminal": {
+		"actor_count": 1,
+		"actors_dropped": 0,
+		"change_count": 1,
+		"epoch": 0,
+		"game_id": "game-848ba4a8138d0c1bd15d8bb20f6cb4f2",
+		"head_id": "semantic-turn-12d0874a35e72ac05a90bd04dc7ff249-node",
+		"knowledge_count": 2,
+		"knowledge_dropped": 0,
+		"outcome": "resolved",
+		"prefix": "cf77fb58ebdb1d80c570184a2d9920bb0a8d43cbc4fd47992235827a6c63379d",
+		"receipt_id": "970f76658aa6ad9dc720b6a53fd7fdf7ed6d50be8cb7fbf701a7b4e607c433a7",
+		"source_gm_sha256": "fea1f70ac9b7ce6275013d8efc20b25cadd5a19c9a5eeed50e9bdb8b222f900c",
+		"source_turn_index": 0,
+		"status": "committed",
+		"success": true,
+		"world_turn_id": "world-turn-2551d462b9ce836fbfa54e27109248a05d38dff34f066fb5fd76a403bd7193fe"
+	}
+}

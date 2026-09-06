@@ -1,0 +1,18 @@
+{
+  "tested_code_commit": "2be0c532d89c0fa7ae1d473d408a42785a32c8d9",
+  "preset": "Windows Desktop",
+  "exit_code": 0,
+  "script_or_export_errors": 0,
+  "artifacts": [
+    {
+      "path": "build/mw017/verify-20260906-183525/windows/my-world.exe",
+      "bytes": 109127680,
+      "sha256": "4a9eaded8955ef789ab02651ed9d2dde80328fbb342bd2a6db4db33e86305668"
+    },
+    {
+      "path": "build/mw017/verify-20260906-183525/windows/my-world.pck",
+      "bytes": 2080672,
+      "sha256": "594ce2cdf8802720ede19ccde90a3b999b038304faad85f4c7ca656c8494dad1"
+    }
+  ]
+}

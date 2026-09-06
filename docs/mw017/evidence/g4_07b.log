@@ -1,0 +1,95 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+G4-07B UI PASS | frozen v0.2 full-fidelity packages installed for playable UI
+[shell] application=menu_ready session=absent
+G4-07B UI PASS | shell boots to Main Menu
+G4-07B UI PASS | valid Review enables Final Create
+[shell] application=game_active session=ready
+G4-07B UI PASS | double submit reuses one stable creation_id
+G4-07B UI PASS | create success ends Wizard path and opens the exact Game
+G4-07B UI PASS | double submit creates exactly one Game in Library
+G4-07B UI PASS | opened Game is the created Game identity
+G4-07B UI PASS | created Game auto-starts first Opening with visible streaming banner
+G4-07B UI PASS | opening-pending locks Player input until accepted
+G4-07B UI PASS | first Opening request is a single GM-only system message
+G4-07B UI PASS | Opening context carries exact durable Entry/profile/canonical cast
+G4-07B UI PASS | player-facing Opening UI carries no fingerprint/internal ids
+G4-07B UI PASS | Opening accepted durable exactly once
+G4-07B UI PASS | accepted Opening hides banner and unlocks Player input
+G4-07B UI PASS | accepted Game does not auto-generate a second first Opening
+G4-07B UI PASS | GM-only Opening turn never shows player-side Regenerate
+G4-07B UI PASS | first Player action issues exactly one Provider request
+G4-07B UI PASS | continuation roles are system/assistant/user with durable Opening
+G4-07B UI PASS | continuation rebuilds from durable World truth plus durable Conversation
+G4-07B UI PASS | Player turn accepted durable after Opening
+G4-07B UI PASS | normal Player turn keeps Regenerate available
+G4-07B UI PASS | Save point created on the same Game
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-07B UI PASS | Return to Main Menu closes the Game Session
+[shell] application=game_active session=ready
+G4-07B UI PASS | Continue reopens the exact same Game
+G4-07B UI PASS | Continue restores durable Conversation history
+G4-07B UI PASS | accepted Game never auto-generates a second first Opening after Continue
+G4-07B UI PASS | Continue with accepted history leaves Player input unlocked
+G4-07B UI PASS | restored view renders one real Player action and one Opening header without empty bubble
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-07B UI PASS | shell boots to Main Menu
+G4-07B UI PASS | create failure returns Review with plain retry state
+G4-07B UI PASS | create failure message is player-facing without internal ids
+G4-07B UI PASS | failed create leaves zero Games
+[shell] application=game_active session=ready
+G4-07B UI PASS | retry after failure reuses the same creation_id
+G4-07B UI PASS | retry after restore creates and opens the Game
+G4-07B UI PASS | retry converges to exactly one Game
+G4-07B UI PASS | completed Wizard locks the create path
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+[shell] application=game_active session=ready
+G4-07B UI PASS | changed payload after edit starts a new create attempt identity
+G4-07B UI PASS | new attempt identity converges to its own Game
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-07B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+G4-07B UI PASS | Opening failure leaves zero accepted Opening
+G4-07B UI PASS | Opening failure shows retry banner without cancel
+G4-07B UI PASS | Opening failure banner is player-facing without raw codes
+G4-07B UI PASS | failed Opening keeps Player input locked until accepted
+G4-07B UI PASS | retry issues a new first-Opening request for the same Game
+G4-07B UI PASS | retry accepts exactly one Opening on the same Game
+G4-07B UI PASS | accepted retry clears banner and unlocks input
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-07B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+G4-07B UI PASS | Opening cancel leaves zero accepted Opening and keeps the Game
+G4-07B UI PASS | cancel banner offers retry in player language
+G4-07B UI PASS | cancel retry accepts exactly once
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-07B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-07B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+G4-07B UI PASS | Continue after exit reopens the exact same created Game
+G4-07B UI PASS | exit before acceptance preserves legal opening-pending state
+G4-07B UI PASS | Continue retries the first Opening on the same Game
+G4-07B UI PASS | resumed Opening accepts exactly once
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-07B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+G4-07B UI PASS | durable no-Entry stays explicit null in UI-opened Game
+G4-07B UI PASS | no-Entry Opening keeps explicit none semantics
+G4-07B UI PASS | UI path never infers a hidden default Entry/profile
+G4-07B UI PASS | no-Entry Opening accepts normally
+[shell] session=absent close_status=ready
+G4-07B UI | done failures=0
+WARNING: 3 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

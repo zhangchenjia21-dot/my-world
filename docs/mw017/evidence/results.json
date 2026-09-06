@@ -1,0 +1,117 @@
+{
+  "tested_code_commit": "2be0c532d89c0fa7ae1d473d408a42785a32c8d9",
+  "run": "build/mw017/verify-20260906-183525",
+  "results": [
+    {
+      "exit_code": 0,
+      "name": "mw017",
+      "log": "mw017.log",
+      "errors": 0,
+      "exit_warnings": 0
+    },
+    {
+      "exit_code": 0,
+      "name": "g5_01",
+      "log": "g5_01.log",
+      "errors": 0,
+      "exit_warnings": 0
+    },
+    {
+      "exit_code": 0,
+      "name": "g5_01-timeline",
+      "log": "g5_01-timeline.log",
+      "errors": 0,
+      "exit_warnings": 0
+    },
+    {
+      "exit_code": 0,
+      "name": "g5_02",
+      "log": "g5_02.log",
+      "errors": 0,
+      "exit_warnings": 0
+    },
+    {
+      "exit_code": 0,
+      "name": "g5_03",
+      "log": "g5_03.log",
+      "errors": 0,
+      "exit_warnings": 2
+    },
+    {
+      "exit_code": 0,
+      "name": "g5_03m2a",
+      "log": "g5_03m2a.log",
+      "errors": 0,
+      "exit_warnings": 0
+    },
+    {
+      "exit_code": 0,
+      "name": "g5_03m2b",
+      "log": "g5_03m2b.log",
+      "errors": 0,
+      "exit_warnings": 0
+    },
+    {
+      "exit_code": 0,
+      "name": "g5_04",
+      "log": "g5_04.log",
+      "errors": 0,
+      "exit_warnings": 2
+    },
+    {
+      "exit_code": 0,
+      "name": "mw006",
+      "log": "mw006.log",
+      "errors": 0,
+      "exit_warnings": 0
+    },
+    {
+      "exit_code": 0,
+      "name": "mw014",
+      "log": "mw014.log",
+      "errors": 0,
+      "exit_warnings": 0
+    },
+    {
+      "exit_code": 0,
+      "name": "mw015",
+      "log": "mw015.log",
+      "errors": 0,
+      "exit_warnings": 0
+    },
+    {
+      "exit_code": 0,
+      "name": "mw015r2",
+      "log": "mw015r2.log",
+      "errors": 0,
+      "exit_warnings": 0
+    },
+    {
+      "exit_code": 0,
+      "name": "mw015r2-ui",
+      "log": "mw015r2-ui.log",
+      "errors": 0,
+      "exit_warnings": 0
+    },
+    {
+      "exit_code": 0,
+      "name": "mw015r2-contract",
+      "log": "mw015r2-contract.log",
+      "errors": 0,
+      "exit_warnings": 0
+    },
+    {
+      "exit_code": 0,
+      "name": "g4_07b",
+      "log": "g4_07b.log",
+      "errors": 0,
+      "exit_warnings": 2
+    },
+    {
+      "exit_code": 0,
+      "name": "windows-export",
+      "errors": 0,
+      "log": "windows-export.log"
+    }
+  ]
+}

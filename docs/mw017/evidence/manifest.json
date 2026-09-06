@@ -1,0 +1,131 @@
+{
+  "files": [
+    {
+      "file": "baseline-g4_07b.log",
+      "sha256": "d92bae7d37eb21af43389ce46c31f238ea916a83b85b2c9af1d4ecba5f8ab7d3",
+      "utf8_lf_bytes": 5564
+    },
+    {
+      "file": "baseline-g5_03.log",
+      "sha256": "06eb70a458dd3c392cc3075d72d8443624e9552d41d7c1ade360bcaab33270b9",
+      "utf8_lf_bytes": 9939
+    },
+    {
+      "file": "baseline-g5_04.log",
+      "sha256": "d5d70eb61a201797deb82dd8190f467ef241a24fef826a5f210489569189f04c",
+      "utf8_lf_bytes": 11482
+    },
+    {
+      "file": "code-changed-files.txt",
+      "sha256": "927e0be39983bfecb44ab0e9c57cea9836b3a5f0a831889fb683b08a6332bcbb",
+      "utf8_lf_bytes": 981
+    },
+    {
+      "file": "export.json",
+      "sha256": "73c9f5131d166df5ac9dca03877fbbf0f804591c2abd6ba488a16f106f73594d",
+      "utf8_lf_bytes": 561
+    },
+    {
+      "file": "g4_07b.log",
+      "sha256": "d92bae7d37eb21af43389ce46c31f238ea916a83b85b2c9af1d4ecba5f8ab7d3",
+      "utf8_lf_bytes": 5564
+    },
+    {
+      "file": "g5_01-timeline.log",
+      "sha256": "d0107f5998090602df3c9fbb58f674bd0ad1b454a2bdbe352be70ad14edef90c",
+      "utf8_lf_bytes": 1350
+    },
+    {
+      "file": "g5_01.log",
+      "sha256": "7f8a16df547e85c5d4b6388230a1200a63d74a7d9c768429e614a53fae83b165",
+      "utf8_lf_bytes": 1840
+    },
+    {
+      "file": "g5_02.log",
+      "sha256": "deb3fa338e803d48505375e5027c7b13bbc867f6038f7fa2947eb7d061f73b24",
+      "utf8_lf_bytes": 2941
+    },
+    {
+      "file": "g5_03.log",
+      "sha256": "06eb70a458dd3c392cc3075d72d8443624e9552d41d7c1ade360bcaab33270b9",
+      "utf8_lf_bytes": 9939
+    },
+    {
+      "file": "g5_03m2a.log",
+      "sha256": "e229cd2f368d32141ce69b004806051456a07237b80abddc88b17b613bc4ef3a",
+      "utf8_lf_bytes": 5197
+    },
+    {
+      "file": "g5_03m2b.log",
+      "sha256": "e949248d93d75aaf63669a6219421bf78c48862b15101aee763de07df5b371fe",
+      "utf8_lf_bytes": 4215
+    },
+    {
+      "file": "g5_04.log",
+      "sha256": "d5d70eb61a201797deb82dd8190f467ef241a24fef826a5f210489569189f04c",
+      "utf8_lf_bytes": 11482
+    },
+    {
+      "file": "mw006.log",
+      "sha256": "d334545c3eb39b3c3362a0c12d05e024a24221589afd9769bdd350a3ad4886fe",
+      "utf8_lf_bytes": 1686
+    },
+    {
+      "file": "mw014.log",
+      "sha256": "8279b0c9972337c10a171f9237fab808c0aa9e85da1beb3958e3fcd6b1d8cb6a",
+      "utf8_lf_bytes": 5297
+    },
+    {
+      "file": "mw015.log",
+      "sha256": "80e5a6369d9f9bf3bea74fecc40fd6d5dbc126b60764d71df5328dd411cbcc4c",
+      "utf8_lf_bytes": 2842
+    },
+    {
+      "file": "mw015r2-contract.log",
+      "sha256": "cf6529b300397fb4332b9cce20ce4d5bb6a56739209e680ce9b3d43d5f75bc9a",
+      "utf8_lf_bytes": 566
+    },
+    {
+      "file": "mw015r2-ui.log",
+      "sha256": "d1ae68782a1dab73d8b3fd2085f7999b45ecdd9af73a543f70ba60de3b780a91",
+      "utf8_lf_bytes": 1354
+    },
+    {
+      "file": "mw015r2.log",
+      "sha256": "cfd6f5e629cab486cb4bd83e989a7b715a4e4d0d163ae3297c242f8f319668c2",
+      "utf8_lf_bytes": 3009
+    },
+    {
+      "file": "mw017.log",
+      "sha256": "c52167bb2d8080da1e38a83a7a0a55fd0d3c841384c79dc5b8177e0d0c4efeda",
+      "utf8_lf_bytes": 5574
+    },
+    {
+      "file": "owner-safety-after.json",
+      "sha256": "f71874d1ad1bd5a5a26b68a8ab69712c9459c1272a9a49d3255a15503370af11",
+      "utf8_lf_bytes": 753
+    },
+    {
+      "file": "owner-safety-before.json",
+      "sha256": "f71874d1ad1bd5a5a26b68a8ab69712c9459c1272a9a49d3255a15503370af11",
+      "utf8_lf_bytes": 753
+    },
+    {
+      "file": "real-identity-smoke.json",
+      "sha256": "c3ba87a0a59a3f7ee7680fa8b6eddd62e0f7cef6062e69e82dc9d1cca419113b",
+      "utf8_lf_bytes": 6114
+    },
+    {
+      "file": "results.json",
+      "sha256": "6e3608cb3f95090e0d6c4ad0b5d490794017c7b20345980e35bf22227e54c6cc",
+      "utf8_lf_bytes": 2245
+    },
+    {
+      "file": "windows-export.log",
+      "sha256": "f7b2217297e04e64a9c454e371f6dd6e51e9229bd63557b536bab497d82c8ce6",
+      "utf8_lf_bytes": 69745
+    }
+  ],
+  "hash_encoding": "UTF-8 without BOM; CRLF normalized to LF before hashing",
+  "note": "manifest excludes itself; logs preserve all results with normalized line endings and trailing whitespace"
+}
