@@ -1,0 +1,63 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-014 PASS fresh production runtime
+MW-014 PASS frozen Game profile
+MW-014 PASS activation starts initial with zero accepted turns
+MW-014 PASS initial input is exactly frozen safe material
+MW-014 PASS binding uses exact normalized model material
+MW-014 PASS Program passes possessions to model without semantic filtering
+MW-014 PASS initial safe input excludes NPC_PRIVATE
+MW-014 PASS initial safe input excludes GM_PRIVATE
+MW-014 PASS initial safe input excludes HIDDEN_EVOLUTION
+MW-014 PASS initial safe input excludes PRIVATE_PLAN
+MW-014 PASS initial safe input excludes SOURCE_CURRENT
+MW-014 PASS initial safe input excludes raw-secret
+MW-014 PASS opening independent while initial busy
+MW-014 PASS production curator request active
+MW-014 PASS rich baseline before opening success
+MW-014 PASS no synthetic accepted turn
+MW-014 PASS T0 has no milestone
+MW-014 PASS render/retry successful baseline does not call provider
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS production curator request active
+MW-014 PASS lived replaces and removes baseline groups
+MW-014 PASS no second baseline copy
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS production curator request active
+MW-014 PASS null lived retains preceding snapshot
+MW-014 PASS legacy owner without initial
+MW-014 PASS legacy turn chain readable
+MW-014 PASS reattach preserves every historical ID and parent
+MW-014 PASS durable exact baseline reuse without provider
+MW-014 PASS restore baseline snapshot
+MW-014 PASS Restore removes future lived material
+MW-014 PASS restore pre-initial while worker absent
+MW-014 PASS reopen pre-initial existing Game
+MW-014 PASS reopen finds durable T0 result in displaced node without model
+MW-014 PASS reuse imports only baseline, never future owner
+MW-014 PASS future turn records not copied
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS production curator request active
+MW-014 PASS regenerate accepted
+MW-014 PASS Regenerate does not invalidate initial
+MW-014 PASS production curator request active
+MW-014 PASS failure runtime
+MW-014 PASS failure frozen profile
+MW-014 PASS production curator request active
+MW-014 PASS initial milestones rejected as lifecycle violation
+MW-014 PASS invalid initial does not gate player
+MW-014 PASS provider failure bounded and zero mutation
+MW-014 PASS production curator request active
+MW-014 PASS failed commit never publishes initial
+MW-014 PASS advance before in-flight Restore
+MW-014 PASS Restore cancels in-flight initial
+MW-014 PASS old response cannot cross Restore epoch
+MW-014 PASS Restore without durable baseline eligible again
+MW-014 PASS production curator request active
+MW-014 PASS changed frozen binding rejects prior baseline
+MW-014 PASS legacy missing profile
+MW-014 PASS incompatible Game reported without Source backfill
+MW-015 R2 checks=60 failures=0

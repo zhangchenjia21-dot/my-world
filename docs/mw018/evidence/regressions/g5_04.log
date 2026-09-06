@@ -1,0 +1,160 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-002 FOCUSED PASS | 3 hold parses as first-class valid result
+MW-002 FOCUSED PASS | 2 advance parses; unknown/model-identity fields ignored
+MW-002 FOCUSED PASS | 8 parser never surfaces model-supplied identity/priority
+MW-002 FOCUSED PASS | 3 malformed/invalid evaluation fail-soft: {"decision":"maybe"}
+MW-002 FOCUSED PASS | 3 malformed/invalid evaluation fail-soft: {"decision":"advance","event":""
+MW-002 FOCUSED PASS | 3 malformed/invalid evaluation fail-soft: {"decision":"advance","event":"x
+MW-002 FOCUSED PASS | 3 malformed/invalid evaluation fail-soft: {"decision":"advance","event":"x
+MW-002 FOCUSED PASS | 3 malformed/invalid evaluation fail-soft: {"decision":1}
+MW-002 FOCUSED PASS | 3 malformed/invalid evaluation fail-soft: not json
+MW-002 FOCUSED PASS | 3 malformed/invalid evaluation fail-soft: 
+MW-002 FOCUSED PASS | 3 non-string event rejected without coercion
+MW-002 FOCUSED PASS | 3 non-string effect rejected without coercion
+MW-002 FOCUSED PASS | 3 oversized event rejected by bounded validation
+MW-002 FOCUSED PASS | 3 code-fenced response parses like semantic lane
+MW-002 FOCUSED PASS | 1 terminal wake issues exactly one evaluator request
+MW-002 FOCUSED PASS | 1 hold is a first-class successful result
+MW-002 FOCUSED PASS | 1 hold creates no event and no fake mutation
+MW-002 FOCUSED PASS | 1 hold does not auto-retry the same runtime opportunity
+MW-002 FOCUSED PASS | 2 advance commits exactly one durable mutation
+MW-002 FOCUSED PASS | 15 one opportunity commits at most one evolution record
+MW-002 FOCUSED PASS | 8 Program-owned deterministic world_evolution_id
+MW-002 FOCUSED PASS | 8 model-minted event ID ignored
+MW-002 FOCUSED PASS | 8 record binds exact opportunity turn/hash
+MW-002 FOCUSED PASS | 8 record binds evolution base head
+MW-002 FOCUSED PASS | 8 identity changes with base head (deterministic derivation)
+MW-002 FOCUSED PASS | 8 Program owns mutation/node identity too
+MW-002 FOCUSED PASS | 2 record carries no model-supplied authority fields
+MW-002 FOCUSED PASS | 2 bounded event/effects preserved
+MW-002 FOCUSED PASS | 2 committed record satisfies v0.1 invariants
+MW-002 FOCUSED PASS | 15 each opportunity yields at most one event; sequential opportunities stay legal
+MW-002 FOCUSED PASS | 3 malformed fails soft without success
+MW-002 FOCUSED PASS | 3 malformed creates no event/mutation
+MW-002 FOCUSED PASS | 3 malformed leaves accepted Narrative intact
+MW-002 FOCUSED PASS | 3 malformed does not auto-retry the same opportunity
+MW-002 FOCUSED PASS | 3 invalid_decision fails soft without success
+MW-002 FOCUSED PASS | 3 invalid_decision creates no event/mutation
+MW-002 FOCUSED PASS | 3 invalid_decision leaves accepted Narrative intact
+MW-002 FOCUSED PASS | 3 invalid_decision does not auto-retry the same opportunity
+MW-002 FOCUSED PASS | 3 provider_failure fails soft without success
+MW-002 FOCUSED PASS | 3 provider_failure creates no event/mutation
+MW-002 FOCUSED PASS | 3 provider_failure leaves accepted Narrative intact
+MW-002 FOCUSED PASS | 3 provider_failure does not auto-retry the same opportunity
+MW-002 FOCUSED PASS | 4 Opening-only generation creates no evolution opportunity
+MW-002 FOCUSED PASS | 6 evaluator request issued for the terminal opportunity
+MW-002 FOCUSED PASS | 6 input carries frozen Game-local World-only T0 baseline
+MW-002 FOCUSED PASS | 6 input carries latest accepted Player action + GM Narrative
+MW-002 FOCUSED PASS | 6 input carries recent current-hash semantic world changes
+MW-002 FOCUSED PASS | 6 input carries same-opportunity Agency actions/effects
+MW-002 FOCUSED PASS | 6 input carries prior current evolution events
+MW-002 FOCUSED PASS | 7 Actor Knowledge Provenance never enters evaluator input
+MW-002 FOCUSED PASS | 7 Character-private material never enters evaluator input
+MW-002 FOCUSED PASS | F03 exact selected Entry material stays in World-only baseline
+MW-002 FOCUSED PASS | F03 minimal neutral Game-local authority header retained
+MW-002 FOCUSED PASS | F03 opening_supplement never enters evaluator input
+MW-002 FOCUSED PASS | F03 control_mode / Game settings never enter evaluator input
+MW-002 FOCUSED PASS | 9 setup: event committed
+MW-002 FOCUSED PASS | 9 same-worker replay of committed opportunity sends no second request
+MW-002 FOCUSED PASS | 9 reopen-like re-entry is durable-idempotent (no request)
+MW-002 FOCUSED PASS | 9 replay appends no duplicate event
+MW-002 FOCUSED PASS | 10 current Context includes the matching committed event
+MW-002 FOCUSED PASS | 13 Context carries GM-only / no-auto-knowledge guidance
+MW-002 FOCUSED PASS | 10 stale event excluded from current GM Context on hash mismatch
+MW-002 FOCUSED PASS | 10 stale event counted out of current projection
+MW-002 FOCUSED PASS | 10 stale physical event history is not deleted
+MW-002 FOCUSED PASS | 11a evaluation active before foreground
+MW-002 FOCUSED PASS | 11a foreground invalidates active evaluation immediately
+MW-002 FOCUSED PASS | 11a late completion after invalidation cannot commit
+MW-002 FOCUSED PASS | 11b unrelated world head advances during evaluation
+MW-002 FOCUSED PASS | 11b head change invalidates uncommitted evaluation
+MW-002 FOCUSED PASS | 11b stale evaluation commits nothing
+MW-002 FOCUSED PASS | 12 fixture installs frozen real Source assets (creation-time only)
+MW-002 FOCUSED PASS | 12 production Game created
+MW-002 FOCUSED PASS | 12 production Runtime opens created Game
+MW-002 FOCUSED PASS | 12 baseline Save Point created before any event
+MW-002 FOCUSED PASS | 12 production durable acceptance succeeds
+MW-002 FOCUSED PASS | 12 production evaluator request issued
+MW-002 FOCUSED PASS | 12 production evolution commit succeeds
+MW-002 FOCUSED PASS | 12 event durable in production World
+MW-002 FOCUSED PASS | 13 production continuation assembly succeeds
+MW-002 FOCUSED PASS | 13 next GM continuation Context sees current event/effects
+MW-002 FOCUSED PASS | 13 Context carries GM-only disclosure guidance
+MW-002 FOCUSED PASS | 12 durable head advanced after Save
+MW-002 FOCUSED PASS | 12 Restore to event snapshot succeeds
+MW-002 FOCUSED PASS | 12 Restore preserves exact event and Program-owned ID
+MW-002 FOCUSED PASS | 12 Game reopens after Restore
+MW-002 FOCUSED PASS | 12 event survives close/reopen after Restore
+MW-002 FOCUSED PASS | 12 Restore to pre-event snapshot succeeds
+MW-002 FOCUSED PASS | 12 restoring earlier snapshot removes event from current truth
+MW-002 FOCUSED PASS | 12 Game reopens on pre-event snapshot
+MW-002 FOCUSED PASS | 12 pre-event Restore survives close/reopen
+MW-002 FOCUSED PASS | 5 wiring fixture opens task-owned Game
+MW-002 FOCUSED PASS | 5 wiring fixture commits created-schema setup
+[shell] application=menu_ready session=absent
+MW-002 FOCUSED PASS | 5 shell boots to Main Menu
+[shell] application=game_active session=ready
+MW-002 FOCUSED PASS | 5 Continue opens created Game Session
+MW-002 FOCUSED PASS | 5 production activation mounts World Evolution evaluator
+MW-002 FOCUSED PASS | 5 Opening completion starts no Agency opportunity
+MW-002 FOCUSED PASS | 4 Opening completion wakes no World Evolution through real wiring
+MW-002 FOCUSED PASS | 14 Turn A accepted marks dirty only (G5-03 semantics intact)
+MW-002 FOCUSED PASS | 5 zero selector/evaluation while semantic is active
+MW-002 FOCUSED PASS | 5 Agency selector runs before World Evolution; no evaluation while selector active
+MW-002 FOCUSED PASS | 5 evaluator wakes exactly once after Agency opportunity terminal
+MW-002 FOCUSED PASS | 5 actual order: accepted→semantic→Agency terminal→World Evolution (got ["semantic", "selector", "evaluation"])
+MW-002 FOCUSED PASS | 14 opportunity terminal signal fires exactly once for the started opportunity
+MW-002 FOCUSED PASS | 5 terminal signal carries frozen opportunity turn/hash
+MW-002 FOCUSED PASS | 1 production hold creates no world mutation
+MW-002 FOCUSED PASS | 1 production hold is the evaluator terminal
+MW-002 FOCUSED PASS | 5 Turn B selector starts post-semantic; evaluator still waiting for Agency terminal
+MW-002 FOCUSED PASS | 5 no evaluation while actor cycle is running
+MW-002 FOCUSED PASS | 5 evaluator wakes only after actor cycle terminal
+MW-002 FOCUSED PASS | 14 exactly one terminal signal per started opportunity
+MW-002 FOCUSED PASS | 5 Turn B order: semantic → selector → cycle terminal → evolution
+MW-002 FOCUSED PASS | 6 same-opportunity Agency action is evolution input
+MW-002 FOCUSED PASS | 6 same-opportunity semantic consequence is evolution input
+MW-002 FOCUSED PASS | 2 production advance commits through real wiring
+MW-002 FOCUSED PASS | 2 committed event binds Turn B opportunity and is durable
+MW-002 FOCUSED PASS | 14 dirty/selector semantics unchanged after full chain
+[shell] session=absent close_status=ready
+MW-002 FOCUSED PASS | F02 dirty opportunity starts the selector
+MW-002 FOCUSED PASS | F02 already_committed cycle runtime cleaned immediately
+MW-002 FOCUSED PASS | F02 already_committed emits opportunity_finished exactly once
+MW-002 FOCUSED PASS | F02 terminal carries already_committed / actor_count=0
+MW-002 FOCUSED PASS | F02 terminal carries frozen opportunity turn/hash
+MW-002 FOCUSED PASS | F02 World Evolution wakes exactly once after already_committed terminal
+MW-002 FOCUSED PASS | F02 evaluator settles the wake without fake mutation
+MW-002 FOCUSED PASS | F02 a later dirty opportunity still starts the selector normally
+MW-002 FOCUSED PASS | F02 later opportunity terminates and wakes evaluator normally
+[shell] application=menu_ready session=absent
+[shell] application=game_active session=ready
+MW-002 FOCUSED PASS | F01 d20 capability mounts the adjudication Host
+MW-002 FOCUSED PASS | F01 Player send enters adjudication control request first
+MW-002 FOCUSED PASS | F01 accepted d20 turn enters the semantic lane
+MW-002 FOCUSED PASS | F01 selector starts after semantic terminal
+MW-002 FOCUSED PASS | F01 evolution evaluation active before d20 foreground
+MW-002 FOCUSED PASS | F01 risky send starts a new d20 control request
+MW-002 FOCUSED PASS | F01 d20 control request start invalidates active evolution immediately
+MW-002 FOCUSED PASS | F01 late evolution completion after d20 invalidation commits nothing
+MW-002 FOCUSED PASS | F01 dirty/selector/cycle semantics unchanged by foreground invalidation
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+[shell] application=game_active session=ready
+MW-002 FOCUSED PASS | F04 baseline Save Point created before any turn
+MW-002 FOCUSED PASS | F04 evolution evaluation active before Restore
+MW-002 FOCUSED PASS | F04 opportunity terminal fired once before Restore
+MW-002 FOCUSED PASS | F04 production Restore succeeds while evaluation is active
+MW-002 FOCUSED PASS | F04 Restore invalidates active evaluation immediately
+MW-002 FOCUSED PASS | F04 restored head unchanged
+MW-002 FOCUSED PASS | F04 restored world carries no evolution event
+MW-002 FOCUSED PASS | F04 Restore agency invalidation leaves no surviving/new evolution request or extra terminal
+MW-002 FOCUSED PASS | F04 late completion after Restore commits nothing
+MW-002 FOCUSED PASS | F04 scheduler not stranded after Restore
+[shell] session=absent close_status=ready
+MW-002 FOCUSED | done failures=0
+WARNING: 43 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 20 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

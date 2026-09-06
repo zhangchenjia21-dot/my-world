@@ -1,0 +1,56 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-001 FOCUSED PASS | 1 valid candidate parses alongside valid changes
+MW-001 FOCUSED PASS | 1 parser strips every model-provided identity/provenance field
+MW-001 FOCUSED PASS | 3 actor field never invalidates otherwise valid changes
+MW-001 FOCUSED PASS | 3 non-array actor field fail-soft without damaging changes
+MW-001 FOCUSED PASS | 4 non-string/missing/blank candidate material dropped fail-soft, never coerced
+MW-001 FOCUSED PASS | 3 exact duplicate material deduped; same name with different profile stays a distinct candidate
+MW-001 FOCUSED PASS | 2 absent actor field keeps pre-MW-001 behavior exactly
+MW-001 FOCUSED PASS | 1 accepted ordinary turn starts exactly one semantic analysis
+MW-001 FOCUSED PASS | 11 semantic request carries current exact stable roster
+MW-001 FOCUSED PASS | 11 request instructs bounded actor material and no re-proposal of roster actors
+MW-001 FOCUSED PASS | 2 actor-only semantic result still produces exactly one durable mutation
+MW-001 FOCUSED PASS | 1 runtime actor appended to stable_npcs registry
+MW-001 FOCUSED PASS | 1 origin pins exact accepted turn + GM hash
+MW-001 FOCUSED PASS | 1 Program-owned deterministic local ID; model-minted ID ignored
+MW-001 FOCUSED PASS | 1 runtime actor never fabricates Source provenance
+MW-001 FOCUSED PASS | 1 record keeps bounded honest game_local_material
+MW-001 FOCUSED PASS | 2 actor plus receipt commit fabricates no changes/Knowledge record
+MW-001 FOCUSED PASS | 9 materialization alone grants no Knowledge
+MW-001 FOCUSED PASS | 5 same-worker replay sends no second request
+MW-001 FOCUSED PASS | 5 reopen replay of actor-only version is durable-idempotent
+MW-001 FOCUSED PASS | 5 replay creates no second actor record or identity
+MW-001 FOCUSED PASS | 9 another actor's private Knowledge stays private to the new actor
+MW-001 FOCUSED PASS | 9 pre-existing actor Knowledge itself still resolves (sanity)
+MW-001 FOCUSED PASS | 3 valid changes commit exactly as before despite junk actor entries
+MW-001 FOCUSED PASS | 3 junk actor entries counted as dropped, no actor materialized
+MW-001 FOCUSED PASS | 3 registry unchanged by malformed actor candidates
+MW-001 FOCUSED PASS | 3 changes record itself is intact
+MW-001 FOCUSED PASS | 6 regenerated accepted version triggers a fresh semantic analysis
+MW-001 FOCUSED PASS | 6 stale runtime actor stays physically in world history
+MW-001 FOCUSED PASS | 6 stale runtime actor excluded from current registry on hash mismatch
+MW-001 FOCUSED PASS | 6 stale runtime actor absent from current roster
+MW-001 FOCUSED PASS | 11 stale runtime actor excluded from later semantic request roster
+MW-001 FOCUSED PASS | 6 stale runtime actor loses Agency eligibility
+MW-001 FOCUSED PASS | 6 stale runtime actor absent from selector request
+MW-001 FOCUSED PASS | 8 empty new-version persists receipt without semantic material
+MW-001 FOCUSED PASS | 8 semantic terminal completed with actor commit
+MW-001 FOCUSED PASS | 8 selector request sees the materialized actor in the same dirty opportunity
+MW-001 FOCUSED PASS | 8 selector eligibility accepts the new Program-owned ID
+MW-001 FOCUSED PASS | 8 actor execution resolves runtime actor game_local_material
+MW-001 FOCUSED PASS | 7 fixture installs frozen real Source assets (creation-time only)
+MW-001 FOCUSED PASS | 7 production Game created
+MW-001 FOCUSED PASS | 7 production Runtime opens created Game
+MW-001 FOCUSED PASS | 7 production durable acceptance succeeds
+MW-001 FOCUSED PASS | 7 production semantic lane started
+MW-001 FOCUSED PASS | 7 production semantic commit materializes runtime actor
+MW-001 FOCUSED PASS | 7 runtime actor record present in production World
+MW-001 FOCUSED PASS | 7 production Save Point created
+MW-001 FOCUSED PASS | 7 durable head advanced after Save
+MW-001 FOCUSED PASS | 7 production Restore returns head to actor snapshot
+MW-001 FOCUSED PASS | 7 Restore preserves exact runtime actor record and Program-owned ID
+MW-001 FOCUSED PASS | 7 Game reopens after Restore
+MW-001 FOCUSED PASS | 7 runtime actor record survives close/reopen after Restore
+MW-001 FOCUSED PASS | 7 reopened head stays at restored snapshot
+MW-001 FOCUSED | done failures=0

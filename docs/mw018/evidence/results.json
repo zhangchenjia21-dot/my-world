@@ -1,0 +1,177 @@
+{
+  "code_commit": "e9157f79860437207b73e894647be9f1278f5a74",
+  "implementation_base": "a1af1ed7aaf2d322b3dfb8659907ba1c8927abf3",
+  "governance_base": "c6d5712c075db4ab853b31a45b14fb1460d91564",
+  "focused_final": {
+    "checks": 135,
+    "failures": 0,
+    "log": "evidence/focused-final.log"
+  },
+  "visual": {
+    "checks": 127,
+    "failures": 0,
+    "dimensions": [
+      "1280x720",
+      "960x540",
+      "2560x1351 maximized"
+    ],
+    "log": "evidence/visual.log"
+  },
+  "regressions": [
+    {
+      "exit_warnings": 0,
+      "errors": 0,
+      "name": "mw018",
+      "exit_code": 0,
+      "log": "evidence/regressions/mw018.log",
+      "log_sha256": "a13b3aeda06732f60c1ba31e989f945301566979670766edb93ced29287c8737"
+    },
+    {
+      "exit_warnings": 0,
+      "errors": 0,
+      "name": "mw017",
+      "exit_code": 0,
+      "log": "evidence/regressions/mw017.log",
+      "log_sha256": "c52167bb2d8080da1e38a83a7a0a55fd0d3c841384c79dc5b8177e0d0c4efeda"
+    },
+    {
+      "exit_warnings": 0,
+      "errors": 0,
+      "name": "g5_01",
+      "exit_code": 0,
+      "log": "evidence/regressions/g5_01.log",
+      "log_sha256": "7f8a16df547e85c5d4b6388230a1200a63d74a7d9c768429e614a53fae83b165"
+    },
+    {
+      "exit_warnings": 0,
+      "errors": 0,
+      "name": "g5_01-timeline",
+      "exit_code": 0,
+      "log": "evidence/regressions/g5_01-timeline.log",
+      "log_sha256": "d0107f5998090602df3c9fbb58f674bd0ad1b454a2bdbe352be70ad14edef90c"
+    },
+    {
+      "exit_warnings": 0,
+      "errors": 0,
+      "name": "g5_02",
+      "exit_code": 0,
+      "log": "evidence/regressions/g5_02.log",
+      "log_sha256": "deb3fa338e803d48505375e5027c7b13bbc867f6038f7fa2947eb7d061f73b24"
+    },
+    {
+      "exit_warnings": 2,
+      "errors": 0,
+      "name": "g5_03",
+      "exit_code": 0,
+      "log": "evidence/regressions/g5_03.log",
+      "log_sha256": "06eb70a458dd3c392cc3075d72d8443624e9552d41d7c1ade360bcaab33270b9"
+    },
+    {
+      "exit_warnings": 0,
+      "errors": 0,
+      "name": "g5_03m2a",
+      "exit_code": 0,
+      "log": "evidence/regressions/g5_03m2a.log",
+      "log_sha256": "e229cd2f368d32141ce69b004806051456a07237b80abddc88b17b613bc4ef3a"
+    },
+    {
+      "exit_warnings": 0,
+      "errors": 0,
+      "name": "g5_03m2b",
+      "exit_code": 0,
+      "log": "evidence/regressions/g5_03m2b.log",
+      "log_sha256": "e949248d93d75aaf63669a6219421bf78c48862b15101aee763de07df5b371fe"
+    },
+    {
+      "exit_warnings": 2,
+      "errors": 0,
+      "name": "g5_04",
+      "exit_code": 0,
+      "log": "evidence/regressions/g5_04.log",
+      "log_sha256": "e04a846e32477fd8da9108268a699649eadab04a2269ef08a8942293ce0673ff"
+    },
+    {
+      "exit_warnings": 0,
+      "errors": 0,
+      "name": "mw006",
+      "exit_code": 0,
+      "log": "evidence/regressions/mw006.log",
+      "log_sha256": "d334545c3eb39b3c3362a0c12d05e024a24221589afd9769bdd350a3ad4886fe"
+    },
+    {
+      "exit_warnings": 0,
+      "errors": 0,
+      "name": "mw014",
+      "exit_code": 0,
+      "log": "evidence/regressions/mw014.log",
+      "log_sha256": "8279b0c9972337c10a171f9237fab808c0aa9e85da1beb3958e3fcd6b1d8cb6a"
+    },
+    {
+      "exit_warnings": 0,
+      "errors": 0,
+      "name": "mw015",
+      "exit_code": 0,
+      "log": "evidence/regressions/mw015.log",
+      "log_sha256": "ad75515875b76b1fa5d82ea83306296a689aa2c6adf42ee3c90d335dc6a518c3"
+    },
+    {
+      "exit_warnings": 0,
+      "errors": 0,
+      "name": "mw015r2",
+      "exit_code": 0,
+      "log": "evidence/regressions/mw015r2.log",
+      "log_sha256": "cfd6f5e629cab486cb4bd83e989a7b715a4e4d0d163ae3297c242f8f319668c2"
+    },
+    {
+      "exit_warnings": 0,
+      "errors": 0,
+      "name": "mw015r2-ui",
+      "exit_code": 0,
+      "log": "evidence/regressions/mw015r2-ui.log",
+      "log_sha256": "d1ae68782a1dab73d8b3fd2085f7999b45ecdd9af73a543f70ba60de3b780a91"
+    },
+    {
+      "exit_warnings": 0,
+      "errors": 0,
+      "name": "mw015r2-contract",
+      "exit_code": 0,
+      "log": "evidence/regressions/mw015r2-contract.log",
+      "log_sha256": "cf6529b300397fb4332b9cce20ce4d5bb6a56739209e680ce9b3d43d5f75bc9a"
+    },
+    {
+      "exit_warnings": 2,
+      "errors": 0,
+      "name": "g4_07b",
+      "exit_code": 0,
+      "log": "evidence/regressions/g4_07b.log",
+      "log_sha256": "d92bae7d37eb21af43389ce46c31f238ea916a83b85b2c9af1d4ecba5f8ab7d3"
+    },
+    {
+      "errors": 0,
+      "name": "windows-export",
+      "exit_code": 0,
+      "log": "evidence/regressions/windows-export.log",
+      "log_sha256": "de45bd63cfaaec994668853b9c4afafe2d39c54b1c82813592542e26d963a428"
+    }
+  ],
+  "final_export": {
+    "exit_code": 0,
+    "errors": 0,
+    "code_commit": "e9157f79860437207b73e894647be9f1278f5a74",
+    "exe_sha256": "4a9eaded8955ef789ab02651ed9d2dde80328fbb342bd2a6db4db33e86305668",
+    "log": "evidence/export-final.log"
+  },
+  "real": {
+    "model": "k3-256k",
+    "world_calls": 1,
+    "curator_calls": 1,
+    "cards": [
+      "李亭"
+    ],
+    "unresolved": [
+      "沈青: candidate_ref omitted in candidate but referenced in binding"
+    ],
+    "owner_fingerprints_equal": true,
+    "report": "evidence/real-people-smoke.json"
+  }
+}
