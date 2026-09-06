@@ -1,8 +1,8 @@
 # MW-018 People Curation + Card Surface — Implementation Return
 
-Status: **READY FOR INDEPENDENT REVIEW**  
-Implementer: Codex · Revision 1 · Review Round 0  
-Branch: `mw-018-people-curation-card-surface`  
+Status: **READY FOR INDEPENDENT REVIEW**
+Implementer: Codex · Revision 1 · Review Round 0
+Branch: `mw-018-people-curation-card-surface`
 Worktree: `D:/AI/Projects/.worktrees/my-world/mw-018`
 
 ## Exact lineage

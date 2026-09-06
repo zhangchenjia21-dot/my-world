@@ -9,7 +9,7 @@ MW-002 FOCUSED PASS | 3 malformed/invalid evaluation fail-soft: {"decision":"adv
 MW-002 FOCUSED PASS | 3 malformed/invalid evaluation fail-soft: {"decision":"advance","event":"x
 MW-002 FOCUSED PASS | 3 malformed/invalid evaluation fail-soft: {"decision":1}
 MW-002 FOCUSED PASS | 3 malformed/invalid evaluation fail-soft: not json
-MW-002 FOCUSED PASS | 3 malformed/invalid evaluation fail-soft: 
+MW-002 FOCUSED PASS | 3 malformed/invalid evaluation fail-soft:
 MW-002 FOCUSED PASS | 3 non-string event rejected without coercion
 MW-002 FOCUSED PASS | 3 non-string effect rejected without coercion
 MW-002 FOCUSED PASS | 3 oversized event rejected by bounded validation

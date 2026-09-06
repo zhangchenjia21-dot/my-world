@@ -88,7 +88,7 @@
       "name": "g5_04",
       "exit_code": 0,
       "log": "evidence/regressions/g5_04.log",
-      "log_sha256": "e04a846e32477fd8da9108268a699649eadab04a2269ef08a8942293ce0673ff"
+      "log_sha256": "d5d70eb61a201797deb82dd8190f467ef241a24fef826a5f210489569189f04c"
     },
     {
       "exit_warnings": 0,
@@ -173,5 +173,6 @@
     ],
     "owner_fingerprints_equal": true,
     "report": "evidence/real-people-smoke.json"
-  }
+  },
+  "log_normalization": "UTF-8 LF, trailing line whitespace removed; assertions and diagnostics unchanged."
 }
