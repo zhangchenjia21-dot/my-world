@@ -100,7 +100,11 @@ func _test_fail_soft_results() -> void:
 			stub.simulate_failed()
 		await process_frame
 		var accepted: Array = runtime.conversation.get_durable_accepted_entries()
-		_check(accepted.size() == 1 and runtime.commit_count == 0 and not runtime.world_state.has("living_world"), "%s analysis failure/empty preserves accepted Conversation and creates no mutation" % mode)
+		if mode == "empty":
+			# MW-017：成功无人物也保存 empty receipt，但仍不伪造后果或 Knowledge。
+			_check(accepted.size() == 1 and runtime.commit_count == 1 and runtime.world_state.living_world.people_identity_turns_by_index["0"].status == "empty" and not runtime.world_state.living_world.has("semantic_turns_by_index"), "empty success persists only identity receipt")
+		else:
+			_check(accepted.size() == 1 and runtime.commit_count == 0 and not runtime.world_state.has("living_world"), "%s analysis failure preserves accepted Conversation and creates no mutation" % mode)
 		_check(worker.analysis_attempt_count == 1 and stub.requests.size() == 1, "%s performs no automatic retry" % mode)
 		worker.shutdown()
 		worker.queue_free()

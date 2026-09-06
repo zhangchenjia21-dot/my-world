@@ -153,6 +153,7 @@ func _test_shell_surfaces() -> void:
 	narrative_stub.simulate_completed()
 	await _frames()
 	_settle_lane(semantic_stub, JSON.stringify({"changes": []}))
+	await _frames() # MW-017：curator 在 current semantic terminal 之后启动。
 	_check(curator_stub.busy, "7 production curator request starts after accepted turn")
 	curator_stub.simulate_delta(JSON.stringify(_curated("善抚士卒", "首巡粮仓")))
 	curator_stub.simulate_completed()
@@ -172,6 +173,7 @@ func _test_shell_surfaces() -> void:
 	narrative_stub.simulate_completed()
 	await _frames()
 	_settle_lane(semantic_stub, JSON.stringify({"changes": []}))
+	await _frames() # MW-017：curator 在 current semantic terminal 之后启动。
 	_check(curator_stub.busy, "8 curator request starts for second turn")
 	curator_stub.simulate_failed()
 	await _frames()
@@ -196,6 +198,7 @@ func _test_shell_surfaces() -> void:
 	narrative_stub.simulate_completed()
 	await _frames()
 	_settle_lane(semantic_stub, JSON.stringify({"changes": []}))
+	await _frames() # MW-017：curator 在 current semantic terminal 之后启动。
 	if curator_stub.busy:
 		curator_stub.simulate_delta(JSON.stringify(_curated("纪律严明", "夜查营门")))
 		curator_stub.simulate_completed()
@@ -209,6 +212,7 @@ func _test_shell_surfaces() -> void:
 	_check((SafeView.project_session(runtime).important_experiences as Array).is_empty(), "10 superseded curation fails currentness immediately at seam level")
 	await _frames()
 	_settle_lane(semantic_stub, JSON.stringify({"changes": []}))
+	await _frames() # MW-017：curator 在 current semantic terminal 之后启动。
 	_settle_lane(curator_stub, JSON.stringify(NO_CHANGE))
 	inst.character_tab.button_pressed = true
 	await process_frame

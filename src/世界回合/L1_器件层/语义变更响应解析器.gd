@@ -1,6 +1,8 @@
 class_name SemanticChangeResponseParser
 extends RefCounted
 
+const Receipt := preload("res://src/世界回合/L0_公理层/人物身份回执规则.gd")
+
 const Rules := preload("res://src/世界回合/L0_公理层/世界回合规则.gd")
 
 
@@ -45,43 +47,58 @@ func parse(response_text: String) -> Dictionary:
 	var actors := parse_new_actor_candidates((json.data as Dictionary).get("new_actor_candidates", null))
 	result["new_actor_candidates"] = actors.candidates
 	result["actors_dropped"] = actors.dropped
+	result["candidate_ordinals"] = actors.refs
+	result["people_bindings"] = (json.data as Dictionary).get("people_bindings", [])
 	return result
 
 
 ## MW-001：runtime Narrative actor candidate 只保留 display_name/profile_text 两个 bounded
-## material 字段；模型给出的 local_character_id/asset_id/provenance/origin 等一律剥离不信。
+## material 字段；candidate_ref 只进入单独的瞬态关联表，不进入 actor material。
+## 模型给出的 local_character_id/asset_id/provenance/origin 等一律剥离不信。
 ## raw 值必须是 String，不做 String(...) coercion；同名不视为同一人，只有完全相同的
 ## canonical material 才 fail-soft dedupe。绝不让 actor 字段错误破坏 otherwise valid 的结果。
 func parse_new_actor_candidates(value: Variant) -> Dictionary:
 	if value == null:
-		return {"candidates": [], "dropped": 0}
-	if typeof(value) != TYPE_ARRAY:
-		return {"candidates": [], "dropped": 1}
+		return {"candidates": [], "dropped": 0, "refs": {}}
+	if not value is Array:
+		return {"candidates": [], "dropped": 1, "refs": {}}
 	var candidates: Array = []
+	var refs := {}
+	var counts := {}
 	var dropped := 0
-	for entry_value: Variant in value as Array:
-		if typeof(entry_value) != TYPE_DICTIONARY:
+	# 重复 ref 整体失效，即便第一次材料有效；后续非法项不能冒用前一候选的身份。
+	for raw: Variant in value:
+		if raw is Dictionary and Receipt.ref_valid(raw.get("candidate_ref")):
+			var ref: String = raw.candidate_ref
+			counts[ref] = int(counts.get(ref, 0)) + 1
+	for entry_value: Variant in value:
+		if not entry_value is Dictionary:
 			dropped += 1
 			continue
-		var entry := entry_value as Dictionary
-		var name_value: Variant = entry.get("display_name", null)
-		var profile_value: Variant = entry.get("profile_text", null)
-		if typeof(name_value) != TYPE_STRING or typeof(profile_value) != TYPE_STRING:
+		var entry: Dictionary = entry_value
+		var name_value: Variant = entry.get("display_name")
+		var profile_value: Variant = entry.get("profile_text")
+		if not name_value is String or not profile_value is String:
 			dropped += 1
 			continue
 		var display_name := String(name_value).strip_edges()
 		var profile_text := String(profile_value).strip_edges()
-		if display_name.is_empty() or display_name.length() > Rules.MAX_RUNTIME_ACTOR_NAME_CHARS \
-			or profile_text.is_empty() or profile_text.length() > Rules.MAX_RUNTIME_ACTOR_PROFILE_CHARS:
+		if (display_name.is_empty() or display_name.length() > Rules.MAX_RUNTIME_ACTOR_NAME_CHARS
+			or profile_text.is_empty() or profile_text.length() > Rules.MAX_RUNTIME_ACTOR_PROFILE_CHARS):
 			dropped += 1
 			continue
 		var candidate := {"display_name": display_name, "profile_text": profile_text}
-		if not candidates.has(candidate):
+		var ordinal := candidates.find(candidate)
+		if ordinal < 0:
+			if candidates.size() >= Rules.MAX_NEW_ACTOR_CANDIDATES_PER_TURN:
+				dropped += 1
+				continue
+			ordinal = candidates.size()
 			candidates.append(candidate)
-		if candidates.size() >= Rules.MAX_NEW_ACTOR_CANDIDATES_PER_TURN:
-			dropped += 1
-			break
-	return {"candidates": candidates, "dropped": dropped}
+		var ref: Variant = entry.get("candidate_ref")
+		if Receipt.ref_valid(ref) and counts.get(ref, 0) == 1:
+			refs[ref] = ordinal
+	return {"candidates": candidates, "dropped": dropped, "refs": refs}
 
 
 ## agency_candidates 解析与 changes/knowledge 完全隔离：absent/invalid/oversized 均 fail-soft 为空，

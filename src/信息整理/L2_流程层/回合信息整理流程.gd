@@ -30,6 +30,8 @@ var provider_adapter: Node
 var profile_reader: Callable
 var initial_node_reader: Callable
 var _pending_lived := false
+var semantic_barrier: Node
+var _lived_opportunities: Dictionary = {}
 var last_result := {"success": true, "status": "idle"}
 var _attempted: Dictionary = {}
 var _active: Dictionary = {}
@@ -57,6 +59,8 @@ func _ready() -> void:
 	add_child(_timer)
 	session_runtime.conversation.generation_completed.connect(_on_accepted)
 	session_runtime.restore_completed.connect(_on_restore)
+	if semantic_barrier != null:
+		semantic_barrier.opportunity_terminal.connect(_on_semantic_terminal)
 	# activation 只唤醒初始基线；不要求 accepted opening，也不自动重做已恢复的 lived 历史。
 	_pump.call_deferred(_epoch)
 
@@ -82,12 +86,23 @@ func shutdown() -> void:
 		session_runtime.conversation.generation_completed.disconnect(_on_accepted)
 	if session_runtime.restore_completed.is_connected(_on_restore):
 		session_runtime.restore_completed.disconnect(_on_restore)
+	if semantic_barrier != null and semantic_barrier.opportunity_terminal.is_connected(_on_semantic_terminal):
+		semantic_barrier.opportunity_terminal.disconnect(_on_semantic_terminal)
 	if provider_adapter.is_busy():
 		provider_adapter.cancel()
 
 func _on_accepted(_turn: RefCounted) -> void:
+	var entries: Array = session_runtime.conversation.get_durable_accepted_entries()
+	if not entries.is_empty():
+		var index := entries.size() - 1
+		_lived_opportunities[index] = Contract.prefix_hashes(entries)[index]
 	_pending_lived = true
 	_pump.call_deferred(_epoch)
+
+# 终态只唤醒已有 lived 机会，绝不把 reopen 历史或 GM-only opening 加入处理集。
+func _on_semantic_terminal(_result: Dictionary) -> void:
+	if not _closed and _pending_lived:
+		_pump.call_deferred(_epoch)
 
 func _on_restore(_result: Dictionary) -> void:
 	# 即使 Restore 前后 accepted 原文相同，也不能让恢复前的在途请求穿越快照边界。
@@ -99,6 +114,7 @@ func _on_restore(_result: Dictionary) -> void:
 	if provider_adapter.is_busy():
 		provider_adapter.cancel()
 	_pending_lived = false
+	_lived_opportunities.clear()
 	_pump.call_deferred(_epoch)
 
 func _profile() -> Dictionary:
@@ -122,6 +138,11 @@ func _pump(expected_epoch: int) -> void:
 	for index: int in range(entries.size()):
 		if successful.has(index) or String(entries[index].player_text).is_empty():
 			continue
+		if semantic_barrier != null:
+			if _lived_opportunities.get(index, "") != prefixes[index]:
+				continue
+			if semantic_barrier.lived_terminal(index, prefixes[index]).is_empty():
+				return
 		var earlier := entries.slice(0, index)
 		var previous_records := Contract.current_records(session_runtime.world_state, earlier)
 		var parent := "" if previous_records.is_empty() else String(previous_records[-1].id)

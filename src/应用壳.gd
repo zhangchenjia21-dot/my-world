@@ -553,13 +553,13 @@ func _close_game_session() -> Dictionary:
 func _prepare_world_turn_after_activation() -> void:
 	if session_runtime == null or not session_runtime.is_ready() or world_turn_runtime != null:
 		return
-	information_curator = InformationCurator.new(session_runtime, test_information_curator_adapter_override)
+	world_turn_runtime = WorldTurn.new(session_runtime, test_world_turn_adapter_override)
+	add_child(world_turn_runtime)
+	information_curator = InformationCurator.new(session_runtime, test_information_curator_adapter_override, world_turn_runtime)
 	add_child(information_curator)
 	# MW-015：curator terminal 是 Character/Experiences 表面的专属刷新点；result 只含状态，
 	# 失败不阻断——表面重新投影 current durable records，绝不因此白屏。
 	information_curator.finished.connect(_on_information_curator_finished)
-	world_turn_runtime = WorldTurn.new(session_runtime, test_world_turn_adapter_override)
-	add_child(world_turn_runtime)
 	# G5-03M1R01：standalone Agency Scheduler 复用 WorldTurn 的 lifecycle；不消费 semantic result。
 	world_turn_runtime.finished.connect(_on_world_turn_finished_for_scheduler)
 	agency_scheduler = AgencyScheduler.new(session_runtime, world_turn_runtime)

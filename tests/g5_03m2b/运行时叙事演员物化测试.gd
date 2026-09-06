@@ -133,7 +133,7 @@ func _test_valid_actor_materialization() -> void:
 	_check(String(record.get("role", "")) == "stable_npc" and not record.has("provenance") and not record.has("source_projection"), "1 runtime actor never fabricates Source provenance")
 	var material: Dictionary = record.get("game_local_material", {})
 	_check(String(material.get("display_name", "")) == SHEN_NAME and String(material.get("profile_text", "")) == SHEN_PROFILE, "1 record keeps bounded honest game_local_material")
-	_check(not runtime.world_state.has("living_world"), "2 actor-only commit fabricates no changes record")
+	_check(not runtime.world_state.living_world.has("semantic_turns_by_index") and not runtime.world_state.living_world.has("knowledge_turns_by_index"), "2 actor plus receipt commit fabricates no changes/Knowledge record")
 	# 证明 9：materialization 本身不产生任何 knowledge record/event。
 	_check(not record.has("knowledge") and not record.has("knowledge_events"), "9 materialization alone grants no Knowledge")
 	# 证明 5（same worker replay）。
@@ -235,11 +235,11 @@ func _test_current_hash_filtering() -> void:
 	_check(not JSON.stringify(scheduler._selector_request()).contains(shen_id), "6 stale runtime actor absent from selector request")
 	scheduler.shutdown()
 	scheduler.queue_free()
-	# 新版本分析应答 no-material，不再产生 mutation。
+	# MW-017：新版本 no-material 仅提交 empty identity receipt，不创造世界后果。
 	stub.simulate_delta('{"changes":[],"new_actor_candidates":[]}')
 	stub.simulate_completed()
 	await process_frame
-	_check(String(worker.last_result.get("status", "")) == "no_changes" and runtime.commit_count == 1, "8 empty new-version analysis keeps no-op behavior")
+	_check(String(worker.last_result.get("outcome", "")) == "empty" and runtime.commit_count == 2, "8 empty new-version persists receipt without semantic material")
 	worker.shutdown()
 	worker.queue_free()
 
