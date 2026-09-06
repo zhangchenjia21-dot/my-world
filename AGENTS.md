@@ -86,7 +86,8 @@ MW-011 RPG Host / Player Profile            PRODUCT PASS / CLOSED
 MW-012 Zhang Chen Character Card            ENGINEERING PASS / INTEGRATED
 Visual Runtime re-entry                     AUDITED / IMPLEMENTATION DEFERRED
 Character + Important Experiences semantics FROZEN
-MW-014 Model-driven Information Curation    READY FOR CODEX
+MW-014 Model-driven Information Curation    ENGINEERING PASS / INTEGRATED
+MW-015 Character + Important Experiences UI READY FOR KIMICODE
 MW-013 Internal Declarative UI Host v0.1    HOLD / NOT AUTHORIZED YET
 ```
 
@@ -135,7 +136,13 @@ Current right-side mother taxonomy:
 概览 / 角色 / 重要经历 / 人物 / 事务 / 行囊 / 系统 / 地图 / 存档
 ```
 
-Do not create a Surface unless it has a real player question, real data ownership, player-safe projection and non-trivial product value. Never invent fake HP/location/inventory/faction/quest state merely to fill UI.
+Only grounded Surfaces appear. Never invent fake HP/location/inventory/faction/quest state merely to fill UI.
+
+Current grounded right-side Surfaces are:
+
+```text
+概览 / 角色 / 重要经历 / 存档
+```
 
 ## 7. Frozen Character + Important Experiences semantics
 
@@ -218,9 +225,31 @@ optional Character Card player_profile
 
 Old Games do not backfill latest Source. No raw `semantic_sections` / GM-private / catalog/internal identity reaches Player profile UI.
 
-The rich left panel remains accepted transitional implementation until the right-side Character Surface exists. After that, identity/profile information moves right; if no portrait/mechanic contribution exists, left may collapse rather than duplicate biography.
+The rich left panel is now a **transitional implementation only**. MW-015 is authorized to migrate identity/profile material into the right Character Surface. After migration, if no portrait/mechanic contribution exists, left may collapse/hide rather than duplicate biography.
 
-## 10. Zhang Chen accepted generation
+## 10. MW-014 — ENGINEERING PASS / INTEGRATED
+
+Task:
+
+`docs/tasks/MW-014_MODEL_DRIVEN_CHARACTER_AND_MILESTONE_CURATION_V0_1_TASK.md`
+
+Independent Review:
+
+`docs/mw014/MW-014_INDEPENDENT_REVIEW_IR1.md`
+
+Integration verification:
+
+`docs/mw014/MW-014_INTEGRATION_VERIFICATION.md`
+
+The reviewed L3 consumer seam is:
+
+`src/信息整理/L3_外交层/角色经历投影公开接口.gd`
+
+It exposes presentation-safe current Character + Important Experiences and requires no Provider call to render/reopen.
+
+Do not modify MW-014 semantic authority/persistence behavior inside MW-015 unless the task explicitly stops and escalates a backend defect.
+
+## 11. Zhang Chen accepted generation
 
 ```text
 asset_id: character.han_end.zhang_chen
@@ -232,7 +261,7 @@ generation fingerprint:
 
 Protected semantics remain unchanged.
 
-## 11. Visual Runtime disposition
+## 12. Visual Runtime disposition
 
 ```text
 Runtime Asset Resolution = DEFERRED
@@ -246,48 +275,52 @@ authored visual presentation != gameplay/world/location/knowledge authority
 map image != topology/current location/travel/pathfinding/GIS
 ```
 
-## 12. ACTIVE — MW-014
+MW-015 must not invent portrait or status data just to keep the left Host visible.
+
+## 13. ACTIVE — MW-015
 
 Executable task:
 
-`docs/tasks/MW-014_MODEL_DRIVEN_CHARACTER_AND_MILESTONE_CURATION_V0_1_TASK.md`
+`docs/tasks/MW-015_CHARACTER_AND_IMPORTANT_EXPERIENCES_UI_V0_1_TASK.md`
 
 Identity:
 
 ```text
-Work Item: MW-014
-Name: Model-driven Character + Important Experiences Curation v0.1
-Primary Implementer: Codex
+Work Item: MW-015
+Name: Character + Important Experiences Surfaces v0.1
+Primary Implementer: KimiCode
 Reviewer: GPT
 Revision: 1
 Review-Round: 0
-Status: READY FOR CODEX
-Branch: mw-014-model-driven-information-curator-v01
-Worktree: D:/AI/Projects/.worktrees/my-world/mw-014
+Status: READY FOR KIMICODE
+Branch: mw-015-character-important-experiences-ui-v01
+Worktree: D:/AI/Projects/.worktrees/my-world/mw-015
 Return ceiling: READY FOR INDEPENDENT REVIEW
 ```
 
-Required outcome:
+Required product vertical:
 
 ```text
-accepted Player input + GM Narrative + bounded current player information
-→ Post-turn Information Curator model call
-→ bounded structured curation
-→ normalized durable Character current material
-+ protagonist milestone material
-→ Save/Restore/Regenerate/reopen currentness
-→ player-safe Character + Important Experiences projections
+MW-014 player-safe Character / Important Experiences projection
+↓
+right-side 概览 | 角色 | 重要经历 | 存档
+↓
+Character current Sheet + milestone history
+↓
+left transitional biography removed
+↓
+empty Player Status Host collapses/hides until real portrait/mechanic consumer exists
 ```
 
-This task is backend/projection only. Final Godot Character/Important Experiences Surface UI is a later KimiCode task after MW-014 Engineering PASS/integration.
+This is a bounded fixed Godot UI consumer. Do not build MW-013 Declarative Host, new Runtime semantics or generic all-Surface frameworks.
 
-## 13. MW-013 HOLD
+## 14. MW-013 HOLD
 
 Task packet exists:
 
 `docs/tasks/MW-013_INTERNAL_DECLARATIVE_UI_HOST_V0_1_TASK.md`
 
-But current status is:
+Current authoritative state:
 
 ```text
 HOLD / NOT AUTHORIZED TO IMPLEMENT YET
@@ -295,15 +328,14 @@ HOLD / NOT AUTHORIZED TO IMPLEMENT YET
 
 Do not continue Declarative UI Host until several grounded real Surfaces / mechanic consumers establish repeated patterns.
 
-## 14. Immediate route
+## 15. Immediate route
 
 ```text
-MW-014 Codex implementation
+MW-015 KimiCode implementation
 → GPT Independent Review
 → integrate only after Engineering PASS
-→ shape/authorize KimiCode Character + Important Experiences UI consumer
-→ GPT Independent Review
 → Owner UAT
 → People Surface / mechanic-state consumer / next grounded surfaces
+→ repeated patterns
 → only later re-evaluate MW-013
 ```
