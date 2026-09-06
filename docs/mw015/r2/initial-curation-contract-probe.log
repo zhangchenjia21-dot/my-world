@@ -1,0 +1,10 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+OBSERVED: model-shaped Character result is already valid
+OBSERVED: zero accepted turns cannot expose an index-0 baseline
+OBSERVED: synthetic negative-index baseline is not supported
+OBSERVED: projection still yields thin fallback for empty history
+OBSERVED: a genuine accepted opening can carry a record structurally
+OBSERVED: adding initial field requires changing exact owner schema
+OBSERVED: existing writer rejects the extended owner shape
+MW-015 R2 ARCHITECTURE GAP REPRODUCED failures=0
