@@ -1,7 +1,7 @@
 {
   "work_item": "MW-014",
   "revision": 1,
-  "status": "IMPLEMENTED_REAL_PROVIDER_SMOKE_PENDING_APPROVAL",
+  "status": "READY_FOR_INDEPENDENT_REVIEW",
   "tested_content_sha": "7f20ed05d0569ec3107f8967b912912c3fa1966b",
   "implementation_base_sha": "7daa6223a07ff4a2103cc9bd5944ea27028eabce",
   "governance_main_sha": "d9e131cb15cf496e4a856c50367ac5f79c058272",
@@ -66,5 +66,7 @@
   "windows_exe_sha256": "4a9eaded8955ef789ab02651ed9d2dde80328fbb342bd2a6db4db33e86305668",
   "windows_pck_sha256": "87ad93b811b470ba48e7aef7d098fe4c667e7a09998510ef7cd2569142c30c16",
   "architecture": "New-module downward dependencies; cross-module concrete references only L3 to L3; no semantic router/score/rule tree; no SQLite schema or table change.",
-  "real_provider_smoke": "NOT RUN: automatic approval rejected credential-backed request; explicit Kimi K3 destination and synthetic scenario/profile payload authorization pending."
+  "real_provider_smoke": "Completed on 5edf8ec71448654f6e1cf3cdb357b54f4e9f3284 after explicit Owner authorization: Kimi K3 k3-256k, A/B/C all committed, launcher exit 0, Owner production fingerprints unchanged. See semantic-smoke.json and real-provider.log.",
+  "real_provider_semantic_observation": "A: unchanged Character, no milestones. B: bounded clerical-script capability update and one milestone. C: long-term role/direction update and one milestone; retained starting no-local-contacts/protection wording warrants semantic consistency review. These are smoke observations, not Product UAT or Engineering PASS.",
+  "real_provider_evidence_sha256": "686871fad832f4fd08bb7371c68051875890b11c525a2502d6307ed087d3ac7d"
 }

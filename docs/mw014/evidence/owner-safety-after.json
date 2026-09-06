@@ -1,0 +1,27 @@
+{
+  "settings\\provider-runtime.json": {
+    "kind": "file",
+    "sha256": "82242b0c4bfd08ce7d3474a60a0b1d8614dcb5a83e58ab33ec511efca62a0a1d",
+    "count": 1
+  },
+  "source-library": {
+    "kind": "directory",
+    "sha256": "a3608f05e9e396e60f95b6a922048760e4e6d9eaef410024a0aad7e3c2b4253f",
+    "count": 173
+  },
+  "games": {
+    "kind": "directory",
+    "sha256": "01fac763d03e992add859a69e23bb58ca7b1209bfa7b6c62155ef5f9f30c5d85",
+    "count": 36
+  },
+  "game-library": {
+    "kind": "directory",
+    "sha256": "5066ac48584dab5993a6306999cacbfc4bc01693faaf0b350f227b04a04a3ab6",
+    "count": 10
+  },
+  "current-game.sqlite": {
+    "kind": "file",
+    "sha256": "5b237e719a95b12903ddea02befda13ee9962b54cee01e49a9b1d3635c8f81a2",
+    "count": 1
+  }
+}

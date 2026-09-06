@@ -7,6 +7,10 @@ docs/mw014/evidence/mw009.log
 docs/mw014/evidence/mw011.log
 docs/mw014/evidence/mw011r2.log
 docs/mw014/evidence/mw012.log
+docs/mw014/evidence/owner-safety-after.json
+docs/mw014/evidence/owner-safety-before.json
+docs/mw014/evidence/real-provider.log
+docs/mw014/evidence/semantic-smoke.json
 docs/mw014/evidence/verification.json
 docs/mw014/MW-014_IMPLEMENTATION_AND_EVIDENCE.md
 src/信息整理/L0_公理层/信息整理契约.gd
