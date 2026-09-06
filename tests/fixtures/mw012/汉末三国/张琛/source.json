@@ -2,7 +2,7 @@
   "schema_version": "character_card.v0.2",
   "asset_id": "character.han_end.zhang_chen",
   "asset_type": "character_card",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "display_name": "张琛",
   "catalog_summary": "张琛的 T0-scoped rich Character Source：现代来客穿越 premise，可绑定当前全部汉末开局；历史记忆只是角色信念而非世界事实或未来必然。",
   "player_character_supported": true,
@@ -48,13 +48,34 @@
       "profile_id": "han-t0-transport",
       "display_name": "现代来客起点",
       "bindings": [
-        { "world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-184-yellow-turban" },
-        { "world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-189-luoyang-crisis" },
-        { "world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-196-emperor-xu" },
-        { "world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-200-guandu-eve" },
-        { "world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-208-red-cliffs-eve" },
-        { "world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-214-yizhou-transition" },
-        { "world_asset_id": "world.han_end.unsettled_realm", "entry_id": "t0-220-han-wei-transition" }
+        {
+          "world_asset_id": "world.han_end.unsettled_realm",
+          "entry_id": "t0-184-yellow-turban"
+        },
+        {
+          "world_asset_id": "world.han_end.unsettled_realm",
+          "entry_id": "t0-189-luoyang-crisis"
+        },
+        {
+          "world_asset_id": "world.han_end.unsettled_realm",
+          "entry_id": "t0-196-emperor-xu"
+        },
+        {
+          "world_asset_id": "world.han_end.unsettled_realm",
+          "entry_id": "t0-200-guandu-eve"
+        },
+        {
+          "world_asset_id": "world.han_end.unsettled_realm",
+          "entry_id": "t0-208-red-cliffs-eve"
+        },
+        {
+          "world_asset_id": "world.han_end.unsettled_realm",
+          "entry_id": "t0-214-yizhou-transition"
+        },
+        {
+          "world_asset_id": "world.han_end.unsettled_realm",
+          "entry_id": "t0-220-han-wei-transition"
+        }
       ],
       "semantic_sections": [
         {
@@ -66,5 +87,83 @@
         }
       ]
     }
-  ]
+  ],
+  "player_profile": {
+    "headline": "24岁 · 现代穿越者",
+    "summary": "退役武警义务兵、985高校出身、历史与军事爱好者；身体被整体搬运到汉末，从零开始。",
+    "groups": [
+      {
+        "group_id": "background",
+        "title": "背景",
+        "items": [
+          "24岁，男性，来自现代中国",
+          "退役武警义务兵，体格强健、纪律扎实",
+          "985高校本科毕业，历史与军事爱好者",
+          "身体被整体搬运到汉末，没有任何本地过去"
+        ]
+      },
+      {
+        "group_id": "personality",
+        "title": "性格",
+        "items": [
+          "沉着、理性、公道、果断",
+          "先观察推理再行动，必要时决断不拖延",
+          "重视秩序、责任与公平，厌恶虚张声势"
+        ]
+      },
+      {
+        "group_id": "capabilities",
+        "title": "能力",
+        "items": [
+          "体格强健、耐力好，带军人气质",
+          "现代徒手格斗基本功",
+          "经济学、哲学、社会学与历史的大学基础",
+          "从后勤、组织、激励与制度角度分析战争与政治",
+          "几乎能背诵三国大事线与主要人物背景"
+        ]
+      },
+      {
+        "group_id": "limits",
+        "title": "局限",
+        "items": [
+          "无古代战场经验与古代武器熟练度，会受伤",
+          "社交能力弱于分析能力，不擅经营人情",
+          "厌恶贪腐与官场圆滑，容易产生摩擦",
+          "无本地身份、人脉、产业或宗族庇护",
+          "不识隶书，起初读不懂时代书面材料（可学）",
+          "现代知识不自动等于古代匠艺与工程落地能力"
+        ]
+      },
+      {
+        "group_id": "goals",
+        "title": "初始目标",
+        "items": [
+          "活下去，建立基本安全",
+          "寻找可能回家的路",
+          "长期路线（辅佐/独立/自立）由玩家选择"
+        ]
+      },
+      {
+        "group_id": "principles",
+        "title": "行为原则",
+        "items": [
+          "不滥杀无辜",
+          "不轻易背弃信任与承诺",
+          "不主动伤害平民",
+          "不为私利做严重恶事"
+        ]
+      },
+      {
+        "group_id": "possessions",
+        "title": "随身物品",
+        "items": [
+          "军用水壶",
+          "军用多功能刀具",
+          "手表",
+          "指南针",
+          "少量便携压缩口粮"
+        ]
+      }
+    ]
+  }
 }
