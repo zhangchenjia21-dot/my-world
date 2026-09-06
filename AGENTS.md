@@ -25,7 +25,7 @@ Repositories:
 
 GPT owns product semantics / architecture / Task Shaping / dispatch / Independent Review.
 
-MW-015 was the final already-authorized KimiCode implementation round and is now integrated. New production implementation tasks default to:
+MW-015 was the final already-authorized KimiCode implementation round. New production implementation tasks default to:
 
 ```text
 Codex
@@ -82,7 +82,8 @@ MW-012 Zhang Chen Character Card            ENGINEERING PASS / INTEGRATED
 Visual Runtime re-entry                     AUDITED / IMPLEMENTATION DEFERRED
 Character + Important Experiences semantics FROZEN
 MW-014 Model-driven Information Curation    ENGINEERING PASS / INTEGRATED
-MW-015 Character + Important Experiences UI ENGINEERING PASS / INTEGRATED / OWNER UAT PENDING
+MW-015 R1 Character + Important Exp UI      ENGINEERING PASS / INTEGRATED / OWNER UAT NOT PASS
+MW-015 R2 Initial Character Curation        ENGINEERING PASS / INTEGRATED / OWNER UAT PENDING
 MW-013 Internal Declarative UI Host v0.1    HOLD / NOT AUTHORIZED YET
 ```
 
@@ -145,6 +146,7 @@ Canonical decisions:
 
 - `Vibe-Coding/my world/architecture/ui/G6_CHARACTER_AND_IMPORTANT_EXPERIENCES_V1_0_DECISION.md`
 - `Vibe-Coding/my world/architecture/ui/G6_MODEL_DRIVEN_INFORMATION_CURATION_AUTHORITY_DECISION.md`
+- `Vibe-Coding/my world/architecture/ui/G6_INITIAL_CHARACTER_CURATION_BASELINE_V1_0_DECISION.md`
 
 Frozen product split:
 
@@ -220,7 +222,7 @@ optional Character Card player_profile
 
 Old Games do not backfill latest Source. No raw `semantic_sections` / GM-private / catalog/internal identity reaches Player profile UI.
 
-The former rich left panel is a transitional implementation that MW-015 has now migrated away from. Identity/profile material belongs in the right Character Surface; when no portrait/mechanic contribution exists, the left Player Status Host may collapse/hide rather than duplicate biography.
+The former rich left panel is transitional content that MW-015 migrated away from. Identity/profile material belongs in the right Character Surface; when no portrait/mechanic contribution exists, the left Player Status Host may collapse/hide rather than duplicate biography.
 
 ## 10. MW-014 — ENGINEERING PASS / INTEGRATED
 
@@ -241,8 +243,6 @@ The reviewed L3 consumer seam is:
 `src/信息整理/L3_外交层/角色经历投影公开接口.gd`
 
 It exposes presentation-safe current Character + Important Experiences and requires no Provider call to render/reopen.
-
-Do not modify MW-014 semantic authority/persistence behavior inside a UI correction unless the task explicitly stops and escalates a backend defect.
 
 ## 11. Zhang Chen accepted generation
 
@@ -272,37 +272,56 @@ map image != topology/current location/travel/pathfinding/GIS
 
 Do not invent portrait or status data just to keep the left Host visible.
 
-## 13. MW-015 — ENGINEERING PASS / INTEGRATED / OWNER UAT PENDING
+## 13. MW-015 R2 — ENGINEERING PASS / INTEGRATED / OWNER UAT PENDING
 
-Executable task:
+R1 Owner UAT found that the shell migration removed rich Character information from the left but the new right Character Surface only exposed headline + summary. R2 corrects that product regression without restoring the old left biography panel.
 
-`docs/tasks/MW-015_CHARACTER_AND_IMPORTANT_EXPERIENCES_UI_V0_1_TASK.md`
+Task:
 
-Reviewed implementation candidate:
+`docs/tasks/MW-015_R2_CHARACTER_INFORMATION_PRESERVATION_TASK.md`
 
-`3387cba213a2680b08f78b07a63ee0ecee5417ce`
+Canonical R2 architecture:
 
-Integrated main commit:
+`Vibe-Coding/my world/architecture/ui/G6_INITIAL_CHARACTER_CURATION_BASELINE_V1_0_DECISION.md`
 
-`967a856e02b761576cc4dcb773a693530dcf2fc9`
+Reviewed candidate:
+
+`c8618ad9c802d5e0d5c2de5db62e9e88aabdb698`
+
+Independent Review:
+
+`docs/mw015/r2/MW-015_R2_INDEPENDENT_REVIEW_IR1.md`
 
 Integration verification:
 
-`docs/mw015/MW-015_INTEGRATION_VERIFICATION.md`
+`docs/mw015/r2/MW-015_R2_INTEGRATION_VERIFICATION.md`
 
 Integrated product vertical:
 
 ```text
-MW-014 player-safe Character / Important Experiences projection
-↓
-right-side 概览 | 角色 | 重要经历 | 存档
-↓
-Character current Sheet + milestone history
-↓
-left transitional biography removed
-↓
-empty Player Status Host collapses/hides until real portrait/mechanic consumer exists
+Game activation
+→ Initial Character curator eligible without successful opening / Player-authored Turn
+→ model receives frozen Game-local player-safe starting material
+→ model decides what belongs in Character and how to summarize it
+→ durable Game/T0 Character baseline
+→ right 角色 refreshes with rich current Character information
+
+later lived Turns
+→ existing MW-014 curator continues evolving Character
 ```
+
+Protected R2 boundaries:
+
+- no synthetic Conversation Turn or negative index;
+- no Program keyword/title/score semantic classifier;
+- no Source-current lookup for existing Games;
+- no new SQLite table;
+- initial static biography creates no Important Experiences;
+- existing turn-record parent chain stays independent;
+- Restore may reattach only the same validated Game/T0 baseline and must not import future lived material;
+- left Player Status Host stays hidden while it has no legitimate HUD contribution.
+
+Real Provider smoke produced three rich successful baselines and one structurally malformed response; malformed output failed soft with zero baseline mutation. This remains an Owner UAT reliability/latency risk, not authorization for Program semantic repair rules.
 
 No Product PASS exists until Owner UAT succeeds in the real application.
 
@@ -328,7 +347,7 @@ The Owner's canonical local playable checkout is:
 
 `run-game.cmd` / `run-game.ps1` guarantee export freshness only against the **current local checkout**. They do not prove that this checkout already equals the reviewed/integrated GitHub `main`.
 
-Therefore every product-facing implementation must complete two distinct handoffs:
+Therefore every product-facing implementation must complete:
 
 ```text
 Implementation candidate
@@ -345,28 +364,25 @@ Rules:
 1. The implementer must **not** install an unreviewed task branch into `D:/AI/Projects/my-world` and present it as the Owner build.
 2. After Engineering PASS and integration, the local-execution agent for UAT preparation defaults to Codex unless Owner says otherwise.
 3. Before touching `D:/AI/Projects/my-world`, inspect branch/status/worktrees. Never overwrite unknown dirty work, local commits, or divergence.
-4. If the canonical checkout is clean and safely fast-forwardable, fetch and fast-forward `main` to the exact reviewed/integrated `origin/main` (or the explicitly specified integration SHA).
-5. Verify local `HEAD` equals the intended integrated commit before export.
-6. Run `./run-game.ps1 -ValidateExportOnly` (PowerShell equivalent accepted) so `build/windows/my-world.exe`, `.pck`, and freshness metadata are rebuilt/validated against that checkout.
+4. If the canonical checkout is clean and safely fast-forwardable, fetch and fast-forward `main` to the exact reviewed/integrated `origin/main`.
+5. Verify local `HEAD` equals the intended integrated `origin/main` before export.
+6. Run `./run-game.ps1 -ValidateExportOnly` so `build/windows/my-world.exe`, `.pck`, and freshness metadata are rebuilt/validated against that checkout.
 7. Report the exact local `HEAD` and export-validation result. Owner UAT starts only after this handoff passes.
-8. If local checkout is dirty, divergent, on an unexpected branch, or cannot reach the intended integration commit, STOP and report; never use reset/clean/force to make the problem disappear.
-9. Do not edit `run-game.cmd` on every task merely to force freshness. The launcher remains generic; the required operation is **sync reviewed main → validate fresh export → hand off to Owner**.
-
-For non-product-facing tasks that do not require Owner UAT, this build handoff is not automatically required.
+8. If local checkout is dirty, divergent, on an unexpected branch, or cannot safely synchronize, STOP and report; never use reset/clean/force to make the problem disappear.
+9. Do not edit `run-game.cmd` on every task merely to force freshness. Correct mechanism: **sync reviewed main → validate fresh export → Owner UAT handoff**.
 
 ## 16. Immediate route
 
 ```text
-prepare canonical local checkout + fresh export for MW-015 Owner UAT
+prepare canonical local checkout + fresh export for MW-015 R2 Owner UAT
 → Owner UAT
 → if PASS: mark MW-015 PRODUCT PASS / CLOSED
 → choose next grounded G6 outcome
-→ all new implementation tasks default to Codex
 
 if Owner UAT NOT PASS:
 → GPT root-cause / scope classification
-→ same MW-015 revision lineage for same-outcome defects
-→ Codex implements required correction
+→ same MW-015 revision lineage if outcome unchanged
+→ Codex correction
 → GPT Independent Review
 → integrate after Engineering PASS
 → canonical local checkout sync + fresh export
