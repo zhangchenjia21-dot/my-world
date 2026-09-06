@@ -50,9 +50,11 @@ Task worktrees:
 
 `D:/AI/Projects/.worktrees/my-world/<task-or-revision>`
 
-Inspect `git worktree list --porcelain` before create/remove. Never destroy unknown work. Keep an active worktree through GPT Independent Review and integration verification.
+Inspect worktrees before create/remove. Never destroy unknown work. Keep active worktree through GPT Independent Review and integration verification.
 
-## 4. Current phase
+## 4. Current phase / route
+
+Canonical governance route is `Vibe-Coding/my world/MY_WORLD_总体规划路线图_CURRENT.md@v4.2` and status is `MY_WORLD_CURRENT_STATUS.md@v17.0`.
 
 ```text
 G1 Foundation                               PASS / CLOSED
@@ -60,37 +62,46 @@ G2 AI Conversation Spine                    PASS / CLOSED
 G3 Persistence / Save / Timeline            PASS / CLOSED
 G4 Primary Source Assets & Local Game       PASS / CLOSED
 G5 World Semantics & GM Runtime             PRODUCT PASS / CLOSED
-G5-GATE                                     PRODUCT PASS
 
-G6 RPG Experience & Internal Declarative UI Host ACTIVE
-MW-011 RPG Host / Player Profile            PRODUCT PASS / CLOSED
-MW-012 Zhang Chen Character Card            ENGINEERING PASS / INTEGRATED
-MW-014 Model-driven Information Curation    ENGINEERING PASS / INTEGRATED
-MW-015 Character + Important Experiences    PRODUCT PASS / CLOSED
-People Surface product semantics            FROZEN
-MW-016 People Architecture Audit            PASS / CLOSED
-People identity + curation architecture     FROZEN
-MW-017 People Identity Bridge               ENGINEERING PASS / INTEGRATED
-MW-018 People Curation + Card Surface        ENGINEERING PASS / INTEGRATED / OWNER UAT PENDING
-Five Recommended Actions semantics          FROZEN
-MW-019 Five Recommended Actions             ENGINEERING PASS / INTEGRATED / OWNER UAT PENDING
-MW-013 Internal Declarative UI Host          HOLD / NOT AUTHORIZED
+G6 RPG Core Closure + Internal Dynamic UI   ACTIVE
 ```
 
-Formal current status:
+Current integrated G6 facts:
 
-`Vibe-Coding/my world/MY_WORLD_CURRENT_STATUS.md`
+```text
+MW-011 RPG Host / Player Profile            PRODUCT PASS / CLOSED
+MW-014 Model-driven Information Curation    ENGINEERING PASS / INTEGRATED
+MW-015 Character + Important Experiences    PRODUCT PASS / CLOSED
+MW-017 People Identity Bridge               ENGINEERING PASS / INTEGRATED
+MW-018 People Curation + Card Surface        ENGINEERING PASS / INTEGRATED / OWNER UAT PENDING
+MW-019 Five Recommended Actions             ENGINEERING PASS / INTEGRATED / OWNER UAT PENDING
+```
 
-Current combined UAT evidence:
+## 5. CURRENT gate
 
-- `docs/mw018/MW-018_INDEPENDENT_REVIEW_IR1.md`
-- `docs/mw018/MW-018_INTEGRATION_VERIFICATION.md`
-- `docs/mw019/MW-019_INDEPENDENT_REVIEW_IR1.md`
-- `docs/mw019/MW-019_INTEGRATION_VERIFICATION.md`
+No new independent production task is current until MW-018 + MW-019 Combined Owner UAT is interpreted, unless Owner explicitly inserts a new goal.
 
-No new product implementation task is authorized until the combined MW-018 + MW-019 Owner UAT is interpreted, unless Owner explicitly inserts a new independent goal.
+Current route:
 
-## 5. Protected world/runtime invariants
+```text
+Package 0  MW-018 + MW-019 Combined Owner UAT      ← CURRENT
+↓
+Package 1  OOC + Character-guided Recommendations
+↓
+Package 2  Open Threads
+↓
+Package 3  System / Public d20 real consumer
+↓
+Package 4  factual Inventory vertical
+↓
+Package 5  Internal Dynamic UI Host v0.1
+↓
+Package 6  V0 Core Closure Reality Gate
+```
+
+Core Closure first. Creator / Reference / model management / diagnostics / richer information features remain post-closure unless a real blocker requires a minimal seam.
+
+## 6. Protected world/runtime invariants
 
 - Accepted free-form Narrative remains primary and is not gated by semantic/Knowledge/Agency/Evolution/curation/recommendation success.
 - `World Truth != actor Knowledge != human-player disclosure`.
@@ -103,7 +114,7 @@ No new product implementation task is authorized until the combined MW-018 + MW-
 - leaf UI must never receive omniscient `world_state` and filter locally.
 - free-form Player natural-language action remains primary; recommendations never define the legal action set.
 
-## 6. Current G6 shell / information architecture
+## 7. Current G6 shell / IA
 
 ```text
 Player Status Host
@@ -111,11 +122,12 @@ Player Status Host
 → may collapse when empty
 
 Narrative Host
-→ primary GM Narrative + Player natural-language action surface
+→ primary GM Narrative + Player natural-language action
 → optional five-action guidance near composer
 
 World Information Host
 → grounded player information Surfaces
+→ progressively rendered through Internal Dynamic UI Host after Package 5
 ```
 
 Mother taxonomy:
@@ -128,27 +140,23 @@ Current integrated set:
 
 Never create fake HP/location/inventory/faction/quest state for completeness.
 
-## 7. Model-driven information curation authority
+## 8. Model-driven information curation authority
 
-Canonical:
+Canonical governance decisions:
 
 - `Vibe-Coding/my world/architecture/ui/G6_MODEL_DRIVEN_INFORMATION_CURATION_AUTHORITY_DECISION.md`
 - `Vibe-Coding/my world/architecture/ui/G6_CHARACTER_AND_IMPORTANT_EXPERIENCES_V1_0_DECISION.md`
 - `Vibe-Coding/my world/architecture/ui/G6_INITIAL_CHARACTER_CURATION_BASELINE_V1_0_DECISION.md`
+- `Vibe-Coding/my world/architecture/ui/G6_PEOPLE_SURFACE_V1_0_DECISION.md`
+- `Vibe-Coding/my world/architecture/ui/G6_PEOPLE_IDENTITY_AND_CURATION_V1_0_DECISION.md`
 
 Frozen rule:
 
 > **Model owns semantic interpretation and curation; Program owns normalized storage, temporal integrity and presentation.**
 
-Program must not replicate open semantics using keyword/regex routers, importance scores, per-event rule trees, relationship state machines, name-matching heuristics or protagonist-choice classifiers.
+Program must not replicate open semantics using keyword/regex routers, importance scores, event rule trees, relationship state machines, name-matching heuristics or protagonist-choice classifiers.
 
-Program owns machine structure/currentness: IDs, versions, bounded payloads, atomic persistence, idempotence, Save/Restore/Regenerate, stale-future isolation and player-safe projection.
-
-## 8. People Surface product semantics
-
-Canonical:
-
-`Vibe-Coding/my world/architecture/ui/G6_PEOPLE_SURFACE_V1_0_DECISION.md`
+## 9. People semantics
 
 ```text
 People
@@ -161,223 +169,112 @@ People
 
 `latest-known != omniscient NPC current state`.
 
-Off-screen/private actor changes do not update a card until the Player actually learns them.
+Off-screen/private actor changes do not update a card until Player learns them. Program does not use name/encounter-count/affinity heuristics.
 
-Model decides card eligibility/content/update/removal. Program does not use name/encounter-count/affinity heuristics.
+## 10. Five Recommended Actions
 
-## 9. People identity + curation architecture
-
-Canonical:
-
-`Vibe-Coding/my world/architecture/ui/G6_PEOPLE_IDENTITY_AND_CURATION_V1_0_DECISION.md`
-
-Approved vertical:
-
-```text
-accepted player-authored Turn
-→ World semantic lane
-→ stable actor materialization + exact identity receipt
-→ same-Turn current-version terminal barrier
-→ existing Information Curator
-→ Character + Experiences + People one-call curation
-→ information_curation currentness
-→ player-safe People L3
-→ card UI
-```
-
-Protected decisions include exact stable identity, no authoritative name matching, no People-specific third call, no raw actor/private material, backward-compatible curation history and no People opening/backfill in v0.1.
-
-## 10. MW-017 — ENGINEERING PASS / INTEGRATED
-
-Task:
-
-`docs/tasks/MW-017_PEOPLE_IDENTITY_BRIDGE_AND_BARRIER_TASK.md`
-
-Independent Review:
-
-`docs/mw017/MW-017_INDEPENDENT_REVIEW_IR1.md`
-
-Integration verification:
-
-`docs/mw017/MW-017_INTEGRATION_VERIFICATION.md`
-
-MW-017 is backend-only and requires no Owner product UAT.
-
-## 11. MW-018 — ENGINEERING PASS / INTEGRATED / OWNER UAT PENDING
-
-Task:
-
-`docs/tasks/MW-018_PEOPLE_CURATION_AND_CARD_SURFACE_TASK.md`
-
-Independent Review:
-
-`docs/mw018/MW-018_INDEPENDENT_REVIEW_IR1.md`
-
-Integration verification:
-
-`docs/mw018/MW-018_INTEGRATION_VERIFICATION.md`
-
-Integrated People outcome:
-
-```text
-right 信息 navigation
-→ 概览 | 角色 | 重要经历 | 人物 | 存档
-
-人物
-→ safe latest-known card list
-→ cards default collapsed
-→ expand shows relationship / summary / details
-→ accepted replacement / Restore / reopen follow current accepted history
-→ hidden/off-screen NPC truth cannot auto-refresh cards
-```
-
-Retained Owner-UAT risk: real new-actor identity correlation may occasionally be omitted by the model. Exact bridge must continue to refuse guessing rather than add display-name matching.
-
-No Product PASS exists until Owner accepts the real application.
-
-## 12. Five Recommended Actions — FROZEN
-
-Canonical:
-
-`Vibe-Coding/my world/architecture/ui/G6_FIVE_RECOMMENDED_ACTIONS_V1_0_DECISION.md`
-
-Protected product rule:
+Protected rule:
 
 > **Five recommended actions != five allowed actions.**
-
-Approved behavior:
 
 ```text
 accepted GM Narrative
 → dedicated player-safe Action Recommender
-→ exactly five model-generated suggestions on valid structured output
-→ recommendation click PREFILLS PlayerInput only
-→ Player may edit or ignore
+→ exactly five suggestions on valid structured output
+→ click PREFILLS PlayerInput only
+→ Player edits/ignores freely
 → normal Send / Ctrl+Enter / Public d20 remains authoritative
 ```
 
-Protected boundaries:
+No raw World/stable actor/Source/private Knowledge/Agency/Evolution input. Recommendations are ephemeral, fail-soft and not persisted. No hidden Provider fallback.
 
-- free-form input always available;
-- click never auto-sends;
-- recommender consumes only bounded player-visible accepted Conversation material;
-- no raw World/stable actor/Source/private Knowledge/Agency/Evolution input;
-- recommendations are ephemeral and not persisted;
-- accepted GM-only opening receives recommendations;
-- foreground action wins and clears/cancels stale recommendation work;
-- Restore/reopen may issue one fresh current-prefix request;
-- failure is fail-soft;
-- no hidden Provider fallback;
-- no generic Action Intent or MW-013 infrastructure is authorized by this feature.
+## 11. MW-018 / MW-019 Owner UAT
 
-## 13. MW-019 — ENGINEERING PASS / INTEGRATED / OWNER UAT PENDING
-
-Task:
-
-`docs/tasks/MW-019_FIVE_RECOMMENDED_ACTIONS_TASK.md`
-
-Reviewed implementation:
-
-`bf9996e67d267871e918f82bd9ad6d2fb539ff0b`
-
-Reviewed candidate + evidence:
-
-`5a06f636e332c600d9a5bb327a92792ec7c42c17`
-
-Independent Review:
-
-`docs/mw019/MW-019_INDEPENDENT_REVIEW_IR1.md`
-
-Integration verification:
-
-`docs/mw019/MW-019_INTEGRATION_VERIFICATION.md`
-
-Engineering evidence includes 122 focused checks / 0 failures, 26 regression/export suites with exit code 0, Windows Desktop export PASS and bounded real configured Kimi K3 validation.
-
-Retained Product/UAT risk:
-
-- one of two real Kimi recommendation calls returned Markdown-fenced JSON and was intentionally rejected by the strict contract;
-- do not add heuristic fence stripping, hidden retry or Provider fallback merely to manufacture success;
-- if normal Owner play frequently shows unavailable recommendations, keep the correction in MW-019 lineage and address the structured-output/model seam deliberately.
-
-No Product PASS exists until Owner accepts the real application.
-
-## 14. SillyTavern functional reference — NON-CANONICAL
-
-Owner-requested upstream feature study is preserved in governance at:
-
-`Vibe-Coding/my world/experience/SILLYTAVERN_UPSTREAM_FUNCTIONAL_REFERENCE_AUDIT_2026-09-06.md`
-
-It is reference evidence for future improvement only. It does not authorize current implementation, replace this repository's architecture or reopen closed tasks by itself.
-
-## 15. MW-013 / generic Action Intent remain deferred
-
-MW-019 is one fixed first-party `prefill composer` consumer. It does not authorize generic Action Intent schema/dispatcher.
+Owner build route:
 
 ```text
-MW-013 Internal Declarative UI Host
-→ HOLD
-
-generic bounded Action Intent
-→ later, after proven consumers
-```
-
-Do not introduce arbitrary callbacks, NodePath execution, generic command bus or external declarative action definitions.
-
-## 16. CURRENT — combined Owner UAT build handoff
-
-The Owner's canonical playable checkout is:
-
-`D:/AI/Projects/my-world`
-
-Required route:
-
-```text
-inspect local branch/status/worktrees
+D:/AI/Projects/my-world
+→ inspect local branch/status/worktrees
 → preserve unknown dirty/local work
-→ safely fetch + fast-forward main to exact current origin/main
+→ safely fetch + fast-forward main
 → verify exact local HEAD
 → run run-game.ps1 -ValidateExportOnly
 → Owner Launch Ready
-→ combined Owner UAT MW-018 + MW-019
 ```
 
-Never install a task branch as the Owner build. Never use reset/clean/force to hide divergence.
+Never install a task branch as Owner build. Never reset/clean/force to hide divergence.
 
-`run-game.cmd` / `run-game.ps1` prove export freshness only against the current local checkout; UAT preparation must first prove that checkout equals the intended reviewed main.
+People defect → MW-018 revision.  
+Recommendation defect → MW-019 revision.
 
-## 17. Combined Owner UAT target
+## 12. Internal Dynamic UI Host v0.1 — ROUTE AUTHORIZED CORE
 
-### MW-018 People
+Owner explicitly promoted Dynamic UI into the V0 Core Closure path.
+
+Expected consumer evidence before implementation:
+
+- Character;
+- Important Experiences;
+- People;
+- Open Threads;
+- System / Public d20;
+- Inventory.
+
+Correct order:
 
 ```text
-人物 tab exists
-→ useful card appears/updates after normal player-authored turns involving people
-→ card starts collapsed
-→ collapsed state is quick to scan
-→ expansion reveals relationship / latest-known details
-→ no obvious private/omniscient/debug information
-→ later learned information updates the same card
+multiple real internal consumers
+→ repeated component patterns
+→ re-Task-Shape Internal Dynamic UI Host v0.1
+→ implementation + Independent Review + Owner UAT
+→ V0 Core Closure Reality Gate
 ```
 
-Prefer testing one known person and one newly introduced person.
-
-### MW-019 Recommendations
+### Old MW-013 packet
 
 ```text
-accepted opening / completed GM turn
-→ five recommendations appear reasonably quickly when generation succeeds
-→ suggestions are useful without feeling mandatory
-→ no obvious hidden/omniscient information
-→ click fills composer but does not send
-→ text remains freely editable
-→ manual free-form action remains effortless
-→ next action / Regenerate / Restore never leaves stale suggestions
+MW-013 capability direction = ROUTE AUTHORIZED
+old Task Packet             = STALE / DO NOT EXECUTE AS-IS
+current execution           = NOT YET — wait for Packages 2–4 consumer evidence
 ```
 
-Combined UAT keeps separate defect lineage:
+Do not dispatch the old packet merely because the capability is now core. Re-shape from current consumers and current architecture first.
 
-- People defect → MW-018 revision;
-- recommendation defect → MW-019 revision.
+### Dynamic UI boundaries
 
-Do not continue to the next independent product task until Owner verdicts are interpreted, unless Owner explicitly changes priority.
+v0.1 is internal presentation only:
+
+- typed player-safe projection / mechanic contribution;
+- section/group, field, card/list, collapse/expand, bounded status contribution as proven;
+- no omniscient `world_state` filtering at renderer;
+- no arbitrary GDScript callbacks;
+- no NodePath execution;
+- no OS/filesystem command;
+- no direct authoritative mutation;
+- generic Action Intent remains deferred;
+- external Source/Expansion Declarative UI remains deferred to G8.
+
+## 13. Core Inventory / mechanics direction
+
+System Surface only consumes real mechanic state. Shell does not invent generic HP/Mana/Hunger/Money.
+
+Inventory must first have authoritative Game-local ownership/mutation semantics; Narrative mention alone cannot mint formal Inventory. First vertical stays minimal and must prove Save/Restore/reopen currentness.
+
+## 14. V0 Core Closure Gate
+
+After Package 5, Owner reality run must prove one continuous Game across roughly 20–30 turns, including new NPC, OOC, d20, item mutation, Save/reopen, Restore, free-form deviation from recommendations, and at least 3 Dynamic UI consumer types.
+
+Exit only by explicit Owner `V0 Core Game Loop = PRODUCT PASS`.
+
+## 15. Post-closure route
+
+After Core Product PASS:
+
+```text
+G7 Context Orchestrator / Structured Output / Knowledge integrity
+→ G8 richer surfaces / player utility / model ops / Source / Reference / Creator
+→ external UI contract only from proven Internal Dynamic UI vocabulary
+→ G9 Standalone Alpha
+```
+
+Visual Runtime remains deferred until real authored first-party demand. Generic Action Intent remains deferred.
