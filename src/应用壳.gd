@@ -27,6 +27,9 @@ const RPGViewModel := preload("res://src/rpg视图模型/L3_外交层/RPG主机�
 ## 不读 raw world_state / curation 内部 id，不为渲染触发 Provider 调用。
 const CharacterExperiencesProjection := preload("res://src/信息整理/L3_外交层/角色经历投影公开接口.gd")
 
+const PeopleProjection := preload("res://src/信息整理/L3_外交层/人物投影公开接口.gd")
+const PeopleCard := preload("res://src/ui/人物卡片.gd")
+
 enum ApplicationState {
 	BOOTING,
 	MENU_READY,
@@ -69,6 +72,7 @@ const GAME_LOCAL_SETUP_SCHEMA := "game_local_setup.v0.1"
 @onready var overview_tab: Button = %OverviewTab
 @onready var character_tab: Button = %CharacterTab
 @onready var experiences_tab: Button = %ExperiencesTab
+@onready var people_tab: Button = %PeopleTab
 @onready var save_tab: Button = %SaveTab
 @onready var save_surface: VBoxContainer = %SaveSurface
 @onready var world_surface_scroll: ScrollContainer = %WorldSurfaceScroll
@@ -134,11 +138,12 @@ var _world_panel_body: VBoxContainer = null
 ## MW-015：右侧 Character / Important Experiences 表面的动态内容容器（挂在 WorldSurfaceColumn 滚动区）。
 var _character_panel_body: VBoxContainer = null
 var _experiences_panel_body: VBoxContainer = null
+var _people_panel_body: VBoxContainer = null
 ## MW-015：左 Player Status Host 是否存在真实 portrait/mechanics 内容。v0.1 过渡 biography
 ## 已迁出且无真实 consumer → 恒 false，Host collapse/hide；未来真实 consumer 置 true。
 var _player_status_has_content := false
 var _player_safe_projection: RefCounted = null
-## MW-015：World Surface 当前子表面（overview | character | experiences | save）；非通用导航框架。
+## MW-015：World Surface 当前子表面（overview | character | experiences | people | save）；非通用导航框架。
 var _world_surface_mode := "overview"
 ## MW-011：RPG ViewModel 外交接口实例（presentation-only）。
 var _rpg_view_model: RefCounted = null
@@ -200,6 +205,7 @@ func _ready() -> void:
 	overview_tab.toggled.connect(_on_overview_tab_toggled)
 	character_tab.toggled.connect(_on_character_tab_toggled)
 	experiences_tab.toggled.connect(_on_experiences_tab_toggled)
+	people_tab.toggled.connect(_on_people_tab_toggled)
 	save_tab.toggled.connect(_on_save_tab_toggled)
 	_update_responsive_layout()
 	if session_runtime != null:
@@ -589,6 +595,7 @@ func _on_information_curator_finished(_result: Dictionary) -> void:
 		return
 	_render_character_surface()
 	_render_experiences_surface()
+	_render_people_surface()
 
 
 ## MW-002：Agency opportunity 终态是 World Evolution 的唯一正常 wake；result 携带 frozen
@@ -1131,7 +1138,7 @@ func _connect_save_runtime() -> void:
 	var conversation: Variant = session_runtime.conversation
 	conversation.attempt_started.connect(_on_generation_state_changed)
 	conversation.attempt_started.connect(_on_foreground_attempt_started)
-	conversation.generation_completed.connect(_on_generation_state_changed)
+	conversation.generation_completed.connect(_on_accepted_history_changed)
 	conversation.generation_completed.connect(_on_ordinary_turn_accepted_for_agency)
 	conversation.generation_cancelled.connect(_on_generation_state_changed)
 	conversation.generation_failed.connect(_on_generation_failed_state_changed)
@@ -1281,6 +1288,12 @@ func _on_database_recovery_confirmed() -> void:
 	_set_menu_busy(false)
 
 
+# durable acceptance 已替换历史；同步投影先清除旧认知，不等待任何后台请求。
+func _on_accepted_history_changed(_turn: RefCounted) -> void:
+	_update_save_controls()
+	_refresh_player_safe_panels()
+
+
 func _on_generation_state_changed(_turn: RefCounted) -> void:
 	_update_save_controls()
 
@@ -1303,6 +1316,7 @@ func _refresh_player_safe_panels() -> void:
 	_render_world_overview(view_model)
 	_render_character_surface()
 	_render_experiences_surface()
+	_render_people_surface()
 
 
 func _on_overview_tab_toggled(pressed: bool) -> void:
@@ -1320,6 +1334,11 @@ func _on_experiences_tab_toggled(pressed: bool) -> void:
 		_select_world_surface_mode("experiences")
 
 
+func _on_people_tab_toggled(pressed: bool) -> void:
+	if pressed:
+		_select_world_surface_mode("people")
+
+
 func _on_save_tab_toggled(pressed: bool) -> void:
 	if pressed:
 		_select_world_surface_mode("save")
@@ -1332,6 +1351,7 @@ func _select_world_surface_mode(mode: String) -> void:
 	overview_tab.set_pressed_no_signal(mode == "overview")
 	character_tab.set_pressed_no_signal(mode == "character")
 	experiences_tab.set_pressed_no_signal(mode == "experiences")
+	people_tab.set_pressed_no_signal(mode == "people")
 	save_tab.set_pressed_no_signal(mode == "save")
 	_apply_world_surface_visibility()
 
@@ -1347,6 +1367,8 @@ func _apply_world_surface_visibility() -> void:
 		_character_panel_body.visible = show_surface and _world_surface_mode == "character"
 	if _experiences_panel_body != null and is_instance_valid(_experiences_panel_body):
 		_experiences_panel_body.visible = show_surface and _world_surface_mode == "experiences"
+	if _people_panel_body != null and is_instance_valid(_people_panel_body):
+		_people_panel_body.visible = show_surface and _world_surface_mode == "people"
 	save_surface.visible = session_active and _world_surface_mode == "save"
 
 
@@ -1482,6 +1504,20 @@ func _render_experiences_surface() -> void:
 		var time_label := String(event.get("time_label", "")).strip_edges()
 		if not time_label.is_empty():
 			_panel_label(_experiences_panel_body, time_label, 12, Palette.TEXT_SECONDARY, true)
+
+
+## 人物只接收专用 player-safe DTO；每次重建全折叠，不从 actor registry 制造卡片。
+func _render_people_surface() -> void:
+	_people_panel_body = _surface_body(_people_panel_body)
+	_people_panel_body.add_theme_constant_override("separation", 10)
+	_apply_world_surface_visibility()
+	var cards := PeopleProjection.project_session(session_runtime)
+	if cards.is_empty():
+		_panel_label(_people_panel_body, "人物信息将随你结识和了解他们而整理。", 13, Palette.TEXT_SECONDARY, true)
+	for snapshot: Dictionary in cards:
+		var card := PeopleCard.new()
+		_people_panel_body.add_child(card)
+		card.render(snapshot)
 
 
 ## Foreground 永远优先：新 Conversation attempt 使剩余 uncommitted agency 失效。

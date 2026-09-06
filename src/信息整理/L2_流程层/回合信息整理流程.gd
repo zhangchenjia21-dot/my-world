@@ -4,6 +4,9 @@ const Contract := preload("res://src/信息整理/L0_公理层/信息整理契�
 const Parser := preload("res://src/信息整理/L1_器件层/信息整理响应解析器.gd")
 const Device := preload("res://src/信息整理/L1_器件层/角色经历投影器.gd")
 
+const People := preload("res://src/信息整理/L1_器件层/人物认知投影器.gd")
+const IdentityBridge := preload("res://src/世界回合/L3_外交层/人物身份桥公开接口.gd")
+
 signal finished(result)
 
 const INSTRUCTIONS := """你是 my world 的后台 Information Curator。模型负责语义理解与取舍；程序只负责规范存储、时间完整性和展示。
@@ -14,7 +17,15 @@ const INSTRUCTIONS := """你是 my world 的后台 Information Curator。模型�
 你直接决定角色新增、替换、删除、保持以及是否产生经历。玩家拥有新的重大选择：不要凭空替玩家创造承诺，但应理解接受历史已清晰表达的选择。普通评价不等于终身效忠。
 不发明隐藏或未观察的玩家信息，不输出推理过程。只输出 JSON，不要 Markdown。
 精确结构：{"character":null或{"headline":"", "summary":"", "groups":[{"title":"上述七个组名之一","items":["文案"]}]},"experiences":[{"title":"标题","description":"简洁描述"}]}
-character=null 表示保持。否则是完整当前快照，保留仍有效的起始信息并删除过期旧值；最多7组且组名不重复，每组最多12项、每项600字符；headline最多160字符，summary最多1600字符。experiences只新增本轮重要经历，最多4条，每条标题160字符、描述1200字符。没有实质变化就输出 {"character":null,"experiences":[]}。不输出 ID、hash、出处元数据或虚构日历日期。"""
+character=null 表示保持。否则是完整当前快照，保留仍有效的起始信息并删除过期旧值；最多7组且组名不重复，每组最多12项、每项600字符；headline最多160字符，summary最多1600字符。experiences只新增本轮重要经历，最多4条，每条标题160字符、描述1200字符。没有实质变化时角色保持、经历为空；人物按下述同一次 lived 响应协议返回 people_updates。不输出持久 ID、hash、出处元数据或虚构日历日期。"""
+
+const PEOPLE_INSTRUCTIONS := """
+本次 lived 响应在 character、experiences 之外增加 people_updates 数组（无变化为空）。同一次调用维护三类信息，不增加额外调用。
+人物只使用 people_evidence 中当前绑定的 actor_ref、accepted quote/gm_span 和该人的 current_snapshot，结合本轮已接受叙事理解玩家最新认知。引用不是姓名匹配，也不代表玩家知道该人的后台真相。无证据的其他人物保持，不猜身份。
+由你决定是否值得建卡、更新、保留或删除；不是每个提及的人都需要卡片。不得根据幕后变化刷新认知。保留仍有效旧认知，修正已被玩家获知的错误。关系是玩家已知自然语言，不是数值好感或全知态度。
+people_updates 格式：[{"actor_ref":"输入中的引用","snapshot":null或{"display_name":"玩家已知称呼","headline":"很短的关键定位","summary":"最新已知摘要","relationship":"玩家已知关系","details":["有用的已知详情"]}}]。
+完整 snapshot 替换旧卡，null 删除；省略该人表示保持。不输出 canonical ID。最多8个不同人物更新，同一人只能一个操作（不同引用可能只是同一人的不同原文片段）。display_name最多64字符，headline160，summary400，relationship600，details最多8项每项600。未知字段用空字符串/空数组，不编造完整度。折叠卡只显示姓名和 headline，详细关系和摘要只在展开时展示。
+"""
 
 # 初始 lane 只给模型冻结的玩家材料；无需 opening，也不把静态传记作为 lived event。
 const INITIAL_INSTRUCTIONS := """你是 my world 的初始角色 Information Curator。模型负责语义理解与取舍，程序只负责规范存储、时间完整性和展示。
@@ -160,13 +171,23 @@ func _pump(expected_epoch: int) -> void:
 			"recent_experiences": experiences.slice(maxi(0, experiences.size() - 8)),
 			"frozen_starting_profile": _profile()
 		}
+		var evidence := IdentityBridge.request_evidence(session_runtime, index)
+		_active["identity_receipt_id"] = evidence.get("receipt_id", "")
+		_active["bindings"] = evidence.get("bindings", {})
+		var people := People.fold(session_runtime.world_state, String(session_runtime.game_id), earlier)
+		var public_evidence: Array = evidence.get("evidence", [])
+		for item: Dictionary in public_evidence:
+			var local_id: String = _active.bindings[item.actor_ref]
+			if people.has(local_id):
+				item["current_snapshot"] = people[local_id].duplicate(true)
+		context["people_evidence"] = public_evidence
 		var content := JSON.stringify(context)
 		if content.to_utf8_buffer().size() > 131072:
 			_finish(false, "input_oversized")
 			return
 		_response = ""
 		_timer.start()
-		var error: Error = provider_adapter.start_stream([{"role": "system", "content": INSTRUCTIONS}, {"role": "user", "content": content}])
+		var error: Error = provider_adapter.start_stream([{"role": "system", "content": INSTRUCTIONS + PEOPLE_INSTRUCTIONS}, {"role": "user", "content": content}])
 		if error != OK and not _active.is_empty():
 			_finish(false, "start_failed")
 		return
@@ -183,7 +204,7 @@ func _on_delta(text: String) -> void:
 func _on_completed() -> void:
 	if _active.is_empty():
 		return
-	var result := Parser.parse(_response)
+	var result := Parser.parse(_response, not _active.has("binding"), _active.get("bindings", {}))
 	if result.is_empty():
 		_finish(false, "malformed_response")
 		return
@@ -206,8 +227,15 @@ func _on_completed() -> void:
 	if not Contract.owner_valid(owner):
 		_finish(false, "invalid_storage")
 		return
-	var identity := Contract.record_id(_active.prefix, parent, result)
-	owner.turns[str(index)] = {"prefix": _active.prefix, "parent": parent, "id": identity, "result": result}
+	var dependency: String = _active.identity_receipt_id
+	var receipt := IdentityBridge.current_receipt(session_runtime, index)
+	if not dependency.is_empty() and (receipt.is_empty() or receipt.id != dependency):
+		# 在途身份依赖已变化：保留本次角色/经历结果，People 无写权限。
+		result.people_updates = []
+		dependency = ""
+	var identity := Contract.lived_record_id(_active.prefix, parent, result, dependency)
+	owner.turns[str(index)] = {"schema": Contract.LIVED_SCHEMA, "prefix": _active.prefix, "parent": parent,
+		"id": identity, "result": result, "identity_receipt_id": dependency}
 	next["information_curation"] = owner
 	# 无变化也持久化成功回执，以保证 reopen 不重调/不重复；不产生伪角色或经历内容。
 	# mutation 身份限定于本次原子提交，避免 Restore 后同版本重新整理撞到 displaced future。

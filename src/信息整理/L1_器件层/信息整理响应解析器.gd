@@ -3,7 +3,7 @@ extends RefCounted
 const Contract := preload("res://src/信息整理/L0_公理层/信息整理契约.gd")
 
 # 拒绝超深 JSON 后才交给 JSON parser；仅扫描括号/字符串语法，不解释任何文案。
-static func parse(text: String) -> Dictionary:
+static func parse(text: String, lived: bool = false, bindings: Dictionary = {}) -> Dictionary:
 	if text.to_utf8_buffer().size() > Contract.MAX_RESPONSE_BYTES:
 		return {}
 	var depth := 0
@@ -28,4 +28,13 @@ static func parse(text: String) -> Dictionary:
 	var parser := JSON.new()
 	if parser.parse(text) != OK:
 		return {}
-	return Contract.normalize(parser.data)
+	if not lived:
+		return Contract.normalize(parser.data)
+	var value: Variant = parser.data
+	if not value is Dictionary or (not Contract.keys_exact(value, ["character", "experiences"]) and not Contract.keys_exact(value, ["character", "experiences", "people_updates"])):
+		return {}
+	var base := Contract.normalize({"character": value.character, "experiences": value.experiences})
+	if base.is_empty():
+		return {}
+	base["people_updates"] = Contract.resolve_people(value.get("people_updates", []), bindings)
+	return base

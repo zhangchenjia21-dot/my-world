@@ -419,6 +419,12 @@ layout_mode = 2
 toggle_mode = true
 text = "重要经历"
 
+[node name="PeopleTab" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+text = "人物"
+
 [node name="SaveTab" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav"]
 unique_name_in_owner = true
 layout_mode = 2
