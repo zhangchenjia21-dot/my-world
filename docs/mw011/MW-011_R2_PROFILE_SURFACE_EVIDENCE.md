@@ -108,6 +108,38 @@ SQLite schema/table                       unchanged
 
 pre-R2 Game（Owner 的 v0.1.0 局）保留旧冻结 generation、仍可游玩（视觉上保持紧凑）；Owner UAT 应从 v0.1.1 新建张琛 Game 以看到完整 profile。
 
+## 5b. Revision 3 — committed profile source + reproducible evidence
+
+R2 缺陷（IR2）：candidate `09de33c` 未包含修改后的 `tests/fixtures/mw012/汉末三国/张琛/source.json`
+（仍为 0.1.0、无 player_profile），导致 publish script VERSION(0.1.1) 与 committed package 不一致、
+45/0 证据不可由 clean candidate 复现，且已报告的 production fingerprint 不能作为候选证据。
+
+R3 修复（bounded）：真正提交 `source.json`——version 0.1.1 + player_profile（headline/summary +
+7 groups：背景/性格/能力/局限/初始目标/行为原则/随身物品，与 R2 报告逐字一致）；package version
+与 publish script `VERSION := "0.1.1"` 常量一致（R2 candidate 已含）。
+
+**Reproducible evidence from exact clean HEAD `16c42d5`（`git status --short` 为空后执行）**：
+
+```text
+tests/mw011r2/玩家档案表面测试.gd         failures=0（45 断言，含张琛 profile 渲染）
+tests/mw011/G6主机视图模型基线测试.gd     failures=0
+tests/mw009/玩家安全侧栏投影测试.gd       failures=0
+tests/mw010/生界一体现实矩阵测试.gd       failures=0
+tests/mw012/张琛角色卡集成测试.gd         failures=0
+tests/g4_02r1 / g4_05 / g4_06 / g3_04 / g4_08b / g4_09uatbc01   全部 failures=0
+git diff --check                          clean
+Windows export validation                 PASS（0 errors）
+production publish（同 HEAD）：
+  status = "already_installed"
+  version = "0.1.1"
+  generation_fingerprint = 0b6cb72af535ef6147f71cb7592fe6ba048626dd997acf54c4e6893c848b59e4
+  zhang_chen_present = true；owner_games_modified = false
+```
+
+R2 报告的 production fingerprint `0b6cb72a…` 由本 exact clean HEAD 复现确认为真实候选证据。
+相关回归中 tests/mw011 与 tests/mw009 的 `_panel_text` helper 路径做了机械适配（Player Host
+移入 PlayerPanelScroll 的场景变更所致），断言语义不变。
+
 ## 6. Remaining risks / notes
 
 1. 已知 G4-03 fingerprint 行尾稳定性问题（autocrlf）仍在裁定中：本次 production 发布指纹 `0b6cb72a…` 从本 worktree（LF）计算；若 Owner 侧 checkout 为 CRLF，重装会生成不同指纹代次。该修复（.gitattributes）属 G4-03 裁定范围。
