@@ -1,0 +1,53 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+G4-07A FOCUSED PASS | production Source Library installs frozen 2 World + 6 Character
+G4-07A FOCUSED PASS | Han Game created through production G4-06
+G4-07A FOCUSED PASS | Source current can change after durable Game creation
+G4-07A FOCUSED PASS | Han exact Game existing-only opens
+G4-07A FOCUSED PASS | Han first GM-only Opening starts
+G4-07A FOCUSED PASS | first Opening request has no fake Player message
+G4-07A FOCUSED PASS | Han Provider-visible context contains exact selected early Entry/profile
+G4-07A FOCUSED PASS | Han excludes future/unselected semantics and mutable Source current
+G4-07A FOCUSED PASS | Guaranteed NPC is canonical context without forced convergence semantics
+G4-07A FOCUSED PASS | Han accepts exactly one durable GM-only Opening
+G4-07A FOCUSED PASS | accepted Game cannot auto-generate second first Opening
+G4-07A FOCUSED PASS | close/reopen restores exact same Game
+G4-07A FOCUSED PASS | reopen restores one GM-only Opening exactly once
+G4-07A FOCUSED PASS | next continuation includes durable Opening without empty fake user message
+G4-07A FOCUSED PASS | next continuation rebuilds from durable World truth plus durable Conversation
+G4-07A FOCUSED PASS | Afterglow Game created through production G4-06
+G4-07A FOCUSED PASS | Afterglow existing-only opens
+G4-07A FOCUSED PASS | Afterglow first Opening starts
+G4-07A FOCUSED PASS | Afterglow transports distinct exact World/Player/cast semantics
+G4-07A FOCUSED PASS | Afterglow context is bounded but rich, not one-line summaries
+G4-07A FOCUSED PASS | Afterglow Opening durable exactly once
+G4-07A FOCUSED PASS | no-Entry Game created through production G4-06
+G4-07A FOCUSED PASS | durable no-Entry remains explicit null
+G4-07A FOCUSED PASS | no-Entry Opening starts
+G4-07A FOCUSED PASS | Provider-visible no-Entry/profile state stays explicit
+G4-07A FOCUSED PASS | runtime does not infer default Entry/profile/year
+G4-07A FOCUSED PASS | no-Entry Opening accepts normally
+G4-07A FOCUSED PASS | failure/retry Game opens
+G4-07A FOCUSED PASS | Provider failure leaves zero accepted Opening
+G4-07A FOCUSED PASS | failure permits clean retry
+G4-07A FOCUSED PASS | retry accepts only successful attempt
+G4-07A FOCUSED PASS | cancel/retry Game opens
+G4-07A FOCUSED PASS | cancel leaves zero accepted Opening
+G4-07A FOCUSED PASS | cancel permits clean retry
+G4-07A FOCUSED PASS | cancel retry accepts exactly once
+G4-07A FOCUSED PASS | missing DB fails loud without fallback creation
+ERROR:  --> SQL error: file is not a database
+   at: prepare_statement (src\gdsqlite.cpp:259)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:52)
+       [1] open_database (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:25)
+       [2] verify_database (res://src/persistence/L2_流程层/数据库灾难恢复流程.gd:62)
+       [3] inspect_startup (res://src/persistence/L2_流程层/数据库灾难恢复流程.gd:40)
+       [4] inspect_startup (res://src/persistence/L3_外交层/数据库安全公开接口.gd:16)
+       [5] open_current_game (res://src/runtime/当前游戏会话运行时.gd:51)
+       [6] open_existing_game (res://src/runtime/当前游戏会话运行时.gd:39)
+       [7] _test_existing_only_failures (res://tests/g4_07a/首次开场运行时聚焦测试.gd:205)
+       [8] _run (res://tests/g4_07a/首次开场运行时聚焦测试.gd:38)
+       [9] _test_failure_cancel_retry (res://tests/g4_07a/首次开场运行时聚焦测试.gd:193)
+G4-07A FOCUSED PASS | corrupt existing DB fails loud
+G4-07A FOCUSED | done failures=0

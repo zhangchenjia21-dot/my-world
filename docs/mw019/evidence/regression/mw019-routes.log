@@ -1,0 +1,34 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+G4-08B UI PASS | task-owned real Source fixtures
+G4-08B UI PASS | real d20 capability installed
+[shell] application=menu_ready session=absent
+G4-08B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+G4-08B UI PASS | Wizard opening triggers once
+G4-08B UI PASS | click does not submit
+G4-08B UI PASS | Ctrl+Enter clears recommendations immediately
+G4-08B UI PASS | ordinary Send uses existing continuation
+G4-08B UI PASS | only explicit submission becomes accepted truth
+G4-08B UI PASS | normal accepted turn triggers one fresh call
+G4-08B UI PASS | manual send while recommendation loading cancels immediately
+G4-08B UI PASS | late response cannot reappear during foreground
+G4-08B UI PASS | cancelled foreground no recommendation retry
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-08B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+G4-08B UI PASS | Wizard opening triggers once
+G4-08B UI PASS | click does not submit
+G4-08B UI PASS | click never adjudicates/rolls
+G4-08B UI PASS | Ctrl+Enter clears recommendations immediately
+G4-08B UI PASS | d20 foreground starts before Conversation without bypass
+G4-08B UI PASS | d20 receives exact edited draft
+G4-08B UI PASS | existing NO_CHECK requests authoritative narrative
+G4-08B UI PASS | only explicit submission becomes accepted truth
+G4-08B UI PASS | normal accepted turn triggers one fresh call
+G4-08B UI PASS | manual send while recommendation loading cancels immediately
+G4-08B UI PASS | late response cannot reappear during foreground
+G4-08B UI PASS | cancelled foreground no recommendation retry
+[shell] session=absent close_status=ready
+MW-019 SEND/D20 failures=0

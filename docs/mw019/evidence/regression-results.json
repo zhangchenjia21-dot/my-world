@@ -1,0 +1,190 @@
+[
+  {
+    "errors": 0,
+    "name": "mw019-focused",
+    "exit_code": 0,
+    "log": "regression/mw019-focused.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "mw019-routes",
+    "exit_code": 0,
+    "log": "regression/mw019-routes.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "g2_03",
+    "exit_code": 0,
+    "log": "regression/g2_03.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "g2_04",
+    "exit_code": 0,
+    "log": "regression/g2_04.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "g2_05",
+    "exit_code": 0,
+    "log": "regression/g2_05.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "g4_07a",
+    "exit_code": 0,
+    "log": "regression/g4_07a.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "g4_08b",
+    "exit_code": 0,
+    "log": "regression/g4_08b.log",
+    "exit_warnings": 2
+  },
+  {
+    "errors": 0,
+    "name": "g4_08m1",
+    "exit_code": 0,
+    "log": "regression/g4_08m1.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "g4_08m1-idempotency",
+    "exit_code": 0,
+    "log": "regression/g4_08m1-idempotency.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "g4_09uatbc02a",
+    "exit_code": 0,
+    "log": "regression/g4_09uatbc02a.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "mw018",
+    "exit_code": 0,
+    "log": "regression/mw018.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "mw017",
+    "exit_code": 0,
+    "log": "regression/mw017.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "g5_01",
+    "exit_code": 0,
+    "log": "regression/g5_01.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "g5_01-timeline",
+    "exit_code": 0,
+    "log": "regression/g5_01-timeline.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "g5_02",
+    "exit_code": 0,
+    "log": "regression/g5_02.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "g5_03",
+    "exit_code": 0,
+    "log": "regression/g5_03.log",
+    "exit_warnings": 2
+  },
+  {
+    "errors": 0,
+    "name": "g5_03m2a",
+    "exit_code": 0,
+    "log": "regression/g5_03m2a.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "g5_03m2b",
+    "exit_code": 0,
+    "log": "regression/g5_03m2b.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "g5_04",
+    "exit_code": 0,
+    "log": "regression/g5_04.log",
+    "exit_warnings": 2
+  },
+  {
+    "errors": 0,
+    "name": "mw006",
+    "exit_code": 0,
+    "log": "regression/mw006.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "mw014",
+    "exit_code": 0,
+    "log": "regression/mw014.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "mw015",
+    "exit_code": 0,
+    "log": "regression/mw015.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "mw015r2",
+    "exit_code": 0,
+    "log": "regression/mw015r2.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "mw015r2-ui",
+    "exit_code": 0,
+    "log": "regression/mw015r2-ui.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "mw015r2-contract",
+    "exit_code": 0,
+    "log": "regression/mw015r2-contract.log",
+    "exit_warnings": 0
+  },
+  {
+    "errors": 0,
+    "name": "g4_07b",
+    "exit_code": 0,
+    "log": "regression/g4_07b.log",
+    "exit_warnings": 2
+  },
+  {
+    "errors": 0,
+    "name": "windows-export",
+    "exit_code": 0,
+    "log": "regression/windows-export.log"
+  }
+]

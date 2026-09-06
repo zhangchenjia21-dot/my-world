@@ -1,0 +1,71 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+G5-03M2A FOCUSED PASS | M2A fixture installs frozen real Source assets
+G5-03M2A FOCUSED PASS | 1 Create A with exact Entry succeeds
+G5-03M2A FOCUSED PASS | 1 automatic snapshot materializes both extra exact-profile Characters
+G5-03M2A FOCUSED PASS | 1 snapshot deterministic order by exact Source identity
+G5-03M2A FOCUSED PASS | 1 snapshot record origin is source_character
+G5-03M2A FOCUSED PASS | 1 snapshot record has Program-owned local ID
+G5-03M2A FOCUSED PASS | 1 snapshot freezes exact T0 selected profile
+G5-03M2A FOCUSED PASS | 1 snapshot record origin is source_character
+G5-03M2A FOCUSED PASS | 1 snapshot record has Program-owned local ID
+G5-03M2A FOCUSED PASS | 1 snapshot freezes exact T0 selected profile
+G5-03M2A FOCUSED PASS | 1 Player Character asset excluded from snapshot
+G5-03M2A FOCUSED PASS | 1 no-world-coverage Character excluded from snapshot
+G5-03M2A FOCUSED PASS | 1 Create D with Guaranteed NPC succeeds
+G5-03M2A FOCUSED PASS | 1 Create D snapshot excludes Guaranteed NPC asset
+G5-03M2A FOCUSED PASS | 1 only non-Guaranteed exact-profile Character materializes
+G5-03M2A FOCUSED PASS | 1 Guaranteed remains a distinct product role
+G5-03M2A FOCUSED PASS | 1 Create D keeps creation-authored record alongside Source-backed
+G5-03M2A FOCUSED PASS | 1 snapshot provenance is an exact pin
+G5-03M2A FOCUSED PASS | 2 Create B with no-Card NPCs succeeds
+G5-03M2A FOCUSED PASS | 2 both creation-authored no-Card NPCs materialize
+G5-03M2A FOCUSED PASS | 2 no-Card record never fabricates Source provenance
+G5-03M2A FOCUSED PASS | 2 no-Card record keeps honest game_local_material
+G5-03M2A FOCUSED PASS | 2 no-Card record role is stable_npc
+G5-03M2A FOCUSED PASS | 3 same display name yields distinct Program-owned local IDs
+G5-03M2A FOCUSED PASS | 3 duplicate display name stays legal
+G5-03M2A FOCUSED PASS | 2 stable NPC IDs never collide with Player ID
+G5-03M2A FOCUSED PASS | 4 Create C without game_local_npcs field stays valid
+G5-03M2A FOCUSED PASS | 4 temporal-incompatible Character (Cao Cao at 220) excluded from snapshot
+G5-03M2A FOCUSED PASS | 4 snapshot freezes exact generation fingerprint
+G5-03M2A FOCUSED PASS | 4 modified Cao Cao becomes Source current with 220 coverage
+G5-03M2A FOCUSED PASS | 4 newer Sun Quan generation becomes Source current
+G5-03M2A FOCUSED PASS | 4 same creation_id resumes frozen intent
+G5-03M2A FOCUSED PASS | 4 resume never rescans later Source current (no Cao Cao retrofit)
+G5-03M2A FOCUSED PASS | 4 resume keeps frozen exact provenance, not current generation
+G5-03M2A FOCUSED PASS | 4 resume keeps frozen Program-owned local ID
+G5-03M2A FOCUSED PASS | 2 empty display_name rejected at Composition canonicalization
+G5-03M2A FOCUSED PASS | 2 oversized profile_text rejected by bounded validation
+G5-03M2A FOCUSED PASS | 2 non-string display_name rejected without coercion
+G5-03M2A FOCUSED PASS | 2 non-string profile_text rejected without coercion
+G5-03M2A FOCUSED PASS | 5 frozen intent readable for compatibility check
+G5-03M2A FOCUSED PASS | 5 legacy intent without stable_npcs remains valid
+G5-03M2A FOCUSED PASS | 5 missing stable_npcs means Guaranteed-only behavior
+G5-03M2A FOCUSED PASS | 5 legacy roster stays Player + Guaranteed exact
+G5-03M2A FOCUSED PASS | 6 registry holds both material families
+G5-03M2A FOCUSED PASS | 6 Knowledge roster includes Player and every stable NPC family
+G5-03M2A FOCUSED PASS | 6 roster display resolves from game_local_material
+G5-03M2A FOCUSED PASS | 6 Agency pool excludes Player and unknown IDs
+G5-03M2A FOCUSED PASS | 6 Agency pool includes Source-backed and creation-authored stable NPCs
+G5-03M2A FOCUSED PASS | 7 Source-backed actor execution resolves frozen T0 source_projection
+G5-03M2A FOCUSED PASS | 7 Source-backed actor never sees another actor's private Knowledge
+G5-03M2A FOCUSED PASS | 7 no-Card actor execution resolves game_local_material
+G5-03M2A FOCUSED PASS | 7 no-Card actor receives own committed Knowledge
+G5-03M2A FOCUSED PASS | 8 runtime_narrative record current only with matching accepted hash
+G5-03M2A FOCUSED PASS | 8 runtime_narrative record excluded on hash mismatch
+G5-03M2A FOCUSED PASS | 8 runtime_narrative record excluded without accepted hashes
+G5-03M2A FOCUSED PASS | 8 empty/duplicate local IDs rejected deterministically
+G5-03M2A FOCUSED PASS | 9 fixture registry present before persistence proof
+G5-03M2A FOCUSED PASS | 9 production Runtime reopens created Game
+G5-03M2A FOCUSED PASS | 9 reopen preserves registry Program-owned IDs
+G5-03M2A FOCUSED PASS | 9 production Save Point created on registry snapshot
+G5-03M2A FOCUSED PASS | 9 durable mutation commits on top of registry Game
+G5-03M2A FOCUSED PASS | 9 durable head advanced normally
+G5-03M2A FOCUSED PASS | 9 production Restore path succeeds
+G5-03M2A FOCUSED PASS | 9 Restore returns head to registry snapshot
+G5-03M2A FOCUSED PASS | 9 Restore preserves stable_npcs records and Program-owned IDs unchanged
+G5-03M2A FOCUSED PASS | 9 Game reopens after Restore
+G5-03M2A FOCUSED PASS | 9 Restore result survives close/reopen
+G5-03M2A FOCUSED PASS | 9 reopened head stays at restored snapshot
+G5-03M2A FOCUSED | done failures=0

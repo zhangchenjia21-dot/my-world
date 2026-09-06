@@ -1,0 +1,71 @@
+{
+  "implementation_commit": "bf9996e67d267871e918f82bd9ad6d2fb539ff0b",
+  "implementation_base": "b83865c6c4e7bdccf6c40341789e03502baa78a3",
+  "governance_base": "9b23507bbe4d45f55f42deab1534726f3d2540ef",
+  "export_result": {
+    "routes_exit": 0,
+    "candidate": "bf9996e67d267871e918f82bd9ad6d2fb539ff0b",
+    "export_exit": 0,
+    "g2_exit": 0
+  },
+  "export_artifacts": {
+    "libgdsqlite.windows.template_release.x86_64.dll": {
+      "bytes": 3393024,
+      "sha256": "ba79b9bbf916c4ed2eb22ac719051c4a4258e460c4a354590b071beb9a87fedb"
+    },
+    "my-world.exe": {
+      "bytes": 109127680,
+      "sha256": "4a9eaded8955ef789ab02651ed9d2dde80328fbb342bd2a6db4db33e86305668"
+    },
+    "my-world.pck": {
+      "bytes": 2351236,
+      "sha256": "67aa4325b1bb144221f652ed45b3145738727d7ef40cab2a0021b4ba5a875e33"
+    }
+  },
+  "evidence_sha256": {
+    ".gdignore": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "baseline-d20.log": "17a8db0dc1467a243eb78b6985de934b1e412af787e7dca87dbeaab5bacca32d",
+    "baseline-g2-03.log": "d7a7736a33fe2e6fad67e914305e76c58410203726edf880d42fec92b38d6222",
+    "baseline-g2-05.log": "55f4193e7859824a839961e85f321074bdde968db00019c47dccdf55e23580d2",
+    "export-final.log": "4114b441f132ed5509882160f65dd0c7d09ee5d01aff11f9eb6caccb58a56f87",
+    "final-import.log": "7468470299aebeba222c6b3b0cbbc42fb2e05aab3cd0ed9f80e4678262d0b659",
+    "focused-final.log": "55c5fe202a904a88a32980b80953135557b93fb580e9222fe5ed7008c4a12cec",
+    "g2-03-final.log": "53467de06d047f2cc1395d99a7d653a919e58c3a5ea56849390cac11ab1e55f9",
+    "owner-safety-after.json": "71a98c6f795e9dd513572a76e96ac010e404d04d0771e1bd6deb0413e2a57902",
+    "owner-safety-before.json": "71a98c6f795e9dd513572a76e96ac010e404d04d0771e1bd6deb0413e2a57902",
+    "real-provider.json": "5adc9db6bc5bf74372c7716daf530750f07c9f95738c18f755eba6e0f44759ec",
+    "real-run.log": "70a9ccd919a835c97a1d9a602adddca95e02950c7f46edb96b0ed3660e0ba9b0",
+    "recommendations-1280x720.png": "ded1cbaa5177d59a13039deaf4c19af87b818e0ff0ee48cce5e768ba9213eabc",
+    "recommendations-960x540.png": "7faca61e5156a4aac2b45e14401196f336207726b5d7e3a3176f98253cecc5ae",
+    "recommendations-maximized.png": "3a38997ad9123dd79f5b9ff487fa2e836cb8ca779b32e5b3ec47dd23306fd134",
+    "regression/g2_03.log": "53467de06d047f2cc1395d99a7d653a919e58c3a5ea56849390cac11ab1e55f9",
+    "regression/g2_04.log": "ce3dbc282ef5411abc6b5c2fce37b6d7de7015717c18f7cefa26bb01606a8a36",
+    "regression/g2_05.log": "d92579f63cc24c11825e4f39de0e7352a78f44b24bee6010cd08d275ea8a2aad",
+    "regression/g4_07a.log": "90501a16abdb23160b97ebe30a58ca3c7a7684aaa3e48cafd9b118651085fcef",
+    "regression/g4_07b.log": "d92bae7d37eb21af43389ce46c31f238ea916a83b85b2c9af1d4ecba5f8ab7d3",
+    "regression/g4_08b.log": "17a8db0dc1467a243eb78b6985de934b1e412af787e7dca87dbeaab5bacca32d",
+    "regression/g4_08m1-idempotency.log": "d8348801f93fb37fb8ec49df6913577f97eb64f3165f4c78160de3b06144fce8",
+    "regression/g4_08m1.log": "f9410ba46bfc008377324724955d19e86aa99644195436626b13903f80a3e84a",
+    "regression/g4_09uatbc02a.log": "cc289d749db05cb6dfb5cac821f1f6acc932a8b319e8779ee6ddaccfbf2b81de",
+    "regression/g5_01-timeline.log": "d0107f5998090602df3c9fbb58f674bd0ad1b454a2bdbe352be70ad14edef90c",
+    "regression/g5_01.log": "7f8a16df547e85c5d4b6388230a1200a63d74a7d9c768429e614a53fae83b165",
+    "regression/g5_02.log": "deb3fa338e803d48505375e5027c7b13bbc867f6038f7fa2947eb7d061f73b24",
+    "regression/g5_03.log": "06eb70a458dd3c392cc3075d72d8443624e9552d41d7c1ade360bcaab33270b9",
+    "regression/g5_03m2a.log": "e229cd2f368d32141ce69b004806051456a07237b80abddc88b17b613bc4ef3a",
+    "regression/g5_03m2b.log": "e949248d93d75aaf63669a6219421bf78c48862b15101aee763de07df5b371fe",
+    "regression/g5_04.log": "d5d70eb61a201797deb82dd8190f467ef241a24fef826a5f210489569189f04c",
+    "regression/mw006.log": "d334545c3eb39b3c3362a0c12d05e024a24221589afd9769bdd350a3ad4886fe",
+    "regression/mw014.log": "8279b0c9972337c10a171f9237fab808c0aa9e85da1beb3958e3fcd6b1d8cb6a",
+    "regression/mw015.log": "ad75515875b76b1fa5d82ea83306296a689aa2c6adf42ee3c90d335dc6a518c3",
+    "regression/mw015r2-contract.log": "cf6529b300397fb4332b9cce20ce4d5bb6a56739209e680ce9b3d43d5f75bc9a",
+    "regression/mw015r2-ui.log": "d1ae68782a1dab73d8b3fd2085f7999b45ecdd9af73a543f70ba60de3b780a91",
+    "regression/mw015r2.log": "cfd6f5e629cab486cb4bd83e989a7b715a4e4d0d163ae3297c242f8f319668c2",
+    "regression/mw017.log": "c52167bb2d8080da1e38a83a7a0a55fd0d3c841384c79dc5b8177e0d0c4efeda",
+    "regression/mw018.log": "70445195a84a485270e654d4250e20b5a36710a8e0a92bf0337457ad7440eb11",
+    "regression/mw019-focused.log": "e0490ca509e9f8f5901e840b0c3eac6a4729021b30564f69142b775e44af55bd",
+    "regression/mw019-routes.log": "451ade2677bcc9a8cbae96af68a28e81418746079d5093e9d3f2765e77b3b979",
+    "regression/windows-export.log": "5a530ad4a6a0803fca9934f4f4e12c270e45faee95bfbbc0e761f67f7ae70bb6",
+    "regression-results.json": "74b6da1ba1ab8eeae6e7b767b89c416eb7cee4a9e83748b94bc3d6fcab249fe4",
+    "routes-final.log": "451ade2677bcc9a8cbae96af68a28e81418746079d5093e9d3f2765e77b3b979"
+  }
+}

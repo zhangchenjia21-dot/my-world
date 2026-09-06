@@ -1,0 +1,23 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-006 FOCUSED PASS | accepted CHECK_REQUIRED turn starts exactly one semantic analysis
+MW-006 FOCUSED PASS | durable mechanical resolution appears in semantic request exactly once
+MW-006 FOCUSED PASS | grounding carries the exact Program-owned d20 facts
+MW-006 FOCUSED PASS | analysis instructions bound the mechanics to respect-without-fixed-mapping
+MW-006 FOCUSED PASS | model-authored consequence commits through the existing single semantic mutation
+MW-006 FOCUSED PASS | committed record keeps the accepted-version identity contract
+MW-006 FOCUSED PASS | no new world schema family beyond living_world
+MW-006 FOCUSED PASS | durable mechanical resolution is unchanged by semantic materialization
+MW-006 FOCUSED PASS | same accepted version replay is idempotent
+MW-006 FOCUSED PASS | reopen replay relies on durable record, no duplicate mutation
+MW-006 FOCUSED PASS | NO_CHECK accepted turn gets no fake mechanics block
+MW-006 FOCUSED PASS | NO_CHECK semantic path itself stays unchanged
+MW-006 FOCUSED PASS | ordinary non-expansion turn gets no mechanics block
+MW-006 FOCUSED PASS | grounded request dispatched before malformed response
+MW-006 FOCUSED PASS | malformed analysis creates no fake world mutation
+MW-006 FOCUSED PASS | accepted Narrative remains accepted
+MW-006 FOCUSED PASS | durable mechanical resolution remains authoritative and untouched
+MW-006 FOCUSED PASS | unaccepted marker yields no grounding
+MW-006 FOCUSED PASS | player_text mismatch (e.g. after Restore) yields no grounding
+MW-006 FOCUSED PASS | ambiguous duplicate durable checks yield no grounding
+MW-006 FOCUSED | done failures=0

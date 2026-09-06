@@ -1,0 +1,44 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+G4-09UATBC02A PASS | A isolated control accepts harmless whitespace and pretty-print JSON
+G4-09UATBC02A PASS | A CHECK_REQUIRED remains exact structured mechanics control
+G4-09UATBC02A PASS | A mixed control plus narrative protocol is retired
+G4-09UATBC02A PASS | A fenced/preamble control fails without object guessing
+G4-09UATBC02A PASS | setup installs frozen real Source generations
+G4-09UATBC02A PASS | setup installs Public d20 exact generation
+G4-09UATBC02A PASS | setup creates one task-owned Expansion Game
+G4-09UATBC02A PASS | setup opens schema-v4 Expansion Game
+G4-09UATBC02A PASS | B control lane never exposes structured content as narrative
+G4-09UATBC02A PASS | B valid NO_CHECK starts a separate free-form narrative request
+G4-09UATBC02A PASS | B narrative request has no mixed framing contract
+G4-09UATBC02A PASS | B NO_CHECK narrative streams in the second selected-provider call
+G4-09UATBC02A PASS | B first body delta reaches provisional Conversation before completion
+G4-09UATBC02A PASS | B body delta performs no durable Conversation/world write
+G4-09UATBC02A PASS | B timing proves first visible narrative precedes Provider completion
+G4-09UATBC02A PASS | B exact streamed body freezes once at completion
+G4-09UATBC02A PASS | B normal NO_CHECK uses isolated control plus narrative with no degradation
+G4-09UATBC02A PASS | B finalize durably accepts exactly one Conversation turn
+G4-09UATBC02A PASS | B timing separates control from free-form narrative and finalize
+G4-09UATBC02A PASS | C malformed control triggers exactly one internal recovery request
+G4-09UATBC02A PASS | C recovered control continues through separate narrative lane
+G4-09UATBC02A PASS | C one recovery can resolve normally without fake degradation
+G4-09UATBC02A PASS | C second malformed control fail-softs without a third control attempt
+G4-09UATBC02A PASS | C degraded narrative request does not echo raw control payload
+G4-09UATBC02A PASS | C fail-soft narrative is progressively visible instead of dead-end unfinished
+G4-09UATBC02A PASS | C degraded action returns accepted plus stable non-secret flag
+G4-09UATBC02A PASS | C degradation status is bounded and non-secret
+G4-09UATBC02A PASS | C degraded action creates no check and no fake NO_CHECK marker
+G4-09UATBC02A PASS | C mid-stream failure leaves zero durable result/Conversation
+G4-09UATBC02A PASS | C failed partial draft is excluded from future Context
+G4-09UATBC02A PASS | D same-process retry reuses provisional Turn across decoupled calls
+G4-09UATBC02A PASS | C cancel leaves no accepted/durable NO_CHECK result
+G4-09UATBC02A PASS | D cancelled action retry reuses one Turn and one stable action
+G4-09UATBC02A PASS | D exact Program check is durable before result narrative
+G4-09UATBC02A PASS | D validated control performs one RNG then starts second Provider call
+G4-09UATBC02A PASS | D provisional Turn is active behind finalize barrier
+G4-09UATBC02A PASS | E timing proves durable check before narrative request
+G4-09UATBC02A PASS | D result narrative is visible while second Provider remains active
+G4-09UATBC02A PASS | D first visible result delta occurs only after durable check
+G4-09UATBC02A PASS | D retry reuses exact check/provisional Turn with no reroll or duplicate
+G4-09UATBC02A PASS | D retry finalizes exactly once and preserves raw roll
+G4-09UATBC02A | done failures=0
