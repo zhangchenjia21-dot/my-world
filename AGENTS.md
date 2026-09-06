@@ -25,7 +25,7 @@ Repositories:
 
 ```text
 GPT
-→ product semantics / architecture / Task Shaping / dispatch / Independent Review
+→ product semantics / architecture / Task Shaping / dispatch / Independent Review / UAT interpretation
 
 Codex
 → sole default production implementer and local UAT-build preparation agent
@@ -71,9 +71,9 @@ People Surface product semantics            FROZEN
 MW-016 People Architecture Audit            PASS / CLOSED
 People identity + curation architecture     FROZEN
 MW-017 People Identity Bridge               ENGINEERING PASS / INTEGRATED
-MW-018 People Curation + Card Surface        ENGINEERING PASS / INTEGRATED / OWNER UAT DEFERRED
+MW-018 People Curation + Card Surface        ENGINEERING PASS / INTEGRATED / OWNER UAT PENDING
 Five Recommended Actions semantics          FROZEN
-MW-019 Five Recommended Actions             READY FOR CODEX
+MW-019 Five Recommended Actions             ENGINEERING PASS / INTEGRATED / OWNER UAT PENDING
 MW-013 Internal Declarative UI Host          HOLD / NOT AUTHORIZED
 ```
 
@@ -81,14 +81,14 @@ Formal current status:
 
 `Vibe-Coding/my world/MY_WORLD_CURRENT_STATUS.md`
 
-Active Task Packet:
-
-`docs/tasks/MW-019_FIVE_RECOMMENDED_ACTIONS_TASK.md`
-
-Current MW-018 review evidence remains:
+Current combined UAT evidence:
 
 - `docs/mw018/MW-018_INDEPENDENT_REVIEW_IR1.md`
 - `docs/mw018/MW-018_INTEGRATION_VERIFICATION.md`
+- `docs/mw019/MW-019_INDEPENDENT_REVIEW_IR1.md`
+- `docs/mw019/MW-019_INTEGRATION_VERIFICATION.md`
+
+No new product implementation task is authorized until the combined MW-018 + MW-019 Owner UAT is interpreted, unless Owner explicitly inserts a new independent goal.
 
 ## 5. Protected world/runtime invariants
 
@@ -112,7 +112,7 @@ Player Status Host
 
 Narrative Host
 → primary GM Narrative + Player natural-language action surface
-→ fixed first-party recommended-action guidance may live near composer
+→ optional five-action guidance near composer
 
 World Information Host
 → grounded player information Surfaces
@@ -203,7 +203,7 @@ Integration verification:
 
 MW-017 is backend-only and requires no Owner product UAT.
 
-## 11. MW-018 — ENGINEERING PASS / INTEGRATED / OWNER UAT DEFERRED
+## 11. MW-018 — ENGINEERING PASS / INTEGRATED / OWNER UAT PENDING
 
 Task:
 
@@ -231,9 +231,9 @@ right 信息 navigation
 → hidden/off-screen NPC truth cannot auto-refresh cards
 ```
 
-Owner explicitly deferred standalone MW-018 UAT. Do not mark Product PASS. After MW-019 integration, prepare one fresh Owner build and run combined UAT.
+Retained Owner-UAT risk: real new-actor identity correlation may occasionally be omitted by the model. Exact bridge must continue to refuse guessing rather than add display-name matching.
 
-Retained People UAT risk: real new-actor identity correlation may occasionally be omitted by the model; exact bridge must continue to refuse guessing rather than add display-name matching.
+No Product PASS exists until Owner accepts the real application.
 
 ## 12. Five Recommended Actions — FROZEN
 
@@ -245,58 +245,72 @@ Protected product rule:
 
 > **Five recommended actions != five allowed actions.**
 
-Target:
+Approved behavior:
 
 ```text
 accepted GM Narrative
-→ dedicated player-safe background Action Recommender
-→ exactly five model-generated recommendations
-→ click recommendation
-→ PREFILL existing PlayerInput only
-→ player may edit/ignore
-→ normal Send / Ctrl+Enter / Public d20 path remains authoritative
+→ dedicated player-safe Action Recommender
+→ exactly five model-generated suggestions on valid structured output
+→ recommendation click PREFILLS PlayerInput only
+→ Player may edit or ignore
+→ normal Send / Ctrl+Enter / Public d20 remains authoritative
 ```
 
-Important boundaries:
+Protected boundaries:
 
 - free-form input always available;
-- recommendation click never auto-sends;
-- recommendations use only bounded player-visible accepted Conversation history;
+- click never auto-sends;
+- recommender consumes only bounded player-visible accepted Conversation material;
 - no raw World/stable actor/Source/private Knowledge/Agency/Evolution input;
-- recommendations are ephemeral derived UI and are not persisted;
-- accepted GM-only opening gets recommendations;
-- foreground action always wins and clears/cancels stale recommendation work;
-- Restore/reopen may issue one fresh current-prefix recommendation call;
-- failures are fail-soft and never block gameplay;
-- no hidden Provider switch;
-- no generic Action Intent/MW-013 infrastructure in this task.
+- recommendations are ephemeral and not persisted;
+- accepted GM-only opening receives recommendations;
+- foreground action wins and clears/cancels stale recommendation work;
+- Restore/reopen may issue one fresh current-prefix request;
+- failure is fail-soft;
+- no hidden Provider fallback;
+- no generic Action Intent or MW-013 infrastructure is authorized by this feature.
 
-## 13. CURRENT — MW-019 Five Recommended Actions
+## 13. MW-019 — ENGINEERING PASS / INTEGRATED / OWNER UAT PENDING
 
 Task:
 
 `docs/tasks/MW-019_FIVE_RECOMMENDED_ACTIONS_TASK.md`
 
-Product target:
+Reviewed implementation:
 
-```text
-GM Narrative accepted
-→ five useful recommendation buttons appear near composer
-→ player can ignore them and type freely
-→ click fills PlayerInput without submitting
-→ player edits freely
-→ Send follows existing action/adjudication path
-```
+`bf9996e67d267871e918f82bd9ad6d2fb539ff0b`
 
-Implementation must use a dedicated bounded recommendation call, independent from the authoritative Narrative response and from omniscient semantic/curation inputs.
+Reviewed candidate + evidence:
 
-Highest implementer return:
+`5a06f636e332c600d9a5bb327a92792ec7c42c17`
 
-`READY FOR INDEPENDENT REVIEW`
+Independent Review:
 
-Do not install unreviewed MW-019 into Owner canonical checkout.
+`docs/mw019/MW-019_INDEPENDENT_REVIEW_IR1.md`
 
-## 14. Generic G6-G / MW-013 remain deferred
+Integration verification:
+
+`docs/mw019/MW-019_INTEGRATION_VERIFICATION.md`
+
+Engineering evidence includes 122 focused checks / 0 failures, 26 regression/export suites with exit code 0, Windows Desktop export PASS and bounded real configured Kimi K3 validation.
+
+Retained Product/UAT risk:
+
+- one of two real Kimi recommendation calls returned Markdown-fenced JSON and was intentionally rejected by the strict contract;
+- do not add heuristic fence stripping, hidden retry or Provider fallback merely to manufacture success;
+- if normal Owner play frequently shows unavailable recommendations, keep the correction in MW-019 lineage and address the structured-output/model seam deliberately.
+
+No Product PASS exists until Owner accepts the real application.
+
+## 14. SillyTavern functional reference — NON-CANONICAL
+
+Owner-requested upstream feature study is preserved in governance at:
+
+`Vibe-Coding/my world/experience/SILLYTAVERN_UPSTREAM_FUNCTIONAL_REFERENCE_AUDIT_2026-09-06.md`
+
+It is reference evidence for future improvement only. It does not authorize current implementation, replace this repository's architecture or reopen closed tasks by itself.
+
+## 15. MW-013 / generic Action Intent remain deferred
 
 MW-019 is one fixed first-party `prefill composer` consumer. It does not authorize generic Action Intent schema/dispatcher.
 
@@ -310,18 +324,55 @@ generic bounded Action Intent
 
 Do not introduce arbitrary callbacks, NodePath execution, generic command bus or external declarative action definitions.
 
-## 15. Combined Owner UAT after MW-019
+## 16. CURRENT — combined Owner UAT build handoff
+
+The Owner's canonical playable checkout is:
+
+`D:/AI/Projects/my-world`
 
 Required route:
 
 ```text
-MW-019 candidate
-→ GPT Independent Review
-→ Engineering PASS
-→ integrate reviewed main
-→ safely sync D:/AI/Projects/my-world
-→ ValidateExportOnly
-→ combined Owner UAT: MW-018 + MW-019
+inspect local branch/status/worktrees
+→ preserve unknown dirty/local work
+→ safely fetch + fast-forward main to exact current origin/main
+→ verify exact local HEAD
+→ run run-game.ps1 -ValidateExportOnly
+→ Owner Launch Ready
+→ combined Owner UAT MW-018 + MW-019
+```
+
+Never install a task branch as the Owner build. Never use reset/clean/force to hide divergence.
+
+`run-game.cmd` / `run-game.ps1` prove export freshness only against the current local checkout; UAT preparation must first prove that checkout equals the intended reviewed main.
+
+## 17. Combined Owner UAT target
+
+### MW-018 People
+
+```text
+人物 tab exists
+→ useful card appears/updates after normal player-authored turns involving people
+→ card starts collapsed
+→ collapsed state is quick to scan
+→ expansion reveals relationship / latest-known details
+→ no obvious private/omniscient/debug information
+→ later learned information updates the same card
+```
+
+Prefer testing one known person and one newly introduced person.
+
+### MW-019 Recommendations
+
+```text
+accepted opening / completed GM turn
+→ five recommendations appear reasonably quickly when generation succeeds
+→ suggestions are useful without feeling mandatory
+→ no obvious hidden/omniscient information
+→ click fills composer but does not send
+→ text remains freely editable
+→ manual free-form action remains effortless
+→ next action / Regenerate / Restore never leaves stale suggestions
 ```
 
 Combined UAT keeps separate defect lineage:
@@ -329,4 +380,4 @@ Combined UAT keeps separate defect lineage:
 - People defect → MW-018 revision;
 - recommendation defect → MW-019 revision.
 
-Owner must confirm that recommendations reduce blank-composer friction without making the game feel like a forced branching-choice system.
+Do not continue to the next independent product task until Owner verdicts are interpreted, unless Owner explicitly changes priority.
