@@ -71,17 +71,14 @@ G5 World Semantics & GM Runtime             PRODUCT PASS / CLOSED
 G5-GATE                                     PRODUCT PASS
 
 G6 RPG Experience & Internal Declarative UI Host ACTIVE
-MW-011 G6 RPG Host ViewModel Baseline       ENGINEERING PASS — READY TO INTEGRATE / OWNER UAT AFTER INTEGRATION
-MW-012 Zhang Chen Player Character Card     OWNER-INSERTED — READY FOR ZCODE
+MW-011 R1 G6 RPG Host ViewModel Baseline    ENGINEERING PASS / INTEGRATED; OWNER UI UAT NOT PASS
+MW-011 Revision 2 Player Profile Surface    ACTIVE — ZCODE
+MW-012 Zhang Chen Player Character Card     ENGINEERING PASS / INTEGRATED; CARD CONTENT INGRESS CONFIRMED
 ```
 
-Formal G5 closeout:
+Formal current status:
 
-`docs/g5_gate/G5_GATE_CLOSEOUT.md`
-
-Owner explicitly accepted G5 and authorized G6. The final G5 UAT also established a G6 product requirement: MW-009 side panels are safe and dynamic but too information-thin for the final RPG UI.
-
-MW-012 is a bounded Owner-inserted Character Source integration during G6. It does not reopen G4 and does not replace MW-011 as the G6 mainline.
+`Vibe-Coding/my world/MY_WORLD_CURRENT_STATUS.md`
 
 ## 3. Closed G5 results that remain protected
 
@@ -134,105 +131,140 @@ Do not pass omniscient `world_state` into leaf UI and then filter it there.
 
 Literary Style Reference is expression-only. It is not Game truth, future canon, Player/actor Knowledge, semantic consequence authority, World Evolution input, mechanics-control authority, or mandatory output protocol.
 
-## 4. G6 first vertical — MW-011
+## 4. MW-011 Revision 1 disposition
 
-Canonical architecture:
+Canonical R1 architecture:
 
 `Vibe-Coding/my world/architecture/ui/G6_RPG_HOST_VIEWMODEL_V0_1_DECISION.md`
 
-Executable packet:
+R1 task:
 
 `docs/tasks/MW-011_G6_RPG_HOST_VIEWMODEL_BASELINE_TASK.md`
 
-Formal review:
+R1 review:
 
 `docs/mw011/MW-011_INDEPENDENT_REVIEW_IR1.md`
+
+Post-review rebase verification:
+
+`docs/mw011/MW-011_POST_IR1_REBASE_VERIFICATION.md`
+
+Integrated R1 main commit:
+
+`7972ab74ccc1d5368f8ca32d4fd4fd83173aa04d`
+
+R1 Engineering remains PASS. Owner UI UAT on 2026-09-06 found the fresh Player Host still materially too thin because rich Character Card content has no explicit player-facing projection.
+
+Formal UAT result:
+
+`docs/mw011/MW-011_OWNER_UAT_R1_RESULT.md`
+
+This is a same-outcome defect, therefore **MW-011 Revision 2**.
+
+## 5. ACTIVE — MW-011 Revision 2
+
+Canonical R2 architecture:
+
+`Vibe-Coding/my world/architecture/ui/G6_PLAYER_CHARACTER_PROFILE_PROJECTION_V0_1_DECISION.md`
+
+Executable R2 addendum:
+
+`docs/tasks/MW-011_REVISION2_PLAYER_CHARACTER_PROFILE_SURFACE_ADDENDUM.md`
 
 Identity:
 
 ```text
 Work Item: MW-011
-Name: G6 RPG Host ViewModel Baseline
-Capability-Anchor: G6 RPG Experience & Internal Declarative UI Host
+Revision: 2
+Review-Round: IR#1 → IR#2
+Name: Player Character Profile Projection + Player Host Surface
 Implementer: Zcode + GLM-5.3-flash
 Reviewer: GPT
-Revision: 1
-Review-Round: IR#1
-Reviewed candidate: 066aff2487cd1059af1943eb5282bf5cfe2c89fb
-Status: ENGINEERING PASS — READY TO INTEGRATE / OWNER UAT AFTER INTEGRATION
-Branch: mw-011-g6-rpg-host-viewmodel-baseline
-Worktree: D:/AI/Projects/.worktrees/my-world/mw-011
+Branch: mw-011-r2-player-character-profile-surface
+Worktree: D:/AI/Projects/.worktrees/my-world/mw-011-r2
+Status: ACTIVE — ZCODE
+Return ceiling: READY FOR INDEPENDENT REVIEW
 ```
 
-Reviewed outcome:
+Required data flow:
 
 ```text
-Runtime projection
-→ presentation-only ViewModel
-→ real RPG UI consumer
+optional Character Card v0.2 player_profile
+→ existing selected Character projection / Final Create freeze
+→ Game-local frozen player_profile
+→ new fail-closed Player Character Profile Projection
+→ existing MW-011 presentation-only ViewModel
+→ richer Player Host
 ```
 
-The candidate provides Player Host identity/profile + safe World/Entry context + bounded recent accepted Player actions + turn count, and a World Surface whose default Overview shows World/Entry + Player-known facts + safe session metadata while existing G3 Save controls live behind a bounded `存档` surface.
+### R2 player-profile contract
 
-Disclosure, Restore/reopen currentness and non-persistence boundaries passed review. No fabricated HP/location/inventory/relationship/faction/quest state, generic declarative platform, new persistence schema or Provider summarization was introduced.
+`player_profile` is optional and presentation-only:
 
-Current `main` advanced after the candidate was cut to register MW-012. Reconcile/rebase MW-011 onto refreshed current `main` without semantic code changes before Owner UAT. Keep the worktree until the integrated SHA is verified.
+```text
+headline: String
+summary: String
+groups[]:
+  group_id: safe token
+  title: String
+  items: Array[String]
+```
 
-## 5. Owner-inserted MW-012 Character Source
+Existing Character Card v0.2 without the field remains valid.
 
-Executable packet:
+Do not expose raw `semantic_sections`, `gm_reference`, `gm_private`, instructions, IDs/hashes/fingerprints or omniscient Runtime state. Do not look up latest Source Library bytes to enrich an existing Game. Old Games remain on their frozen Character generation.
+
+MW-009 stays the owner of current Player-known facts and must not be broadened to parse raw Character Source prose.
+
+### Zhang Chen R2 presentation update
+
+MW-012 Character semantics remain protected. R2 may add a faithful structured `player_profile` to a new Zhang Chen Source generation for future Games, normally bumping package version from `0.1.0` to `0.1.1`.
+
+Required visible groups:
+
+```text
+背景
+性格
+能力
+局限
+初始目标
+行为原则
+随身物品
+```
+
+No new powers, equipment, local relationships, guaranteed history, automatic famous-person recognition or semantic changes.
+
+## 6. MW-012 remains integrated / protected
+
+Task:
 
 `docs/tasks/MW-012_ZHANG_CHEN_PLAYER_CHARACTER_CARD_TASK.md`
 
-Owner-approved content input:
+Formal R2 review:
 
-`docs/tasks/inputs/MW-012_ZHANG_CHEN_CHARACTER_CARD_V0_1.md`
+`docs/mw012/MW-012_INDEPENDENT_REVIEW_IR2.md`
 
-Identity:
+Integrated main commit:
 
-```text
-Work Item: MW-012
-Name: Zhang Chen Player Character Card
-Capability-Anchor: G4 Primary Source Assets & Local Game Creation
-Inserted-By: Owner during G6
-Implementer: Zcode + GLM-5.3-flash
-Reviewer: GPT
-Revision: 1
-Review-Round: 0
-Status: OWNER-INSERTED — READY FOR ZCODE
-Branch: mw-012-zhang-chen-player-character-card
-Worktree: D:/AI/Projects/.worktrees/my-world/mw-012
-```
+`6338af5665c5137d9a9528776e77a13ffb924ea6`
 
-Required result:
+Protected semantics:
 
-```text
-Owner-approved 张琛 concept
-→ existing Character Card v0.2 contract
-→ real first-party Managed Source ingress
-→ selectable Player Character for supported Han-end Entries
-→ exact Game-local frozen projection/context
-```
-
-Protected MW-012 semantics:
-
-- physical body transport into whichever selected Han-end Entry/T0 the Player chooses;
+- physical body transport into the selected Han-end T0;
 - age 24, no prior local identity/network/history;
-- remembered Three Kingdoms history is protagonist memory/belief, not current Game truth, guaranteed future canon, NPC destiny or World Evolution command;
-- knowledge of famous figures does not grant automatic visual identification without in-world evidence;
-- future meaningful Zhang Chen choices remain Player-owned;
-- no new Character schema, inventory system, Creator, UI redesign, mechanic Expansion or declarative UI work;
-- do not satisfy the task with a test-only fixture or hardcoded picker entry: use the real product Source ingress that currently makes first-party cards selectable.
+- remembered Three Kingdoms history is protagonist memory/belief, not current Game truth or guaranteed future canon;
+- knowing famous names does not grant automatic visual identification;
+- future allegiance/self-rule/return/reveal decisions remain Player-owned;
+- literacy limitation is written-script only; no invented spoken-language incapacity;
+- starting possessions remain finite and exactly bounded by the Owner-approved card.
 
-MW-011 and MW-012 must use separate worktrees. Do not disturb either task's active work.
+Do not reopen MW-012 simply because MW-011 needs a richer human-player presentation projection.
 
-## 6. G6 platform discipline
+## 7. G6 platform discipline
 
 Supporting design:
 
 `Vibe-Coding/my world/architecture/ui/声明式UIHost设计.md`
-
-Do **not** begin G6 by building a universal UI DSL.
 
 Canonical order is consumer-first:
 
@@ -247,6 +279,6 @@ real safe projection / ViewModel / consumer
 → responsive/navigation/polish
 ```
 
-External World Pack / Mod UI declaration belongs to G8, not G6.
+MW-011 R2 is a bounded real-consumer correction. Do not turn it into a universal Character ontology, generic event bus/reactive store/ViewModel platform, arbitrary UI DSL, Mod schema, Creator, portrait pipeline, Inventory mechanics or Provider summarization.
 
-Do not create generic event bus/reactive store/ViewModel platform, arbitrary expression binding, arbitrary GDScript callbacks, or raw Runtime access from declarative definitions.
+External World Pack / Mod UI declaration belongs to G8, not G6.
