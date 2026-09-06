@@ -70,8 +70,8 @@ MW-015 Character + Important Experiences    PRODUCT PASS / CLOSED
 People Surface product semantics            FROZEN
 MW-016 People Architecture Audit            PASS / CLOSED
 People identity + curation architecture     FROZEN
-MW-017 People Identity Bridge               READY FOR CODEX
-MW-018 People Curation + Card Surface        BLOCKED BY MW-017
+MW-017 People Identity Bridge               ENGINEERING PASS / INTEGRATED
+MW-018 People Curation + Card Surface        READY FOR CODEX
 MW-013 Internal Declarative UI Host          HOLD / NOT AUTHORIZED
 ```
 
@@ -81,7 +81,7 @@ Formal current status:
 
 Active Task Packet:
 
-`docs/tasks/MW-017_PEOPLE_IDENTITY_BRIDGE_AND_BARRIER_TASK.md`
+`docs/tasks/MW-018_PEOPLE_CURATION_AND_CARD_SURFACE_TASK.md`
 
 ## 5. Protected world/runtime invariants
 
@@ -113,7 +113,7 @@ Mother taxonomy:
 
 `概览 / 角色 / 重要经历 / 人物 / 事务 / 行囊 / 系统 / 地图 / 存档`
 
-Current implemented set:
+Current implemented set before MW-018:
 
 `概览 / 角色 / 重要经历 / 存档`
 
@@ -134,6 +134,8 @@ Frozen rule:
 Program must not replicate open semantics using keyword/regex routers, importance scores, per-event rule trees, relationship state machines, name-matching heuristics or protagonist-choice classifiers.
 
 Program owns machine structure/currentness: IDs, versions, bounded payloads, atomic persistence, idempotence, Save/Restore/Regenerate, stale-future isolation and player-safe projection.
+
+Owner explicitly accepts bounded model calls when they materially improve semantic quality and reduce Runtime semantic-rule complexity.
 
 ## 8. People Surface product semantics
 
@@ -177,7 +179,7 @@ accepted player-authored Turn
 → stable actor materialization + exact identity receipt
 → same-Turn current-version terminal barrier
 → existing Information Curator
-→ future Character + Experiences + People one-call curation
+→ Character + Experiences + People one-call curation
 → information_curation currentness
 → player-safe People L3
 → card UI
@@ -198,39 +200,80 @@ Protected decisions:
 - no silent historical People backfill for old Games in v0.1;
 - People never reuses the MW-015 Initial Character displaced-future baseline recovery exception.
 
-## 10. CURRENT — MW-017
+## 10. MW-017 — ENGINEERING PASS / INTEGRATED
 
 Task:
 
 `docs/tasks/MW-017_PEOPLE_IDENTITY_BRIDGE_AND_BARRIER_TASK.md`
 
-Product consequence: this is backend-only. It does not add the People tab yet. It makes the next People UI task safe by proving exact person identity and same-Turn ordering.
+Independent Review:
 
-Required boundaries:
+`docs/mw017/MW-017_INDEPENDENT_REVIEW_IR1.md`
 
-- no People UI/navigation;
-- no `people_updates` content contract yet;
-- no Relationship system;
-- no generic event bus/scheduler;
-- no historical backfill/opening support;
-- no new SQLite table;
-- no unreviewed Owner-build installation.
+Integration verification:
+
+`docs/mw017/MW-017_INTEGRATION_VERIFICATION.md`
+
+Reviewed outcome:
+
+```text
+accepted player-authored Turn
+→ exact request-scoped person identity binding
+→ same-turn runtime actor mint before binding when needed
+→ durable current receipt
+→ semantic terminal barrier
+→ Information Curator release
+```
+
+MW-017 is backend-only and requires no Owner product UAT.
+
+## 11. CURRENT — MW-018
+
+Task:
+
+`docs/tasks/MW-018_PEOPLE_CURATION_AND_CARD_SURFACE_TASK.md`
+
+Product target:
+
+```text
+right 信息 navigation
+→ 概览 | 角色 | 重要经历 | 人物 | 存档
+
+人物
+→ card list
+→ cards collapsed by default
+→ collapsed = compact identity/headline
+→ expanded = player-known relationship + latest-known details
+→ later learned information updates the same card
+→ hidden/off-screen NPC truth never auto-refreshes the card
+```
+
+Implementation must:
+
+- reuse the existing Information Curator call; no third People model call;
+- consume only MW-017 receipt-derived accepted evidence + prior player-known snapshot for bound people;
+- add a backward-compatible curation record/result variant without rewriting old MW-014/MW-015 IDs;
+- keep exact local IDs internal and strip them from leaf People DTO;
+- make Regenerate/Restore currentness visible immediately through projection;
+- keep GM-only opening / old-history backfill / numeric Relationship out of scope;
+- avoid MW-013/general declarative UI abstraction.
 
 Highest implementer return: `READY FOR INDEPENDENT REVIEW`.
 
-## 11. MW-018 / MW-013
+After GPT Engineering PASS + integration, MW-018 requires canonical Owner-build sync/export and Owner UAT.
+
+## 12. MW-013 HOLD
 
 ```text
-MW-018 People Curation + Card Surface
-→ NOT AUTHORIZED until MW-017 Engineering PASS
-
 MW-013 Internal Declarative UI Host
 → HOLD until repeated grounded consumers prove stable patterns
 ```
 
-## 12. Owner UAT build handoff
+Do not pre-abstract People/Character into a generic external/internal renderer in MW-018.
 
-Only product-facing outcomes require Owner-build handoff:
+## 13. Owner UAT build handoff
+
+Product-facing outcomes follow:
 
 ```text
 Engineering PASS
@@ -243,4 +286,4 @@ Engineering PASS
 
 Never install an unreviewed branch into the Owner checkout. Never use reset/clean/force to hide dirty/divergent work.
 
-MW-017 is backend-only, so no Owner UAT build is required after its Engineering PASS; proceed to MW-018 shaping instead.
+`run-game.cmd` / `run-game.ps1` prove export freshness only against the current local checkout; UAT preparation must first prove that checkout equals the intended reviewed main.
