@@ -1,0 +1,25 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+G5-01 FOCUSED PASS | provisional streaming text never starts materialization
+G5-01 FOCUSED PASS | cancelled narrative never starts materialization
+G5-01 FOCUSED PASS | failed narrative never starts materialization
+G5-01 FOCUSED PASS | durable accepted ordinary turn starts exactly one separate analysis
+G5-01 FOCUSED PASS | analysis request contains accepted player and GM pair
+G5-01 FOCUSED PASS | valid analysis commits exactly one World Turn
+G5-01 FOCUSED PASS | legacy G4 World gains optional living_world without losing prior state
+G5-01 FOCUSED PASS | same accepted version replay is idempotent
+G5-01 FOCUSED PASS | empty analysis failure/empty preserves accepted Conversation and creates no mutation
+G5-01 FOCUSED PASS | empty performs no automatic retry
+G5-01 FOCUSED PASS | malformed analysis failure/empty preserves accepted Conversation and creates no mutation
+G5-01 FOCUSED PASS | malformed performs no automatic retry
+G5-01 FOCUSED PASS | transport analysis failure/empty preserves accepted Conversation and creates no mutation
+G5-01 FOCUSED PASS | transport performs no automatic retry
+G5-01 FOCUSED PASS | synchronous analysis failure/empty preserves accepted Conversation and creates no mutation
+G5-01 FOCUSED PASS | synchronous performs no automatic retry
+G5-01 FOCUSED PASS | persistence failure does not publish candidate World memory
+G5-01 FOCUSED PASS | persistence failure does not roll back accepted Conversation
+G5-01 FOCUSED PASS | GM-only Opening is excluded
+G5-01 FOCUSED PASS | Context projection is bounded to eight matching committed records and counts stale/malformed records
+G5-01 FOCUSED PASS | Context keeps recent matching consequences and excludes bounded-old/stale material
+G5-01 FOCUSED PASS | uncommitted candidate outside current World does not project
+G5-01 FOCUSED | done failures=0

@@ -155,3 +155,15 @@ Real Provider script: `tests/mw014/真实Provider信息整理验证.gd`; launche
 ## Non-scope
 
 No final Godot Character/Important Experiences Surface, left-panel redistribution, portraits/media resolver, Inventory/Relationship/Thread/Map/system mechanics, MW-013 UI Host, Action Intent, G7 retrieval, external Mod schema, Source mutation, SQLite migration or main merge.
+
+## Recorded candidate verification
+
+Content/test commit: `7f20ed05d0569ec3107f8967b912912c3fa1966b`.
+
+Before evidence packaging: `git rev-parse HEAD` matched that commit and `git status --short` was empty after removing this run's generated import/UID noise. The final evidence-only commit does not change production or test content.
+
+All eight offline suites completed with exit 0 and zero script errors or leaks; the focused suite reports 103 checks / 0 failures. Windows Desktop release export completed with exit 0 and zero export errors. See `evidence/verification.json` for individual results and binary/log SHA-256; eight full suite logs are committed alongside it. Full export log and binaries remain under the ignored `build/mw014/verify-20260906-133213/` directory.
+
+`git diff --check <implementation-base> HEAD` passed. Final pre-push refresh found implementation and governance main unchanged from the listed bases. `evidence/changed-files.txt` lists the candidate delta, including companion Godot UIDs and evidence files.
+
+The required live Provider semantic evidence remains unexecuted due to the approval block. This is an implementation candidate with offline evidence, **not READY FOR INDEPENDENT REVIEW**, and not an Engineering PASS declaration.

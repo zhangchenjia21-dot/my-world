@@ -1,0 +1,33 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-011R2 PASS | 2 valid bounded player_profile validates
+MW-011R2 PASS | 2 malformed/oversized/unknown-field player_profile shapes all fail loudly
+MW-011R2 PASS | Zhang Chen card carries the authored player_profile
+MW-011R2 PASS | 1/12 legacy card without player_profile still Final Creates
+MW-011R2 PASS | 1/12 legacy Game stays profile-empty (fail-closed, no backfill)
+MW-011R2 PASS | 3 Zhang Chen 208 Final Create succeeds
+MW-011R2 PASS | created Game opens
+MW-011R2 PASS | 3 selected projection freezes the exact player_profile into the Game
+MW-011R2 PASS | 4 frozen player_profile is presentation-only (no GM prose inside)
+MW-011R2 PASS | 4 invalid input fails closed
+MW-011R2 PASS | 4 tampered frozen profile fails closed
+[shell] application=game_active session=ready
+MW-011R2 PASS | 5 Player Host renders identity/profile labels
+MW-011R2 PASS | 5 headline and summary render before any Player turn
+MW-011R2 PASS | 5 representative group items render
+MW-011R2 PASS | 6 GM-reference sentinel text absent from visible Player Host
+MW-011R2 PASS | 6 ViewModel carries no GM prose/sections/catalog fallback
+MW-011R2 PASS | 7 recent actions and turn count still update
+MW-011R2 PASS | 8 Player-known facts still come from MW-009 and update
+MW-011R2 PASS | reopen existing Game
+MW-011R2 PASS | 9 reopen reproduces profile + R1 ViewModel exactly
+MW-011R2 PASS | post-turn count is 2 before Restore
+MW-011R2 PASS | Restore succeeds
+MW-011R2 PASS | 10 Restore removes restored-away recent actions/count
+MW-011R2 PASS | 10 frozen profile preserved across Restore
+[shell] application=game_active session=ready
+MW-011R2 PASS | 10 restored Game still renders frozen profile
+[shell] application=menu_ready session=absent
+MW-011R2 PASS | 18 Player Host scrollable container present
+MW-011R2 FOCUSED | done failures=0
+MW-011R2 FOCUSED | done failures=0

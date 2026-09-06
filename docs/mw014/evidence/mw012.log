@@ -1,0 +1,32 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-012 PASS | package validates under the existing character_card.v0.2 contract
+MW-012 PASS | identity/version/player_character_supported/fingerprint as contracted
+MW-012 PASS | exact immutable generation published through the normal Managed Source path
+MW-012 PASS | current/exact lookup converge on the installed generation
+MW-012 PASS | 3 New Game inventory discovers 张琛 as a selectable Player Character (no picker hardcoding)
+MW-012 PASS | 9 existing 刘备 discovery path remains green
+MW-012 PASS | 4 T0 binding t0-184-yellow-turban → exact_profile_match
+MW-012 PASS | 4 T0 binding t0-189-luoyang-crisis → exact_profile_match
+MW-012 PASS | 4 T0 binding t0-196-emperor-xu → exact_profile_match
+MW-012 PASS | 4 T0 binding t0-200-guandu-eve → exact_profile_match
+MW-012 PASS | 4 T0 binding t0-208-red-cliffs-eve → exact_profile_match
+MW-012 PASS | 4 T0 binding t0-214-yizhou-transition → exact_profile_match
+MW-012 PASS | 4 T0 binding t0-220-han-wei-transition → exact_profile_match
+MW-012 PASS | 5 unrelated world gains no false eligibility (no_world_coverage)
+MW-012 PASS | Han world pack installed in the same library
+MW-012 PASS | 6 Final Create with 208 Red Cliffs + 张琛 succeeds through the real product seam
+MW-012 PASS | created Game existing-only opens
+MW-012 PASS | 7 frozen Game-local Player projection identifies 张琛
+MW-012 PASS | 7 frozen projection binds the selected T0 profile
+MW-012 PASS | 8 GM context receives the transport premise
+MW-012 PASS | 8 GM context receives goals and moral boundaries
+MW-012 PASS | 8 GM context receives limits and finite possessions
+MW-012 PASS | 8 GM context receives the historical-knowledge non-canon boundary
+MW-012 PASS | 7 player-safe projection identifies 张琛 + selected profile
+MW-012 PASS | frozen Player projection carries the runtime local id (existing GM-context design)
+MW-012 PASS | player-safe projection keeps the internal local id out (MW-009 boundary)
+MW-012 PASS | 6b existing 刘备 208 Final Create path remains green
+MW-012 PASS | 6b 刘备 frozen projection unchanged
+MW-012 PASS | R2-02 production prep script loads with the reviewed Zhang Chen contract constants
+MW-012 ACCEPTANCE | done failures=0

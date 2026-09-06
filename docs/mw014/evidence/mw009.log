@@ -1,0 +1,60 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-009 PASS | frozen Game projects safe Player display name
+MW-009 PASS | frozen Game projects safe selected profile name
+MW-009 PASS | frozen Game projects safe World/Entry names
+MW-009 PASS | projection object carries no internal IDs/fingerprints/instructions/Primer
+MW-009 PASS | opening accepted durably
+MW-009 PASS | turn accepted durably: 我在粮仓前驻足。
+MW-009 PASS | knowledge record commits through production semantic seam
+MW-009 PASS | 2 valid Player knowledge fact A displays; 3 NPC-only fact B does not
+MW-009 PASS | turn accepted durably: 我打听市价。
+MW-009 PASS | 4 raw semantic consequence C does not display
+MW-009 PASS | 5 agency action D commits hidden truth
+MW-009 PASS | 6 world evolution event E commits hidden truth
+MW-009 PASS | 5/6 hidden Agency/Evolution truth stays out of projection after refresh
+MW-009 PASS | turn accepted durably: 我亲自查看粮价。
+MW-009 PASS | 7 knowledge carrying substance of C displays through the knowledge seam
+MW-009 PASS | turn accepted durably: 行动 4。
+MW-009 PASS | knowledge injected via production commit seam (turn 4)
+MW-009 PASS | turn accepted durably: 行动 5。
+MW-009 PASS | knowledge injected via production commit seam (turn 5)
+MW-009 PASS | turn accepted durably: 行动 6。
+MW-009 PASS | knowledge injected via production commit seam (turn 6)
+MW-009 PASS | turn accepted durably: 行动 7。
+MW-009 PASS | knowledge injected via production commit seam (turn 7)
+MW-009 PASS | turn accepted durably: 行动 8。
+MW-009 PASS | knowledge injected via production commit seam (turn 8)
+MW-009 PASS | turn accepted durably: 行动 9。
+MW-009 PASS | knowledge injected via production commit seam (turn 9)
+MW-009 PASS | turn accepted durably: 行动 10。
+MW-009 PASS | knowledge injected via production commit seam (turn 10)
+MW-009 PASS | turn accepted durably: 行动 11。
+MW-009 PASS | knowledge injected via production commit seam (turn 11)
+MW-009 PASS | turn accepted durably: 行动 12。
+MW-009 PASS | knowledge injected via production commit seam (turn 12)
+MW-009 PASS | turn accepted durably: 行动 13。
+MW-009 PASS | knowledge injected via production commit seam (turn 13)
+MW-009 PASS | known facts bounded to 8
+MW-009 PASS | duplicate fact kept once at newest occurrence; chronological order ends with newest
+MW-009 PASS | pre-regenerate fact 13 displayed
+MW-009 PASS | latest turn regenerated with new hash
+MW-009 PASS | 8 stale hash-mismatched knowledge excluded after replacement
+MW-009 PASS | reopen existing Game
+MW-009 PASS | 10 reopen reconstructs the same safe projection
+MW-009 PASS | opening accepted durably
+MW-009 PASS | turn accepted durably: 我在粮仓前驻足。
+MW-009 PASS | Save captured before Player knowledge
+[shell] application=game_active session=ready
+MW-009 PASS | Shell player panel shows safe identity
+MW-009 PASS | Shell world panel shows safe World/Entry identity
+MW-009 PASS | quiet empty state before any Player knowledge
+MW-009 PASS | 12 side panels expose no internal IDs/fingerprints/instructions/Primer
+MW-009 PASS | 9 semantic terminal refreshes panel live without reopen
+MW-009 PASS | empty state replaced once facts exist
+MW-009 PASS | Restore to pre-knowledge Save succeeds
+MW-009 PASS | 11 restored-away fact removed from panel after Restore
+MW-009 PASS | 12 invalid projection input fails closed to safe/empty display
+MW-009 PASS | 12 raw world state never dumped through projection
+MW-009 PASS | legacy/absent setup fails closed
+MW-009 FOCUSED | done failures=0

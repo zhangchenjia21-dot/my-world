@@ -1,0 +1,70 @@
+{
+  "work_item": "MW-014",
+  "revision": 1,
+  "status": "IMPLEMENTED_REAL_PROVIDER_SMOKE_PENDING_APPROVAL",
+  "tested_content_sha": "7f20ed05d0569ec3107f8967b912912c3fa1966b",
+  "implementation_base_sha": "7daa6223a07ff4a2103cc9bd5944ea27028eabce",
+  "governance_main_sha": "d9e131cb15cf496e4a856c50367ac5f79c058272",
+  "godot_version": "4.7.2.stable.official.ed1daf0bf",
+  "focused_assertions": 103,
+  "results": [
+    {
+      "name": "focused",
+      "exit_code": 0,
+      "script_errors": 0,
+      "log_sha256": "dafca434090f4c09fbdbf49c6fb4b076f0b2993870e2df64b46e80a3bce017c6"
+    },
+    {
+      "name": "g304",
+      "exit_code": 0,
+      "script_errors": 0,
+      "log_sha256": "842c14ccaa17064ba4640449354351d85310cdeb8d9f3e65c633eab2c026a826"
+    },
+    {
+      "name": "g501-materialization",
+      "exit_code": 0,
+      "script_errors": 0,
+      "log_sha256": "f2687e575d0fa123b199049804c6ad5b448761d1f7f7e5eabfa9980d494fa0d9"
+    },
+    {
+      "name": "g501-timeline",
+      "exit_code": 0,
+      "script_errors": 0,
+      "log_sha256": "7b4ad6071016f276205f1c0b9538cdf708abb45939a33f4d1e7666eef3518d21"
+    },
+    {
+      "name": "mw009",
+      "exit_code": 0,
+      "script_errors": 0,
+      "log_sha256": "bf9eb838edf7fcf0015fe66b99fa474b66d8710ba81796ab42ac83dca69a51a4"
+    },
+    {
+      "name": "mw011",
+      "exit_code": 0,
+      "script_errors": 0,
+      "log_sha256": "c4301ce5cfeb48362261823aaee23bfef4cec89dad453ae4a28a007b935f95c1"
+    },
+    {
+      "name": "mw011r2",
+      "exit_code": 0,
+      "script_errors": 0,
+      "log_sha256": "ae167bfdf1d6c9efa2f1613404027db9deff7e0077360858adadabf53a6ca32e"
+    },
+    {
+      "name": "mw012",
+      "exit_code": 0,
+      "script_errors": 0,
+      "log_sha256": "3c92b002cdeef01aba3509d09683e6afe6c59e2282bb1d28a104f9d2d6b2e2c8"
+    },
+    {
+      "name": "windows-export",
+      "exit_code": 0,
+      "script_errors": 0,
+      "log_sha256": "b498579f64ae84eff253e44641298804624273bfc6f1dc2add113bf71ba47d08"
+    }
+  ],
+  "windows_exe_sha256": "4a9eaded8955ef789ab02651ed9d2dde80328fbb342bd2a6db4db33e86305668",
+  "windows_pck_sha256": "87ad93b811b470ba48e7aef7d098fe4c667e7a09998510ef7cd2569142c30c16",
+  "architecture": "New-module downward dependencies; cross-module concrete references only L3 to L3; no semantic router/score/rule tree; no SQLite schema or table change.",
+  "real_provider_smoke": "NOT RUN: automatic approval rejected credential-backed request; explicit Kimi K3 destination and synthetic scenario/profile payload authorization pending."
+}
