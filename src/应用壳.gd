@@ -13,6 +13,7 @@ const FirstOpening := preload("res://src/首次开场/L3_外交层/首次开场�
 const ActionAdjudication := preload("res://src/行动判定/L3_外交层/行动判定公开接口.gd")
 const ModelRuntimeSettings := preload("res://src/运行时设置/L3_外交层/模型运行时设置公开接口.gd")
 const AgencyScheduler := preload("res://src/世界回合/L3_外交层/行动代理调度公开接口.gd")
+const InformationCurator := preload("res://src/信息整理/L3_外交层/信息整理公开接口.gd")
 const WorldTurn := preload("res://src/世界回合/L3_外交层/世界回合公开接口.gd")
 const WorldEvolution := preload("res://src/世界回合/L3_外交层/世界演化评估公开接口.gd")
 const Palette := preload("res://src/ui/视觉舒适调色板.gd")
@@ -113,6 +114,8 @@ var opening_runtime: Node = null
 ## Game-local materialized Public d20 capability 存在时挂载的 G4-08 行动判定 Host。
 var action_adjudication: Node = null
 ## durable Conversation acceptance 后运行的独立 best-effort semantic lane；不拥有 Narrative/UI truth。
+var information_curator: Node = null
+var test_information_curator_adapter_override: Node = null
 var world_turn_runtime: Node = null
 var agency_scheduler: Node = null
 ## MW-002：Agency opportunity 终态后运行的独立 best-effort World Evolution lane；
@@ -535,6 +538,8 @@ func _close_game_session() -> Dictionary:
 func _prepare_world_turn_after_activation() -> void:
 	if session_runtime == null or not session_runtime.is_ready() or world_turn_runtime != null:
 		return
+	information_curator = InformationCurator.new(session_runtime, test_information_curator_adapter_override)
+	add_child(information_curator)
 	world_turn_runtime = WorldTurn.new(session_runtime, test_world_turn_adapter_override)
 	add_child(world_turn_runtime)
 	# G5-03M1R01：standalone Agency Scheduler 复用 WorldTurn 的 lifecycle；不消费 semantic result。
@@ -588,6 +593,10 @@ func _teardown_agency_scheduler() -> void:
 
 
 func _teardown_world_turn_runtime() -> void:
+	if information_curator != null:
+		information_curator.shutdown()
+		information_curator.queue_free()
+		information_curator = null
 	if world_turn_runtime == null:
 		return
 	world_turn_runtime.shutdown()

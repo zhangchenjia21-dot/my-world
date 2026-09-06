@@ -94,7 +94,7 @@ func _test_save_and_restore() -> bool:
 	var serialized := JSON.stringify(messages)
 	if serialized.contains(FUTURE_MARKER) or messages.size() != 26 or String(messages[-1].content) != "恢复后的当前行动" or _count_message(messages, "恢复后的当前行动") != 1:
 		return _fail("future-memory isolation/recent-12 failed: %s" % messages)
-	if serialized.contains("materialization_json") or String(messages[0].content).contains("Current Game Context"):
+	if serialized.contains("materialization_json") or String(messages[0].content) != "GM Instructions\n%s" % ContextAssembler.GM_INSTRUCTIONS:
 		return _fail("raw World/persisted Context entered Provider messages")
 	runtime.conversation.cancel_generation()
 	runtime.close()

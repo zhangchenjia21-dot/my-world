@@ -20,3 +20,7 @@ func build_from_runtime(runtime: Variant) -> Dictionary:
 	# MW-011 R2：player_profile 来自独立的 fail-closed 档案投影器（只读冻结 source_projection）。
 	var profile: Dictionary = ProfileProjection.project(runtime.world_state)
 	return Device.build(_player_safe.project_session(runtime), runtime.conversation.get_durable_accepted_entries(), profile)
+
+## MW-014 复用 frozen profile disclosure 边界；无 Source-current 查找与 Provider 副作用。
+static func project_frozen_profile(world_state: Dictionary) -> Dictionary:
+	return ProfileProjection.project(world_state)
