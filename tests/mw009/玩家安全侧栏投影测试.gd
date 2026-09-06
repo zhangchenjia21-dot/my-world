@@ -171,7 +171,10 @@ func _test_shell_consumer_lifecycle() -> void:
 	var player_text := _panel_text(inst, true)
 	var world_text := _panel_text(inst, false)
 	var player_id := String(runtime.world_state.player_character.local_character_id)
-	_check(player_text.contains(String(created.player_name)) and player_text.contains(String(created.profile_name)), "Shell player panel shows safe identity")
+	# MW-015：过渡 biography/profile 从 Player Status Host 迁出；无真实 portrait/mechanics 内容时
+	# Host collapse/hide。身份材料现归右侧 Character Surface（MW-014 seam）。
+	_check(not player_text.contains(String(created.player_name)) and not player_text.contains(String(created.profile_name)), "MW-015: transitional identity/profile leaves the left Player Status Host")
+	_check(not inst.player_panel_host.visible, "MW-015: empty Player Status Host collapses in wide layout")
 	_check(world_text.contains(String(created.world_name)) and world_text.contains(String(created.entry_name)), "Shell world panel shows safe World/Entry identity")
 	_check(world_text.contains("主角所知") and world_text.contains("尚无新的已知事实。"), "quiet empty state before any Player knowledge")
 	var all_panels := player_text + world_text
@@ -267,11 +270,16 @@ func _panel_text(inst: Node, player_panel: bool) -> String:
 	var host_path := "Margin/Layout/HostLayout/PlayerPanelHost/PlayerPanelMargin/PlayerPanelScroll/PlayerPanelColumn" if player_panel else "Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"
 	var column: VBoxContainer = inst.get_node(NodePath(host_path))
 	var parts := PackedStringArray()
-	for child: Node in column.get_children():
-		parts.append(child.text if child is Label else "")
-		for grandchild: Node in child.get_children():
-			parts.append(grandchild.text if grandchild is Label else "")
+	_collect_label_texts(column, parts)
 	return "\n".join(parts)
+
+
+## MW-015：右侧 Surface 内容现位于 WorldSurfaceScroll/WorldSurfaceColumn 内，递归收集 Label 文本。
+func _collect_label_texts(node: Node, parts: PackedStringArray) -> void:
+	if node is Label:
+		parts.append(node.text)
+	for child: Node in node.get_children():
+		_collect_label_texts(child, parts)
 
 
 func _argument(prefix: String) -> String:

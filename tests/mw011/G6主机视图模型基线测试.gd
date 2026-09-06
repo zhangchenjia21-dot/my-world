@@ -108,14 +108,12 @@ func _test_shell_integration() -> void:
 	await process_frame
 	_check(runtime.conversation.get_durable_accepted_entries().size() == 1, "GM opening accepted")
 
-	# 1 fresh Game：ViewModel 驱动的身份/世界上下文/空态
+	# 1 fresh Game：ViewModel 驱动的世界上下文/空态（MW-015：身份/档案迁出左 Host）
 	var view: Node = inst.get_node("%NarrativeHost")
 	var player_text := _panel_text(inst, true)
 	var world_text := _panel_text(inst, false)
-	_check(player_text.contains("刘备") and player_text.contains("208 人物起点"), "1 Player Host renders identity/profile via ViewModel")
-	_check(player_text.contains("世界：汉末三国：天下未定 · 208｜赤壁前夕"), "1 Player Host carries safe World/Entry context")
-	_check(player_text.contains("最近行动") and player_text.contains("尚无已完成的行动。"), "1 recent actions quiet empty state before any turn")
-	_check(player_text.contains("已进行 0 个玩家回合"), "3 player-turn count excludes GM-only Opening")
+	_check(not player_text.contains("刘备") and not player_text.contains("208 人物起点") and not player_text.contains("最近行动") and not player_text.contains("已进行"), "1 MW-015: left Host no longer carries identity/profile/recent-actions/turn-count")
+	_check(not inst.player_panel_host.visible, "1 MW-015: empty Player Status Host collapses in wide layout")
 	_check(world_text.contains("汉末三国：天下未定") and world_text.contains("208｜赤壁前夕") and world_text.contains("主角所知") and world_text.contains("尚无新的已知事实。"), "4 World Overview is the default content")
 	_check(inst.save_surface.visible == false and not inst.get_node("%SaveNameInput").is_visible_in_tree(), "4 Save controls not part of the default Overview hierarchy")
 	_check(inst.world_nav.visible == true and inst.overview_tab.button_pressed and not inst.save_tab.button_pressed, "4 bounded navigation defaults to Overview")
@@ -137,7 +135,7 @@ func _test_shell_integration() -> void:
 	await process_frame
 	_check(_world_body_visible(inst) and not inst.save_surface.visible, "5 switching back to Overview restores world content")
 
-	# 2 两个 accepted Player turns → recent actions live 更新（无 reopen）
+	# 2 两个 accepted Player turns（MW-015：recent actions 不再进入左 Host，仅验证不回流）
 	_swap_view_adapter(inst, narrative_stub)
 	_send(view, "我巡视粮草。")
 	narrative_stub.simulate_delta("你巡视粮仓，账目清楚。")
@@ -149,7 +147,7 @@ func _test_shell_integration() -> void:
 	await process_frame
 	await process_frame
 	player_text = _panel_text(inst, true)
-	_check(player_text.contains("• 我巡视粮草。") and player_text.contains("已进行 1 个玩家回合"), "2 first accepted Player action appears live without reopen")
+	_check(not player_text.contains("我巡视粮草") and not player_text.contains("已进行"), "2 MW-015: first accepted Player action stays out of the collapsed left Host")
 	_send(view, "我回帐休息。")
 	narrative_stub.simulate_delta("你回帐安歇。")
 	narrative_stub.simulate_completed()
@@ -160,7 +158,7 @@ func _test_shell_integration() -> void:
 	await process_frame
 	await process_frame
 	player_text = _panel_text(inst, true)
-	_check(player_text.contains("• 我巡视粮草。") and player_text.contains("• 我回帐休息。") and player_text.contains("已进行 2 个玩家回合"), "2 recent actions update in order after 2+ turns")
+	_check(not player_text.contains("我回帐休息") and not player_text.contains("已进行"), "2 MW-015: recent actions stay out of the left Host after 2+ turns")
 	# 7 主角 knowledge → Overview 显示；原始 semantic consequence 不显示
 	world_text = _panel_text(inst, false)
 	_check(world_text.contains("• %s" % PLAYER_FACT), "7 Player-known fact appears after normal knowledge materialization")
@@ -198,7 +196,7 @@ func _test_shell_integration() -> void:
 	var after_reopen: Dictionary = RPGViewModel.new().build_from_runtime(reopened)
 	_check(after_reopen == before_close, "9 Save/reopen reconstructs the same current ViewModel")
 
-	# 10 Restore 到 UI 建立的分岔存档 → recent actions / knowledge 回退
+	# 10 Restore 到 UI 建立的分岔存档 → knowledge 回退（MW-015：recent actions 已不在左 Host）
 	var restored: Dictionary = reopened.restore_save_point(String(save_listed.save_points[0].save_id))
 	_check(restored.success, "Restore to the UI-created Save succeeds")
 	var inst2: Node = (load("res://src/main.tscn") as PackedScene).instantiate()
@@ -210,7 +208,7 @@ func _test_shell_integration() -> void:
 	await process_frame
 	player_text = _panel_text(inst2, true)
 	world_text = _panel_text(inst2, false)
-	_check(player_text.contains("尚无已完成的行动。") and player_text.contains("已进行 0 个玩家回合"), "10 restored-away recent actions disappear after Restore")
+	_check(not player_text.contains("我巡视粮草") and not player_text.contains("已进行"), "10 MW-015: left Host remains free of recent actions after Restore")
 	_check(world_text.contains("尚无新的已知事实。") and not world_text.contains(PLAYER_FACT), "10 restored-away known facts disappear after Restore")
 
 	# 15 响应式：窄窗口 toggle 仍可用（World/Player 折叠行为不变）
@@ -257,13 +255,16 @@ func _panel_text(inst: Node, player_panel: bool) -> String:
 	var host_path := "Margin/Layout/HostLayout/PlayerPanelHost/PlayerPanelMargin/PlayerPanelScroll/PlayerPanelColumn" if player_panel else "Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"
 	var column: VBoxContainer = inst.get_node(NodePath(host_path))
 	var parts := PackedStringArray()
-	for child: Node in column.get_children():
-		parts.append(child.text if child is Label else "")
-		for grandchild: Node in child.get_children():
-			parts.append(grandchild.text if grandchild is Label else "")
-			for great_grandchild: Node in grandchild.get_children():
-				parts.append(great_grandchild.text if great_grandchild is Label else "")
+	_collect_label_texts(column, parts)
 	return "\n".join(parts)
+
+
+## MW-015：右侧 Surface 内容现位于 WorldSurfaceScroll/WorldSurfaceColumn 内，递归收集 Label 文本。
+func _collect_label_texts(node: Node, parts: PackedStringArray) -> void:
+	if node is Label:
+		parts.append(node.text)
+	for child: Node in node.get_children():
+		_collect_label_texts(child, parts)
 
 
 func _argument(prefix: String) -> String:

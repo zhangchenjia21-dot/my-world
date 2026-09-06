@@ -126,7 +126,7 @@ func _test_shell_integration() -> void:
 	(tampered.player_character as Dictionary).source_projection.player_profile = {"headline": "x"}
 	_check(ProfileProjection.project(tampered).success == false, "4 tampered frozen profile fails closed")
 
-	# 5 真实 Shell：第一幕前完整 profile + 6 GM 哨兵不泄露 + R1 材料仍在
+	# 5 真实 Shell：第一幕前冻结 profile 经右侧 Character Surface 渲染（MW-015）+ 6 GM 哨兵不泄露
 	var opening_stub := GenericStub.new()
 	var narrative_stub := GenericStub.new()
 	var semantic_stub := SemanticStub.new()
@@ -140,19 +140,22 @@ func _test_shell_integration() -> void:
 	opening_stub.simulate_delta("建安十三年冬，你出现在赤壁沿岸的芦苇滩上。")
 	opening_stub.simulate_completed()
 	await process_frame
+	# 5 真实 Shell：第一幕前完整 profile 在右侧 Character Surface（MW-015）+ 6 GM 哨兵不泄露
 	var player_text := _panel_text(inst, true)
-	var body_node: Container = inst._player_panel_body
-	_check(player_text.contains("主角") and player_text.contains("张琛") and player_text.contains("现代来客起点"), "5 Player Host renders identity/profile labels")
-	_check(player_text.contains("24岁 · 现代穿越者") and player_text.contains("退役武警义务兵"), "5 headline and summary render before any Player turn")
-	for group_title: String in ["背景", "性格", "能力", "局限", "初始目标", "行为原则", "随身物品"]:
-		if not player_text.contains(group_title):
-			_fail("5 group title missing: " + group_title)
-	_check(player_text.contains("• 军用水壶") and player_text.contains("• 不滥杀无辜"), "5 representative group items render")
-	_check(not player_text.contains(GM_SENTINEL), "6 GM-reference sentinel text absent from visible Player Host")
+	# MW-015：过渡 biography/profile 迁出左 Host；identity/profile 归右侧 Character Surface（MW-014 seam）。
+	_check(not player_text.contains("张琛") and not player_text.contains("24岁 · 现代穿越者"), "5 MW-015: transitional identity/profile leaves the left Player Status Host")
+	_check(not inst.player_panel_host.visible, "5 MW-015: empty Player Status Host collapses in wide layout")
+	inst.character_tab.button_pressed = true
+	await process_frame
+	var character_text := _surface_text(inst._character_panel_body)
+	_check(character_text.contains("24岁 · 现代穿越者") and character_text.contains("退役武警义务兵"), "5 Character Surface renders frozen profile headline/summary before any Player turn")
+	_check(character_text.contains("暂无更多角色信息。"), "5 authored groups are not Program-reclassified into Character")
+	_check(not character_text.contains("随身物品") and not character_text.contains("军用水壶"), "5 starting possessions stay out of Character Surface (future Inventory owns them)")
+	_check(not player_text.contains(GM_SENTINEL) and not character_text.contains(GM_SENTINEL), "6 GM-reference sentinel text absent from visible Hosts")
 	var vm_serialized := JSON.stringify(RPGViewModel.new().build_from_runtime(runtime))
 	_check(not vm_serialized.contains(GM_SENTINEL) and not vm_serialized.contains("semantic_sections") and not vm_serialized.contains("catalog_summary"), "6 ViewModel carries no GM prose/sections/catalog fallback")
 
-	# 7/8 R1 行为保持：recent actions / turn count / MW-009 facts
+	# 7/8 R1 行为保持：MW-009 facts 仍更新（MW-015：recent actions/turn count 不再进入左 Host）
 	_swap_view_adapter(inst, narrative_stub)
 	_send(view_of(inst), "我检查随身物品。")
 	narrative_stub.simulate_delta("你清点 items：水壶、刀具、手表、指南针与口粮俱在。")
@@ -164,7 +167,7 @@ func _test_shell_integration() -> void:
 	await process_frame
 	await process_frame
 	player_text = _panel_text(inst, true)
-	_check(player_text.contains("• 我检查随身物品。") and player_text.contains("已进行 1 个玩家回合"), "7 recent actions and turn count still update")
+	_check(not player_text.contains("我检查随身物品") and not player_text.contains("已进行"), "7 MW-015: recent actions/turn count stay out of the collapsed left Host")
 	var world_text := _panel_text(inst, false)
 	_check(world_text.contains("• 随身物品清点完毕。"), "8 Player-known facts still come from MW-009 and update")
 
@@ -211,7 +214,11 @@ func _test_shell_integration() -> void:
 	root.add_child(inst2)
 	await process_frame
 	await process_frame
-	_check(_panel_text(inst2, true).contains("24岁 · 现代穿越者"), "10 restored Game still renders frozen profile")
+	# MW-015：冻结 profile 经 Character Surface 渲染（MW-014 seam），不再出现在左 Host。
+	inst2.character_tab.button_pressed = true
+	await process_frame
+	_check(_surface_text(inst2._character_panel_body).contains("24岁 · 现代穿越者"), "10 restored Game still renders frozen profile on Character Surface")
+	_check(not _panel_text(inst2, true).contains("24岁 · 现代穿越者"), "10 MW-015: frozen profile stays out of the left Host after Restore")
 	inst2.queue_free()
 	runtime4.close()
 
@@ -259,13 +266,24 @@ func _panel_text(inst: Node, player_panel: bool) -> String:
 	var host_path := "Margin/Layout/HostLayout/PlayerPanelHost/PlayerPanelMargin/PlayerPanelScroll/PlayerPanelColumn" if player_panel else "Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"
 	var column: VBoxContainer = inst.get_node(NodePath(host_path))
 	var parts := PackedStringArray()
-	for child: Node in column.get_children():
-		parts.append(child.text if child is Label else "")
-		for grandchild: Node in child.get_children():
-			parts.append(grandchild.text if grandchild is Label else "")
-			for great_grandchild: Node in grandchild.get_children():
-				parts.append(great_grandchild.text if great_grandchild is Label else "")
+	_collect_label_texts(column, parts)
 	return "\n".join(parts)
+
+
+## MW-015：右侧 Surface 内容现位于 WorldSurfaceScroll/WorldSurfaceColumn 内，递归收集 Label 文本。
+func _surface_text(body: Variant) -> String:
+	if body == null or not is_instance_valid(body):
+		return ""
+	var parts := PackedStringArray()
+	_collect_label_texts(body, parts)
+	return "\n".join(parts)
+
+
+func _collect_label_texts(node: Node, parts: PackedStringArray) -> void:
+	if node is Label:
+		parts.append(node.text)
+	for child: Node in node.get_children():
+		_collect_label_texts(child, parts)
 
 
 func _argument(prefix: String) -> String:
