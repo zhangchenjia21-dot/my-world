@@ -25,15 +25,7 @@ Repositories:
 
 GPT owns product semantics / architecture / Task Shaping / dispatch / Independent Review.
 
-Current exception:
-
-```text
-MW-015 Character + Important Experiences UI
-→ remains assigned to KimiCode for this already-authorized round
-→ do not switch implementer mid-task
-```
-
-After MW-015 completes, new production implementation tasks default to:
+MW-015 was the final already-authorized KimiCode implementation round and is now integrated. New production implementation tasks default to:
 
 ```text
 Codex
@@ -50,7 +42,7 @@ Owner
 → Product UAT / explicit product verdict
 ```
 
-Do not continue routine Codex/KimiCode splitting after MW-015. KimiCode, Zcode or another implementation agent may be used again only if Owner explicitly re-authorizes it for a future task.
+Do not continue routine Codex/KimiCode splitting. KimiCode, Zcode or another implementation agent may be used again only if Owner explicitly re-authorizes it for a future task.
 
 Complexity / importance / blast radius still determine task splitting, spike need, acceptance depth and review rigor; they no longer choose between Codex and KimiCode.
 
@@ -90,7 +82,7 @@ MW-012 Zhang Chen Character Card            ENGINEERING PASS / INTEGRATED
 Visual Runtime re-entry                     AUDITED / IMPLEMENTATION DEFERRED
 Character + Important Experiences semantics FROZEN
 MW-014 Model-driven Information Curation    ENGINEERING PASS / INTEGRATED
-MW-015 Character + Important Experiences UI READY FOR KIMICODE
+MW-015 Character + Important Experiences UI ENGINEERING PASS / INTEGRATED / OWNER UAT PENDING
 MW-013 Internal Declarative UI Host v0.1    HOLD / NOT AUTHORIZED YET
 ```
 
@@ -228,7 +220,7 @@ optional Character Card player_profile
 
 Old Games do not backfill latest Source. No raw `semantic_sections` / GM-private / catalog/internal identity reaches Player profile UI.
 
-The rich left panel is now a **transitional implementation only**. MW-015 is authorized to migrate identity/profile material into the right Character Surface. After migration, if no portrait/mechanic contribution exists, left may collapse/hide rather than duplicate biography.
+The former rich left panel is a transitional implementation that MW-015 has now migrated away from. Identity/profile material belongs in the right Character Surface; when no portrait/mechanic contribution exists, the left Player Status Host may collapse/hide rather than duplicate biography.
 
 ## 10. MW-014 — ENGINEERING PASS / INTEGRATED
 
@@ -250,7 +242,7 @@ The reviewed L3 consumer seam is:
 
 It exposes presentation-safe current Character + Important Experiences and requires no Provider call to render/reopen.
 
-Do not modify MW-014 semantic authority/persistence behavior inside MW-015 unless the task explicitly stops and escalates a backend defect.
+Do not modify MW-014 semantic authority/persistence behavior inside a UI correction unless the task explicitly stops and escalates a backend defect.
 
 ## 11. Zhang Chen accepted generation
 
@@ -278,30 +270,27 @@ authored visual presentation != gameplay/world/location/knowledge authority
 map image != topology/current location/travel/pathfinding/GIS
 ```
 
-MW-015 must not invent portrait or status data just to keep the left Host visible.
+Do not invent portrait or status data just to keep the left Host visible.
 
-## 13. ACTIVE — MW-015
+## 13. MW-015 — ENGINEERING PASS / INTEGRATED / OWNER UAT PENDING
 
 Executable task:
 
 `docs/tasks/MW-015_CHARACTER_AND_IMPORTANT_EXPERIENCES_UI_V0_1_TASK.md`
 
-Identity:
+Reviewed implementation candidate:
 
-```text
-Work Item: MW-015
-Name: Character + Important Experiences Surfaces v0.1
-Primary Implementer: KimiCode
-Reviewer: GPT
-Revision: 1
-Review-Round: 0
-Status: READY FOR KIMICODE
-Branch: mw-015-character-important-experiences-ui-v01
-Worktree: D:/AI/Projects/.worktrees/my-world/mw-015
-Return ceiling: READY FOR INDEPENDENT REVIEW
-```
+`3387cba213a2680b08f78b07a63ee0ecee5417ce`
 
-Required product vertical:
+Integrated main commit:
+
+`967a856e02b761576cc4dcb773a693530dcf2fc9`
+
+Integration verification:
+
+`docs/mw015/MW-015_INTEGRATION_VERIFICATION.md`
+
+Integrated product vertical:
 
 ```text
 MW-014 player-safe Character / Important Experiences projection
@@ -315,7 +304,7 @@ left transitional biography removed
 empty Player Status Host collapses/hides until real portrait/mechanic consumer exists
 ```
 
-This is a bounded fixed Godot UI consumer. Do not build MW-013 Declarative Host, new Runtime semantics or generic all-Surface frameworks.
+No Product PASS exists until Owner UAT succeeds in the real application.
 
 ## 14. MW-013 HOLD
 
@@ -331,15 +320,55 @@ HOLD / NOT AUTHORIZED TO IMPLEMENT YET
 
 Do not continue Declarative UI Host until several grounded real Surfaces / mechanic consumers establish repeated patterns.
 
-## 15. Immediate route
+## 15. Owner UAT build handoff — mandatory for product-facing work
+
+The Owner's canonical local playable checkout is:
+
+`D:/AI/Projects/my-world`
+
+`run-game.cmd` / `run-game.ps1` guarantee export freshness only against the **current local checkout**. They do not prove that this checkout already equals the reviewed/integrated GitHub `main`.
+
+Therefore every product-facing implementation must complete two distinct handoffs:
 
 ```text
-MW-015 KimiCode implementation
+Implementation candidate
 → GPT Independent Review
-→ integrate only after Engineering PASS
+→ Engineering PASS
+→ integration to main
+→ canonical local checkout synchronization
+→ fresh Windows export verification
 → Owner UAT
-→ all subsequent new implementation tasks default to Codex
-→ People Surface / mechanic-state consumer / next grounded surfaces
-→ repeated patterns
-→ only later re-evaluate MW-013
+```
+
+Rules:
+
+1. The implementer must **not** install an unreviewed task branch into `D:/AI/Projects/my-world` and present it as the Owner build.
+2. After Engineering PASS and integration, the local-execution agent for UAT preparation defaults to Codex unless Owner says otherwise.
+3. Before touching `D:/AI/Projects/my-world`, inspect branch/status/worktrees. Never overwrite unknown dirty work, local commits, or divergence.
+4. If the canonical checkout is clean and safely fast-forwardable, fetch and fast-forward `main` to the exact reviewed/integrated `origin/main` (or the explicitly specified integration SHA).
+5. Verify local `HEAD` equals the intended integrated commit before export.
+6. Run `./run-game.ps1 -ValidateExportOnly` (PowerShell equivalent accepted) so `build/windows/my-world.exe`, `.pck`, and freshness metadata are rebuilt/validated against that checkout.
+7. Report the exact local `HEAD` and export-validation result. Owner UAT starts only after this handoff passes.
+8. If local checkout is dirty, divergent, on an unexpected branch, or cannot reach the intended integration commit, STOP and report; never use reset/clean/force to make the problem disappear.
+9. Do not edit `run-game.cmd` on every task merely to force freshness. The launcher remains generic; the required operation is **sync reviewed main → validate fresh export → hand off to Owner**.
+
+For non-product-facing tasks that do not require Owner UAT, this build handoff is not automatically required.
+
+## 16. Immediate route
+
+```text
+prepare canonical local checkout + fresh export for MW-015 Owner UAT
+→ Owner UAT
+→ if PASS: mark MW-015 PRODUCT PASS / CLOSED
+→ choose next grounded G6 outcome
+→ all new implementation tasks default to Codex
+
+if Owner UAT NOT PASS:
+→ GPT root-cause / scope classification
+→ same MW-015 revision lineage for same-outcome defects
+→ Codex implements required correction
+→ GPT Independent Review
+→ integrate after Engineering PASS
+→ canonical local checkout sync + fresh export
+→ Owner UAT again
 ```
