@@ -49,7 +49,7 @@ Owner
 
 Cleanly separable mixed work may be split `Codex mechanism/backend + KimiCode UI/consumer`. If a task cannot be safely split and touches core authority/persistence/runtime, prefer Codex.
 
-The already-running MW-011 Revision 3 line remains with **Zcode** through integration/closeout; do not switch the active task mid-flight. This Owner instruction supersedes the previous temporary rule that all new code-changing tasks through 2026-09-06 defaulted to Zcode.
+MW-011 Revision 3 has completed its Zcode integration/closeout. Subsequent new implementation tasks use the Codex/KimiCode routing above; do not default new work back to Zcode unless the Owner explicitly changes routing again.
 
 Gemini review remains CANCELLED / DO NOT EXECUTE.
 
@@ -71,7 +71,7 @@ All task worktrees:
 
 Before creating/removing worktrees inspect `git worktree list --porcelain`. Remove only closed/reviewed + clean + pushed/reachable/integrated + no unknown user work. Registered worktrees are removed only with `git worktree remove`, followed by `git worktree prune`.
 
-Keep the active task worktree through GPT Independent Review and integration verification unless explicitly disposable.
+Keep active task worktrees through GPT Independent Review and integration verification unless explicitly disposable.
 
 ## 2. Current phase
 
@@ -87,7 +87,7 @@ G6 RPG Experience & Internal Declarative UI Host ACTIVE
 MW-011 R1 G6 RPG Host ViewModel Baseline    ENGINEERING PASS / INTEGRATED
 MW-011 R1 Owner UI UAT                      NOT PASS — Player Host too thin
 MW-011 R2 Player Profile Surface            IR#2 NOT PASS
-MW-011 R3 Committed Profile Source Fix      ENGINEERING PASS / INTEGRATION READY
+MW-011 R3 Player Profile Surface            ENGINEERING PASS / INTEGRATED — OWNER UI UAT
 MW-012 Zhang Chen Player Character Card     ENGINEERING PASS / INTEGRATED
 ```
 
@@ -144,9 +144,13 @@ R3 formal review:
 
 `docs/mw011/MW-011_INDEPENDENT_REVIEW_IR3.md`
 
+R3 integration verification:
+
+`docs/mw011/MW-011_R3_INTEGRATION_VERIFICATION.md`
+
 Current verdict:
 
-**MW-011 Revision 3 / IR#3 = ENGINEERING PASS — INTEGRATION READY / OWNER UI UAT AFTER INTEGRATION.**
+**MW-011 Revision 3 / IR#3 = ENGINEERING PASS — INTEGRATED / OWNER UI UAT.**
 
 Reviewed branch head:
 
@@ -156,7 +160,11 @@ Production/content test HEAD:
 
 `16c42d576b28c6119c26ff310b426d0caec202ce`
 
-The branch-head delta after the tested content HEAD is evidence-only.
+Integration commit:
+
+`12eedba6a6da47d351d33fb544efbdaa188c85b8`
+
+The integration merge has the reviewed branch head as a direct parent. Comparison from the reviewed head to integrated main shows only governance/review documents after the reviewed outcome; no production/content bytes were rewritten.
 
 ## 5. Player Character Profile contract
 
@@ -250,12 +258,10 @@ Do not manufacture a generic platform before real consumers establish the need. 
 ## 8. Immediate route
 
 ```text
-Zcode reconcile reviewed MW-011 R3 lineage onto refreshed current main
-→ no semantic changes; STOP on real production/content conflict
-→ focused integration smoke / Windows export as appropriate
-→ push remote main and return exact SHA
-→ Owner creates a fresh Zhang Chen 0.1.1 Game
+Owner creates a fresh Zhang Chen 0.1.1 Game
 → Owner UI UAT on rich Player Host
 → GPT records product verdict
-→ next G6 task is shaped and assigned to Codex or KimiCode under the new Owner routing
+→ if PASS, close MW-011 product outcome
+→ shape next real G6 consumer / visual vertical
+→ assign that new task to Codex or KimiCode under current Owner routing
 ```
