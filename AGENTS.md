@@ -23,33 +23,36 @@ Repositories:
 
 ## 2. Current implementation routing — Owner update 2026-09-06
 
-GPT owns product semantics / architecture / Task Shaping / assignment / Independent Review.
+GPT owns product semantics / architecture / Task Shaping / dispatch / Independent Review.
 
-For new implementation tasks:
+Current exception:
+
+```text
+MW-015 Character + Important Experiences UI
+→ remains assigned to KimiCode for this already-authorized round
+→ do not switch implementer mid-task
+```
+
+After MW-015 completes, new production implementation tasks default to:
 
 ```text
 Codex
-→ high-complexity / high-importance / high-blast-radius
+→ sole default implementation agent
 → Runtime / Source / Persistence / Save / world semantics / authority boundaries
-→ cross-module refactors / hard debugging / critical integration
-→ architecture-critical shared UI infrastructure
-
-KimiCode
-→ bounded, clear, lower-risk implementation
-→ frontend/UI/interaction on established seams
-→ ordinary Character / People / Save surfaces once semantics are frozen
-→ content tooling / tests / small refactors
+→ frontend/UI/interaction / ordinary Surfaces / visual polish
+→ cross-module refactors / debugging / tests / tooling
+→ architecture-critical shared infrastructure
 
 GPT
-→ semantics / architecture / shaping / assignment / IR
+→ semantics / architecture / shaping / dispatch / Independent Review
 
 Owner
 → Product UAT / explicit product verdict
 ```
 
-Mixed work may split `Codex mechanism + KimiCode consumer`. If a task cannot be safely split and touches core authority/persistence/runtime, prefer Codex.
+Do not continue routine Codex/KimiCode splitting after MW-015. KimiCode, Zcode or another implementation agent may be used again only if Owner explicitly re-authorizes it for a future task.
 
-Do not default new work back to Zcode unless Owner explicitly changes routing.
+Complexity / importance / blast radius still determine task splitting, spike need, acceptance depth and review rigor; they no longer choose between Codex and KimiCode.
 
 Gemini review remains CANCELLED / DO NOT EXECUTE.
 
@@ -335,6 +338,7 @@ MW-015 KimiCode implementation
 → GPT Independent Review
 → integrate only after Engineering PASS
 → Owner UAT
+→ all subsequent new implementation tasks default to Codex
 → People Surface / mechanic-state consumer / next grounded surfaces
 → repeated patterns
 → only later re-evaluate MW-013
