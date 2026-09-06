@@ -7,6 +7,7 @@ extends RefCounted
 
 const Device := preload("res://src/rpg视图模型/L1_器件层/RPG主机视图模型.gd")
 const PlayerSafe := preload("res://src/玩家安全投影/L3_外交层/玩家安全投影公开接口.gd")
+const ProfileProjection := preload("res://src/rpg视图模型/L1_器件层/玩家角色档案投影器.gd")
 
 var _player_safe: RefCounted = null
 
@@ -16,4 +17,6 @@ func build_from_runtime(runtime: Variant) -> Dictionary:
 		return Device.build({}, [])
 	if _player_safe == null:
 		_player_safe = PlayerSafe.new()
-	return Device.build(_player_safe.project_session(runtime), runtime.conversation.get_durable_accepted_entries())
+	# MW-011 R2：player_profile 来自独立的 fail-closed 档案投影器（只读冻结 source_projection）。
+	var profile: Dictionary = ProfileProjection.project(runtime.world_state)
+	return Device.build(_player_safe.project_session(runtime), runtime.conversation.get_durable_accepted_entries(), profile)

@@ -31,7 +31,18 @@ const CHARACTER_FIELDS_V2 := [
 	"schema_version", "asset_id", "asset_type", "version", "display_name",
 	"catalog_summary", "semantic_sections", "t0_profiles", "portrait",
 	"player_character_supported",
+	"player_profile",
 ]
+## MW-011 R2 / G6 decision §3：Character Card v0.2 的 optional player-facing
+## presentation 字段边界；仅当字段存在时启用。
+const PLAYER_PROFILE_FIELDS := ["headline", "summary", "groups"]
+const PLAYER_PROFILE_GROUP_FIELDS := ["group_id", "title", "items"]
+const PLAYER_PROFILE_HEADLINE_CHARS := 120
+const PLAYER_PROFILE_SUMMARY_CHARS := 360
+const PLAYER_PROFILE_GROUP_TITLE_CHARS := 60
+const PLAYER_PROFILE_ITEM_CHARS := 160
+const PLAYER_PROFILE_MAX_GROUPS := 8
+const PLAYER_PROFILE_MAX_ITEMS := 8
 const EXPANSION_FIELDS := [
 	"schema_version", "asset_id", "asset_type", "version", "display_name",
 	"catalog_summary", "capability_binding", "semantic_sections",
@@ -72,6 +83,51 @@ static func validate_identity(data: Dictionary, expected_schema: String, expecte
 	if String(data.version).length() > 64:
 		return failure("missing_or_invalid_field", "version 长度不能超过 64。")
 	return success()
+
+
+## MW-011 R2：player_profile 存在时必须整体有效（fail-loud），shape 见 decision §3。
+## 只接受 bounded 纯文本结构；禁止未知字段、嵌套对象、空项与超长文本。
+static func validate_player_profile(value: Variant) -> Dictionary:
+	if typeof(value) != TYPE_DICTIONARY:
+		return failure("invalid_player_profile", "player_profile 必须是 object。")
+	var profile := value as Dictionary
+	if not _player_profile_exact_fields(profile, PLAYER_PROFILE_FIELDS):
+		return failure("unknown_field", "player_profile 只允许 headline/summary/groups。")
+	for field: String in ["headline", "summary"]:
+		if typeof(profile[field]) != TYPE_STRING or String(profile[field]).strip_edges().is_empty():
+			return failure("missing_or_invalid_field", "player_profile.%s 必须是非空字符串。" % field)
+	if String(profile.headline).length() > PLAYER_PROFILE_HEADLINE_CHARS:
+		return failure("invalid_cardinality", "player_profile.headline 超出 %d 字符。" % PLAYER_PROFILE_HEADLINE_CHARS)
+	if String(profile.summary).length() > PLAYER_PROFILE_SUMMARY_CHARS:
+		return failure("invalid_cardinality", "player_profile.summary 超出 %d 字符。" % PLAYER_PROFILE_SUMMARY_CHARS)
+	if not profile.groups is Array or (profile.groups as Array).is_empty() or (profile.groups as Array).size() > PLAYER_PROFILE_MAX_GROUPS:
+		return failure("invalid_cardinality", "player_profile.groups 必须是 1..%d 数组。" % PLAYER_PROFILE_MAX_GROUPS)
+	var group_ids := {}
+	for group_value: Variant in profile.groups:
+		if not group_value is Dictionary:
+			return failure("missing_or_invalid_field", "player_profile.groups 每项必须是 object。")
+		var group := group_value as Dictionary
+		if not _player_profile_exact_fields(group, PLAYER_PROFILE_GROUP_FIELDS):
+			return failure("unknown_field", "player_profile group 只允许 group_id/title/items。")
+		var group_id := validate_safe_token(group.group_id, "player_profile.group_id")
+		if not group_id.success:
+			return group_id
+		if group_ids.has(String(group.group_id)):
+			return failure("duplicate_id", "player_profile.group_id 重复：%s" % String(group.group_id))
+		group_ids[String(group.group_id)] = true
+		if typeof(group.title) != TYPE_STRING or String(group.title).strip_edges().is_empty():
+			return failure("missing_or_invalid_field", "player_profile group title 必须是非空字符串。")
+		if String(group.title).length() > PLAYER_PROFILE_GROUP_TITLE_CHARS:
+			return failure("invalid_cardinality", "player_profile group title 超出 %d 字符。" % PLAYER_PROFILE_GROUP_TITLE_CHARS)
+		if not group.items is Array or (group.items as Array).is_empty() or (group.items as Array).size() > PLAYER_PROFILE_MAX_ITEMS:
+			return failure("invalid_cardinality", "player_profile group items 必须是 1..%d 数组。" % PLAYER_PROFILE_MAX_ITEMS)
+		for item_value: Variant in group.items:
+			if typeof(item_value) != TYPE_STRING or String(item_value).strip_edges().is_empty():
+				return failure("missing_or_invalid_field", "player_profile item 必须是非空字符串。")
+			if String(item_value).length() > PLAYER_PROFILE_ITEM_CHARS:
+				return failure("invalid_cardinality", "player_profile item 超出 %d 字符。" % PLAYER_PROFILE_ITEM_CHARS)
+	return success({"player_profile": profile.duplicate(true)})
+
 
 
 static func validate_allowed_fields(data: Dictionary, allowed_fields: Array) -> Dictionary:
@@ -140,5 +196,14 @@ static func _is_safe_asset_id(value: String) -> bool:
 		var code := value.unicode_at(index)
 		var allowed := (code >= 97 and code <= 122) or (code >= 48 and code <= 57) or code in [45, 46, 95]
 		if not allowed:
+			return false
+	return true
+
+## MW-011 R2：player_profile 的 exact-fields 检查（本规则文件内的局部实现）。
+static func _player_profile_exact_fields(value: Dictionary, fields: Array) -> bool:
+	if value.size() != fields.size():
+		return false
+	for field: String in fields:
+		if not value.has(field):
 			return false
 	return true

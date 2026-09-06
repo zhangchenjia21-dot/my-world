@@ -17,7 +17,7 @@ const MAX_RECENT_ACTIONS := 4
 
 ## player_safe：既有 MW-009 投影结果；accepted_entries：current durable accepted pairs。
 ## 确定性：同一输入恒产出同一 ViewModel（Restore/reopen 后重建结果一致）。
-static func build(player_safe: Dictionary, accepted_entries: Array) -> Dictionary:
+static func build(player_safe: Dictionary, accepted_entries: Array, profile_projection: Dictionary = {}) -> Dictionary:
 	var recent_all: Array = []
 	var player_turn_count := 0
 	for entry_value: Variant in accepted_entries:
@@ -31,8 +31,20 @@ static func build(player_safe: Dictionary, accepted_entries: Array) -> Dictionar
 		player_turn_count += 1
 		recent_all.append(action_text)
 	var recent_actions: Array = recent_all.slice(maxi(0, recent_all.size() - MAX_RECENT_ACTIONS))
+	var has_profile := bool(profile_projection.get("success", false))
+	var profile_groups: Array = []
+	if has_profile:
+		for group_value: Variant in profile_projection.get("groups", []):
+			var group := group_value as Dictionary
+			profile_groups.append({"title": String(group.get("title", "")), "items": (group.get("items", []) as Array).duplicate(true)})
 	return {
 		"success": bool(player_safe.get("success", false)),
+		"player_profile": {
+			"success": has_profile,
+			"headline": String(profile_projection.get("headline", "")) if has_profile else "",
+			"summary": String(profile_projection.get("summary", "")) if has_profile else "",
+			"groups": profile_groups,
+		},
 		"player_display_name": String(player_safe.get("player_display_name", "")),
 		"player_profile_name": String(player_safe.get("player_profile_name", "")),
 		"world_display_name": String(player_safe.get("world_display_name", "")),

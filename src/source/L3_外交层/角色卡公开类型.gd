@@ -11,6 +11,8 @@ var public_profile: Dictionary
 var gm_private_profile: Dictionary
 var portrait: Dictionary
 var player_character_supported: bool
+## MW-011 R2：optional player-facing presentation profile（v0.2 卡缺省为空 dict）。
+var player_profile: Dictionary
 
 
 func _init(data: Dictionary) -> void:
@@ -23,3 +25,4 @@ func _init(data: Dictionary) -> void:
 	gm_private_profile = data.gm_private_profile.duplicate(true)
 	portrait = data.portrait.duplicate(true)
 	player_character_supported = bool(data.player_character_supported)
+	player_profile = (data.player_profile as Dictionary).duplicate(true) if data.has("player_profile") else {}

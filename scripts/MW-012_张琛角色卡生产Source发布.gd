@@ -9,7 +9,7 @@ const SourceLibrary := preload("res://src/source/L3_外交层/Source库公开接
 const PACKAGE_PATH := "res://tests/fixtures/mw012/汉末三国/张琛"
 const ASSET_ID := "character.han_end.zhang_chen"
 const ASSET_TYPE := "character_card"
-const VERSION := "0.1.0"
+const VERSION := "0.1.1"
 const DISPLAY_NAME := "张琛"
 const CONFIRMATION := "--confirm-owner-production-source-prep"
 

@@ -61,6 +61,9 @@ func project_character_t0(source: RefCounted, world_asset_id: String, entry_id: 
 			"profile_id": selected_profile.profile_id,
 			"display_name": selected_profile.display_name,
 		}
+	# MW-011 R2：optional player_profile 随 Character 投影输出（loader 已 fail-loud 验证）；
+	# 仅在被选为主角后由 Final Create 冻结进 Game-local source_projection，不进 GM 语义。
+	var player_profile: Dictionary = source.player_profile if typeof(source.player_profile) == TYPE_DICTIONARY else {}
 	return Rules.success({
 		"compatibility_state": state,
 		"hard_incompatible": state == Rules.COMPATIBILITY_TEMPORAL_INCOMPATIBLE,
@@ -72,5 +75,6 @@ func project_character_t0(source: RefCounted, world_asset_id: String, entry_id: 
 			"semantic_sections": sections,
 			"portrait": source.portrait.duplicate(true),
 			"player_character_supported": source.player_character_supported,
+			"player_profile": (player_profile as Dictionary).duplicate(true),
 		},
 	})
