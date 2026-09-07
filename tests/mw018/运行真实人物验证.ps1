@@ -1,7 +1,8 @@
 ﻿[CmdletBinding()]
 param(
     [string]$Godot = 'D:\AI\Engine\Godot_v4.7.2-stable_win64_console.exe',
-    [string]$Root = ''
+    [string]$Root = '',
+    [switch]$KnownPersonR1
 )
 
 # 只把仓库 credential 白名单注入子进程；不打印、不复制、不持久化 secret value。
@@ -68,7 +69,9 @@ try {
         $value = if ($values.ContainsKey($name)) { [string]$values[$name] } else { '' }
         [Environment]::SetEnvironmentVariable($name, $value, 'Process')
     }
-    & $Godot --headless --path $projectRoot --log-file (Join-Path $Root 'godot.log') --script 'res://tests/mw018/真实Provider人物纵向验证.gd' -- "--root=$($stateRoot.Replace('\', '/'))"
+    $caseArgs = @("--root=$($stateRoot.Replace('\', '/'))")
+    if ($KnownPersonR1) { $caseArgs += '--known-person-r1' }
+    & $Godot --headless --path $projectRoot --log-file (Join-Path $Root 'godot.log') --script 'res://tests/mw018/真实Provider人物纵向验证.gd' -- @caseArgs
     $exitCode = $LASTEXITCODE
 }
 finally {

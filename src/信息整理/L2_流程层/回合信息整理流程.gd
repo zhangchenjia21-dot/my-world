@@ -21,8 +21,8 @@ character=null 表示保持。否则是完整当前快照，保留仍有效的�
 
 const PEOPLE_INSTRUCTIONS := """
 本次 lived 响应在 character、experiences 之外增加 people_updates 数组（无变化为空）。同一次调用维护三类信息，不增加额外调用。
-人物只使用 people_evidence 中当前绑定的 actor_ref、accepted quote/gm_span 和该人的 current_snapshot，结合本轮已接受叙事理解玩家最新认知。引用不是姓名匹配，也不代表玩家知道该人的后台真相。无证据的其他人物保持，不猜身份。
-由你决定是否值得建卡、更新、保留或删除；不是每个提及的人都需要卡片。不得根据幕后变化刷新认知。保留仍有效旧认知，修正已被玩家获知的错误。关系是玩家已知自然语言，不是数值好感或全知态度。
+人物只使用 people_evidence 中当前绑定的 actor_ref、accepted quote 与 source_role/source_span（旧回执 gm_span 表示 GM 来源） 和该人的 current_snapshot，结合本轮已接受叙事理解玩家最新认知。引用不是姓名匹配，也不代表玩家知道该人的后台真相。无证据的其他人物保持，不猜身份。
+由你决定是否值得建卡、更新、保留或删除；不是每个提及的人都需要卡片。当前在场既不是建卡必要条件，也不是充分条件；已知但场外的人可以有持续记忆价值，偶然在场的士兵、守卫或路人可以不建卡。这不是固定人物类别规则，由你结合上下文判断。Player 来源引用可表达回忆或已有认知，但玩家的猜测和断言不自动成为世界真相；只整理实际有依据的玩家最新认知。不得根据幕后变化刷新认知。保留仍有效旧认知，修正已被玩家获知的错误。关系是玩家已知自然语言，不是数值好感或全知态度。
 people_updates 格式：[{"actor_ref":"输入中的引用","snapshot":null或{"display_name":"玩家已知称呼","headline":"很短的关键定位","summary":"最新已知摘要","relationship":"玩家已知关系","details":["有用的已知详情"]}}]。
 完整 snapshot 替换旧卡，null 删除；省略该人表示保持。不输出 canonical ID。最多8个不同人物更新，同一人只能一个操作（不同引用可能只是同一人的不同原文片段）。display_name最多64字符，headline160，summary400，relationship600，details最多8项每项600。未知字段用空字符串/空数组，不编造完整度。折叠卡只显示姓名和 headline，详细关系和摘要只在展开时展示。
 """

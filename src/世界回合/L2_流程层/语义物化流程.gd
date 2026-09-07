@@ -15,14 +15,16 @@ const ANALYSIS_INSTRUCTIONS := "你是 my world 的后台语义物化器。只�
 
 # identity resolution 不决定人物卡意义；内部 resolver 不增加 raw profile 输入。
 const IDENTITY_INSTRUCTIONS := """
-同时输出可选 people_bindings 数组，最多8项。已有 NPC 只使用下方 People Actor References 的 actor_ref；
-同响应新候选可附唯一 candidate_ref（非空字符串，最多64字符），binding 使用同一 candidate_ref。
-每项精确形状为 {"actor_ref":"请求引用","gm_span":{"start":0,"length":2}} 或
-{"candidate_ref":"候选引用","gm_span":{"start":0,"length":2}}。
-start 为 Accepted GM Narrative 原文的零基 Unicode 字符位置，length 为1..600字符，不计算标题。
-只绑定该段原文真正对应的稳定人物。同名或其它歧义无法确定时 people_bindings=[]，不要猜第一个，
-不要为歧义另造重复 actor。Player 不允许绑定。引用不是姓名、local ID 或 durable identity；
-不得输出自由 cue、私密 profile 或隐藏状态。绑定不自动授予 Knowledge 或生成 People 内容。
+同时输出可选 people_bindings 数组，最多8项。已有 NPC 只使用 People Actor References 的 actor_ref。
+当前 accepted Player / GM 原文中对已有稳定人物的合法引用都可解析，包括回忆、谈论及不在当前现场的人；不要求人物出场。
+每项精确形状为 {"actor_ref":"请求引用","source_role":"player或gm","source_span":{"start":0,"length":2}}。
+start 为 source_role 指定的 Accepted Player Action 或 Accepted GM Narrative 原文零基 Unicode 字符位置，length 为1..600字符，不计算标题。
+只有 accepted GM/world semantics 明确确立真实存在、独立身份且有持续相关性的新人物，才可按既有 new_actor_candidates 规则建立；合法的场外人物同样适用。
+Player 仅提名字、猜测、愿望、假设或声称存在，不得据此创建 new_actor_candidates 或确立 World Truth。未解析的 Player 引用保持无绑定。
+同响应合法新候选可附唯一 candidate_ref（非空字符串，最多64字符），并用 {"candidate_ref":"候选引用","source_role":"gm","source_span":{"start":0,"length":2}} 绑定 GM 确立该人的原文；candidate_ref 禁止绑定 Player 来源。
+只绑定原文真正对应的稳定人物；存在同名或其它歧义而无法确定时不输出该 binding，不猜第一个，不凭姓名相等，也不另造重复 actor。
+玩家主角自身不是 People NPC，不允许绑定。引用不是姓名、local ID 或 durable identity；不得输出自由 cue、私密 profile 或隐藏状态。
+绑定只是精确身份候选，不自动授予 Knowledge 或建卡；是否值得记忆由 Information Curator 判断。
 """
 const TIMEOUT_SECONDS := 120.0
 const MAX_PAYLOAD_BYTES := 131072
@@ -294,7 +296,7 @@ func _on_completed(serial: int) -> void:
 		candidate_refs[ref] = ordinal_ids[int(parsed.candidate_ordinals[ref])]
 	var entries: Array = session_runtime.conversation.get_durable_accepted_entries()
 	var bindings := Receipt.resolve_bindings(parsed.people_bindings, _active.get("actor_refs", {}), candidate_refs,
-		Receipt.npc_ids(candidate, entries, int(_active.source_turn_index)), String(_active.gm_text))
+		Receipt.npc_ids(candidate, entries, int(_active.source_turn_index)), String(_active.gm_text), String(_active.player_text))
 	var receipt := Receipt.build(String(session_runtime.game_id), int(_active.source_turn_index), String(_active.prefix), bindings)
 	candidate = Receipt.with_receipt(candidate, receipt)
 	# G5 record IDs 保持原算法；mutation 属于本次提交，防止 Restore 后撞到 displaced-future 节点。

@@ -11,12 +11,15 @@ var directory := ""
 var raw_world := ""
 var raw_curator := ""
 var request: Array = []
+var known_person_r1 := false
 
 func _initialize() -> void:
 	_run.call_deferred()
 
 func _run() -> void:
 	for arg: String in OS.get_cmdline_user_args():
+		if arg == "--known-person-r1":
+			known_person_r1 = true
 		if arg.begins_with("--root="):
 			directory = arg.trim_prefix("--root=")
 	if not directory.contains("mw018") or FileAccess.file_exists(directory.path_join("smoke.sqlite")):
@@ -36,6 +39,8 @@ func _run() -> void:
 	var setup := {"player_character": {"local_character_id": "player", "source_projection": {"display_name": "旅人"}},
 		"stable_npcs": [{"local_character_id": "npc-li", "role": "stable_npc", "origin": {"kind": "creation_authored"},
 			"game_local_material": {"display_name": "李亭", "profile_text": "PRIVATE_NPC_CANARY：从未向玩家透露的计划。"}}]}
+	if known_person_r1:
+		setup.stable_npcs[0].game_local_material.display_name = "顾衡"
 	if not runtime.commit_world_mutation_durably("setup", "setup-node", setup).success:
 		runtime.close()
 		quit(2)
@@ -50,8 +55,12 @@ func _run() -> void:
 	root.add_child(curator)
 	await process_frame
 	await process_frame
-	runtime.conversation.begin_turn("我请摆渡人说明身份，并约定明早渡河。")
-	runtime.conversation.append_delta("沈青是渡口的摆渡人。她答应明早带你渡河，并告诉你她住在河边小屋。李亭站在你身旁，听见了这番约定。")
+	if known_person_r1:
+		runtime.conversation.begin_turn("我回忆早已相识的顾衡，他曾帮我走出困境。我想把与他的往来牢记心中，虽然他如今不在此地。至于我随口想到的‘杜闻’，我并不知道是否真有此人。")
+		runtime.conversation.append_delta("你停下脚步，静静整理这段已经熟悉的往事。四周无人来访，也没有新消息证实你的猜想。")
+	else:
+		runtime.conversation.begin_turn("我请摆渡人说明身份，并约定明早渡河。")
+		runtime.conversation.append_delta("沈青是渡口的摆渡人。她答应明早带你渡河，并告诉你她住在河边小屋。李亭站在你身旁，听见了这番约定。")
 	if not runtime.complete_active_generation_durably().success:
 		quit(2)
 		return
@@ -61,7 +70,13 @@ func _run() -> void:
 	var cards := Safe.project_session(runtime)
 	var safe_input: bool = recorder.requests.size() == 1 and not JSON.stringify(recorder.requests).contains("PRIVATE_NPC_CANARY") and not JSON.stringify(recorder.requests).contains("npc-li")
 	var success: bool = terminal.success and curation_terminal.success and not receipt.is_empty() and not cards.is_empty() and safe_input and worker.analysis_attempt_count == 1
-	var report := {"status": "resolved_card" if success else "unresolved_or_failed", "model": settings.request_profile.model_id,
+	var player_existing_bound := false
+	if known_person_r1:
+		for binding: Dictionary in receipt.get("bindings", []):
+			if binding.local_character_id == "npc-li" and binding.get("source_role") == "player":
+				player_existing_bound = true
+		success = success and player_existing_bound and runtime.world_state.stable_npcs.size() == 1
+	var report := {"case": "known_person_r1" if known_person_r1 else "original_people", "player_existing_bound": player_existing_bound, "stable_actor_count": runtime.world_state.stable_npcs.size(),"status": "resolved_card" if success else "unresolved_or_failed", "model": settings.request_profile.model_id,
 		"world_terminal": terminal, "curation_terminal": curation_terminal, "world_request": request,
 		"world_response": raw_world, "curator_requests": recorder.requests, "curator_response": raw_curator,
 		"receipt": receipt, "cards": cards, "safe_input": safe_input,
