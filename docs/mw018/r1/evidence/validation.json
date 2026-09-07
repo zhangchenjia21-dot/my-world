@@ -1,0 +1,28 @@
+{
+  "implementation_head": "318a0a2a79bb5f45f582605ac6b98d891a368b4c",
+  "focused": {
+    "checks": 81,
+    "failures": 0,
+    "exit_code": 0
+  },
+  "direct_regression_suites": 16,
+  "final_import": {
+    "exit_code": 0,
+    "script_errors": 0
+  },
+  "windows_export": {
+    "exit_code": 0,
+    "export_errors": 0,
+    "path": "build/mw018/r1/final-export/my-world.exe",
+    "sha256": "4a9eaded8955ef789ab02651ed9d2dde80328fbb342bd2a6db4db33e86305668"
+  },
+  "real_provider": {
+    "model": "k3-256k",
+    "world_calls": 1,
+    "curator_calls": 1,
+    "status": "resolved_card",
+    "player_existing_bound": true,
+    "stable_actor_count": 1,
+    "owner_unchanged": true
+  }
+}
