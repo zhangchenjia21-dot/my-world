@@ -1,0 +1,40 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-015 R1 PASS isolated fixture
+MW-015 R1 PASS expected request active
+MW-015 R1 PASS begin player turn
+MW-015 R1 PASS durable accepted Narrative
+MW-015 R1 PASS expected request active
+MW-015 R1 PASS expected request active
+MW-015 R1 PASS ordinary no-op succeeds without invented milestone
+MW-015 R1 PASS successful empty result is durable/idempotent
+MW-015 R1 PASS Restore before decision
+MW-015 R1 PASS begin player turn
+MW-015 R1 PASS durable accepted Narrative
+MW-015 R1 PASS expected request active
+MW-015 R1 PASS same production prompt, no event-dependent instruction routing
+MW-015 R1 PASS expected request active
+MW-015 R1 PASS same quiet accepted text may retain model-selected milestone with Character unchanged
+MW-015 R1 PASS Program stores model wording without significance rewrite
+MW-015 R1 PASS begin player turn
+MW-015 R1 PASS durable accepted Narrative
+MW-015 R1 PASS expected request active
+MW-015 R1 PASS expected request active
+MW-015 R1 PASS Character-only change neither requires milestone nor removes prior experience
+MW-015 R1 PASS reopen sparse mixed history
+MW-015 R1 PASS reopen keeps historical records byte-equivalent with zero backfill calls
+MW-015 R1 PASS reopen equivalent Character and milestones
+MW-015 R1 PASS Restore earlier milestone snapshot
+MW-015 R1 PASS Restore separates later Character update from earlier milestone
+MW-015 R1 PASS provisional regeneration preserves accepted milestone
+MW-015 R1 PASS regenerated turn accepted
+MW-015 R1 PASS accepted replacement invalidates displaced milestone
+MW-015 R1 PASS expected request active
+MW-015 R1 PASS expected request active
+MW-015 R1 PASS Restore returns exact earlier independent outputs
+MW-015 R1 PASS begin player turn
+MW-015 R1 PASS durable accepted Narrative
+MW-015 R1 PASS expected request active
+MW-015 R1 PASS expected request active
+MW-015 R1 PASS malformed response leaves earlier curation intact
+MW-015 R1 FOCUSED checks=37 failures=0

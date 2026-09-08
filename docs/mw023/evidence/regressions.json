@@ -1,0 +1,178 @@
+[
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-g2_03.log",
+    "exit_warnings": 0,
+    "fixture": "build/g2_03/mw023-162936-f",
+    "name": "g2_03"
+  },
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-g2_04.log",
+    "exit_warnings": 0,
+    "fixture": "build/g2_04/mw023-162936-f",
+    "name": "g2_04"
+  },
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-mw003.log",
+    "exit_warnings": 2,
+    "fixture": "build/mw003/mw023-162936-f",
+    "name": "mw003"
+  },
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-mw011.log",
+    "exit_warnings": 0,
+    "fixture": "build/mw011/mw023-162936-f",
+    "name": "mw011"
+  },
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-mw022.log",
+    "exit_warnings": 0,
+    "fixture": "build/mw022/mw023-162936-f",
+    "name": "mw022"
+  },
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-mw022-ui.log",
+    "exit_warnings": 0,
+    "fixture": "build/mw022-ui/mw023-162936-f",
+    "name": "mw022-ui"
+  },
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-g5_01-timeline.log",
+    "exit_warnings": 0,
+    "fixture": "build/g5_01-timeline/mw023-162936-f",
+    "name": "g5_01-timeline"
+  },
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-mw017.log",
+    "exit_warnings": 0,
+    "fixture": "build/mw017/mw023-162936-f",
+    "name": "mw017"
+  },
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-mw014.log",
+    "exit_warnings": 0,
+    "fixture": "build/mw014/mw023-162936-f",
+    "name": "mw014"
+  },
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-mw015r2.log",
+    "exit_warnings": 0,
+    "fixture": "build/mw015r2/mw023-162936-f",
+    "name": "mw015r2"
+  },
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-mw015r2-ui.log",
+    "exit_warnings": 0,
+    "fixture": "build/mw015r2-ui/mw023-162936-f",
+    "name": "mw015r2-ui"
+  },
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-mw015.log",
+    "exit_warnings": 0,
+    "fixture": "build/mw015/mw023-162936-f",
+    "name": "mw015"
+  },
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-mw015r1.log",
+    "exit_warnings": 0,
+    "fixture": "build/mw015r1/mw023-162936-f",
+    "name": "mw015r1"
+  },
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-mw018.log",
+    "exit_warnings": 0,
+    "fixture": "build/mw018/mw023-162936-f",
+    "name": "mw018"
+  },
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-mw018r1.log",
+    "exit_warnings": 0,
+    "fixture": "build/mw018r1/mw023-162936-f",
+    "name": "mw018r1"
+  },
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-mw019-lifecycle.log",
+    "exit_warnings": 0,
+    "fixture": "build/mw019-lifecycle/mw023-162936-f",
+    "name": "mw019-lifecycle"
+  },
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-mw019-pairs.log",
+    "exit_warnings": 0,
+    "fixture": "build/mw019-pairs/mw023-162936-f",
+    "name": "mw019-pairs"
+  },
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-mw019-routes.log",
+    "exit_warnings": 0,
+    "fixture": "build/mw019-routes/mw023-162936-f",
+    "name": "mw019-routes"
+  },
+  {
+    "exit_code": 1,
+    "errors": 1,
+    "log": "regression-g3_03.log",
+    "exit_warnings": 0,
+    "fixture": "build/g3_03/mw023-162936-f",
+    "name": "g3_03"
+  },
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-g3_04.log",
+    "exit_warnings": 0,
+    "fixture": "build/g3_04/mw023-162936-f",
+    "name": "g3_04"
+  },
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-g3_05.log",
+    "exit_warnings": 0,
+    "fixture": "build/g3_05/mw023-162936-f",
+    "name": "g3_05"
+  },
+  {
+    "exit_code": 0,
+    "errors": 0,
+    "log": "regression-mw021.log",
+    "exit_warnings": 0,
+    "fixture": "build/mw021/mw023-162936-f",
+    "name": "mw021"
+  }
+]

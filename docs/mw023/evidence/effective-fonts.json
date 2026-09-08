@@ -1,0 +1,4736 @@
+[
+	{
+		"effective_px": 28,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Title",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Subtitle",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/WorldToggle",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/DebugToggle",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ExitButton",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ReturnMenuButton",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@111",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@112",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "normal_font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "italics_font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_italics_font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "mono_font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@Label@157",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "normal_font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "italics_font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_italics_font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "mono_font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@162",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@163",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "normal_font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "italics_font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_italics_font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "mono_font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@203",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@204",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@205",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@206",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@207",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/SendButton",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/CancelButton",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@134/@Label@178",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@134/@Label@179",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@134/@Label@180",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@134/@Label@181",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/BottomBar/StatusLabel",
+		"property": "font_size",
+		"surface": "960x540-OverviewTab"
+	},
+	{
+		"effective_px": 28,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Title",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Subtitle",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/WorldToggle",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/DebugToggle",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ExitButton",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ReturnMenuButton",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@111",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@112",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "normal_font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "italics_font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_italics_font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "mono_font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@Label@157",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "normal_font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "italics_font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_italics_font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "mono_font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@162",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@163",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "normal_font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "italics_font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_italics_font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "mono_font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@203",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@204",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@205",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@206",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@207",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/SendButton",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/CancelButton",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@139/@Label@188",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@139/@Label@189",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@139/@Label@190",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@139/@Label@191",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/BottomBar/StatusLabel",
+		"property": "font_size",
+		"surface": "960x540-CharacterTab"
+	},
+	{
+		"effective_px": 28,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Title",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Subtitle",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/WorldToggle",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/DebugToggle",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ExitButton",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ReturnMenuButton",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@111",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@112",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "normal_font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "italics_font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_italics_font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "mono_font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@Label@157",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "normal_font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "italics_font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_italics_font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "mono_font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@162",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@163",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "normal_font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "italics_font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_italics_font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "mono_font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@203",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@204",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@205",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@206",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@207",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/SendButton",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/CancelButton",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@143/@Label@192",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@143/@Label@193",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/BottomBar/StatusLabel",
+		"property": "font_size",
+		"surface": "960x540-ExperiencesTab"
+	},
+	{
+		"effective_px": 28,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Title",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Subtitle",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/WorldToggle",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/DebugToggle",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ExitButton",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ReturnMenuButton",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@111",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@112",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "normal_font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "italics_font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_italics_font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "mono_font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@Label@157",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "normal_font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "italics_font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_italics_font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "mono_font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@162",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@163",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "normal_font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "italics_font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_italics_font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "mono_font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@203",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@204",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@205",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@206",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@207",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/SendButton",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/CancelButton",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@145/@PanelContainer@194/@MarginContainer@195/@VBoxContainer@196/@Button@197",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@145/@PanelContainer@194/@MarginContainer@195/@VBoxContainer@196/@Label@198",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@145/@PanelContainer@194/@MarginContainer@195/@VBoxContainer@196/@VBoxContainer@199/@Label@200",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@145/@PanelContainer@194/@MarginContainer@195/@VBoxContainer@196/@VBoxContainer@199/@Label@201",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@145/@PanelContainer@194/@MarginContainer@195/@VBoxContainer@196/@VBoxContainer@199/@Label@202",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/BottomBar/StatusLabel",
+		"property": "font_size",
+		"surface": "960x540-PeopleTab"
+	},
+	{
+		"effective_px": 28,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Title",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Subtitle",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/WorldToggle",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/DebugToggle",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ExitButton",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ReturnMenuButton",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@111",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@112",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "normal_font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "italics_font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_italics_font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "mono_font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@Label@157",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "normal_font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "italics_font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_italics_font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "mono_font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@162",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@163",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "normal_font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "italics_font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_italics_font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "mono_font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@203",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@204",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@205",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@206",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@207",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/SendButton",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/CancelButton",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveHeader",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveHint",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveNameInput",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/CreateSaveButton",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveSelector",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/LoadSaveButton",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveResultLabel",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/BottomBar/StatusLabel",
+		"property": "font_size",
+		"surface": "960x540-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@208",
+		"property": "font_size",
+		"surface": "(960, 540) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@209",
+		"property": "font_size",
+		"surface": "(960, 540) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@210",
+		"property": "font_size",
+		"surface": "(960, 540) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@211",
+		"property": "font_size",
+		"surface": "(960, 540) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@212",
+		"property": "font_size",
+		"surface": "(960, 540) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@213",
+		"property": "font_size",
+		"surface": "(960, 540) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@214",
+		"property": "font_size",
+		"surface": "(960, 540) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@215",
+		"property": "font_size",
+		"surface": "(960, 540) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@216",
+		"property": "font_size",
+		"surface": "(960, 540) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@217",
+		"property": "font_size",
+		"surface": "(960, 540) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@218",
+		"property": "font_size",
+		"surface": "(960, 540) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@219",
+		"property": "font_size",
+		"surface": "(960, 540) Debug"
+	},
+	{
+		"effective_px": 28,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Title",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Subtitle",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/DebugToggle",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ExitButton",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ReturnMenuButton",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@111",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@112",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "normal_font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "italics_font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_italics_font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "mono_font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@Label@157",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "normal_font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "italics_font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_italics_font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "mono_font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@162",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@163",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "normal_font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "italics_font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_italics_font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "mono_font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@203",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@204",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@205",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@206",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@207",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/SendButton",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/CancelButton",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@134/@Label@178",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@134/@Label@179",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@134/@Label@180",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@134/@Label@181",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/BottomBar/StatusLabel",
+		"property": "font_size",
+		"surface": "1280x720-OverviewTab"
+	},
+	{
+		"effective_px": 28,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Title",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Subtitle",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/DebugToggle",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ExitButton",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ReturnMenuButton",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@111",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@112",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "normal_font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "italics_font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_italics_font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "mono_font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@Label@157",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "normal_font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "italics_font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_italics_font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "mono_font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@162",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@163",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "normal_font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "italics_font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_italics_font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "mono_font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@203",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@204",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@205",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@206",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@207",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/SendButton",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/CancelButton",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@139/@Label@188",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@139/@Label@189",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@139/@Label@190",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@139/@Label@191",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/BottomBar/StatusLabel",
+		"property": "font_size",
+		"surface": "1280x720-CharacterTab"
+	},
+	{
+		"effective_px": 28,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Title",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Subtitle",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/DebugToggle",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ExitButton",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ReturnMenuButton",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@111",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@112",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "normal_font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "italics_font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_italics_font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "mono_font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@Label@157",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "normal_font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "italics_font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_italics_font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "mono_font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@162",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@163",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "normal_font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "italics_font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_italics_font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "mono_font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@203",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@204",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@205",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@206",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@207",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/SendButton",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/CancelButton",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@143/@Label@192",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@143/@Label@193",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/BottomBar/StatusLabel",
+		"property": "font_size",
+		"surface": "1280x720-ExperiencesTab"
+	},
+	{
+		"effective_px": 28,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Title",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Subtitle",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/DebugToggle",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ExitButton",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ReturnMenuButton",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@111",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@112",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "normal_font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "italics_font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_italics_font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "mono_font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@Label@157",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "normal_font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "italics_font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_italics_font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "mono_font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@162",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@163",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "normal_font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "italics_font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_italics_font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "mono_font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@203",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@204",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@205",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@206",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@207",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/SendButton",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/CancelButton",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@145/@PanelContainer@194/@MarginContainer@195/@VBoxContainer@196/@Button@197",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@145/@PanelContainer@194/@MarginContainer@195/@VBoxContainer@196/@Label@198",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@145/@PanelContainer@194/@MarginContainer@195/@VBoxContainer@196/@VBoxContainer@199/@Label@200",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@145/@PanelContainer@194/@MarginContainer@195/@VBoxContainer@196/@VBoxContainer@199/@Label@201",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@145/@PanelContainer@194/@MarginContainer@195/@VBoxContainer@196/@VBoxContainer@199/@Label@202",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/BottomBar/StatusLabel",
+		"property": "font_size",
+		"surface": "1280x720-PeopleTab"
+	},
+	{
+		"effective_px": 28,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Title",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Subtitle",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/DebugToggle",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ExitButton",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ReturnMenuButton",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@111",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@112",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "normal_font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "italics_font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_italics_font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "mono_font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@Label@157",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "normal_font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "italics_font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_italics_font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "mono_font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@162",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@163",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "normal_font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "italics_font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_italics_font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "mono_font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@203",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@204",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@205",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@206",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@207",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/SendButton",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/CancelButton",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveHeader",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveHint",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveNameInput",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/CreateSaveButton",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveSelector",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/LoadSaveButton",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveResultLabel",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/BottomBar/StatusLabel",
+		"property": "font_size",
+		"surface": "1280x720-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@220",
+		"property": "font_size",
+		"surface": "(1280, 720) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@221",
+		"property": "font_size",
+		"surface": "(1280, 720) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@222",
+		"property": "font_size",
+		"surface": "(1280, 720) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@223",
+		"property": "font_size",
+		"surface": "(1280, 720) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@224",
+		"property": "font_size",
+		"surface": "(1280, 720) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@225",
+		"property": "font_size",
+		"surface": "(1280, 720) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@226",
+		"property": "font_size",
+		"surface": "(1280, 720) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@227",
+		"property": "font_size",
+		"surface": "(1280, 720) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@228",
+		"property": "font_size",
+		"surface": "(1280, 720) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@229",
+		"property": "font_size",
+		"surface": "(1280, 720) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@230",
+		"property": "font_size",
+		"surface": "(1280, 720) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@231",
+		"property": "font_size",
+		"surface": "(1280, 720) Debug"
+	},
+	{
+		"effective_px": 28,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Title",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Subtitle",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/DebugToggle",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ExitButton",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ReturnMenuButton",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@111",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@112",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "normal_font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "italics_font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_italics_font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "mono_font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@Label@157",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "normal_font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "italics_font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_italics_font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "mono_font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@162",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@163",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "normal_font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "italics_font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_italics_font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "mono_font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@203",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@204",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@205",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@206",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@207",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/SendButton",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/CancelButton",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@134/@Label@178",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@134/@Label@179",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@134/@Label@180",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@134/@Label@181",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/BottomBar/StatusLabel",
+		"property": "font_size",
+		"surface": "1920x1080-OverviewTab"
+	},
+	{
+		"effective_px": 28,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Title",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Subtitle",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/DebugToggle",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ExitButton",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ReturnMenuButton",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@111",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@112",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "normal_font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "italics_font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_italics_font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "mono_font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@Label@157",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "normal_font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "italics_font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_italics_font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "mono_font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@162",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@163",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "normal_font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "italics_font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_italics_font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "mono_font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@203",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@204",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@205",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@206",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@207",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/SendButton",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/CancelButton",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@139/@Label@188",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@139/@Label@189",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@139/@Label@190",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@139/@Label@191",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/BottomBar/StatusLabel",
+		"property": "font_size",
+		"surface": "1920x1080-CharacterTab"
+	},
+	{
+		"effective_px": 28,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Title",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Subtitle",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/DebugToggle",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ExitButton",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ReturnMenuButton",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@111",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@112",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "normal_font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "italics_font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_italics_font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "mono_font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@Label@157",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "normal_font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "italics_font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_italics_font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "mono_font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@162",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@163",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "normal_font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "italics_font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_italics_font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "mono_font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@203",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@204",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@205",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@206",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@207",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/SendButton",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/CancelButton",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@143/@Label@192",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@143/@Label@193",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/BottomBar/StatusLabel",
+		"property": "font_size",
+		"surface": "1920x1080-ExperiencesTab"
+	},
+	{
+		"effective_px": 28,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Title",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Subtitle",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/DebugToggle",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ExitButton",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ReturnMenuButton",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@111",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@112",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "normal_font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "italics_font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_italics_font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "mono_font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@Label@157",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "normal_font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "italics_font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_italics_font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "mono_font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@162",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@163",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "normal_font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "italics_font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_italics_font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "mono_font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@203",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@204",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@205",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@206",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@207",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/SendButton",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/CancelButton",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@145/@PanelContainer@194/@MarginContainer@195/@VBoxContainer@196/@Button@197",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@145/@PanelContainer@194/@MarginContainer@195/@VBoxContainer@196/@Label@198",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@145/@PanelContainer@194/@MarginContainer@195/@VBoxContainer@196/@VBoxContainer@199/@Label@200",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@145/@PanelContainer@194/@MarginContainer@195/@VBoxContainer@196/@VBoxContainer@199/@Label@201",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@145/@PanelContainer@194/@MarginContainer@195/@VBoxContainer@196/@VBoxContainer@199/@Label@202",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/BottomBar/StatusLabel",
+		"property": "font_size",
+		"surface": "1920x1080-PeopleTab"
+	},
+	{
+		"effective_px": 28,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Title",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Subtitle",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/DebugToggle",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ExitButton",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ReturnMenuButton",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@111",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@112",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "normal_font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "italics_font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_italics_font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "mono_font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@Label@157",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "normal_font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "italics_font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_italics_font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "mono_font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@162",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@163",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "normal_font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "italics_font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_italics_font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "mono_font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@203",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@204",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@205",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@206",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@207",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/SendButton",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/CancelButton",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveHeader",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveHint",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveNameInput",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/CreateSaveButton",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveSelector",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/LoadSaveButton",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveResultLabel",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/BottomBar/StatusLabel",
+		"property": "font_size",
+		"surface": "1920x1080-SaveTab"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@232",
+		"property": "font_size",
+		"surface": "(1920, 1080) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@233",
+		"property": "font_size",
+		"surface": "(1920, 1080) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@234",
+		"property": "font_size",
+		"surface": "(1920, 1080) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@235",
+		"property": "font_size",
+		"surface": "(1920, 1080) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@236",
+		"property": "font_size",
+		"surface": "(1920, 1080) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@237",
+		"property": "font_size",
+		"surface": "(1920, 1080) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@238",
+		"property": "font_size",
+		"surface": "(1920, 1080) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@239",
+		"property": "font_size",
+		"surface": "(1920, 1080) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@240",
+		"property": "font_size",
+		"surface": "(1920, 1080) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@241",
+		"property": "font_size",
+		"surface": "(1920, 1080) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@242",
+		"property": "font_size",
+		"surface": "(1920, 1080) Debug"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/DebugPanel/@ScrollContainer@109/@VBoxContainer@110/@Label@243",
+		"property": "font_size",
+		"surface": "(1920, 1080) Debug"
+	},
+	{
+		"effective_px": 28,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Title",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/TitleBox/Subtitle",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/DebugToggle",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ExitButton",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/TopBar/ReturnMenuButton",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@111",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@HBoxContainer@113/@Label@112",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "normal_font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "italics_font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "bold_italics_font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@117/@RichTextLabel@116",
+		"property": "mono_font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@Label@157",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "normal_font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "italics_font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "bold_italics_font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@161/@RichTextLabel@160",
+		"property": "mono_font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@162",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@HBoxContainer@164/@Label@163",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "normal_font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "italics_font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "bold_italics_font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@168/@RichTextLabel@167",
+		"property": "mono_font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/MechanicCard_font/@VBoxContainer@244/@Label@245",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/MechanicCard_font/@VBoxContainer@244/@Label@246",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/MechanicCard_font/@VBoxContainer@244/@Label@247",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/MechanicCard_font/@VBoxContainer@244/@Label@248",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ActionStatusPanel/ActionStatusRow/ActionStatusLabel",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ErrorLabel",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@203",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@204",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@205",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@206",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@207",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/SendButton",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/CancelButton",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@134/@Label@178",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@134/@Label@179",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@134/@Label@180",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@134/@Label@181",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	},
+	{
+		"effective_px": 20,
+		"path": "/root/Main/Margin/Layout/BottomBar/StatusLabel",
+		"property": "font_size",
+		"surface": "auxiliary-public-d20"
+	}
+]
