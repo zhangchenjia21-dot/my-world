@@ -36,3 +36,7 @@ static func receipt_for_history(world: Dictionary, game: String, entries: Array,
 
 static func applicable_npc_ids(world: Dictionary, entries: Array) -> Dictionary:
 	return Receipt.npc_ids(world, entries, entries.size() - 1)
+
+## 只读 accepted 版本键，供后台诊断做 currentness 校验；不返回原文，不用于 leaf 展示。
+static func accepted_prefix(entries: Array, index: int) -> String:
+	return Receipt.prefix_at(entries, index)

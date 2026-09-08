@@ -4,6 +4,7 @@ const Adapter := preload("res://src/provider/L3_外交层/运行时模型流式�
 
 ## Shell 为每次 Game 激活建立一个实例并加入树；必须在 Runtime close 前 shutdown。
 ## 仅消费 accepted Conversation/Restore，changed + snapshot 向 UI 提供五组 label + 可编辑 draft 的独立副本。
+## diagnostic_started/diagnostic_terminal 仅供会话观测 owner：请求版本、闭集原因和耗时；不含原文或凭据。
 ## adapter_override 是离线/受控验证 seam；默认严格使用当前配置的 Provider，无 fallback。
 func _init(runtime: RefCounted, adapter_override: Node = null) -> void:
 	_runtime = runtime

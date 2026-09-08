@@ -322,6 +322,7 @@ func _on_completed(serial: int) -> void:
 		"knowledge_count": validated_events.size(),
 		"knowledge_dropped": knowledge_dropped,
 		"actor_count": actor_records.size(),
+		"binding_count": bindings.size(),
 		"actors_dropped": actors_dropped,
 		"head_id": String(committed.head_id),
 	})

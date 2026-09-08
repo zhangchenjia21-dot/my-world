@@ -1,5 +1,11 @@
 extends Control
 
+const DebugObserver := preload("res://src/调试观测/L3_外交层/会话调试观测公开接口.gd")
+const DebugPanel := preload("res://src/ui/会话调试面板.gd")
+var debug_observer: Node = null
+var debug_panel: PanelContainer
+var debug_toggle: Button
+
 ## my world 正式 Application / Game Shell。
 ## 职责边界：拥有 Application 与当前 Game Session 的 composition/lifecycle，以及三 Host
 ## Slot 的宽/窄响应式布局；不承载 Game / World / Timeline 领域语义。
@@ -170,6 +176,7 @@ func _enter_tree() -> void:
 
 
 func _ready() -> void:
+	_prepare_debug_controls()
 	if OS.has_feature(G3_01_EXPORT_SPIKE_FEATURE):
 		_run_g3_01_export_spike()
 		return
@@ -515,6 +522,7 @@ func _activate_game_surface() -> void:
 	startup_failure_overlay.visible = false
 	database_recovery_button.visible = false
 	status_label.text = "状态：就绪"
+	_prepare_debug_observer()
 	_connect_save_runtime()
 	_refresh_save_points()
 	_refresh_recovery_availability()
@@ -543,6 +551,7 @@ func _close_game_session() -> Dictionary:
 		session_state = SessionState.ABSENT
 		return {"status": "absent", "success": true}
 	session_state = SessionState.CLOSING
+	_teardown_debug_observer()
 	_teardown_action_recommender()
 	_teardown_world_evolution_evaluator()
 	_teardown_agency_scheduler()
@@ -566,7 +575,9 @@ func _prepare_world_turn_after_activation() -> void:
 		return
 	world_turn_runtime = WorldTurn.new(session_runtime, test_world_turn_adapter_override)
 	add_child(world_turn_runtime)
+	if debug_observer != null: debug_observer.observe_world(world_turn_runtime)
 	information_curator = InformationCurator.new(session_runtime, test_information_curator_adapter_override, world_turn_runtime)
+	if debug_observer != null: debug_observer.observe_curator(information_curator)
 	add_child(information_curator)
 	# MW-015：curator terminal 是 Character/Experiences 表面的专属刷新点；result 只含状态，
 	# 失败不阻断——表面重新投影 current durable records，绝不因此白屏。
@@ -1172,6 +1183,7 @@ func _on_create_save_pressed() -> void:
 	if session_runtime == null:
 		return
 	var result: Dictionary = session_runtime.create_save_point(save_name_input.text)
+	if debug_observer != null: debug_observer.record_operation("save", result)
 	if not result.success:
 		_show_save_result(String(result.message), true)
 		_update_save_controls()
@@ -1195,6 +1207,7 @@ func _on_load_confirmed() -> void:
 	if session_runtime == null or _pending_load_save_id.is_empty():
 		return
 	var result: Dictionary = session_runtime.restore_save_point(_pending_load_save_id)
+	if debug_observer != null: debug_observer.record_operation("restore", result)
 	_pending_load_save_id = ""
 	if not result.success:
 		_show_save_result(String(result.message), true)
@@ -1248,6 +1261,7 @@ func _on_recover_confirmed() -> void:
 	if session_runtime == null:
 		return
 	var result: Dictionary = session_runtime.recover_previous_progress()
+	if debug_observer != null: debug_observer.record_operation("restore", result)
 	if not result.success:
 		_show_save_result(String(result.message), true)
 		_update_save_controls()
@@ -1668,6 +1682,7 @@ func _prepare_action_recommender() -> void:
 	if action_recommender != null:
 		return
 	action_recommender = ActionRecommender.new(session_runtime, test_action_recommender_adapter_override)
+	if debug_observer != null: debug_observer.observe_recommender(action_recommender)
 	add_child(action_recommender)
 	narrative_view.bind_action_recommender(action_recommender)
 
@@ -1678,3 +1693,50 @@ func _teardown_action_recommender() -> void:
 	action_recommender.shutdown()
 	action_recommender.queue_free()
 	action_recommender = null
+
+## 固定的 first-party UAT drawer，与玩家信息 taxonomy 分离；toggle 只控制可见性。
+func _prepare_debug_controls() -> void:
+	debug_toggle = Button.new()
+	debug_toggle.name = "DebugToggle"
+	debug_toggle.text = "调试"
+	debug_toggle.toggle_mode = true
+	debug_toggle.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+	$Margin/Layout/TopBar.add_child(debug_toggle)
+	$Margin/Layout/TopBar.move_child(debug_toggle, $Margin/Layout/TopBar.get_child_count() - 3)
+	debug_panel = DebugPanel.new()
+	debug_panel.name = "DebugPanel"
+	debug_panel.visible = false
+	add_child(debug_panel)
+	resized.connect(_position_debug_panel)
+	debug_toggle.toggled.connect(_on_debug_toggled)
+
+func _prepare_debug_observer() -> void:
+	_teardown_debug_observer()
+	debug_observer = DebugObserver.new(session_runtime)
+	add_child(debug_observer)
+	debug_observer.changed.connect(_refresh_debug_panel)
+
+func _teardown_debug_observer() -> void:
+	debug_toggle.set_pressed_no_signal(false)
+	debug_panel.visible = false
+	if debug_observer != null:
+		debug_observer.shutdown()
+		debug_observer.queue_free()
+		debug_observer = null
+
+func _on_debug_toggled(pressed: bool) -> void:
+	debug_panel.visible = pressed and debug_observer != null
+	if debug_panel.visible:
+		_position_debug_panel()
+		_refresh_debug_panel()
+
+func _refresh_debug_panel() -> void:
+	if debug_observer != null and debug_panel.visible:
+		debug_panel.render(debug_observer.snapshot())
+
+## 浮层只覆盖右上局部，避免窄窗口开启调试时挤没 Narrative/composer；OFF 完全退出展示。
+func _position_debug_panel() -> void:
+	if debug_panel == null or not debug_panel.visible: return
+	var width := minf(660, size.x * 0.68)
+	debug_panel.size = Vector2(width, 156)
+	debug_panel.position = Vector2(size.x - 24 - width, $Margin/Layout/TopBar.get_global_rect().end.y - global_position.y + 8)
