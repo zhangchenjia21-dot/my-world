@@ -9,6 +9,7 @@ extends PanelContainer
 ##
 ## 只消费运行时模型 Provider L3 seam，不持有 profile、credential 或 HTTP/SSE transport。
 
+const Accepted := preload("res://src/domain/L3_外交层/已接受输入公开契约.gd")
 const ADAPTER := preload("res://src/provider/L3_外交层/运行时模型流式适配公开接口.gd")
 const Conversation := preload("res://src/domain/会话.gd")
 const ContextAssembler := preload("res://src/context/L3_外交层/上下文组装公开接口.gd")
@@ -31,6 +32,7 @@ const COMPOSER_MAX_HEIGHT := 180.0
 @onready var narrative_scroll: ScrollContainer = %NarrativeScroll
 @onready var entries: VBoxContainer = %Entries
 @onready var error_label: Label = %ErrorLabel
+@onready var input_mode: OptionButton = %InputMode
 @onready var player_input: TextEdit = %PlayerInput
 @onready var send_button: Button = %SendButton
 @onready var cancel_button: Button = %CancelButton
@@ -91,6 +93,8 @@ var _transient_check_id := ""
 var _adjudication_active := false
 
 ## 以下为纯渲染引用：当前 streaming GM block 的 content / marker，以及滚动跟随状态。
+var _current_player_header: Label = null
+var _current_gm_title: Label = null
 var _current_gm_content: RichTextLabel = null
 var _current_gm_marker: Label = null
 var _follow_scroll := true
@@ -101,6 +105,8 @@ var _current_gm_raw := ""
 
 
 func _ready() -> void:
+	input_mode.add_item("角色行动", 0)
+	input_mode.add_item("OOC / GM 指导", 1)
 	if session_runtime == null:
 		session_runtime = _find_session_runtime()
 	send_button.pressed.connect(_on_send_pressed)
@@ -136,11 +142,13 @@ func _on_send_pressed() -> void:
 	var text := player_input.text.strip_edges()
 	if not _startup_ready or _opening_gate or _unsupported_capability or conversation == null or text.is_empty() or conversation.is_generating() or _adjudication_active:
 		return
-	if action_adjudication != null:
+	if _unresolved_reopen_pending or (_pending_action_has_resolution and not _pending_action_id.is_empty()):
+		return
+	if action_adjudication != null and input_mode.selected == 0:
 		_start_public_d20_action(text, true)
 		return
 
-	if conversation.begin_turn(text) == null:
+	if conversation.begin_turn(text, "ooc" if input_mode.selected == 1 else "action") == null:
 		return
 	player_input.clear()
 	_hide_error()
@@ -294,6 +302,10 @@ func _on_regenerate_pressed() -> void:
 	if not _startup_ready or conversation == null or conversation.is_generating() or conversation.latest_turn() == null:
 		return
 
+	if _unresolved_reopen_pending or (_pending_action_has_resolution and not _pending_action_id.is_empty()):
+		return
+	if action_adjudication != null and conversation.latest_turn().pending_input_mode != "ooc":
+		return
 	if conversation.retry_or_regenerate_latest() == null:
 		return
 	_hide_error()
@@ -346,22 +358,26 @@ func _on_failed(code: String, _message: String) -> void:
 ## ---- Domain 信号 -> 渲染 ----
 
 func _on_turn_started(turn: RefCounted) -> void:
-	_append_player_entry(String(turn.pending_player_text))
+	_append_player_entry(String(turn.pending_player_text), turn.pending_input_mode)
 	# Public d20 受检行动：Host 在 begin_turn 时 durable check 已存在；
 	# 把 transient 卡移到 Player 之后、GM 之前，冻结 Player → card → GM 顺序。
 	if action_adjudication != null and not _transient_check_id.is_empty():
 		var card := _find_mechanic_card(_transient_check_id)
 		if card != null:
 			entries.move_child(card, entries.get_child_count() - 1)
-	_begin_gm_entry()
+	_begin_gm_entry(false, turn.pending_input_mode)
 
 
 ## retry / regenerate / correction：复用同一 GM block，清空上一轮展示内容。
 ## GM-only 首次 Opening 不发 turn_started：pending_player_text 为空（v4 兼容槽，
 ## 不代表玩家说过话），此处为它新建 GM block，且绝不渲染玩家气泡。
 func _on_attempt_started(turn: RefCounted) -> void:
+	if is_instance_valid(_current_player_header):
+		_current_player_header.text = "OOC / GM 指导" if turn.pending_input_mode == "ooc" else "你的行动"
+	if is_instance_valid(_current_gm_title):
+		_current_gm_title.text = "GM · 开场" if turn.pending_input_mode == "opening" else ("GM · OOC" if turn.pending_input_mode == "ooc" else "GM")
 	if _current_gm_content == null:
-		_begin_gm_entry(String(turn.pending_player_text).is_empty())
+		_begin_gm_entry(String(turn.pending_player_text).is_empty(), turn.pending_input_mode)
 	else:
 		_current_gm_content.clear()
 		# MW-008：view-only raw 缓冲属于被替换的 attempt，必须与新块同步清空。
@@ -530,12 +546,13 @@ func _mechanic_cards_by_turn() -> Dictionary:
 	return by_turn
 
 
-func _append_player_entry(text: String) -> void:
+func _append_player_entry(text: String, mode: String = "action") -> void:
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 4)
 
 	var header := Label.new()
-	header.text = "你的行动"
+	header.text = "OOC / GM 指导" if mode == "ooc" else "你的行动"
+	_current_player_header = header
 	header.add_theme_font_size_override("font_size", 20)
 	header.add_theme_color_override("font_color", Palette.ACCENT)
 	box.add_child(header)
@@ -549,13 +566,14 @@ func _append_player_entry(text: String) -> void:
 	entries.add_child(box)
 
 
-func _begin_gm_entry(opening: bool = false) -> void:
+func _begin_gm_entry(opening: bool = false, mode: String = "action") -> void:
 	var box := VBoxContainer.new()
 	box.add_theme_constant_override("separation", 4)
 
 	var header_row := HBoxContainer.new()
 	var title := Label.new()
-	title.text = "GM · 开场" if opening else "GM"
+	title.text = "GM · 开场" if opening else ("GM · OOC" if mode == "ooc" else "GM")
+	_current_gm_title = title
 	title.add_theme_font_size_override("font_size", 20)
 	title.add_theme_color_override("font_color", Palette.WARNING)
 	header_row.add_child(title)
@@ -600,7 +618,8 @@ func _friendly_error(code: String) -> String:
 
 func _update_controls() -> void:
 	var streaming: bool = conversation != null and conversation.is_generating()
-	var action_blocked := _adjudication_active or _unresolved_reopen_pending
+	var action_blocked := _adjudication_active or _unresolved_reopen_pending or (_pending_action_has_resolution and not _pending_action_id.is_empty())
+	input_mode.disabled = not _startup_ready or _opening_gate or action_blocked or _unsupported_capability or streaming
 	send_button.disabled = not _startup_ready or _opening_gate or action_blocked or _unsupported_capability or streaming or player_input.text.strip_edges().is_empty()
 	cancel_button.disabled = not _startup_ready or not (streaming or _adjudication_active)
 	# opening Turn（pending_player_text 为空）不显示「重新生成」：第一幕的重试由
@@ -609,7 +628,7 @@ func _update_controls() -> void:
 	# Program resolution / exact NO_CHECK identity；旧路径会绕过 stable action identity）。
 	var latest: RefCounted = conversation.latest_turn() if conversation != null else null
 	var opening_turn := latest != null and String(latest.pending_player_text).is_empty()
-	regenerate_button.visible = _startup_ready and action_adjudication == null and not _unsupported_capability and not streaming and latest != null and not opening_turn
+	regenerate_button.visible = _startup_ready and (action_adjudication == null or (latest != null and latest.pending_input_mode == "ooc")) and not action_blocked and not _unsupported_capability and not streaming and latest != null and not opening_turn
 	retry_action_button.visible = action_adjudication != null and not _adjudication_active and not _pending_action_id.is_empty()
 	player_input.editable = _startup_ready and not _opening_gate and not action_blocked and not _unsupported_capability and not (_pending_action_has_resolution and not _pending_action_id.is_empty())
 	_update_action_status_panel(streaming)
@@ -830,6 +849,7 @@ func enable_isolated_test_mode() -> void:
 
 
 func _initialize_session(bound_conversation: RefCounted, ready: bool) -> void:
+	input_mode.select(0)
 	conversation = bound_conversation
 	_startup_ready = ready
 	context_assembler = ContextAssembler.new()
@@ -916,10 +936,10 @@ func _render_restored_entries() -> void:
 		var entry := entry_value as Dictionary
 		var player_text := String(entry.player_text)
 		if not player_text.is_empty():
-			_append_player_entry(player_text)
-		if cards.has(index):
+			_append_player_entry(player_text, Accepted.mode(entry))
+		if cards.has(index) and Accepted.mode(entry) != "ooc":
 			_append_mechanic_card(cards[index] as Dictionary)
-		_begin_gm_entry(player_text.is_empty())
+		_begin_gm_entry(player_text.is_empty(), Accepted.mode(entry))
 		# MW-008：accepted 历史与 live streaming 共用同一确定性投影——
 		# reopen/redraw 的渲染与流式最终帧完全一致；raw durable bytes 不受影响。
 		_current_gm_raw = String(entry.gm_text)
@@ -986,6 +1006,7 @@ func _render_recommendations() -> void:
 func _prefill_recommendation(action: Dictionary) -> void:
 	if action_recommender == null or not player_input.editable or not action_recommender.snapshot().actions.has(action):
 		return
+	input_mode.select(0)
 	player_input.text = action.draft
 	player_input.grab_focus()
 	player_input.set_caret_line(player_input.get_line_count() - 1)

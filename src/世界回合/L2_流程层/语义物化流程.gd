@@ -1,6 +1,9 @@
 class_name SemanticMaterializationProcess
 extends Node
 
+const Accepted := preload("res://src/domain/L3_外交层/已接受输入公开契约.gd")
+
+
 const Rules := preload("res://src/世界回合/L0_公理层/世界回合规则.gd")
 const D20Rules := preload("res://src/行动判定/L0_公理层/公开D20判定规则.gd")
 const Receipt := preload("res://src/世界回合/L0_公理层/人物身份回执规则.gd")
@@ -118,6 +121,8 @@ func _on_generation_completed(_turn: RefCounted) -> void:
 
 
 func _consider_entry(entry: Dictionary, newly_accepted: bool = false) -> Dictionary:
+	if Accepted.mode(entry) == "ooc":
+		return {"success": true, "status": "ooc_skipped"}
 	var player_text := String(entry.get("player_text", ""))
 	var gm_text := String(entry.get("gm_text", ""))
 	var turn_index := int(entry.get("turn_index", -1))

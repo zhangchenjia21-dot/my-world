@@ -369,7 +369,16 @@ wrap_mode = 1
 layout_mode = 2
 theme_override_constants/separation = 6
 
-[node name="SendButton" type="Button" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons"]
+[node name="InputMode" type="OptionButton" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons"]
+unique_name_in_owner = true
+layout_mode = 2
+tooltip_text = "角色行动进入世界；OOC / GM 指导用于场外沟通。"
+
+[node name="ComposerActionButtons" type="HBoxContainer" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons"]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="SendButton" type="Button" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(72, 48)
 layout_mode = 2
@@ -377,7 +386,7 @@ theme_override_font_sizes/font_size = 20
 disabled = true
 text = "发送"
 
-[node name="CancelButton" type="Button" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons"]
+[node name="CancelButton" type="Button" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(72, 48)
 layout_mode = 2

@@ -1,6 +1,8 @@
 class_name WorldEvolutionEvaluatorProcess
 extends Node
 
+const Accepted := preload("res://src/domain/L3_外交层/已接受输入公开契约.gd")
+
 ## MW-002 Selective World Evolution Evaluator —— 只在 Agency opportunity 真正终态后获得
 ## 一次 best-effort 评估机会；hold 是一等正确结果，不产生 fake mutation，不自动重试；
 ## 一次评估至多推进一个不归属于单一 stable NPC intentional 决策的世界事件。
@@ -62,7 +64,7 @@ func consider_opportunity(opportunity_turn_index: int, opportunity_gm_sha256: St
 	if entries.is_empty():
 		return _publish({"success": true, "status": "no_accepted_turn"})
 	var latest := entries[-1] as Dictionary
-	if int(latest.get("turn_index", -1)) != opportunity_turn_index or Rules.gm_sha256(String(latest.get("gm_text", ""))) != opportunity_gm_sha256:
+	if Accepted.mode(latest) == "ooc" or int(latest.get("turn_index", -1)) != opportunity_turn_index or Rules.gm_sha256(String(latest.get("gm_text", ""))) != opportunity_gm_sha256:
 		return _publish({"success": true, "status": "stale_opportunity"})
 	if String(latest.get("player_text", "")).is_empty():
 		return _publish({"success": true, "status": "opening_skipped"})
@@ -225,18 +227,9 @@ func _recent_evolution_block(accepted_hashes: Dictionary) -> String:
 
 ## 当前 accepted Conversation 的 turn_index → GM hash 映射；只读。
 func _current_accepted_hashes() -> Dictionary:
-	var accepted_hashes: Dictionary = {}
 	if session_runtime == null or session_runtime.conversation == null:
-		return accepted_hashes
-	for entry_value: Variant in session_runtime.conversation.get_durable_accepted_entries():
-		if typeof(entry_value) != TYPE_DICTIONARY:
-			continue
-		var entry := entry_value as Dictionary
-		var turn_index := int(entry.get("turn_index", -1))
-		var gm_text_value: Variant = entry.get("gm_text", null)
-		if turn_index >= 0 and typeof(gm_text_value) == TYPE_STRING:
-			accepted_hashes[turn_index] = Rules.gm_sha256(String(gm_text_value))
-	return accepted_hashes
+		return {}
+	return Accepted.world_hashes(session_runtime.conversation.get_durable_accepted_entries())
 
 
 func _on_text_delta(text: String) -> void:
@@ -301,7 +294,7 @@ func _opportunity_still_current() -> bool:
 	var latest := entries[-1] as Dictionary
 	if int(latest.get("turn_index", -1)) != int(_active.source_turn_index):
 		return false
-	if Rules.gm_sha256(String(latest.get("gm_text", ""))) != String(_active.source_gm_sha256):
+	if Accepted.mode(latest) == "ooc" or Rules.gm_sha256(String(latest.get("gm_text", ""))) != String(_active.source_gm_sha256):
 		return false
 	if entries.size() != int(_active.accepted_count):
 		return false

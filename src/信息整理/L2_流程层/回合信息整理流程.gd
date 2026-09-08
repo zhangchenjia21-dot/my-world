@@ -1,5 +1,8 @@
 extends Node
 
+const Accepted := preload("res://src/domain/L3_外交层/已接受输入公开契约.gd")
+
+
 const Contract := preload("res://src/信息整理/L0_公理层/信息整理契约.gd")
 const Parser := preload("res://src/信息整理/L1_器件层/信息整理响应解析器.gd")
 const Device := preload("res://src/信息整理/L1_器件层/角色经历投影器.gd")
@@ -112,6 +115,8 @@ func shutdown() -> void:
 
 func _on_accepted(_turn: RefCounted) -> void:
 	var entries: Array = session_runtime.conversation.get_durable_accepted_entries()
+	if not entries.is_empty() and Accepted.mode(entries[-1]) == "ooc":
+		return
 	if not entries.is_empty():
 		var index := entries.size() - 1
 		_lived_opportunities[index] = Contract.prefix_hashes(entries)[index]
@@ -155,7 +160,7 @@ func _pump(expected_epoch: int) -> void:
 	for record: Dictionary in records:
 		successful[record.index] = true
 	for index: int in range(entries.size()):
-		if successful.has(index) or String(entries[index].player_text).is_empty():
+		if successful.has(index) or Accepted.mode(entries[index]) != "action":
 			continue
 		if semantic_barrier != null:
 			if _lived_opportunities.get(index, "") != prefixes[index]:

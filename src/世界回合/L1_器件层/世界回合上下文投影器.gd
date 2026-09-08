@@ -1,6 +1,8 @@
 class_name WorldTurnContextProjector
 extends RefCounted
 
+const Accepted := preload("res://src/domain/L3_外交层/已接受输入公开契约.gd")
+
 const Rules := preload("res://src/世界回合/L0_公理层/世界回合规则.gd")
 
 const RECENT_MATCHING_TURN_LIMIT := 8
@@ -157,16 +159,7 @@ func _project_knowledge(world_state: Dictionary, accepted_hashes: Dictionary, co
 
 
 func _accepted_hashes(accepted_entries: Array) -> Dictionary:
-	var accepted_hashes: Dictionary = {}
-	for entry_value: Variant in accepted_entries:
-		if typeof(entry_value) != TYPE_DICTIONARY:
-			continue
-		var entry := entry_value as Dictionary
-		var turn_index := int(entry.get("turn_index", -1))
-		var gm_text_value: Variant = entry.get("gm_text", null)
-		if turn_index >= 0 and typeof(gm_text_value) == TYPE_STRING:
-			accepted_hashes[turn_index] = Rules.gm_sha256(String(gm_text_value))
-	return accepted_hashes
+	return Accepted.world_hashes(accepted_entries)
 
 
 func _empty_knowledge(rejected_count: int = 0) -> Dictionary:

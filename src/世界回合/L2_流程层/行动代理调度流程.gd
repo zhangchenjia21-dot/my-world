@@ -1,6 +1,8 @@
 class_name AgencySchedulerProcess
 extends Node
 
+const Accepted := preload("res://src/domain/L3_外交层/已接受输入公开契约.gd")
+
 ## G5-03M1R01 standalone Agency Scheduler/Selector —— accepted ordinary turn 只标记 dirty；
 ## foreground idle 且 semantic queue 清空后，基于最新 current world snapshot 发一次轻量 selector；
 ## validated 0..4 stable actors 后复用现有 AgencyCycleRuntimeProcess。
@@ -73,6 +75,8 @@ func _start_selector() -> Dictionary:
 	# R01C02：selector 真正启动时消费该 dirty opportunity；terminal 后不自动重试。
 	dirty = false
 	var latest := entries[-1] as Dictionary
+	if Accepted.mode(latest) == "ooc":
+		return {"success": true, "status": "ooc_skipped"}
 	_selector_snapshot = {
 		"source_turn_index": int(latest.get("turn_index", -1)),
 		"source_gm_sha256": Rules.gm_sha256(String(latest.get("gm_text", ""))),
@@ -199,18 +203,9 @@ func _on_selector_completed() -> void:
 
 ## 当前 accepted Conversation 的 turn_index → GM hash 映射；只读。
 func _current_accepted_hashes() -> Dictionary:
-	var accepted_hashes: Dictionary = {}
 	if session_runtime == null or session_runtime.conversation == null:
-		return accepted_hashes
-	for entry_value: Variant in session_runtime.conversation.get_durable_accepted_entries():
-		if typeof(entry_value) != TYPE_DICTIONARY:
-			continue
-		var entry := entry_value as Dictionary
-		var turn_index := int(entry.get("turn_index", -1))
-		var gm_text_value: Variant = entry.get("gm_text", null)
-		if turn_index >= 0 and typeof(gm_text_value) == TYPE_STRING:
-			accepted_hashes[turn_index] = Rules.gm_sha256(String(gm_text_value))
-	return accepted_hashes
+		return {}
+	return Accepted.world_hashes(session_runtime.conversation.get_durable_accepted_entries())
 
 
 ## R01C01 修正 B：cycle terminal 后安全 detach/free 并 re-arm；late callback 不影响新 cycle。
@@ -267,7 +262,7 @@ func _selector_still_current() -> bool:
 	var latest := entries[-1] as Dictionary
 	if int(latest.get("turn_index", -1)) != int(_selector_snapshot.source_turn_index):
 		return false
-	if Rules.gm_sha256(String(latest.get("gm_text", ""))) != String(_selector_snapshot.source_gm_sha256):
+	if Accepted.mode(latest) == "ooc" or Rules.gm_sha256(String(latest.get("gm_text", ""))) != String(_selector_snapshot.source_gm_sha256):
 		return false
 	if String(session_runtime.active_head_id) != String(_selector_snapshot.cycle_base_head_id):
 		return false

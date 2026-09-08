@@ -1,5 +1,8 @@
 extends RefCounted
 
+const Accepted := preload("res://src/domain/L3_外交层/已接受输入公开契约.gd")
+
+
 const WorldRules := preload("res://src/世界回合/L0_公理层/世界回合规则.gd")
 const SCHEMA := "accepted_people_identity.v0.1"
 const PAIR_SCHEMA := "accepted_people_identity.v0.2"
@@ -11,16 +14,10 @@ const MAX_SPAN := 600
 static func prefix_at(entries: Array, index: int) -> String:
 	if index < 0 or index >= entries.size():
 		return ""
-	var prefix := ""
-	for i: int in range(index + 1):
-		prefix = JSON.stringify([prefix, entries[i].get("player_text", ""), entries[i].get("gm_text", "")]).sha256_text()
-	return prefix
+	return Accepted.prefix_hashes(entries)[index]
 
 static func accepted_hashes(entries: Array, index: int) -> Dictionary:
-	var hashes := {}
-	for i: int in range(mini(index + 1, entries.size())):
-		hashes[i] = WorldRules.gm_sha256(String(entries[i].get("gm_text", "")))
-	return hashes
+	return Accepted.world_hashes(entries.slice(0, index + 1))
 
 static func npc_ids(world: Dictionary, entries: Array, index: int) -> Dictionary:
 	var ids := {}

@@ -1,6 +1,8 @@
 class_name PlayerSafeProjectionDevice
 extends RefCounted
 
+const Accepted := preload("res://src/domain/L3_外交层/已接受输入公开契约.gd")
+
 ## MW-009 / G5-06 Player-Safe Runtime → UI Projection v0.1（canonical decision §5–§8）。
 ##
 ## 投影边界拥有 disclosure：本器件只输出 human-player-safe 的展示字段；
@@ -108,13 +110,4 @@ static func _current_player_facts(setup: Dictionary, accepted_entries: Array, pl
 
 ## 当前 accepted Conversation 的 turn_index → GM hash 映射；与 G5 上下文投影器一致。
 static func _accepted_hashes(accepted_entries: Array) -> Dictionary:
-	var accepted_hashes: Dictionary = {}
-	for entry_value: Variant in accepted_entries:
-		if typeof(entry_value) != TYPE_DICTIONARY:
-			continue
-		var entry := entry_value as Dictionary
-		var turn_index := int(entry.get("turn_index", -1))
-		var gm_text_value: Variant = entry.get("gm_text", null)
-		if turn_index >= 0 and typeof(gm_text_value) == TYPE_STRING:
-			accepted_hashes[turn_index] = WorldTurnRules.gm_sha256(String(gm_text_value))
-	return accepted_hashes
+	return Accepted.world_hashes(accepted_entries)

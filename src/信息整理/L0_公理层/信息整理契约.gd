@@ -1,5 +1,8 @@
 extends RefCounted
 
+const Accepted := preload("res://src/domain/L3_外交层/已接受输入公开契约.gd")
+
+
 # 仅定义机器结构边界；组的归属、是否改变和经历的重要性由模型决定。
 const SCHEMA := "information_curation.v0.1"
 const LIVED_SCHEMA := "information_curation_lived.v0.2"
@@ -49,12 +52,7 @@ static func normalize(value: Variant) -> Dictionary:
 
 # 前缀包含 Player 与 GM 原文；前序版本替换使所有依赖该历史的整理结果失效。
 static func prefix_hashes(entries: Array) -> Array:
-	var hashes: Array = []
-	var previous := ""
-	for entry: Dictionary in entries:
-		previous = JSON.stringify([previous, entry.get("player_text", ""), entry.get("gm_text", "")]).sha256_text()
-		hashes.append(previous)
-	return hashes
+	return Accepted.prefix_hashes(entries)
 
 static func record_id(prefix: String, parent: String, result: Dictionary) -> String:
 	return JSON.stringify([prefix, parent, result], "", true).sha256_text()

@@ -47,7 +47,7 @@ func _run() -> void:
 	for canary: String in ["SECRET_PROFILE", "PRIVATE_KNOWLEDGE", "PRIVATE_PLAN", "HIDDEN_EVOLUTION", "SOURCE_CURRENT", "local_character_id", "turn_index", "information_curation", "sha256", "npc-a"]:
 		check(not JSON.stringify(recommendation.requests[0]).contains(canary), "input excludes " + canary)
 	var content: Dictionary = JSON.parse_string(recommendation.requests[0][1].content)
-	check(content.conversation == [{"player": "", "gm": entries[0].gm_text}], "opening request includes exact full visible narrative only")
+	check(content.conversation == [{"player": "", "gm": entries[0].gm_text, "input_mode": "opening"}], "opening request includes exact full visible narrative only")
 	accept("我询问出发时间。", "陈安说天亮后出发。")
 	await frames()
 	check(recommendation.requests.size() == 2, "normal turn one fresh call")
@@ -284,7 +284,7 @@ func validator_checks() -> void:
 	var window: Array = JSON.parse_string(built[1].content).conversation
 	check(window.size() == 4 and window[0].gm == "叙事4" and window[-1].gm == "叙事7" and not JSON.stringify(built).contains("CANARY"), "latest four deterministic recency and field allowlist")
 	check(InputBuilder.prefix(many) != InputBuilder.prefix(many.slice(1)), "currentness includes prefix outside model window")
-	var overhead: int = JSON.stringify({"conversation": [{"player": "", "gm": ""}]}).to_utf8_buffer().size()
+	var overhead: int = JSON.stringify({"conversation": [{"player": "", "gm": "", "input_mode": "opening"}]}).to_utf8_buffer().size()
 	var exact := [{"player_text": "", "gm_text": "x".repeat(24576 - overhead)}]
 	check(InputBuilder.build(exact)[1].content.to_utf8_buffer().size() == 24576, "input exact24KiB passes latest intact")
 	exact[0].gm_text += "x"

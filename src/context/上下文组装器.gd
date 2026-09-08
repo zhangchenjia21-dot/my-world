@@ -7,6 +7,9 @@ extends RefCounted
 ## 第一代策略只保留最近 12 个完整 accepted Turn，再追加当前 attempt；不截断单条文本、
 ## 不 summarize/retrieve，也不限制模型输出长度。G7 只有在真实长局证据出现后才重审策略。
 
+const Accepted := preload("res://src/domain/L3_外交层/已接受输入公开契约.gd")
+const OOC_INSTRUCTION := "当前输入模式为 OOC / GM Guidance。请在场外直接回应玩家的节奏、风格或游玩指导，可确认或澄清；不要叙述新世界事件、替主角采取行动或生成检定结果。最近标记为 OOC 的对话是指导而非世界事实；后续角色行动可自然参考这些近期指导。"
+
 const RECENT_ACCEPTED_TURN_LIMIT := 12
 
 const GM_INSTRUCTIONS := "你是 my world 的 AI GM。把玩家输入视为游戏中的自由行动或意图，以自然、沉浸的中文 RPG 叙事回应，自由推进场景、人物与世界。充分展开对当前场景有价值的环境、人物、行动、对话与后果，不必刻意简短；根据场景节奏自然决定叙事篇幅。玩家保有新的、有意义的主角选择：你可以自由推进世界、NPC、场景，以及玩家已表达行动的自然过程与后果，并自然补足不构成选择的细小连接行为；若叙事需要产生一个未被玩家表达、也未由当前意图明确蕴含的新的有意义主角选择，就把这个选择留给玩家。若 Current Game Context 的 Control mode 为 Light，它不扩大你替玩家作出有意义主角选择的权限，只允许更自然地补足不构成选择的非决定性细节。让叙述的语言质感自然服从当前 World、Character 与场景，不要把不同世界统一成同一种通用 RPG 或网文旁白；优先让词汇域、句法节奏、观察重点、人物称谓、对话礼法、制度语言与比喻来源从当前 Game Context 自然长出，同时保持清晰、长期可读。不要为了显得不同而机械堆砌古语、奇幻形容词、固定标签或固定模板。不要输出工程说明，不要解释自己是 AI 或测试程序。"
@@ -47,13 +50,15 @@ func assemble_messages(conversation_projection: Dictionary, game_context_text: S
 		# 首条 GM-only Opening 在 v4 durable pair 中使用空 Player 兼容槽；恢复后不得
 		# 把空槽伪装成 Provider-visible user message。
 		if not player_text.is_empty():
-			messages.append({"role": "user", "content": player_text})
-		messages.append({"role": "assistant", "content": String(entry.get("gm_text", ""))})
+			messages.append({"role": "user", "content": _mode_content(entry, player_text, false)})
+		messages.append({"role": "assistant", "content": _mode_content(entry, String(entry.get("gm_text", "")), true)})
 
 	if typeof(active_attempt_value) == TYPE_DICTIONARY:
+		if Accepted.mode(active_attempt_value) == "ooc":
+			messages[0].content += "\n\nActive Input Mode: ooc\n" + OOC_INSTRUCTION
 		messages.append({
 			"role": "user",
-			"content": String((active_attempt_value as Dictionary).get("player_text", "")),
+			"content": _mode_content(active_attempt_value, String((active_attempt_value as Dictionary).get("player_text", "")), false),
 		})
 
 	return messages
@@ -73,3 +78,8 @@ func _compose_system_content(game_context_text: String) -> String:
 	if not game_context_text.strip_edges().is_empty():
 		content += "\n\nCurrent Game Context\n%s" % game_context_text
 	return content
+
+## 仅为 Provider request 派生结构标记，绝不改写 durable accepted 原文。
+func _mode_content(entry: Dictionary, text: String, gm: bool) -> String:
+	if Accepted.mode(entry) != "ooc": return text
+	return ("[GM OOC response | input_mode=ooc]" if gm else "[GM Guidance | input_mode=ooc; not protagonist action or world fact]") + "\n" + text

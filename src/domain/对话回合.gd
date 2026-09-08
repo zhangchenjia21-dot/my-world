@@ -29,3 +29,7 @@ var pending_player_text: String = ""
 
 ## streaming 草稿（cancel / fail 后保留展示用，不进 context）。
 var draft_text: String = ""
+
+## 模式与原文一起在 completion 时原子接受；pending 仅属于当前 attempt。
+var input_mode: String = "action"
+var pending_input_mode: String = "action"

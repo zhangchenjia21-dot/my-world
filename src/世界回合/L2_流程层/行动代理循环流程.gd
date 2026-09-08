@@ -1,6 +1,8 @@
 class_name AgencyCycleRuntimeProcess
 extends Node
 
+const Accepted := preload("res://src/domain/L3_外交层/已接受输入公开契约.gd")
+
 ## G5-03M1 Multi-Actor Agency Cycle —— 每个 selected stable NPC 一个隔离 execution request，
 ## 并发进行，serialized durable commit；foreground player turn 永远优先。
 ## 不引入 round-robin、Faction agency 或通用 actor 模拟平台。
@@ -54,6 +56,8 @@ func start_cycle(source_turn_index: int, source_gm_sha256: String, cycle_base_he
 	_source_accepted_count = session_runtime.conversation.get_durable_accepted_entries().size()
 	# C01 修正 F：已 committed 的 actor 不再执行；replay 同一 source version 不重复。
 	var world_cycles: Dictionary = session_runtime.world_state.get("living_world", {}).get("agency_cycles_by_source_turn", {})
+	if not Accepted.world_hashes(session_runtime.conversation.get_durable_accepted_entries()).has(source_turn_index):
+		return {"success": false, "status": "stale_source"}
 	var gm_hash := Rules.gm_sha256(_gm_text_for(source_turn_index))
 	var existing_cycle := Rules.matching_agency_cycle(session_runtime.world_state, source_turn_index, gm_hash)
 	if not existing_cycle.is_empty():
@@ -79,18 +83,9 @@ func _gm_text_for(turn_index: int) -> String:
 
 ## 当前 accepted Conversation 的 turn_index → GM hash 映射；只读。
 func _current_accepted_hashes() -> Dictionary:
-	var accepted_hashes: Dictionary = {}
 	if session_runtime == null or session_runtime.conversation == null:
-		return accepted_hashes
-	for entry_value: Variant in session_runtime.conversation.get_durable_accepted_entries():
-		if typeof(entry_value) != TYPE_DICTIONARY:
-			continue
-		var entry := entry_value as Dictionary
-		var turn_index := int(entry.get("turn_index", -1))
-		var gm_text_value: Variant = entry.get("gm_text", null)
-		if turn_index >= 0 and typeof(gm_text_value) == TYPE_STRING:
-			accepted_hashes[turn_index] = Rules.gm_sha256(String(gm_text_value))
-	return accepted_hashes
+		return {}
+	return Accepted.world_hashes(session_runtime.conversation.get_durable_accepted_entries())
 
 
 ## 每个 actor 的 execution request 只含该 actor 的 Source/knowledge/history；
@@ -236,7 +231,7 @@ func _cycle_still_current() -> bool:
 	if source_turn_index < 0 or source_turn_index >= entries.size():
 		return false
 	var current := entries[source_turn_index] as Dictionary
-	if Rules.gm_sha256(String(current.get("gm_text", ""))) != String(agency_cycle.get("source_gm_sha256", "")):
+	if Accepted.mode(current) == "ooc" or Rules.gm_sha256(String(current.get("gm_text", ""))) != String(agency_cycle.get("source_gm_sha256", "")):
 		return false
 	# accepted Conversation 不得在 cycle source 之后前进。
 	if entries.size() > _source_accepted_count:

@@ -1576,7 +1576,7 @@ func _on_ordinary_turn_accepted_for_agency(turn: RefCounted) -> void:
 	if agency_scheduler == null or session_runtime == null or not session_runtime.is_ready():
 		return
 	# Opening-only GM turn（empty player_text）不是 ordinary Agency opportunity。
-	if String(turn.pending_player_text).is_empty():
+	if String(turn.pending_player_text).is_empty() or turn.input_mode == "ooc":
 		return
 	agency_scheduler.mark_dirty()
 

@@ -17,6 +17,7 @@ extends RefCounted
 ## 本对象不执行 Persistence I/O。G3-03 只增加 accepted truth 的 rehydration 与
 ## prospective completion read seam；durable ordering 由 application runtime 编排。
 
+const Accepted := preload("res://src/domain/L3_外交层/已接受输入公开契约.gd")
 const Turn := preload("res://src/domain/对话回合.gd")
 
 enum GenerationState {
@@ -47,13 +48,16 @@ var _correction_pending: bool = false
 
 
 ## 新玩家行动开启新 Turn。STREAMING 中拒绝（UI 已防止，此处仅防御）。
-func begin_turn(text: String) -> RefCounted:
+func begin_turn(text: String, input_mode: String = "action") -> RefCounted:
+	if input_mode not in ["action", "ooc"]:
+		return null
 	if is_generating():
 		push_warning("G2-04: begin_turn during active generation")
 		return null
 	var turn: RefCounted = Turn.new()
 	turn.turn_index = turns.size()
 	turn.pending_player_text = text
+	turn.pending_input_mode = input_mode
 	turns.append(turn)
 	_active_turn = turn
 	_correction_pending = false
@@ -73,6 +77,7 @@ func begin_gm_opening() -> RefCounted:
 	var turn: RefCounted = Turn.new()
 	turn.turn_index = turns.size()
 	turn.pending_player_text = ""
+	turn.pending_input_mode = "opening"
 	turns.append(turn)
 	_active_turn = turn
 	_correction_pending = false
@@ -90,6 +95,7 @@ func retry_or_regenerate_latest() -> RefCounted:
 	# regenerate：attempt 复用 accepted 玩家文本；retry：沿用上次 attempt 文本。
 	if turn.has_accepted_response:
 		turn.pending_player_text = turn.player_text
+		turn.pending_input_mode = turn.input_mode
 	turn.draft_text = ""
 	_active_turn = turn
 	_correction_pending = false
@@ -102,10 +108,13 @@ func retry_or_regenerate_latest() -> RefCounted:
 ## - completed latest：成功才原子替换 player_text + accepted_gm_text；
 ##   cancel / fail 只回滚 pending，accepted 不动；
 ## - cancelled / failed 且从未 completed 的 latest：同一 identity 换文本重试。
-func correct_latest(new_text: String) -> RefCounted:
+func correct_latest(new_text: String, input_mode: String = "") -> RefCounted:
 	var turn := latest_turn()
 	if turn == null or is_generating() or new_text.strip_edges().is_empty():
 		return null
+	if not input_mode.is_empty() and input_mode not in ["action", "ooc"]:
+		return null
+	turn.pending_input_mode = input_mode if not input_mode.is_empty() else (turn.input_mode if turn.has_accepted_response else turn.pending_input_mode)
 	turn.pending_player_text = new_text
 	turn.draft_text = ""
 	_active_turn = turn
@@ -138,6 +147,7 @@ func complete_generation() -> void:
 		return
 	var turn: RefCounted = _active_turn
 	turn.player_text = turn.pending_player_text
+	turn.input_mode = turn.pending_input_mode
 	turn.accepted_gm_text = turn.draft_text
 	turn.has_accepted_response = true
 	_active_turn = null
@@ -159,6 +169,7 @@ func get_completion_candidate() -> Dictionary:
 		"turn_index": 0,
 		"player_text": String(_active_turn.pending_player_text),
 		"gm_text": String(_active_turn.draft_text),
+		"input_mode": _active_turn.pending_input_mode,
 	}
 	if _active_turn.has_accepted_response:
 		if candidate.is_empty():
@@ -195,11 +206,12 @@ func validate_accepted_entries(entries: Variant) -> Dictionary:
 			return {"ok": false, "error": "accepted entry %d must contain String player_text/gm_text" % index, "accepted_entries": []}
 		if String(entry.gm_text).strip_edges().is_empty():
 			return {"ok": false, "error": "accepted entry %d contains empty GM truth" % index, "accepted_entries": []}
-		validated.append({
-			"turn_index": index,
-			"player_text": String(entry.player_text),
-			"gm_text": String(entry.gm_text),
-		})
+		if not Accepted.valid(entry):
+			return {"ok": false, "error": "invalid accepted input_mode", "accepted_entries": []}
+		var material := Accepted.normalize(entry, index)
+		# Restore 的 immutable Save JSON 校验要求保留历史缺字段形状；读取投影再规范化。
+		if not entry.has("input_mode"): material.erase("input_mode")
+		validated.append(material)
 	return {"ok": true, "error": "", "accepted_entries": validated}
 
 
@@ -221,7 +233,9 @@ func _apply_validated_entries(entries: Array) -> Dictionary:
 		var turn: RefCounted = Turn.new()
 		turn.turn_index = index
 		turn.player_text = String(entry.player_text)
+		turn.input_mode = Accepted.mode(entry)
 		turn.pending_player_text = turn.player_text
+		turn.pending_input_mode = turn.input_mode
 		turn.accepted_gm_text = String(entry.gm_text)
 		turn.has_accepted_response = true
 		restored.append(turn)
@@ -248,6 +262,7 @@ func _end_attempt(end_state: GenerationState, code: String = "") -> void:
 	var turn: RefCounted = _active_turn
 	if _correction_pending:
 		turn.pending_player_text = turn.player_text
+		turn.pending_input_mode = turn.input_mode
 	_correction_pending = false
 	_active_turn = null
 	generation_state = end_state
@@ -276,6 +291,7 @@ func get_accepted_entries() -> Array:
 				"turn_index": turn.turn_index,
 				"player_text": turn.player_text,
 				"gm_text": turn.accepted_gm_text,
+				"input_mode": turn.input_mode,
 			})
 	return entries_out
 
@@ -290,6 +306,7 @@ func get_durable_accepted_entries() -> Array:
 				"turn_index": output.size(),
 				"player_text": turn.player_text,
 				"gm_text": turn.accepted_gm_text,
+				"input_mode": turn.input_mode,
 			})
 	return output
 
@@ -308,6 +325,7 @@ func get_context_projection() -> Dictionary:
 				"turn_index": turn.turn_index,
 				"player_text": turn.player_text,
 				"gm_text": turn.accepted_gm_text,
+				"input_mode": turn.input_mode,
 			})
 
 	var active_attempt: Variant = null
@@ -315,6 +333,7 @@ func get_context_projection() -> Dictionary:
 		active_attempt = {
 			"turn_index": _active_turn.turn_index,
 			"player_text": _active_turn.pending_player_text,
+			"input_mode": _active_turn.pending_input_mode,
 		}
 
 	return {
