@@ -1,0 +1,76 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Opened database successfully (D:/AI/Projects/.worktrees/my-world/mw-025-character-guided-recommendations/build/g3_03-persistence/mw025-184521-f/migration-success.sqlite)
+Closed database (D:/AI/Projects/.worktrees/my-world/mw-025-character-guided-recommendations/build/g3_03-persistence/mw025-184521-f/migration-success.sqlite)
+Opened database successfully (D:/AI/Projects/.worktrees/my-world/mw-025-character-guided-recommendations/build/g3_03-persistence/mw025-184521-f/migration-success.sqlite)
+Closed database (D:/AI/Projects/.worktrees/my-world/mw-025-character-guided-recommendations/build/g3_03-persistence/mw025-184521-f/migration-success.sqlite)
+G3-03 PASS | production v1->current preserves H1/W1/2 nodes and seeds empty Conversation
+Opened database successfully (D:/AI/Projects/.worktrees/my-world/mw-025-character-guided-recommendations/build/g3_03-persistence/mw025-184521-f/migration-failure.sqlite)
+Closed database (D:/AI/Projects/.worktrees/my-world/mw-025-character-guided-recommendations/build/g3_03-persistence/mw025-184521-f/migration-failure.sqlite)
+ERROR:  --> SQL error: intentional migration failure
+   at: execute_statement (src\gdsqlite.cpp:374)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:52)
+       [1] _ensure_schema (res://src/persistence/L2_流程层/世界持久化流程.gd:531)
+       [2] open (res://src/persistence/L2_流程层/世界持久化流程.gd:22)
+       [3] open_database (res://src/persistence/L3_外交层/世界持久化公开接口.gd:11)
+       [4] _test_migration_failure_rollback (res://tests/g3_03/持久化迁移与生命周期测试.gd:54)
+       [5] _initialize (res://tests/g3_03/持久化迁移与生命周期测试.gd:20)
+Opened database successfully (D:/AI/Projects/.worktrees/my-world/mw-025-character-guided-recommendations/build/g3_03-persistence/mw025-184521-f/migration-failure.sqlite)
+Closed database (D:/AI/Projects/.worktrees/my-world/mw-025-character-guided-recommendations/build/g3_03-persistence/mw025-184521-f/migration-failure.sqlite)
+G3-03 PASS | intentional mid-migration failure rolls back table/seed/version
+G3-03 PASS | first run creates one stable Game/root/{} and exact reopen
+ERROR:  --> SQL error: file is not a database
+   at: prepare_statement (src\gdsqlite.cpp:259)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:52)
+       [1] open_database (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:25)
+       [2] verify_database (res://src/persistence/L2_流程层/数据库灾难恢复流程.gd:62)
+       [3] inspect_startup (res://src/persistence/L2_流程层/数据库灾难恢复流程.gd:40)
+       [4] inspect_startup (res://src/persistence/L3_外交层/数据库安全公开接口.gd:16)
+       [5] open_current_game (res://src/runtime/当前游戏会话运行时.gd:51)
+       [6] _test_invalid_existing_states (res://tests/g3_03/持久化迁移与生命周期测试.gd:104)
+       [7] _initialize (res://tests/g3_03/持久化迁移与生命周期测试.gd:22)
+Opened database successfully (D:/AI/Projects/.worktrees/my-world/mw-025-character-guided-recommendations/build/g3_03-persistence/mw025-184521-f/unsupported.sqlite)
+Closed database (D:/AI/Projects/.worktrees/my-world/mw-025-character-guided-recommendations/build/g3_03-persistence/mw025-184521-f/unsupported.sqlite)
+G3-03 PASS | zero/multi/corrupt/unsupported existing DB fail-loud without fresh fallback
+G3-03 PASS | new/regenerate/correction persist before Domain acceptance
+Opened database successfully (D:/AI/Projects/.worktrees/my-world/mw-025-character-guided-recommendations/build/g3_03-persistence/mw025-184521-f/new-write-failure.sqlite)
+Closed database (D:/AI/Projects/.worktrees/my-world/mw-025-character-guided-recommendations/build/g3_03-persistence/mw025-184521-f/new-write-failure.sqlite)
+ERROR:  --> SQL error: intentional Conversation write failure
+   at: execute_statement (src\gdsqlite.cpp:374)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:54)
+       [1] write_current_conversation (res://src/persistence/L2_流程层/世界持久化流程.gd:124)
+       [2] write_current_conversation (res://src/persistence/L3_外交层/世界持久化公开接口.gd:39)
+       [3] complete_active_generation_durably (res://src/runtime/当前游戏会话运行时.gd:136)
+       [4] _test_one_write_failure (res://tests/g3_03/持久化迁移与生命周期测试.gd:170)
+       [5] _test_durable_acceptance_failures (res://tests/g3_03/持久化迁移与生命周期测试.gd:147)
+       [6] _initialize (res://tests/g3_03/持久化迁移与生命周期测试.gd:24)
+Opened database successfully (D:/AI/Projects/.worktrees/my-world/mw-025-character-guided-recommendations/build/g3_03-persistence/mw025-184521-f/regenerate-write-failure.sqlite)
+Closed database (D:/AI/Projects/.worktrees/my-world/mw-025-character-guided-recommendations/build/g3_03-persistence/mw025-184521-f/regenerate-write-failure.sqlite)
+ERROR:  --> SQL error: intentional Conversation write failure
+   at: execute_statement (src\gdsqlite.cpp:374)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:54)
+       [1] write_current_conversation (res://src/persistence/L2_流程层/世界持久化流程.gd:124)
+       [2] write_current_conversation (res://src/persistence/L3_外交层/世界持久化公开接口.gd:39)
+       [3] complete_active_generation_durably (res://src/runtime/当前游戏会话运行时.gd:136)
+       [4] _test_one_write_failure (res://tests/g3_03/持久化迁移与生命周期测试.gd:170)
+       [5] _test_durable_acceptance_failures (res://tests/g3_03/持久化迁移与生命周期测试.gd:148)
+       [6] _initialize (res://tests/g3_03/持久化迁移与生命周期测试.gd:24)
+Opened database successfully (D:/AI/Projects/.worktrees/my-world/mw-025-character-guided-recommendations/build/g3_03-persistence/mw025-184521-f/correction-write-failure.sqlite)
+Closed database (D:/AI/Projects/.worktrees/my-world/mw-025-character-guided-recommendations/build/g3_03-persistence/mw025-184521-f/correction-write-failure.sqlite)
+ERROR:  --> SQL error: intentional Conversation write failure
+   at: execute_statement (src\gdsqlite.cpp:374)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:54)
+       [1] write_current_conversation (res://src/persistence/L2_流程层/世界持久化流程.gd:124)
+       [2] write_current_conversation (res://src/persistence/L3_外交层/世界持久化公开接口.gd:39)
+       [3] complete_active_generation_durably (res://src/runtime/当前游戏会话运行时.gd:136)
+       [4] _test_one_write_failure (res://tests/g3_03/持久化迁移与生命周期测试.gd:170)
+       [5] _test_durable_acceptance_failures (res://tests/g3_03/持久化迁移与生命周期测试.gd:149)
+       [6] _initialize (res://tests/g3_03/持久化迁移与生命周期测试.gd:24)
+G3-03 PASS | new/regenerate/correction write failure preserves old Domain+DB truth
+G3-03 PASS | cancelled/failed/streaming-only attempts never resume as accepted
+G3-03 PASS | migration + lifecycle + durable ordering suite

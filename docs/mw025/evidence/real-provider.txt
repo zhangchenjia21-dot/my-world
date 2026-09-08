@@ -1,0 +1,13 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-019 PASS isolated real fixture
+MW-019 PASS same scene setup
+MW-019 PASS expected request active
+MW-019 PASS begin player turn
+MW-019 PASS durable accepted Narrative
+MW-019 PASS isolated real fixture
+MW-019 PASS same scene setup
+MW-019 PASS expected request active
+MW-019 PASS begin player turn
+MW-019 PASS durable accepted Narrative
+MW025 REAL calls=2

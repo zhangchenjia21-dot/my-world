@@ -1,0 +1,275 @@
+[
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw024-contract",
+    "log": "mw024-contract.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw024-vertical",
+    "log": "mw024-vertical.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "g2_03",
+    "log": "g2_03.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "g2_04",
+    "log": "g2_04.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "g2_05",
+    "log": "g2_05.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "g3_03-contract",
+    "log": "g3_03-contract.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "g3_03-persistence",
+    "log": "g3_03-persistence.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "g3_04-contract",
+    "log": "g3_04-contract.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "g3_04-persistence",
+    "log": "g3_04-persistence.txt"
+  },
+  {
+    "errors": 1,
+    "exit_code": 1,
+    "exit_warnings": 0,
+    "name": "g3_05-persistence",
+    "log": "g3_05-persistence.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "g4_08m1",
+    "log": "g4_08m1.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "g4_08m1-no-check",
+    "log": "g4_08m1-no-check.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 2,
+    "name": "g4_08b",
+    "log": "g4_08b.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "g5_01",
+    "log": "g5_01.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "g5_02",
+    "log": "g5_02.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 2,
+    "name": "g5_03",
+    "log": "g5_03.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "g5_03m2b",
+    "log": "g5_03m2b.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 2,
+    "name": "g5_04",
+    "log": "g5_04.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw023",
+    "log": "mw023.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 2,
+    "name": "mw003",
+    "log": "mw003.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw011",
+    "log": "mw011.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw022",
+    "log": "mw022.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw022-ui",
+    "log": "mw022-ui.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "g5_01-timeline",
+    "log": "g5_01-timeline.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw017",
+    "log": "mw017.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw014",
+    "log": "mw014.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw015r2",
+    "log": "mw015r2.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw015r2-ui",
+    "log": "mw015r2-ui.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw015",
+    "log": "mw015.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw015r1",
+    "log": "mw015r1.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw018",
+    "log": "mw018.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw018r1",
+    "log": "mw018r1.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw019-lifecycle",
+    "log": "mw019-lifecycle.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw019-pairs",
+    "log": "mw019-pairs.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw019-routes",
+    "log": "mw019-routes.txt"
+  },
+  {
+    "errors": 1,
+    "exit_code": 1,
+    "exit_warnings": 0,
+    "name": "g3_03",
+    "log": "g3_03.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "g3_04",
+    "log": "g3_04.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "g3_05",
+    "log": "g3_05.txt"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw021",
+    "log": "mw021.txt"
+  }
+]

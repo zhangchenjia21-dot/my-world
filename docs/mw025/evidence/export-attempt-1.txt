@@ -1,0 +1,85 @@
+Windows export is missing or stale; rebuilding preset 'Windows Desktop'.
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] [90m[1mfirst_scan_filesystem[22m | Started 项目初始化 (5 steps)[39m[0m
+[   0% ] [90m[1mfirst_scan_filesystem[22m | 正在扫描文件结构……[39m[0m
+ERROR: Cannot go into subdir 'sections'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir '1287'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir 'sections'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir 't0'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir 'sections'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir '1287'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir 'sections'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir 'border-route'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir 'ovista'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir 'public-works'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir 'private'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir '184'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir '189'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir '196'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir '200'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir '208'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir '214'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir '220'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir '229'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir '234'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir '249'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir '263'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir '280'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir 'sections'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir 'sections'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir '1287'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir 'sections'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir '1287'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir 'sections'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir '1287'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir 'border-route'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+ERROR: Cannot go into subdir 'public-works'.
+   at: _scan_new_dir (editor/file_system/editor_file_system.cpp:1219)
+WARNING: Detected another project.godot at res://build/mw025/formal-base. The folder will be ignored.
+   at: _should_skip_directory (editor/file_system/editor_file_system.cpp:3497)
+[  16% ] [90m[1mfirst_scan_filesystem[22m | 正在加载全局类名……[39m[0m
+[  33% ] [90m[1mfirst_scan_filesystem[22m | 正在校验 GDExtension……[39m[0m
+[  50% ] [90m[1mfirst_scan_filesystem[22m | 正在创建自动加载脚本……[39m[0m
+[  66% ] [90m[1mfirst_scan_filesystem[22m | 正在初始化插件……[39m[0m
+[  83% ] [90m[1mfirst_scan_filesystem[22m | 正在启动文件扫描……[39m[0m
+[92m[ DONE ][39m [1mfirst_scan_filesystem[22m
+[0m
+[   0% ] [90m[1msavepack[22m | Started 打包中 (102 steps)[39m[0m
+Invoke-CurrentWindowsExport: D:\AI\Projects\.worktrees\my-world\mw-025-character-guided-recommendations\run-game.ps1:179
+Line |
+ 179 |      Invoke-CurrentWindowsExport -InputHash $productInputHash
+     |      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     | Windows export failed (exit -1073741571); the stale executable will not be launched. See
+     | D:\AI\Projects\.worktrees\my-world\mw-025-character-guided-recommendations\build\windows\owner-export.log
