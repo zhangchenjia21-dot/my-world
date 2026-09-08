@@ -110,7 +110,17 @@ func _ready() -> void:
 	player_input.text_changed.connect(_update_controls)
 	player_input.gui_input.connect(_on_player_input_gui)
 
-	narrative_scroll.get_v_scroll_bar().value_changed.connect(_on_narrative_scroll_changed)
+	# 主历史区独立保留鼠标命中宽度与可辨识滑块；不改变全局 Theme。
+	var narrative_bar := narrative_scroll.get_v_scroll_bar()
+	narrative_bar.custom_minimum_size.x = 18
+	for state: String in ["grabber", "grabber_highlight", "grabber_pressed"]:
+		var grip := StyleBoxFlat.new()
+		grip.bg_color = Palette.TEXT_MUTED if state == "grabber" else Palette.TEXT_SECONDARY
+		grip.set_corner_radius_all(4)
+		grip.content_margin_top = 14
+		grip.content_margin_bottom = 14
+		narrative_bar.add_theme_stylebox_override(state, grip)
+	narrative_bar.value_changed.connect(_on_narrative_scroll_changed)
 	narrative_scroll.resized.connect(_update_readable_width)
 	get_tree().root.size_changed.connect(_update_composer_height)
 	if session_runtime != null:
@@ -643,7 +653,11 @@ func _on_player_input_gui(event: InputEvent) -> void:
 ## 正文列宽随窗口收窄铺满，超过 READABLE_MAX_WIDTH 后由 CenterContainer 居中限宽。
 func _update_readable_width() -> void:
 	_update_recommendation_layout()
-	entries.custom_minimum_size.x = minf(narrative_scroll.size.x, READABLE_MAX_WIDTH)
+	# 为主垂直条预留实际宽度，避免窄窗口正文被条覆盖或产生横向溢出。
+	entries.custom_minimum_size.x = minf(
+		narrative_scroll.size.x - narrative_scroll.get_v_scroll_bar().get_combined_minimum_size().x,
+		READABLE_MAX_WIDTH
+	)
 
 
 ## UX-01：Composer 高度 = clamp(窗口高度 * 0.15, 132, 180)。
@@ -666,7 +680,13 @@ func _on_narrative_scroll_changed(value: float) -> void:
 func _follow_scroll_if_needed() -> void:
 	if not _follow_scroll:
 		return
+	var bound_conversation := conversation
+	# 富文本换行和嵌套 Container 排序跨帧完成；初次重开也须等待有效的最终 range。
 	await get_tree().process_frame
+	await get_tree().process_frame
+	# 等待期间玩家可能主动上翻或 Session 已切换，旧请求不得覆盖新的阅读位置。
+	if not _follow_scroll or conversation == null or conversation != bound_conversation:
+		return
 	var bar := narrative_scroll.get_v_scroll_bar()
 	bar.value = bar.max_value
 
@@ -826,7 +846,8 @@ func _initialize_session(bound_conversation: RefCounted, ready: bool) -> void:
 	adapter.completed.connect(_on_completed)
 	adapter.cancelled.connect(_on_cancelled)
 	adapter.failed.connect(_on_failed)
-	_render_restored_entries()
+	# Continue/reopen 与 Restore 共用完整历史重建及初始 latest 定位；滚动位置不持久化。
+	redraw_from_conversation()
 	if not _startup_ready:
 		_show_error("无法恢复当前游戏。为保护已有数据，本次不会创建空白新局；请稍后重试。")
 	_update_controls()
