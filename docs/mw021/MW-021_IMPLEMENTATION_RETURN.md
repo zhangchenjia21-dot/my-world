@@ -1,6 +1,6 @@
 # MW-021｜Narrative Scroll Navigation & Reopen Position
 
-Status: **READY FOR INDEPENDENT REVIEW**  
+Status: **READY FOR INDEPENDENT REVIEW**
 Date: 2026-09-08
 
 ## Exact source identity
@@ -10,7 +10,7 @@ Date: 2026-09-08
 - Formal Product Code Base: `5e5fd006fd17683ae811b17138df76a18b0b96aa`
 - Starting HEAD / refreshed implementation main: `9239fb10539898fd3d98d256214dd02df73696fa`
 - Implementation HEAD: `4978341809424ac1be3c12ba59974cc9c5468995`
-- Final candidate: 紧接 Implementation HEAD、包含本 Return 的 evidence-only commit；精确 SHA 在创建提交后的最终交付消息中返回。生产代码与测试均精确等于 Implementation HEAD。
+- Final candidate: Implementation HEAD 之后、包含本 Return 的最终 evidence-only commit；精确 SHA 在创建提交后的最终交付消息中返回。生产代码与测试均精确等于 Implementation HEAD。
 - Governance main（开始 fetch 和提交前远端复核）: `ce4c627880edef8927eaa09f8e5df0500b2438c6`
 
 读取两个 current main 的 AGENTS、Owner collaboration preferences、Task Identity、current status v17.11、U2 v1.1、Narrative Scroll frozen decision，以及任务分支上的 Task Packet。Starting HEAD 相对于 formal product base 只增加 MW-021 Task Packet，未改变产品代码。当前 status/packet 优先于旧 AGENTS stage table。
