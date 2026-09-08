@@ -48,25 +48,23 @@ func project(world_state: Dictionary, accepted_entries: Array) -> Dictionary:
 	if matching.size() > RECENT_MATCHING_TURN_LIMIT:
 		matching = matching.slice(matching.size() - RECENT_MATCHING_TURN_LIMIT)
 	var selected: Array = []
-	var projected_chars := 0
+	var text := ""
 	for offset: int in range(matching.size() - 1, -1, -1):
 		var block := _record_block(matching[offset] as Dictionary)
-		if projected_chars + block.length() > MAX_PROJECTED_CHARS:
+		var candidate_blocks := selected.duplicate()
+		candidate_blocks.push_front(block)
+		# 最新优先、整块选择不变；标题及 block 间换行也是实际输出的一部分。
+		var candidate_text := "## Materialized World Changes\nOnly durable consequences matching the current accepted Conversation are listed.\n" + "\n".join(candidate_blocks)
+		if candidate_text.length() > MAX_PROJECTED_CHARS:
 			break
-		selected.push_front(block)
-		projected_chars += block.length()
-	var text := ""
-	if not selected.is_empty():
-		text = "## Materialized World Changes\nOnly durable consequences matching the current accepted Conversation are listed.\n" + "\n".join(selected)
-	var knowledge := _project_knowledge(world_state, accepted_hashes, projected_chars)
-	if not String(knowledge.context_text).is_empty():
-		text += "\n\n" + String(knowledge.context_text)
-	var agency := _project_agency(world_state, accepted_hashes, projected_chars + text.length())
-	if not String(agency.context_text).is_empty():
-		text += "\n\n" + String(agency.context_text)
-	var evolution := _project_evolution(world_state, accepted_hashes, projected_chars + text.length())
-	if not String(evolution.context_text).is_empty():
-		text += "\n\n" + String(evolution.context_text)
+		selected = candidate_blocks
+		text = candidate_text
+	var knowledge := _project_knowledge(world_state, accepted_hashes, text)
+	text = _join_section(text, String(knowledge.context_text))
+	var agency := _project_agency(world_state, accepted_hashes, text)
+	text = _join_section(text, String(agency.context_text))
+	var evolution := _project_evolution(world_state, accepted_hashes, text)
+	text = _join_section(text, String(evolution.context_text))
 	return {
 		"success": true,
 		"status": "projected" if not text.is_empty() else "empty",
@@ -81,9 +79,17 @@ func project(world_state: Dictionary, accepted_entries: Array) -> Dictionary:
 	}
 
 
+## 预算检查与实际拼接共用同一成品文本；仅在两个非空 section 之间插入双换行。
+## 已组装内容不另记 body counter，省略的 section 也不消耗 separator 预算。
+func _join_section(context_text: String, section: String) -> String:
+	if section.is_empty():
+		return context_text
+	return section if context_text.is_empty() else context_text + "\n\n" + section
+
+
 ## Actor Knowledge Provenance 是软模型引导，不是 Narrative 输出门：
 ## 只投影 committed + hash-matching 的 durable provenance；不做关键词/分类器检查。
-func _project_knowledge(world_state: Dictionary, accepted_hashes: Dictionary, projected_chars: int) -> Dictionary:
+func _project_knowledge(world_state: Dictionary, accepted_hashes: Dictionary, context_text: String) -> Dictionary:
 	var living_world_value: Variant = world_state.get("living_world", {})
 	if typeof(living_world_value) != TYPE_DICTIONARY:
 		return _empty_knowledge()
@@ -140,7 +146,7 @@ func _project_knowledge(world_state: Dictionary, accepted_hashes: Dictionary, pr
 		for event: Dictionary in events:
 			lines.append("- [%s] %s" % [String(event.basis), String(event.fact)])
 	var text := "\n".join(lines)
-	if projected_chars + text.length() > MAX_PROJECTED_CHARS:
+	if _join_section(context_text, text).length() > MAX_PROJECTED_CHARS:
 		return _empty_knowledge(rejected)
 	return {
 		"context_text": text,
@@ -169,7 +175,7 @@ func _empty_knowledge(rejected_count: int = 0) -> Dictionary:
 
 ## Independent Actor Actions 是 omniscient GM world reference only：
 ## 不自动成为 Player/其它 actor 的知识或 G5-02 provenance。
-func _project_agency(world_state: Dictionary, accepted_hashes: Dictionary, projected_chars: int) -> Dictionary:
+func _project_agency(world_state: Dictionary, accepted_hashes: Dictionary, context_text: String) -> Dictionary:
 	var living_world_value: Variant = world_state.get("living_world", {})
 	if typeof(living_world_value) != TYPE_DICTIONARY:
 		return _empty_agency()
@@ -211,7 +217,7 @@ func _project_agency(world_state: Dictionary, accepted_hashes: Dictionary, proje
 			lines.append("- %s [%s]: %s" % [display, actor_id, String(action.action).left(200)])
 			action_count += 1
 	var text := "\n".join(lines)
-	if projected_chars + text.length() > MAX_PROJECTED_CHARS:
+	if _join_section(context_text, text).length() > MAX_PROJECTED_CHARS:
 		return _empty_agency(rejected)
 	return {
 		"context_text": text,
@@ -229,7 +235,7 @@ func _empty_agency(rejected_count: int = 0) -> Dictionary:
 ## Player knowledge 或任何 actor 的 Knowledge Provenance；GM 自行决定何时以何种
 ## 场景/信息流节奏呈现。只投影 committed 且 opportunity turn/hash 匹配 current
 ## accepted truth 的事件；stale 物理历史不删除，但也不进入 current Context。
-func _project_evolution(world_state: Dictionary, accepted_hashes: Dictionary, projected_chars: int) -> Dictionary:
+func _project_evolution(world_state: Dictionary, accepted_hashes: Dictionary, context_text: String) -> Dictionary:
 	var living_world_value: Variant = world_state.get("living_world", {})
 	if typeof(living_world_value) != TYPE_DICTIONARY:
 		return _empty_evolution()
@@ -267,7 +273,7 @@ func _project_evolution(world_state: Dictionary, accepted_hashes: Dictionary, pr
 			lines.append("  - %s" % effect)
 		event_count += 1
 	var text := "\n".join(lines)
-	if projected_chars + text.length() > MAX_PROJECTED_CHARS:
+	if _join_section(context_text, text).length() > MAX_PROJECTED_CHARS:
 		return _empty_evolution(rejected)
 	return {
 		"context_text": text,
