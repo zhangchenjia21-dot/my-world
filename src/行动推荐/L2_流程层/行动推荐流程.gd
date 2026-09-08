@@ -12,6 +12,7 @@ var _diagnostic_context: Dictionary = {}
 var _diagnostic_done := true
 var _diagnostic_started_ms := 0
 
+var _character_reader: Callable
 var _runtime: RefCounted
 var _conversation: RefCounted
 var _adapter: Node
@@ -75,7 +76,7 @@ func _consider(epoch: int) -> void:
 		return
 	_attempted_prefix = prefix
 	_begin_diagnostic(entries, epoch)
-	var messages := InputBuilder.build(entries)
+	var messages := InputBuilder.build(entries, _character_reader.call())
 	if messages.is_empty():
 		_emit_diagnostic("unavailable", "input_unavailable")
 		_publish("unavailable")

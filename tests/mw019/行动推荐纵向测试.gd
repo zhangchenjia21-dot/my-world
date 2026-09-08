@@ -284,7 +284,7 @@ func validator_checks() -> void:
 	var window: Array = JSON.parse_string(built[1].content).conversation
 	check(window.size() == 4 and window[0].gm == "叙事4" and window[-1].gm == "叙事7" and not JSON.stringify(built).contains("CANARY"), "latest four deterministic recency and field allowlist")
 	check(InputBuilder.prefix(many) != InputBuilder.prefix(many.slice(1)), "currentness includes prefix outside model window")
-	var overhead: int = JSON.stringify({"conversation": [{"player": "", "gm": "", "input_mode": "opening"}]}).to_utf8_buffer().size()
+	var overhead: int = JSON.stringify({"current_character": null, "latest_accepted_role_action": null, "conversation": [{"player": "", "gm": "", "input_mode": "opening"}]}).to_utf8_buffer().size()
 	var exact := [{"player_text": "", "gm_text": "x".repeat(24576 - overhead)}]
 	check(InputBuilder.build(exact)[1].content.to_utf8_buffer().size() == 24576, "input exact24KiB passes latest intact")
 	exact[0].gm_text += "x"
