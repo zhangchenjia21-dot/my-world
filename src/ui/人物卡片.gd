@@ -43,6 +43,6 @@ func _label(parent: Control, content: String, color: Color) -> void:
 	var label := Label.new()
 	label.text = content
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-	label.add_theme_font_size_override("font_size", 13)
+	label.add_theme_font_size_override("font_size", 20)
 	label.add_theme_color_override("font_color", color)
 	parent.add_child(label)

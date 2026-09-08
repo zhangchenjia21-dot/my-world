@@ -9,7 +9,11 @@ func _ready() -> void:
 	_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
 	_scroll.custom_minimum_size.y = 140
 	add_child(_scroll)
-	_scroll.get_v_scroll_bar().custom_minimum_size.x = 14
+	# 轨道固有宽度参与布局，防止放大后的文字被滚动条覆盖。
+	var track := _scroll.get_v_scroll_bar().get_theme_stylebox("scroll").duplicate() as StyleBox
+	track.content_margin_left = 7
+	track.content_margin_right = 7
+	_scroll.get_v_scroll_bar().add_theme_stylebox_override("scroll", track)
 	_rows = VBoxContainer.new()
 	_rows.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	_rows.add_theme_constant_override("separation", 6)
@@ -39,6 +43,6 @@ func _add_label(text: String, abnormal: bool) -> void:
 	label.text = text
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	label.add_theme_font_size_override("font_size", 16)
+	label.add_theme_font_size_override("font_size", 20)
 	if abnormal: label.theme_type_variation = &"LabelDanger"
 	_rows.add_child(label)

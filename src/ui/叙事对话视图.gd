@@ -441,7 +441,8 @@ func _append_mechanic_card(check: Dictionary, transient: bool = false) -> void:
 
 	var title := Label.new()
 	title.text = "判定｜%s" % String(check.get("intent", ""))
-	title.add_theme_font_size_override("font_size", 14)
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	title.add_theme_font_size_override("font_size", 20)
 	title.add_theme_color_override("font_color", Palette.WARNING)
 	column.add_child(title)
 
@@ -459,7 +460,7 @@ func _append_mechanic_card(check: Dictionary, transient: bool = false) -> void:
 	])
 	var detail := Label.new()
 	detail.text = "\n".join(lines)
-	detail.add_theme_font_size_override("font_size", 13)
+	detail.add_theme_font_size_override("font_size", 20)
 	detail.add_theme_color_override("font_color", Palette.TEXT_SECONDARY)
 	detail.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	column.add_child(detail)
@@ -467,13 +468,13 @@ func _append_mechanic_card(check: Dictionary, transient: bool = false) -> void:
 	var outcome := Label.new()
 	var succeeded := String(check.get("outcome", "")) == "success"
 	outcome.text = "成功" if succeeded else "失败"
-	outcome.add_theme_font_size_override("font_size", 15)
+	outcome.add_theme_font_size_override("font_size", 20)
 	outcome.add_theme_color_override("font_color", Palette.SUCCESS if succeeded else Palette.DANGER)
 	column.add_child(outcome)
 	if not succeeded:
 		var stakes := Label.new()
 		stakes.text = "失败代价：%s" % String(check.get("failure_stakes", ""))
-		stakes.add_theme_font_size_override("font_size", 13)
+		stakes.add_theme_font_size_override("font_size", 20)
 		stakes.add_theme_color_override("font_color", Palette.DANGER)
 		stakes.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		column.add_child(stakes)
@@ -487,6 +488,7 @@ func _update_mechanic_card(card: PanelContainer, check: Dictionary, transient: b
 	var column: VBoxContainer = card.get_child(0)
 	var title: Label = column.get_child(0)
 	title.text = "判定｜%s" % String(check.get("intent", ""))
+	title.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 	var detail: Label = column.get_child(1)
 	var stance_text := String({"normal": "普通", "advantage": "优势", "disadvantage": "劣势"}.get(String(check.get("stance", "normal")), "普通"))
 	var raw: Array = check.get("raw_rolls", [])
@@ -534,7 +536,7 @@ func _append_player_entry(text: String) -> void:
 
 	var header := Label.new()
 	header.text = "你的行动"
-	header.add_theme_font_size_override("font_size", 14)
+	header.add_theme_font_size_override("font_size", 20)
 	header.add_theme_color_override("font_color", Palette.ACCENT)
 	box.add_child(header)
 
@@ -554,12 +556,12 @@ func _begin_gm_entry(opening: bool = false) -> void:
 	var header_row := HBoxContainer.new()
 	var title := Label.new()
 	title.text = "GM · 开场" if opening else "GM"
-	title.add_theme_font_size_override("font_size", 14)
+	title.add_theme_font_size_override("font_size", 20)
 	title.add_theme_color_override("font_color", Palette.WARNING)
 	header_row.add_child(title)
 
 	_current_gm_marker = Label.new()
-	_current_gm_marker.add_theme_font_size_override("font_size", 14)
+	_current_gm_marker.add_theme_font_size_override("font_size", 20)
 	_current_gm_marker.add_theme_color_override("font_color", Palette.DANGER)
 	header_row.add_child(_current_gm_marker)
 	box.add_child(header_row)
@@ -938,7 +940,11 @@ func bind_action_recommender(recommender: Node) -> void:
 		action_recommender.changed.disconnect(_render_recommendations)
 	action_recommender = recommender
 	# 当前主题滚动条没有固有宽度；此局部滚动区保留可见、可拖动的入口。
-	recommendation_scroll.get_v_scroll_bar().custom_minimum_size.x = 12
+	# 轨道固有宽度参与布局，防止放大后的文字被滚动条覆盖。
+	var track := recommendation_scroll.get_v_scroll_bar().get_theme_stylebox("scroll").duplicate() as StyleBox
+	track.content_margin_left = 6
+	track.content_margin_right = 6
+	recommendation_scroll.get_v_scroll_bar().add_theme_stylebox_override("scroll", track)
 	if action_recommender != null:
 		action_recommender.changed.connect(_render_recommendations)
 	_render_recommendations()
@@ -963,7 +969,7 @@ func _render_recommendations() -> void:
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		button.custom_minimum_size.y = 48
-		button.add_theme_font_size_override("font_size", 18)
+		button.add_theme_font_size_override("font_size", 20)
 		for state: String in ["normal", "hover", "pressed", "disabled"]:
 			var style: StyleBox = get_theme_stylebox(state, "Button").duplicate()
 			style.content_margin_top = 8

@@ -9,7 +9,7 @@ font_names = PackedStringArray("Microsoft YaHei UI", "Microsoft YaHei", "Noto Sa
 
 [sub_resource type="Theme" id="Theme_shell"]
 default_font = SubResource("SystemFont_shell")
-default_font_size = 18
+default_font_size = 20
 
 [node name="Main" type="Control"]
 layout_mode = 3
@@ -154,7 +154,7 @@ text = "my world"
 [node name="Subtitle" type="Label" parent="Margin/Layout/TopBar/TitleBox"]
 layout_mode = 2
 theme_type_variation = &"LabelSecondary"
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 20
 text = "自然语言 AI 角色扮演"
 
 [node name="TopSpacer" type="Control" parent="Margin/Layout/TopBar"]
@@ -256,7 +256,7 @@ text = "主角"
 [node name="PlayerEmpty" type="Label" parent="Margin/Layout/HostLayout/PlayerPanelHost/PlayerPanelMargin/PlayerPanelScroll/PlayerPanelColumn"]
 layout_mode = 2
 theme_type_variation = &"LabelMuted"
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 20
 text = "主角信息将在新游戏与角色状态成立后显示。"
 autowrap_mode = 2
 
@@ -270,13 +270,13 @@ script = ExtResource("2_view")
 [node name="NarrativeMargin" type="MarginContainer" parent="Margin/Layout/HostLayout/NarrativeHost"]
 layout_mode = 2
 theme_override_constants/margin_left = 16
-theme_override_constants/margin_top = 12
+theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 16
-theme_override_constants/margin_bottom = 12
+theme_override_constants/margin_bottom = 6
 
 [node name="NarrativeColumn" type="VBoxContainer" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 4
 
 [node name="NarrativeScroll" type="ScrollContainer" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn"]
 unique_name_in_owner = true
@@ -306,7 +306,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"LabelAccent"
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 20
 autowrap_mode = 3
 vertical_alignment = 1
 
@@ -321,20 +321,20 @@ unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_type_variation = &"LabelDanger"
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 20
 autowrap_mode = 2
 
 [node name="RecommendationArea" type="VBoxContainer" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 4
 
 [node name="RecommendationHeading" type="Label" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"LabelSecondary"
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 20
 text = "推荐行动 · 可自由输入或修改"
 autowrap_mode = 2
 
@@ -424,14 +424,15 @@ text = "信息"
 [node name="WorldEmpty" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
 layout_mode = 2
 theme_type_variation = &"LabelMuted"
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 20
 text = "世界信息将在游戏状态成立后显示。"
 autowrap_mode = 2
 
-[node name="WorldNav" type="HBoxContainer" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+[node name="WorldNav" type="HFlowContainer" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
 
 [node name="OverviewTab" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav"]
 unique_name_in_owner = true
@@ -476,70 +477,79 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 4
 
-[node name="SaveSurface" type="VBoxContainer" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
+[node name="SaveScroll" type="ScrollContainer" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+follow_focus = true
+
+[node name="SaveSurface" type="VBoxContainer" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="SaveSeparator" type="HSeparator" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
+[node name="SaveSeparator" type="HSeparator" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface"]
 layout_mode = 2
 
-[node name="SaveHeader" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
+[node name="SaveHeader" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 20
 text = "进度存档"
 
-[node name="SaveHint" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
+[node name="SaveHint" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface"]
 layout_mode = 2
 theme_type_variation = &"LabelSecondary"
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 20
 text = "为重要进度命名保存；读取旧存档会切换当前进度。"
 autowrap_mode = 2
 
-[node name="SaveNameInput" type="LineEdit" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
+[node name="SaveNameInput" type="LineEdit" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface"]
 unique_name_in_owner = true
 layout_mode = 2
 placeholder_text = "输入存档名称"
 
-[node name="CreateSaveButton" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
+[node name="CreateSaveButton" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface"]
 unique_name_in_owner = true
 layout_mode = 2
 disabled = true
 text = "保存当前进度"
 
-[node name="SaveSelector" type="OptionButton" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
+[node name="SaveSelector" type="OptionButton" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface"]
 unique_name_in_owner = true
 layout_mode = 2
 disabled = true
 tooltip_text = "选择要读取的存档"
 
-[node name="LoadSaveButton" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
+[node name="LoadSaveButton" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface"]
 unique_name_in_owner = true
 layout_mode = 2
 disabled = true
 text = "读取所选存档"
 
-[node name="SaveResultLabel" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
+[node name="SaveResultLabel" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 20
 autowrap_mode = 2
 
-[node name="RecoverySeparator" type="HSeparator" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
+[node name="RecoverySeparator" type="HSeparator" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="RecoveryHint" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
+[node name="RecoveryHint" type="Label" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 theme_type_variation = &"LabelAccent"
-theme_override_font_sizes/font_size = 13
+theme_override_font_sizes/font_size = 20
 autowrap_mode = 2
 
-[node name="RecoverButton" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveSurface"]
+[node name="RecoverButton" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface"]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -554,7 +564,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 theme_type_variation = &"LabelMuted"
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 20
 text = "状态：启动中…"
 autowrap_mode = 2
 

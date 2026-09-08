@@ -74,7 +74,7 @@ const GAME_LOCAL_SETUP_SCHEMA := "game_local_setup.v0.1"
 @onready var player_panel_host: PanelContainer = %PlayerPanelHost
 @onready var world_surface_host: PanelContainer = %WorldSurfaceHost
 ## MW-011/MW-015：World Surface 的概览/角色/重要经历/存档有界导航与 Save 子表面。
-@onready var world_nav: HBoxContainer = %WorldNav
+@onready var world_nav: HFlowContainer = %WorldNav
 @onready var overview_tab: Button = %OverviewTab
 @onready var character_tab: Button = %CharacterTab
 @onready var experiences_tab: Button = %ExperiencesTab
@@ -183,6 +183,14 @@ func _ready() -> void:
 	# MW-003：核心 palette 集中装配到根 Theme（字体/字号保持 tscn 既有定义）；
 	# 全产品表面经 Theme 继承获得同一视觉系统。
 	Palette.apply_theme(theme)
+	# 20px 正文增加右栏纵向溢出；保留可直接拖动的局部滚动条。
+	for scroll: ScrollContainer in [world_surface_scroll, %SaveScroll]:
+		# StyleBox 固有宽度参与 ScrollContainer 布局；仅设 custom_minimum_size 会覆盖正文。
+		var bar := scroll.get_v_scroll_bar()
+		var track := bar.get_theme_stylebox("scroll").duplicate() as StyleBox
+		track.content_margin_left = 9
+		track.content_margin_right = 9
+		bar.add_theme_stylebox_override("scroll", track)
 	$Background.color = Palette.CANVAS
 	_ensure_game_library()
 	exit_button.pressed.connect(_request_exit)
@@ -1389,6 +1397,7 @@ func _apply_world_surface_visibility() -> void:
 	if _people_panel_body != null and is_instance_valid(_people_panel_body):
 		_people_panel_body.visible = show_surface and _world_surface_mode == "people"
 	save_surface.visible = session_active and _world_surface_mode == "save"
+	%SaveScroll.visible = save_surface.visible
 
 
 func _panel_body(column: VBoxContainer, current_body: VBoxContainer, empty_label: Label, has_content: bool) -> VBoxContainer:
@@ -1459,17 +1468,17 @@ func _render_world_overview(view_model: Dictionary) -> void:
 	_apply_world_surface_visibility()
 	if not has_identity:
 		return
-	_panel_label(_world_panel_body, String(view_model.world_display_name), 16, Palette.TEXT_PRIMARY)
+	_panel_label(_world_panel_body, String(view_model.world_display_name), 20, Palette.TEXT_PRIMARY)
 	var entry_name := String(view_model.get("world_entry_name", ""))
 	if not entry_name.is_empty():
-		_panel_label(_world_panel_body, entry_name, 13, Palette.TEXT_SECONDARY, true)
-	_panel_label(_world_panel_body, "主角所知", 14, Palette.TEXT_SECONDARY)
+		_panel_label(_world_panel_body, entry_name, 20, Palette.TEXT_SECONDARY, true)
+	_panel_label(_world_panel_body, "主角所知", 20, Palette.TEXT_SECONDARY)
 	var facts: Array = view_model.get("known_facts", [])
 	if facts.is_empty():
-		_panel_label(_world_panel_body, "尚无新的已知事实。", 13, Palette.TEXT_SECONDARY, true)
+		_panel_label(_world_panel_body, "尚无新的已知事实。", 20, Palette.TEXT_SECONDARY, true)
 	else:
 		for fact_value: Variant in facts:
-			_panel_label(_world_panel_body, "• %s" % String(fact_value), 13, Palette.TEXT_PRIMARY)
+			_panel_label(_world_panel_body, "• %s" % String(fact_value), 20, Palette.TEXT_PRIMARY)
 	# MW-015 §8：recent actions / turn count 不是长期 RPG 信息 Surface，
 	# 不随左栏过渡内容清理而搬进概览。
 
@@ -1487,19 +1496,19 @@ func _render_character_surface() -> void:
 	var summary := String(character.get("summary", "")).strip_edges()
 	var groups: Array = character.get("groups", [])
 	if headline.is_empty() and summary.is_empty() and groups.is_empty():
-		_panel_label(_character_panel_body, "角色信息将随游戏进展整理显示。", 13, Palette.TEXT_SECONDARY, true)
+		_panel_label(_character_panel_body, "角色信息将随游戏进展整理显示。", 20, Palette.TEXT_SECONDARY, true)
 		return
 	if not headline.is_empty():
-		_panel_label(_character_panel_body, headline, 16, Palette.TEXT_PRIMARY)
+		_panel_label(_character_panel_body, headline, 20, Palette.TEXT_PRIMARY)
 	if not summary.is_empty():
-		_panel_label(_character_panel_body, summary, 13, Palette.TEXT_PRIMARY)
+		_panel_label(_character_panel_body, summary, 20, Palette.TEXT_PRIMARY)
 	for group_value: Variant in groups:
 		var group := group_value as Dictionary
-		_panel_label(_character_panel_body, String(group.get("title", "")), 14, Palette.TEXT_SECONDARY)
+		_panel_label(_character_panel_body, String(group.get("title", "")), 20, Palette.TEXT_SECONDARY)
 		for item_value: Variant in group.get("items", []):
-			_panel_label(_character_panel_body, "• %s" % String(item_value), 13, Palette.TEXT_PRIMARY)
+			_panel_label(_character_panel_body, "• %s" % String(item_value), 20, Palette.TEXT_PRIMARY)
 	if groups.is_empty():
-		_panel_label(_character_panel_body, "暂无更多角色信息。", 13, Palette.TEXT_SECONDARY, true)
+		_panel_label(_character_panel_body, "暂无更多角色信息。", 20, Palette.TEXT_SECONDARY, true)
 
 
 ## MW-015：Important Experiences Surface——「我是怎样走到现在的」，按因果顺序展示。
@@ -1512,17 +1521,17 @@ func _render_experiences_surface() -> void:
 	var projection: Dictionary = CharacterExperiencesProjection.project_session(session_runtime)
 	var experiences: Array = projection.get("important_experiences", [])
 	if experiences.is_empty():
-		_panel_label(_experiences_panel_body, "尚无需要长期记录的重要经历。", 13, Palette.TEXT_SECONDARY, true)
+		_panel_label(_experiences_panel_body, "尚无需要长期记录的重要经历。", 20, Palette.TEXT_SECONDARY, true)
 		return
 	for event_value: Variant in experiences:
 		var event := event_value as Dictionary
-		_panel_label(_experiences_panel_body, String(event.get("title", "")), 14, Palette.TEXT_SECONDARY)
+		_panel_label(_experiences_panel_body, String(event.get("title", "")), 20, Palette.TEXT_SECONDARY)
 		var description := String(event.get("description", "")).strip_edges()
 		if not description.is_empty():
-			_panel_label(_experiences_panel_body, description, 13, Palette.TEXT_PRIMARY)
+			_panel_label(_experiences_panel_body, description, 20, Palette.TEXT_PRIMARY)
 		var time_label := String(event.get("time_label", "")).strip_edges()
 		if not time_label.is_empty():
-			_panel_label(_experiences_panel_body, time_label, 12, Palette.TEXT_SECONDARY, true)
+			_panel_label(_experiences_panel_body, time_label, 20, Palette.TEXT_SECONDARY, true)
 
 
 ## 人物只接收专用 player-safe DTO；每次重建全折叠，不从 actor registry 制造卡片。
@@ -1532,7 +1541,7 @@ func _render_people_surface() -> void:
 	_apply_world_surface_visibility()
 	var cards := PeopleProjection.project_session(session_runtime)
 	if cards.is_empty():
-		_panel_label(_people_panel_body, "人物信息将随你结识和了解他们而整理。", 13, Palette.TEXT_SECONDARY, true)
+		_panel_label(_people_panel_body, "人物信息将随你结识和了解他们而整理。", 20, Palette.TEXT_SECONDARY, true)
 	for snapshot: Dictionary in cards:
 		var card := PeopleCard.new()
 		_people_panel_body.add_child(card)
