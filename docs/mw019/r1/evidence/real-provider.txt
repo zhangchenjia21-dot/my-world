@@ -1,0 +1,9 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-019 PASS isolated runtime
+MW-019 PASS synthetic opening durably accepted
+MW-019 REAL archive-opening-sequential-plan-trap status=ready count=5
+MW-019 PASS begin player turn
+MW-019 PASS durable accepted Narrative
+MW-019 REAL archive-public-directory-turn status=ready count=5
+MW-019 REAL requests=2 successes=2

@@ -1,0 +1,93 @@
+[
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-019-r1-recommendation-ux\\build\\mw019\\r1-regressions\\mw019-lifecycle.log",
+    "exit_code": 0,
+    "errors": 0,
+    "name": "mw019-lifecycle",
+    "exit_warnings": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-019-r1-recommendation-ux\\build\\mw019\\r1-regressions\\mw019-routes.log",
+    "exit_code": 0,
+    "errors": 0,
+    "name": "mw019-routes",
+    "exit_warnings": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-019-r1-recommendation-ux\\build\\mw019\\r1-regressions\\g2_03.log",
+    "exit_code": 0,
+    "errors": 0,
+    "name": "g2_03",
+    "exit_warnings": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-019-r1-recommendation-ux\\build\\mw019\\r1-regressions\\g2_04.log",
+    "exit_code": 0,
+    "errors": 0,
+    "name": "g2_04",
+    "exit_warnings": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-019-r1-recommendation-ux\\build\\mw019\\r1-regressions\\g4_08b.log",
+    "exit_code": 0,
+    "errors": 0,
+    "name": "g4_08b",
+    "exit_warnings": 2
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-019-r1-recommendation-ux\\build\\mw019\\r1-regressions\\g4_08m1.log",
+    "exit_code": 0,
+    "errors": 0,
+    "name": "g4_08m1",
+    "exit_warnings": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-019-r1-recommendation-ux\\build\\mw019\\r1-regressions\\g4_08m1-idempotency.log",
+    "exit_code": 0,
+    "errors": 0,
+    "name": "g4_08m1-idempotency",
+    "exit_warnings": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-019-r1-recommendation-ux\\build\\mw019\\r1-regressions\\mw018-r1.log",
+    "exit_code": 0,
+    "errors": 0,
+    "name": "mw018-r1",
+    "exit_warnings": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-019-r1-recommendation-ux\\build\\mw019\\r1-regressions\\mw018.log",
+    "exit_code": 0,
+    "errors": 0,
+    "name": "mw018",
+    "exit_warnings": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-019-r1-recommendation-ux\\build\\mw019\\r1-regressions\\mw015-r1.log",
+    "exit_code": 0,
+    "errors": 0,
+    "name": "mw015-r1",
+    "exit_warnings": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-019-r1-recommendation-ux\\build\\mw019\\r1-regressions\\mw015.log",
+    "exit_code": 0,
+    "errors": 0,
+    "name": "mw015",
+    "exit_warnings": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-019-r1-recommendation-ux\\build\\mw019\\r1-regressions\\mw015r2-ui.log",
+    "exit_code": 0,
+    "errors": 0,
+    "name": "mw015r2-ui",
+    "exit_warnings": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-019-r1-recommendation-ux\\build\\mw019\\r1-regressions\\g4_07b.log",
+    "exit_code": 0,
+    "errors": 0,
+    "name": "g4_07b",
+    "exit_warnings": 2
+  }
+]

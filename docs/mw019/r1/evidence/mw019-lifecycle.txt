@@ -1,0 +1,176 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-019 PASS isolated production SQLite
+MW-019 PASS hidden canaries
+MW-019 PASS empty game zero calls
+MW-019 PASS opening durably accepted
+MW-019 PASS opening exactly one opportunity
+MW-019 PASS expected request active
+MW-019 PASS exact five safe output
+MW-019 PASS nested snapshot cannot mutate worker state
+MW-019 PASS recommendations create no Conversation/World/Timeline/SQLite mutation
+MW-019 PASS Save independent
+MW-019 PASS input excludes SECRET_PROFILE
+MW-019 PASS input excludes PRIVATE_KNOWLEDGE
+MW-019 PASS input excludes PRIVATE_PLAN
+MW-019 PASS input excludes HIDDEN_EVOLUTION
+MW-019 PASS input excludes SOURCE_CURRENT
+MW-019 PASS input excludes local_character_id
+MW-019 PASS input excludes turn_index
+MW-019 PASS input excludes information_curation
+MW-019 PASS input excludes sha256
+MW-019 PASS input excludes npc-a
+MW-019 PASS opening request includes exact full visible narrative only
+MW-019 PASS begin player turn
+MW-019 PASS durable accepted Narrative
+MW-019 PASS normal turn one fresh call
+MW-019 PASS foreground clears/cancels immediately
+MW-019 PASS late foreground callbacks cannot publish
+MW-019 PASS cancelled GM no opportunity
+MW-019 PASS retry accepted
+MW-019 PASS saved old callbacks cannot complete new request
+MW-019 PASS expected request active
+MW-019 PASS correction clears
+MW-019 PASS cancelled correction no new options
+MW-019 PASS failed replacement no calls
+MW-019 PASS corrected replacement accepted
+MW-019 PASS accepted replacement fresh call
+MW-019 PASS Restore accepted opening
+MW-019 PASS Restore immediately clears
+MW-019 PASS Restore at most one fresh request
+MW-019 PASS pre-Restore callback after new request rejected
+MW-019 PASS expected request active
+MW-019 PASS begin player turn
+MW-019 PASS durable accepted Narrative
+MW-019 PASS failure fails soft without gameplay mutation
+MW-019 PASS begin player turn
+MW-019 PASS durable accepted Narrative
+MW-019 PASS cancel fails soft without gameplay mutation
+MW-019 PASS begin player turn
+MW-019 PASS durable accepted Narrative
+MW-019 PASS timeout fails soft without gameplay mutation
+MW-019 PASS begin player turn
+MW-019 PASS durable accepted Narrative
+MW-019 PASS sync fails soft without gameplay mutation
+MW-019 PASS begin player turn
+MW-019 PASS durable accepted Narrative
+MW-019 PASS malformed fails soft without gameplay mutation
+MW-019 PASS begin player turn
+MW-019 PASS durable accepted Narrative
+MW-019 PASS oversize fails soft without gameplay mutation
+MW-019 PASS real reopen
+MW-019 PASS reopen only one fresh call
+MW-019 PASS expected request active
+MW-019 PASS idle no repeated call
+MW-019 PASS restore visible opening for UI
+[shell] application=game_active session=ready
+MW-019 PASS composer editable during recommendation loading
+MW-019 PASS expected request active
+MW-019 PASS response never replaces typed draft
+MW-019 PASS production UI renders exactly five buttons
+MW-019 PASS click replaces/focuses/caret at editable end
+MW-019 PASS click never submits or mutates history
+MW-019 PASS prefilled draft freely editable
+MW-019 PASS click/edit zero Provider calls
+LAYOUT (1600, 900) narrative=(1078.0, 385.0) recommendations=(1078.0, 190.0)
+MW-019 PASS bounded guidance and visible Narrative/composer (1600, 900)
+MW-019 PASS label only/no horizontal overflow (1600, 900)
+MW-019 PASS label only/no horizontal overflow (1600, 900)
+MW-019 PASS label only/no horizontal overflow (1600, 900)
+MW-019 PASS label only/no horizontal overflow (1600, 900)
+MW-019 PASS label only/no horizontal overflow (1600, 900)
+MW-019 PASS comfortable columns/heading (1600, 900)
+MW-019 PASS larger composer and primary control (1600, 900)
+MW-019 PASS larger wrapping recommendation (1600, 900)
+MW-019 PASS larger wrapping recommendation (1600, 900)
+MW-019 PASS larger wrapping recommendation (1600, 900)
+MW-019 PASS larger wrapping recommendation (1600, 900)
+MW-019 PASS larger wrapping recommendation (1600, 900)
+SCROLL grid=(1078.0, 160.0) minimum=(56.0, 160.0) scroll=(1078.0, 160.0) bar=false range=160.0 page=160.0
+LAYOUT (1280, 720) narrative=(804.0, 208.0) recommendations=(804.0, 190.0)
+MW-019 PASS bounded guidance and visible Narrative/composer (1280, 720)
+MW-019 PASS label only/no horizontal overflow (1280, 720)
+MW-019 PASS label only/no horizontal overflow (1280, 720)
+MW-019 PASS label only/no horizontal overflow (1280, 720)
+MW-019 PASS label only/no horizontal overflow (1280, 720)
+MW-019 PASS label only/no horizontal overflow (1280, 720)
+MW-019 PASS comfortable columns/heading (1280, 720)
+MW-019 PASS larger composer and primary control (1280, 720)
+MW-019 PASS larger wrapping recommendation (1280, 720)
+MW-019 PASS larger wrapping recommendation (1280, 720)
+MW-019 PASS larger wrapping recommendation (1280, 720)
+MW-019 PASS larger wrapping recommendation (1280, 720)
+MW-019 PASS larger wrapping recommendation (1280, 720)
+SCROLL grid=(804.0, 160.0) minimum=(56.0, 160.0) scroll=(804.0, 160.0) bar=false range=160.0 page=160.0
+LAYOUT (960, 540) narrative=(484.0, 132.0) recommendations=(484.0, 86.0)
+MW-019 PASS bounded guidance and visible Narrative/composer (960, 540)
+MW-019 PASS label only/no horizontal overflow (960, 540)
+MW-019 PASS label only/no horizontal overflow (960, 540)
+MW-019 PASS label only/no horizontal overflow (960, 540)
+MW-019 PASS label only/no horizontal overflow (960, 540)
+MW-019 PASS label only/no horizontal overflow (960, 540)
+MW-019 PASS comfortable columns/heading (960, 540)
+MW-019 PASS larger composer and primary control (960, 540)
+MW-019 PASS larger wrapping recommendation (960, 540)
+MW-019 PASS larger wrapping recommendation (960, 540)
+MW-019 PASS larger wrapping recommendation (960, 540)
+MW-019 PASS larger wrapping recommendation (960, 540)
+MW-019 PASS larger wrapping recommendation (960, 540)
+SCROLL grid=(484.0, 272.0) minimum=(24.0, 272.0) scroll=(484.0, 56.0) bar=true range=272.0 page=56.0
+MW-019 PASS keyboard focus scrolls fifth alternative into view
+MW-019 PASS render/resize/tabs/edit/click zero calls
+MW-019 PASS normal Send begins original route and clears options
+MW-019 PASS Send uses edited exact draft
+MW-019 PASS accepted real UI turn creates fresh opportunity
+MW-019 PASS expected request active
+MW-019 PASS 48-char label wraps without horizontal overflow; draft stays out of button
+MW-019 PASS 48-char label wraps without horizontal overflow; draft stays out of button
+MW-019 PASS 48-char label wraps without horizontal overflow; draft stays out of button
+MW-019 PASS 48-char label wraps without horizontal overflow; draft stays out of button
+MW-019 PASS 48-char label wraps without horizontal overflow; draft stays out of button
+MW-019 PASS prefill preserves full multiline draft bytes
+MW-019 PASS multiline draft caret at exact editable end
+MW-019 PASS stale pair cannot replace input after foreground invalidation
+MW-019 PASS recommendation failure does not enter main error path
+MW-019 PASS manual input sends after failure
+[shell] session=absent close_status=ready
+MW-019 PASS shutdown callback cannot publish
+MW-019 PASS valid exact five pairs
+MW-019 PASS invalid top-level/count/old strings/fences/depth fail-soft
+MW-019 PASS invalid top-level/count/old strings/fences/depth fail-soft
+MW-019 PASS invalid top-level/count/old strings/fences/depth fail-soft
+MW-019 PASS invalid top-level/count/old strings/fences/depth fail-soft
+MW-019 PASS invalid top-level/count/old strings/fences/depth fail-soft
+MW-019 PASS invalid top-level/count/old strings/fences/depth fail-soft
+MW-019 PASS invalid top-level/count/old strings/fences/depth fail-soft
+MW-019 PASS invalid top-level/count/old strings/fences/depth fail-soft
+MW-019 PASS invalid top-level/count/old strings/fences/depth fail-soft
+MW-019 PASS invalid top-level/count/old strings/fences/depth fail-soft
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS five x48/400 Unicode scalar exact bounds
+MW-019 PASS escaped supplementary Unicode fits bounded response
+MW-019 PASS response exact32KiB / over32KiB
+MW-019 PASS syntax characters and internal newline preserved; edge whitespace normalized
+MW-019 PASS latest four deterministic recency and field allowlist
+MW-019 PASS currentness includes prefix outside model window
+MW-019 PASS input exact24KiB passes latest intact
+MW-019 PASS oversize latest fails soft without truncation
+MW-019 PASS byte-limited window retains full latest
+MW-019 FOCUSED checks=165 failures=0

@@ -1,0 +1,21 @@
+{
+  "implementation_head": "23ba847169f901497a36fabe0514704969452d9e",
+  "artifacts": {
+    "libgdsqlite.windows.template_debug.x86_64.dll": {
+      "bytes": 3163136,
+      "sha256": "e3ae3b46b59eadcd513f8d7d6e7c0c15e173696e145594094d7f4f3cc96c7fe7"
+    },
+    "my-world.console.exe": {
+      "bytes": 50176,
+      "sha256": "4713fefc9bbe042da13a38724297710e810bcda3166dfa405c3efecf8db3cdec"
+    },
+    "my-world.exe": {
+      "bytes": 103035904,
+      "sha256": "5543ab4b6fb453c5dbe7f4effa0aad7f1cc06d73c12e8436adfc9fb266ac34ee"
+    },
+    "my-world.pck": {
+      "bytes": 2423900,
+      "sha256": "fed1895ccc6e2b0212439d9fd792e20475a775ceb05b303e2539c8b6c4daf7cd"
+    }
+  }
+}
