@@ -1,0 +1,82 @@
+[
+  {
+    "exit_warnings": 0,
+    "log": "offline/mw015r1.log",
+    "exit_code": 0,
+    "name": "mw015r1",
+    "errors": 0,
+    "sha256": "c9b1d6dc350ee6a2bdef5f34a94e9849a4fc9974d592f428571dab41ab54deda"
+  },
+  {
+    "exit_warnings": 0,
+    "log": "offline/mw014.log",
+    "exit_code": 0,
+    "name": "mw014",
+    "errors": 0,
+    "sha256": "f11b08bdc205117afc62826c4049783a5923ac5efdd15ff372617c9d336dc2a2"
+  },
+  {
+    "exit_warnings": 0,
+    "log": "offline/mw015.log",
+    "exit_code": 0,
+    "name": "mw015",
+    "errors": 0,
+    "sha256": "6be9623f14eb8bb09724f0ed1e94fa76b3ab091da5a790fc286d83a64f243f33"
+  },
+  {
+    "exit_warnings": 0,
+    "log": "offline/mw015r2.log",
+    "exit_code": 0,
+    "name": "mw015r2",
+    "errors": 0,
+    "sha256": "987b44f7fac6ed3d35e4ce976e690386f93b62c01318570d0c9f9d459f7525f0"
+  },
+  {
+    "exit_warnings": 0,
+    "log": "offline/mw015r2-ui.log",
+    "exit_code": 0,
+    "name": "mw015r2-ui",
+    "errors": 0,
+    "sha256": "8d9a3eeb4ac28365f61eb185c057e0520439c6cf89d885badb049ac7ae2ce701"
+  },
+  {
+    "exit_warnings": 0,
+    "log": "offline/mw015r2-contract.log",
+    "exit_code": 0,
+    "name": "mw015r2-contract",
+    "errors": 0,
+    "sha256": "32a0412543a1b2a475f9e47b0cec4520e7c2fc1782f8a0de37857d6ab686e042"
+  },
+  {
+    "exit_warnings": 0,
+    "log": "offline/mw017.log",
+    "exit_code": 0,
+    "name": "mw017",
+    "errors": 0,
+    "sha256": "650c0b90a1fa1ca8a598396f299d1aaeb167362b2bfa386f2e50569e947ade1b"
+  },
+  {
+    "exit_warnings": 0,
+    "log": "offline/mw018.log",
+    "exit_code": 0,
+    "name": "mw018",
+    "errors": 0,
+    "sha256": "b45957588a81ed3d3180173f1c3c66373d0e29ba916053285433c63b2a606d07"
+  },
+  {
+    "exit_warnings": 0,
+    "log": "offline/mw018r1.log",
+    "exit_code": 0,
+    "name": "mw018r1",
+    "errors": 0,
+    "sha256": "fddf3cddbea56fd1cf3514f4fdfca6b0f99b80cf1605303ef9c78c9b00fcec48"
+  },
+  {
+    "exit_warnings": 0,
+    "log": "offline/g5_01-timeline.log",
+    "exit_code": 0,
+    "name": "g5_01-timeline",
+    "errors": 0,
+    "sha256": "7b4ad6071016f276205f1c0b9538cdf708abb45939a33f4d1e7666eef3518d21"
+  }
+]

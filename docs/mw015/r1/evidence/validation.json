@@ -1,0 +1,41 @@
+{
+  "implementation_head": "aca189b35f5539a190e17a32590c5ca867459df3",
+  "production_file": "src/信息整理/L2_流程层/回合信息整理流程.gd",
+  "only_lived_instructions_changed": true,
+  "outside_lived_instructions_sha256": "91b8cd1a368856cebe563293eac13c0a1c49f00cde0cb1e4597ce53ff5c9f047",
+  "focused": {
+    "checks": 37,
+    "failures": 0
+  },
+  "affected_regression_suites": 9,
+  "offline_all_exit_zero": true,
+  "real_provider": {
+    "model": "k3-256k",
+    "calls": 2,
+    "same_system_prompt": true,
+    "experience_counts": [
+      0,
+      1
+    ],
+    "raw_experience_output_preserved": true,
+    "owner_unchanged": true
+  },
+  "export": {
+    "exit_code": 0,
+    "export_errors": 0,
+    "files": {
+      "libgdsqlite.windows.template_release.x86_64.dll": {
+        "bytes": 3393024,
+        "sha256": "ba79b9bbf916c4ed2eb22ac719051c4a4258e460c4a354590b071beb9a87fedb"
+      },
+      "my-world.exe": {
+        "bytes": 109127680,
+        "sha256": "4a9eaded8955ef789ab02651ed9d2dde80328fbb342bd2a6db4db33e86305668"
+      },
+      "my-world.pck": {
+        "bytes": 2393824,
+        "sha256": "bf16eb0da22c25d81535e26f4a32a5b0a8333a9f95f13eb16387e7159db0c3e5"
+      }
+    }
+  }
+}
