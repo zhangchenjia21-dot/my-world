@@ -328,21 +328,29 @@ autowrap_mode = 2
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 8
 
 [node name="RecommendationHeading" type="Label" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"LabelSecondary"
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 16
 text = "推荐行动 · 可自由输入或修改"
+autowrap_mode = 2
 
-[node name="RecommendationGrid" type="GridContainer" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea"]
+[node name="RecommendationScroll" type="ScrollContainer" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea"]
 unique_name_in_owner = true
 layout_mode = 2
+horizontal_scroll_mode = 0
+follow_focus = true
+
+[node name="RecommendationGrid" type="GridContainer" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
 columns = 2
-theme_override_constants/h_separation = 6
-theme_override_constants/v_separation = 4
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
 
 [node name="ComposerRow" type="HBoxContainer" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn"]
 layout_mode = 2
@@ -350,9 +358,10 @@ theme_override_constants/separation = 8
 
 [node name="PlayerInput" type="TextEdit" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 112)
+custom_minimum_size = Vector2(0, 132)
 layout_mode = 2
 size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
 placeholder_text = "输入你的行动……（Ctrl+Enter 发送）"
 wrap_mode = 1
 
@@ -362,13 +371,17 @@ theme_override_constants/separation = 6
 
 [node name="SendButton" type="Button" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(72, 48)
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 disabled = true
 text = "发送"
 
 [node name="CancelButton" type="Button" parent="Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(72, 48)
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
 disabled = true
 text = "取消"
 

@@ -36,7 +36,7 @@ func _ready() -> void:
 
 ## 只读、内存中的玩家安全投影；调用不会发起请求，也不暴露 epoch/prefix/运行时材料。
 func snapshot() -> Dictionary:
-	return {"status": _state, "actions": _actions.duplicate()}
+	return {"status": _state, "actions": _actions.duplicate(true)}
 
 ## 前台优先：d20 在 Conversation attempt 前开始，调用方须在判定启动前调用此 seam。
 func interrupt_foreground() -> void:

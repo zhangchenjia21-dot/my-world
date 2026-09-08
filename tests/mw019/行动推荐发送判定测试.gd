@@ -1,7 +1,7 @@
 extends "res://tests/g4_08b/公开D20界面整合测试.gd"
 
 const RecommendationStub := preload("res://tests/g5_01/世界回合语义桩适配器.gd")
-const ACTIONS := ["我去河边观察船只。", "我向守卫问路。", "我回营整理见闻。", "我请同伴谈谈看法。", "我在亭中等候消息。"]
+const ACTIONS := [{"label": "询问粮商的行程", "draft": "我问问粮商明早何时出发。"}, {"label": "观察渡口", "draft": "我沿河堤走一段，观察渡口的情况。"}, {"label": "回亭整理消息", "draft": "我回到小亭，整理刚才听到的消息。"}, {"label": "向守门人问路", "draft": "我向守门人询问雨后道路是否好走。"}, {"label": "准备饮水", "draft": "我先准备饮水，再决定下一步。"}]
 
 func _boot_shell(case_root: String) -> Variant:
 	var shell: Variant = await super._boot_shell(case_root)
@@ -35,6 +35,7 @@ func _run() -> void:
 		await _settle(3)
 		var legacy := _swap_view_stub(view)
 		view.recommendation_grid.get_child(0).pressed.emit()
+		_check(view.player_input.text == ACTIONS[0].draft and rec.requests.size() == 1, "paired exact draft prefill with zero extra call")
 		_check(legacy.start_calls.is_empty() and not shell.session_runtime.conversation.is_generating(), "click does not submit")
 		if with_d20:
 			_check(shell.test_adjudication_adapter_override.requests.is_empty() and shell.test_adjudication_rng_override.invocation_count == 0, "click never adjudicates/rolls")

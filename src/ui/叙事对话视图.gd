@@ -25,8 +25,8 @@ const READABLE_MAX_WIDTH := 920.0
 ## Composer 高度响应式规则（UX-01）：随窗口高度适度增高并 clamp，约 3-4 行自然语言行动起步。
 ## 简单 clamp 规则，不做 auto-growing editor / Splitter / UI preference framework。
 const COMPOSER_HEIGHT_FACTOR := 0.15
-const COMPOSER_MIN_HEIGHT := 112.0
-const COMPOSER_MAX_HEIGHT := 160.0
+const COMPOSER_MIN_HEIGHT := 132.0
+const COMPOSER_MAX_HEIGHT := 180.0
 
 @onready var narrative_scroll: ScrollContainer = %NarrativeScroll
 @onready var entries: VBoxContainer = %Entries
@@ -70,6 +70,7 @@ var action_adjudication: Node = null
 var action_recommender: Node = null
 @onready var recommendation_area: VBoxContainer = %RecommendationArea
 @onready var recommendation_heading: Label = %RecommendationHeading
+@onready var recommendation_scroll: ScrollContainer = %RecommendationScroll
 @onready var recommendation_grid: GridContainer = %RecommendationGrid
 
 ## opening-pending（durable accepted Conversation = 0）时锁住玩家输入；由 Shell 驱动。
@@ -645,8 +646,8 @@ func _update_readable_width() -> void:
 	entries.custom_minimum_size.x = minf(narrative_scroll.size.x, READABLE_MAX_WIDTH)
 
 
-## UX-01：Composer 高度 = clamp(窗口高度 * 0.15, 112, 160)。
-## 720p ≈ 112px（3-4 行），1080p+/Maximized ≈ 160px 封顶，960x540 窄窗口保持可用。
+## UX-01：Composer 高度 = clamp(窗口高度 * 0.15, 132, 180)。
+## 720p 保留 132px，1080p+/Maximized 以 180px 封顶，960x540 窄窗口保持可用。
 func _update_composer_height() -> void:
 	_update_recommendation_layout()
 	player_input.custom_minimum_size.y = clampf(
@@ -915,6 +916,8 @@ func bind_action_recommender(recommender: Node) -> void:
 	if is_instance_valid(action_recommender) and action_recommender.changed.is_connected(_render_recommendations):
 		action_recommender.changed.disconnect(_render_recommendations)
 	action_recommender = recommender
+	# 当前主题滚动条没有固有宽度；此局部滚动区保留可见、可拖动的入口。
+	recommendation_scroll.get_v_scroll_bar().custom_minimum_size.x = 12
 	if action_recommender != null:
 		action_recommender.changed.connect(_render_recommendations)
 	_render_recommendations()
@@ -931,30 +934,32 @@ func _render_recommendations() -> void:
 	elif projection.status == "unavailable":
 		recommendation_heading.text = "暂时没有推荐行动，可自由输入"
 	_update_recommendation_layout()
-	for action: String in projection.actions:
+	for action: Dictionary in projection.actions:
 		var button := Button.new()
-		# 只在按钮标签压平换行，完整草稿仍用于 tooltip 与 prefill。
-		button.text = action.replace("\r", " ").replace("\n", " ").replace("\t", " ")
-		button.tooltip_text = action
-		button.clip_text = true
-		button.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		# label 与 draft 均由模型直接提供；显示标签，点击才把成对草稿带入编辑区。
+		button.text = action.label
+		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
 		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		button.custom_minimum_size.y = 28
-		button.add_theme_font_size_override("font_size", 13)
-		# 推荐属于紧凑辅助区，沿用当前主题颜色，只减小垂直内边距。
+		button.custom_minimum_size.y = 48
+		button.add_theme_font_size_override("font_size", 18)
 		for state: String in ["normal", "hover", "pressed", "disabled"]:
 			var style: StyleBox = get_theme_stylebox(state, "Button").duplicate()
-			style.content_margin_top = 4
-			style.content_margin_bottom = 4
+			style.content_margin_top = 8
+			style.content_margin_bottom = 8
+			style.content_margin_left = 12
+			style.content_margin_right = 12
 			button.add_theme_stylebox_override(state, style)
 		button.pressed.connect(_prefill_recommendation.bind(action))
 		recommendation_grid.add_child(button)
+	if not recommendation_grid.minimum_size_changed.is_connected(_update_recommendation_layout):
+		recommendation_grid.minimum_size_changed.connect(_update_recommendation_layout)
+	_update_recommendation_layout()
 
-func _prefill_recommendation(action: String) -> void:
+func _prefill_recommendation(action: Dictionary) -> void:
 	if action_recommender == null or not player_input.editable or not action_recommender.snapshot().actions.has(action):
 		return
-	player_input.text = action
+	player_input.text = action.draft
 	player_input.grab_focus()
 	player_input.set_caret_line(player_input.get_line_count() - 1)
 	player_input.set_caret_column(player_input.get_line(player_input.get_line_count() - 1).length())
@@ -963,5 +968,6 @@ func _prefill_recommendation(action: String) -> void:
 
 func _update_recommendation_layout() -> void:
 	if recommendation_grid != null:
-		# 矮窗只占两排，为正文保留阅读空间；宽窗可容纳三列，其他窗口使用两列。
-		recommendation_grid.columns = 3 if get_tree().root.size.y <= 600 or narrative_scroll.size.x >= 800 else 2
+		# 窄窗换成一列；推荐区单独限高滚动，长标签不裁剪，正文和自由输入始终可用。
+		recommendation_grid.columns = 2 if narrative_scroll.size.x >= 560 else 1
+		recommendation_scroll.custom_minimum_size.y = minf(recommendation_grid.get_combined_minimum_size().y, 168 if get_tree().root.size.y > 600 else 56)

@@ -4,7 +4,7 @@ const Recommender := preload("res://src/行动推荐/L3_外交层/行动推荐�
 const RecommendationParser := preload("res://src/行动推荐/L1_器件层/推荐响应解析器.gd")
 const InputBuilder := preload("res://src/行动推荐/L1_器件层/推荐材料构建器.gd")
 const RecommendationContract := preload("res://src/行动推荐/L0_公理层/行动推荐契约.gd")
-const ACTIONS := ["我问问粮商明早何时出发。", "我沿河堤走一段，观察渡口的情况。", "我回到小亭，整理刚才听到的消息。", "我向守门人询问雨后道路是否好走。", "我先准备饮水，再决定下一步。"]
+const ACTIONS := [{"label": "询问粮商的行程", "draft": "我问问粮商明早何时出发。"}, {"label": "观察渡口", "draft": "我沿河堤走一段，观察渡口的情况。"}, {"label": "回亭整理消息", "draft": "我回到小亭，整理刚才听到的消息。"}, {"label": "向守门人问路", "draft": "我向守门人询问雨后道路是否好走。"}, {"label": "准备饮水", "draft": "我先准备饮水，再决定下一步。"}]
 var recommender: Node
 var recommendation: Node
 
@@ -38,6 +38,9 @@ func _run() -> void:
 	var count: Dictionary = runtime.persistence.timeline_node_count(runtime.game_id)
 	complete(recommendation, {"actions": ACTIONS})
 	check(recommender.snapshot().actions == ACTIONS, "exact five safe output")
+	var detached: Dictionary = recommender.snapshot()
+	detached.actions[0].draft = "UI mutation"
+	check(recommender.snapshot().actions == ACTIONS, "nested snapshot cannot mutate worker state")
 	check(runtime.active_head_id == head and runtime.world_state == world and runtime.conversation.get_durable_accepted_entries() == entries and runtime.persistence.timeline_node_count(runtime.game_id) == count, "recommendations create no Conversation/World/Timeline/SQLite mutation")
 	var save: Dictionary = runtime.create_save_point("opening")
 	check(save.success, "Save independent")
@@ -108,7 +111,7 @@ func _run() -> void:
 			recommendation.simulate_delta("not JSON")
 			recommendation.simulate_completed()
 		elif mode == "oversize":
-			recommendation.simulate_delta("x".repeat(8193))
+			recommendation.simulate_delta("x".repeat(RecommendationContract.RESPONSE_BYTES + 1))
 		await frames()
 		check(recommender.snapshot().status == "unavailable" and not recommendation.busy and runtime.active_head_id == accepted_head, mode + " fails soft without gameplay mutation")
 		recommender._timer.wait_time = 120.0
@@ -158,13 +161,14 @@ func ui_checks() -> void:
 	await frames()
 	check(view.player_input.text == "我自己的想法", "response never replaces typed draft")
 	check(view.recommendation_grid.get_child_count() == 5, "production UI renders exactly five buttons")
+	var calls: int = stub.requests.size()
 	var before: Array = runtime.conversation.get_durable_accepted_entries()
 	view.recommendation_grid.get_child(1).pressed.emit()
-	check(view.player_input.text == ACTIONS[1] and view.player_input.has_focus() and view.player_input.get_caret_column() == ACTIONS[1].length(), "click replaces/focuses/caret at editable end")
+	check(view.player_input.text == ACTIONS[1].draft and view.player_input.has_focus() and view.player_input.get_caret_column() == ACTIONS[1].draft.length(), "click replaces/focuses/caret at editable end")
 	check(not runtime.conversation.is_generating() and runtime.conversation.get_durable_accepted_entries() == before, "click never submits or mutates history")
 	view.player_input.insert_text_at_caret(" 然后回到小亭。")
 	check(view.player_input.text.ends_with("然后回到小亭。"), "prefilled draft freely editable")
-	var calls: int = stub.requests.size()
+	check(stub.requests.size() == calls, "click/edit zero Provider calls")
 	root.mode = Window.MODE_WINDOWED
 	for dimension: Vector2i in [Vector2i(1600, 900), Vector2i(1280, 720), Vector2i(960, 540)]:
 		root.size = dimension
@@ -175,9 +179,18 @@ func ui_checks() -> void:
 		view.redraw_from_conversation()
 		await frames()
 		print("LAYOUT %s narrative=%s recommendations=%s" % [dimension, view.narrative_scroll.size, view.recommendation_area.size])
-		check(view.recommendation_grid.size.x <= view.size.x and view.narrative_scroll.size.y > view.recommendation_area.size.y, "bounded guidance and dominant reading area " + str(dimension))
+		check(view.recommendation_grid.size.x <= view.size.x and view.narrative_scroll.size.y >= 120 and view.player_input.get_global_rect().end.y <= root.size.y, "bounded guidance and visible Narrative/composer " + str(dimension))
 		for button: Button in view.recommendation_grid.get_children():
-			check(button.get_global_rect().end.x <= view.get_global_rect().end.x and button.tooltip_text == button.text, "no button overflow/full tooltip " + str(dimension))
+			check(button.get_global_rect().end.x <= view.get_global_rect().end.x and button.text == ACTIONS[button.get_index()].label and button.tooltip_text.is_empty(), "label only/no horizontal overflow " + str(dimension))
+		check(view.recommendation_grid.columns in [1, 2] and view.recommendation_heading.get_theme_font_size("font_size") >= 16, "comfortable columns/heading " + str(dimension))
+		check(view.player_input.get_theme_font_size("font_size") >= 20 and view.player_input.size.y >= 132 and view.send_button.size.y >= 48, "larger composer and primary control " + str(dimension))
+		for button: Button in view.recommendation_grid.get_children():
+			check(button.size.y >= 48 and button.get_theme_font_size("font_size") >= 18 and button.autowrap_mode == TextServer.AUTOWRAP_WORD_SMART and not button.clip_text, "larger wrapping recommendation " + str(dimension))
+		print("SCROLL grid=%s minimum=%s scroll=%s bar=%s range=%s page=%s" % [view.recommendation_grid.size, view.recommendation_grid.get_combined_minimum_size(), view.recommendation_scroll.size, view.recommendation_scroll.get_v_scroll_bar().visible, view.recommendation_scroll.get_v_scroll_bar().max_value, view.recommendation_scroll.get_v_scroll_bar().page])
+		if dimension.x == 960:
+			view.recommendation_grid.get_child(4).grab_focus()
+			await frames()
+			check(view.recommendation_scroll.get_v_scroll_bar().size.x >= 12 and view.recommendation_scroll.scroll_vertical > 0 and view.recommendation_grid.get_child(4).get_global_rect().end.y <= view.recommendation_scroll.get_global_rect().end.y, "keyboard focus scrolls fifth alternative into view")
 		if visual:
 			await RenderingServer.frame_post_draw
 			root.get_texture().get_image().save_png(directory.path_join("recommendations-%dx%d.png" % [dimension.x, dimension.y]))
@@ -209,16 +222,23 @@ func ui_checks() -> void:
 	check(stub.requests.size() == calls + 1, "accepted real UI turn creates fresh opportunity")
 	var long_actions: Array = []
 	for i: int in range(5):
-		long_actions.append("我看看\n".repeat(59) + str(i) + "。字字")
+		long_actions.append({"label": "观察河堤积水和候船棚附近的情况".repeat(3).left(47) + str(i), "draft": "我看看\n".repeat(99) + str(i) + "。字字"})
 	complete(stub, {"actions": long_actions})
 	root.mode = Window.MODE_WINDOWED
 	root.size = Vector2i(960, 540)
 	await frames()
 	for button: Button in view.recommendation_grid.get_children():
-		check(button.size.y <= 28 and not button.text.contains("\n") and button.tooltip_text.length() == 240, "240-char multiline draft stays compact with full tooltip")
+		check(button.size.y > 48 and button.text == long_actions[button.get_index()].label and button.get_global_rect().end.x <= view.get_global_rect().end.x, "48-char label wraps without horizontal overflow; draft stays out of button")
 	view.recommendation_grid.get_child(4).pressed.emit()
-	check(view.player_input.text == long_actions[4], "prefill preserves full multiline draft bytes")
+	check(view.player_input.text == long_actions[4].draft, "prefill preserves full multiline draft bytes")
+	check(view.player_input.get_caret_line() == 99 and view.player_input.get_caret_column() == 4, "multiline draft caret at exact editable end")
+	if visual:
+		await RenderingServer.frame_post_draw
+		root.get_texture().get_image().save_png(directory.path_join("recommendations-long-label-960x540.png"))
 	view._on_send_pressed()
+	var pending: String = view.player_input.text
+	view._prefill_recommendation(long_actions[4])
+	check(view.player_input.text == pending, "stale pair cannot replace input after foreground invalidation")
 	gm_stub.text_delta.emit("你看了看周围。")
 	gm_stub.simulate_completed()
 	await frames()
@@ -237,18 +257,26 @@ func ui_checks() -> void:
 	shell.queue_free()
 
 func validator_checks() -> void:
-	check(RecommendationParser.parse(JSON.stringify({"actions": ACTIONS})) == ACTIONS, "valid exact five")
-	for bad: String in ["bad", "[]", "null", JSON.stringify({"actions": ACTIONS, "extra": 1}), JSON.stringify({"actions": ACTIONS.slice(0,4)}), JSON.stringify({"actions": ACTIONS + ["第六"]}), JSON.stringify({"actions": ["a","a","b","c","d"]}), JSON.stringify({"actions": ["a"," a ","b","c","d"]}), JSON.stringify({"actions": ["a",1,"b","c","d"]}), JSON.stringify({"actions": ["a"," ","b","c","d"]}), JSON.stringify({"actions": ["字".repeat(241),"a","b","c","d"]}), "[".repeat(500)]:
-		check(RecommendationParser.parse(bad).is_empty(), "invalid shape/size/depth fail-soft")
+	check(RecommendationParser.parse(JSON.stringify({"actions": ACTIONS})) == ACTIONS, "valid exact five pairs")
+	for bad: String in ["bad", "[]", "null", "{}", JSON.stringify({"actions": ACTIONS, "extra": 1}), JSON.stringify({"actions": ACTIONS.slice(0,4)}), JSON.stringify({"actions": ACTIONS + [ACTIONS[0]]}), JSON.stringify({"actions": ["a","b","c","d","e"]}), "[".repeat(500), "```json\n" + JSON.stringify({"actions": ACTIONS}) + "\n```"]:
+		check(RecommendationParser.parse(bad).is_empty(), "invalid top-level/count/old strings/fences/depth fail-soft")
+	for bad_item: Variant in [null, 1, "a", {}, {"label":"a"}, {"draft":"b"}, {"label":"a","draft":"b","extra":true}, {"label":1,"draft":"b"}, {"label":"a","draft":false}, {"label":"a","draft":["b"]}, {"label":" ","draft":"b"}, {"label":"a","draft":" \n"}, {"label":"字".repeat(49),"draft":"b"}, {"label":"a","draft":"字".repeat(401)}, {"label":ACTIONS[1].label,"draft":"b"}, {"label":"a","draft":ACTIONS[1].draft}, {"label":" " + ACTIONS[1].label + " ","draft":"b"}, {"label":"a","draft":" " + ACTIONS[1].draft + " "}]:
+		var bad_actions := ACTIONS.duplicate(true)
+		bad_actions[0] = bad_item
+		check(RecommendationParser.parse(JSON.stringify({"actions": bad_actions})).is_empty(), "invalid pair keys/type/empty/Unicode bound/exact duplicates")
 	var max_actions: Array = []
 	for i: int in range(5):
-		max_actions.append("字".repeat(239) + str(i))
+		max_actions.append({"label": "😀".repeat(47) + str(i), "draft": "😀".repeat(399) + str(i)})
 	var text := JSON.stringify({"actions": max_actions})
-	check(RecommendationParser.parse(text).size() == 5, "five x240 Unicode exact bound")
-	var padded := text + " ".repeat(8192 - text.to_utf8_buffer().size())
-	check(RecommendationParser.parse(padded).size() == 5 and RecommendationParser.parse(padded + " ").is_empty(), "response exact8192 / over8192")
-	var quoted := {"actions": ['我说"你好"。', "我看看[窗外]。", "我写下{记录}。", "我等待。", "我回去。"]}
-	check(RecommendationParser.parse(JSON.stringify(quoted)).size() == 5, "brackets/quotes in strings accepted")
+	check(RecommendationParser.parse(text) == max_actions, "five x48/400 Unicode scalar exact bounds")
+	var escaped := text.replace("😀", "\\ud83d\\ude00")
+	check(RecommendationParser.parse(escaped) == max_actions, "escaped supplementary Unicode fits bounded response")
+	var padded := text + " ".repeat(RecommendationContract.RESPONSE_BYTES - text.to_utf8_buffer().size())
+	check(RecommendationParser.parse(padded).size() == 5 and RecommendationParser.parse(padded + " ").is_empty(), "response exact32KiB / over32KiB")
+	var quoted := ACTIONS.duplicate(true)
+	quoted[0] = {"label": '我说"你好"。', "draft": "  我看看[窗外]。\n我写下{记录}。  "}
+	var normalized := RecommendationParser.parse(JSON.stringify({"actions": quoted}))
+	check(normalized.size() == 5 and normalized[0].draft == "我看看[窗外]。\n我写下{记录}。", "syntax characters and internal newline preserved; edge whitespace normalized")
 	var many: Array = []
 	for i: int in range(8):
 		many.append({"turn_index": i, "player_text": "行动" + str(i), "gm_text": "叙事" + str(i), "hidden": "CANARY"})

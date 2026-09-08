@@ -21,7 +21,7 @@ static func parse(text: String) -> Array:
 			quoted = true
 		elif character == "{" or character == "[":
 			depth += 1
-			if depth > 2:
+			if depth > 3:
 				return []
 		elif character == "}" or character == "]":
 			depth -= 1

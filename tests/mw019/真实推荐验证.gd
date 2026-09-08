@@ -1,7 +1,7 @@
 extends "res://tests/mw019/行动推荐纵向测试.gd"
 
 const Recorder := preload("res://tests/mw018/真实整理请求记录器.gd")
-var evidence: Dictionary = {"task": "MW-019", "attempts": [], "request_count": 0,
+var evidence: Dictionary = {"task": "MW-019 R1", "attempts": [], "request_count": 0,
 	"fixture": "Task-owned synthetic accepted player-visible conversation; only recommendations call the real configured model."}
 var raw_response := ""
 
@@ -26,13 +26,13 @@ func _run() -> void:
 	root.add_child(recommender)
 	await frames()
 	runtime.conversation.begin_gm_opening()
-	runtime.conversation.append_delta("雨刚停，你来到一座河畔小城的南门。城门旁的守卫正收起蓑衣，河边的小亭里坐着一位粮商。粮商自称陈安，说他明早要去渡口接货，愿意给你指路。河堤上有积水，远处的渡口亮着一盏灯。你还不知道今晚是否有船过河。")
+	runtime.conversation.append_delta("你想查阅旧渡口的档案，来到城里的档案馆门外。门房告诉你，一般流程是先递交查阅申请，再核对身份、登记，最后等馆员取卷。你尚未递交申请。门旁贴着公开的查阅须知，柜台边有几位访客排队，院中长椅上坐着一位刚出来的旅人。你不知道馆内具体有哪些旧渡口档案，也没有获准入内。")
 	check(runtime.complete_active_generation_durably().success, "synthetic opening durably accepted")
-	await capture_attempt(recorder, "opening")
-	if recommender.snapshot().actions.size() == 5:
-		raw_response = ""
-		accept("我向守卫询问今晚渡口是否还开船。", "守卫告诉你，最后一班渡船通常在入夜后开出，但今天的雨耽搁了船期。他指着河边的灯，说那是渡口的候船棚，你可以到那里问问。陈安还坐在小亭里擦拭鞋上的泥。")
-		await capture_attempt(recorder, "normal-turn")
+	await capture_attempt(recorder, "archive-opening-sequential-plan-trap")
+	# 第二个场景预先固定，无论第一份格式是否成功都只运行一次，不修提示、不重试。
+	raw_response = ""
+	accept("我向门房询问，不递交申请时能看到哪些公开信息？", "门房指着墙上的查阅须知，说公开目录放在门外的小架子上，可以自行翻看。申请表今天仍能领取，但是否准许查阅要由馆员审核。柜台前的队伍缓慢往前移动，长椅上的旅人收起纸笔，抬头看了看天色。")
+	await capture_attempt(recorder, "archive-public-directory-turn")
 	evidence.request_count = recorder.requests.size()
 	evidence["successful_requests"] = evidence.attempts.filter(func(a: Dictionary) -> bool: return a.actions.size() == 5).size()
 	var accepted: Array = runtime.conversation.get_durable_accepted_entries()
