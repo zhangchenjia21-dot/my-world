@@ -1,0 +1,38 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-007 FOCUSED PASS | V1 production adjudication control request starts on real Game
+MW-007 FOCUSED PASS | V1 proposal frozen before exactly one Program RNG roll
+MW-007 FOCUSED PASS | V1 Program-owned success result is durable before narrative
+MW-007 FOCUSED PASS | V1 accepted narrative wakes exactly one normal G5-01 semantic opportunity
+MW-007 FOCUSED PASS | V1 MW-006 grounding carries the exact authoritative check exactly once
+MW-007 FOCUSED PASS | V1 model-authored consequence commits through existing world mutation seam
+MW-007 FOCUSED PASS | V1 acceptance marker durable on the authoritative check
+MW-007 FOCUSED PASS | V1 Save created AFTER the consequence
+MW-007 FOCUSED PASS | V1 reopen existing Game through production Runtime
+MW-007 FOCUSED PASS | V1 accepted Conversation still contains the action/Narrative exactly once
+MW-007 FOCUSED PASS | V1 exact same durable d20 check remains, no reroll/new identity
+MW-007 FOCUSED PASS | V1 semantic consequence remains exactly once
+MW-007 FOCUSED PASS | V1 reopen alone starts no duplicate semantic request
+MW-007 FOCUSED PASS | V1 replay after reopen is idempotent, no duplicate mutation
+MW-007 FOCUSED PASS | V1 same action submit after reopen never rerolls
+MW-007 FOCUSED PASS | V1 continuation Context sees the committed consequence via the normal World Turn seam
+MW-007 FOCUSED PASS | V1 continuation creates/requires no second mechanics truth
+MW-007 FOCUSED PASS | V2 baseline consequence commits before Save
+MW-007 FOCUSED PASS | V2 pre-action Save created
+MW-007 FOCUSED PASS | V2 action starts after Save
+MW-007 FOCUSED PASS | V2 losing Program result durable before narrative
+MW-007 FOCUSED PASS | V2 grounded semantic opportunity fires for the mechanics turn
+MW-007 FOCUSED PASS | V2 MW-006 grounding presents the authoritative losing result
+MW-007 FOCUSED PASS | V2 action/Narrative/consequence/check all exist before Restore
+MW-007 FOCUSED PASS | V2 Restore to pre-action Save succeeds
+MW-007 FOCUSED PASS | V2 restored Conversation and semantic consequence no longer contain the later turn
+MW-007 FOCUSED PASS | V2 d20 check created after Save is rewound by the same World snapshot ownership
+MW-007 FOCUSED PASS | V2 no ghost mechanics grounding can match the restored-away turn
+MW-007 FOCUSED PASS | V2 continuation Context contains neither restored-away consequence nor stale mechanics memory
+MW-007 FOCUSED PASS | V2 same action_id after restore starts a fresh control request (no durable check reused)
+MW-007 FOCUSED PASS | V2 replayed action_id hits existing identity rule and creates no silent truth/narrative
+MW-007 FOCUSED PASS | V2 new action after restore starts normally
+MW-007 FOCUSED PASS | V2 fresh action rolls under existing RNG rules with a new identity
+MW-007 FOCUSED PASS | V2 fresh grounding binds only the new authoritative check, no ghost mechanics
+MW-007 FOCUSED PASS | V2 post-Restore consequence materializes through the normal seam exactly once
+MW-007 FOCUSED | done failures=0

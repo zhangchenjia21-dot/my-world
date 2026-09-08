@@ -1,0 +1,183 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS fixture physical world length 15637
+MW-020 PASS legitimate Knowledge record
+MW-020 PASS section-1 over-0 final hard ceiling
+MW-020 PASS section-1 over-0 projection never mutates durable material
+MW-020 PASS full-section exact inclusion/omission and framing counted once
+MW-020 PASS 16000 retained; hypothetical 16001 omitted
+MW-020 PASS projection counts match included sections
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS fixture physical world length 15638
+MW-020 PASS legitimate Knowledge record
+MW-020 PASS section-1 over-1 final hard ceiling
+MW-020 PASS section-1 over-1 projection never mutates durable material
+MW-020 PASS full-section exact inclusion/omission and framing counted once
+MW-020 PASS 16000 retained; hypothetical 16001 omitted
+MW-020 PASS projection counts match included sections
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS fixture physical world length 15544
+MW-020 PASS legitimate Knowledge record
+MW-020 PASS legitimate Agency action
+MW-020 PASS legitimate committed-form Agency cycle
+MW-020 PASS section-2 over-0 final hard ceiling
+MW-020 PASS section-2 over-0 projection never mutates durable material
+MW-020 PASS full-section exact inclusion/omission and framing counted once
+MW-020 PASS 16000 retained; hypothetical 16001 omitted
+MW-020 PASS projection counts match included sections
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS fixture physical world length 15545
+MW-020 PASS legitimate Knowledge record
+MW-020 PASS legitimate Agency action
+MW-020 PASS legitimate committed-form Agency cycle
+MW-020 PASS section-2 over-1 final hard ceiling
+MW-020 PASS section-2 over-1 projection never mutates durable material
+MW-020 PASS full-section exact inclusion/omission and framing counted once
+MW-020 PASS 16000 retained; hypothetical 16001 omitted
+MW-020 PASS projection counts match included sections
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS fixture physical world length 15287
+MW-020 PASS legitimate Knowledge record
+MW-020 PASS legitimate Agency action
+MW-020 PASS legitimate committed-form Agency cycle
+MW-020 PASS legitimate Evolution event
+MW-020 PASS section-3 over-0 final hard ceiling
+MW-020 PASS section-3 over-0 projection never mutates durable material
+MW-020 PASS full-section exact inclusion/omission and framing counted once
+MW-020 PASS 16000 retained; hypothetical 16001 omitted
+MW-020 PASS projection counts match included sections
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS fixture physical world length 15288
+MW-020 PASS legitimate Knowledge record
+MW-020 PASS legitimate Agency action
+MW-020 PASS legitimate committed-form Agency cycle
+MW-020 PASS legitimate Evolution event
+MW-020 PASS section-3 over-1 final hard ceiling
+MW-020 PASS section-3 over-1 projection never mutates durable material
+MW-020 PASS full-section exact inclusion/omission and framing counted once
+MW-020 PASS 16000 retained; hypothetical 16001 omitted
+MW-020 PASS projection counts match included sections
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS fixture physical world length 16000
+MW-020 PASS initial-16000 final hard ceiling
+MW-020 PASS initial-16000 projection never mutates durable material
+MW-020 PASS world heading/block separators exact and latest blocks retained
+MW-020 PASS initial exact bound keeps four; one-over drops oldest
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS fixture physical world length 16001
+MW-020 PASS initial-16001 final hard ceiling
+MW-020 PASS initial-16001 projection never mutates durable material
+MW-020 PASS world heading/block separators exact and latest blocks retained
+MW-020 PASS initial exact bound keeps four; one-over drops oldest
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS fixture physical world length 15907
+MW-020 PASS legitimate Knowledge record
+MW-020 PASS legitimate Agency action
+MW-020 PASS legitimate committed-form Agency cycle
+MW-020 PASS omitted-knowledge-agency-exact final hard ceiling
+MW-020 PASS omitted-knowledge-agency-exact projection never mutates durable material
+MW-020 PASS omitted Knowledge does not spend Agency budget
+MW-020 PASS legitimate Knowledge record
+MW-020 PASS legitimate Agency action
+MW-020 PASS legitimate committed-form Agency cycle
+MW-020 PASS legitimate Evolution event
+MW-020 PASS standalone-0 final hard ceiling
+MW-020 PASS standalone-0 projection never mutates durable material
+MW-020 PASS standalone section has no invented leading separator
+MW-020 PASS legitimate Knowledge record
+MW-020 PASS legitimate Agency action
+MW-020 PASS legitimate committed-form Agency cycle
+MW-020 PASS legitimate Evolution event
+MW-020 PASS standalone-1 final hard ceiling
+MW-020 PASS standalone-1 projection never mutates durable material
+MW-020 PASS standalone section has no invented leading separator
+MW-020 PASS legitimate Knowledge record
+MW-020 PASS legitimate Agency action
+MW-020 PASS legitimate committed-form Agency cycle
+MW-020 PASS legitimate Evolution event
+MW-020 PASS standalone-2 final hard ceiling
+MW-020 PASS standalone-2 projection never mutates durable material
+MW-020 PASS standalone section has no invented leading separator
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS fixture physical world length 1000
+MW-020 PASS legitimate Knowledge record
+MW-020 PASS legitimate Agency action
+MW-020 PASS legitimate committed-form Agency cycle
+MW-020 PASS legitimate Evolution event
+MW-020 PASS same-index-replacement final hard ceiling
+MW-020 PASS same-index-replacement projection never mutates durable material
+MW-020 PASS all four families reject stale accepted hashes
+MW-020 PASS displaced-future final hard ceiling
+MW-020 PASS displaced-future projection never mutates durable material
+MW-020 PASS absent accepted future stays excluded
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS fixture physical world length 1000
+MW-020 PASS no-agency-no-evolution final hard ceiling
+MW-020 PASS no-agency-no-evolution projection never mutates durable material
+MW-020 PASS absent lanes add no fake headings
+MW-020 PASS world hold remains legitimate
+MW-020 PASS quiet-world final hard ceiling
+MW-020 PASS quiet-world projection never mutates durable material
+MW-020 PASS quiet world stays empty
+MW-020 PASS isolated real SQLite runtime
+MW-020 PASS production setup commit
+MW-020 PASS ordinary Narrative accepted durably
+MW-020 PASS ordinary Narrative accepted durably
+MW-020 PASS ordinary Narrative accepted durably
+MW-020 PASS ordinary Narrative accepted durably
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS legitimate bounded semantic record
+MW-020 PASS fixture physical world length 10000
+DURABLE_STATUS committed durable mutation committed
+MW-020 PASS substantial valid semantic changes durable
+MW-020 PASS Save before Agency
+MW-020 PASS legitimate Agency action
+MW-020 PASS legitimate committed-form Agency cycle
+MW-020 PASS production Agency durable commit
+MW-020 PASS audit-equivalent-durable final hard ceiling
+MW-020 PASS audit-equivalent-durable projection never mutates durable material
+MW-020 PASS physical room includes durable Agency despite substantial changes
+MW-020 PASS reopen durable world
+GM_ASSEMBLY_STATUS ready
+MW-020 PASS actual later GM request assembly includes durable Agency without Provider call
+MW-020 PASS Restore earlier snapshot
+MW-020 PASS restored-before-agency final hard ceiling
+MW-020 PASS restored-before-agency projection never mutates durable material
+MW-020 PASS restored-away Agency cannot re-enter
+MW-020 FOCUSED checks=178 failures=0

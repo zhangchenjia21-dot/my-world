@@ -1,0 +1,44 @@
+[
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-020-context-budget-accounting\\build\\mw020\\regressions\\g5_01-semantic.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "name": "g5_01-semantic"
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-020-context-budget-accounting\\build\\mw020\\regressions\\g5_01-timeline.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "name": "g5_01-timeline"
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-020-context-budget-accounting\\build\\mw020\\regressions\\g5_02.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "name": "g5_02"
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-020-context-budget-accounting\\build\\mw020\\regressions\\g5_03.log",
+    "errors": 0,
+    "exit_warnings": 2,
+    "name": "g5_03"
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-020-context-budget-accounting\\build\\mw020\\regressions\\g5_04.log",
+    "errors": 0,
+    "exit_warnings": 2,
+    "name": "g5_04"
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-020-context-budget-accounting\\build\\mw020\\regressions\\mw007.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "name": "mw007"
+  }
+]

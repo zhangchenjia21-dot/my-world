@@ -1,0 +1,145 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+G5-03M1 FOCUSED PASS | A accepted turn marks scheduler dirty
+G5-03M1 FOCUSED PASS | A foreground idle + semantic settled starts one selector
+G5-03M1 FOCUSED PASS | A selector starts Agency Cycle
+G5-03M1 FOCUSED PASS | A selection validates A+B and rejects Player/unknown
+G5-03M1 FOCUSED PASS | A no round-robin extra C
+G5-03M1 FOCUSED PASS | A two agency executions launched
+G5-03M1 FOCUSED PASS | B valid changes commit despite malformed agency_candidates
+G5-03M1 FOCUSED PASS | B G5-01 consequence record committed
+G5-03M1 FOCUSED PASS | B G5-02 knowledge record committed
+G5-03M1 FOCUSED PASS | B no agency cycle created
+G5-03M1 FOCUSED PASS | B accepted Narrative unaffected
+G5-03M1 FOCUSED PASS | C execution request A contains F, not G
+G5-03M1 FOCUSED PASS | C execution request A never contains Player private knowledge
+G5-03M1 FOCUSED PASS | C execution request B contains G, not F
+G5-03M1 FOCUSED PASS | D two agency executions launched concurrently
+G5-03M1 FOCUSED PASS | D both actor requests active before completion
+G5-03M1 FOCUSED PASS | D B commits first through cycle-owned head progression
+G5-03M1 FOCUSED PASS | D A commits after B without being staled by sibling
+G5-03M1 FOCUSED PASS | D both actor actions durable in same cycle
+G5-03M1 FOCUSED PASS | D later GM Context contains both independent actions
+G5-03M1 FOCUSED PASS | E only A creates durable action
+G5-03M1 FOCUSED PASS | E hold/malformed/provider failure create no fake mutation
+G5-03M1 FOCUSED PASS | E foreground Narrative unaffected
+G5-03M1 FOCUSED PASS | F A commits before foreground boundary
+G5-03M1 FOCUSED PASS | F foreground invalidates remaining uncommitted agency
+G5-03M1 FOCUSED PASS | F B late completion cannot commit
+G5-03M1 FOCUSED PASS | F player turn is not blocked
+G5-03M1 FOCUSED PASS | G late completions after Restore create zero new agency actions
+G5-03M1 FOCUSED PASS | H first cycle commits
+G5-03M1 FOCUSED PASS | H one durable agency cycle committed
+G5-03M1 FOCUSED PASS | H replay produces same stable cycle identity
+G5-03M1 FOCUSED PASS | H Save/reopen preserves multi-actor actions in later GM Context
+G5-03M1 FOCUSED PASS | I selector starts Agency Cycle
+G5-03M1 FOCUSED PASS | I selector cap keeps exactly four actors
+G5-03M1 FOCUSED PASS | I preserves model-selected order within cap and drops fifth
+G5-03M1 FOCUSED PASS | C01-A semantic result commits valid changes/knowledge regardless of foreground
+G5-03M1 FOCUSED PASS | C01-A semantic lane never starts Agency
+G5-03M1 FOCUSED PASS | C01-A zero Agency Cycle for stale handoff
+G5-03M1 FOCUSED PASS | C01-B two agency requests active before Restore
+G5-03M1 FOCUSED PASS | C01-B Restore invalidates remaining uncommitted agency
+G5-03M1 FOCUSED PASS | C01-B late completion after Restore creates zero new agency mutation
+G5-03M1 FOCUSED PASS | C01-C A commits first
+G5-03M1 FOCUSED PASS | C01-C sibling commit advances head
+G5-03M1 FOCUSED PASS | C01-C B commits after sibling head progression
+G5-03M1 FOCUSED PASS | C01-C unrelated head change invalidates remaining uncommitted actor
+G5-03M1 FOCUSED PASS | C01-D stale Knowledge filtered from actor execution
+G5-03M1 FOCUSED PASS | C01-D stale Agency History filtered from actor execution
+G5-03M1 FOCUSED PASS | C01-D stale Knowledge filtered from selector input
+G5-03M1 FOCUSED PASS | C01-D stale Agency History filtered from selector input
+G5-03M1 FOCUSED PASS | C01-E new cycle replaces stale cycle with current hash
+G5-03M1 FOCUSED PASS | C01-E new cycle has new identity
+G5-03M1 FOCUSED PASS | C01-E new action stored in new cycle
+G5-03M1 FOCUSED PASS | C01-E old cycle not merged into current branch
+G5-03M1 FOCUSED PASS | C01-F first execution commits
+G5-03M1 FOCUSED PASS | C01-F replay skips already committed actor
+G5-03M1 FOCUSED PASS | C01-F no new Provider execution for committed actor
+G5-03M1 FOCUSED PASS | C01-F no second mutation on replay
+G5-03M1 FOCUSED PASS | R01C01-A accepted ordinary turn marks scheduler dirty
+G5-03M1 FOCUSED PASS | R01C01-A foreground idle + semantic settled starts one selector
+G5-03M1 FOCUSED PASS | R01C01-A selector adapter alive after start
+G5-03M1 FOCUSED PASS | R01C01-B Cycle A starts
+G5-03M1 FOCUSED PASS | R01C01-B Cycle A commits
+G5-03M1 FOCUSED PASS | R01C01-B Cycle A terminal cleans up scheduler reference
+G5-03M1 FOCUSED PASS | selector adapter alive after second consider_agency
+G5-03M1 FOCUSED PASS | R01C01-B Cycle B uses latest accepted world state
+G5-03M1 FOCUSED PASS | R01C01-C selector includes current matching consequence
+G5-03M1 FOCUSED PASS | R01C01-C selector excludes stale mismatching consequence
+G5-03M1 FOCUSED PASS | R01C02-D no-actors selector terminal does not strand
+G5-03M1 FOCUSED PASS | R01C02-D dirty consumed at selector start
+G5-03M1 FOCUSED PASS | R01C02-D same opportunity does not auto-retry
+G5-03M1 FOCUSED PASS | R01C02-D later accepted turn starts fresh selector
+G5-03M1 FOCUSED PASS | R01C02-D fresh selector uses a live adapter
+G5-03M1 FOCUSED PASS | R01C02-A Cycle A starts
+G5-03M1 FOCUSED PASS | R01C02-A Cycle A commits
+G5-03M1 FOCUSED PASS | R01C02-A Cycle A terminal cleans up
+G5-03M1 FOCUSED PASS | R01C02-A dirty consumed at selector start
+G5-03M1 FOCUSED PASS | R01C02-A selector not active after completion
+G5-03M1 FOCUSED PASS | R01C02-A selector request count stays exactly one for Turn A
+G5-03M1 FOCUSED PASS | R01C02-A same opportunity does not auto-retry
+G5-03M1 FOCUSED PASS | R01C02-B malformed consumes dirty opportunity
+G5-03M1 FOCUSED PASS | R01C02-B malformed does not strand selector active
+G5-03M1 FOCUSED PASS | R01C02-B malformed terminal cleans up selector adapter
+G5-03M1 FOCUSED PASS | R01C02-B malformed does not auto-retry same opportunity
+G5-03M1 FOCUSED PASS | R01C02-B malformed later accepted turn starts fresh selector
+G5-03M1 FOCUSED PASS | R01C02-B malformed fresh selector uses a live adapter
+G5-03M1 FOCUSED PASS | R01C02-B provider_failure consumes dirty opportunity
+G5-03M1 FOCUSED PASS | R01C02-B provider_failure does not strand selector active
+G5-03M1 FOCUSED PASS | R01C02-B provider_failure terminal cleans up selector adapter
+G5-03M1 FOCUSED PASS | R01C02-B provider_failure does not auto-retry same opportunity
+G5-03M1 FOCUSED PASS | R01C02-B provider_failure later accepted turn starts fresh selector
+G5-03M1 FOCUSED PASS | R01C02-B provider_failure fresh selector uses a live adapter
+G5-03M1 FOCUSED PASS | R01C02-B no_actors consumes dirty opportunity
+G5-03M1 FOCUSED PASS | R01C02-B no_actors does not strand selector active
+G5-03M1 FOCUSED PASS | R01C02-B no_actors terminal cleans up selector adapter
+G5-03M1 FOCUSED PASS | R01C02-B no_actors does not auto-retry same opportunity
+G5-03M1 FOCUSED PASS | R01C02-B no_actors later accepted turn starts fresh selector
+G5-03M1 FOCUSED PASS | R01C02-B no_actors fresh selector uses a live adapter
+G5-03M1 FOCUSED PASS | R01C02-C Cycle A commits
+G5-03M1 FOCUSED PASS | R01C02-C zero selector activity between Cycle A terminal and Turn B acceptance
+G5-03M1 FOCUSED PASS | R01C02-C scheduler idle after Cycle A terminal
+G5-03M1 FOCUSED PASS | Turn B starts fresh selector
+G5-03M1 FOCUSED PASS | selector adapter alive after Turn B consider_agency
+G5-03M1 FOCUSED PASS | R01C02-C Turn B starts selector B with latest snapshot
+G5-03M1 FOCUSED PASS | R02 wiring fixture opens task-owned Game
+G5-03M1 FOCUSED PASS | R02 wiring fixture commits created-schema setup
+[shell] application=menu_ready session=absent
+G5-03M1 FOCUSED PASS | R02 shell boots to Main Menu
+[shell] application=game_active session=ready
+G5-03M1 FOCUSED PASS | R02 Continue opens created Game Session
+G5-03M1 FOCUSED PASS | R02 production activation mounts Agency Scheduler
+G5-03M1 FOCUSED PASS | R02 created Game auto-starts first Opening
+G5-03M1 FOCUSED PASS | R02 Opening accepted durable
+G5-03M1 FOCUSED PASS | R02 Opening completion does not dirty Agency through real Application wiring
+G5-03M1 FOCUSED PASS | R02 Opening completion starts no selector
+G5-03M1 FOCUSED PASS | R02 Turn A issues one Provider request
+G5-03M1 FOCUSED PASS | R02 Turn A accepted durable
+G5-03M1 FOCUSED PASS | R02 Turn A real generation_completed wiring marks dirty only
+G5-03M1 FOCUSED PASS | R02 semantic request active after Turn A accepted
+G5-03M1 FOCUSED PASS | R02 zero selector while semantic is active
+G5-03M1 FOCUSED PASS | R02 semantic terminal wake starts exactly one selector
+G5-03M1 FOCUSED PASS | R02 wake-started selector consumes the dirty opportunity
+G5-03M1 FOCUSED PASS | R02 Turn B issues one Provider request
+G5-03M1 FOCUSED PASS | R02 Turn B accepted durable
+G5-03M1 FOCUSED PASS | R02 Turn B marks dirty only
+G5-03M1 FOCUSED PASS | R02 Turn B semantic request active
+G5-03M1 FOCUSED PASS | R02 Turn B zero selector while semantic is active
+G5-03M1 FOCUSED PASS | R02 Turn B semantic materialization commits durable current world change
+G5-03M1 FOCUSED PASS | R02 Turn B selector starts only after post-semantic commit
+G5-03M1 FOCUSED PASS | R02 Turn B wake-started selector consumes dirty
+G5-03M1 FOCUSED PASS | R02 selector request includes committed current consequence
+G5-03M1 FOCUSED PASS | R02 selector snapshot anchors post-semantic head
+G5-03M1 FOCUSED PASS | R02 Turn C accepted durable
+G5-03M1 FOCUSED PASS | R02 Turn C semantic request active
+G5-03M1 FOCUSED PASS | R02 Turn C zero selector while semantic is active
+G5-03M1 FOCUSED PASS | R02 malformed semantic terminal still releases scheduler exactly once
+G5-03M1 FOCUSED PASS | R02 malformed-terminal wake consumes dirty; no retry loop
+G5-03M1 FOCUSED PASS | R02 malformed semantic leaves Narrative accepted
+[shell] session=absent close_status=ready
+G5-03M1 FOCUSED | done failures=0
+WARNING: 3 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

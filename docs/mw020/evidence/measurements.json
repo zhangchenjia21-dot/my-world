@@ -1,0 +1,164 @@
+[
+  {
+    "agency": 0,
+    "case": "section-1 over-0",
+    "evolution": 0,
+    "knowledge": 1,
+    "length": 16000,
+    "records": 4,
+    "sha256": "48b1e905da1806fcd5cef3a4d14ba648b9d083784dd7f21bc135cf2c607ca723"
+  },
+  {
+    "agency": 0,
+    "case": "section-1 over-1",
+    "evolution": 0,
+    "knowledge": 0,
+    "length": 15638,
+    "records": 4,
+    "sha256": "decae25b44d3d12f508cf0184fd7e3b34ed8423f4c973c91102280aa3e7f321a"
+  },
+  {
+    "agency": 1,
+    "case": "section-2 over-0",
+    "evolution": 0,
+    "knowledge": 1,
+    "length": 16000,
+    "records": 4,
+    "sha256": "7ad87cb2277d40132ba51ffcaa8f9ecaecb5135fd576d3614897b2a2bca80194"
+  },
+  {
+    "agency": 0,
+    "case": "section-2 over-1",
+    "evolution": 0,
+    "knowledge": 1,
+    "length": 15908,
+    "records": 4,
+    "sha256": "4397c5d87cc67ad35ca18143cf74e82bf1cc8ce6cb7e71d3f14c90251624e44c"
+  },
+  {
+    "agency": 1,
+    "case": "section-3 over-0",
+    "evolution": 1,
+    "knowledge": 1,
+    "length": 16000,
+    "records": 4,
+    "sha256": "e7d8d4b1f9bab605b27ded3fcc88c98efb355b1da938aaa543e2d6aa4db5c012"
+  },
+  {
+    "agency": 1,
+    "case": "section-3 over-1",
+    "evolution": 0,
+    "knowledge": 1,
+    "length": 15744,
+    "records": 4,
+    "sha256": "c10241e902b9b6c44ba5112cc05dab3914338e425598f93dcb6af3889e331f20"
+  },
+  {
+    "agency": 0,
+    "case": "initial-16000",
+    "evolution": 0,
+    "knowledge": 0,
+    "length": 16000,
+    "records": 4,
+    "sha256": "7cea8dc1b5c6a0e0633e05a7e91b20fe44bcbbee22b1a8f3fa7bdaec40c2bc47"
+  },
+  {
+    "agency": 0,
+    "case": "initial-16001",
+    "evolution": 0,
+    "knowledge": 0,
+    "length": 11861,
+    "records": 3,
+    "sha256": "4cf3d79ff83e25eda7b69183509c58ff5696be6bfe8495325670f8f0ef100617"
+  },
+  {
+    "agency": 1,
+    "case": "omitted-knowledge-agency-exact",
+    "evolution": 0,
+    "knowledge": 0,
+    "length": 16000,
+    "records": 4,
+    "sha256": "3e6eabdaf1ddd2cb352232f95ee73a023bcb125f62af8a367e4344dc50f7a6fa"
+  },
+  {
+    "agency": 0,
+    "case": "standalone-0",
+    "evolution": 0,
+    "knowledge": 1,
+    "length": 361,
+    "records": 0,
+    "sha256": "f996767474588354c489750067f695974631286a6d8a1a6af996a7704d41fa6f"
+  },
+  {
+    "agency": 1,
+    "case": "standalone-1",
+    "evolution": 0,
+    "knowledge": 0,
+    "length": 91,
+    "records": 0,
+    "sha256": "73b95e25c54e9d8783a08802f400cc14e8b019aa06ed1033b93b75dbdb74cac5"
+  },
+  {
+    "agency": 0,
+    "case": "standalone-2",
+    "evolution": 1,
+    "knowledge": 0,
+    "length": 255,
+    "records": 0,
+    "sha256": "e47b8a84008e1a2ab0e3b4aa566a9735593e02011b28266bbc9fcdaff59acc86"
+  },
+  {
+    "agency": 0,
+    "case": "same-index-replacement",
+    "evolution": 0,
+    "knowledge": 0,
+    "length": 948,
+    "records": 3,
+    "sha256": "26fb780abf304bd12a3fe6b6bf882d382f66ddd5da237cff509ede0d7fc2fe09"
+  },
+  {
+    "agency": 0,
+    "case": "displaced-future",
+    "evolution": 0,
+    "knowledge": 0,
+    "length": 948,
+    "records": 3,
+    "sha256": "26fb780abf304bd12a3fe6b6bf882d382f66ddd5da237cff509ede0d7fc2fe09"
+  },
+  {
+    "agency": 0,
+    "case": "no-agency-no-evolution",
+    "evolution": 0,
+    "knowledge": 0,
+    "length": 1000,
+    "records": 4,
+    "sha256": "d96ebce838f50e83aeac03e2f29dcd47e2f0f4a24815aeb870db38934da70a9c"
+  },
+  {
+    "agency": 0,
+    "case": "quiet-world",
+    "evolution": 0,
+    "knowledge": 0,
+    "length": 0,
+    "records": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "agency": 1,
+    "case": "audit-equivalent-durable",
+    "evolution": 0,
+    "knowledge": 0,
+    "length": 10093,
+    "records": 4,
+    "sha256": "103d1005ded283a44bc9f781a4bdad0c1c58b814df350fc09cfcd5ea0839b1d7"
+  },
+  {
+    "agency": 0,
+    "case": "restored-before-agency",
+    "evolution": 0,
+    "knowledge": 0,
+    "length": 10000,
+    "records": 4,
+    "sha256": "37e1b65a7fa0aedaa20aaa31cafbf375ba5c69a2f891817e6d6d8d023b3e3983"
+  }
+]
