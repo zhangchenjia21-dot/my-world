@@ -1,0 +1,26 @@
+[
+  {
+    "name": "libgdsqlite.windows.template_debug.x86_64.dll",
+    "bytes": 3163136,
+    "mtime": "2026-09-08T10:12:25.5936392Z",
+    "sha256": "E3AE3B46B59EADCD513F8D7D6E7C0C15E173696E145594094D7F4F3CC96C7FE7"
+  },
+  {
+    "name": "my-world.console.exe",
+    "bytes": 50176,
+    "mtime": "2026-09-08T10:12:22.9021277Z",
+    "sha256": "4713FEFC9BBE042DA13A38724297710E810BCDA3166DFA405C3EFECF8DB3CDEC"
+  },
+  {
+    "name": "my-world.exe",
+    "bytes": 103035904,
+    "mtime": "2026-09-08T10:12:22.8499768Z",
+    "sha256": "5543AB4B6FB453C5DBE7F4EFFA0AAD7F1CC06D73C12E8436ADFC9FB266AC34EE"
+  },
+  {
+    "name": "my-world.pck",
+    "bytes": 2510732,
+    "mtime": "2026-09-08T10:12:25.5897802Z",
+    "sha256": "8ECB666846CAA9B3ACA4F6156A88A6D426C20F8C42F77C8DF10DFFCBA21FA9AB"
+  }
+]
