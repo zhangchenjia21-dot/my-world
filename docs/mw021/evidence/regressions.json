@@ -1,0 +1,72 @@
+[
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "g2-03",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-021-narrative-scroll-ux\\build\\mw021\\r123332\\g2-03.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "g2-04",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-021-narrative-scroll-ux\\build\\mw021\\r123332\\g2-04.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw008",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-021-narrative-scroll-ux\\build\\mw021\\r123332\\mw008.log"
+  },
+  {
+    "errors": 1,
+    "exit_code": 1,
+    "exit_warnings": 0,
+    "name": "g3-03",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-021-narrative-scroll-ux\\build\\mw021\\r123332\\g3-03.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "g3-05",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-021-narrative-scroll-ux\\build\\mw021\\r123332\\g3-05.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "g4_09uatbc01",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-021-narrative-scroll-ux\\build\\mw021\\r123332\\g4_09uatbc01.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 2,
+    "name": "mw003",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-021-narrative-scroll-ux\\build\\mw021\\r123332\\mw003.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw011",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-021-narrative-scroll-ux\\build\\mw021\\r123332\\mw011.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw019-paired",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-021-narrative-scroll-ux\\build\\mw021\\r123332\\mw019-paired.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "exit_warnings": 0,
+    "name": "mw019-routes",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-021-narrative-scroll-ux\\build\\mw021\\r123332\\mw019-routes.log"
+  }
+]

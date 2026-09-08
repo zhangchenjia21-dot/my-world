@@ -1,0 +1,60 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.4.351 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 4070 Laptop GPU
+
+G3-03 UI/CONTEXT PASS | 14-Turn fixture first-run opens
+G3-03 UI/CONTEXT PASS | durable accept: 恢复行动00
+G3-03 UI/CONTEXT PASS | durable accept: 恢复行动01
+G3-03 UI/CONTEXT PASS | durable accept: 恢复行动02
+G3-03 UI/CONTEXT PASS | durable accept: 恢复行动03
+G3-03 UI/CONTEXT PASS | durable accept: 恢复行动04
+G3-03 UI/CONTEXT PASS | durable accept: 恢复行动05
+G3-03 UI/CONTEXT PASS | durable accept: 恢复行动06
+G3-03 UI/CONTEXT PASS | durable accept: 恢复行动07
+G3-03 UI/CONTEXT PASS | durable accept: 恢复行动08
+G3-03 UI/CONTEXT PASS | durable accept: 恢复行动09
+G3-03 UI/CONTEXT PASS | durable accept: 恢复行动10
+G3-03 UI/CONTEXT PASS | durable accept: 恢复行动11
+G3-03 UI/CONTEXT PASS | durable accept: 恢复行动12
+G3-03 UI/CONTEXT PASS | durable accept: 恢复行动13
+G3-03 UI/CONTEXT PASS | 14-Turn fixture reopens
+G3-03 UI/CONTEXT PASS | 14 accepted Turns rehydrate exactly
+G3-03 UI/CONTEXT PASS | recent-12 yields system + 24 history messages + current user
+G3-03 UI/CONTEXT PASS | oldest retained pair is Turn 2
+G3-03 UI/CONTEXT PASS | latest restored GM precedes current user
+G3-03 UI/CONTEXT PASS | current player is last
+G3-03 UI/CONTEXT PASS | current player appears exactly once
+G3-03 UI/CONTEXT PASS | no persisted Provider/Context blob is consumed
+G3-03 UI/CONTEXT FAIL | opaque World JSON is not injected as Game Context
+G3-03 UI/CONTEXT PASS | UI fixture first-run opens
+G3-03 UI/CONTEXT PASS | durable accept: 界面行动一
+G3-03 UI/CONTEXT PASS | durable accept: 界面行动二
+G3-03 UI/CONTEXT PASS | UI fixture resumes
+[shell] application=game_active session=ready
+G3-03 UI/CONTEXT PASS | UI binds runtime Conversation
+G3-03 UI/CONTEXT PASS | UI has no duplicate history owner
+G3-03 UI/CONTEXT PASS | two restored pairs render in order as four visual blocks
+G3-03 UI/CONTEXT PASS | restored player projections preserve order
+G3-03 UI/CONTEXT PASS | restored latest Regenerate does not duplicate visual Turn
+G3-03 UI/CONTEXT PASS | Regenerate reuses latest restored GM block
+G3-03 UI/CONTEXT PASS | Regenerate keeps same logical Turn count
+G3-03 UI/CONTEXT PASS | new Turn appends after restored history
+G3-03 UI/CONTEXT PASS | new Turn becomes durable accepted truth
+G3-03 UI/CONTEXT PASS | UI product path closes/reopens
+G3-03 UI/CONTEXT PASS | UI Regenerate/new Turn durable round-trip exact
+ERROR:  --> SQL error: file is not a database
+   at: prepare_statement (src\gdsqlite.cpp:259)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:52)
+       [1] open_database (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:25)
+       [2] verify_database (res://src/persistence/L2_流程层/数据库灾难恢复流程.gd:62)
+       [3] inspect_startup (res://src/persistence/L2_流程层/数据库灾难恢复流程.gd:40)
+       [4] inspect_startup (res://src/persistence/L3_外交层/数据库安全公开接口.gd:16)
+       [5] open_current_game (res://src/runtime/当前游戏会话运行时.gd:51)
+       [6] _test_startup_failure_ui (res://tests/g3_03/上下文恢复与界面测试.gd:119)
+       [7] _run (res://tests/g3_03/上下文恢复与界面测试.gd:34)
+       [8] _test_restored_ui (res://tests/g3_03/上下文恢复与界面测试.gd:111)
+G3-03 UI/CONTEXT PASS | corrupt existing DB fails startup
+[shell] application=menu_ready session_failure=physical_corruption
+G3-03 UI/CONTEXT PASS | failed resume blocks normal send path
+G3-03 UI/CONTEXT PASS | failed resume shows player-readable protection error
+G3-03 UI/CONTEXT | done failures=1

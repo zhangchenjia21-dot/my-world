@@ -1,0 +1,42 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+OpenGL API 3.3.0 NVIDIA 616.56 - Compatibility - Using Device: NVIDIA - NVIDIA GeForce RTX 4070 Laptop GPU
+
+MW-003 VISUAL PASS | wizard Source fixture installs real frozen assets
+MW-003 VISUAL PASS | seed setup committed
+[shell] application=menu_ready session=absent
+MW-003 VISUAL PASS | boot -> Main Menu READY
+MW-003 VISUAL PASS | root Theme Label font_color is centrally-owned TEXT_PRIMARY
+MW-003 VISUAL PASS | root Theme RichTextLabel default_color is TEXT_PRIMARY
+MW-003 VISUAL PASS | Button normal surface is centrally-owned SURFACE_RAISED
+MW-003 VISUAL PASS | panel surface is centrally-owned SURFACE_BASE
+MW-003 VISUAL PASS | input surface/placeholder use INPUT + MUTED palette
+MW-003 VISUAL PASS | Label role variations carry palette colors
+MW-003 VISUAL PASS | canvas Background is centrally-owned CANVAS (not near-black)
+MW-003 VISUAL PASS | product title resolves softened TEXT_PRIMARY (no max-bright white)
+MW-003 VISUAL PASS | status footer resolves LabelMuted variation
+MW-003 VISUAL PASS | runtime capture saved: 01_main_menu.png
+MW-003 VISUAL PASS | Model Settings overlay opens
+MW-003 VISUAL PASS | runtime capture saved: 02_model_settings.png
+MW-003 VISUAL PASS | Model Settings cancel closes overlay
+MW-003 VISUAL PASS | New Game Wizard opens with real World inventory
+MW-003 VISUAL PASS | wizard secondary label resolves palette TEXT_SECONDARY via type variation
+MW-003 VISUAL PASS | runtime capture saved: 03_new_game_wizard.png
+[shell] application=menu_ready session=absent
+MW-003 VISUAL PASS | Wizard back returns to Main Menu
+[shell] application=game_active session=ready
+MW-003 VISUAL PASS | Continue opens seeded Game Session
+MW-003 VISUAL PASS | opening + one Narrative turn durably accepted
+MW-003 VISUAL PASS | Narrative body resolves palette TEXT_PRIMARY (softened off-white)
+MW-003 VISUAL PASS | runtime capture saved: 04_ingame_narrative.png
+MW-003 VISUAL PASS | Save Point created through real session
+MW-003 VISUAL PASS | Save success label resolves palette SUCCESS
+MW-003 VISUAL PASS | runtime capture saved: 05_save_success.png
+MW-003 VISUAL PASS | transport failure surfaces friendly error label
+MW-003 VISUAL PASS | error label resolves palette DANGER (restrained, not saturated alarm)
+MW-003 VISUAL PASS | runtime capture saved: 06_error_state.png
+[shell] session=absent close_status=ready
+MW-003 VISUAL | done failures=0
+WARNING: 3 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

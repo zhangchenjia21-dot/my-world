@@ -1,0 +1,46 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.4.351 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 4070 Laptop GPU
+
+MW-008 PASS | renderer: **x** → [b]x[/b]
+MW-008 PASS | renderer: *x* → [i]x[/i]
+MW-008 PASS | renderer: standalone --- line → [hr]
+MW-008 PASS | renderer: plain text unchanged
+MW-008 PASS | renderer: unmatched ** stays literal, no loss
+MW-008 PASS | renderer: unmatched * stays literal
+MW-008 PASS | renderer: empty emphasis stays literal
+MW-008 PASS | renderer: BBCode brackets escaped before markdown pass
+MW-008 PASS | renderer: url tag cannot become a link
+MW-008 PASS | renderer: img tag cannot load a resource
+MW-008 PASS | renderer: bold and italic coexist
+MW-008 PASS | renderer: CJK punctuation adjacent to markers renders naturally
+MW-008 PASS | live single-delta bold renders without literal **
+MW-008 PASS | view-only raw buffer mirrors the exact model bytes
+MW-008 PASS | accepted gm_text preserves raw Markdown bytes exactly
+MW-008 PASS | raw buffer survives acceptance unchanged
+MW-008 PASS | transient unpaired delimiter stays readable literal during streaming
+MW-008 PASS | split-delimiter bold final render has no literal **
+MW-008 PASS | split-chunk raw buffer equals concatenated raw
+MW-008 PASS | split-chunk rendering equals one-shot rendering (renderer determinism)
+MW-008 PASS | split-chunk accepted bytes unchanged
+MW-008 PASS | italic renders across chunk boundary without literal *
+MW-008 PASS | italic raw buffer exact
+MW-008 PASS | separator line maps to [hr] tag
+MW-008 PASS | standalone --- no longer displays as literal markup
+MW-008 PASS | separator keeps surrounding content
+MW-008 PASS | malformed emphasis remains readable with ** and trailing text preserved
+MW-008 PASS | malformed case accepted bytes unchanged
+MW-008 PASS | BBCode-like model text stays literal in rendered view
+MW-008 PASS | brackets escaped before any markdown-lite pass
+MW-008 PASS | injection probe raw bytes unchanged
+MW-008 PASS | redraw rebuilds the same view-only raw buffer from durable truth
+MW-008 PASS | redraw rendering equals live streaming final frame
+MW-008 PASS | reopen fixture restores accepted entries
+MW-008 PASS | reopen projection rendering equals live streaming final frame with raw bytes intact
+MW-008 PASS | regenerate clears the view-only raw buffer
+MW-008 PASS | regenerated block renders fresh without concatenating old draft markup
+MW-008 PASS | regenerated block does not keep previous turn content
+MW-008 PASS | regenerated accepted bytes raw
+MW-008 PASS | GM-only opening attempt starts
+MW-008 PASS | opening uses the same safe renderer (bold)
+MW-008 PASS | opening separator renders as visual rule, not literal markup
+MW-008 FOCUSED | done failures=0

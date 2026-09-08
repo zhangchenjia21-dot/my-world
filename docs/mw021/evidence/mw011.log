@@ -1,0 +1,39 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.4.351 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 4070 Laptop GPU
+
+MW-011 PASS | recent actions bounded to latest 4, chronological
+MW-011 PASS | player turn count excludes GM-only opening
+MW-011 PASS | known facts pass through the MW-009 boundary unchanged
+MW-011 PASS | fail-closed input yields safe empty view model
+MW-011 PASS | no fabricated RPG domain state keys
+MW-011 PASS | real Game opens
+[shell] application=game_active session=ready
+MW-011 PASS | GM opening accepted
+MW-011 PASS | 1 MW-015: left Host no longer carries identity/profile/recent-actions/turn-count
+MW-011 PASS | 1 MW-015: empty Player Status Host collapses in wide layout
+MW-011 PASS | 4 World Overview is the default content
+MW-011 PASS | 4 Save controls not part of the default Overview hierarchy
+MW-011 PASS | 4 bounded navigation defaults to Overview
+MW-011 PASS | 5 switching to Save exposes the existing Save surface
+MW-011 PASS | 5 Overview content hidden while on Save surface
+MW-011 PASS | 6 Save creation through the existing G3 owner works inside the Save surface
+MW-011 PASS | 6 load selector refreshed and load available
+MW-011 PASS | 5 switching back to Overview restores world content
+MW-011 PASS | 2 MW-015: first accepted Player action stays out of the collapsed left Host
+MW-011 PASS | 2 MW-015: recent actions stay out of the left Host after 2+ turns
+MW-011 PASS | 7 Player-known fact appears after normal knowledge materialization
+MW-011 PASS | 8 raw semantic consequence stays out of World Overview
+MW-011 PASS | NPC-only knowledge commits hidden truth
+MW-011 PASS | 8 NPC knowledge / agency / evolution absent from ViewModel
+MW-011 PASS | 11 no internal IDs/fingerprints/instructions/style material in ViewModel
+MW-011 PASS | 8 hidden truth stays out of visible Hosts
+MW-011 PASS | reopen existing Game
+MW-011 PASS | 9 Save/reopen reconstructs the same current ViewModel
+MW-011 PASS | Restore to the UI-created Save succeeds
+[shell] application=game_active session=ready
+MW-011 PASS | 10 MW-015: left Host remains free of recent actions after Restore
+MW-011 PASS | 10 restored-away known facts disappear after Restore
+MW-011 PASS | 15 narrow width shows World toggle
+MW-011 PASS | 15 wide width hides World toggle
+MW-011 BASELINE | done failures=0
+MW-011 BASELINE | done failures=0

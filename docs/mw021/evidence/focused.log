@@ -1,0 +1,107 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-021 PASS | isolated durable fixture opens
+MW-021 PASS | fixture world and timeline exist
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | durable Save fixture exists
+MW-021 PASS | existing Game reopened from disk
+[shell] application=game_active session=ready
+MW-021 PASS | accepted long history truly overflows multiple viewports
+MW-021 PASS | visible main scrollbar has practical local width >=16px
+MW-021 PASS | scrollbar accepts mouse input
+MW-021 PASS | reopen settles at latest bottom
+MW-021 PASS | vertical hit width does not clip text into horizontal overflow
+GEOMETRY initial max=8656.0 page=327.0 value=8329.0 width=18.0
+MW-021 PASS | direct scrollbar navigation disables follow
+MW-021 PASS | reopen and scrolling preserve Conversation/World/Timeline/Save
+MW-021 PASS | actual mouse drag moves through history
+MW-021 PASS | actual drag leaves all durable projections unchanged
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | ordinary accepted append respects manual reading
+MW-021 PASS | near-bottom restores follow-latest
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | ordinary append follows latest after returning near bottom
+MW-021 PASS | manual scroll cancels pending follow while layout settles
+MW-021 PASS | Continue/rebind reconstructs at latest even after manual reading
+MW-021 PASS | rebind is presentation-only
+MW-021 PASS | explicit Restore fixture succeeds
+MW-021 PASS | Restore current accepted prefix excludes later turns
+MW-021 PASS | Restore redraw shows current prefix at bottom
+MW-021 PASS | explicit redraw follows current bottom without domain mutation
+MW-021 PASS | overflow reopen at (960, 540)
+MW-021 PASS | no horizontal overflow at (960, 540)
+MW-021 PASS | overflow reopen at (1920, 1080)
+MW-021 PASS | no horizontal overflow at (1920, 1080)
+MW-021 PASS | short fixture opens
+[shell] application=game_active session=ready
+MW-021 PASS | empty history geometry remains valid
+MW-021 PASS | fixture begin
+MW-021 PASS | fixture accepted durably
+MW-021 PASS | short accepted history remains usable without overflow
+MW-021 PASS | short rebind remains at valid origin
+MW-021 FOCUSED checks=101 failures=0 provider_calls=0

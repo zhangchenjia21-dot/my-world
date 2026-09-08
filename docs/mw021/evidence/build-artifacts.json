@@ -1,0 +1,23 @@
+{
+  "implementation_head": "4978341809424ac1be3c12ba59974cc9c5468995",
+  "import_exit": 0,
+  "export_exit": 0,
+  "fresh_export": true,
+  "artifacts": [
+    {
+      "path": "D:/AI/Projects/.worktrees/my-world/mw-021-narrative-scroll-ux/build/windows/my-world.exe",
+      "bytes": 103035904,
+      "sha256": "5543ab4b6fb453c5dbe7f4effa0aad7f1cc06d73c12e8436adfc9fb266ac34ee"
+    },
+    {
+      "path": "D:/AI/Projects/.worktrees/my-world/mw-021-narrative-scroll-ux/build/windows/my-world.pck",
+      "bytes": 2441968,
+      "sha256": "631541f4a667439911547f50650f5bb85324e9e60d21a9011fad7fa6cbeb55d0"
+    },
+    {
+      "path": "D:/AI/Projects/.worktrees/my-world/mw-021-narrative-scroll-ux/build/windows/libgdsqlite.windows.template_debug.x86_64.dll",
+      "bytes": 3163136,
+      "sha256": "e3ae3b46b59eadcd513f8d7d6e7c0c15e173696e145594094d7f4f3cc96c7fe7"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.4.351 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 4070 Laptop GPU
+
+[g2-04-domain] PASS: T01 初始 IDLE
+[g2-04-domain] PASS: T01 初始无 turn
+[g2-04-domain] PASS: T01 begin_turn 返回 turn_index == 0
+[g2-04-domain] PASS: T01 begin 后 STREAMING
+[g2-04-domain] PASS: T01 streaming context == [system, user]
+[g2-04-domain] PASS: T01 streaming 中 player input 恰好一次
+[g2-04-domain] PASS: T01 draft 累积
+[g2-04-domain] PASS: T01 complete 后 COMPLETED
+[g2-04-domain] PASS: T01 accepted 生效
+[g2-04-domain] PASS: T01 accepted 内容正确
+[g2-04-domain] PASS: T01 accepted entries == 1
+[g2-04-domain] PASS: T01 信号顺序正确
+[g2-04-domain] PASS: T02 cancel 后 CANCELLED
+[g2-04-domain] PASS: T02 cancel 后无 accepted
+[g2-04-domain] PASS: T02 cancel 后 draft 保留展示
+[g2-04-domain] PASS: T02 未完成的 turn 不进后续 context（仅 system）
+[g2-04-domain] PASS: T02 retry 复用同一 turn identity
+[g2-04-domain] PASS: T02 retry 后 STREAMING
+[g2-04-domain] PASS: T02 retry context player 恰好一次
+[g2-04-domain] PASS: T02 retry 成功 accepted 正确
+[g2-04-domain] PASS: T03 fail 后 FAILED
+[g2-04-domain] PASS: T03 failed 信号带 code
+[g2-04-domain] PASS: T03 fail 后无 accepted、draft 保留
+[g2-04-domain] PASS: T03 retry 同一 identity 重新 STREAMING
+[g2-04-domain] PASS: T03 fail→retry 成功
+[g2-04-domain] PASS: T04 regenerate 同一 turn identity
+[g2-04-domain] PASS: T04(IR-03) 单 Turn regenerate request == [system, user]
+[g2-04-domain] PASS: T04(IR-03) 旧 accepted assistant 不在 request
+[g2-04-domain] PASS: T04 regenerate 期间 player input 恰好一次
+[g2-04-domain] PASS: T04(IR-03) request 以 user 结束
+[g2-04-domain] PASS: T04 替换成功前旧 accepted 未被破坏
+[g2-04-domain] PASS: T04 原子替换为新输出
+[g2-04-domain] PASS: T04 仍是一条 accepted entry（无第二个 player turn）
+[g2-04-domain] PASS: T05a regenerate cancel 后 CANCELLED
+[g2-04-domain] PASS: T05a cancel 回滚后旧 accepted 完整
+[g2-04-domain] PASS: T05a 直接新发送 context 合法交错
+[g2-04-domain] PASS: T05a 两 player input 各恰好一次
+[g2-04-domain] PASS: T05a 完成后两条 accepted entries
+[g2-04-domain] PASS: T05a accepted 内容不错位
+[g2-04-domain] PASS: T05b regenerate fail 回滚后旧 accepted 完整
+[g2-04-domain] PASS: T05b fail 后直接新发送 context 合法交错
+[g2-04-domain] PASS: T05b 完成后两条 accepted entries
+[g2-04-domain] PASS: T06 turn_index == 0
+[g2-04-domain] PASS: T06 turn_index == 1
+[g2-04-domain] PASS: T06 turn_index == 2
+[g2-04-domain] PASS: T06 三个 turns
+[g2-04-domain] PASS: T06 三条 accepted entries
+[g2-04-domain] PASS: T06 entries 顺序与 identity 稳定
+[g2-04-domain] PASS: T06 三对完整 context 顺序
+[g2-04-domain] PASS: T07 correction 复用同一 turn identity
+[g2-04-domain] PASS: T07 correction 后 STREAMING
+[g2-04-domain] PASS: T07 correction context 只发新 player text（不附带旧 assistant）
+[g2-04-domain] PASS: T07 新文本恰好一次
+[g2-04-domain] PASS: T07 成功前 accepted 未被破坏
+[g2-04-domain] PASS: T07 成功原子替换 player text + GM
+[g2-04-domain] PASS: T07 仍一条 accepted entry
+[g2-04-domain] PASS: T08a correction cancel 后 CANCELLED
+[g2-04-domain] PASS: T08a 回滚后 accepted 原对完整
+[g2-04-domain] PASS: T08a 回滚后新 Turn context 合法交错
+[g2-04-domain] PASS: T08a 两 input 各一次
+[g2-04-domain] PASS: T08a 新 Turn completed 后两条 entries
+[g2-04-domain] PASS: T08b correction fail 回滚后 accepted 完整
+[g2-04-domain] PASS: T08b FAILED
+[g2-04-domain] PASS: T09 无 turn 时 retry 返回 null
+[g2-04-domain] PASS: T09 无 turn 时 correction 返回 null
+WARNING: G2-04: begin_turn during active generation
+   at: push_warning (core/variant/variant_utility.cpp:1033)
+   GDScript backtrace (most recent call first):
+       [0] begin_turn (res://src/domain/会话.gd:52)
+       [1] _run (res://tests/g2_04_会话域离线测试.gd:243)
+[g2-04-domain] PASS: T09 STREAMING 中 begin_turn 拒绝
+[g2-04-domain] PASS: T09 STREAMING 中 retry 拒绝
+[g2-04-domain] PASS: T09 未制造多余 turn
+[g2-04-domain] PASS: T09 complete 后仍只有一条 accepted
+[g2-04-domain] PASS: T09 非 STREAMING complete 为空操作
+[g2-04-domain] PASS: T09 非 STREAMING delta 被忽略
+[g2-04-domain] PASS: T10 未 completed latest 的 correction 同一 identity
+[g2-04-domain] PASS: T10 改正文本进入 context 恰好一次
+[g2-04-domain] PASS: T10 旧文本不进 context
+[g2-04-domain] PASS: T10 同一 identity 完成 accepted
+[g2-04-domain] PASS: T11(IR-03) previous pairs 保留且 request 以 current user 结束
+[g2-04-domain] PASS: T11 current player input 恰好一次
+[g2-04-domain] PASS: T11 当前 Turn 旧 accepted assistant 不在 request
+[g2-04-domain] PASS: T11 previous accepted assistant 正常保留
+[g2-04-domain] PASS: T11 Domain accepted 替换前仍稳定
+[g2-04-domain] PASS: T11 同 identity 原子替换为新 GM
+[g2-04-domain] PASS: T12a zero-delta complete → FAILED
+[g2-04-domain] PASS: T12a failure code == empty_generation
+[g2-04-domain] PASS: T12a 无 accepted entry
+[g2-04-domain] PASS: T12a 同一 identity 可 retry
+[g2-04-domain] PASS: T12a retry 后 1 个非空白字符也正常 accepted（无最小字数）
+[g2-04-domain] PASS: T12b whitespace-only draft → FAILED
+[g2-04-domain] PASS: T12b 无 accepted entry、可 retry
+[g2-04-domain] PASS: T12c regenerate empty → FAILED 可重试
+[g2-04-domain] PASS: T12c 旧 accepted 对不被空完成覆盖
+[g2-04-domain] PASS: T12c 再次 regenerate 非空 → 同 identity 原子替换
+[g2-04-domain] PASS: T12d correction whitespace → FAILED
+[g2-04-domain] PASS: T12d 旧 accepted player + GM 不动
+[g2-04-domain] PASS: T12d corrected pending 回滚、未部分接受
+[g2-04-domain] done failures=0

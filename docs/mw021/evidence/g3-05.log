@@ -1,0 +1,22 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.4.351 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 4070 Laptop GPU
+
+G3-05 UI PASS | isolated current Game opens
+G3-05 UI PASS | durable accept 存档时行动
+[shell] application=game_active session=ready
+G3-05 UI PASS | 1280x720 keeps World Save/Recovery surface visible
+G3-05 UI PASS | 960x540 exposes Save/Recovery through narrow toggle
+G3-05 UI PASS | no Recovery does not show false affordance
+G3-05 UI PASS | durable accept Future A 行动
+G3-05 UI PASS | Load confirmation explains automatic protection
+G3-05 UI PASS | successful Load shows latest Recovery separately
+G3-05 UI PASS | Load redraws exact saved Conversation
+G3-05 UI PASS | durable accept Branch B 行动
+G3-05 UI PASS | branch Narrative appears before Recover
+G3-05 UI PASS | active generation disables Load and Recover
+G3-05 UI PASS | Recover confirmation states switch and reciprocal protection
+G3-05 UI PASS | Recover restores displaced Future A Domain truth
+G3-05 UI PASS | Recover full-redraw removes Branch B instead of mixing futures
+G3-05 UI PASS | Recover exposes reciprocal previous progress
+G3-05 UI PASS | UI does not leak Timeline/Recovery ids
+G3-05 UI | done failures=0
