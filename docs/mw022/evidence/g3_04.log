@@ -1,0 +1,22 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+G3-04 UI PASS | isolated current Game opens
+G3-04 UI PASS | durable accept 保存时行动
+[shell] application=game_active session=ready
+G3-04 UI PASS | 1280x720 keeps three-column World surface visible
+G3-04 UI PASS | 960x540 exposes World Save surface through narrow toggle
+G3-04 UI PASS | active generation disables Save/Load
+G3-04 UI PASS | Save appears immediately in World surface
+G3-04 UI PASS | Save success is player-readable
+G3-04 UI PASS | durable accept 未来行动
+G3-04 UI PASS | future Narrative appears before Load
+G3-04 UI PASS | Load identifies target and states protected high-impact intent
+G3-04 UI PASS | Load restores Domain Conversation
+G3-04 UI PASS | Load full-redraw removes future visual blocks
+G3-04 UI PASS | durable accept 读取失败前未来
+Opened database successfully (D:/AI/Projects/.worktrees/my-world/mw-022-uat-observability-debug-mode/build/g3_04/mw022-151748/ui.sqlite)
+Closed database (D:/AI/Projects/.worktrees/my-world/mw-022-uat-observability-debug-mode/build/g3_04/mw022-151748/ui.sqlite)
+G3-04 UI PASS | isolated bad-anchor fixture installed
+G3-04 UI PASS | failed Load leaves Narrative/Domain unchanged
+G3-04 UI PASS | failed Load shows player-readable non-destructive result
+G3-04 UI | done failures=0

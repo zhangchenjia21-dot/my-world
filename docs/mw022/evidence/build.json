@@ -1,0 +1,38 @@
+{
+  "godot": "4.7.2.stable.official.ed1daf0bf",
+  "fresh_export": true,
+  "pck_existed_before": false,
+  "import_exit": 0,
+  "export_exit": 0,
+  "script_parse_export_errors": 0,
+  "provider_calls": 0,
+  "owner_installed": false,
+  "freshness": {
+    "schema": "my-world.owner-export-freshness.v1",
+    "input_hash": "793e1f14cc730b431a315eb6174dce474562ef364c0cafd30adb6bea147d6a86",
+    "preset": "Windows Desktop",
+    "target": "build/windows/my-world.exe",
+    "built_at_utc": "2026-09-08T07:26:15.9681523Z"
+  },
+  "outputs": [
+    {
+      "path": "build/windows/my-world.exe",
+      "bytes": 103035904,
+      "sha256": "5543ab4b6fb453c5dbe7f4effa0aad7f1cc06d73c12e8436adfc9fb266ac34ee",
+      "mtime_utc": "2026-09-08T07:26:12.570103+00:00"
+    },
+    {
+      "path": "build/windows/my-world.pck",
+      "bytes": 2477996,
+      "sha256": "2677beaa13920f556f2a274e8f33a1102eab1b38dcd0aa6acaa9d6383646ab96",
+      "mtime_utc": "2026-09-08T07:26:14.747340+00:00"
+    },
+    {
+      "path": "build/windows/libgdsqlite.windows.template_debug.x86_64.dll",
+      "bytes": 3163136,
+      "sha256": "e3ae3b46b59eadcd513f8d7d6e7c0c15e173696e145594094d7f4f3cc96c7fe7",
+      "mtime_utc": "2026-09-08T07:26:14.750346+00:00"
+    }
+  ],
+  "implementation_head": "7eae9d5ef39d19a917bc28463799807d76d6d92a"
+}

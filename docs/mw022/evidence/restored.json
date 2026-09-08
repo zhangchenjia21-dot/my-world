@@ -1,0 +1,15 @@
+[
+  {
+    "change": "unknown",
+    "change_label": "变化未知",
+    "code": "restored",
+    "counts": {},
+    "elapsed_ms": -1,
+    "lane": "restore",
+    "lane_label": "恢复进度",
+    "reason": "已切换进度，旧诊断已清除",
+    "terminal": "restored",
+    "terminal_label": "已恢复",
+    "turn": -1
+  }
+]

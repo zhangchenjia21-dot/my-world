@@ -1,0 +1,378 @@
+[
+  {
+    "change": "unknown",
+    "change_label": "变化未知",
+    "code": "input_unavailable",
+    "counts": {
+      "total": 0
+    },
+    "elapsed_ms": 0,
+    "lane": "recommendations",
+    "lane_label": "推荐行动",
+    "reason": "当前没有合法推荐机会",
+    "terminal": "unavailable",
+    "terminal_label": "不可用",
+    "turn": -1
+  },
+  {
+    "change": "no-change",
+    "change_label": "无变化",
+    "code": "committed",
+    "counts": {},
+    "elapsed_ms": -1,
+    "lane": "character",
+    "lane_label": "角色",
+    "reason": "",
+    "terminal": "committed",
+    "terminal_label": "已提交",
+    "turn": -1
+  },
+  {
+    "change": "no-change",
+    "change_label": "无变化",
+    "code": "committed",
+    "counts": {
+      "added": 0,
+      "removed": 0,
+      "total": 0
+    },
+    "elapsed_ms": -1,
+    "lane": "experiences",
+    "lane_label": "重要经历",
+    "reason": "",
+    "terminal": "committed",
+    "terminal_label": "已提交",
+    "turn": -1
+  },
+  {
+    "change": "no-change",
+    "change_label": "无变化",
+    "code": "committed",
+    "counts": {
+      "total": 0
+    },
+    "elapsed_ms": -1,
+    "lane": "people",
+    "lane_label": "人物卡",
+    "reason": "",
+    "terminal": "committed",
+    "terminal_label": "已提交",
+    "turn": -1
+  },
+  {
+    "change": "unknown",
+    "change_label": "变化未知",
+    "code": "accepted",
+    "counts": {},
+    "elapsed_ms": -1,
+    "lane": "narrative",
+    "lane_label": "叙事",
+    "reason": "",
+    "terminal": "accepted",
+    "terminal_label": "已接受",
+    "turn": 0
+  },
+  {
+    "change": "no-change",
+    "change_label": "无变化",
+    "code": "committed",
+    "counts": {
+      "changes": 0,
+      "knowledge": 0
+    },
+    "elapsed_ms": -1,
+    "lane": "world",
+    "lane_label": "世界语义",
+    "reason": "",
+    "terminal": "committed",
+    "terminal_label": "已提交",
+    "turn": 0
+  },
+  {
+    "change": "no-change",
+    "change_label": "无变化",
+    "code": "committed",
+    "counts": {
+      "actors": 0,
+      "bindings": 0
+    },
+    "elapsed_ms": -1,
+    "lane": "identity",
+    "lane_label": "人物身份",
+    "reason": "",
+    "terminal": "committed",
+    "terminal_label": "已提交",
+    "turn": 0
+  },
+  {
+    "change": "no-change",
+    "change_label": "无变化",
+    "code": "committed",
+    "counts": {},
+    "elapsed_ms": -1,
+    "lane": "character",
+    "lane_label": "角色",
+    "reason": "",
+    "terminal": "committed",
+    "terminal_label": "已提交",
+    "turn": 0
+  },
+  {
+    "change": "no-change",
+    "change_label": "无变化",
+    "code": "committed",
+    "counts": {
+      "added": 0,
+      "removed": 0,
+      "total": 0
+    },
+    "elapsed_ms": -1,
+    "lane": "experiences",
+    "lane_label": "重要经历",
+    "reason": "",
+    "terminal": "committed",
+    "terminal_label": "已提交",
+    "turn": 0
+  },
+  {
+    "change": "no-change",
+    "change_label": "无变化",
+    "code": "committed",
+    "counts": {
+      "total": 0
+    },
+    "elapsed_ms": -1,
+    "lane": "people",
+    "lane_label": "人物卡",
+    "reason": "",
+    "terminal": "committed",
+    "terminal_label": "已提交",
+    "turn": 0
+  },
+  {
+    "change": "unknown",
+    "change_label": "变化未知",
+    "code": "ready",
+    "counts": {
+      "total": 5
+    },
+    "elapsed_ms": 28,
+    "lane": "recommendations",
+    "lane_label": "推荐行动",
+    "reason": "",
+    "terminal": "ready",
+    "terminal_label": "就绪",
+    "turn": 0
+  },
+  {
+    "change": "unknown",
+    "change_label": "变化未知",
+    "code": "saved",
+    "counts": {},
+    "elapsed_ms": -1,
+    "lane": "save",
+    "lane_label": "存档",
+    "reason": "已保存当前进度",
+    "terminal": "saved",
+    "terminal_label": "已保存",
+    "turn": -1
+  },
+  {
+    "change": "unknown",
+    "change_label": "变化未知",
+    "code": "accepted",
+    "counts": {},
+    "elapsed_ms": -1,
+    "lane": "narrative",
+    "lane_label": "叙事",
+    "reason": "",
+    "terminal": "accepted",
+    "terminal_label": "已接受",
+    "turn": 1
+  },
+  {
+    "change": "changed",
+    "change_label": "有变化",
+    "code": "committed",
+    "counts": {
+      "changes": 1,
+      "knowledge": 0
+    },
+    "elapsed_ms": -1,
+    "lane": "world",
+    "lane_label": "世界语义",
+    "reason": "",
+    "terminal": "committed",
+    "terminal_label": "已提交",
+    "turn": 1
+  },
+  {
+    "change": "changed",
+    "change_label": "有变化",
+    "code": "committed",
+    "counts": {
+      "actors": 1,
+      "bindings": 1
+    },
+    "elapsed_ms": -1,
+    "lane": "identity",
+    "lane_label": "人物身份",
+    "reason": "",
+    "terminal": "committed",
+    "terminal_label": "已提交",
+    "turn": 1
+  },
+  {
+    "change": "changed",
+    "change_label": "有变化",
+    "code": "committed",
+    "counts": {},
+    "elapsed_ms": -1,
+    "lane": "character",
+    "lane_label": "角色",
+    "reason": "",
+    "terminal": "committed",
+    "terminal_label": "已提交",
+    "turn": 1
+  },
+  {
+    "change": "changed",
+    "change_label": "有变化",
+    "code": "committed",
+    "counts": {
+      "added": 1,
+      "removed": 0,
+      "total": 1
+    },
+    "elapsed_ms": -1,
+    "lane": "experiences",
+    "lane_label": "重要经历",
+    "reason": "",
+    "terminal": "committed",
+    "terminal_label": "已提交",
+    "turn": 1
+  },
+  {
+    "change": "changed",
+    "change_label": "有变化",
+    "code": "committed",
+    "counts": {
+      "total": 1
+    },
+    "elapsed_ms": -1,
+    "lane": "people",
+    "lane_label": "人物卡",
+    "reason": "",
+    "terminal": "committed",
+    "terminal_label": "已提交",
+    "turn": 1
+  },
+  {
+    "change": "unknown",
+    "change_label": "变化未知",
+    "code": "ready",
+    "counts": {
+      "total": 5
+    },
+    "elapsed_ms": 20,
+    "lane": "recommendations",
+    "lane_label": "推荐行动",
+    "reason": "",
+    "terminal": "ready",
+    "terminal_label": "就绪",
+    "turn": 1
+  },
+  {
+    "change": "unknown",
+    "change_label": "变化未知",
+    "code": "accepted",
+    "counts": {},
+    "elapsed_ms": -1,
+    "lane": "narrative",
+    "lane_label": "叙事",
+    "reason": "",
+    "terminal": "accepted",
+    "terminal_label": "已接受",
+    "turn": 2
+  },
+  {
+    "change": "unknown",
+    "change_label": "变化未知",
+    "code": "provider_failure",
+    "counts": {},
+    "elapsed_ms": -1,
+    "lane": "world",
+    "lane_label": "世界语义",
+    "reason": "模型服务调用失败",
+    "terminal": "failed",
+    "terminal_label": "失败",
+    "turn": 2
+  },
+  {
+    "change": "unknown",
+    "change_label": "变化未知",
+    "code": "provider_failure",
+    "counts": {},
+    "elapsed_ms": -1,
+    "lane": "identity",
+    "lane_label": "人物身份",
+    "reason": "模型服务调用失败",
+    "terminal": "failed",
+    "terminal_label": "失败",
+    "turn": 2
+  },
+  {
+    "change": "unknown",
+    "change_label": "变化未知",
+    "code": "provider_failure",
+    "counts": {},
+    "elapsed_ms": -1,
+    "lane": "character",
+    "lane_label": "角色",
+    "reason": "模型服务调用失败",
+    "terminal": "failed",
+    "terminal_label": "失败",
+    "turn": 2
+  },
+  {
+    "change": "unknown",
+    "change_label": "变化未知",
+    "code": "provider_failure",
+    "counts": {},
+    "elapsed_ms": -1,
+    "lane": "experiences",
+    "lane_label": "重要经历",
+    "reason": "模型服务调用失败",
+    "terminal": "failed",
+    "terminal_label": "失败",
+    "turn": 2
+  },
+  {
+    "change": "unknown",
+    "change_label": "变化未知",
+    "code": "provider_failure",
+    "counts": {},
+    "elapsed_ms": -1,
+    "lane": "people",
+    "lane_label": "人物卡",
+    "reason": "模型服务调用失败",
+    "terminal": "failed",
+    "terminal_label": "失败",
+    "turn": 2
+  },
+  {
+    "change": "unknown",
+    "change_label": "变化未知",
+    "code": "malformed_response",
+    "counts": {
+      "total": 0
+    },
+    "elapsed_ms": 15,
+    "lane": "recommendations",
+    "lane_label": "推荐行动",
+    "reason": "模型响应结构无效",
+    "terminal": "failed",
+    "terminal_label": "失败",
+    "turn": 2
+  }
+]

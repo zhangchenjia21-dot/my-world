@@ -1,0 +1,154 @@
+[
+  {
+    "exit_code": 0,
+    "log": "g2_03.log",
+    "exit_warnings": 0,
+    "errors": 0,
+    "name": "g2_03",
+    "classification": "passed"
+  },
+  {
+    "exit_code": 0,
+    "log": "g2_04.log",
+    "exit_warnings": 0,
+    "errors": 0,
+    "name": "g2_04",
+    "classification": "passed"
+  },
+  {
+    "exit_code": 0,
+    "log": "g5_01.log",
+    "exit_warnings": 0,
+    "errors": 0,
+    "name": "g5_01",
+    "classification": "passed"
+  },
+  {
+    "exit_code": 0,
+    "log": "g5_01-timeline.log",
+    "exit_warnings": 0,
+    "errors": 0,
+    "name": "g5_01-timeline",
+    "classification": "passed"
+  },
+  {
+    "exit_code": 0,
+    "log": "mw017.log",
+    "exit_warnings": 0,
+    "errors": 0,
+    "name": "mw017",
+    "classification": "passed"
+  },
+  {
+    "exit_code": 0,
+    "log": "mw014.log",
+    "exit_warnings": 0,
+    "errors": 0,
+    "name": "mw014",
+    "classification": "passed"
+  },
+  {
+    "exit_code": 0,
+    "log": "mw015r2.log",
+    "exit_warnings": 0,
+    "errors": 0,
+    "name": "mw015r2",
+    "classification": "passed"
+  },
+  {
+    "exit_code": 0,
+    "log": "mw015r2-ui.log",
+    "exit_warnings": 0,
+    "errors": 0,
+    "name": "mw015r2-ui",
+    "classification": "passed"
+  },
+  {
+    "exit_code": 0,
+    "log": "mw015.log",
+    "exit_warnings": 0,
+    "errors": 0,
+    "name": "mw015",
+    "classification": "passed"
+  },
+  {
+    "exit_code": 0,
+    "log": "mw015r1.log",
+    "exit_warnings": 0,
+    "errors": 0,
+    "name": "mw015r1",
+    "classification": "passed"
+  },
+  {
+    "exit_code": 0,
+    "log": "mw018.log",
+    "exit_warnings": 0,
+    "errors": 0,
+    "name": "mw018",
+    "classification": "passed"
+  },
+  {
+    "exit_code": 0,
+    "log": "mw018r1.log",
+    "exit_warnings": 0,
+    "errors": 0,
+    "name": "mw018r1",
+    "classification": "passed"
+  },
+  {
+    "exit_code": 0,
+    "log": "mw019-lifecycle.log",
+    "exit_warnings": 0,
+    "errors": 0,
+    "name": "mw019-lifecycle",
+    "classification": "passed"
+  },
+  {
+    "exit_code": 0,
+    "log": "mw019-pairs.log",
+    "exit_warnings": 0,
+    "errors": 0,
+    "name": "mw019-pairs",
+    "classification": "passed"
+  },
+  {
+    "exit_code": 0,
+    "log": "mw019-routes.log",
+    "exit_warnings": 0,
+    "errors": 0,
+    "name": "mw019-routes",
+    "classification": "passed"
+  },
+  {
+    "exit_code": 1,
+    "log": "g3_03.log",
+    "exit_warnings": 0,
+    "errors": 1,
+    "name": "g3_03",
+    "classification": "retained baseline assertion (reproduced at formal base)"
+  },
+  {
+    "exit_code": 0,
+    "log": "g3_04.log",
+    "exit_warnings": 0,
+    "errors": 0,
+    "name": "g3_04",
+    "classification": "passed"
+  },
+  {
+    "exit_code": 0,
+    "log": "g3_05.log",
+    "exit_warnings": 0,
+    "errors": 0,
+    "name": "g3_05",
+    "classification": "passed"
+  },
+  {
+    "exit_code": 0,
+    "log": "mw021.log",
+    "exit_warnings": 0,
+    "errors": 0,
+    "name": "mw021",
+    "classification": "passed"
+  }
+]

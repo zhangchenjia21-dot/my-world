@@ -1,0 +1,18 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+G5-01 TIMELINE PASS | production v4 Runtime opens task-owned Game
+G5-01 TIMELINE PASS | task-owned Game receives a valid G4-compatible setup without schema migration
+G5-01 TIMELINE PASS | ordinary Narrative accepted durably
+G5-01 TIMELINE PASS | first semantic record commits through production World mutation
+G5-01 TIMELINE PASS | latest-turn correction becomes durable before semantic analysis
+G5-01 TIMELINE PASS | stale old GM hash is excluded immediately after accepted replacement
+G5-01 TIMELINE PASS | rematerialization replaces same turn-index record without duplicate
+G5-01 TIMELINE PASS | Save captures matching Conversation and semantic World snapshot
+G5-01 TIMELINE PASS | ordinary Narrative accepted durably
+G5-01 TIMELINE PASS | later semantic future commits before Restore
+G5-01 TIMELINE PASS | Save/Restore atomically returns matching Conversation and semantic snapshot
+G5-01 TIMELINE PASS | subsequent Provider request contains committed matching World change
+G5-01 TIMELINE PASS | subsequent request excludes stale and restored-away future semantic memory
+G5-01 TIMELINE PASS | close/reopen preserves restored semantic snapshot coherently
+G5-01 TIMELINE PASS | reopen retains replacement consequence, not stale/future records
+G5-01 TIMELINE | done failures=0
