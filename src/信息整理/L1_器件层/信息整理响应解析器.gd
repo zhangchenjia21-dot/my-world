@@ -31,10 +31,16 @@ static func parse(text: String, lived: bool = false, bindings: Dictionary = {}) 
 	if not lived:
 		return Contract.normalize(parser.data)
 	var value: Variant = parser.data
-	if not value is Dictionary or (not Contract.keys_exact(value, ["character", "experiences"]) and not Contract.keys_exact(value, ["character", "experiences", "people_updates"])):
+	if not value is Dictionary or not value.has("character") or not value.has("experiences"):
+		return {}
+	for key: Variant in value:
+		if key not in ["character", "experiences", "people_updates", "open_threads"]:
+			return {}
+	if not Contract.threads_valid(value.get("open_threads")):
 		return {}
 	var base := Contract.normalize({"character": value.character, "experiences": value.experiences})
 	if base.is_empty():
 		return {}
 	base["people_updates"] = Contract.resolve_people(value.get("people_updates", []), bindings)
+	base["open_threads"] = value.get("open_threads")
 	return base

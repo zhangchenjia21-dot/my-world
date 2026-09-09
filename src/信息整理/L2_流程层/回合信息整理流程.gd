@@ -7,6 +7,7 @@ const Contract := preload("res://src/信息整理/L0_公理层/信息整理契�
 const Parser := preload("res://src/信息整理/L1_器件层/信息整理响应解析器.gd")
 const Device := preload("res://src/信息整理/L1_器件层/角色经历投影器.gd")
 
+const Threads := preload("res://src/信息整理/L1_器件层/事务快照投影器.gd")
 const People := preload("res://src/信息整理/L1_器件层/人物认知投影器.gd")
 const IdentityBridge := preload("res://src/世界回合/L3_外交层/人物身份桥公开接口.gd")
 
@@ -32,11 +33,17 @@ Character 与 Important Experiences 分别判断：Character 可以更新而 exp
 character=null 表示保持。否则是完整当前快照，保留仍有效的起始信息并删除过期旧值；最多7组且组名不重复，每组最多12项、每项600字符；headline最多160字符，summary最多1600字符。experiences只新增本轮重要经历，最多4条，每条标题160字符、描述1200字符。角色无需更新时 character=null；本轮没有值得长期保留的人生节点时 experiences=[]。人物按下述同一次 lived 响应协议返回 people_updates。不输出持久 ID、hash、出处元数据或虚构日历日期。"""
 
 const PEOPLE_INSTRUCTIONS := """
-本次 lived 响应在 character、experiences 之外增加 people_updates 数组（无变化为空）。同一次调用维护三类信息，不增加额外调用。
+本次 lived 响应在 character、experiences 之外增加 people_updates 数组（无变化为空）。同一次调用维护角色、经历、人物与事务，不增加额外调用。
 人物只使用 people_evidence 中当前绑定的 actor_ref、accepted quote 与 source_role/source_span（旧回执 gm_span 表示 GM 来源） 和该人的 current_snapshot，结合本轮已接受叙事理解玩家最新认知。引用不是姓名匹配，也不代表玩家知道该人的后台真相。无证据的其他人物保持，不猜身份。
 由你决定是否值得建卡、更新、保留或删除；不是每个提及的人都需要卡片。当前在场既不是建卡必要条件，也不是充分条件；已知但场外的人可以有持续记忆价值，偶然在场的士兵、守卫或路人可以不建卡。这不是固定人物类别规则，由你结合上下文判断。Player 来源引用可表达回忆或已有认知，但玩家的猜测和断言不自动成为世界真相；只整理实际有依据的玩家最新认知。不得根据幕后变化刷新认知。保留仍有效旧认知，修正已被玩家获知的错误。关系是玩家已知自然语言，不是数值好感或全知态度。
 people_updates 格式：[{"actor_ref":"输入中的引用","snapshot":null或{"display_name":"玩家已知称呼","headline":"很短的关键定位","summary":"最新已知摘要","relationship":"玩家已知关系","details":["有用的已知详情"]}}]。
 完整 snapshot 替换旧卡，null 删除；省略该人表示保持。不输出 canonical ID。最多8个不同人物更新，同一人只能一个操作（不同引用可能只是同一人的不同原文片段）。display_name最多64字符，headline160，summary400，relationship600，details最多8项每项600。未知字段用空字符串/空数组，不编造完整度。折叠卡只显示姓名和 headline，详细关系和摘要只在展开时展示。
+"""
+
+const THREADS_INSTRUCTIONS := """
+同一次 lived 响应增加 open_threads 字段，输入 current_open_threads 是玩家当前安全快照。事务回答“现在还有哪些值得我继续记住的未完事项”，不是 Quest 系统或剧情流水账。人物回答“我目前对值得持续记住的人最近最新知道什么”；不要重复角色的长期身份真相，事务只描述当前悬而未决的部分。
+你自由决定值得保留、更新或移除的事项；普通回合可无变化，已解决、失效或不再相关的事项可移除。当前在场既不是必要条件也不是充分条件，场外未完事项可以保持；不套类别、关键词、优先级、分数或回合阈值。只使用已接受行动/叙事与当前玩家安全投影，不根据未披露的幕后变化补全事项。
+open_threads=null 表示保持；数组是完整替换后的当前快照，[] 表示清空。精确结构：[{"title":"简洁标题","summary":"当前未完状态与玩家已知关键事实","details":["必要的已知详情"]}]。最多12条，title最多160字符，summary最多800字符，details最多4项且每项500字符；只允许这三个键。不输出任务类型、状态、优先级、ID、奖励或推理。
 """
 
 # 初始 lane 只给模型冻结的玩家材料；无需 opening，也不把静态传记作为 lived event。
@@ -183,6 +190,7 @@ func _pump(expected_epoch: int) -> void:
 			"accepted_player": entries[index].player_text,
 			"accepted_narrative": entries[index].gm_text,
 			"current_character": projection.character,
+			"current_open_threads": Threads.project(session_runtime.world_state, earlier),
 			"recent_experiences": experiences.slice(maxi(0, experiences.size() - 8)),
 			"frozen_starting_profile": _profile()
 		}
@@ -202,7 +210,7 @@ func _pump(expected_epoch: int) -> void:
 			return
 		_response = ""
 		_timer.start()
-		var error: Error = provider_adapter.start_stream([{"role": "system", "content": INSTRUCTIONS + PEOPLE_INSTRUCTIONS}, {"role": "user", "content": content}])
+		var error: Error = provider_adapter.start_stream([{"role": "system", "content": INSTRUCTIONS + PEOPLE_INSTRUCTIONS + THREADS_INSTRUCTIONS}, {"role": "user", "content": content}])
 		if error != OK and not _active.is_empty():
 			_finish(false, "start_failed")
 		return
@@ -245,7 +253,7 @@ func _on_completed() -> void:
 	var dependency: String = _active.identity_receipt_id
 	var receipt := IdentityBridge.current_receipt(session_runtime, index)
 	if not dependency.is_empty() and (receipt.is_empty() or receipt.id != dependency):
-		# 在途身份依赖已变化：保留本次角色/经历结果，People 无写权限。
+		# 在途身份依赖已变化：保留本次角色/经历/事务结果，People 无写权限。
 		result.people_updates = []
 		dependency = ""
 	var identity := Contract.lived_record_id(_active.prefix, parent, result, dependency)

@@ -4,6 +4,7 @@ const Contract := preload("res://src/调试观测/L0_公理层/诊断展示契�
 const Recorder := preload("res://src/调试观测/L1_器件层/会话诊断记录器.gd")
 const Identity := preload("res://src/世界回合/L3_外交层/人物身份桥公开接口.gd")
 const Character := preload("res://src/信息整理/L3_外交层/角色经历投影公开接口.gd")
+const Threads := preload("res://src/信息整理/L3_外交层/事务投影公开接口.gd")
 const People := preload("res://src/信息整理/L3_外交层/人物投影公开接口.gd")
 signal changed
 var _runtime: RefCounted
@@ -94,7 +95,7 @@ func _world_terminal(result: Dictionary) -> void:
 
 func _safe_information() -> Dictionary:
 	var projection := Character.project_session(_runtime)
-	return {"character": projection.character, "experiences": projection.important_experiences, "people": People.project_session(_runtime)}
+	return {"character": projection.character, "experiences": projection.important_experiences, "people": People.project_session(_runtime), "threads": Threads.project_session(_runtime)}
 
 func _curation_started(context: Dictionary) -> void:
 	# before/after 均来自安全 L3；只在 owner 内比较，叶 UI 不接收任何内容文本。
@@ -107,21 +108,23 @@ func _curation_terminal(result: Dictionary) -> void:
 	var pending: Dictionary = _curation[request]
 	_curation.erase(request)
 	if result.get("epoch", -1) != pending.context.epoch or result.get("prefix", "") != pending.context.prefix or result.get("source_turn_index", -2) != pending.context.source_turn_index: return
+	var lanes := ["character", "experiences", "people"]
+	if int(pending.token.index) >= 0: lanes.append("threads")
 	var code := Contract.reason(String(result.get("status", "")))
 	if not _current(pending.token):
 		if pending.token.epoch != _epoch: return
-		for lane: String in ["character", "experiences", "people"]: _put(_token(-1), lane, "stale", "unknown", "stale")
+		for lane: String in lanes: _put(_token(-1), lane, "stale", "unknown", "stale")
 		return
 	if not bool(result.get("success", false)):
-		for lane: String in ["character", "experiences", "people"]:
+		for lane: String in lanes:
 			_put(pending.token, lane, code if code in ["stale", "cancelled"] else "failed", "unknown", code)
 		return
 	var after := _safe_information()
-	for lane: String in ["character", "experiences", "people"]:
+	for lane: String in lanes:
 		var changed_value: bool = pending.before[lane] != after[lane]
 		var counts := {}
 		# People 安全投影故意没有 stable ID；不靠姓名配对推算 add/update/remove。
-		if lane == "people": counts = {"total": after.people.size()}
+		if lane in ["people", "threads"]: counts = {"total": after[lane].size()}
 		if lane == "experiences":
 			counts = {"total": after[lane].size(), "added": maxi(0, after[lane].size() - pending.before[lane].size()), "removed": maxi(0, pending.before[lane].size() - after[lane].size())}
 		_put(pending.token, lane, "committed", "changed" if changed_value else "no-change", "committed", counts)

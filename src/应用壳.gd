@@ -33,6 +33,8 @@ const RPGViewModel := preload("res://src/rpg视图模型/L3_外交层/RPG主机�
 ## 不读 raw world_state / curation 内部 id，不为渲染触发 Provider 调用。
 const CharacterExperiencesProjection := preload("res://src/信息整理/L3_外交层/角色经历投影公开接口.gd")
 
+const ThreadsProjection := preload("res://src/信息整理/L3_外交层/事务投影公开接口.gd")
+const ThreadsView := preload("res://src/ui/事务列表.gd")
 const PeopleProjection := preload("res://src/信息整理/L3_外交层/人物投影公开接口.gd")
 const PeopleCard := preload("res://src/ui/人物卡片.gd")
 
@@ -78,6 +80,7 @@ const GAME_LOCAL_SETUP_SCHEMA := "game_local_setup.v0.1"
 @onready var overview_tab: Button = %OverviewTab
 @onready var character_tab: Button = %CharacterTab
 @onready var experiences_tab: Button = %ExperiencesTab
+@onready var threads_tab: Button = %ThreadsTab
 @onready var people_tab: Button = %PeopleTab
 @onready var save_tab: Button = %SaveTab
 @onready var save_surface: VBoxContainer = %SaveSurface
@@ -144,12 +147,13 @@ var _world_panel_body: VBoxContainer = null
 ## MW-015：右侧 Character / Important Experiences 表面的动态内容容器（挂在 WorldSurfaceColumn 滚动区）。
 var _character_panel_body: VBoxContainer = null
 var _experiences_panel_body: VBoxContainer = null
+var _threads_panel_body: VBoxContainer = null
 var _people_panel_body: VBoxContainer = null
 ## MW-015：左 Player Status Host 是否存在真实 portrait/mechanics 内容。v0.1 过渡 biography
 ## 已迁出且无真实 consumer → 恒 false，Host collapse/hide；未来真实 consumer 置 true。
 var _player_status_has_content := false
 var _player_safe_projection: RefCounted = null
-## MW-015：World Surface 当前子表面（overview | character | experiences | people | save）；非通用导航框架。
+## MW-015：World Surface 当前子表面（overview | character | experiences | people | threads | save）；非通用导航框架。
 var _world_surface_mode := "overview"
 ## MW-011：RPG ViewModel 外交接口实例（presentation-only）。
 var _rpg_view_model: RefCounted = null
@@ -224,6 +228,7 @@ func _ready() -> void:
 	character_tab.toggled.connect(_on_character_tab_toggled)
 	experiences_tab.toggled.connect(_on_experiences_tab_toggled)
 	people_tab.toggled.connect(_on_people_tab_toggled)
+	threads_tab.toggled.connect(_on_threads_tab_toggled)
 	save_tab.toggled.connect(_on_save_tab_toggled)
 	_update_responsive_layout()
 	if session_runtime != null:
@@ -620,6 +625,7 @@ func _on_information_curator_finished(_result: Dictionary) -> void:
 	_render_character_surface()
 	_render_experiences_surface()
 	_render_people_surface()
+	_render_threads_surface()
 
 
 ## MW-002：Agency opportunity 终态是 World Evolution 的唯一正常 wake；result 携带 frozen
@@ -1344,6 +1350,7 @@ func _refresh_player_safe_panels() -> void:
 	_render_character_surface()
 	_render_experiences_surface()
 	_render_people_surface()
+	_render_threads_surface()
 
 
 func _on_overview_tab_toggled(pressed: bool) -> void:
@@ -1366,6 +1373,11 @@ func _on_people_tab_toggled(pressed: bool) -> void:
 		_select_world_surface_mode("people")
 
 
+func _on_threads_tab_toggled(pressed: bool) -> void:
+	if pressed:
+		_select_world_surface_mode("threads")
+
+
 func _on_save_tab_toggled(pressed: bool) -> void:
 	if pressed:
 		_select_world_surface_mode("save")
@@ -1379,6 +1391,7 @@ func _select_world_surface_mode(mode: String) -> void:
 	character_tab.set_pressed_no_signal(mode == "character")
 	experiences_tab.set_pressed_no_signal(mode == "experiences")
 	people_tab.set_pressed_no_signal(mode == "people")
+	threads_tab.set_pressed_no_signal(mode == "threads")
 	save_tab.set_pressed_no_signal(mode == "save")
 	_apply_world_surface_visibility()
 
@@ -1396,6 +1409,8 @@ func _apply_world_surface_visibility() -> void:
 		_experiences_panel_body.visible = show_surface and _world_surface_mode == "experiences"
 	if _people_panel_body != null and is_instance_valid(_people_panel_body):
 		_people_panel_body.visible = show_surface and _world_surface_mode == "people"
+	if _threads_panel_body != null and is_instance_valid(_threads_panel_body):
+		_threads_panel_body.visible = show_surface and _world_surface_mode == "threads"
 	save_surface.visible = session_active and _world_surface_mode == "save"
 	%SaveScroll.visible = save_surface.visible
 
@@ -1546,6 +1561,15 @@ func _render_people_surface() -> void:
 		var card := PeopleCard.new()
 		_people_panel_body.add_child(card)
 		card.render(snapshot)
+
+
+## 事务是只读当前快照，刷新不触发语义调用；滚动复用现有 World Surface Host。
+func _render_threads_surface() -> void:
+	_threads_panel_body = _surface_body(_threads_panel_body)
+	var view := ThreadsView.new()
+	_threads_panel_body.add_child(view)
+	view.render(ThreadsProjection.project_session(session_runtime))
+	_apply_world_surface_visibility()
 
 
 ## Foreground 永远优先：新 Conversation attempt 使剩余 uncommitted agency 失效。
