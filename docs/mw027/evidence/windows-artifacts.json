@@ -1,0 +1,20 @@
+[
+  {
+    "path": "my-world.exe",
+    "bytes": 103035904,
+    "modified_utc": "2026-09-09T05:04:51.5450980Z",
+    "sha256": "5543AB4B6FB453C5DBE7F4EFFA0AAD7F1CC06D73C12E8436ADFC9FB266AC34EE"
+  },
+  {
+    "path": "my-world.pck",
+    "bytes": 2552776,
+    "modified_utc": "2026-09-09T05:04:54.2644970Z",
+    "sha256": "7715B79A6FA95C3972DDFB293D850E8ECACB25EA8647B33D1D6A038E8D033618"
+  },
+  {
+    "path": "libgdsqlite.windows.template_debug.x86_64.dll",
+    "bytes": 3163136,
+    "modified_utc": "2026-09-09T05:04:54.2684942Z",
+    "sha256": "E3AE3B46B59EADCD513F8D7D6E7C0C15E173696E145594094D7F4F3CC96C7FE7"
+  }
+]

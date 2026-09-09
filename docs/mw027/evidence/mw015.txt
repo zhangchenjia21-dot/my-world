@@ -1,0 +1,55 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-015 PASS | real Game opens
+[shell] application=game_active session=ready
+MW-015 PASS | GM opening accepted
+ERROR: MW-015 FAIL | 1 right navigation is exactly 概览|角色|重要经历|人物|存档 toggles
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _check (res://tests/mw015/角色与重要经历界面测试.gd:313)
+       [1] _test_shell_surfaces (res://tests/mw015/角色与重要经历界面测试.gd:99)
+       [2] _frames (res://tests/mw015/角色与重要经历界面测试.gd:298)
+MW-015 PASS | 1 bounded navigation defaults to Overview
+MW-015 PASS | 1 right chrome renamed to 信息
+MW-015 PASS | 1 narrow World toggle renamed to 信息
+MW-015 PASS | 1 right surfaces live inside a scroll container
+MW-015 PASS | 2 Overview keeps world/entry/player-known facts
+MW-015 PASS | 2 recent actions / turn count not moved into Overview
+MW-015 PASS | 2 only Overview surface visible by default
+MW-015 PASS | 3 left Host no longer carries biography/profile/recent-actions/turn-count
+MW-015 PASS | 3 empty Player Status Host collapses in wide layout
+MW-015 PASS | 3 no fabricated portrait/mechanics contribution
+MW-015 PASS | 4 switching to Character shows only Character surface
+MW-015 PASS | 4 Character quiet empty state without frozen profile
+MW-015 PASS | 5 Important Experiences quiet empty state
+MW-015 PASS | 6 surface switching is zero-mutation
+MW-015 PASS | 6 switching back to Overview restores overview content
+MW-015 PASS | save before curation
+MW-015 PASS | 7 production curator request starts after accepted turn
+MW-015 PASS | 7 curator finished refreshes Character Surface same-turn
+MW-015 PASS | 7 curator finished refreshes Important Experiences same-turn
+MW-015 PASS | 7 no invented calendar/turn label on milestone
+MW-015 PASS | 8 curator request starts for second turn
+MW-015 PASS | 8 curator failure preserves current surfaces
+MW-015 PASS | 8 curator failure does not gate foreground
+MW-015 PASS | production Restore to pre-curation snapshot
+MW-015 PASS | 9 restored-away Character material disappears
+MW-015 PASS | 9 restored-away milestones disappear
+MW-015 PASS | 10 re-curation after Restore updates surfaces
+MW-015 PASS | regenerate replaces accepted version
+MW-015 PASS | 10 superseded curation fails currentness immediately at seam level
+MW-015 PASS | 10 superseded curation disappears from Character Surface after Regenerate
+MW-015 PASS | 11 narrow width shows 信息 toggle
+MW-015 PASS | 11 narrow width hides useless Player toggle
+MW-015 PASS | 11 empty left Host stays collapsed in narrow layout
+MW-015 PASS | 11 信息 toggle expands right Host
+MW-015 PASS | 11 wide layout keeps empty left Host collapsed
+MW-015 PASS | 12 surfaces contain no local_character_id
+MW-015 PASS | 12 surfaces contain no character.han_end
+MW-015 PASS | 12 surfaces contain no prefix
+MW-015 PASS | 12 surfaces contain no hash
+MW-015 PASS | 12 surfaces contain no schema
+MW-015 PASS | 12 surfaces contain no mutation
+MW-015 PASS | 12 surfaces contain no game_id
+MW-015 PASS | 12 surfaces contain no information_curation
+MW-015 FOCUSED | done failures=1

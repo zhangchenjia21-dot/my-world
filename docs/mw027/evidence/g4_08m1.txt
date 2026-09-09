@@ -1,0 +1,46 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+G4-08M1 PASS | A load real expansion_pack.v0.1
+G4-08M1 PASS | A strict capability binding projected
+G4-08M1 PASS | J real 2 World + 6 Character install regression
+G4-08M1 PASS | A expansion install through production Managed Library | {"already_installed":false,"generation":"<RefCounted#-9223371939932797404>","success":true}
+G4-08M1 PASS | A current/exact lookup revalidates managed bytes
+G4-08M1 PASS | A list_current_sources includes third Source type
+G4-08M1 PASS | A semantic bytes change fingerprint
+G4-08M1 PASS | A old exact Expansion remains resolvable after current moves
+G4-08M1 PASS | B zero Expansion remains valid
+G4-08M1 PASS | B Public d20 valid for Han without family guessing
+G4-08M1 PASS | B duplicate exact generation fails closed
+G4-08M1 PASS | B two distinct Expansions claiming action_resolution fail closed
+G4-08M1 PASS | B 0..N Expansion selection ordering is deterministic
+G4-08M1 PASS | C Final Create with exact Expansion succeeds
+G4-08M1 PASS | C materialized Expansion survives fresh existing-only open
+G4-08M1 PASS | C exact generation ancestry pinned in Game
+G4-08M1 PASS | C capability binding materialized
+G4-08M1 PASS | C authored rules materialized from exact package
+G4-08M1 PASS | C same creation/payload replays same Game
+G4-08M1 PASS | C changed Expansion payload conflicts
+G4-08M1 PASS | E normal Program total/outcome
+G4-08M1 PASS | E advantage selects high
+G4-08M1 PASS | E disadvantage selects low
+G4-08M1 PASS | E model fake roll/outcome cannot enter authority
+G4-08M1 PASS | E DC boundary fails before RNG
+G4-08M1 PASS | G Han Expansion Game created
+G4-08M1 PASS | G Han Game existing-only open
+G4-08M1 PASS | G case A first Provider failure creates no roll and remains retryable
+G4-08M1 PASS | G first adjudication Provider starts
+G4-08M1 PASS | F proposal validated/frozen before one RNG invocation and second call
+G4-08M1 PASS | G losing Program result durable before narrative
+G4-08M1 PASS | G second Provider failure accepts no Player/narrative
+G4-08M1 PASS | G fresh runtime reopen after durable resolution
+G4-08M1 PASS | G restart skips adjudication/RNG and reuses exact result
+G4-08M1 PASS | G second continuation sees exact durable losing result
+G4-08M1 PASS | G accepted result appends Player action exactly once
+G4-08M1 PASS | G duplicate accepted submit creates no second check/turn
+G4-08M1 PASS | D/G NO_CHECK decouples control/narrative with no RNG/check
+G4-08M1 PASS | G NO_CHECK normal narrative durable
+G4-08M1 PASS | D no Expansion never silently enables d20
+G4-08M1 PASS | B/I same Public d20 exact generation is compatible with Afterglow/Livia
+G4-08M1 PASS | I Afterglow Game opens with same Host capability
+G4-08M1 PASS | I cross-world mechanism has no Han-specific Host rule
+G4-08M1 | done failures=0

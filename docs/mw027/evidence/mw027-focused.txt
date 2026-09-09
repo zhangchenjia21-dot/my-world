@@ -1,0 +1,157 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-022 PASS valid null/replace/clear
+MW-022 PASS valid null/replace/clear
+MW-022 PASS valid null/replace/clear
+MW-022 PASS missing compatibility
+MW-022 PASS initial parser cannot create Threads
+MW-022 PASS invalid machine shape rejected atomically
+MW-022 PASS invalid machine shape rejected atomically
+MW-022 PASS invalid machine shape rejected atomically
+MW-022 PASS invalid machine shape rejected atomically
+MW-022 PASS invalid machine shape rejected atomically
+MW-022 PASS invalid machine shape rejected atomically
+MW-022 PASS invalid machine shape rejected atomically
+MW-022 PASS invalid machine shape rejected atomically
+MW-022 PASS invalid machine shape rejected atomically
+MW-022 PASS invalid machine shape rejected atomically
+MW-022 PASS exact field bounds
+MW-022 PASS 13 rejected
+MW-022 PASS isolated SQLite
+MW-022 PASS private fixture
+MW-022 PASS initial only one Character call, no threads input
+MW-022 PASS expected request active
+MW-022 PASS initial never creates Threads or reports lived threads
+MW-022 PASS opening accepted
+MW-022 PASS no opening curation
+MW-022 PASS old v0.2 record stored
+MW-022 PASS old ID validated without injecting new fields
+MW-022 PASS v0.2 rejects injected fields instead of changing old ID rules
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS one existing lived call 询问消息
+MW-022 PASS expected request active
+MW-022 PASS replacement plus Debug changed
+MW-022 PASS v0.2 bytes/shape remain unchanged
+MW-022 PASS v0.3 chains to exact v0.2 parent
+MW-022 PASS v0.3 exact normalized payload and dependency ID
+MW-022 PASS v0.3 result tampering rejected
+MW-022 PASS People receipt dependency does not suppress valid Threads
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS one existing lived call 沿河散步
+MW-022 PASS expected request active
+MW-022 PASS null keeps and Debug no-change
+MW-022 PASS same call receives current safe threads
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS one existing lived call 得知新消息
+MW-022 PASS expected request active
+MW-022 PASS complete replacement
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS one existing lived call 消息已经清楚
+MW-022 PASS expected request active
+MW-022 PASS empty array clears
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS one existing lived call 再次讨论
+MW-022 PASS expected request active
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS one existing lived call 旧协议回复
+MW-022 PASS expected request active
+MW-022 PASS old response missing field means keep
+MW-022 PASS existing domains preserved
+MW-022 PASS input excludes SECRET_PROFILE
+MW-022 PASS input excludes PRIVATE_PLAN
+MW-022 PASS input excludes HIDDEN_EVOLUTION
+MW-022 PASS input excludes npc-a
+MW-022 PASS input excludes identity_receipt_id
+MW-022 PASS safe projection exact allowlist
+MW-022 PASS projection detached
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS one existing lived call malformed
+MW-022 PASS expected request active
+MW-022 PASS failure preserves accepted Narrative and Threads malformed
+MW-022 PASS Debug abnormal malformed
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS one existing lived call failure
+MW-022 PASS failure preserves accepted Narrative and Threads failure
+MW-022 PASS Debug abnormal failure
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS one existing lived call cancelled
+MW-022 PASS failure preserves accepted Narrative and Threads cancelled
+MW-022 PASS Debug abnormal cancelled
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS one existing lived call timeout
+MW-022 PASS failure preserves accepted Narrative and Threads timeout
+MW-022 PASS Debug abnormal timeout
+MW-022 PASS OOC accepted
+MW-022 PASS OOC zero lived opportunity
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS one existing lived call 待替换行动
+MW-022 PASS replacement accepted
+MW-022 PASS expected request active
+MW-022 PASS stale accepted-prefix callback rejected
+MW-022 PASS Debug stale lane
+MW-022 PASS Restore before
+MW-022 PASS Restore clears old epoch and displaced future
+MW-022 PASS Restore after
+MW-022 PASS restored exact current snapshot
+MW-022 PASS Debug has no content
+MW-022 PASS reopen
+MW-022 PASS reopen preserves snapshot
+[shell] application=game_active session=ready
+MW-022 PASS reopen no historical backfill/no extra curation
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS production Shell Debug receives Threads change
+MW-022 PASS Threads tab visible/readable (960, 540)
+MW-022 PASS effective font and no horizontal overflow
+MW-022 PASS effective font and no horizontal overflow
+MW-022 PASS composer usable
+MW-022 PASS Threads tab visible/readable (1280, 720)
+MW-022 PASS effective font and no horizontal overflow
+MW-022 PASS effective font and no horizontal overflow
+MW-022 PASS composer usable
+MW-022 PASS Threads tab visible/readable (1920, 1080)
+MW-022 PASS effective font and no horizontal overflow
+MW-022 PASS effective font and no horizontal overflow
+MW-022 PASS composer usable
+MW-022 PASS tabs/render zero calls and durable mutation
+MW-022 PASS Debug readable rows
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS same single Curator opportunity updates UI
+MW-022 PASS 12 bounded threads use existing vertical scroll
+MW-022 PASS last thread reachable with composer intact
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS same single Curator opportunity updates UI
+MW-022 PASS model clear renders production tab empty state
+MW-022 PASS clear empty state
+[shell] session=absent close_status=ready
+MW027 checks=152 failures=0

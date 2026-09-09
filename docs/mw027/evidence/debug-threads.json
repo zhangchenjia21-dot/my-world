@@ -1,0 +1,122 @@
+[
+	{
+		"change": "unknown",
+		"change_label": "变化未知",
+		"code": "stale",
+		"counts": {
+			"total": 0
+		},
+		"elapsed_ms": 43,
+		"lane": "recommendations",
+		"lane_label": "推荐行动",
+		"reason": "当前回合已被替换，旧结果已丢弃",
+		"terminal": "stale",
+		"terminal_label": "已过期",
+		"turn": 1
+	},
+	{
+		"change": "unknown",
+		"change_label": "变化未知",
+		"code": "accepted",
+		"counts": {},
+		"elapsed_ms": -1,
+		"lane": "narrative",
+		"lane_label": "叙事",
+		"reason": "",
+		"terminal": "accepted",
+		"terminal_label": "已接受",
+		"turn": 2
+	},
+	{
+		"change": "no-change",
+		"change_label": "无变化",
+		"code": "committed",
+		"counts": {
+			"changes": 0,
+			"knowledge": 0
+		},
+		"elapsed_ms": -1,
+		"lane": "world",
+		"lane_label": "世界语义",
+		"reason": "",
+		"terminal": "committed",
+		"terminal_label": "已提交",
+		"turn": 2
+	},
+	{
+		"change": "no-change",
+		"change_label": "无变化",
+		"code": "committed",
+		"counts": {
+			"actors": 0,
+			"bindings": 0
+		},
+		"elapsed_ms": -1,
+		"lane": "identity",
+		"lane_label": "人物身份",
+		"reason": "",
+		"terminal": "committed",
+		"terminal_label": "已提交",
+		"turn": 2
+	},
+	{
+		"change": "no-change",
+		"change_label": "无变化",
+		"code": "committed",
+		"counts": {},
+		"elapsed_ms": -1,
+		"lane": "character",
+		"lane_label": "角色",
+		"reason": "",
+		"terminal": "committed",
+		"terminal_label": "已提交",
+		"turn": 2
+	},
+	{
+		"change": "no-change",
+		"change_label": "无变化",
+		"code": "committed",
+		"counts": {
+			"added": 0,
+			"removed": 0,
+			"total": 0
+		},
+		"elapsed_ms": -1,
+		"lane": "experiences",
+		"lane_label": "重要经历",
+		"reason": "",
+		"terminal": "committed",
+		"terminal_label": "已提交",
+		"turn": 2
+	},
+	{
+		"change": "no-change",
+		"change_label": "无变化",
+		"code": "committed",
+		"counts": {
+			"total": 0
+		},
+		"elapsed_ms": -1,
+		"lane": "people",
+		"lane_label": "人物卡",
+		"reason": "",
+		"terminal": "committed",
+		"terminal_label": "已提交",
+		"turn": 2
+	},
+	{
+		"change": "changed",
+		"change_label": "有变化",
+		"code": "committed",
+		"counts": {
+			"total": 1
+		},
+		"elapsed_ms": -1,
+		"lane": "threads",
+		"lane_label": "事务",
+		"reason": "",
+		"terminal": "committed",
+		"terminal_label": "已提交",
+		"turn": 2
+	}
+]

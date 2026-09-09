@@ -1,0 +1,149 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-022 PASS isolated SQLite
+MW-022 PASS private fixture
+MW-022 PASS empty opportunity diagnostic without call
+MW-022 PASS expected request active
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS accepted Narrative arrives before background
+MW-022 PASS existing asynchronous lane ordering
+MW-022 PASS expected request active
+MW-022 PASS World and Identity legitimate no-change
+MW-022 PASS Curator still pending, no fake completion
+MW-022 PASS expected request active
+MW-022 PASS safe no-change character
+MW-022 PASS safe no-change experiences
+MW-022 PASS safe no-change people
+MW-022 PASS expected request active
+MW-022 PASS seven genuine lane results aggregate
+MW-022 PASS observation adds zero calls
+MW-022 PASS snapshot detached and read-only
+MW-022 PASS real Save result
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS World structural positive
+MW-022 PASS same transaction new actor and binding counts
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS safe positive character
+MW-022 PASS safe positive experiences
+MW-022 PASS safe positive people
+MW-022 PASS safe counts
+MW-022 PASS projection excludes SECRET_PROFILE
+MW-022 PASS projection excludes PRIVATE_PLAN
+MW-022 PASS projection excludes HIDDEN_EVOLUTION
+MW-022 PASS projection excludes HIDDEN_WORLD_CANARY
+MW-022 PASS projection excludes PRIVATE_PROFILE_CANARY
+MW-022 PASS projection excludes SECRET_KEY
+MW-022 PASS projection excludes Authorization
+MW-022 PASS projection excludes SOURCE_CURRENT
+MW-022 PASS projection excludes npc-a
+MW-022 PASS projection excludes actor_ref
+MW-022 PASS projection excludes prefix
+MW-022 PASS projection excludes epoch
+MW-022 PASS projection excludes raw
+MW-022 PASS projection excludes 船工
+MW-022 PASS projection excludes 沈青
+MW-022 PASS projection excludes C:/PRIVATE
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS failure distinct from no-change
+MW-022 PASS shared Curator failure character
+MW-022 PASS shared Curator failure experiences
+MW-022 PASS shared Curator failure people
+MW-022 PASS strict fence rejection, diagnostic-only reason
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS distinct recommendation provider_failure
+MW-022 PASS fail-soft no durable write provider_failure
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS distinct recommendation cancelled
+MW-022 PASS fail-soft no durable write cancelled
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS distinct recommendation timeout
+MW-022 PASS fail-soft no durable write timeout
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS distinct recommendation sync
+MW-022 PASS fail-soft no durable write sync
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS distinct recommendation response_oversized
+MW-022 PASS fail-soft no durable write response_oversized
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS distinct recommendation stale
+MW-022 PASS fail-soft no durable write stale
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS real Restore
+MW-022 PASS Restore clears old epoch synchronously
+MW-022 PASS late World/Curator/recommendation diagnostics cannot cross Restore
+MW-022 PASS expected request active
+MW-022 PASS new epoch valid request works
+MW-022 PASS same accepted history Restore
+MW-022 PASS identical text does not bypass epoch boundary
+MW-022 PASS expected request active
+MW-022 PASS accepted Regenerate
+MW-022 PASS old accepted-version rows pruned
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS old world callback cannot overwrite replacement
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS same epoch accepted replacement
+MW-022 PASS replacement prunes displaced rows immediately
+MW-022 PASS expected request active
+MW-022 PASS real stale Curator terminal remains stale, never new-version success
+MW-022 PASS same epoch old World prefix rejected
+MW-022 PASS expected request active
+MW-022 PASS old diagnostic callbacks cannot complete current replacement
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS replacement real terminals publish
+MW-022 PASS historical terminal absent counts remain unknown
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS oversized latest input no call / unavailable
+MW-022 PASS Narrative cancellation
+MW-022 PASS unknown Narrative failure code sanitized
+MW-022 PASS already-current does not claim cleared epoch
+MW-022 PASS 64 bound; synthetic failure observation is read-only
+MW-022 PASS safe human-readable operation failure
+MW-022 PASS projection excludes SECRET_PROFILE
+MW-022 PASS projection excludes PRIVATE_PLAN
+MW-022 PASS projection excludes HIDDEN_EVOLUTION
+MW-022 PASS projection excludes HIDDEN_WORLD_CANARY
+MW-022 PASS projection excludes PRIVATE_PROFILE_CANARY
+MW-022 PASS projection excludes SECRET_KEY
+MW-022 PASS projection excludes Authorization
+MW-022 PASS projection excludes SOURCE_CURRENT
+MW-022 PASS projection excludes npc-a
+MW-022 PASS projection excludes actor_ref
+MW-022 PASS projection excludes prefix
+MW-022 PASS projection excludes epoch
+MW-022 PASS projection excludes raw
+MW-022 PASS projection excludes 船工
+MW-022 PASS projection excludes 沈青
+MW-022 PASS projection excludes C:/PRIVATE
+MW-022 PASS close discards entire buffer
+MW-022 FOCUSED checks=146 failures=0
