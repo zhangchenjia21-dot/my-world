@@ -12,6 +12,7 @@ var _records := Recorder.new()
 var _epoch := 0
 var _closed := false
 var _subscriptions: Array = []
+var _mechanics: Dictionary = {}
 var _curation: Dictionary = {}
 var _recommendations: Dictionary = {}
 
@@ -148,6 +149,7 @@ func _recommendation_terminal(result: Dictionary) -> void:
 func _restored(_result: Dictionary) -> void:
 	_epoch += 1
 	_records.clear()
+	_mechanics.clear()
 	_curation.clear()
 	_recommendations.clear()
 	_put(_token(-1), "restore", "restored", "unknown", "restored")
@@ -168,9 +170,38 @@ func shutdown() -> void:
 		if subscription[0].is_connected(subscription[1]): subscription[0].disconnect(subscription[1])
 	_subscriptions.clear()
 	_records.clear()
+	_mechanics.clear()
 	_curation.clear()
 	_recommendations.clear()
 	_runtime = null
 
 func _exit_tree() -> void:
 	shutdown()
+
+## 绑定本 activation 的既有判定终态；start 只冻结历史/epoch，不发请求或改变机制。
+func observe_mechanics(adjudication: Node) -> void:
+	_listen(adjudication.action_started, _mechanics_started)
+	_listen(adjudication.finished, _mechanics_terminal)
+
+func _mechanics_started() -> void:
+	_mechanics = _token(_entries().size() - 1)
+
+func _mechanics_terminal(result: Dictionary) -> void:
+	if _mechanics.is_empty(): return
+	var pending := _mechanics.duplicate()
+	_mechanics.clear()
+	if not _current(pending): return
+	if not bool(result.get("success", false)):
+		var code := String(result.get("code", ""))
+		_put(_token(-1), "mechanics", "cancelled" if code == "cancelled" else "failed", "unknown", code)
+		return
+	var status := String(result.get("status", ""))
+	if status not in ["accepted", "already_accepted"]: return
+	var has_check: bool = not result.get("check", {}).is_empty()
+	var has_no_check: bool = not result.get("resolution", {}).is_empty()
+	var index := _entries().size() - 1
+	if has_check: index = int(result.check.get("accepted_turn_index", index))
+	elif has_no_check: index = int(result.resolution.get("accepted_turn_index", index))
+	var replay := status == "already_accepted"
+	var code := "already_accepted" if replay else ("check_accepted" if has_check else ("no_check_accepted" if has_no_check else "degraded"))
+	_put(_token(index), "mechanics", "committed", "no-change" if replay or not (has_check or has_no_check) else "changed", code, {"checks":int(has_check), "no_checks":int(has_no_check)})

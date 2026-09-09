@@ -32,7 +32,7 @@ func render(rows: Array) -> void:
 		var location := "回合 %d" % (int(row.turn) + 1) if int(row.turn) >= 0 else "本次会话"
 		var text := "%s · %s：%s" % [location, row.lane_label, row.terminal_label]
 		if row.change != "unknown": text += " · " + String(row.change_label)
-		var labels := {"changes": "世界变化", "knowledge": "认知事件", "actors": "新人物", "bindings": "身份绑定", "added": "新增", "removed": "减少", "updated": "更新", "total": "当前条目"}
+		var labels := {"changes": "世界变化", "knowledge": "认知事件", "actors": "新人物", "bindings": "身份绑定", "added": "新增", "removed": "减少", "updated": "更新", "total": "当前条目", "checks": "检定", "no_checks": "免检"}
 		for key: String in row.counts: text += " · %s %d" % [labels[key], row.counts[key]]
 		if row.elapsed_ms >= 0: text += " · %.1fs" % (float(row.elapsed_ms) / 1000.0)
 		if not String(row.reason).is_empty(): text += " · " + String(row.reason)

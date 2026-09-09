@@ -11,6 +11,8 @@ const ProviderAdapter := preload("res://src/provider/L3_外交层/运行时模�
 
 signal request_assembled(stage, messages)
 signal finished(result)
+## 只读观测的 attempt 边界，包含不发 Provider 的 durable replay。
+signal action_started
 
 var session_runtime: Variant
 var provider_adapter: Node
@@ -63,6 +65,7 @@ func start_action(action_id: String, player_text: String) -> Dictionary:
 	_action_id = action_id
 	_player_text = player_text
 	_reset_action_state()
+	action_started.emit()
 	var existing := _find_check(action_id)
 	var existing_no_check := _find_no_check_action(action_id)
 	if existing.success and existing_no_check.success:

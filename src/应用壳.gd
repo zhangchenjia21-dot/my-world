@@ -34,6 +34,8 @@ const RPGViewModel := preload("res://src/rpg视图模型/L3_外交层/RPG主机�
 const CharacterExperiencesProjection := preload("res://src/信息整理/L3_外交层/角色经历投影公开接口.gd")
 
 const ThreadsProjection := preload("res://src/信息整理/L3_外交层/事务投影公开接口.gd")
+const SystemProjection := preload("res://src/行动判定/L3_外交层/公开机制历史公开接口.gd")
+const SystemView := preload("res://src/ui/系统判定列表.gd")
 const ThreadsView := preload("res://src/ui/事务列表.gd")
 const PeopleProjection := preload("res://src/信息整理/L3_外交层/人物投影公开接口.gd")
 const PeopleCard := preload("res://src/ui/人物卡片.gd")
@@ -80,6 +82,7 @@ const GAME_LOCAL_SETUP_SCHEMA := "game_local_setup.v0.1"
 @onready var overview_tab: Button = %OverviewTab
 @onready var character_tab: Button = %CharacterTab
 @onready var experiences_tab: Button = %ExperiencesTab
+@onready var system_tab: Button = %SystemTab
 @onready var threads_tab: Button = %ThreadsTab
 @onready var people_tab: Button = %PeopleTab
 @onready var save_tab: Button = %SaveTab
@@ -147,13 +150,14 @@ var _world_panel_body: VBoxContainer = null
 ## MW-015：右侧 Character / Important Experiences 表面的动态内容容器（挂在 WorldSurfaceColumn 滚动区）。
 var _character_panel_body: VBoxContainer = null
 var _experiences_panel_body: VBoxContainer = null
+var _system_panel_body: VBoxContainer = null
 var _threads_panel_body: VBoxContainer = null
 var _people_panel_body: VBoxContainer = null
 ## MW-015：左 Player Status Host 是否存在真实 portrait/mechanics 内容。v0.1 过渡 biography
 ## 已迁出且无真实 consumer → 恒 false，Host collapse/hide；未来真实 consumer 置 true。
 var _player_status_has_content := false
 var _player_safe_projection: RefCounted = null
-## MW-015：World Surface 当前子表面（overview | character | experiences | people | threads | save）；非通用导航框架。
+## MW-015：World Surface 当前子表面（overview | character | experiences | people | threads | system | save）；非通用导航框架。
 var _world_surface_mode := "overview"
 ## MW-011：RPG ViewModel 外交接口实例（presentation-only）。
 var _rpg_view_model: RefCounted = null
@@ -229,6 +233,7 @@ func _ready() -> void:
 	experiences_tab.toggled.connect(_on_experiences_tab_toggled)
 	people_tab.toggled.connect(_on_people_tab_toggled)
 	threads_tab.toggled.connect(_on_threads_tab_toggled)
+	system_tab.toggled.connect(_on_system_tab_toggled)
 	save_tab.toggled.connect(_on_save_tab_toggled)
 	_update_responsive_layout()
 	if session_runtime != null:
@@ -1058,6 +1063,8 @@ func _prepare_action_adjudication_after_activation() -> void:
 		# MW-002 R2 F01：Public-d20 foreground 在 control request 启动时即开始（早于
 		# Conversation.attempt_started）；request_assembled 是首个已有 start observability。
 		action_adjudication.request_assembled.connect(_on_adjudication_request_assembled)
+		action_adjudication.finished.connect(_on_mechanics_finished)
+		debug_observer.observe_mechanics(action_adjudication)
 		narrative_view.bind_action_adjudication(action_adjudication)
 		return
 
@@ -1351,6 +1358,7 @@ func _refresh_player_safe_panels() -> void:
 	_render_experiences_surface()
 	_render_people_surface()
 	_render_threads_surface()
+	_render_system_surface()
 
 
 func _on_overview_tab_toggled(pressed: bool) -> void:
@@ -1378,6 +1386,12 @@ func _on_threads_tab_toggled(pressed: bool) -> void:
 		_select_world_surface_mode("threads")
 
 
+func _on_system_tab_toggled(pressed: bool) -> void:
+	if pressed:
+		_render_system_surface()
+		_select_world_surface_mode("system")
+
+
 func _on_save_tab_toggled(pressed: bool) -> void:
 	if pressed:
 		_select_world_surface_mode("save")
@@ -1392,6 +1406,7 @@ func _select_world_surface_mode(mode: String) -> void:
 	experiences_tab.set_pressed_no_signal(mode == "experiences")
 	people_tab.set_pressed_no_signal(mode == "people")
 	threads_tab.set_pressed_no_signal(mode == "threads")
+	system_tab.set_pressed_no_signal(mode == "system")
 	save_tab.set_pressed_no_signal(mode == "save")
 	_apply_world_surface_visibility()
 
@@ -1411,6 +1426,8 @@ func _apply_world_surface_visibility() -> void:
 		_people_panel_body.visible = show_surface and _world_surface_mode == "people"
 	if _threads_panel_body != null and is_instance_valid(_threads_panel_body):
 		_threads_panel_body.visible = show_surface and _world_surface_mode == "threads"
+	if _system_panel_body != null and is_instance_valid(_system_panel_body):
+		_system_panel_body.visible = show_surface and _world_surface_mode == "system"
 	save_surface.visible = session_active and _world_surface_mode == "save"
 	%SaveScroll.visible = save_surface.visible
 
@@ -1773,3 +1790,14 @@ func _position_debug_panel() -> void:
 	var width := minf(660, size.x * 0.68)
 	debug_panel.size = Vector2(width, 156)
 	debug_panel.position = Vector2(size.x - 24 - width, $Margin/Layout/TopBar.get_global_rect().end.y - global_position.y + 8)
+
+## Conversation accepted 早于检定 acceptance marker；必须在机制 finished 后刷新，避免晚一回合。
+func _on_mechanics_finished(_result: Dictionary) -> void:
+	_render_system_surface()
+
+func _render_system_surface() -> void:
+	_system_panel_body = _surface_body(_system_panel_body)
+	var view := SystemView.new()
+	_system_panel_body.add_child(view)
+	view.render(SystemProjection.project_session(session_runtime))
+	_apply_world_surface_visibility()
