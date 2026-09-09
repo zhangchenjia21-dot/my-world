@@ -1,0 +1,382 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-022 PASS exact thirteen allowed fields
+MW-022 PASS JSON round-trip integer semantics
+MW-022 PASS projection excludes private/internal canaries
+MW-022 PASS detached mutable array
+MW-022 PASS GM context exact old fields/values
+MW-022 PASS OOC absent
+MW-022 PASS replaced accepted action absent
+MW-022 PASS unaccepted absent
+MW-022 PASS conflicting CHECK/NO_CHECK fails soft
+MW-022 PASS quiet durable truth is context only
+MW-022 PASS isolated real SQLite
+MW-022 PASS fixture setup
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+[shell] application=game_active session=ready
+MW-022 PASS production empty state
+MW-022 PASS Debug defaults OFF
+MW-022 PASS expected request active
+MW-022 PASS Conversation completion really precedes acceptance marker
+MW-022 PASS terminal refresh shows new CHECK without tab/reopen/next turn
+MW-022 PASS exact Program advantage arithmetic
+MW-022 PASS wired real CHECK Debug
+MW-022 PASS inline dice card retained
+MW-022 PASS one existing control plus narrative, no projection calls/RNG
+MW-022 PASS real Debug panel shows accepted CHECK safe reason
+MW-022 PASS accepted replay no call/no change
+MW-022 PASS seven tabs in order
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS composer reachable/status host stays collapsed
+MW-022 PASS seven tabs in order
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS composer reachable/status host stays collapsed
+MW-022 PASS seven tabs in order
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS composer reachable/status host stays collapsed
+MW-022 PASS tabs/render zero Provider and durable mutation
+MW-022 PASS Restore before
+MW-022 PASS Restore removes displaced CHECK immediately
+MW-022 PASS Restore clears old diagnostic epoch
+MW-022 PASS Restore after
+MW-022 PASS Restore returns exact CHECK
+MW-022 PASS expected request active
+MW-022 PASS NO_CHECK true durable change
+MW-022 PASS NO_CHECK continuity but no player card
+MW-022 PASS degraded accepted has no invented mechanics
+MW-022 PASS safe Provider failure terminal
+MW-022 PASS cancelled terminal
+MW-022 PASS Debug excludes PRIVATE
+MW-022 PASS Debug excludes action_id
+MW-022 PASS Debug excludes check_id
+MW-022 PASS Debug excludes resolution_id
+MW-022 PASS Debug excludes 说服守卫
+MW-022 PASS Debug excludes success_intent
+MW-022 PASS Restore with pending diagnostic
+MW-022 PASS late terminal cannot cross Restore epoch
+MW-022 PASS return to after
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS 12+ accepted fixture checks
+MW-022 PASS System bounded twelve
+MW-022 PASS seven tabs in order
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS composer reachable/status host stays collapsed
+MW-022 PASS long history overflows vertically
+MW-022 PASS last card reachable
+MW-022 PASS seven tabs in order
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS composer reachable/status host stays collapsed
+MW-022 PASS long history overflows vertically
+MW-022 PASS last card reachable
+MW-022 PASS seven tabs in order
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS font>=20 and horizontal bounds
+MW-022 PASS composer reachable/status host stays collapsed
+MW-022 PASS long history overflows vertically
+MW-022 PASS last card reachable
+MW-022 PASS tabs/render zero Provider and durable mutation
+MW-022 PASS Debug ON renders safely
+[shell] session=absent close_status=ready
+MW-022 PASS reopen SQLite after releasing session lock
+MW-022 PASS reopen exact integer CHECK projection
+MW028 checks=377 failures=0

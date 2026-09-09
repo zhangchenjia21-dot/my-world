@@ -1,0 +1,149 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+Opened database successfully (./build/g3_05-base/migration-success.sqlite)
+Closed database (./build/g3_05-base/migration-success.sqlite)
+Opened database successfully (./build/g3_05-base/migration-success.sqlite)
+Closed database (./build/g3_05-base/migration-success.sqlite)
+G3-05 PASS | v3->v4 additive migration preserves current/Save/Timeline truth
+Opened database successfully (./build/g3_05-base/migration-failure.sqlite)
+Closed database (./build/g3_05-base/migration-failure.sqlite)
+ERROR:  --> SQL error: intentional v4 migration failure
+   at: execute_statement (src\gdsqlite.cpp:374)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:52)
+       [1] _ensure_schema (res://src/persistence/L2_流程层/世界持久化流程.gd:554)
+       [2] open (res://src/persistence/L2_流程层/世界持久化流程.gd:22)
+       [3] open_database (res://src/persistence/L3_外交层/世界持久化公开接口.gd:11)
+       [4] _test_v3_migration (res://tests/g3_05/恢复时间线持久化测试.gd:45)
+       [5] _initialize (res://tests/g3_05/恢复时间线持久化测试.gd:17)
+Opened database successfully (./build/g3_05-base/migration-failure.sqlite)
+Closed database (./build/g3_05-base/migration-failure.sqlite)
+G3-05 PASS | intentional v3->v4 failure leaves usable v3
+Opened database successfully (./build/g3_05-base/no-op.sqlite)
+Closed database (./build/g3_05-base/no-op.sqlite)
+G3-05 PASS | Load/Recover exact no-op and active-generation gate
+Opened database successfully (./build/g3_05-base/invalid-recovery-anchor.sqlite)
+Closed database (./build/g3_05-base/invalid-recovery-anchor.sqlite)
+Opened database successfully (./build/g3_05-base/invalid-recovery-conversation.sqlite)
+Closed database (./build/g3_05-base/invalid-recovery-conversation.sqlite)
+G3-05 PASS | missing/invalid Recovery target fails loud without fallback or mutation
+Opened database successfully (./build/g3_05-base/load-failure-recovery_insert.sqlite)
+Closed database (./build/g3_05-base/load-failure-recovery_insert.sqlite)
+ERROR:  --> SQL error: intentional recovery insert failure
+   at: execute_statement (src\gdsqlite.cpp:374)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:54)
+       [1] restore_save_point (res://src/persistence/L2_流程层/世界持久化流程.gd:267)
+       [2] restore_save_point (res://src/persistence/L3_外交层/世界持久化公开接口.gd:61)
+       [3] restore_save_point (res://src/runtime/当前游戏会话运行时.gd:235)
+       [4] _test_load_failure_rollback (res://tests/g3_05/恢复时间线持久化测试.gd:136)
+       [5] _initialize (res://tests/g3_05/恢复时间线持久化测试.gd:20)
+Opened database successfully (./build/g3_05-base/load-failure-world.sqlite)
+Closed database (./build/g3_05-base/load-failure-world.sqlite)
+ERROR:  --> SQL error: intentional world failure
+   at: execute_statement (src\gdsqlite.cpp:374)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:54)
+       [1] restore_save_point (res://src/persistence/L2_流程层/世界持久化流程.gd:269)
+       [2] restore_save_point (res://src/persistence/L3_外交层/世界持久化公开接口.gd:61)
+       [3] restore_save_point (res://src/runtime/当前游戏会话运行时.gd:235)
+       [4] _test_load_failure_rollback (res://tests/g3_05/恢复时间线持久化测试.gd:136)
+       [5] _initialize (res://tests/g3_05/恢复时间线持久化测试.gd:20)
+Opened database successfully (./build/g3_05-base/load-failure-head.sqlite)
+Closed database (./build/g3_05-base/load-failure-head.sqlite)
+ERROR:  --> SQL error: intentional head failure
+   at: execute_statement (src\gdsqlite.cpp:374)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:54)
+       [1] restore_save_point (res://src/persistence/L2_流程层/世界持久化流程.gd:271)
+       [2] restore_save_point (res://src/persistence/L3_外交层/世界持久化公开接口.gd:61)
+       [3] restore_save_point (res://src/runtime/当前游戏会话运行时.gd:235)
+       [4] _test_load_failure_rollback (res://tests/g3_05/恢复时间线持久化测试.gd:136)
+       [5] _initialize (res://tests/g3_05/恢复时间线持久化测试.gd:20)
+Opened database successfully (./build/g3_05-base/load-failure-conversation.sqlite)
+Closed database (./build/g3_05-base/load-failure-conversation.sqlite)
+ERROR:  --> SQL error: intentional conversation failure
+   at: execute_statement (src\gdsqlite.cpp:374)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:54)
+       [1] restore_save_point (res://src/persistence/L2_流程层/世界持久化流程.gd:273)
+       [2] restore_save_point (res://src/persistence/L3_外交层/世界持久化公开接口.gd:61)
+       [3] restore_save_point (res://src/runtime/当前游戏会话运行时.gd:235)
+       [4] _test_load_failure_rollback (res://tests/g3_05/恢复时间线持久化测试.gd:136)
+       [5] _initialize (res://tests/g3_05/恢复时间线持久化测试.gd:20)
+Opened database successfully (./build/g3_05-base/load-failure-commit.sqlite)
+Closed database (./build/g3_05-base/load-failure-commit.sqlite)
+ERROR:  --> SQL error: FOREIGN KEY constraint failed
+   at: execute_statement (src\gdsqlite.cpp:374)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:52)
+       [1] commit (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:98)
+       [2] restore_save_point (res://src/persistence/L2_流程层/世界持久化流程.gd:275)
+       [3] restore_save_point (res://src/persistence/L3_外交层/世界持久化公开接口.gd:61)
+       [4] restore_save_point (res://src/runtime/当前游戏会话运行时.gd:235)
+       [5] _test_load_failure_rollback (res://tests/g3_05/恢复时间线持久化测试.gd:136)
+       [6] _initialize (res://tests/g3_05/恢复时间线持久化测试.gd:20)
+G3-05 PASS | INSERT/World/head/Conversation/COMMIT failures rollback switch + Recovery
+Opened database successfully (./build/g3_05-base/recover-failure-recovery_insert.sqlite)
+Closed database (./build/g3_05-base/recover-failure-recovery_insert.sqlite)
+ERROR:  --> SQL error: intentional recovery insert failure
+   at: execute_statement (src\gdsqlite.cpp:374)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:54)
+       [1] recover_previous_progress (res://src/persistence/L2_流程层/世界持久化流程.gd:359)
+       [2] recover_previous_progress (res://src/persistence/L3_外交层/世界持久化公开接口.gd:72)
+       [3] recover_previous_progress (res://src/runtime/当前游戏会话运行时.gd:276)
+       [4] _test_recover_failure_rollback (res://tests/g3_05/恢复时间线持久化测试.gd:158)
+       [5] _initialize (res://tests/g3_05/恢复时间线持久化测试.gd:21)
+Opened database successfully (./build/g3_05-base/recover-failure-world.sqlite)
+Closed database (./build/g3_05-base/recover-failure-world.sqlite)
+ERROR:  --> SQL error: intentional world failure
+   at: execute_statement (src\gdsqlite.cpp:374)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:54)
+       [1] recover_previous_progress (res://src/persistence/L2_流程层/世界持久化流程.gd:361)
+       [2] recover_previous_progress (res://src/persistence/L3_外交层/世界持久化公开接口.gd:72)
+       [3] recover_previous_progress (res://src/runtime/当前游戏会话运行时.gd:276)
+       [4] _test_recover_failure_rollback (res://tests/g3_05/恢复时间线持久化测试.gd:158)
+       [5] _initialize (res://tests/g3_05/恢复时间线持久化测试.gd:21)
+Opened database successfully (./build/g3_05-base/recover-failure-head.sqlite)
+Closed database (./build/g3_05-base/recover-failure-head.sqlite)
+ERROR:  --> SQL error: intentional head failure
+   at: execute_statement (src\gdsqlite.cpp:374)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:54)
+       [1] recover_previous_progress (res://src/persistence/L2_流程层/世界持久化流程.gd:363)
+       [2] recover_previous_progress (res://src/persistence/L3_外交层/世界持久化公开接口.gd:72)
+       [3] recover_previous_progress (res://src/runtime/当前游戏会话运行时.gd:276)
+       [4] _test_recover_failure_rollback (res://tests/g3_05/恢复时间线持久化测试.gd:158)
+       [5] _initialize (res://tests/g3_05/恢复时间线持久化测试.gd:21)
+Opened database successfully (./build/g3_05-base/recover-failure-conversation.sqlite)
+Closed database (./build/g3_05-base/recover-failure-conversation.sqlite)
+ERROR:  --> SQL error: intentional conversation failure
+   at: execute_statement (src\gdsqlite.cpp:374)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:54)
+       [1] recover_previous_progress (res://src/persistence/L2_流程层/世界持久化流程.gd:365)
+       [2] recover_previous_progress (res://src/persistence/L3_外交层/世界持久化公开接口.gd:72)
+       [3] recover_previous_progress (res://src/runtime/当前游戏会话运行时.gd:276)
+       [4] _test_recover_failure_rollback (res://tests/g3_05/恢复时间线持久化测试.gd:158)
+       [5] _initialize (res://tests/g3_05/恢复时间线持久化测试.gd:21)
+Opened database successfully (./build/g3_05-base/recover-failure-commit.sqlite)
+Closed database (./build/g3_05-base/recover-failure-commit.sqlite)
+ERROR:  --> SQL error: FOREIGN KEY constraint failed
+   at: execute_statement (src\gdsqlite.cpp:374)
+   GDScript backtrace (most recent call first):
+       [0] execute (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:52)
+       [1] commit (res://src/persistence/L1_器件层/SQLite数据库连接器.gd:98)
+       [2] recover_previous_progress (res://src/persistence/L2_流程层/世界持久化流程.gd:367)
+       [3] recover_previous_progress (res://src/persistence/L3_外交层/世界持久化公开接口.gd:72)
+       [4] recover_previous_progress (res://src/runtime/当前游戏会话运行时.gd:276)
+       [5] _test_recover_failure_rollback (res://tests/g3_05/恢复时间线持久化测试.gd:158)
+       [6] _initialize (res://tests/g3_05/恢复时间线持久化测试.gd:21)
+G3-05 PASS | reciprocal INSERT/World/head/Conversation/COMMIT failures rollback switch + latest
+ERROR: G3-05 PERSISTENCE FAIL | raw World/Prompt truth leaked into Context
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] _fail (res://tests/g3_05/恢复时间线持久化测试.gd:359)
+       [1] _test_reciprocal_branch_context_and_order (res://tests/g3_05/恢复时间线持久化测试.gd:208)
+       [2] _initialize (res://tests/g3_05/恢复时间线持久化测试.gd:22)

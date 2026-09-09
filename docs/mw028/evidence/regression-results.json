@@ -1,0 +1,338 @@
+[
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw027\\mw028-155748-f",
+    "name": "mw027",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw027.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw026-focused\\mw028-155748-f",
+    "name": "mw026-focused",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw026-focused.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw025-focused\\mw028-155748-f",
+    "name": "mw025-focused",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw025-focused.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw024-contract\\mw028-155748-f",
+    "name": "mw024-contract",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw024-contract.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw024-vertical\\mw028-155748-f",
+    "name": "mw024-vertical",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw024-vertical.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\g2_03\\mw028-155748-f",
+    "name": "g2_03",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\g2_03.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\g2_04\\mw028-155748-f",
+    "name": "g2_04",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\g2_04.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\g2_05\\mw028-155748-f",
+    "name": "g2_05",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\g2_05.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\g3_03-contract\\mw028-155748-f",
+    "name": "g3_03-contract",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\g3_03-contract.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\g3_03-persistence\\mw028-155748-f",
+    "name": "g3_03-persistence",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\g3_03-persistence.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\g3_04-contract\\mw028-155748-f",
+    "name": "g3_04-contract",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\g3_04-contract.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\g3_04-persistence\\mw028-155748-f",
+    "name": "g3_04-persistence",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\g3_04-persistence.log"
+  },
+  {
+    "errors": 1,
+    "exit_code": 1,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\g3_05-persistence\\mw028-155748-f",
+    "name": "g3_05-persistence",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\g3_05-persistence.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\g4_08m1\\mw028-155748-f",
+    "name": "g4_08m1",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\g4_08m1.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\g4_08m1-no-check\\mw028-155748-f",
+    "name": "g4_08m1-no-check",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\g4_08m1-no-check.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\g4_08b\\mw028-155748-f",
+    "name": "g4_08b",
+    "exit_warnings": 2,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\g4_08b.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\g5_01\\mw028-155748-f",
+    "name": "g5_01",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\g5_01.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\g5_02\\mw028-155748-f",
+    "name": "g5_02",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\g5_02.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\g5_03\\mw028-155748-f",
+    "name": "g5_03",
+    "exit_warnings": 2,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\g5_03.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\g5_03m2b\\mw028-155748-f",
+    "name": "g5_03m2b",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\g5_03m2b.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\g5_04\\mw028-155748-f",
+    "name": "g5_04",
+    "exit_warnings": 2,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\g5_04.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw023\\mw028-155748-f",
+    "name": "mw023",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw023.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw003\\mw028-155748-f",
+    "name": "mw003",
+    "exit_warnings": 2,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw003.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw011\\mw028-155748-f",
+    "name": "mw011",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw011.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw022\\mw028-155748-f",
+    "name": "mw022",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw022.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw022-ui\\mw028-155748-f",
+    "name": "mw022-ui",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw022-ui.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\g5_01-timeline\\mw028-155748-f",
+    "name": "g5_01-timeline",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\g5_01-timeline.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw017\\mw028-155748-f",
+    "name": "mw017",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw017.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw014\\mw028-155748-f",
+    "name": "mw014",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw014.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw015r2\\mw028-155748-f",
+    "name": "mw015r2",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw015r2.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw015r2-ui\\mw028-155748-f",
+    "name": "mw015r2-ui",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw015r2-ui.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw015\\mw028-155748-f",
+    "name": "mw015",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw015.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw015r1\\mw028-155748-f",
+    "name": "mw015r1",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw015r1.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw018\\mw028-155748-f",
+    "name": "mw018",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw018.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw018r1\\mw028-155748-f",
+    "name": "mw018r1",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw018r1.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw019-lifecycle\\mw028-155748-f",
+    "name": "mw019-lifecycle",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw019-lifecycle.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw019-pairs\\mw028-155748-f",
+    "name": "mw019-pairs",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw019-pairs.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw019-routes\\mw028-155748-f",
+    "name": "mw019-routes",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw019-routes.log"
+  },
+  {
+    "errors": 1,
+    "exit_code": 1,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\g3_03\\mw028-155748-f",
+    "name": "g3_03",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\g3_03.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\g3_04\\mw028-155748-f",
+    "name": "g3_04",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\g3_04.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\g3_05\\mw028-155748-f",
+    "name": "g3_05",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\g3_05.log"
+  },
+  {
+    "errors": 0,
+    "exit_code": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw021\\mw028-155748-f",
+    "name": "mw021",
+    "exit_warnings": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-028-system-public-d20\\build\\mw028\\mw028-155748\\mw021.log"
+  }
+]

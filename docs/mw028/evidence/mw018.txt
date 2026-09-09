@@ -1,0 +1,154 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-018 PASS isolated real SQLite
+MW-018 PASS task-owned same-name actors
+MW-018 PASS expected request active
+MW-018 PASS initial request People-free
+MW-018 PASS opening accepted
+MW-018 PASS opening no People processing
+MW-018 PASS legacy record committed unchanged
+MW-018 PASS begin player turn
+MW-018 PASS durable accepted Narrative
+MW-018 PASS same-turn semantic barrier
+MW-018 PASS expected request active
+MW-018 PASS same existing curator receives two bound people
+MW-018 PASS only quote/span/request ref before first card
+MW-018 PASS only quote/span/request ref before first card
+MW-018 PASS curator input excludes npc-a
+MW-018 PASS curator input excludes npc-b
+MW-018 PASS curator input excludes npc-c
+MW-018 PASS curator input excludes SECRET_PROFILE
+MW-018 PASS curator input excludes PRIVATE_PLAN
+MW-018 PASS curator input excludes HIDDEN_EVOLUTION
+MW-018 PASS curator input excludes stable_npcs
+MW-018 PASS curator input excludes identity_receipt_id
+MW-018 PASS expected request active
+MW-018 PASS one World plus one lived curator, no third call
+MW-018 PASS same-name actors remain two distinct cards
+MW-018 PASS mixed old/new parent chain preserves historical ID
+MW-018 PASS new record parents exact old ID
+MW-018 PASS record binds exact receipt
+MW-018 PASS Character/Experiences remain unchanged
+MW-018 PASS hidden mutations accepted
+MW-018 PASS private actor/Agency/Evolution changes inert
+MW-018 PASS begin player turn
+MW-018 PASS durable accepted Narrative
+MW-018 PASS expected request active
+MW-018 PASS only involved actor previous safe snapshot sent
+MW-018 PASS uninvolved card not sent wholesale
+MW-018 PASS expected request active
+MW-018 PASS full replacement; update keeps first-appearance order and untouched card
+[shell] application=game_active session=ready
+MW-018 PASS five-tab navigation actually visible
+MW-018 PASS exact seven-tab navigation
+MW-018 PASS real card panels
+MW-018 PASS every card starts collapsed
+MW-018 PASS every card starts collapsed
+MW-018 PASS relationship hidden while collapsed
+MW-018 PASS expand only selected card
+MW-018 PASS expanded known relationship visible
+MW-018 PASS rebuild collapses all cards
+MW-018 PASS cards no horizontal overflow (1600, 900)
+MW-018 PASS cards no horizontal overflow (1280, 720)
+MW-018 PASS expanded cards scroll (1280, 720)
+MW-018 PASS cards no horizontal overflow (960, 540)
+MW-018 PASS expanded cards scroll (960, 540)
+MW-018 PASS render/toggle/resize zero Provider calls
+MW-018 PASS provisional regeneration retains accepted truth
+MW-018 PASS replacement accepted durably
+MW-018 PASS accepted replacement reverts before curator completes
+MW-018 PASS Shell immediately removes stale text
+MW-018 PASS Restore v2
+MW-018 PASS Restore v2 snapshot
+MW-018 PASS Restore v1
+MW-018 PASS Restore between versions returns v1
+MW-018 PASS Restore before creation
+MW-018 PASS Restore before creation has no future card recovery
+MW-018 PASS Restore for reopen
+ERROR: Parameter "obj" is null.
+   at: is_connected (core/variant/callable.cpp:558)
+   GDScript backtrace (most recent call first):
+       [0] shutdown (res://src/调试观测/L3_外交层/会话调试观测公开接口.gd:170)
+       [1] _exit_tree (res://src/调试观测/L3_外交层/会话调试观测公开接口.gd:179)
+ERROR: Parameter "obj" is null.
+   at: is_connected (core/variant/callable.cpp:558)
+   GDScript backtrace (most recent call first):
+       [0] shutdown (res://src/调试观测/L3_外交层/会话调试观测公开接口.gd:170)
+       [1] _exit_tree (res://src/调试观测/L3_外交层/会话调试观测公开接口.gd:179)
+ERROR: Parameter "obj" is null.
+   at: is_connected (core/variant/callable.cpp:558)
+   GDScript backtrace (most recent call first):
+       [0] shutdown (res://src/调试观测/L3_外交层/会话调试观测公开接口.gd:170)
+       [1] _exit_tree (res://src/调试观测/L3_外交层/会话调试观测公开接口.gd:179)
+MW-018 PASS reopen current game
+MW-018 PASS reopen equivalent cards
+MW-018 PASS reopen zero calls/no historical backfill
+MW-018 PASS begin player turn
+MW-018 PASS durable accepted Narrative
+MW-018 PASS semantic failure gives empty People evidence
+MW-018 PASS expected request active
+MW-018 PASS missing evidence does not clear or cross-write
+MW-018 PASS begin player turn
+MW-018 PASS durable accepted Narrative
+MW-018 PASS expected request active
+MW-018 PASS expected request active
+MW-018 PASS duplicate canonical updates all rejected
+MW-018 PASS invalid People does not corrupt valid Experiences
+MW-018 PASS begin player turn
+MW-018 PASS durable accepted Narrative
+MW-018 PASS expected request active
+MW-018 PASS expected request active
+MW-018 PASS tombstone only removes card, never NPC
+MW-018 PASS begin player turn
+MW-018 PASS durable accepted Narrative
+MW-018 PASS expected request active
+MW-018 PASS expected request active
+MW-018 PASS recreated card gets new first-appearance position
+MW-018 PASS begin player turn
+MW-018 PASS durable accepted Narrative
+MW-018 PASS expected request active
+MW-018 PASS new actor private material excluded
+MW-018 PASS expected request active
+MW-018 PASS same-turn minted actor card
+MW-018 PASS wrong receipt dependency cannot project new card
+MW-018 PASS inapplicable actor cannot remain current
+MW-018 PASS leaf exact five safe fields
+MW-018 PASS leaf exact five safe fields
+MW-018 PASS leaf exact five safe fields
+MW-018 PASS leaf excludes local_character_id
+MW-018 PASS leaf excludes actor_ref
+MW-018 PASS leaf excludes receipt
+MW-018 PASS leaf excludes prefix
+MW-018 PASS leaf excludes information_curation
+MW-018 PASS leaf excludes PRIVATE
+MW-018 PASS leaf excludes npc-a
+MW-018 PASS invalid People independent fail-soft
+MW-018 PASS invalid People independent fail-soft
+MW-018 PASS invalid People independent fail-soft
+MW-018 PASS invalid People independent fail-soft
+MW-018 PASS invalid People independent fail-soft
+MW-018 PASS invalid People independent fail-soft
+MW-018 PASS invalid People independent fail-soft
+MW-018 PASS invalid People independent fail-soft
+MW-018 PASS malformed entry does not discard valid peer
+MW-018 PASS stale request-scoped ref has no authority
+MW-018 PASS over-eight component remains no-op
+MW-018 PASS People does not weaken base validation
+MW-018 PASS new ID hashes accepted prefix
+MW-018 PASS new ID hashes parent
+MW-018 PASS new ID hashes receipt dependency
+MW-018 PASS new ID hashes full result
+MW-018 PASS field exact bound display_name
+MW-018 PASS field over bound display_name
+MW-018 PASS field exact bound headline
+MW-018 PASS field over bound headline
+MW-018 PASS field exact bound summary
+MW-018 PASS field over bound summary
+MW-018 PASS field exact bound relationship
+MW-018 PASS field over bound relationship
+MW-018 PASS details 8x600 accepted
+MW-018 PASS details ninth rejected
+MW-018 PASS optional unknown fields normalize to empty
+MW-018 PASS global malformed JSON fails whole call
+MW-018 PASS initial parser stays People-free
+MW-018 FOCUSED checks=135 failures=0

@@ -1,0 +1,191 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+G4-08B UI PASS | frozen v0.2 full-fidelity packages installed for G4-08B UI
+G4-08B UI PASS | Public d20 Expansion installed through Managed Library
+G4-08B UI PASS | task-only slot-conflict Expansion installed for Evidence B
+[shell] application=menu_ready session=absent
+G4-08B UI PASS | shell boots to Main Menu
+G4-08B UI PASS | A Wizard stores Expansion generations separately
+G4-08B UI PASS | A Expansion step does not auto-complete/auto-select
+G4-08B UI PASS | A Expansion chooser shows display name + version
+G4-08B UI PASS | A Expansion chooser shows catalog summary
+G4-08B UI PASS | A Expansion chooser never shows raw fingerprint
+G4-08B UI PASS | A selecting an Expansion completes the step
+G4-08B UI PASS | A forward after Expansion selection
+G4-08B UI PASS | A back/forward preserves exact Expansion selection
+G4-08B UI PASS | B rejected slot-conflict toggle reverts visually
+G4-08B UI PASS | B slot conflict shown in player language
+G4-08B UI PASS | B original selection survives rejected conflict
+G4-08B UI PASS | A Review shows exact selected Expansion name/version
+[shell] application=game_active session=ready
+G4-08B UI PASS | A Final Create receives frozen exact Expansion identity
+G4-08B UI PASS | A frozen payload pins exact generation fingerprint
+G4-08B UI PASS | A created Game materializes the Expansion
+G4-08B UI PASS | A d20 Game Opening accepted
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-08B UI PASS | shell boots to Main Menu
+G4-08B UI PASS | G Expansion step incomplete before explicit choice
+G4-08B UI PASS | G explicit none completes the step
+G4-08B UI PASS | G forward after explicit none
+G4-08B UI PASS | G back/forward preserves explicit none
+G4-08B UI PASS | G Review shows 拓展 / 无
+G4-08B UI PASS | G Review never shows unselected Expansion
+[shell] application=game_active session=ready
+G4-08B UI PASS | G frozen payload has expansions=[]
+G4-08B UI PASS | G frozen payload carries explicit none semantics
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-08B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+G4-08B UI PASS | C no-Expansion Game mounts no adjudication Host
+G4-08B UI PASS | C View keeps legacy G4-07 routing
+G4-08B UI PASS | C no-Expansion action uses the single G4-07 continuation call
+G4-08B UI PASS | C no-Expansion turn accepted once
+G4-08B UI PASS | C no mechanic card without Expansion
+G4-08B UI PASS | C no-Expansion keeps legacy Regenerate
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-08B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+G4-08B UI PASS | D Public d20 capability routes through the Host
+G4-08B UI PASS | D UI starts one isolated control call before any Conversation turn
+G4-08B UI PASS | D UI does not begin_turn before adjudication
+G4-08B UI PASS | D submit disabled during adjudication
+G4-08B UI PASS | D UI mints one stable opaque action_id
+G4-08B UI PASS | D Program rolls once and starts resolution narrative
+G4-08B UI PASS | D Program-owned result durable before narrative
+G4-08B UI PASS | D transient card projects exact durable truth
+G4-08B UI PASS | D transient public result appears before resolution narrative completes
+G4-08B UI PASS | D result narrative delta is visible before Provider completion
+G4-08B UI PASS | D Turn Finalize Barrier blocks next action while visible draft is provisional
+G4-08B UI PASS | D accepted history appends Player/GM exactly once
+G4-08B UI PASS | D accepted action clears pending identity
+G4-08B UI PASS | D durable mechanic card stays in accepted history
+G4-08B UI PASS | D accepted d20 turn never shows legacy Regenerate
+G4-08B UI PASS | D card never exposes internal action/check ids
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-08B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+G4-08B UI PASS | E incomplete NO_CHECK control is never projected
+G4-08B UI PASS | E valid control starts a separate free-form narrative request
+G4-08B UI PASS | E free-form NO_CHECK narrative streams before completion without control JSON
+G4-08B UI PASS | E visible NO_CHECK draft remains non-durable before completion
+G4-08B UI PASS | E NO_CHECK uses isolated control/narrative with zero RNG
+G4-08B UI PASS | E NO_CHECK renders no dice card
+G4-08B UI PASS | E NO_CHECK narrative accepted exactly once
+G4-08B UI PASS | E ordinary action looks like ordinary narrative play
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-08B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+G4-08B UI PASS | F losing check durable before narrative failure
+G4-08B UI PASS | F narrative failure accepts no Player/GM turn
+G4-08B UI PASS | F failure with durable resolution offers only 重试行动 and locks editing
+G4-08B UI PASS | F failure never shows legacy Regenerate
+G4-08B UI PASS | F retry reuses the same stable action_id
+G4-08B UI PASS | F retry skips adjudication/RNG and resumes resolution narrative
+G4-08B UI PASS | F retry accepts exactly one Player/GM turn
+G4-08B UI PASS | F retry never rerolls the durable result
+G4-08B UI PASS | F pre-resolution failure leaves no durable check
+G4-08B UI PASS | F pre-resolution failure allows edit or retry
+G4-08B UI PASS | F edited replacement mints a new action_id
+G4-08B UI PASS | F edited action accepts once
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-08B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+G4-08B UI PASS | G durable losing check before close
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-08B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+G4-08B UI PASS | G Continue reopens the same Game
+G4-08B UI PASS | G reopen gates new Player input on the unfinished action
+G4-08B UI PASS | G reopen shows 上一次行动尚未完成 / 重试行动
+G4-08B UI PASS | G reopen retains the exact durable action_id
+G4-08B UI PASS | G retry resumes narrative with no reroll and no extra adjudication
+G4-08B UI PASS | G retried action accepts exactly once
+G4-08B UI PASS | G accepted retry unlocks input
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-08B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+[shell] application=game_active session=ready
+G4-08B UI PASS | H accepted check leaves one durable card
+G4-08B UI PASS | H card projects exact Program truth
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+[shell] application=game_active session=ready
+G4-08B UI PASS | H Continue rebuilds the accepted card
+G4-08B UI PASS | H rebuilt card preserves exact raw rolls/total/outcome
+G4-08B UI PASS | H Load restores the pre-check state
+G4-08B UI PASS | H Load removes the future mechanic card with the restored future
+G4-08B UI PASS | H restored canonical reality drops the future check record
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-08B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+G4-08B UI PASS | F task-owned capability tamper committed
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-08B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+G4-08B UI PASS | F unsupported capability surfaces player-visible state
+G4-08B UI PASS | F unsupported capability gates Player input
+G4-08B UI PASS | F unsupported capability message is player-readable
+G4-08B UI PASS | F unsupported capability mounts no Host
+G4-08B UI PASS | F unsupported capability never falls back to legacy Provider path
+G4-08B UI PASS | F Game data remains intact
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-08B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+G4-08B UI PASS | C02B transport failure shows safe connection message
+G4-08B UI PASS | C02B transport failure keeps retry path visible
+G4-08B UI PASS | C02B 重试行动 button remains available
+G4-08B UI PASS | C02B no secrets in failure message
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-08B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+G4-08B UI PASS | C02B missing_key shows safe credential message
+G4-08B UI PASS | C02B missing_key keeps retry path visible
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-08B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+G4-08B UI PASS | C02B malformed control triggers one recovery attempt
+G4-08B UI PASS | C02B degraded control starts degraded narrative
+G4-08B UI PASS | C02B degraded action accepted as ordinary narrative
+G4-08B UI PASS | C02B degraded shows compact non-blocking notice
+G4-08B UI PASS | C02B degraded is never presented as 行动未完成
+G4-08B UI PASS | C02B degraded renders no dice card
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-08B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+G4-08B UI PASS | C02BC01 check_persistence_failed shows safe save category
+G4-08B UI PASS | C02BC01 check_persistence_failed keeps retry path
+G4-08B UI PASS | C02BC01 no raw storage/path text
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-08B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+G4-08B UI PASS | C02BC01 persistence_failure shows safe save category
+G4-08B UI PASS | C02BC01 persistence_failure keeps retry path
+[shell] session=absent close_status=ready
+[shell] application=menu_ready session=absent
+G4-08B UI PASS | shell boots to Main Menu
+[shell] application=game_active session=ready
+G4-08B UI PASS | C02BC01 acceptance marker failure shows safe save category
+G4-08B UI PASS | C02BC01 acceptance marker failure keeps retry path
+[shell] session=absent close_status=ready
+G4-08B UI | done failures=0
+WARNING: 3 ObjectDB instances were leaked at exit (run with `--verbose` for details).
+   at: cleanup (core/object/object.cpp:2536)
+ERROR: 1 resources still in use at exit (run with --verbose for details).
+   at: clear (core/io/resource.cpp:822)

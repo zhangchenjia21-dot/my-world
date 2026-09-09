@@ -1,0 +1,358 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[   0% ] first_scan_filesystem | Started 项目初始化 (5 steps)
+[   0% ] first_scan_filesystem | 正在扫描文件结构……
+[  16% ] first_scan_filesystem | 正在加载全局类名……
+[  33% ] first_scan_filesystem | 正在校验 GDExtension……
+[  50% ] first_scan_filesystem | 正在创建自动加载脚本……
+[  66% ] first_scan_filesystem | 正在初始化插件……
+[  83% ] first_scan_filesystem | 正在启动文件扫描……
+[ DONE ] first_scan_filesystem
+
+[   0% ] update_scripts_classes | Started 正在注册全局类…… (259 steps)
+[   0% ] update_scripts_classes |
+[   0% ] update_scripts_classes |
+[   0% ] update_scripts_classes |
+[   1% ] update_scripts_classes | ContextAssemblyPublicInterface
+[   1% ] update_scripts_classes |
+[   1% ] update_scripts_classes |
+[   2% ] update_scripts_classes |
+[   2% ] update_scripts_classes |
+[   3% ] update_scripts_classes |
+[   3% ] update_scripts_classes |
+[   3% ] update_scripts_classes |
+[   4% ] update_scripts_classes |
+[   4% ] update_scripts_classes |
+[   5% ] update_scripts_classes |
+[   5% ] update_scripts_classes |
+[   5% ] update_scripts_classes |
+[   6% ] update_scripts_classes | OpenAICompatibleStreamDeltaParser
+[   6% ] update_scripts_classes | OpenAICompatibleStreamingRequestProcess
+[   6% ] update_scripts_classes | DeepSeekStreamingAdapterPublicInterface
+[   7% ] update_scripts_classes | RuntimeModelStreamingAdapterPublicInterface
+[   7% ] update_scripts_classes |
+[   8% ] update_scripts_classes | RPGHostViewModelDevice
+[   8% ] update_scripts_classes | PlayerCharacterProfileProjectionDevice
+[   8% ] update_scripts_classes | RPGHostViewModelPublicInterface
+[   9% ] update_scripts_classes |
+[   9% ] update_scripts_classes | SourceContractRules
+[  10% ] update_scripts_classes | SourceLibraryRules
+[  10% ] update_scripts_classes | SourceGenerationFingerprintCalculator
+[  10% ] update_scripts_classes | SourcePackageFileReader
+[  11% ] update_scripts_classes | SourceLibraryFileStore
+[  11% ] update_scripts_classes | SourceLibraryPublicationProcess
+[  11% ] update_scripts_classes | SelectedSourceProjectionProcess
+[  12% ] update_scripts_classes | WorldPackLoadingProcess
+[  12% ] update_scripts_classes | ExpansionPackLoadingProcess
+[  13% ] update_scripts_classes | CharacterCardLoadingProcess
+[  13% ] update_scripts_classes | SourceContractPublicInterface
+[  13% ] update_scripts_classes | ManagedSourceGenerationProjection
+[  14% ] update_scripts_classes | SourceLibraryPublicInterface
+[  14% ] update_scripts_classes | WorldPackSourceProjection
+[  15% ] update_scripts_classes | ExpansionPackSourceProjection
+[  15% ] update_scripts_classes | CharacterCardSourceProjection
+[  15% ] update_scripts_classes |
+[  16% ] update_scripts_classes |
+[  16% ] update_scripts_classes |
+[  16% ] update_scripts_classes | NarrativeRichTextRenderer
+[  17% ] update_scripts_classes |
+[  17% ] update_scripts_classes | NewGameWizard
+[  18% ] update_scripts_classes |
+[  18% ] update_scripts_classes | WorldTurnRules
+[  18% ] update_scripts_classes |
+[  19% ] update_scripts_classes | WorldTurnContextProjector
+[  19% ] update_scripts_classes | WorldEvolutionResponseParser
+[  20% ] update_scripts_classes | SemanticChangeResponseParser
+[  20% ] update_scripts_classes | WorldEvolutionEvaluatorProcess
+[  20% ] update_scripts_classes | AgencyCycleRuntimeProcess
+[  21% ] update_scripts_classes | AgencySchedulerProcess
+[  21% ] update_scripts_classes | SemanticMaterializationProcess
+[  21% ] update_scripts_classes | WorldTurnContextPublicInterface
+[  22% ] update_scripts_classes | WorldTurnPublicInterface
+[  22% ] update_scripts_classes | WorldEvolutionEvaluatorPublicInterface
+[  23% ] update_scripts_classes |
+[  23% ] update_scripts_classes | AgencyCyclePublicInterface
+[  23% ] update_scripts_classes | AgencySchedulerPublicInterface
+[  24% ] update_scripts_classes |
+[  24% ] update_scripts_classes |
+[  25% ] update_scripts_classes |
+[  25% ] update_scripts_classes |
+[  25% ] update_scripts_classes |
+[  26% ] update_scripts_classes |
+[  26% ] update_scripts_classes |
+[  26% ] update_scripts_classes |
+[  27% ] update_scripts_classes |
+[  27% ] update_scripts_classes |
+[  28% ] update_scripts_classes | GameCreationCompositionRules
+[  28% ] update_scripts_classes | GameCreationCompositionState
+[  28% ] update_scripts_classes | GameCreationCompatibilityReviewProcess
+[  29% ] update_scripts_classes | GameCreationPublicInterface
+[  29% ] update_scripts_classes | AtomicFinalCreationRules
+[  30% ] update_scripts_classes | CreationIntentStore
+[  30% ] update_scripts_classes | AtomicFinalCreationProcess
+[  30% ] update_scripts_classes | AtomicFinalCreationPublicInterface
+[  31% ] update_scripts_classes | GameLibraryRules
+[  31% ] update_scripts_classes | GameLibraryMetadataStore
+[  31% ] update_scripts_classes | GameLibraryProcess
+[  32% ] update_scripts_classes | GameLibraryPublicInterface
+[  32% ] update_scripts_classes | GameLibraryRecordProjection
+[  33% ] update_scripts_classes | PlayerSafeProjectionDevice
+[  33% ] update_scripts_classes | PlayerSafeProjectionPublicInterface
+[  33% ] update_scripts_classes | PublicD20AdjudicationRules
+[  34% ] update_scripts_classes |
+[  34% ] update_scripts_classes | ProgramD20RandomSource
+[  35% ] update_scripts_classes | StructuredAdjudicationResponseParser
+[  35% ] update_scripts_classes | PublicD20ActionAdjudicationProcess
+[  35% ] update_scripts_classes |
+[  36% ] update_scripts_classes | ActionAdjudicationPublicInterface
+[  36% ] update_scripts_classes |
+[  36% ] update_scripts_classes |
+[  37% ] update_scripts_classes |
+[  37% ] update_scripts_classes |
+[  38% ] update_scripts_classes |
+[  38% ] update_scripts_classes |
+[  38% ] update_scripts_classes |
+[  39% ] update_scripts_classes |
+[  39% ] update_scripts_classes | ModelRuntimeSettingsRules
+[  40% ] update_scripts_classes | ModelRuntimeSettingsStore
+[  40% ] update_scripts_classes | ModelRuntimeSettingsProcess
+[  40% ] update_scripts_classes | ModelRuntimeSettingsPublicInterface
+[  41% ] update_scripts_classes | FirstOpeningRules
+[  41% ] update_scripts_classes | GameLocalOpeningContextProjector
+[  41% ] update_scripts_classes | FirstOpeningRuntimeProcess
+[  42% ] update_scripts_classes | GameLocalContextPublicInterface
+[  42% ] update_scripts_classes | FirstOpeningPublicInterface
+[  43% ] update_scripts_classes |
+[  43% ] update_scripts_classes |
+[  43% ] update_scripts_classes |
+[  44% ] update_scripts_classes |
+[  44% ] update_scripts_classes |
+[  45% ] update_scripts_classes |
+[  45% ] update_scripts_classes |
+[  45% ] update_scripts_classes |
+[  46% ] update_scripts_classes |
+[  46% ] update_scripts_classes |
+[  46% ] update_scripts_classes |
+[  47% ] update_scripts_classes |
+[  47% ] update_scripts_classes |
+[  48% ] update_scripts_classes |
+[  48% ] update_scripts_classes |
+[  48% ] update_scripts_classes |
+[  49% ] update_scripts_classes |
+[  49% ] update_scripts_classes |
+[  50% ] update_scripts_classes |
+[  50% ] update_scripts_classes |
+[  50% ] update_scripts_classes |
+[  51% ] update_scripts_classes |
+[  51% ] update_scripts_classes |
+[  51% ] update_scripts_classes |
+[  52% ] update_scripts_classes |
+[  52% ] update_scripts_classes |
+[  53% ] update_scripts_classes |
+[  53% ] update_scripts_classes |
+[  53% ] update_scripts_classes |
+[  54% ] update_scripts_classes |
+[  54% ] update_scripts_classes |
+[  55% ] update_scripts_classes |
+[  55% ] update_scripts_classes |
+[  55% ] update_scripts_classes |
+[  56% ] update_scripts_classes |
+[  56% ] update_scripts_classes | SourceContractTestFixture
+[  56% ] update_scripts_classes |
+[  57% ] update_scripts_classes |
+[  57% ] update_scripts_classes |
+[  58% ] update_scripts_classes |
+[  58% ] update_scripts_classes |
+[  58% ] update_scripts_classes |
+[  59% ] update_scripts_classes |
+[  59% ] update_scripts_classes |
+[  60% ] update_scripts_classes |
+[  60% ] update_scripts_classes |
+[  60% ] update_scripts_classes |
+[  61% ] update_scripts_classes | GameLibraryTestFixture
+[  61% ] update_scripts_classes |
+[  61% ] update_scripts_classes |
+[  62% ] update_scripts_classes |
+[  62% ] update_scripts_classes | G405TestFixture
+[  63% ] update_scripts_classes |
+[  63% ] update_scripts_classes |
+[  63% ] update_scripts_classes |
+[  64% ] update_scripts_classes |
+[  64% ] update_scripts_classes |
+[  65% ] update_scripts_classes |
+[  65% ] update_scripts_classes |
+[  65% ] update_scripts_classes |
+[  66% ] update_scripts_classes |
+[  66% ] update_scripts_classes |
+[  66% ] update_scripts_classes |
+[  67% ] update_scripts_classes |
+[  67% ] update_scripts_classes |
+[  68% ] update_scripts_classes |
+[  68% ] update_scripts_classes |
+[  68% ] update_scripts_classes |
+[  69% ] update_scripts_classes |
+[  69% ] update_scripts_classes |
+[  70% ] update_scripts_classes |
+[  70% ] update_scripts_classes |
+[  70% ] update_scripts_classes |
+[  71% ] update_scripts_classes |
+[  71% ] update_scripts_classes |
+[  71% ] update_scripts_classes |
+[  72% ] update_scripts_classes |
+[  72% ] update_scripts_classes |
+[  73% ] update_scripts_classes |
+[  73% ] update_scripts_classes |
+[  73% ] update_scripts_classes |
+[  74% ] update_scripts_classes |
+[  74% ] update_scripts_classes |
+[  75% ] update_scripts_classes |
+[  75% ] update_scripts_classes |
+[  75% ] update_scripts_classes |
+[  76% ] update_scripts_classes |
+[  76% ] update_scripts_classes |
+[  76% ] update_scripts_classes |
+[  77% ] update_scripts_classes |
+[  77% ] update_scripts_classes |
+[  78% ] update_scripts_classes |
+[  78% ] update_scripts_classes |
+[  78% ] update_scripts_classes |
+[  79% ] update_scripts_classes |
+[  79% ] update_scripts_classes |
+[  80% ] update_scripts_classes |
+[  80% ] update_scripts_classes |
+[  80% ] update_scripts_classes |
+[  81% ] update_scripts_classes |
+[  81% ] update_scripts_classes |
+[  81% ] update_scripts_classes |
+[  82% ] update_scripts_classes |
+[  82% ] update_scripts_classes |
+[  83% ] update_scripts_classes |
+[  83% ] update_scripts_classes |
+[  83% ] update_scripts_classes |
+[  84% ] update_scripts_classes |
+[  84% ] update_scripts_classes |
+[  85% ] update_scripts_classes |
+[  85% ] update_scripts_classes |
+[  85% ] update_scripts_classes |
+[  86% ] update_scripts_classes |
+[  86% ] update_scripts_classes |
+[  86% ] update_scripts_classes |
+[  87% ] update_scripts_classes |
+[  87% ] update_scripts_classes |
+[  88% ] update_scripts_classes |
+[  88% ] update_scripts_classes |
+[  88% ] update_scripts_classes |
+[  89% ] update_scripts_classes |
+[  89% ] update_scripts_classes |
+[  90% ] update_scripts_classes |
+[  90% ] update_scripts_classes |
+[  90% ] update_scripts_classes |
+[  91% ] update_scripts_classes |
+[  91% ] update_scripts_classes |
+[  91% ] update_scripts_classes |
+[  92% ] update_scripts_classes |
+[  92% ] update_scripts_classes |
+[  93% ] update_scripts_classes |
+[  93% ] update_scripts_classes |
+[  93% ] update_scripts_classes |
+[  94% ] update_scripts_classes |
+[  94% ] update_scripts_classes |
+[  95% ] update_scripts_classes |
+[  95% ] update_scripts_classes |
+[  95% ] update_scripts_classes |
+[  96% ] update_scripts_classes |
+[  96% ] update_scripts_classes |
+[  96% ] update_scripts_classes |
+[  97% ] update_scripts_classes |
+[  97% ] update_scripts_classes |
+[  98% ] update_scripts_classes |
+[  98% ] update_scripts_classes |
+[  98% ] update_scripts_classes |
+[  99% ] update_scripts_classes |
+[ DONE ] update_scripts_classes
+
+[   0% ] _update_scan_actions | Started 正在扫描动作…… (23 steps)
+[   0% ] _update_scan_actions | 960x540-bottom.png
+[   4% ] _update_scan_actions | 960x540-character.png
+[   8% ] _update_scan_actions | 1280x720-bottom.png
+[  12% ] _update_scan_actions | 1280x720-character.png
+[  16% ] _update_scan_actions | maximized-bottom.png
+[  20% ] _update_scan_actions | maximized-character.png
+[  25% ] _update_scan_actions | people-960x540.png
+[  29% ] _update_scan_actions | people-1280x720.png
+[  33% ] _update_scan_actions | people-maximized-collapsed.png
+[  37% ] _update_scan_actions | people-maximized-expanded.png
+[  41% ] _update_scan_actions | star_harbor.svg
+[  45% ] _update_scan_actions | tide_routes.svg
+[  50% ] _update_scan_actions | border_envoy.svg
+[  54% ] _update_scan_actions | river_gate.svg
+[  58% ] _update_scan_actions | salt_road.svg
+[  62% ] _update_scan_actions | shen_yan.svg
+[  66% ] _update_scan_actions | leya.svg
+[  70% ] _update_scan_actions | portrait.svg
+[  75% ] _update_scan_actions | portrait.svg
+[  79% ] _update_scan_actions | portrait.svg
+[  83% ] _update_scan_actions | portrait.svg
+[  87% ] _update_scan_actions | portrait.svg
+[  91% ] _update_scan_actions | portrait.svg
+[ DONE ] _update_scan_actions
+
+[   0% ] reimport | Started 正在导入或重新导入资产 (23 steps)
+[   0% ] reimport | 正在准备重新导入文件……
+[   4% ] reimport | 正在准备重新导入文件……
+[   8% ] reimport | 正在准备重新导入文件……
+[  12% ] reimport | 正在准备重新导入文件……
+[  16% ] reimport | 正在准备重新导入文件……
+[  20% ] reimport | 正在准备重新导入文件……
+[  25% ] reimport | 正在准备重新导入文件……
+[  29% ] reimport | 正在准备重新导入文件……
+[  33% ] reimport | 正在准备重新导入文件……
+[  37% ] reimport | 正在准备重新导入文件……
+[  41% ] reimport | 正在准备重新导入文件……
+[  45% ] reimport | 正在准备重新导入文件……
+[  50% ] reimport | 正在准备重新导入文件……
+[  54% ] reimport | 正在准备重新导入文件……
+[  58% ] reimport | 正在准备重新导入文件……
+[  62% ] reimport | 正在准备重新导入文件……
+[  66% ] reimport | 正在准备重新导入文件……
+[  70% ] reimport | 正在准备重新导入文件……
+[  75% ] reimport | 正在准备重新导入文件……
+[  79% ] reimport | 正在准备重新导入文件……
+[  83% ] reimport | 正在准备重新导入文件……
+[  87% ] reimport | 正在准备重新导入文件……
+[  91% ] reimport | 正在准备重新导入文件……
+[   0% ] reimport | 正在执行重新导入的前置操作……
+[   0% ] reimport | portrait.svg
+[   4% ] reimport | portrait.svg
+[   8% ] reimport | portrait.svg
+[  12% ] reimport | portrait.svg
+[  16% ] reimport | portrait.svg
+[  20% ] reimport | portrait.svg
+[  25% ] reimport | leya.svg
+[  29% ] reimport | shen_yan.svg
+[  33% ] reimport | salt_road.svg
+[  37% ] reimport | river_gate.svg
+[  41% ] reimport | border_envoy.svg
+[  45% ] reimport | tide_routes.svg
+[  50% ] reimport | star_harbor.svg
+[  54% ] reimport | people-maximized-expanded.png
+[  58% ] reimport | people-maximized-collapsed.png
+[  62% ] reimport | people-1280x720.png
+[  66% ] reimport | people-960x540.png
+[  70% ] reimport | maximized-character.png
+[  75% ] reimport | maximized-bottom.png
+[  79% ] reimport | 1280x720-character.png
+[  83% ] reimport | 1280x720-bottom.png
+[  87% ] reimport | 960x540-character.png
+[  91% ] reimport | 960x540-bottom.png
+[  95% ] reimport | 正在结束资产导入……
+[ DONE ] reimport
+
+[   0% ] reimport | Started 正在导入或重新导入资产 (23 steps)
+[   0% ] reimport | 正在执行重新导入的后置操作……
+[ DONE ] reimport
+
+[   0% ] loading_editor_layout | Started 正在加载编辑器 (5 steps)
+[   0% ] loading_editor_layout | 正在加载编辑器布局……
+[  16% ] loading_editor_layout | 正在加载停靠面板……
+[ DONE ] loading_editor_layout
