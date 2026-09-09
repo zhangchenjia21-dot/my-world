@@ -2,6 +2,7 @@ class_name PublicD20ActionAdjudicationProcess
 extends Node
 
 const Rules := preload("res://src/行动判定/L0_公理层/公开D20判定规则.gd")
+const Inventory := preload("res://src/行囊/L3_外交层/行囊公开接口.gd")
 const MechanicsHistory := preload("res://src/行动判定/L1_器件层/公开机制历史投影器.gd")
 const Parser := preload("res://src/行动判定/L1_器件层/结构化判定响应解析器.gd")
 const RandomSource := preload("res://src/行动判定/L1_器件层/程序D20随机源.gd")
@@ -455,7 +456,7 @@ func _control_messages(expansion: Dictionary, recovery: bool) -> Array:
 	## MW-005 R2：control/control_recovery 是 mechanics adjudication——保留全部事实
 	## Game-local context，但整类排除 literary_style_reference（表达参考不得影响机制裁决）。
 	var projected := _projector.project(session_runtime.world_state, false)
-	var game_context := String(projected.get("context_text", "")) + "\n\n" + _rules_text(expansion) + "\n\n" + _control_contract(recovery)
+	var game_context := String(projected.get("context_text", "")) + "\n\n" + _rules_text(expansion) + "\n\n" + _control_contract(recovery) + "\n\n" + Inventory.project_context(session_runtime)
 	return _assembler.assemble_messages(session_runtime.conversation.get_context_projection().merged({
 		"active_attempt": {"turn_index": session_runtime.conversation.get_durable_accepted_entries().size(), "player_text": _player_text}
 	}, true), game_context)
@@ -486,6 +487,7 @@ func _ordinary_narrative_messages(expansion: Dictionary, degraded: bool) -> Arra
 ## MW-005 R3：narrative stage 的单一 late style anchor——位于全部事实材料与 mechanics
 ## 指令之后。control/control_recovery 走 include_style=false 投影且不调用本方法。
 func _append_style_anchor(game_context: String, projected: Dictionary) -> String:
+	game_context += "\n\n" + Inventory.project_context(session_runtime)
 	var mechanics := MechanicsHistory.project(session_runtime.world_state, session_runtime.conversation.get_durable_accepted_entries())
 	if not mechanics.is_empty():
 		game_context += "\n\n" + mechanics

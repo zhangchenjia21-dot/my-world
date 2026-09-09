@@ -103,7 +103,7 @@ func _run() -> void:
 	for button: Button in shell.world_nav.get_children():
 		labels.append(button.text)
 	check(shell.world_nav.visible, "five-tab navigation actually visible")
-	check(labels == ["概览", "角色", "重要经历", "人物", "事务", "系统", "存档"], "exact seven-tab navigation")
+	check(labels == ["概览", "角色", "重要经历", "人物", "事务", "行囊", "系统", "存档"], "exact eight-tab navigation")
 	var body: VBoxContainer = shell._people_panel_body
 	check(body.get_child_count() == 2 and body.get_child(0) is PanelContainer, "real card panels")
 	for card: Node in body.get_children():

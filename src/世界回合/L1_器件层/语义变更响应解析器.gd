@@ -49,6 +49,7 @@ func parse(response_text: String) -> Dictionary:
 	result["actors_dropped"] = actors.dropped
 	result["candidate_ordinals"] = actors.refs
 	result["people_bindings"] = (json.data as Dictionary).get("people_bindings", [])
+	result["inventory_updates"] = (json.data as Dictionary).get("inventory_updates", null)
 	return result
 
 

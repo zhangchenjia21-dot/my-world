@@ -35,6 +35,8 @@ const CharacterExperiencesProjection := preload("res://src/信息整理/L3_外�
 
 const ThreadsProjection := preload("res://src/信息整理/L3_外交层/事务投影公开接口.gd")
 const SystemProjection := preload("res://src/行动判定/L3_外交层/公开机制历史公开接口.gd")
+const InventoryProjection := preload("res://src/行囊/L3_外交层/行囊公开接口.gd")
+const InventoryView := preload("res://src/ui/行囊列表.gd")
 const SystemView := preload("res://src/ui/系统判定列表.gd")
 const ThreadsView := preload("res://src/ui/事务列表.gd")
 const PeopleProjection := preload("res://src/信息整理/L3_外交层/人物投影公开接口.gd")
@@ -82,6 +84,7 @@ const GAME_LOCAL_SETUP_SCHEMA := "game_local_setup.v0.1"
 @onready var overview_tab: Button = %OverviewTab
 @onready var character_tab: Button = %CharacterTab
 @onready var experiences_tab: Button = %ExperiencesTab
+@onready var inventory_tab: Button = %InventoryTab
 @onready var system_tab: Button = %SystemTab
 @onready var threads_tab: Button = %ThreadsTab
 @onready var people_tab: Button = %PeopleTab
@@ -150,6 +153,7 @@ var _world_panel_body: VBoxContainer = null
 ## MW-015：右侧 Character / Important Experiences 表面的动态内容容器（挂在 WorldSurfaceColumn 滚动区）。
 var _character_panel_body: VBoxContainer = null
 var _experiences_panel_body: VBoxContainer = null
+var _inventory_panel_body: VBoxContainer = null
 var _system_panel_body: VBoxContainer = null
 var _threads_panel_body: VBoxContainer = null
 var _people_panel_body: VBoxContainer = null
@@ -157,7 +161,7 @@ var _people_panel_body: VBoxContainer = null
 ## 已迁出且无真实 consumer → 恒 false，Host collapse/hide；未来真实 consumer 置 true。
 var _player_status_has_content := false
 var _player_safe_projection: RefCounted = null
-## MW-015：World Surface 当前子表面（overview | character | experiences | people | threads | system | save）；非通用导航框架。
+## MW-015：World Surface 当前子表面（overview | character | experiences | people | threads | inventory | system | save）；非通用导航框架。
 var _world_surface_mode := "overview"
 ## MW-011：RPG ViewModel 外交接口实例（presentation-only）。
 var _rpg_view_model: RefCounted = null
@@ -234,6 +238,7 @@ func _ready() -> void:
 	people_tab.toggled.connect(_on_people_tab_toggled)
 	threads_tab.toggled.connect(_on_threads_tab_toggled)
 	system_tab.toggled.connect(_on_system_tab_toggled)
+	inventory_tab.toggled.connect(_on_inventory_tab_toggled)
 	save_tab.toggled.connect(_on_save_tab_toggled)
 	_update_responsive_layout()
 	if session_runtime != null:
@@ -1359,6 +1364,7 @@ func _refresh_player_safe_panels() -> void:
 	_render_people_surface()
 	_render_threads_surface()
 	_render_system_surface()
+	_render_inventory_surface()
 
 
 func _on_overview_tab_toggled(pressed: bool) -> void:
@@ -1386,6 +1392,12 @@ func _on_threads_tab_toggled(pressed: bool) -> void:
 		_select_world_surface_mode("threads")
 
 
+func _on_inventory_tab_toggled(pressed: bool) -> void:
+	if pressed:
+		_render_inventory_surface()
+		_select_world_surface_mode("inventory")
+
+
 func _on_system_tab_toggled(pressed: bool) -> void:
 	if pressed:
 		_render_system_surface()
@@ -1407,6 +1419,7 @@ func _select_world_surface_mode(mode: String) -> void:
 	people_tab.set_pressed_no_signal(mode == "people")
 	threads_tab.set_pressed_no_signal(mode == "threads")
 	system_tab.set_pressed_no_signal(mode == "system")
+	inventory_tab.set_pressed_no_signal(mode == "inventory")
 	save_tab.set_pressed_no_signal(mode == "save")
 	_apply_world_surface_visibility()
 
@@ -1428,6 +1441,8 @@ func _apply_world_surface_visibility() -> void:
 		_threads_panel_body.visible = show_surface and _world_surface_mode == "threads"
 	if _system_panel_body != null and is_instance_valid(_system_panel_body):
 		_system_panel_body.visible = show_surface and _world_surface_mode == "system"
+	if _inventory_panel_body != null and is_instance_valid(_inventory_panel_body):
+		_inventory_panel_body.visible = show_surface and _world_surface_mode == "inventory"
 	save_surface.visible = session_active and _world_surface_mode == "save"
 	%SaveScroll.visible = save_surface.visible
 
@@ -1800,4 +1815,12 @@ func _render_system_surface() -> void:
 	var view := SystemView.new()
 	_system_panel_body.add_child(view)
 	view.render(SystemProjection.project_session(session_runtime))
+	_apply_world_surface_visibility()
+
+## semantic commit / accepted replacement / Restore 统一复用现有 safe-panel 刷新。
+func _render_inventory_surface() -> void:
+	_inventory_panel_body = _surface_body(_inventory_panel_body)
+	var view := InventoryView.new()
+	_inventory_panel_body.add_child(view)
+	view.render(InventoryProjection.project_session(session_runtime))
 	_apply_world_surface_visibility()

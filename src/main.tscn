@@ -473,6 +473,12 @@ layout_mode = 2
 toggle_mode = true
 text = "事务"
 
+[node name="InventoryTab" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav"]
+unique_name_in_owner = true
+layout_mode = 2
+toggle_mode = true
+text = "行囊"
+
 [node name="SystemTab" type="Button" parent="Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav"]
 unique_name_in_owner = true
 layout_mode = 2

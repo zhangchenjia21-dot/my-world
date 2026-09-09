@@ -94,6 +94,15 @@ func _world_terminal(result: Dictionary) -> void:
 	if identity_counts.size() == 2: identity_change = "changed" if int(identity_counts.actors) + int(identity_counts.bindings) > 0 else "no-change"
 	_put(token, "identity", "unavailable" if success_code == "historical_skipped" and ok else terminal, identity_change, success_code if ok else code, identity_counts)
 
+	# World terminal 只提供结构计数，不把物品内容/身份交给 Debug。
+	if ok and result.has("inventory_status"):
+		var inventory_ok: bool = result.inventory_status == "committed"
+		var counts: Dictionary = result.get("inventory_counts",{})
+		var changed_inventory: bool = int(counts.get("added",0)) + int(counts.get("updated",0)) + int(counts.get("removed",0)) > 0
+		_put(token,"inventory","committed" if inventory_ok else "failed",("changed" if changed_inventory else "no-change") if inventory_ok else "unknown", "committed" if inventory_ok else "invalid_inventory",counts)
+	elif not ok:
+		_put(token,"inventory",terminal,"unknown",code)
+
 func _safe_information() -> Dictionary:
 	var projection := Character.project_session(_runtime)
 	return {"character": projection.character, "experiences": projection.important_experiences, "people": People.project_session(_runtime), "threads": Threads.project_session(_runtime)}

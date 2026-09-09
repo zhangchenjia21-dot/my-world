@@ -1,6 +1,7 @@
 class_name SemanticMaterializationProcess
 extends Node
 
+const Inventory := preload("res://src/行囊/L3_外交层/行囊公开接口.gd")
 const Accepted := preload("res://src/domain/L3_外交层/已接受输入公开契约.gd")
 
 
@@ -28,6 +29,13 @@ Player 仅提名字、猜测、愿望、假设或声称存在，不得据此创�
 只绑定原文真正对应的稳定人物；存在同名或其它歧义而无法确定时不输出该 binding，不猜第一个，不凭姓名相等，也不另造重复 actor。
 玩家主角自身不是 People NPC，不允许绑定。引用不是姓名、local ID 或 durable identity；不得输出自由 cue、私密 profile 或隐藏状态。
 绑定只是精确身份候选，不自动授予 Knowledge 或建卡；是否值得记忆由 Information Curator 判断。
+"""
+const INVENTORY_INSTRUCTIONS := """
+同一次响应可增加 inventory_updates:{"add":[{"name":"名称","summary":"当前事实状态"}],"update":[{"item_ref":"本请求引用","name":"名称","summary":"当前事实状态"}],"remove":[{"item_ref":"本请求引用"}]}，无变化省略或三个空数组。
+只提取 Accepted GM Narrative 已明确建立的玩家当前持有/携带变化；Player 愿望/声称、环境中看到/提及的物件不自动成为持有物。不根据起始角色资料补装备。
+ADD 是新物品，UPDATE/REMOVE 必须使用 Current Inventory References 的 exact item_ref，不按姓名猜，同名也可为不同物品。禁止 item_id/额外字段。
+使用物品不必消耗：仍持有可无变化，事实状态改变则 UPDATE，确实不再拥有则 REMOVE，由你根据已接受叙事判断，不编造后台物品剧情。
+合计最多8操作；name最多120字符，summary最多600，item_ref最多128。64条是结构安全上限而非游戏负重规则。不输出物品类型/数值属性/装备槽。
 """
 const TIMEOUT_SECONDS := 120.0
 const MAX_PAYLOAD_BYTES := 131072
@@ -201,16 +209,19 @@ func _analysis_messages(turn: Dictionary) -> Array:
 		actor_refs[ref] = local_id
 		ref_lines.append(JSON.stringify({"actor_ref": ref, "display_name": String(roster.get(local_id, "")).left(64)}))
 	turn["actor_refs"] = actor_refs
+	var inventory := Inventory.request(session_runtime.world_state, session_runtime.conversation.get_durable_accepted_entries(), int(turn.source_turn_index))
+	turn["inventory_refs"] = inventory.refs
 	var roster_block := "Allowed Stable Actors\n" + "\n".join(roster_lines) if not roster_lines.is_empty() else "Allowed Stable Actors\n（无）"
 	# MW-006：既有 authoritative CHECK_REQUIRED durable resolution 只在此处只读进入语义
 	# request 一次；NO_CHECK / 普通路径 / marker 缺失或歧义时不存在该 block，不伪造 mechanics。
 	var grounding_block := _mechanical_grounding_block(turn)
 	var user_content := "%s\n\nAccepted Player Action\n%s\n\nAccepted GM Narrative\n%s" % [roster_block, String(turn.player_text), String(turn.gm_text)]
 	user_content += "\n\nPeople Actor References (identity only)\n" + "\n".join(ref_lines)
+	user_content += "\n\nCurrent Inventory References\n" + JSON.stringify(inventory.rows)
 	if not grounding_block.is_empty():
 		user_content += "\n\n" + grounding_block
 	return [
-		{"role": "system", "content": ANALYSIS_INSTRUCTIONS + "\n" + IDENTITY_INSTRUCTIONS},
+		{"role": "system", "content": ANALYSIS_INSTRUCTIONS + "\n" + IDENTITY_INSTRUCTIONS + "\n" + INVENTORY_INSTRUCTIONS},
 		{"role": "user", "content": user_content},
 	]
 
@@ -304,6 +315,8 @@ func _on_completed(serial: int) -> void:
 		Receipt.npc_ids(candidate, entries, int(_active.source_turn_index)), String(_active.gm_text), String(_active.player_text))
 	var receipt := Receipt.build(String(session_runtime.game_id), int(_active.source_turn_index), String(_active.prefix), bindings)
 	candidate = Receipt.with_receipt(candidate, receipt)
+	var inventory := Inventory.candidate(candidate, entries, int(_active.source_turn_index), Inventory.parse_updates(parsed.get("inventory_updates")), _active.get("inventory_refs", {}))
+	candidate = inventory.world
 	# G5 record IDs 保持原算法；mutation 属于本次提交，防止 Restore 后撞到 displaced-future 节点。
 	var mutation := "semantic-turn-" + Crypto.new().generate_random_bytes(16).hex_encode()
 	var committed: Dictionary = session_runtime.commit_world_mutation_durably(mutation, mutation + "-node", candidate)
@@ -328,6 +341,8 @@ func _on_completed(serial: int) -> void:
 		"knowledge_dropped": knowledge_dropped,
 		"actor_count": actor_records.size(),
 		"binding_count": bindings.size(),
+		"inventory_status": inventory.status,
+		"inventory_counts": inventory.counts,
 		"actors_dropped": actors_dropped,
 		"head_id": String(committed.head_id),
 	})

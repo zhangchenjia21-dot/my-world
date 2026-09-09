@@ -1,7 +1,7 @@
 extends SceneTree
 
 ## MW-015 Character + Important Experiences Surfaces v0.1 focused proof。
-## 真实 FinalCreate Game + real Shell(main.tscn) + real SQLite：右侧 概览|角色|重要经历|人物|事务|系统|存档
+## 真实 FinalCreate Game + real Shell(main.tscn) + real SQLite：右侧 概览|角色|重要经历|人物|事务|行囊|系统|存档
 ## 有界导航真实消费 MW-014 player-safe L3 投影 seam；左 Player Status Host 过渡 biography
 ## 迁出后 collapse/hide。不含语义分类器/解析器/打分；Provider 全部走桩；real Provider calls = 0。
 
@@ -86,7 +86,7 @@ func _test_shell_surfaces() -> void:
 	await _frames()
 	_check(runtime.conversation.get_durable_accepted_entries().size() == 1, "GM opening accepted")
 
-	# 1 导航结构：恰好 概览|角色|重要经历|人物|事务|系统|存档 七个互斥 toggle，默认概览。
+	# 1 导航结构：恰好 概览|角色|重要经历|人物|事务|行囊|系统|存档 八个互斥 toggle，默认概览。
 	var nav_labels := PackedStringArray()
 	var all_toggle := true
 	for child: Node in inst.world_nav.get_children():
@@ -96,7 +96,7 @@ func _test_shell_surfaces() -> void:
 			continue
 		nav_labels.append(tab.text)
 		all_toggle = all_toggle and tab.toggle_mode
-	_check(nav_labels == PackedStringArray(["概览", "角色", "重要经历", "人物", "事务", "系统", "存档"]) and all_toggle, "1 right navigation is exactly 概览|角色|重要经历|人物|事务|系统|存档 toggles")
+	_check(nav_labels == PackedStringArray(["概览", "角色", "重要经历", "人物", "事务", "行囊", "系统", "存档"]) and all_toggle, "1 right navigation is exactly 概览|角色|重要经历|人物|事务|行囊|系统|存档 toggles")
 	_check(inst.overview_tab.button_pressed and not inst.character_tab.button_pressed and not inst.experiences_tab.button_pressed and not inst.save_tab.button_pressed, "1 bounded navigation defaults to Overview")
 	_check(inst.get_node(NodePath("Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader")).text == "信息", "1 right chrome renamed to 信息")
 	_check(inst.get_node("%WorldToggle").text == "信息", "1 narrow World toggle renamed to 信息")

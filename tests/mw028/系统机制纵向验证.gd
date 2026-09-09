@@ -132,7 +132,7 @@ func windows(label: String) -> void:
 	for dimensions: Vector2i in [Vector2i(960,540),Vector2i(1280,720),Vector2i(1920,1080)]:
 		root.size = dimensions; await frames()
 		var names: Array = shell.world_nav.get_children().map(func(n:Node)->String:return n.text)
-		check(names == ["概览","角色","重要经历","人物","事务","系统","存档"], "seven tabs in order")
+		check(names == ["概览","角色","重要经历","人物","事务","行囊","系统","存档"], "eight tabs in order")
 		for tab: Button in shell.world_nav.get_children(): tab.button_pressed = true
 		shell.system_tab.button_pressed = true; await frames()
 		for control: Node in shell._system_panel_body.find_children("*","Label",true,false):
