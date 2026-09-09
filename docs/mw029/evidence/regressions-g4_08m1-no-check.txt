@@ -1,0 +1,26 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+G4-08M1C01 PASS | setup installs frozen real Source generations
+G4-08M1C01 PASS | setup installs Public d20 exact generation
+G4-08M1C01 PASS | setup creates one schema-v4 Expansion Game
+G4-08M1C01 PASS | A opens existing Game
+G4-08M1C01 PASS | A first execution uses decoupled control/narrative and zero RNG
+G4-08M1C01 PASS | A accepts exactly one durable Conversation turn
+G4-08M1C01 PASS | A durable NO_CHECK replay identity exists without fake check
+G4-08M1C01 PASS | B same-process replay returns already_accepted
+G4-08M1C01 PASS | B replay has zero Provider/RNG/new Conversation
+G4-08M1C01 PASS | D changed payload fails loud
+G4-08M1C01 PASS | D conflict has no side effect
+G4-08M1C01 PASS | C fresh runtime reopens same Game
+G4-08M1C01 PASS | C reopen replay identifies exact accepted action
+G4-08M1C01 PASS | C reopen replay has zero Provider/RNG/duplicate turn
+G4-08M1C01 PASS | E Provider failure creates no false marker
+G4-08M1C01 PASS | E invalid envelope creates no false marker
+G4-08M1C01 PASS | E pre-result failure remains safely retryable
+G4-08M1C01 PASS | F1 Window A leaves frozen result before Conversation
+G4-08M1C01 PASS | F1 retry resumes frozen narrative with zero Provider
+G4-08M1C01 PASS | F1 retry accepts exactly one stored turn without RNG
+G4-08M1C01 PASS | F2 Window B leaves accepted Conversation before final marker
+G4-08M1C01 PASS | F2 retry matches exact Conversation slot and finalizes marker
+G4-08M1C01 PASS | F2 recovery has zero Provider/RNG/duplicate turn
+G4-08M1C01 | done failures=0

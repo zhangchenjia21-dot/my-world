@@ -1,0 +1,180 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+Vulkan 1.4.351 - Forward+ - Using Device #0: NVIDIA - NVIDIA GeForce RTX 4070 Laptop GPU
+
+MW-022 PASS no event means empty
+MW-022 PASS same-name distinct items never collapsed
+MW-022 PASS deterministic replay stable IDs
+MW-022 PASS JSON event roundtrip
+MW-022 PASS detached safe DTO
+MW-022 PASS refs ephemeral per request
+MW-022 PASS same-name second item targeted exactly
+MW-022 PASS duplicate refs rejected together
+MW-022 PASS unknown refs never name-match
+MW-022 PASS stale snapshot ref cannot mutate changed item
+MW-022 PASS later UPDATE cannot resurrect absent ADD
+MW-022 PASS event corruption fail-soft
+MW-022 PASS replaced source invalidates old events
+MW-022 PASS OOC not possession
+MW-022 PASS invalid bounded Inventory subfield
+MW-022 PASS invalid Inventory preserves otherwise-valid World parser
+MW-022 PASS invalid bounded Inventory subfield
+MW-022 PASS invalid Inventory preserves otherwise-valid World parser
+MW-022 PASS invalid bounded Inventory subfield
+MW-022 PASS invalid Inventory preserves otherwise-valid World parser
+MW-022 PASS invalid bounded Inventory subfield
+MW-022 PASS invalid Inventory preserves otherwise-valid World parser
+MW-022 PASS invalid bounded Inventory subfield
+MW-022 PASS invalid Inventory preserves otherwise-valid World parser
+MW-022 PASS invalid bounded Inventory subfield
+MW-022 PASS invalid Inventory preserves otherwise-valid World parser
+MW-022 PASS invalid bounded Inventory subfield
+MW-022 PASS invalid Inventory preserves otherwise-valid World parser
+MW-022 PASS exact max material bounds
+MW-022 PASS isolated SQLite
+MW-022 PASS existing setup no invented gear
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+[shell] application=game_active session=ready
+MW-022 PASS initial Inventory empty in real Shell
+MW-022 PASS reopen no historical semantic backfill
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS one existing semantic opportunity per accepted action
+MW-022 PASS pending semantic never publishes proposed possession
+MW-022 PASS expected request active
+MW-022 PASS Inventory and World share exactly one candidate commit
+MW-022 PASS ADD immediately visible after semantic durable terminal
+MW-022 PASS Debug ADD safe count
+MW-022 PASS same snapshot owns World and Inventory
+MW-022 PASS replay no call/no duplicate item
+MW-022 PASS action receives safe current Inventory
+MW-022 PASS foreground excludes player_inventory
+MW-022 PASS foreground excludes item_id
+MW-022 PASS foreground excludes item_ref
+MW-022 PASS foreground excludes turns_by_index
+MW-022 PASS ooc receives safe current Inventory
+MW-022 PASS foreground excludes player_inventory
+MW-022 PASS foreground excludes item_id
+MW-022 PASS foreground excludes item_ref
+MW-022 PASS foreground excludes turns_by_index
+MW-022 PASS all d20 stages safe Inventory grounding
+MW-022 PASS all d20 stages safe Inventory grounding
+MW-022 PASS all d20 stages safe Inventory grounding
+MW-022 PASS all d20 stages safe Inventory grounding
+MW-022 PASS World-only authority excludes Inventory
+MW-022 PASS projection adds zero Provider calls
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS one existing semantic opportunity per accepted action
+MW-022 PASS request-only refs plus safe material
+MW-022 PASS expected request active
+MW-022 PASS use changes state through exact UPDATE, no mechanical consumption
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS one existing semantic opportunity per accepted action
+MW-022 PASS expected request active
+MW-022 PASS ordinary use may be no-change
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS one existing semantic opportunity per accepted action
+MW-022 PASS expected request active
+MW-022 PASS exact REMOVE clears possession
+MW-022 PASS real empty state after removal
+MW-022 PASS Restore after ADD
+MW-022 PASS Restore exact possession
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS one existing semantic opportunity per accepted action
+MW-022 PASS expected request active
+MW-022 PASS invalid optional subfield isolated from valid World commit
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS one existing semantic opportunity per accepted action
+MW-022 PASS Provider failure cannot mutate Inventory
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS one existing semantic opportunity per accepted action
+MW-022 PASS cancelled semantic terminal
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS one existing semantic opportunity per accepted action
+MW-022 PASS Restore before possession with active request
+MW-022 PASS Restore clears epoch and late callback cannot publish
+MW-022 PASS Restore after again
+MW-022 PASS Regenerate latest accepted version
+MW-022 PASS replacement accepted
+MW-022 PASS source replacement invalidates event and UI immediately
+MW-022 PASS expected request active
+MW-022 PASS replacement no-change does not resurrect old item
+MW-022 PASS OOC has zero Inventory/semantic opportunity
+MW-022 PASS return to possession for UI
+MW-022 PASS eight exact tabs
+MW-022 PASS effective font>=20 and no horizontal overflow
+MW-022 PASS composer usable and status host collapsed
+MW-022 PASS eight exact tabs
+MW-022 PASS effective font>=20 and no horizontal overflow
+MW-022 PASS composer usable and status host collapsed
+MW-022 PASS eight exact tabs
+MW-022 PASS effective font>=20 and no horizontal overflow
+MW-022 PASS composer usable and status host collapsed
+MW-022 PASS tab/render zero Provider and durable writes
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS one existing semantic opportunity per accepted action
+MW-022 PASS expected request active
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS one existing semantic opportunity per accepted action
+MW-022 PASS expected request active
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS one existing semantic opportunity per accepted action
+MW-022 PASS expected request active
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS one existing semantic opportunity per accepted action
+MW-022 PASS expected request active
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS one existing semantic opportunity per accepted action
+MW-022 PASS expected request active
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS one existing semantic opportunity per accepted action
+MW-022 PASS expected request active
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS one existing semantic opportunity per accepted action
+MW-022 PASS expected request active
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS one existing semantic opportunity per accepted action
+MW-022 PASS expected request active
+MW-022 PASS current snapshot defensive ceiling64
+MW-022 PASS eight exact tabs
+MW-022 PASS effective font>=20 and no horizontal overflow
+MW-022 PASS composer usable and status host collapsed
+MW-022 PASS crowded list scrolls
+MW-022 PASS last item reachable
+MW-022 PASS eight exact tabs
+MW-022 PASS effective font>=20 and no horizontal overflow
+MW-022 PASS composer usable and status host collapsed
+MW-022 PASS crowded list scrolls
+MW-022 PASS last item reachable
+MW-022 PASS eight exact tabs
+MW-022 PASS effective font>=20 and no horizontal overflow
+MW-022 PASS composer usable and status host collapsed
+MW-022 PASS crowded list scrolls
+MW-022 PASS last item reachable
+MW-022 PASS tab/render zero Provider and durable writes
+MW-022 PASS Debug excludes 封口书信
+MW-022 PASS Debug excludes INVENTORY_CANARY_ONLY
+MW-022 PASS Debug excludes item_id
+MW-022 PASS Debug excludes item_ref
+MW-022 PASS Debug excludes source_gm_sha256
+MW-022 PASS Debug excludes SECRET_PROFILE
+[shell] session=absent close_status=ready
+MW-022 PASS reopen real SQLite
+MW-022 PASS Save/reopen folded current items exact
+MW-022 PASS reopen no historical backfill even on explicit consideration
+MW029 checks=174 failures=0

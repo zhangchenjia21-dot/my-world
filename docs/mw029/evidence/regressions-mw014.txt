@@ -1,0 +1,108 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-014 PASS open isolated production SQLite
+MW-014 PASS freeze starting profile
+MW-014 PASS starting profile remains useful without model
+MW-014 PASS starting possessions do not become Character groups
+MW-014 PASS production curator request active
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS request excludes NPC_PRIVATE
+MW-014 PASS request excludes GM_PRIVATE
+MW-014 PASS request excludes HIDDEN_EVOLUTION
+MW-014 PASS request excludes PRIVATE_PLAN
+MW-014 PASS request excludes SOURCE_CURRENT
+MW-014 PASS request excludes raw-secret
+MW-014 PASS curator failure preserves accepted narrative and initial view
+MW-014 PASS failure does not gate next action
+MW-014 PASS production curator request active
+MW-014 PASS no-change result creates no fake material
+MW-014 PASS same-version successful replay does not call model
+MW-014 PASS save before lived change
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS production curator request active
+MW-014 PASS model snapshot updates current Character
+MW-014 PASS model addition produces milestone
+MW-014 PASS identical replay cannot duplicate milestones
+MW-014 PASS save captures curation atomically
+MW-014 PASS regenerate replaces accepted version
+MW-014 PASS superseded curation disappears immediately
+MW-014 PASS production curator request active
+MW-014 PASS replacement no-change does not revive stale material
+MW-014 PASS restore learned timeline
+MW-014 PASS restore reconstructs matching learned state
+MW-014 PASS restore pre-change
+MW-014 PASS restored-away Character and milestone disappear
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS production curator request active
+MW-014 PASS restore same transcript pre-curation snapshot
+MW-014 PASS same-transcript pre-curation snapshot stays empty
+MW-014 PASS explicit retry repairs restored missing curation
+MW-014 PASS restore while curator active
+MW-014 PASS in-flight future response cannot cross Restore epoch
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS production curator request active
+MW-014 PASS same-version recuration after Restore has no displaced-future mutation conflict
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS malformed/unknown/deep/oversized payload is zero-mutation
+MW-014 PASS malformed/unknown/deep/oversized payload is zero-mutation
+MW-014 PASS malformed/unknown/deep/oversized payload is zero-mutation
+MW-014 PASS malformed/unknown/deep/oversized payload is zero-mutation
+MW-014 PASS malformed/unknown/deep/oversized payload is zero-mutation
+MW-014 PASS malformed/unknown/deep/oversized payload is zero-mutation
+MW-014 PASS malformed/unknown/deep/oversized payload is zero-mutation
+MW-014 PASS production curator request active
+MW-014 PASS projection contains no prefix
+MW-014 PASS projection contains no schema
+MW-014 PASS projection contains no source_
+MW-014 PASS projection contains no NPC_PRIVATE
+MW-014 PASS projection contains no GM_PRIVATE
+MW-014 PASS projection contains no HIDDEN_EVOLUTION
+MW-014 PASS projection contains no PRIVATE_PLAN
+MW-014 PASS projection contains no hash
+MW-014 PASS projection contains no mutation
+MW-014 PASS projection contains no game_id
+MW-014 PASS no invented calendar precision
+MW-014 PASS reopen existing database
+MW-014 PASS reopen reconstructs equivalent projection without provider
+MW-014 PASS durable no-change and success receipts survive reopen
+MW-014 PASS shell runtime opens
+MW-014 PASS production Shell composes curator
+MW-014 PASS edge Runtime opens
+MW-014 PASS edge setup
+MW-014 PASS production curator request active
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS foreground starts while curator is still busy
+MW-014 PASS production curator request active
+MW-014 PASS persistence failure does not publish candidate
+MW-014 PASS production curator request active
+MW-014 PASS persistence failure retry recovers through production seam
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS bounded timeout cancels transport without touching foreground
+MW-014 PASS synchronous provider failure terminates cleanly
+MW-014 PASS Player-only correction accepted
+MW-014 PASS production curator request active
+MW-014 PASS Player-only version replacement rejects stale response
+MW-014 PASS production curator request active
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS production curator request active
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS production curator request active
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS production curator request active
+MW-014 PASS history retains more than context window with no content deletion cap
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS only recent model context is bounded to eight milestones
+MW-014 PASS production curator request active
+MW-014 PASS old Game never backfills from raw Source or Source current
+MW-014 FOCUSED checks=105 failures=0

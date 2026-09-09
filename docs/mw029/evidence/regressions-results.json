@@ -1,0 +1,346 @@
+[
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw028.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw028\\mw029-180623-f",
+    "name": "mw028",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw027.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw027\\mw029-180623-f",
+    "name": "mw027",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw026-focused.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw026-focused\\mw029-180623-f",
+    "name": "mw026-focused",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw025-focused.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw025-focused\\mw029-180623-f",
+    "name": "mw025-focused",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw024-contract.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw024-contract\\mw029-180623-f",
+    "name": "mw024-contract",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw024-vertical.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw024-vertical\\mw029-180623-f",
+    "name": "mw024-vertical",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\g2_03.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\g2_03\\mw029-180623-f",
+    "name": "g2_03",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\g2_04.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\g2_04\\mw029-180623-f",
+    "name": "g2_04",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\g2_05.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\g2_05\\mw029-180623-f",
+    "name": "g2_05",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\g3_03-contract.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\g3_03-contract\\mw029-180623-f",
+    "name": "g3_03-contract",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\g3_03-persistence.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\g3_03-persistence\\mw029-180623-f",
+    "name": "g3_03-persistence",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\g3_04-contract.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\g3_04-contract\\mw029-180623-f",
+    "name": "g3_04-contract",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\g3_04-persistence.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\g3_04-persistence\\mw029-180623-f",
+    "name": "g3_04-persistence",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\g3_05-persistence.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\g3_05-persistence\\mw029-180623-f",
+    "name": "g3_05-persistence",
+    "errors": 1,
+    "exit_code": 1
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\g4_08m1.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\g4_08m1\\mw029-180623-f",
+    "name": "g4_08m1",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\g4_08m1-no-check.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\g4_08m1-no-check\\mw029-180623-f",
+    "name": "g4_08m1-no-check",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\g4_08b.log",
+    "exit_warnings": 2,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\g4_08b\\mw029-180623-f",
+    "name": "g4_08b",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\g5_01.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\g5_01\\mw029-180623-f",
+    "name": "g5_01",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\g5_02.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\g5_02\\mw029-180623-f",
+    "name": "g5_02",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\g5_03.log",
+    "exit_warnings": 2,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\g5_03\\mw029-180623-f",
+    "name": "g5_03",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\g5_03m2b.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\g5_03m2b\\mw029-180623-f",
+    "name": "g5_03m2b",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\g5_04.log",
+    "exit_warnings": 2,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\g5_04\\mw029-180623-f",
+    "name": "g5_04",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw023.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw023\\mw029-180623-f",
+    "name": "mw023",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw003.log",
+    "exit_warnings": 2,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw003\\mw029-180623-f",
+    "name": "mw003",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw011.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw011\\mw029-180623-f",
+    "name": "mw011",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw022.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw022\\mw029-180623-f",
+    "name": "mw022",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw022-ui.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw022-ui\\mw029-180623-f",
+    "name": "mw022-ui",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\g5_01-timeline.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\g5_01-timeline\\mw029-180623-f",
+    "name": "g5_01-timeline",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw017.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw017\\mw029-180623-f",
+    "name": "mw017",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw014.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw014\\mw029-180623-f",
+    "name": "mw014",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw015r2.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw015r2\\mw029-180623-f",
+    "name": "mw015r2",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw015r2-ui.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw015r2-ui\\mw029-180623-f",
+    "name": "mw015r2-ui",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw015.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw015\\mw029-180623-f",
+    "name": "mw015",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw015r1.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw015r1\\mw029-180623-f",
+    "name": "mw015r1",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw018.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw018\\mw029-180623-f",
+    "name": "mw018",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw018r1.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw018r1\\mw029-180623-f",
+    "name": "mw018r1",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw019-lifecycle.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw019-lifecycle\\mw029-180623-f",
+    "name": "mw019-lifecycle",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw019-pairs.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw019-pairs\\mw029-180623-f",
+    "name": "mw019-pairs",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw019-routes.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw019-routes\\mw029-180623-f",
+    "name": "mw019-routes",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\g3_03.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\g3_03\\mw029-180623-f",
+    "name": "g3_03",
+    "errors": 1,
+    "exit_code": 1
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\g3_04.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\g3_04\\mw029-180623-f",
+    "name": "g3_04",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\g3_05.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\g3_05\\mw029-180623-f",
+    "name": "g3_05",
+    "errors": 0,
+    "exit_code": 0
+  },
+  {
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw029\\mw029-180623\\mw021.log",
+    "exit_warnings": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-029-factual-inventory\\build\\mw021\\mw029-180623-f",
+    "name": "mw021",
+    "errors": 0,
+    "exit_code": 0
+  }
+]
