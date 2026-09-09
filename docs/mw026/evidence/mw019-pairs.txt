@@ -1,0 +1,124 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-019 PASS valid exact five pairs
+MW-019 PASS invalid top-level/count/old strings/fences/depth fail-soft
+MW-019 PASS invalid top-level/count/old strings/fences/depth fail-soft
+MW-019 PASS invalid top-level/count/old strings/fences/depth fail-soft
+MW-019 PASS invalid top-level/count/old strings/fences/depth fail-soft
+MW-019 PASS invalid top-level/count/old strings/fences/depth fail-soft
+MW-019 PASS invalid top-level/count/old strings/fences/depth fail-soft
+MW-019 PASS invalid top-level/count/old strings/fences/depth fail-soft
+MW-019 PASS invalid top-level/count/old strings/fences/depth fail-soft
+MW-019 PASS invalid top-level/count/old strings/fences/depth fail-soft
+MW-019 PASS invalid top-level/count/old strings/fences/depth fail-soft
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS invalid pair keys/type/empty/Unicode bound/exact duplicates
+MW-019 PASS five x48/400 Unicode scalar exact bounds
+MW-019 PASS escaped supplementary Unicode fits bounded response
+MW-019 PASS response exact32KiB / over32KiB
+MW-019 PASS syntax characters and internal newline preserved; edge whitespace normalized
+MW-019 PASS latest four deterministic recency and field allowlist
+MW-019 PASS currentness includes prefix outside model window
+MW-019 PASS input exact24KiB passes latest intact
+MW-019 PASS oversize latest fails soft without truncation
+MW-019 PASS byte-limited window retains full latest
+MW-019 PASS isolated paired UI runtime
+MW-019 PASS UI fixture
+MW-019 PASS accepted opening for UI
+[shell] application=game_active session=ready
+MW-019 PASS composer editable during recommendation loading
+MW-019 PASS expected request active
+MW-019 PASS response never replaces typed draft
+MW-019 PASS production UI renders exactly five buttons
+MW-019 PASS click replaces/focuses/caret at editable end
+MW-019 PASS click never submits or mutates history
+MW-019 PASS prefilled draft freely editable
+MW-019 PASS click/edit zero Provider calls
+MW026 MEASURE window=(1920, 1080) rows=1 recommendation_height=72.0 narrative_height=662.0
+LAYOUT (1920, 1080) narrative=(1312.0, 662.0) recommendations=(1312.0, 72.0)
+MW-019 PASS bounded guidance and visible Narrative/composer (1920, 1080)
+MW-019 PASS label only/no horizontal overflow (1920, 1080)
+MW-019 PASS label only/no horizontal overflow (1920, 1080)
+MW-019 PASS label only/no horizontal overflow (1920, 1080)
+MW-019 PASS label only/no horizontal overflow (1920, 1080)
+MW-019 PASS label only/no horizontal overflow (1920, 1080)
+MW-019 PASS compact flow/heading (1920, 1080)
+MW-019 PASS larger composer and primary control (1920, 1080)
+MW-019 PASS larger wrapping recommendation (1920, 1080)
+MW-019 PASS larger wrapping recommendation (1920, 1080)
+MW-019 PASS larger wrapping recommendation (1920, 1080)
+MW-019 PASS larger wrapping recommendation (1920, 1080)
+MW-019 PASS larger wrapping recommendation (1920, 1080)
+SCROLL grid=(1312.0, 40.0) minimum=(164.0, 40.0) scroll=(1312.0, 40.0) bar=false range=40.0 page=40.0
+MW026 MEASURE window=(1280, 720) rows=1 recommendation_height=72.0 narrative_height=332.0
+LAYOUT (1280, 720) narrative=(844.0, 332.0) recommendations=(844.0, 72.0)
+MW-019 PASS bounded guidance and visible Narrative/composer (1280, 720)
+MW-019 PASS label only/no horizontal overflow (1280, 720)
+MW-019 PASS label only/no horizontal overflow (1280, 720)
+MW-019 PASS label only/no horizontal overflow (1280, 720)
+MW-019 PASS label only/no horizontal overflow (1280, 720)
+MW-019 PASS label only/no horizontal overflow (1280, 720)
+MW-019 PASS compact flow/heading (1280, 720)
+MW-019 PASS larger composer and primary control (1280, 720)
+MW-019 PASS larger wrapping recommendation (1280, 720)
+MW-019 PASS larger wrapping recommendation (1280, 720)
+MW-019 PASS larger wrapping recommendation (1280, 720)
+MW-019 PASS larger wrapping recommendation (1280, 720)
+MW-019 PASS larger wrapping recommendation (1280, 720)
+SCROLL grid=(844.0, 40.0) minimum=(164.0, 40.0) scroll=(844.0, 40.0) bar=false range=40.0 page=40.0
+MW026 MEASURE window=(960, 540) rows=2 recommendation_height=80.0 narrative_height=144.0
+LAYOUT (960, 540) narrative=(542.0, 144.0) recommendations=(542.0, 80.0)
+MW-019 PASS bounded guidance and visible Narrative/composer (960, 540)
+MW-019 PASS label only/no horizontal overflow (960, 540)
+MW-019 PASS label only/no horizontal overflow (960, 540)
+MW-019 PASS label only/no horizontal overflow (960, 540)
+MW-019 PASS label only/no horizontal overflow (960, 540)
+MW-019 PASS label only/no horizontal overflow (960, 540)
+MW-019 PASS compact flow/heading (960, 540)
+MW-019 PASS larger composer and primary control (960, 540)
+MW-019 PASS larger wrapping recommendation (960, 540)
+MW-019 PASS larger wrapping recommendation (960, 540)
+MW-019 PASS larger wrapping recommendation (960, 540)
+MW-019 PASS larger wrapping recommendation (960, 540)
+MW-019 PASS larger wrapping recommendation (960, 540)
+SCROLL grid=(530.0, 88.0) minimum=(164.0, 88.0) scroll=(542.0, 48.0) bar=true range=88.0 page=48.0
+MW-019 PASS keyboard focus scrolls fifth alternative into view
+MW-019 PASS render/resize/tabs/edit/click zero calls
+MW-019 PASS normal Send begins original route and clears options
+MW-019 PASS Send uses edited exact draft
+MW-019 PASS accepted real UI turn creates fresh opportunity
+MW-019 PASS expected request active
+LONG size=(522.0, 64.0) min=(522.0, 64.0) custom=(522.0, 40.0) flow=(530.0, 352.0) host=(590.0, 396.0) root=(960, 540)
+MW-019 PASS 48-char label wraps without horizontal overflow; draft stays out of button
+LONG size=(522.0, 64.0) min=(522.0, 64.0) custom=(522.0, 40.0) flow=(530.0, 352.0) host=(590.0, 396.0) root=(960, 540)
+MW-019 PASS 48-char label wraps without horizontal overflow; draft stays out of button
+LONG size=(522.0, 64.0) min=(522.0, 64.0) custom=(522.0, 40.0) flow=(530.0, 352.0) host=(590.0, 396.0) root=(960, 540)
+MW-019 PASS 48-char label wraps without horizontal overflow; draft stays out of button
+LONG size=(522.0, 64.0) min=(522.0, 64.0) custom=(522.0, 40.0) flow=(530.0, 352.0) host=(590.0, 396.0) root=(960, 540)
+MW-019 PASS 48-char label wraps without horizontal overflow; draft stays out of button
+LONG size=(522.0, 64.0) min=(522.0, 64.0) custom=(522.0, 40.0) flow=(530.0, 352.0) host=(590.0, 396.0) root=(960, 540)
+MW-019 PASS 48-char label wraps without horizontal overflow; draft stays out of button
+MW-019 PASS prefill preserves full multiline draft bytes
+MW-019 PASS multiline draft caret at exact editable end
+MW-019 PASS stale pair cannot replace input after foreground invalidation
+MW-019 PASS recommendation failure does not enter main error path
+MW-019 PASS manual input sends after failure
+[shell] session=absent close_status=ready
+MW-019 PASS shutdown callback cannot publish
+MW-019 R1 PAIRED/UI checks=105 failures=0

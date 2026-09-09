@@ -1,0 +1,322 @@
+[
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\mw025-focused.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw025-focused\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "mw025-focused",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\mw024-contract.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw024-contract\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "mw024-contract",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\mw024-vertical.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw024-vertical\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "mw024-vertical",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\g2_03.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\g2_03\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "g2_03",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\g2_04.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\g2_04\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "g2_04",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\g2_05.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\g2_05\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "g2_05",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\g3_03-contract.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\g3_03-contract\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "g3_03-contract",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\g3_03-persistence.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\g3_03-persistence\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "g3_03-persistence",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\g3_04-contract.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\g3_04-contract\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "g3_04-contract",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\g3_04-persistence.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\g3_04-persistence\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "g3_04-persistence",
+    "errors": 0
+  },
+  {
+    "exit_code": 1,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\g3_05-persistence.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\g3_05-persistence\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "g3_05-persistence",
+    "errors": 1
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\g4_08m1.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\g4_08m1\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "g4_08m1",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\g4_08m1-no-check.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\g4_08m1-no-check\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "g4_08m1-no-check",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\g4_08b.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\g4_08b\\mw026-100940-f",
+    "exit_warnings": 2,
+    "name": "g4_08b",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\g5_01.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\g5_01\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "g5_01",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\g5_02.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\g5_02\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "g5_02",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\g5_03.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\g5_03\\mw026-100940-f",
+    "exit_warnings": 2,
+    "name": "g5_03",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\g5_03m2b.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\g5_03m2b\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "g5_03m2b",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\g5_04.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\g5_04\\mw026-100940-f",
+    "exit_warnings": 2,
+    "name": "g5_04",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\mw023.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw023\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "mw023",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\mw003.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw003\\mw026-100940-f",
+    "exit_warnings": 2,
+    "name": "mw003",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\mw011.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw011\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "mw011",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\mw022.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw022\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "mw022",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\mw022-ui.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw022-ui\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "mw022-ui",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\g5_01-timeline.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\g5_01-timeline\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "g5_01-timeline",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\mw017.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw017\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "mw017",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\mw014.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw014\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "mw014",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\mw015r2.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw015r2\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "mw015r2",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\mw015r2-ui.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw015r2-ui\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "mw015r2-ui",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\mw015.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw015\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "mw015",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\mw015r1.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw015r1\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "mw015r1",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\mw018.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw018\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "mw018",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\mw018r1.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw018r1\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "mw018r1",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\mw019-lifecycle.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw019-lifecycle\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "mw019-lifecycle",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\mw019-pairs.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw019-pairs\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "mw019-pairs",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\mw019-routes.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw019-routes\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "mw019-routes",
+    "errors": 0
+  },
+  {
+    "exit_code": 1,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\g3_03.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\g3_03\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "g3_03",
+    "errors": 1
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\g3_04.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\g3_04\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "g3_04",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\g3_05.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\g3_05\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "g3_05",
+    "errors": 0
+  },
+  {
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw026\\mw026-100940\\mw021.log",
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-026-package2-uat-cleanup\\build\\mw021\\mw026-100940-f",
+    "exit_warnings": 0,
+    "name": "mw021",
+    "errors": 0
+  }
+]
