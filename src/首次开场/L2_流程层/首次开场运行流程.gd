@@ -7,6 +7,8 @@ const ContextAssembler := preload("res://src/context/L3_外交层/上下文组�
 const ProviderAdapter := preload("res://src/provider/L3_外交层/运行时模型流式适配公开接口.gd")
 const WorldTurnContext := preload("res://src/世界回合/L3_外交层/世界回合上下文公开接口.gd")
 
+const MechanicsHistory := preload("res://src/行动判定/L3_外交层/公开机制历史公开接口.gd")
+
 signal request_assembled(messages, context_stats)
 signal text_delta(text)
 signal finished(result)
@@ -89,6 +91,9 @@ func assemble_continuation_messages() -> Dictionary:
 	var game_context_text := String(projected.context_text)
 	if not String(materialized.context_text).is_empty():
 		game_context_text += "\n\n" + String(materialized.context_text)
+	var mechanics := MechanicsHistory.project(session_runtime.world_state, session_runtime.conversation.get_durable_accepted_entries())
+	if not mechanics.is_empty():
+		game_context_text += "\n\n" + mechanics
 	# MW-005 R3：anchor 位于事实 World/Character 与 materialized World Turn 材料之后。
 	var style_anchor := String(projected.get("style_reference_text", ""))
 	if not style_anchor.is_empty():

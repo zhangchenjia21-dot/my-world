@@ -55,7 +55,7 @@ func assemble_messages(conversation_projection: Dictionary, game_context_text: S
 
 	if typeof(active_attempt_value) == TYPE_DICTIONARY:
 		if Accepted.mode(active_attempt_value) == "ooc":
-			messages[0].content += "\n\nActive Input Mode: ooc\n" + OOC_INSTRUCTION
+			messages[0].content += "\n\n当前对话：OOC / GM 指导\n" + OOC_INSTRUCTION
 		messages.append({
 			"role": "user",
 			"content": _mode_content(active_attempt_value, String((active_attempt_value as Dictionary).get("player_text", "")), false),
@@ -82,4 +82,4 @@ func _compose_system_content(game_context_text: String) -> String:
 ## 仅为 Provider request 派生结构标记，绝不改写 durable accepted 原文。
 func _mode_content(entry: Dictionary, text: String, gm: bool) -> String:
 	if Accepted.mode(entry) != "ooc": return text
-	return ("[GM OOC response | input_mode=ooc]" if gm else "[GM Guidance | input_mode=ooc; not protagonist action or world fact]") + "\n" + text
+	return text if gm else "OOC / GM 指导\n" + text

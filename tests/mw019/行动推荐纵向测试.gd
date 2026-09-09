@@ -170,7 +170,7 @@ func ui_checks() -> void:
 	check(view.player_input.text.ends_with("然后回到小亭。"), "prefilled draft freely editable")
 	check(stub.requests.size() == calls, "click/edit zero Provider calls")
 	root.mode = Window.MODE_WINDOWED
-	for dimension: Vector2i in [Vector2i(1600, 900), Vector2i(1280, 720), Vector2i(960, 540)]:
+	for dimension: Vector2i in [Vector2i(1920, 1080), Vector2i(1280, 720), Vector2i(960, 540)]:
 		root.size = dimension
 		await frames()
 		shell.world_toggle.button_pressed = true
@@ -178,14 +178,18 @@ func ui_checks() -> void:
 		await frames()
 		view.redraw_from_conversation()
 		await frames()
+		var rows: Array = []
+		for choice: Button in view.recommendation_grid.get_children():
+			if not rows.has(choice.position.y): rows.append(choice.position.y)
+		print("MW026 MEASURE window=%s rows=%d recommendation_height=%s narrative_height=%s" % [dimension, rows.size(), view.recommendation_area.size.y, view.narrative_scroll.size.y])
 		print("LAYOUT %s narrative=%s recommendations=%s" % [dimension, view.narrative_scroll.size, view.recommendation_area.size])
 		check(view.recommendation_grid.size.x <= view.size.x and view.narrative_scroll.size.y >= 120 and view.player_input.get_global_rect().end.y <= root.size.y, "bounded guidance and visible Narrative/composer " + str(dimension))
 		for button: Button in view.recommendation_grid.get_children():
 			check(button.get_global_rect().end.x <= view.get_global_rect().end.x and button.text == ACTIONS[button.get_index()].label and button.tooltip_text.is_empty(), "label only/no horizontal overflow " + str(dimension))
-		check(view.recommendation_grid.columns in [1, 2] and view.recommendation_heading.get_theme_font_size("font_size") >= 16, "comfortable columns/heading " + str(dimension))
-		check(view.player_input.get_theme_font_size("font_size") >= 20 and view.player_input.size.y >= 132 and view.send_button.size.y >= 48, "larger composer and primary control " + str(dimension))
+		check(view.recommendation_grid is HFlowContainer and view.recommendation_heading.get_theme_font_size("font_size") >= 16, "compact flow/heading " + str(dimension))
+		check(view.player_input.get_theme_font_size("font_size") >= 20 and view.player_input.size.y >= 132 and view.send_button.size.y >= 40, "larger composer and primary control " + str(dimension))
 		for button: Button in view.recommendation_grid.get_children():
-			check(button.size.y >= 48 and button.get_theme_font_size("font_size") >= 18 and button.autowrap_mode == TextServer.AUTOWRAP_WORD_SMART and not button.clip_text, "larger wrapping recommendation " + str(dimension))
+			check(button.size.y >= 40 and button.get_theme_font_size("font_size") >= 18 and button.autowrap_mode == TextServer.AUTOWRAP_WORD_SMART and not button.clip_text, "larger wrapping recommendation " + str(dimension))
 		print("SCROLL grid=%s minimum=%s scroll=%s bar=%s range=%s page=%s" % [view.recommendation_grid.size, view.recommendation_grid.get_combined_minimum_size(), view.recommendation_scroll.size, view.recommendation_scroll.get_v_scroll_bar().visible, view.recommendation_scroll.get_v_scroll_bar().max_value, view.recommendation_scroll.get_v_scroll_bar().page])
 		if dimension.x == 960:
 			view.recommendation_grid.get_child(4).grab_focus()
@@ -228,6 +232,7 @@ func ui_checks() -> void:
 	root.size = Vector2i(960, 540)
 	await frames()
 	for button: Button in view.recommendation_grid.get_children():
+		print("LONG size=%s min=%s custom=%s flow=%s host=%s root=%s" % [button.size, button.get_combined_minimum_size(), button.custom_minimum_size, view.recommendation_grid.size, view.size, root.size])
 		check(button.size.y > 48 and button.text == long_actions[button.get_index()].label and button.get_global_rect().end.x <= view.get_global_rect().end.x, "48-char label wraps without horizontal overflow; draft stays out of button")
 	view.recommendation_grid.get_child(4).pressed.emit()
 	check(view.player_input.text == long_actions[4].draft, "prefill preserves full multiline draft bytes")

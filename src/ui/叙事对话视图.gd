@@ -73,7 +73,7 @@ var action_recommender: Node = null
 @onready var recommendation_area: VBoxContainer = %RecommendationArea
 @onready var recommendation_heading: Label = %RecommendationHeading
 @onready var recommendation_scroll: ScrollContainer = %RecommendationScroll
-@onready var recommendation_grid: GridContainer = %RecommendationGrid
+@onready var recommendation_grid: HFlowContainer = %RecommendationGrid
 
 ## opening-pending（durable accepted Conversation = 0）时锁住玩家输入；由 Shell 驱动。
 var _opening_gate := false
@@ -128,6 +128,7 @@ func _ready() -> void:
 		narrative_bar.add_theme_stylebox_override(state, grip)
 	narrative_bar.value_changed.connect(_on_narrative_scroll_changed)
 	narrative_scroll.resized.connect(_update_readable_width)
+	recommendation_scroll.resized.connect(_update_recommendation_layout)
 	get_tree().root.size_changed.connect(_update_composer_height)
 	if session_runtime != null:
 		_initialize_session(session_runtime.conversation, session_runtime.is_ready())
@@ -987,13 +988,13 @@ func _render_recommendations() -> void:
 		button.text = action.label
 		button.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
 		button.alignment = HORIZONTAL_ALIGNMENT_LEFT
-		button.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		button.custom_minimum_size.y = 48
+		button.size_flags_horizontal = Control.SIZE_FILL
+		button.custom_minimum_size.y = 40
 		button.add_theme_font_size_override("font_size", 20)
 		for state: String in ["normal", "hover", "pressed", "disabled"]:
 			var style: StyleBox = get_theme_stylebox(state, "Button").duplicate()
-			style.content_margin_top = 8
-			style.content_margin_bottom = 8
+			style.content_margin_top = 4
+			style.content_margin_bottom = 4
 			style.content_margin_left = 12
 			style.content_margin_right = 12
 			button.add_theme_stylebox_override(state, style)
@@ -1016,6 +1017,11 @@ func _prefill_recommendation(action: Dictionary) -> void:
 
 func _update_recommendation_layout() -> void:
 	if recommendation_grid != null:
-		# 窄窗换成一列；推荐区单独限高滚动，长标签不裁剪，正文和自由输入始终可用。
-		recommendation_grid.columns = 2 if narrative_scroll.size.x >= 560 else 1
-		recommendation_scroll.custom_minimum_size.y = minf(recommendation_grid.get_combined_minimum_size().y, 168 if get_tree().root.size.y > 600 else 56)
+		# 按标签实际宽度流式换行；只在超过局部高度上限时滚动，不预留旧网格高度。
+		# Scroll 的横向 SHOW_NEVER 隔离子项最小宽度；否则从大窗缩小时旧宽度会撑住 Host。
+		var available := maxf(80, recommendation_scroll.size.x - 20)
+		for button: Button in recommendation_grid.get_children():
+			var font := button.get_theme_font("font")
+			button.custom_minimum_size.x = minf(available, font.get_string_size(button.text, HORIZONTAL_ALIGNMENT_LEFT, -1, 20).x + 24)
+			button.size.x = button.custom_minimum_size.x
+		recommendation_scroll.custom_minimum_size.y = minf(recommendation_grid.get_combined_minimum_size().y, 96 if get_tree().root.size.y > 600 else 48)

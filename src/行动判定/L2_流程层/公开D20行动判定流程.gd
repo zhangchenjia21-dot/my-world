@@ -2,6 +2,7 @@ class_name PublicD20ActionAdjudicationProcess
 extends Node
 
 const Rules := preload("res://src/行动判定/L0_公理层/公开D20判定规则.gd")
+const MechanicsHistory := preload("res://src/行动判定/L1_器件层/公开机制历史投影器.gd")
 const Parser := preload("res://src/行动判定/L1_器件层/结构化判定响应解析器.gd")
 const RandomSource := preload("res://src/行动判定/L1_器件层/程序D20随机源.gd")
 const GameLocalContext := preload("res://src/首次开场/L3_外交层/游戏本地上下文公开接口.gd")
@@ -482,6 +483,9 @@ func _ordinary_narrative_messages(expansion: Dictionary, degraded: bool) -> Arra
 ## MW-005 R3：narrative stage 的单一 late style anchor——位于全部事实材料与 mechanics
 ## 指令之后。control/control_recovery 走 include_style=false 投影且不调用本方法。
 func _append_style_anchor(game_context: String, projected: Dictionary) -> String:
+	var mechanics := MechanicsHistory.project(session_runtime.world_state, session_runtime.conversation.get_durable_accepted_entries())
+	if not mechanics.is_empty():
+		game_context += "\n\n" + mechanics
 	var style_anchor := String(projected.get("style_reference_text", ""))
 	return game_context + "\n\n" + style_anchor if not style_anchor.is_empty() else game_context
 

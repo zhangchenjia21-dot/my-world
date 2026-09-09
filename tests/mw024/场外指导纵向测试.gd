@@ -38,7 +38,7 @@ func _run() -> void:
 		view.player_input.text = "请放慢节奏，多给我与人物交谈的空间。"
 		view._on_send_pressed()
 		_check(narrative.start_calls.size() == 1 and runtime.conversation.latest_turn().pending_input_mode == "ooc", "OOC exactly one existing Narrative request")
-		_check(JSON.stringify(narrative.start_calls).contains("Active Input Mode: ooc"), "request explicitly marked OOC")
+		_check(JSON.stringify(narrative.start_calls).contains("当前对话：OOC / GM 指导"), "request explicitly marked OOC")
 		if with_d20:
 			_check(shell.test_adjudication_adapter_override.requests.is_empty() and shell.test_adjudication_rng_override.invocation_count == 0, "OOC zero adjudication/dice")
 		narrative.text_delta.emit("好的，我会放慢当前段落的节奏，给你留出与人物交谈和作出选择的空间。")
@@ -94,7 +94,7 @@ func _run() -> void:
 			adjudication.simulate_delta(JSON.stringify(_proposal(15, 0, "normal")))
 			adjudication.simulate_completed()
 			await _settle(3)
-			_check(JSON.stringify(adjudication.requests[-1]).contains("GM Guidance"), "d20 continuation honors recent typed OOC")
+			_check(JSON.stringify(adjudication.requests[-1]).contains("OOC / GM 指导"), "d20 continuation honors recent typed OOC")
 			# Cancel after durable d20 CHECK: OOC cannot bypass pending action protection.
 			view._on_cancel_pressed()
 			await _settle(3)
@@ -108,7 +108,7 @@ func _run() -> void:
 			adjudication.simulate_delta("船工向你说明了路线。")
 			adjudication.simulate_completed()
 		else:
-			_check(narrative.start_calls.size() == 3 and JSON.stringify(narrative.start_calls[-1]).contains("GM Guidance"), "normal continuation carries recent OOC")
+			_check(narrative.start_calls.size() == 3 and JSON.stringify(narrative.start_calls[-1]).contains("OOC / GM 指导"), "normal continuation carries recent OOC")
 			narrative.text_delta.emit("船工向你说明了路线。")
 			narrative.simulate_completed()
 		await _settle(4)
