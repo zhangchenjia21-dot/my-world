@@ -1,0 +1,159 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-017 PASS production SQLite opens
+MW-017 PASS task-local setup
+MW-017 PASS T0 initial starts without opening or semantic
+MW-017 PASS expected request active
+MW-017 PASS opening accepted
+MW-017 PASS GM-only opening skipped by both lived lanes
+MW-017 PASS save before learning
+MW-017 PASS begin player turn
+MW-017 PASS durable accepted Narrative
+MW-017 PASS lived curator waits for semantic
+MW-017 PASS already_attempted does not release barrier
+ERROR: Parse JSON failed. Error at line 0: Unknown error getting token
+   at: parse_string (core/io/json.cpp:629)
+   GDScript backtrace (most recent call first):
+       [0] request_refs (res://tests/mw017/人物身份桥屏障纵向测试.gd:291)
+       [1] _run (res://tests/mw017/人物身份桥屏障纵向测试.gd:53)
+       [2] frames (res://tests/mw017/人物身份桥屏障纵向测试.gd:308)
+ERROR: Parse JSON failed. Error at line 0: Expected 'true', 'false', or 'null', got 'Current'
+   at: parse_string (core/io/json.cpp:629)
+   GDScript backtrace (most recent call first):
+       [0] request_refs (res://tests/mw017/人物身份桥屏障纵向测试.gd:291)
+       [1] _run (res://tests/mw017/人物身份桥屏障纵向测试.gd:53)
+       [2] frames (res://tests/mw017/人物身份桥屏障纵向测试.gd:308)
+MW-017 PASS distinct same-name NPC refs; no Player/stale actor ref
+MW-017 PASS resolver input has no raw profile expansion
+MW-017 PASS expected request active
+MW-017 PASS exact second same-name ref persists npc-b
+MW-017 PASS identity-only single commit has no fabricated facts
+MW-017 PASS durable terminal releases same-turn curator
+MW-017 PASS MW017 curation content contract unchanged
+MW-017 PASS expected request active
+MW-017 PASS no-change Character/Experiences unchanged
+MW-017 PASS public bridge re-slices accepted span and privately maps ID
+MW-017 PASS safe bridge excludes SECRET_PROFILE
+MW-017 PASS safe bridge excludes PRIVATE_KNOWLEDGE
+MW-017 PASS safe bridge excludes PRIVATE_PLAN
+MW-017 PASS safe bridge excludes HIDDEN_EVOLUTION
+MW-017 PASS safe bridge excludes SOURCE_CURRENT
+MW-017 PASS hidden-only mutation
+MW-017 PASS hidden profile changes do not alter receipt
+MW-017 PASS save bound receipt
+MW-017 PASS begin player turn
+MW-017 PASS durable accepted Narrative
+MW-017 PASS expected request active
+MW-017 PASS rejected/duplicate-ref candidates cannot drift
+MW-017 PASS new candidate minted then exact binding resolves
+MW-017 PASS normalized material dedupe keeps one new 沈青
+MW-017 PASS one durable node contains actors and receipt together
+MW-017 PASS expected request active
+MW-017 PASS begin player turn
+MW-017 PASS durable accepted Narrative
+MW-017 PASS expected request active
+MW-017 PASS ambiguous same-name model no-binding stays empty; no Program matching
+MW-017 PASS expected request active
+MW-017 PASS begin player turn
+MW-017 PASS durable accepted Narrative
+ERROR: Parse JSON failed. Error at line 0: Unknown error getting token
+   at: parse_string (core/io/json.cpp:629)
+   GDScript backtrace (most recent call first):
+       [0] request_refs (res://tests/mw017/人物身份桥屏障纵向测试.gd:291)
+       [1] _run (res://tests/mw017/人物身份桥屏障纵向测试.gd:115)
+       [2] frames (res://tests/mw017/人物身份桥屏障纵向测试.gd:308)
+ERROR: Parse JSON failed. Error at line 0: Expected 'true', 'false', or 'null', got 'Current'
+   at: parse_string (core/io/json.cpp:629)
+   GDScript backtrace (most recent call first):
+       [0] request_refs (res://tests/mw017/人物身份桥屏障纵向测试.gd:291)
+       [1] _run (res://tests/mw017/人物身份桥屏障纵向测试.gd:115)
+       [2] frames (res://tests/mw017/人物身份桥屏障纵向测试.gd:308)
+MW-017 PASS expected request active
+MW-017 PASS unknown/canonical/Player/stale refs and malformed spans rejected fail-soft
+MW-017 PASS expected request active
+MW-017 PASS corrected Player+GM pair durably accepted
+MW-017 PASS same GM / different Player invalidates full-prefix receipt
+MW-017 PASS expected request active
+MW-017 PASS new accepted corrected prefix commits new receipt
+MW-017 PASS expected request active
+MW-017 PASS begin player turn
+MW-017 PASS durable accepted Narrative
+MW-017 PASS failure awaits terminal
+MW-017 PASS failure releases curator without People evidence
+MW-017 PASS expected request active
+MW-017 PASS failure Narrative still playable
+MW-017 PASS begin player turn
+MW-017 PASS durable accepted Narrative
+MW-017 PASS timeout awaits terminal
+MW-017 PASS timeout releases curator without People evidence
+MW-017 PASS expected request active
+MW-017 PASS timeout Narrative still playable
+MW-017 PASS begin player turn
+MW-017 PASS durable accepted Narrative
+MW-017 PASS cancel awaits terminal
+MW-017 PASS cancel releases curator without People evidence
+MW-017 PASS expected request active
+MW-017 PASS cancel Narrative still playable
+MW-017 PASS begin player turn
+MW-017 PASS durable accepted Narrative
+MW-017 PASS malformed awaits terminal
+MW-017 PASS malformed releases curator without People evidence
+MW-017 PASS expected request active
+MW-017 PASS malformed Narrative still playable
+MW-017 PASS begin player turn
+MW-017 PASS durable accepted Narrative
+MW-017 PASS synchronous releases curator without People evidence
+MW-017 PASS expected request active
+MW-017 PASS synchronous Narrative still playable
+MW-017 PASS begin player turn
+MW-017 PASS durable accepted Narrative
+MW-017 PASS Restore while semantic active
+MW-017 PASS old epoch cannot commit or release stale curator
+MW-017 PASS Restore before learning removes receipt
+MW-017 PASS begin player turn
+MW-017 PASS durable accepted Narrative
+MW-017 PASS late saved callbacks cannot act on new request
+MW-017 PASS expected request active
+MW-017 PASS expected request active
+MW-017 PASS Restore bound save
+MW-017 PASS Restore reconstructs exact old player identity receipt
+MW-017 PASS reopen production database
+MW-017 PASS reopen rendering makes no Provider calls
+MW-017 PASS durable receipt replay without another call
+MW-017 PASS provisional Regenerate preserves still-accepted receipt
+MW-017 PASS replacement accepted
+MW-017 PASS accepted Regenerate immediately invalidates superseded receipt
+MW-017 PASS expected request active
+MW-017 PASS expected request active
+MW-017 PASS legacy database
+MW-017 PASS begin player turn
+MW-017 PASS durable accepted Narrative
+MW-017 PASS expected request active
+MW-017 PASS legacy missing collection valid, explicit reopen consideration does not backfill
+MW-017 PASS begin player turn
+MW-017 PASS durable accepted Narrative
+MW-017 PASS only newly accepted opportunity enters barrier
+MW-017 PASS expected request active
+MW-017 PASS old missed lived curation is not retrospectively requested
+MW-017 PASS expected request active
+MW-017 PASS no identity history backfill
+MW-017 PASS begin player turn
+MW-017 PASS durable accepted Narrative
+ERROR: Parse JSON failed. Error at line 0: Unknown error getting token
+   at: parse_string (core/io/json.cpp:629)
+   GDScript backtrace (most recent call first):
+       [0] request_refs (res://tests/mw017/人物身份桥屏障纵向测试.gd:291)
+       [1] _run (res://tests/mw017/人物身份桥屏障纵向测试.gd:235)
+       [2] frames (res://tests/mw017/人物身份桥屏障纵向测试.gd:308)
+ERROR: Parse JSON failed. Error at line 0: Expected 'true', 'false', or 'null', got 'Current'
+   at: parse_string (core/io/json.cpp:629)
+   GDScript backtrace (most recent call first):
+       [0] request_refs (res://tests/mw017/人物身份桥屏障纵向测试.gd:291)
+       [1] _run (res://tests/mw017/人物身份桥屏障纵向测试.gd:235)
+       [2] frames (res://tests/mw017/人物身份桥屏障纵向测试.gd:308)
+MW-017 PASS expected request active
+MW-017 PASS 8 binding / 600 Unicode character ceilings; free cue rejected
+MW-017 PASS identity-only outcome adds exactly one durable node
+MW-017 PASS expected request active
+MW-017 PASS corrupt durable binding fails closed at public seam
+MW-017 FOCUSED checks=120 failures=0

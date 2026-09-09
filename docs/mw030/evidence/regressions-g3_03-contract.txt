@@ -1,0 +1,18 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+G3-03 DOMAIN PASS | rehydrate accepted pairs
+G3-03 DOMAIN PASS | rehydrate exact count
+G3-03 DOMAIN PASS | rehydrate has no active generation
+G3-03 DOMAIN PASS | rehydrate rebuilds turn_index 0..N-1
+G3-03 DOMAIN PASS | new Turn candidate appends
+G3-03 DOMAIN PASS | candidate is non-mutating
+G3-03 DOMAIN PASS | regenerate candidate keeps Turn count
+G3-03 DOMAIN PASS | regenerate candidate replaces latest GM
+G3-03 DOMAIN PASS | old GM stable before acceptance
+G3-03 DOMAIN PASS | correction candidate keeps Turn count
+G3-03 DOMAIN PASS | correction candidate replaces player
+G3-03 DOMAIN PASS | old pair stable before correction acceptance
+G3-03 DOMAIN PASS | whitespace/empty draft has no candidate
+G3-03 DOMAIN PASS | rehydration refuses non-empty active Conversation
+G3-03 DOMAIN PASS | rehydration rejects empty GM truth
+G3-03 DOMAIN | done failures=0

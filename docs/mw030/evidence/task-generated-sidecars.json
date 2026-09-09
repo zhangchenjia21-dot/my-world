@@ -1,0 +1,57 @@
+[
+  {
+    "path": "docs/mw015/r2/evidence/1280x720-bottom.png.import",
+    "length": 972,
+    "sha256": "C7D27BAFB10FABA4E5E36326814169720CBE2225F7FD7600D8262E4C59C977E7"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/1280x720-character.png.import",
+    "length": 980,
+    "sha256": "0A12220D0DCB618F120E8D99948C923ADFB6CC26E6D93B8CF8B01F8976D21344"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/960x540-bottom.png.import",
+    "length": 969,
+    "sha256": "F361DA5585CC7D32CF52A557A9FA693064AC07158B4DE62EBB24F84BDCEB37D2"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/960x540-character.png.import",
+    "length": 978,
+    "sha256": "3758E7B50C93608C404BEB43FB71F4B9317B8F84C8CB6956A6FD5B3D4AB016DD"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/maximized-bottom.png.import",
+    "length": 975,
+    "sha256": "E6ACD20ED04E7BBBFC2835697DA5C0EC97B27D9B166BC49A4F2C7CAC81B12257"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/maximized-character.png.import",
+    "length": 984,
+    "sha256": "6BB2BD6DA20E7AAD6C9643FE9F4A7526583A8B7CD7D59865D2E265274ADF685A"
+  },
+  {
+    "path": "docs/mw018/evidence/people-1280x720.png.import",
+    "length": 969,
+    "sha256": "50AD339CB7BF6EEBB2D1CE3EE2770C823C1B8B5469D2732657C886FDD1B38D68"
+  },
+  {
+    "path": "docs/mw018/evidence/people-960x540.png.import",
+    "length": 966,
+    "sha256": "9CFC8DC5E1AEE184C55284B5D7C33A0F03AD5989CE815AE8E0DCBC30BE556E68"
+  },
+  {
+    "path": "docs/mw018/evidence/people-maximized-collapsed.png.import",
+    "length": 1002,
+    "sha256": "FC26263E9E204B0913D2CEC600640A1FD68ACAB98499F87C27C83C452B233AAA"
+  },
+  {
+    "path": "docs/mw018/evidence/people-maximized-expanded.png.import",
+    "length": 998,
+    "sha256": "DD12AFD4CDCC26DF375628805FD0C7997F5B3E4833F88F2D2BA6C316CC3FC3E1"
+  },
+  {
+    "path": "tests/mw004/最小玩家主权原则测试.gd.uid",
+    "length": 20,
+    "sha256": "BFC8F8311D6B7626C6DC46E7907595B906174E2ADB7674CBD5A8983D79414FD0"
+  }
+]

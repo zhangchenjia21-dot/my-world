@@ -1,0 +1,1093 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-022 PASS isolated Game
+MW-022 PASS valid local setup
+MW-022 PASS long accepted opening
+[shell] application=game_active session=ready
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS populated real People projection
+MW-022 PASS Save created through real Shell
+MW-022 PASS real navigation visible (960, 540)
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Title font_size actual=28
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Subtitle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/WorldToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/DebugToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ExitButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ReturnMenuButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@121 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@122 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@Label@186 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@191 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@192 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@266 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@267 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@268 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@269 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@270 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/InputMode font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/SendButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/CancelButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ThreadsTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/InventoryTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SystemTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@144/@Label@218 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@144/@Label@219 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@144/@Label@220 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@144/@Label@221 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/BottomBar/StatusLabel font_size actual=20
+LAYOUT 960x540-OverviewTab narrative=[P: (48.0, 108.0), S: (542.0, 100.0)] composer=[P: (48.0, 296.0), S: (351.0, 132.0)]
+MW-022 PASS composer and Narrative fit 960x540-OverviewTab
+MW-022 PASS accessible nav 960x540-OverviewTabOverviewTab
+MW-022 PASS accessible nav 960x540-OverviewTabCharacterTab
+MW-022 PASS accessible nav 960x540-OverviewTabExperiencesTab
+MW-022 PASS accessible nav 960x540-OverviewTabPeopleTab
+MW-022 PASS accessible nav 960x540-OverviewTabThreadsTab
+MW-022 PASS accessible nav 960x540-OverviewTabInventoryTab
+MW-022 PASS accessible nav 960x540-OverviewTabSystemTab
+MW-022 PASS accessible nav 960x540-OverviewTabSaveTab
+MW-022 PASS no horizontal host overflow 960x540-OverviewTab
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Title font_size actual=28
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Subtitle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/WorldToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/DebugToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ExitButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ReturnMenuButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@121 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@122 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@Label@186 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@191 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@192 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@266 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@267 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@268 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@269 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@270 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/InputMode font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/SendButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/CancelButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ThreadsTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/InventoryTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SystemTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@149/@VBoxContainer@239/@Label@240 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@149/@VBoxContainer@239/@Label@241 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@149/@VBoxContainer@239/@VBoxContainer@242/@Label@243 font_size actual=22
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@149/@VBoxContainer@239/@VBoxContainer@242/@VBoxContainer@244/@Label@245 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/BottomBar/StatusLabel font_size actual=20
+LAYOUT 960x540-CharacterTab narrative=[P: (48.0, 108.0), S: (542.0, 100.0)] composer=[P: (48.0, 296.0), S: (351.0, 132.0)]
+MW-022 PASS composer and Narrative fit 960x540-CharacterTab
+MW-022 PASS accessible nav 960x540-CharacterTabOverviewTab
+MW-022 PASS accessible nav 960x540-CharacterTabCharacterTab
+MW-022 PASS accessible nav 960x540-CharacterTabExperiencesTab
+MW-022 PASS accessible nav 960x540-CharacterTabPeopleTab
+MW-022 PASS accessible nav 960x540-CharacterTabThreadsTab
+MW-022 PASS accessible nav 960x540-CharacterTabInventoryTab
+MW-022 PASS accessible nav 960x540-CharacterTabSystemTab
+MW-022 PASS accessible nav 960x540-CharacterTabSaveTab
+MW-022 PASS no horizontal host overflow 960x540-CharacterTab
+MW-022 PASS overflow has draggable scrollbar 960x540-CharacterTab
+MW-022 PASS right content scroll reaches lower rows 960x540-CharacterTab
+MW-022 PASS scrollbar never covers right-side text 960x540-CharacterTab
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Title font_size actual=28
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Subtitle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/WorldToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/DebugToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ExitButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ReturnMenuButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@121 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@122 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@Label@186 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@191 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@192 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@266 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@267 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@268 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@269 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@270 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/InputMode font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/SendButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/CancelButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ThreadsTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/InventoryTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SystemTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@154/@VBoxContainer@246/@VBoxContainer@247/@Label@248 font_size actual=22
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@154/@VBoxContainer@246/@VBoxContainer@247/@Button@249 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@154/@VBoxContainer@246/@VBoxContainer@247/@Label@250 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/BottomBar/StatusLabel font_size actual=20
+LAYOUT 960x540-ExperiencesTab narrative=[P: (48.0, 108.0), S: (542.0, 100.0)] composer=[P: (48.0, 296.0), S: (351.0, 132.0)]
+MW-022 PASS composer and Narrative fit 960x540-ExperiencesTab
+MW-022 PASS accessible nav 960x540-ExperiencesTabOverviewTab
+MW-022 PASS accessible nav 960x540-ExperiencesTabCharacterTab
+MW-022 PASS accessible nav 960x540-ExperiencesTabExperiencesTab
+MW-022 PASS accessible nav 960x540-ExperiencesTabPeopleTab
+MW-022 PASS accessible nav 960x540-ExperiencesTabThreadsTab
+MW-022 PASS accessible nav 960x540-ExperiencesTabInventoryTab
+MW-022 PASS accessible nav 960x540-ExperiencesTabSystemTab
+MW-022 PASS accessible nav 960x540-ExperiencesTabSaveTab
+MW-022 PASS no horizontal host overflow 960x540-ExperiencesTab
+MW-022 PASS overflow has draggable scrollbar 960x540-ExperiencesTab
+MW-022 PASS right content scroll reaches lower rows 960x540-ExperiencesTab
+MW-022 PASS scrollbar never covers right-side text 960x540-ExperiencesTab
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Title font_size actual=28
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Subtitle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/WorldToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/DebugToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ExitButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ReturnMenuButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@121 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@122 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@Label@186 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@191 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@192 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@266 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@267 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@268 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@269 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@270 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/InputMode font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/SendButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/CancelButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ThreadsTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/InventoryTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SystemTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@157/@VBoxContainer@251/@PanelContainer@252/@MarginContainer@253/@VBoxContainer@254/@Button@255 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@157/@VBoxContainer@251/@PanelContainer@252/@MarginContainer@253/@VBoxContainer@254/@Label@256 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@157/@VBoxContainer@251/@PanelContainer@252/@MarginContainer@253/@VBoxContainer@254/@VBoxContainer@257/@Label@259 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@157/@VBoxContainer@251/@PanelContainer@252/@MarginContainer@253/@VBoxContainer@254/@VBoxContainer@257/@Label@260 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@157/@VBoxContainer@251/@PanelContainer@252/@MarginContainer@253/@VBoxContainer@254/@VBoxContainer@257/@VBoxContainer@261/@VBoxContainer@262/@Label@263 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@157/@VBoxContainer@251/@PanelContainer@252/@MarginContainer@253/@VBoxContainer@254/@Button@258 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/BottomBar/StatusLabel font_size actual=20
+LAYOUT 960x540-PeopleTab narrative=[P: (48.0, 108.0), S: (542.0, 100.0)] composer=[P: (48.0, 296.0), S: (351.0, 132.0)]
+MW-022 PASS composer and Narrative fit 960x540-PeopleTab
+MW-022 PASS accessible nav 960x540-PeopleTabOverviewTab
+MW-022 PASS accessible nav 960x540-PeopleTabCharacterTab
+MW-022 PASS accessible nav 960x540-PeopleTabExperiencesTab
+MW-022 PASS accessible nav 960x540-PeopleTabPeopleTab
+MW-022 PASS accessible nav 960x540-PeopleTabThreadsTab
+MW-022 PASS accessible nav 960x540-PeopleTabInventoryTab
+MW-022 PASS accessible nav 960x540-PeopleTabSystemTab
+MW-022 PASS accessible nav 960x540-PeopleTabSaveTab
+MW-022 PASS no horizontal host overflow 960x540-PeopleTab
+MW-022 PASS overflow has draggable scrollbar 960x540-PeopleTab
+MW-022 PASS right content scroll reaches lower rows 960x540-PeopleTab
+MW-022 PASS scrollbar never covers right-side text 960x540-PeopleTab
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Title font_size actual=28
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Subtitle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/WorldToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/DebugToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ExitButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ReturnMenuButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@121 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@122 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@Label@186 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@191 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@192 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@266 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@267 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@268 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@269 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@270 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/InputMode font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/SendButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/CancelButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ThreadsTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/InventoryTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SystemTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveHeader font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveHint font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveNameInput font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/CreateSaveButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveSelector font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/LoadSaveButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveResultLabel font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/BottomBar/StatusLabel font_size actual=20
+SAVE GEOMETRY scroll=[P: (646.0, 304.0), S: (270.0, 168.0)] body=[P: (646.0, 304.0), S: (252.0, 382.0)] result=[P: (646.0, 627.0), S: (252.0, 59.0)] bar=[P: (898.0, 304.0), S: (18.0, 168.0)]
+LAYOUT 960x540-SaveTab narrative=[P: (48.0, 108.0), S: (542.0, 100.0)] composer=[P: (48.0, 296.0), S: (351.0, 132.0)]
+MW-022 PASS composer and Narrative fit 960x540-SaveTab
+MW-022 PASS accessible nav 960x540-SaveTabOverviewTab
+MW-022 PASS accessible nav 960x540-SaveTabCharacterTab
+MW-022 PASS accessible nav 960x540-SaveTabExperiencesTab
+MW-022 PASS accessible nav 960x540-SaveTabPeopleTab
+MW-022 PASS accessible nav 960x540-SaveTabThreadsTab
+MW-022 PASS accessible nav 960x540-SaveTabInventoryTab
+MW-022 PASS accessible nav 960x540-SaveTabSystemTab
+MW-022 PASS accessible nav 960x540-SaveTabSaveTab
+MW-022 PASS no horizontal host overflow 960x540-SaveTab
+MW-022 PASS overflow has draggable scrollbar 960x540-SaveTab
+MW-022 PASS right content scroll reaches lower rows 960x540-SaveTab
+MW-022 PASS scrollbar never covers right-side text 960x540-SaveTab
+MW-022 PASS Load button accessible after scroll 960x540-SaveTab
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@271 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@272 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@273 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@274 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@275 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@276 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@277 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@278 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@279 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@280 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@281 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@282 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@283 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@284 font_size actual=20
+MW-022 PASS Debug text clear of scrollbar
+MW-022 PASS Debug vertical scroll (960, 540)
+MW-022 PASS real navigation visible (1280, 720)
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Title font_size actual=28
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Subtitle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/DebugToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ExitButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ReturnMenuButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@121 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@122 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@Label@186 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@191 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@192 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@266 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@267 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@268 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@269 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@270 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/InputMode font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/SendButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/CancelButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ThreadsTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/InventoryTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SystemTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@144/@Label@218 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@144/@Label@219 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@144/@Label@220 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@144/@Label@221 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/BottomBar/StatusLabel font_size actual=20
+LAYOUT 1280x720-OverviewTab narrative=[P: (48.0, 108.0), S: (844.0, 288.0)] composer=[P: (48.0, 476.0), S: (653.0, 132.0)]
+MW-022 PASS composer and Narrative fit 1280x720-OverviewTab
+MW-022 PASS accessible nav 1280x720-OverviewTabOverviewTab
+MW-022 PASS accessible nav 1280x720-OverviewTabCharacterTab
+MW-022 PASS accessible nav 1280x720-OverviewTabExperiencesTab
+MW-022 PASS accessible nav 1280x720-OverviewTabPeopleTab
+MW-022 PASS accessible nav 1280x720-OverviewTabThreadsTab
+MW-022 PASS accessible nav 1280x720-OverviewTabInventoryTab
+MW-022 PASS accessible nav 1280x720-OverviewTabSystemTab
+MW-022 PASS accessible nav 1280x720-OverviewTabSaveTab
+MW-022 PASS no horizontal host overflow 1280x720-OverviewTab
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Title font_size actual=28
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Subtitle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/DebugToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ExitButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ReturnMenuButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@121 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@122 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@Label@186 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@191 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@192 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@266 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@267 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@268 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@269 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@270 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/InputMode font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/SendButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/CancelButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ThreadsTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/InventoryTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SystemTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@149/@VBoxContainer@239/@Label@240 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@149/@VBoxContainer@239/@Label@241 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@149/@VBoxContainer@239/@VBoxContainer@242/@Label@243 font_size actual=22
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@149/@VBoxContainer@239/@VBoxContainer@242/@VBoxContainer@244/@Label@245 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/BottomBar/StatusLabel font_size actual=20
+LAYOUT 1280x720-CharacterTab narrative=[P: (48.0, 108.0), S: (844.0, 288.0)] composer=[P: (48.0, 476.0), S: (653.0, 132.0)]
+MW-022 PASS composer and Narrative fit 1280x720-CharacterTab
+MW-022 PASS accessible nav 1280x720-CharacterTabOverviewTab
+MW-022 PASS accessible nav 1280x720-CharacterTabCharacterTab
+MW-022 PASS accessible nav 1280x720-CharacterTabExperiencesTab
+MW-022 PASS accessible nav 1280x720-CharacterTabPeopleTab
+MW-022 PASS accessible nav 1280x720-CharacterTabThreadsTab
+MW-022 PASS accessible nav 1280x720-CharacterTabInventoryTab
+MW-022 PASS accessible nav 1280x720-CharacterTabSystemTab
+MW-022 PASS accessible nav 1280x720-CharacterTabSaveTab
+MW-022 PASS no horizontal host overflow 1280x720-CharacterTab
+MW-022 PASS overflow has draggable scrollbar 1280x720-CharacterTab
+MW-022 PASS right content scroll reaches lower rows 1280x720-CharacterTab
+MW-022 PASS scrollbar never covers right-side text 1280x720-CharacterTab
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Title font_size actual=28
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Subtitle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/DebugToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ExitButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ReturnMenuButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@121 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@122 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@Label@186 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@191 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@192 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@266 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@267 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@268 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@269 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@270 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/InputMode font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/SendButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/CancelButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ThreadsTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/InventoryTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SystemTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@154/@VBoxContainer@246/@VBoxContainer@247/@Label@248 font_size actual=22
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@154/@VBoxContainer@246/@VBoxContainer@247/@Button@249 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@154/@VBoxContainer@246/@VBoxContainer@247/@Label@250 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/BottomBar/StatusLabel font_size actual=20
+LAYOUT 1280x720-ExperiencesTab narrative=[P: (48.0, 108.0), S: (844.0, 288.0)] composer=[P: (48.0, 476.0), S: (653.0, 132.0)]
+MW-022 PASS composer and Narrative fit 1280x720-ExperiencesTab
+MW-022 PASS accessible nav 1280x720-ExperiencesTabOverviewTab
+MW-022 PASS accessible nav 1280x720-ExperiencesTabCharacterTab
+MW-022 PASS accessible nav 1280x720-ExperiencesTabExperiencesTab
+MW-022 PASS accessible nav 1280x720-ExperiencesTabPeopleTab
+MW-022 PASS accessible nav 1280x720-ExperiencesTabThreadsTab
+MW-022 PASS accessible nav 1280x720-ExperiencesTabInventoryTab
+MW-022 PASS accessible nav 1280x720-ExperiencesTabSystemTab
+MW-022 PASS accessible nav 1280x720-ExperiencesTabSaveTab
+MW-022 PASS no horizontal host overflow 1280x720-ExperiencesTab
+MW-022 PASS overflow has draggable scrollbar 1280x720-ExperiencesTab
+MW-022 PASS right content scroll reaches lower rows 1280x720-ExperiencesTab
+MW-022 PASS scrollbar never covers right-side text 1280x720-ExperiencesTab
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Title font_size actual=28
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Subtitle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/DebugToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ExitButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ReturnMenuButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@121 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@122 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@Label@186 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@191 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@192 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@266 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@267 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@268 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@269 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@270 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/InputMode font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/SendButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/CancelButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ThreadsTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/InventoryTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SystemTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@157/@VBoxContainer@251/@PanelContainer@252/@MarginContainer@253/@VBoxContainer@254/@Button@255 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@157/@VBoxContainer@251/@PanelContainer@252/@MarginContainer@253/@VBoxContainer@254/@Label@256 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@157/@VBoxContainer@251/@PanelContainer@252/@MarginContainer@253/@VBoxContainer@254/@VBoxContainer@257/@Label@259 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@157/@VBoxContainer@251/@PanelContainer@252/@MarginContainer@253/@VBoxContainer@254/@VBoxContainer@257/@Label@260 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@157/@VBoxContainer@251/@PanelContainer@252/@MarginContainer@253/@VBoxContainer@254/@VBoxContainer@257/@VBoxContainer@261/@VBoxContainer@262/@Label@263 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@157/@VBoxContainer@251/@PanelContainer@252/@MarginContainer@253/@VBoxContainer@254/@Button@258 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/BottomBar/StatusLabel font_size actual=20
+LAYOUT 1280x720-PeopleTab narrative=[P: (48.0, 108.0), S: (844.0, 288.0)] composer=[P: (48.0, 476.0), S: (653.0, 132.0)]
+MW-022 PASS composer and Narrative fit 1280x720-PeopleTab
+MW-022 PASS accessible nav 1280x720-PeopleTabOverviewTab
+MW-022 PASS accessible nav 1280x720-PeopleTabCharacterTab
+MW-022 PASS accessible nav 1280x720-PeopleTabExperiencesTab
+MW-022 PASS accessible nav 1280x720-PeopleTabPeopleTab
+MW-022 PASS accessible nav 1280x720-PeopleTabThreadsTab
+MW-022 PASS accessible nav 1280x720-PeopleTabInventoryTab
+MW-022 PASS accessible nav 1280x720-PeopleTabSystemTab
+MW-022 PASS accessible nav 1280x720-PeopleTabSaveTab
+MW-022 PASS no horizontal host overflow 1280x720-PeopleTab
+MW-022 PASS overflow has draggable scrollbar 1280x720-PeopleTab
+MW-022 PASS right content scroll reaches lower rows 1280x720-PeopleTab
+MW-022 PASS scrollbar never covers right-side text 1280x720-PeopleTab
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Title font_size actual=28
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Subtitle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/DebugToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ExitButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ReturnMenuButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@121 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@122 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@Label@186 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@191 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@192 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@266 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@267 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@268 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@269 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@270 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/InputMode font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/SendButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/CancelButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ThreadsTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/InventoryTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SystemTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveHeader font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveHint font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveNameInput font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/CreateSaveButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveSelector font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/LoadSaveButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveResultLabel font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/BottomBar/StatusLabel font_size actual=20
+SAVE GEOMETRY scroll=[P: (948.0, 252.0), S: (288.0, 400.0)] body=[P: (948.0, 252.0), S: (288.0, 351.0)] result=[P: (948.0, 575.0), S: (288.0, 28.0)] bar=[P: (1236.0, 252.0), S: (18.0, 400.0)]
+LAYOUT 1280x720-SaveTab narrative=[P: (48.0, 108.0), S: (844.0, 288.0)] composer=[P: (48.0, 476.0), S: (653.0, 132.0)]
+MW-022 PASS composer and Narrative fit 1280x720-SaveTab
+MW-022 PASS accessible nav 1280x720-SaveTabOverviewTab
+MW-022 PASS accessible nav 1280x720-SaveTabCharacterTab
+MW-022 PASS accessible nav 1280x720-SaveTabExperiencesTab
+MW-022 PASS accessible nav 1280x720-SaveTabPeopleTab
+MW-022 PASS accessible nav 1280x720-SaveTabThreadsTab
+MW-022 PASS accessible nav 1280x720-SaveTabInventoryTab
+MW-022 PASS accessible nav 1280x720-SaveTabSystemTab
+MW-022 PASS accessible nav 1280x720-SaveTabSaveTab
+MW-022 PASS no horizontal host overflow 1280x720-SaveTab
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@285 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@286 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@287 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@288 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@289 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@290 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@291 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@292 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@293 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@294 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@295 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@296 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@297 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@298 font_size actual=20
+MW-022 PASS Debug text clear of scrollbar
+MW-022 PASS Debug vertical scroll (1280, 720)
+MW-022 PASS real navigation visible (1920, 1080)
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Title font_size actual=28
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Subtitle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/DebugToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ExitButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ReturnMenuButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@121 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@122 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@Label@186 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@191 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@192 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@266 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@267 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@268 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@269 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@270 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/InputMode font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/SendButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/CancelButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ThreadsTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/InventoryTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SystemTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@144/@Label@218 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@144/@Label@219 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@144/@Label@220 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@144/@Label@221 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/BottomBar/StatusLabel font_size actual=20
+LAYOUT 1920x1080-OverviewTab narrative=[P: (48.0, 108.0), S: (1312.0, 618.0)] composer=[P: (48.0, 806.0), S: (1121.0, 162.0)]
+MW-022 PASS composer and Narrative fit 1920x1080-OverviewTab
+MW-022 PASS accessible nav 1920x1080-OverviewTabOverviewTab
+MW-022 PASS accessible nav 1920x1080-OverviewTabCharacterTab
+MW-022 PASS accessible nav 1920x1080-OverviewTabExperiencesTab
+MW-022 PASS accessible nav 1920x1080-OverviewTabPeopleTab
+MW-022 PASS accessible nav 1920x1080-OverviewTabThreadsTab
+MW-022 PASS accessible nav 1920x1080-OverviewTabInventoryTab
+MW-022 PASS accessible nav 1920x1080-OverviewTabSystemTab
+MW-022 PASS accessible nav 1920x1080-OverviewTabSaveTab
+MW-022 PASS no horizontal host overflow 1920x1080-OverviewTab
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Title font_size actual=28
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Subtitle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/DebugToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ExitButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ReturnMenuButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@121 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@122 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@Label@186 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@191 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@192 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@266 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@267 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@268 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@269 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@270 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/InputMode font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/SendButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/CancelButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ThreadsTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/InventoryTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SystemTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@149/@VBoxContainer@239/@Label@240 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@149/@VBoxContainer@239/@Label@241 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@149/@VBoxContainer@239/@VBoxContainer@242/@Label@243 font_size actual=22
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@149/@VBoxContainer@239/@VBoxContainer@242/@VBoxContainer@244/@Label@245 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/BottomBar/StatusLabel font_size actual=20
+LAYOUT 1920x1080-CharacterTab narrative=[P: (48.0, 108.0), S: (1312.0, 618.0)] composer=[P: (48.0, 806.0), S: (1121.0, 162.0)]
+MW-022 PASS composer and Narrative fit 1920x1080-CharacterTab
+MW-022 PASS accessible nav 1920x1080-CharacterTabOverviewTab
+MW-022 PASS accessible nav 1920x1080-CharacterTabCharacterTab
+MW-022 PASS accessible nav 1920x1080-CharacterTabExperiencesTab
+MW-022 PASS accessible nav 1920x1080-CharacterTabPeopleTab
+MW-022 PASS accessible nav 1920x1080-CharacterTabThreadsTab
+MW-022 PASS accessible nav 1920x1080-CharacterTabInventoryTab
+MW-022 PASS accessible nav 1920x1080-CharacterTabSystemTab
+MW-022 PASS accessible nav 1920x1080-CharacterTabSaveTab
+MW-022 PASS no horizontal host overflow 1920x1080-CharacterTab
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Title font_size actual=28
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Subtitle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/DebugToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ExitButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ReturnMenuButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@121 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@122 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@Label@186 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@191 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@192 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@266 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@267 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@268 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@269 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@270 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/InputMode font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/SendButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/CancelButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ThreadsTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/InventoryTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SystemTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@154/@VBoxContainer@246/@VBoxContainer@247/@Label@248 font_size actual=22
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@154/@VBoxContainer@246/@VBoxContainer@247/@Button@249 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@154/@VBoxContainer@246/@VBoxContainer@247/@Label@250 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/BottomBar/StatusLabel font_size actual=20
+LAYOUT 1920x1080-ExperiencesTab narrative=[P: (48.0, 108.0), S: (1312.0, 618.0)] composer=[P: (48.0, 806.0), S: (1121.0, 162.0)]
+MW-022 PASS composer and Narrative fit 1920x1080-ExperiencesTab
+MW-022 PASS accessible nav 1920x1080-ExperiencesTabOverviewTab
+MW-022 PASS accessible nav 1920x1080-ExperiencesTabCharacterTab
+MW-022 PASS accessible nav 1920x1080-ExperiencesTabExperiencesTab
+MW-022 PASS accessible nav 1920x1080-ExperiencesTabPeopleTab
+MW-022 PASS accessible nav 1920x1080-ExperiencesTabThreadsTab
+MW-022 PASS accessible nav 1920x1080-ExperiencesTabInventoryTab
+MW-022 PASS accessible nav 1920x1080-ExperiencesTabSystemTab
+MW-022 PASS accessible nav 1920x1080-ExperiencesTabSaveTab
+MW-022 PASS no horizontal host overflow 1920x1080-ExperiencesTab
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Title font_size actual=28
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Subtitle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/DebugToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ExitButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ReturnMenuButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@121 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@122 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@Label@186 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@191 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@192 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@266 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@267 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@268 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@269 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@270 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/InputMode font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/SendButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/CancelButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ThreadsTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/InventoryTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SystemTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@157/@VBoxContainer@251/@PanelContainer@252/@MarginContainer@253/@VBoxContainer@254/@Button@255 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@157/@VBoxContainer@251/@PanelContainer@252/@MarginContainer@253/@VBoxContainer@254/@Label@256 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@157/@VBoxContainer@251/@PanelContainer@252/@MarginContainer@253/@VBoxContainer@254/@VBoxContainer@257/@Label@259 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@157/@VBoxContainer@251/@PanelContainer@252/@MarginContainer@253/@VBoxContainer@254/@VBoxContainer@257/@Label@260 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@157/@VBoxContainer@251/@PanelContainer@252/@MarginContainer@253/@VBoxContainer@254/@VBoxContainer@257/@VBoxContainer@261/@VBoxContainer@262/@Label@263 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@157/@VBoxContainer@251/@PanelContainer@252/@MarginContainer@253/@VBoxContainer@254/@Button@258 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/BottomBar/StatusLabel font_size actual=20
+LAYOUT 1920x1080-PeopleTab narrative=[P: (48.0, 108.0), S: (1312.0, 618.0)] composer=[P: (48.0, 806.0), S: (1121.0, 162.0)]
+MW-022 PASS composer and Narrative fit 1920x1080-PeopleTab
+MW-022 PASS accessible nav 1920x1080-PeopleTabOverviewTab
+MW-022 PASS accessible nav 1920x1080-PeopleTabCharacterTab
+MW-022 PASS accessible nav 1920x1080-PeopleTabExperiencesTab
+MW-022 PASS accessible nav 1920x1080-PeopleTabPeopleTab
+MW-022 PASS accessible nav 1920x1080-PeopleTabThreadsTab
+MW-022 PASS accessible nav 1920x1080-PeopleTabInventoryTab
+MW-022 PASS accessible nav 1920x1080-PeopleTabSystemTab
+MW-022 PASS accessible nav 1920x1080-PeopleTabSaveTab
+MW-022 PASS no horizontal host overflow 1920x1080-PeopleTab
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Title font_size actual=28
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Subtitle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/DebugToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ExitButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ReturnMenuButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@121 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@122 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@Label@186 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@191 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@192 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@266 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@267 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@268 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@269 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@270 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/InputMode font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/SendButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/CancelButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ThreadsTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/InventoryTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SystemTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveHeader font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveHint font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveNameInput font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/CreateSaveButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveSelector font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/LoadSaveButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/SaveScroll/SaveSurface/SaveResultLabel font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/BottomBar/StatusLabel font_size actual=20
+SAVE GEOMETRY scroll=[P: (1416.0, 252.0), S: (460.0, 760.0)] body=[P: (1416.0, 252.0), S: (460.0, 320.0)] result=[P: (1416.0, 544.0), S: (460.0, 28.0)] bar=[P: (1876.0, 252.0), S: (18.0, 760.0)]
+LAYOUT 1920x1080-SaveTab narrative=[P: (48.0, 108.0), S: (1312.0, 618.0)] composer=[P: (48.0, 806.0), S: (1121.0, 162.0)]
+MW-022 PASS composer and Narrative fit 1920x1080-SaveTab
+MW-022 PASS accessible nav 1920x1080-SaveTabOverviewTab
+MW-022 PASS accessible nav 1920x1080-SaveTabCharacterTab
+MW-022 PASS accessible nav 1920x1080-SaveTabExperiencesTab
+MW-022 PASS accessible nav 1920x1080-SaveTabPeopleTab
+MW-022 PASS accessible nav 1920x1080-SaveTabThreadsTab
+MW-022 PASS accessible nav 1920x1080-SaveTabInventoryTab
+MW-022 PASS accessible nav 1920x1080-SaveTabSystemTab
+MW-022 PASS accessible nav 1920x1080-SaveTabSaveTab
+MW-022 PASS no horizontal host overflow 1920x1080-SaveTab
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@299 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@300 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@301 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@302 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@303 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@304 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@305 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@306 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@307 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@308 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@309 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@310 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@311 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/DebugPanel/@ScrollContainer@119/@VBoxContainer@120/@Label@312 font_size actual=20
+MW-022 PASS Debug text clear of scrollbar
+MW-022 PASS Debug vertical scroll (1920, 1080)
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Title font_size actual=28
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/TitleBox/Subtitle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/DebugToggle font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ExitButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/TopBar/ReturnMenuButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@121 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@HBoxContainer@123/@Label@122 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@127/@RichTextLabel@126 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@Label@186 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@190/@RichTextLabel@189 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@191 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@HBoxContainer@193/@Label@192 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 normal_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 bold_italics_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/@VBoxContainer@197/@RichTextLabel@196 mono_font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/MechanicCard_font/@VBoxContainer@313/@Label@314 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/MechanicCard_font/@VBoxContainer@313/@Label@315 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/MechanicCard_font/@VBoxContainer@313/@Label@316 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/NarrativeScroll/EntriesCenter/Entries/MechanicCard_font/@VBoxContainer@313/@Label@317 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ActionStatusPanel/ActionStatusRow/ActionStatusLabel font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ErrorLabel font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationHeading font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@266 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@267 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@268 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@269 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/RecommendationArea/RecommendationScroll/RecommendationGrid/@Button@270 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/PlayerInput font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/InputMode font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/SendButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/ComposerRow/ComposerButtons/ComposerActionButtons/CancelButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/NarrativeHost/NarrativeMargin/NarrativeColumn/TurnFooter/RegenerateButton font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldHeader font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/OverviewTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/CharacterTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ExperiencesTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/PeopleTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/ThreadsTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/InventoryTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SystemTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldNav/SaveTab font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@144/@Label@218 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@144/@Label@219 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@144/@Label@220 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/HostLayout/WorldSurfaceHost/WorldPanelMargin/WorldPanelColumn/WorldSurfaceScroll/WorldSurfaceColumn/@VBoxContainer@144/@Label@221 font_size actual=20
+MW-022 PASS effective >=20 /root/Main/Margin/Layout/BottomBar/StatusLabel font_size actual=20
+MW-022 PASS recommendation exact editable draft
+MW-022 PASS presentation zero durable mutation or Provider calls
+MW-022 PASS effective dialog font LoadConfirmation
+MW-022 PASS effective dialog font LoadConfirmation
+MW-022 PASS effective dialog font LoadConfirmation
+MW-022 PASS effective dialog font RecoverConfirmation
+MW-022 PASS effective dialog font RecoverConfirmation
+MW-022 PASS effective dialog font RecoverConfirmation
+MW-022 PASS effective dialog font DatabaseRecoveryConfirmation
+MW-022 PASS effective dialog font DatabaseRecoveryConfirmation
+MW-022 PASS effective dialog font DatabaseRecoveryConfirmation
+MW-022 PASS Save dropdown effective font
+[shell] session=absent close_status=ready
+MW-023 checks=1070 failures=0 font_samples=865

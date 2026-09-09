@@ -1,0 +1,27 @@
+{
+  "implementation_head": "2d27860ae2123092d83684523df6a4e0b680c635",
+  "formal_base": "396bfcc0c91cdff6e6816795826b95fa0c0d358c",
+  "governance_main": "80c2406067b33818481c6b5576a1c2abbf8f8650",
+  "godot": "4.7.2.stable.official.ed1daf0bf",
+  "real_provider_calls": 0,
+  "artifacts": [
+    {
+      "path": "build/windows/my-world.exe",
+      "bytes": 103035904,
+      "mtime_utc": "2026-09-09T11:15:55.828990+00:00",
+      "sha256": "5543ab4b6fb453c5dbe7f4effa0aad7f1cc06d73c12e8436adfc9fb266ac34ee"
+    },
+    {
+      "path": "build/windows/my-world.pck",
+      "bytes": 2620176,
+      "mtime_utc": "2026-09-09T11:15:58.633919+00:00",
+      "sha256": "622c2e0c7b64b46d031a458e878ca314b589bce5cdd6fa8f0ce5d0f72546bb09"
+    },
+    {
+      "path": "build/windows/libgdsqlite.windows.template_debug.x86_64.dll",
+      "bytes": 3163136,
+      "mtime_utc": "2026-09-09T11:15:58.637919+00:00",
+      "sha256": "e3ae3b46b59eadcd513f8d7d6e7c0c15e173696e145594094d7f4f3cc96c7fe7"
+    }
+  ]
+}

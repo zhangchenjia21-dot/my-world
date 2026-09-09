@@ -1,0 +1,429 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-022 PASS valid vocabulary and literal text
+MW-022 PASS invalid contribution locally rejected
+MW-022 PASS invalid contribution locally rejected
+MW-022 PASS invalid contribution locally rejected
+MW-022 PASS invalid contribution locally rejected
+MW-022 PASS invalid contribution locally rejected
+MW-022 PASS invalid contribution locally rejected
+MW-022 PASS invalid contribution locally rejected
+MW-022 PASS invalid contribution locally rejected
+MW-022 PASS invalid contribution locally rejected
+MW-022 PASS invalid contribution locally rejected
+MW-022 PASS invalid contribution locally rejected
+MW-022 PASS invalid contribution locally rejected
+MW-022 PASS invalid contribution locally rejected
+MW-022 PASS invalid contribution locally rejected
+MW-022 PASS invalid contribution locally rejected
+MW-022 PASS invalid contribution locally rejected
+MW-022 PASS invalid contribution locally rejected
+MW-022 PASS invalid contribution locally rejected
+MW-022 PASS invalid contribution locally rejected
+MW-022 PASS card boolean closed
+MW-022 PASS duplicate visibility keys rejected
+MW-022 PASS renderer recovers after invalid contribution
+MW-022 PASS read absent creates no preference file
+MW-022 PASS atomic first hide
+MW-022 PASS atomic replacement existing preference
+MW-022 PASS preference standalone reopen
+MW-022 PASS preference rejects unsupported surface/raw ID
+MW-022 PASS rejected preference no write
+MW-022 PASS corrupt preference defaults visible
+MW-022 PASS corrupt read never rewrites
+MW-022 PASS preference key count bounded
+MW-022 PASS duplicate preference key rejected
+MW-022 PASS oversized preference file defaults visible
+MW-022 PASS Game scoped preference
+MW-022 PASS write failure preserves in-memory visible state
+MW-022 PASS isolated SQLite
+MW-022 PASS valid setup
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+[shell] application=game_active session=ready
+MW-022 PASS expected request active
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS controlled existing mechanics record
+MW-022 PASS same-name exact actors have distinct opaque keys
+MW-022 PASS same-title milestones retain record/ordinal identity
+MW-022 PASS milestone key exact validated record identity
+MW-022 PASS People key exact actor identity and Game
+MW-022 PASS leaf definition excludes npc-a
+MW-022 PASS leaf definition excludes npc-b
+MW-022 PASS leaf definition excludes SECRET_PROFILE
+MW-022 PASS leaf definition excludes PRIVATE_PLAN
+MW-022 PASS leaf definition excludes HIDDEN_EVOLUTION
+MW-022 PASS leaf definition excludes HIDDEN_CONTROL
+MW-022 PASS leaf definition excludes world_state
+MW-022 PASS leaf definition excludes source_gm_sha256
+MW-022 PASS leaf definition excludes identity_receipt_id
+MW-022 PASS production shared Host character
+MW-022 PASS no accidental hide character
+MW-022 PASS leaf definition excludes npc-a
+MW-022 PASS leaf definition excludes npc-b
+MW-022 PASS leaf definition excludes SECRET_PROFILE
+MW-022 PASS leaf definition excludes PRIVATE_PLAN
+MW-022 PASS leaf definition excludes HIDDEN_EVOLUTION
+MW-022 PASS leaf definition excludes HIDDEN_CONTROL
+MW-022 PASS leaf definition excludes world_state
+MW-022 PASS leaf definition excludes source_gm_sha256
+MW-022 PASS leaf definition excludes identity_receipt_id
+MW-022 PASS production shared Host important_experiences
+MW-022 PASS leaf definition excludes npc-a
+MW-022 PASS leaf definition excludes npc-b
+MW-022 PASS leaf definition excludes SECRET_PROFILE
+MW-022 PASS leaf definition excludes PRIVATE_PLAN
+MW-022 PASS leaf definition excludes HIDDEN_EVOLUTION
+MW-022 PASS leaf definition excludes HIDDEN_CONTROL
+MW-022 PASS leaf definition excludes world_state
+MW-022 PASS leaf definition excludes source_gm_sha256
+MW-022 PASS leaf definition excludes identity_receipt_id
+MW-022 PASS production shared Host people
+MW-022 PASS leaf definition excludes npc-a
+MW-022 PASS leaf definition excludes npc-b
+MW-022 PASS leaf definition excludes SECRET_PROFILE
+MW-022 PASS leaf definition excludes PRIVATE_PLAN
+MW-022 PASS leaf definition excludes HIDDEN_EVOLUTION
+MW-022 PASS leaf definition excludes HIDDEN_CONTROL
+MW-022 PASS leaf definition excludes world_state
+MW-022 PASS leaf definition excludes source_gm_sha256
+MW-022 PASS leaf definition excludes identity_receipt_id
+MW-022 PASS production shared Host threads
+MW-022 PASS no accidental hide threads
+MW-022 PASS leaf definition excludes npc-a
+MW-022 PASS leaf definition excludes npc-b
+MW-022 PASS leaf definition excludes SECRET_PROFILE
+MW-022 PASS leaf definition excludes PRIVATE_PLAN
+MW-022 PASS leaf definition excludes HIDDEN_EVOLUTION
+MW-022 PASS leaf definition excludes HIDDEN_CONTROL
+MW-022 PASS leaf definition excludes world_state
+MW-022 PASS leaf definition excludes source_gm_sha256
+MW-022 PASS leaf definition excludes identity_receipt_id
+MW-022 PASS production shared Host inventory
+MW-022 PASS no accidental hide inventory
+MW-022 PASS leaf definition excludes npc-a
+MW-022 PASS leaf definition excludes npc-b
+MW-022 PASS leaf definition excludes SECRET_PROFILE
+MW-022 PASS leaf definition excludes PRIVATE_PLAN
+MW-022 PASS leaf definition excludes HIDDEN_EVOLUTION
+MW-022 PASS leaf definition excludes HIDDEN_CONTROL
+MW-022 PASS leaf definition excludes world_state
+MW-022 PASS leaf definition excludes source_gm_sha256
+MW-022 PASS leaf definition excludes identity_receipt_id
+MW-022 PASS production shared Host system
+MW-022 PASS no accidental hide system
+MW-022 PASS Character content equivalent
+MW-022 PASS Threads content equivalent
+MW-022 PASS Inventory content equivalent
+MW-022 PASS System exact public arithmetic
+MW-022 PASS People default collapsed
+MW-022 PASS hide only selected same-name person
+MW-022 PASS hide only selected same-title milestone
+MW-022 PASS hide retains all semantic model DTOs
+MW-022 PASS hide zero Provider/Game/Timeline mutation
+MW-022 PASS preference no raw identity/prose npc-a
+MW-022 PASS preference no raw identity/prose npc-b
+MW-022 PASS preference no raw identity/prose 陈安
+MW-022 PASS preference no raw identity/prose 走出村落
+MW-022 PASS preference no raw identity/prose HIDDEN_CONTROL
+MW-022 PASS render/nav zero sidecar and gameplay writes
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS hidden update stays hidden and drawer contains current content
+MW-022 PASS person key survives semantic update
+MW-022 PASS presentation keys/preferences never enter curator input
+MW-022 PASS effective20 character
+MW-022 PASS horizontal geometry character
+MW-022 PASS effective20 character
+MW-022 PASS horizontal geometry character
+MW-022 PASS effective20 character
+MW-022 PASS horizontal geometry character
+MW-022 PASS effective20 character
+MW-022 PASS horizontal geometry character
+MW-022 PASS effective20 character
+MW-022 PASS horizontal geometry character
+MW-022 PASS navigation/composer/status (960, 540)
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS navigation/composer/status (960, 540)
+MW-022 PASS long content scrolls important_experiences
+MW-022 PASS recovery and last content reachable
+MW-022 PASS recovery button reachable inside scroll viewport
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS navigation/composer/status (960, 540)
+MW-022 PASS long content scrolls people
+MW-022 PASS recovery and last content reachable
+MW-022 PASS recovery button reachable inside scroll viewport
+MW-022 PASS effective20 threads
+MW-022 PASS horizontal geometry threads
+MW-022 PASS effective20 threads
+MW-022 PASS horizontal geometry threads
+MW-022 PASS effective20 threads
+MW-022 PASS horizontal geometry threads
+MW-022 PASS navigation/composer/status (960, 540)
+MW-022 PASS effective20 inventory
+MW-022 PASS horizontal geometry inventory
+MW-022 PASS effective20 inventory
+MW-022 PASS horizontal geometry inventory
+MW-022 PASS effective20 inventory
+MW-022 PASS horizontal geometry inventory
+MW-022 PASS navigation/composer/status (960, 540)
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS navigation/composer/status (960, 540)
+MW-022 PASS effective20 character
+MW-022 PASS horizontal geometry character
+MW-022 PASS effective20 character
+MW-022 PASS horizontal geometry character
+MW-022 PASS effective20 character
+MW-022 PASS horizontal geometry character
+MW-022 PASS effective20 character
+MW-022 PASS horizontal geometry character
+MW-022 PASS effective20 character
+MW-022 PASS horizontal geometry character
+MW-022 PASS navigation/composer/status (1280, 720)
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS navigation/composer/status (1280, 720)
+MW-022 PASS long content scrolls important_experiences
+MW-022 PASS recovery and last content reachable
+MW-022 PASS recovery button reachable inside scroll viewport
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS navigation/composer/status (1280, 720)
+MW-022 PASS long content scrolls people
+MW-022 PASS recovery and last content reachable
+MW-022 PASS recovery button reachable inside scroll viewport
+MW-022 PASS effective20 threads
+MW-022 PASS horizontal geometry threads
+MW-022 PASS effective20 threads
+MW-022 PASS horizontal geometry threads
+MW-022 PASS effective20 threads
+MW-022 PASS horizontal geometry threads
+MW-022 PASS navigation/composer/status (1280, 720)
+MW-022 PASS effective20 inventory
+MW-022 PASS horizontal geometry inventory
+MW-022 PASS effective20 inventory
+MW-022 PASS horizontal geometry inventory
+MW-022 PASS effective20 inventory
+MW-022 PASS horizontal geometry inventory
+MW-022 PASS navigation/composer/status (1280, 720)
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS navigation/composer/status (1280, 720)
+MW-022 PASS effective20 character
+MW-022 PASS horizontal geometry character
+MW-022 PASS effective20 character
+MW-022 PASS horizontal geometry character
+MW-022 PASS effective20 character
+MW-022 PASS horizontal geometry character
+MW-022 PASS effective20 character
+MW-022 PASS horizontal geometry character
+MW-022 PASS effective20 character
+MW-022 PASS horizontal geometry character
+MW-022 PASS navigation/composer/status (1920, 1080)
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS effective20 important_experiences
+MW-022 PASS horizontal geometry important_experiences
+MW-022 PASS navigation/composer/status (1920, 1080)
+MW-022 PASS long content scrolls important_experiences
+MW-022 PASS recovery and last content reachable
+MW-022 PASS recovery button reachable inside scroll viewport
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS effective20 people
+MW-022 PASS horizontal geometry people
+MW-022 PASS navigation/composer/status (1920, 1080)
+MW-022 PASS long content scrolls people
+MW-022 PASS recovery and last content reachable
+MW-022 PASS recovery button reachable inside scroll viewport
+MW-022 PASS effective20 threads
+MW-022 PASS horizontal geometry threads
+MW-022 PASS effective20 threads
+MW-022 PASS horizontal geometry threads
+MW-022 PASS effective20 threads
+MW-022 PASS horizontal geometry threads
+MW-022 PASS navigation/composer/status (1920, 1080)
+MW-022 PASS effective20 inventory
+MW-022 PASS horizontal geometry inventory
+MW-022 PASS effective20 inventory
+MW-022 PASS horizontal geometry inventory
+MW-022 PASS effective20 inventory
+MW-022 PASS horizontal geometry inventory
+MW-022 PASS navigation/composer/status (1920, 1080)
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS effective20 system
+MW-022 PASS horizontal geometry system
+MW-022 PASS navigation/composer/status (1920, 1080)
+MW-022 PASS window operations read-only
+MW-022 PASS recover uses current snapshot
+MW-022 PASS recover zero Provider/Game mutation
+MW-022 PASS Restore before curation
+MW-022 PASS noncurrent hidden items do not render
+MW-022 PASS Restore does not rewind visibility preferences
+MW-022 PASS Restore same legitimate identities
+MW-022 PASS returned identities still hidden
+MW-022 PASS Regenerate accepted source replacement
+MW-022 PASS current domain owners remove stale curation/inventory/thread definitions
+MW-022 PASS Restore updated for reopen
+[shell] session=absent close_status=ready
+MW-022 PASS actual reopen
+MW-022 PASS same Game on reopen
+[shell] application=game_active session=ready
+MW-022 PASS reopen preserves both preferences
+MW-022 PASS reopened drawer current content
+MW-022 PASS milestone recover zero authoritative mutation
+[shell] session=absent close_status=ready
+MW030 checks=422 failures=0
