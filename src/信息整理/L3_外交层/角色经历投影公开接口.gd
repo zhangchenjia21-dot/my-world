@@ -9,3 +9,8 @@ static func project_session(runtime: Variant) -> Dictionary:
 	if runtime == null or not runtime.is_ready() or runtime.conversation == null:
 		return Device.project({}, [], {})
 	return Device.project(runtime.world_state, runtime.conversation.get_durable_accepted_entries(), Profile.project_frozen_profile(runtime.world_state))
+
+## 展示专用经历键取自已验证 record identity + ordinal + Game；原模型投影不增加身份字段。
+static func project_presented_experiences(runtime: Variant) -> Array:
+	if runtime == null or not runtime.is_ready() or runtime.conversation == null: return []
+	return Device.project(runtime.world_state,runtime.conversation.get_durable_accepted_entries(),Profile.project_frozen_profile(runtime.world_state),String(runtime.game_id)).important_experiences

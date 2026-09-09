@@ -19,6 +19,7 @@ func _run() -> void:
 	check(runtime.commit_world_mutation_durably("setup","setup",setup()).success,"existing setup no invented gear")
 	accept("","你在桥边等候。")
 	shell = load("res://src/main.tscn").instantiate(); shell.session_runtime = runtime
+	shell.test_presentation_preference_root = directory.path_join("presentation-preferences")
 	semantic=Stub.new(); shell.test_world_turn_adapter_override=semantic
 	shell.test_information_curator_adapter_override=Stub.new()
 	shell.test_world_evolution_adapter_override=Stub.new()

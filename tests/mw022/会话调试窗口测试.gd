@@ -15,6 +15,7 @@ func _run() -> void:
 	check(runtime.complete_active_generation_durably().success, "accepted opening before activation")
 	var shell: Node = (load("res://src/main.tscn") as PackedScene).instantiate()
 	shell.session_runtime = runtime
+	shell.test_presentation_preference_root = directory.path_join("presentation-preferences")
 	shell.test_world_turn_adapter_override = Stub.new()
 	shell.test_information_curator_adapter_override = Stub.new()
 	shell.test_world_evolution_adapter_override = Stub.new()
@@ -128,6 +129,7 @@ func _run() -> void:
 	check(runtime.open_existing_game(database).success, "reopen same isolated Game")
 	var next_shell: Node = (load("res://src/main.tscn") as PackedScene).instantiate()
 	next_shell.session_runtime = runtime
+	next_shell.test_presentation_preference_root = directory.path_join("presentation-preferences")
 	next_shell.test_world_turn_adapter_override = Stub.new()
 	next_shell.test_information_curator_adapter_override = Stub.new()
 	next_shell.test_world_evolution_adapter_override = Stub.new()

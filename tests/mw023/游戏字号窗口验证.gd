@@ -20,6 +20,7 @@ func _run() -> void:
 	check(runtime.complete_active_generation_durably().success, "long accepted opening")
 	var shell: Node = (load("res://src/main.tscn") as PackedScene).instantiate()
 	shell.session_runtime = runtime
+	shell.test_presentation_preference_root = directory.path_join("presentation-preferences")
 	shell.test_world_turn_adapter_override = Stub.new()
 	shell.test_information_curator_adapter_override = Stub.new()
 	shell.test_world_evolution_adapter_override = Stub.new()
@@ -44,7 +45,7 @@ func _run() -> void:
 	complete(curation, reply)
 	complete(recommendation, {"actions": ACTIONS})
 	await frames()
-	check(shell._people_panel_body.get_child_count() == 1 and "toggle" in shell._people_panel_body.get_child(0), "populated real People projection")
+	check(shell._people_panel_body.get_child_count() == 1 and shell._people_panel_body.get_child(0).visible_cards.size() == 1, "populated real People projection")
 	shell.save_name_input.text = "阅读验证存档"
 	shell._on_create_save_pressed()
 	await frames()
@@ -62,8 +63,8 @@ func _run() -> void:
 			tab.button_pressed = true
 			await frames()
 			if tab == shell.people_tab:
-				for card: Node in shell._people_panel_body.get_children():
-					if "toggle" in card: card.toggle.button_pressed = true
+				for card: Node in shell._people_panel_body.get_child(0).visible_cards:
+					card.get_meta("collapse_toggle").button_pressed = true
 			await create_timer(0.12).timeout
 			var tag := "%dx%d-%s" % [dimensions.x, dimensions.y, tab.name]
 			inspect_fonts(shell.get_node("Margin"), tag)

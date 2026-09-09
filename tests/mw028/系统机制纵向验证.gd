@@ -26,6 +26,7 @@ func _run() -> void:
 	accept("", "你在城门外停步。")
 	shell = load("res://src/main.tscn").instantiate()
 	shell.session_runtime = runtime
+	shell.test_presentation_preference_root = directory.path_join("presentation-preferences")
 	shell.test_world_turn_adapter_override = Stub.new()
 	shell.test_information_curator_adapter_override = Stub.new()
 	shell.test_world_evolution_adapter_override = Stub.new()

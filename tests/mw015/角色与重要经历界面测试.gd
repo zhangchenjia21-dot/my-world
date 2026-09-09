@@ -75,6 +75,7 @@ func _test_shell_surfaces() -> void:
 	await process_frame
 	var inst: Node = (load("res://src/main.tscn") as PackedScene).instantiate()
 	inst.session_runtime = runtime
+	inst.test_presentation_preference_root = _root.path_join("presentation-preferences")
 	inst.test_opening_adapter_override = opening_stub
 	inst.test_world_turn_adapter_override = semantic_stub
 	inst.test_information_curator_adapter_override = curator_stub
@@ -280,6 +281,7 @@ func _surface_text(body: Variant) -> String:
 	for child: Node in body.get_children():
 		if child is Label:
 			parts.append(child.text)
+		parts.append(_surface_text(child))
 	return "\n".join(parts)
 
 

@@ -147,6 +147,7 @@ func detach() -> void:
 func ui_checks() -> void:
 	var shell: Node = (load("res://src/main.tscn") as PackedScene).instantiate()
 	shell.session_runtime = runtime
+	shell.test_presentation_preference_root = directory.path_join("presentation-preferences")
 	shell.test_world_turn_adapter_override = Stub.new()
 	shell.test_information_curator_adapter_override = Stub.new()
 	shell.test_world_evolution_adapter_override = Stub.new()

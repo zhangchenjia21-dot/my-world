@@ -35,12 +35,15 @@ const CharacterExperiencesProjection := preload("res://src/信息整理/L3_外�
 
 const ThreadsProjection := preload("res://src/信息整理/L3_外交层/事务投影公开接口.gd")
 const SystemProjection := preload("res://src/行动判定/L3_外交层/公开机制历史公开接口.gd")
+const DynamicHost := preload("res://src/动态展示/L3_外交层/动态展示公开接口.gd")
+const SurfaceDefinition := preload("res://src/动态展示/L3_外交层/信息表面定义公开接口.gd")
+const VisibilityPreferences := preload("res://src/动态展示/L3_外交层/展示偏好公开接口.gd")
+
+var test_presentation_preference_root := ""
+var visibility_preferences: RefCounted = null
+
 const InventoryProjection := preload("res://src/行囊/L3_外交层/行囊公开接口.gd")
-const InventoryView := preload("res://src/ui/行囊列表.gd")
-const SystemView := preload("res://src/ui/系统判定列表.gd")
-const ThreadsView := preload("res://src/ui/事务列表.gd")
 const PeopleProjection := preload("res://src/信息整理/L3_外交层/人物投影公开接口.gd")
-const PeopleCard := preload("res://src/ui/人物卡片.gd")
 
 enum ApplicationState {
 	BOOTING,
@@ -536,6 +539,7 @@ func _show_library_open_failure(failure: Dictionary) -> Dictionary:
 func _activate_game_surface() -> void:
 	if session_runtime == null or not session_runtime.is_ready():
 		return
+	visibility_preferences = VisibilityPreferences.new(String(session_runtime.game_id)) if test_presentation_preference_root.is_empty() else VisibilityPreferences.new(String(session_runtime.game_id),test_presentation_preference_root)
 	narrative_view.bind_session_runtime(session_runtime)
 	session_state = SessionState.READY
 	application_state = ApplicationState.GAME_ACTIVE
@@ -573,6 +577,7 @@ func _close_game_session() -> Dictionary:
 	if session_runtime == null:
 		session_state = SessionState.ABSENT
 		return {"status": "absent", "success": true}
+	visibility_preferences = null
 	session_state = SessionState.CLOSING
 	_teardown_debug_observer()
 	_teardown_action_recommender()
@@ -1533,75 +1538,38 @@ func _render_world_overview(view_model: Dictionary) -> void:
 ## MW-015：Character Surface——「现在的我是谁」（当前状态，非变更日志）。
 ## 只消费 MW-014 player-safe L3 投影；空状态安静提示，不造假内容，不显示 ID/出处元数据。
 func _render_character_surface() -> void:
-	_character_panel_body = _surface_body(_character_panel_body)
+	_character_panel_body = _render_shared_surface(_character_panel_body,"character",CharacterExperiencesProjection.project_session(session_runtime).character)
 	_apply_world_surface_visibility()
-	if session_runtime == null or not session_runtime.is_ready():
-		return
-	var projection: Dictionary = CharacterExperiencesProjection.project_session(session_runtime)
-	var character := projection.get("character", {}) as Dictionary
-	var headline := String(character.get("headline", "")).strip_edges()
-	var summary := String(character.get("summary", "")).strip_edges()
-	var groups: Array = character.get("groups", [])
-	if headline.is_empty() and summary.is_empty() and groups.is_empty():
-		_panel_label(_character_panel_body, "角色信息将随游戏进展整理显示。", 20, Palette.TEXT_SECONDARY, true)
-		return
-	if not headline.is_empty():
-		_panel_label(_character_panel_body, headline, 20, Palette.TEXT_PRIMARY)
-	if not summary.is_empty():
-		_panel_label(_character_panel_body, summary, 20, Palette.TEXT_PRIMARY)
-	for group_value: Variant in groups:
-		var group := group_value as Dictionary
-		_panel_label(_character_panel_body, String(group.get("title", "")), 20, Palette.TEXT_SECONDARY)
-		for item_value: Variant in group.get("items", []):
-			_panel_label(_character_panel_body, "• %s" % String(item_value), 20, Palette.TEXT_PRIMARY)
-	if groups.is_empty():
-		_panel_label(_character_panel_body, "暂无更多角色信息。", 20, Palette.TEXT_SECONDARY, true)
 
-
-## MW-015：Important Experiences Surface——「我是怎样走到现在的」，按因果顺序展示。
-## 当前没有权威 game-world calendar label（time_label 恒为空）；只有非空才显示，绝不伪造日期。
 func _render_experiences_surface() -> void:
-	_experiences_panel_body = _surface_body(_experiences_panel_body)
+	_experiences_panel_body = _render_shared_surface(_experiences_panel_body,"important_experiences",CharacterExperiencesProjection.project_presented_experiences(session_runtime))
 	_apply_world_surface_visibility()
-	if session_runtime == null or not session_runtime.is_ready():
-		return
-	var projection: Dictionary = CharacterExperiencesProjection.project_session(session_runtime)
-	var experiences: Array = projection.get("important_experiences", [])
-	if experiences.is_empty():
-		_panel_label(_experiences_panel_body, "尚无需要长期记录的重要经历。", 20, Palette.TEXT_SECONDARY, true)
-		return
-	for event_value: Variant in experiences:
-		var event := event_value as Dictionary
-		_panel_label(_experiences_panel_body, String(event.get("title", "")), 20, Palette.TEXT_SECONDARY)
-		var description := String(event.get("description", "")).strip_edges()
-		if not description.is_empty():
-			_panel_label(_experiences_panel_body, description, 20, Palette.TEXT_PRIMARY)
-		var time_label := String(event.get("time_label", "")).strip_edges()
-		if not time_label.is_empty():
-			_panel_label(_experiences_panel_body, time_label, 20, Palette.TEXT_SECONDARY, true)
 
-
-## 人物只接收专用 player-safe DTO；每次重建全折叠，不从 actor registry 制造卡片。
 func _render_people_surface() -> void:
-	_people_panel_body = _surface_body(_people_panel_body)
-	_people_panel_body.add_theme_constant_override("separation", 10)
+	_people_panel_body = _render_shared_surface(_people_panel_body,"people",PeopleProjection.project_presented_people(session_runtime))
 	_apply_world_surface_visibility()
-	var cards := PeopleProjection.project_session(session_runtime)
-	if cards.is_empty():
-		_panel_label(_people_panel_body, "人物信息将随你结识和了解他们而整理。", 20, Palette.TEXT_SECONDARY, true)
-	for snapshot: Dictionary in cards:
-		var card := PeopleCard.new()
-		_people_panel_body.add_child(card)
-		card.render(snapshot)
 
-
-## 事务是只读当前快照，刷新不触发语义调用；滚动复用现有 World Surface Host。
 func _render_threads_surface() -> void:
-	_threads_panel_body = _surface_body(_threads_panel_body)
-	var view := ThreadsView.new()
-	_threads_panel_body.add_child(view)
-	view.render(ThreadsProjection.project_session(session_runtime))
+	_threads_panel_body = _render_shared_surface(_threads_panel_body,"threads",ThreadsProjection.project_session(session_runtime))
 	_apply_world_surface_visibility()
+
+## 六个第一方消费者共用 Host；组装前先过各自 L3，叶 renderer 从不接收 Runtime。
+func _render_shared_surface(body: VBoxContainer, surface: String, safe_dto: Variant) -> VBoxContainer:
+	body = _surface_body(body)
+	var host:=DynamicHost.new()
+	body.add_child(host)
+	host.visibility_requested.connect(_on_visibility_requested)
+	host.render(SurfaceDefinition.build(surface,safe_dto),visibility_preferences.keys_for(surface) if visibility_preferences!=null else [])
+	return body
+
+## 固定 UI 操作仅写偏好 sidecar；失败提示不含路径，绝不触发 Provider 或 Timeline mutation。
+func _on_visibility_requested(surface: String, key: String, hidden: bool) -> void:
+	if visibility_preferences==null: return
+	if not visibility_preferences.set_hidden(surface,key,hidden):
+		status_label.text="状态：展示偏好未能保存，请稍后重试。"
+		return
+	if surface=="people": _render_people_surface()
+	elif surface=="important_experiences": _render_experiences_surface()
 
 
 ## Foreground 永远优先：新 Conversation attempt 使剩余 uncommitted agency 失效。
@@ -1811,16 +1779,9 @@ func _on_mechanics_finished(_result: Dictionary) -> void:
 	_render_system_surface()
 
 func _render_system_surface() -> void:
-	_system_panel_body = _surface_body(_system_panel_body)
-	var view := SystemView.new()
-	_system_panel_body.add_child(view)
-	view.render(SystemProjection.project_session(session_runtime))
+	_system_panel_body = _render_shared_surface(_system_panel_body,"system",SystemProjection.project_session(session_runtime))
 	_apply_world_surface_visibility()
 
-## semantic commit / accepted replacement / Restore 统一复用现有 safe-panel 刷新。
 func _render_inventory_surface() -> void:
-	_inventory_panel_body = _surface_body(_inventory_panel_body)
-	var view := InventoryView.new()
-	_inventory_panel_body.add_child(view)
-	view.render(InventoryProjection.project_session(session_runtime))
+	_inventory_panel_body = _render_shared_surface(_inventory_panel_body,"inventory",InventoryProjection.project_session(session_runtime))
 	_apply_world_surface_visibility()

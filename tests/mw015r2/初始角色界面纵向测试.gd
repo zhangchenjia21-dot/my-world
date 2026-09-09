@@ -28,6 +28,7 @@ func _run() -> void:
 	var curator := SemanticStub.new()
 	var shell: Node = load("res://src/main.tscn").instantiate()
 	shell.session_runtime = runtime
+	shell.test_presentation_preference_root = _root.path_join("presentation-preferences")
 	shell.test_opening_adapter_override = opening
 	shell.test_information_curator_adapter_override = curator
 	shell.test_world_turn_adapter_override = SemanticStub.new()

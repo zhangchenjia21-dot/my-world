@@ -92,6 +92,7 @@ func _run() -> void:
 	await frames()
 	var shell: Node = (load("res://src/main.tscn") as PackedScene).instantiate()
 	shell.session_runtime = runtime
+	shell.test_presentation_preference_root = directory.path_join("presentation-preferences")
 	shell.test_world_turn_adapter_override = Stub.new()
 	shell.test_information_curator_adapter_override = Stub.new()
 	shell.test_world_evolution_adapter_override = Stub.new()
@@ -104,17 +105,18 @@ func _run() -> void:
 		labels.append(button.text)
 	check(shell.world_nav.visible, "five-tab navigation actually visible")
 	check(labels == ["概览", "角色", "重要经历", "人物", "事务", "行囊", "系统", "存档"], "exact eight-tab navigation")
-	var body: VBoxContainer = shell._people_panel_body
+	var body: VBoxContainer = shell._people_panel_body.get_child(0)
 	check(body.get_child_count() == 2 and body.get_child(0) is PanelContainer, "real card panels")
 	for card: Node in body.get_children():
-		check(not card.expanded_body.visible and not card.toggle.button_pressed, "every card starts collapsed")
+		check(not card.get_meta("expanded_body").visible and not card.get_meta("collapse_toggle").button_pressed, "every card starts collapsed")
 	check(not visible_text(body).contains(a2.relationship), "relationship hidden while collapsed")
-	body.get_child(0).toggle.button_pressed = true
+	body.get_child(0).get_meta("collapse_toggle").button_pressed = true
 	await frames()
-	check(body.get_child(0).expanded_body.visible and not body.get_child(1).expanded_body.visible, "expand only selected card")
+	check(body.get_child(0).get_meta("expanded_body").visible and not body.get_child(1).get_meta("expanded_body").visible, "expand only selected card")
 	check(visible_text(body).contains(a2.relationship), "expanded known relationship visible")
 	shell._render_people_surface()
-	check(not body.get_child(0).expanded_body.visible, "rebuild collapses all cards")
+	body = shell._people_panel_body.get_child(0)
+	check(not body.get_child(0).get_meta("expanded_body").visible, "rebuild collapses all cards")
 	var request_count: int = shell.test_information_curator_adapter_override.requests.size()
 	root.mode = Window.MODE_WINDOWED
 	for dimension: Vector2i in [Vector2i(1600, 900), Vector2i(1280, 720), Vector2i(960, 540)]:
@@ -123,7 +125,7 @@ func _run() -> void:
 		shell.world_toggle.button_pressed = true
 		shell._select_world_surface_mode("people")
 		await frames()
-		body.get_child(0).toggle.button_pressed = true
+		body.get_child(0).get_meta("collapse_toggle").button_pressed = true
 		await frames()
 		check(shell.world_surface_column.size.x <= shell.world_surface_scroll.size.x + 1, "cards no horizontal overflow " + str(dimension))
 		if dimension.x <= 1280:
@@ -135,10 +137,11 @@ func _run() -> void:
 		root.mode = Window.MODE_MAXIMIZED
 		await create_timer(0.2).timeout
 		shell._render_people_surface()
+		body = shell._people_panel_body.get_child(0)
 		await frames()
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png(directory.path_join("people-maximized-collapsed.png"))
-		body.get_child(0).toggle.button_pressed = true
+		body.get_child(0).get_meta("collapse_toggle").button_pressed = true
 		await frames()
 		await RenderingServer.frame_post_draw
 		root.get_texture().get_image().save_png(directory.path_join("people-maximized-expanded.png"))
@@ -148,7 +151,7 @@ func _run() -> void:
 	runtime.conversation.append_delta("陈安这次没有告诉你新的消息。")
 	check(runtime.complete_active_generation_durably().success, "replacement accepted durably")
 	check(PeopleSafe.project_session(runtime) == [a, b], "accepted replacement reverts before curator completes")
-	check(not visible_text(body).contains(a2.summary), "Shell immediately removes stale text")
+	check(not visible_text(shell._people_panel_body).contains(a2.summary), "Shell immediately removes stale text")
 	check(runtime.restore_save_point(v2.save_id).success, "Restore v2")
 	check(PeopleSafe.project_session(runtime) == [a2, b], "Restore v2 snapshot")
 	check(runtime.restore_save_point(v1.save_id).success, "Restore v1")

@@ -142,6 +142,7 @@ func contracts() -> void:
 func window_checks() -> void:
 	var shell: Node = (load("res://src/main.tscn") as PackedScene).instantiate()
 	shell.session_runtime = runtime
+	shell.test_presentation_preference_root = directory.path_join("presentation-preferences")
 	shell.test_world_turn_adapter_override = Stub.new()
 	shell.test_information_curator_adapter_override = Stub.new()
 	shell.test_world_evolution_adapter_override = Stub.new()
@@ -199,7 +200,7 @@ func window_checks() -> void:
 		root.get_texture().get_image().save_png(directory.path_join("threads-scroll-960x540.png"))
 	await shell_turn(shell, [])
 	check(shell._threads_panel_body.find_children("*", "Label", true, false)[0].text.contains("没有"), "model clear renders production tab empty state")
-	var leaf: Node = load("res://src/ui/事务列表.gd").new(); root.add_child(leaf); leaf.render([])
+	var leaf: Node = load("res://src/动态展示/L3_外交层/动态展示公开接口.gd").new(); root.add_child(leaf); leaf.render(load("res://src/动态展示/L3_外交层/信息表面定义公开接口.gd").build("threads",[]))
 	check(leaf.get_child(0).text.contains("没有"), "clear empty state")
 	leaf.queue_free(); shell._close_game_session(); shell.queue_free(); await frames()
 
