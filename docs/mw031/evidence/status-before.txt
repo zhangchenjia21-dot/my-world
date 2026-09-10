@@ -1,0 +1,11 @@
+ M .gitignore
+?? docs/mw015/r2/evidence/1280x720-bottom.png.import
+?? docs/mw015/r2/evidence/1280x720-character.png.import
+?? docs/mw015/r2/evidence/960x540-bottom.png.import
+?? docs/mw015/r2/evidence/960x540-character.png.import
+?? docs/mw015/r2/evidence/maximized-bottom.png.import
+?? docs/mw015/r2/evidence/maximized-character.png.import
+?? docs/mw018/evidence/people-1280x720.png.import
+?? docs/mw018/evidence/people-960x540.png.import
+?? docs/mw018/evidence/people-maximized-collapsed.png.import
+?? docs/mw018/evidence/people-maximized-expanded.png.import

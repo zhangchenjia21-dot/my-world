@@ -1,0 +1,57 @@
+[
+  {
+    "path": ".gitignore",
+    "bytes": 339,
+    "sha256": "4B40374100FC060C8F18796A8B67EDC2D0D4FBDE77F40038D60B02B577404C93"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/1280x720-bottom.png.import",
+    "bytes": 972,
+    "sha256": "4D0AD82AD42E84A593E19439BA5C57B072F623138FF92318C3C4F48C92F06163"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/1280x720-character.png.import",
+    "bytes": 981,
+    "sha256": "6AE23AFD2E004138246FF8C6C132798A808EB8B242BD58FBC0E93A34021BBDC3"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/960x540-bottom.png.import",
+    "bytes": 968,
+    "sha256": "1851EE88055A349E200417E3CB1BD1F201CEEECB3F72C67D0B8C447999075F61"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/960x540-character.png.import",
+    "bytes": 977,
+    "sha256": "E8D706A7DDF91F81D1159634E8060FAFD45AA1B8461B906ADBFD8A3573BC326E"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/maximized-bottom.png.import",
+    "bytes": 974,
+    "sha256": "FFBDDB478E921691C03152DA0CCEAA58ACE42312C2134BDEF96B18EA9D94115E"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/maximized-character.png.import",
+    "bytes": 983,
+    "sha256": "FBDF159305AE3CC70AE22C0B6A5C2F6A726BFAE243537189B73022F1BDD6ECC0"
+  },
+  {
+    "path": "docs/mw018/evidence/people-1280x720.png.import",
+    "bytes": 969,
+    "sha256": "50AD339CB7BF6EEBB2D1CE3EE2770C823C1B8B5469D2732657C886FDD1B38D68"
+  },
+  {
+    "path": "docs/mw018/evidence/people-960x540.png.import",
+    "bytes": 966,
+    "sha256": "9CFC8DC5E1AEE184C55284B5D7C33A0F03AD5989CE815AE8E0DCBC30BE556E68"
+  },
+  {
+    "path": "docs/mw018/evidence/people-maximized-collapsed.png.import",
+    "bytes": 1002,
+    "sha256": "FC26263E9E204B0913D2CEC600640A1FD68ACAB98499F87C27C83C452B233AAA"
+  },
+  {
+    "path": "docs/mw018/evidence/people-maximized-expanded.png.import",
+    "bytes": 998,
+    "sha256": "DD12AFD4CDCC26DF375628805FD0C7997F5B3E4833F88F2D2BA6C316CC3FC3E1"
+  }
+]
