@@ -1,0 +1,46 @@
+[
+  {
+    "path": "docs/mw015/r2/evidence/1280x720-bottom.png.import",
+    "sha256": "c7d27bafb10faba4e5e36326814169720cbe2225f7fd7600d8262e4c59c977e7"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/1280x720-character.png.import",
+    "sha256": "0a12220d0dcb618f120e8d99948c923adfb6cc26e6d93b8cf8b01f8976d21344"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/960x540-bottom.png.import",
+    "sha256": "f361da5585cc7d32cf52a557a9fa693064ac07158b4de62ebb24f84bdceb37d2"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/960x540-character.png.import",
+    "sha256": "3758e7b50c93608c404beb43fb71f4b9317b8f84c8cb6956a6fd5b3d4ab016dd"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/maximized-bottom.png.import",
+    "sha256": "e6acd20ed04e7bbbfc2835697da5c0ec97b27d9b166bc49a4f2c7cac81b12257"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/maximized-character.png.import",
+    "sha256": "6bb2bd6da20e7aad6c9643fe9f4a7526583a8b7cd7d59865d2e265274adf685a"
+  },
+  {
+    "path": "docs/mw018/evidence/people-1280x720.png.import",
+    "sha256": "50ad339cb7bf6eebb2d1ce3ee2770c823c1b8b5469d2732657c886fdd1b38d68"
+  },
+  {
+    "path": "docs/mw018/evidence/people-960x540.png.import",
+    "sha256": "9cfc8dc5e1aee184c55284b5d7c33a0f03ad5989ce815ae8e0dcbc30be556e68"
+  },
+  {
+    "path": "docs/mw018/evidence/people-maximized-collapsed.png.import",
+    "sha256": "fc26263e9e204b0913d2cec600640a1fd68acab98499f87c27c83c452b233aaa"
+  },
+  {
+    "path": "docs/mw018/evidence/people-maximized-expanded.png.import",
+    "sha256": "dd12afd4cdcc26df375628805fd0c7997f5b3e4833f88f2d2ba6c316cc3fc3e1"
+  },
+  {
+    "path": "tests/mw004/最小玩家主权原则测试.gd.uid",
+    "sha256": "bfc8f8311d6b7626c6dc46e7907595b906174e2adb7674cbd5a8983d79414fd0"
+  }
+]

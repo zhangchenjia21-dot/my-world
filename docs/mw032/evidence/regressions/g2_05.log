@@ -1,0 +1,39 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[g2-05-context] PASS: M1 new/short 保留完整历史并以 user 结束
+[g2-05-context] PASS: M1 current user 恰好一次
+[g2-05-context] PASS: M1 empty Game Context 省略分节
+[g2-05-context] PASS: M2 cancelled 非 active Turn 不进入 request
+[g2-05-context] PASS: M2 retry request shape 正确
+[g2-05-context] PASS: M2 same pending player 恰好一次
+[g2-05-context] PASS: M2 cancelled partial draft 不进入 context
+[g2-05-context] PASS: M3 regenerate 仅 previous pair + current user
+[g2-05-context] PASS: M3 current original player 恰好一次
+[g2-05-context] PASS: M3 current old assistant 被排除
+[g2-05-context] PASS: M3 replacement 成功前 Domain old accepted 稳定
+[g2-05-context] PASS: M3 regenerate 成功后原子替换
+[g2-05-context] PASS: M4 correction request shape 正确
+[g2-05-context] PASS: M4 corrected player 恰好一次
+[g2-05-context] PASS: M4 current old pair 全部排除
+[g2-05-context] PASS: M4 correction fail 回滚旧 accepted pair
+[g2-05-context] PASS: M5 system + 12 complete pairs + current user == 26 messages
+[g2-05-context] PASS: M5 oldest retained index == 8
+[g2-05-context] PASS: M5 newest retained assistant index == 19
+[g2-05-context] PASS: M5 current attempt 永不被窗口丢弃
+[g2-05-context] PASS: M5 dropped 0..7 / retained 8..19，均以完整 pair 取舍
+[g2-05-context] PASS: M5 retained Turns chronological 且文本未截断
+[g2-05-context] PASS: M6 regenerate full window oldest retained index == 7
+[g2-05-context] PASS: M6 current old assistant index19 排除
+[g2-05-context] PASS: M6 current player index19 恰好一次且最后 role=user
+[g2-05-context] PASS: M7 system 含 GM Instructions 与 Game Context 分节
+[g2-05-context] PASS: M7 non-empty fixture 在全部 messages 中恰好一次
+[g2-05-context] PASS: M7 fixture 不冒充 user/assistant entry
+[g2-05-context] PASS: M7 assembly 不修改 Conversation projection
+[g2-05-context] PASS: M7 empty production 无 Game Context/工程阶段占位
+[g2-05-context] PASS: M8 修改 projection 不回写 accepted truth
+[g2-05-context] PASS: M8 修改 projection/messages 不回写 active attempt
+[g2-05-context] PASS: M9 一字符非空 GM completion 仍 accepted
+[g2-05-context] PASS: M9 empty_generation 行为保持
+[g2-05-context] PASS: M9 GM instructions 保留 Narrative richness
+[g2-05-context] PASS: M9 Provider payload 未添加 max_tokens
+[g2-05-context] done failures=0

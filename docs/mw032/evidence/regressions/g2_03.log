@@ -1,0 +1,57 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+[g2-03-offline] PASS: production 默认 Game Context material 为空
+[g2-03-offline] PASS: T1 空输入时发送按钮禁用
+[g2-03-offline] PASS: T1 空输入未启动请求
+[g2-03-offline] PASS: T1 空输入未产生任何 entry
+[g2-03-offline] PASS: T1 空输入未产生任何 turn
+[g2-03-offline] PASS: T2 恰好一次 failed 信号
+[g2-03-offline] PASS: T2 failed code == missing_key
+[g2-03-offline] PASS: T2 failed 带可读 message
+[g2-03-offline] PASS: T2 GenerationState == FAILED
+[g2-03-offline] PASS: T2 玩家可读错误提示可见
+[g2-03-offline] PASS: T2 失败不进入 accepted entries
+[g2-03-offline] PASS: T2 失败后 adapter 不 busy
+[g2-03-offline] PASS: T2 失败后 Regenerate 可见
+[g2-03-offline] PASS: T2 player + GM 占位 entry 各一
+[g2-03-offline] PASS: T3 regenerate 后收到第二次 failed
+[g2-03-offline] PASS: T3 failed code == transport（DNS 确定性失败）
+[g2-03-offline] PASS: T3 GenerationState == FAILED
+[g2-03-offline] PASS: T3 玩家可读网络错误提示可见
+[g2-03-offline] PASS: T3 失败后 adapter 不 busy，可再次重试
+[g2-03-offline] PASS: T3 失败后 Regenerate 仍可见
+[g2-03-offline] PASS: T3 transport 失败仍不污染 accepted entries
+[g2-03-offline] PASS: T4 发送后进入 STREAMING
+[g2-03-offline] PASS: T4 first turn completed 后 accepted entries == 1
+[g2-03-offline] PASS: T4 first turn accepted 内容正确
+[g2-03-offline] PASS: T4 regenerate 请求 context 中该 player input 恰好一次
+[g2-03-offline] PASS: T4 completed→regenerate 后 accepted entries 仍 == 1
+[g2-03-offline] PASS: T4 同一 player input 在 accepted 中恰好一次
+[g2-03-offline] PASS: T4 regenerated assistant 为新输出且非空
+[g2-03-offline] PASS: T4 第二 turn completed 后 accepted entries == 2
+[g2-03-offline] PASS: T4 最终两对 accepted 合法有序
+[g2-03-offline] PASS: T4 第二 turn context 中两条 player input 各一次
+[g2-03-offline] PASS: T5 regenerate 发出后旧 completed 对保持完整（不在替换前移除）
+[g2-03-offline] PASS: T5 regenerate context 中被替换 player input 恰好一次
+[g2-03-offline] PASS: T5 cancel 后无半对，旧对仍是稳定 context
+[g2-03-offline] PASS: T5 cancel 后旧 GM 输出未被半路内容污染
+[g2-03-offline] PASS: T5 新请求 context 中第二行动恰好一次
+[g2-03-offline] PASS: T5 新行动已进入 Provider context 恰好一次
+[g2-03-offline] PASS: T5 context 恰好三条 user 消息
+[g2-03-offline] PASS: T5 直接新发送完成后 accepted == 三对
+[g2-03-offline] PASS: T5 第三对内容正确
+[g2-03-offline] PASS: T6 fail 后无半对，旧对完整
+[g2-03-offline] PASS: T6 fail 后旧 GM 输出未被破坏
+[g2-03-offline] PASS: T6 新请求 context 中第三行动恰好一次
+[g2-03-offline] PASS: T6 新行动已进入 Provider context 恰好一次
+[g2-03-offline] PASS: T6 完成后 accepted == 四对
+[g2-03-offline] PASS: T7 裸 Enter 不触发发送（保护输入法）
+[g2-03-offline] PASS: T7 Ctrl+Enter 触发发送
+[g2-03-offline] PASS: T7 多行中文行动原文进入 Provider context
+[g2-03-offline] PASS: T7 Ctrl+Enter turn 完成后 accepted == 五对
+[g2-03-offline] PASS: T8 zero-delta completed → FAILED
+[g2-03-offline] PASS: T8 玩家可读 empty_generation 提示可见
+[g2-03-offline] PASS: T8 空完成不产生 accepted entry
+[g2-03-offline] PASS: T8 失败后 Regenerate 可见
+[g2-03-offline] PASS: T8 retry 后 accepted == 六对
+[g2-03-offline] done failures=0

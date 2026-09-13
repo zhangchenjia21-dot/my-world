@@ -1,0 +1,324 @@
+{
+  "note": "First 39 suites from final batch; six tail suites resumed after session interruption. MW021 rerun with normalized forward-slash isolated path. Exit codes recorded from command outputs.",
+  "suites": [
+    {
+      "suite": "g2_03",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/g2_03.log"
+    },
+    {
+      "suite": "g2_04",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/g2_04.log"
+    },
+    {
+      "suite": "g2_05",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/g2_05.log"
+    },
+    {
+      "suite": "g3_03-contract",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/g3_03-contract.log"
+    },
+    {
+      "suite": "g3_03-persistence",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/g3_03-persistence.log"
+    },
+    {
+      "suite": "g3_03",
+      "exit_code": 1,
+      "errors": [
+        "G3-03 UI/CONTEXT FAIL | opaque World JSON is not injected as Game Context"
+      ],
+      "exit_warnings": 0,
+      "log": "regressions/g3_03.log"
+    },
+    {
+      "suite": "g3_04-contract",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/g3_04-contract.log"
+    },
+    {
+      "suite": "g3_04-persistence",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/g3_04-persistence.log"
+    },
+    {
+      "suite": "g3_04",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/g3_04.log"
+    },
+    {
+      "suite": "g3_05-persistence",
+      "exit_code": 1,
+      "errors": [
+        "ERROR: G3-05 PERSISTENCE FAIL | raw World/Prompt truth leaked into Context"
+      ],
+      "exit_warnings": 0,
+      "log": "regressions/g3_05-persistence.log"
+    },
+    {
+      "suite": "g3_05",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/g3_05.log"
+    },
+    {
+      "suite": "g4_08b",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 2,
+      "log": "regressions/g4_08b.log"
+    },
+    {
+      "suite": "g4_08m1-no-check",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/g4_08m1-no-check.log"
+    },
+    {
+      "suite": "g4_08m1",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/g4_08m1.log"
+    },
+    {
+      "suite": "g5_01-timeline",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/g5_01-timeline.log"
+    },
+    {
+      "suite": "g5_01",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/g5_01.log"
+    },
+    {
+      "suite": "g5_02",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/g5_02.log"
+    },
+    {
+      "suite": "g5_03",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 2,
+      "log": "regressions/g5_03.log"
+    },
+    {
+      "suite": "g5_03m2b",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/g5_03m2b.log"
+    },
+    {
+      "suite": "g5_04",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 2,
+      "log": "regressions/g5_04.log"
+    },
+    {
+      "suite": "mw003",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 2,
+      "log": "regressions/mw003.log"
+    },
+    {
+      "suite": "mw011",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw011.log"
+    },
+    {
+      "suite": "mw014",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw014.log"
+    },
+    {
+      "suite": "mw015",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw015.log"
+    },
+    {
+      "suite": "mw015r1",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw015r1.log"
+    },
+    {
+      "suite": "mw015r2-ui",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw015r2-ui.log"
+    },
+    {
+      "suite": "mw015r2",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw015r2.log"
+    },
+    {
+      "suite": "mw017",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw017.log"
+    },
+    {
+      "suite": "mw018",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw018.log"
+    },
+    {
+      "suite": "mw018r1",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw018r1.log"
+    },
+    {
+      "suite": "mw019-lifecycle",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw019-lifecycle.log"
+    },
+    {
+      "suite": "mw019-pairs",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw019-pairs.log"
+    },
+    {
+      "suite": "mw019-routes",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw019-routes.log"
+    },
+    {
+      "suite": "mw021",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw021.log"
+    },
+    {
+      "suite": "mw022-ui",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw022-ui.log"
+    },
+    {
+      "suite": "mw022",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw022.log"
+    },
+    {
+      "suite": "mw023",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw023.log"
+    },
+    {
+      "suite": "mw024-contract",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw024-contract.log"
+    },
+    {
+      "suite": "mw024-vertical",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw024-vertical.log"
+    },
+    {
+      "suite": "mw025-focused",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw025-focused.log"
+    },
+    {
+      "suite": "mw026-focused",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw026-focused.log"
+    },
+    {
+      "suite": "mw027",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw027.log"
+    },
+    {
+      "suite": "mw028",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw028.log"
+    },
+    {
+      "suite": "mw029",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw029.log"
+    },
+    {
+      "suite": "mw030",
+      "exit_code": 0,
+      "errors": [],
+      "exit_warnings": 0,
+      "log": "regressions/mw030.log"
+    }
+  ]
+}
