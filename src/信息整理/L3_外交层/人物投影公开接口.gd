@@ -13,7 +13,7 @@ static func project_session(runtime: Variant) -> Array:
 			"summary": snapshot.summary, "relationship": snapshot.relationship, "details": snapshot.details.duplicate()})
 	return cards
 
-## 展示专用键按精确 actor identity + Game 派生；不返回 raw actor ID，不改变既有模型 DTO。
+## 展示专用键按精确 subject identity + Game 派生；旧 actor-backed subject 保留原键，不返回内部 ID。
 static func project_presented_people(runtime: Variant) -> Array:
 	if runtime == null or not runtime.is_ready() or runtime.conversation == null: return []
 	var people:=Device.fold(runtime.world_state,String(runtime.game_id),runtime.conversation.get_durable_accepted_entries())

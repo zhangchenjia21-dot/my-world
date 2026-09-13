@@ -13,7 +13,7 @@ func _run() -> void:
 	for arg: String in OS.get_cmdline_user_args():
 		if arg.begins_with("--root="): directory=arg.trim_prefix("--root=")
 		if arg=="--visual": visual=true
-	if not directory.contains("mw030"): quit(2); return
+	if not directory.contains("mw030") and not directory.contains("mw032"): quit(2); return
 	DirAccess.make_dir_recursive_absolute(directory)
 	preference_root=directory.path_join("preferences")
 	await host_contracts()
@@ -203,7 +203,7 @@ func host_contracts() -> void:
 		for j: int in 4: children.append({"kind":"text","component_id":"n_%d_%d" % [i,j],"text":"","role":"body"})
 		crowded.append({"kind":"section","component_id":"s"+str(i),"title":"","children":children})
 	bads.append({"surface":"character","children":crowded})
-	for surface: String in ["inventory","system","threads","character"]:
+	for surface: String in ["inventory","system","character"]:
 		bads.append({"surface":surface,"children":[{"kind":"card","component_id":"bad_hide","title":"x","subtitle":"","collapsible":false,"visibility_key":"a".repeat(64),"children":[]}]})
 	for bad: Variant in bads: check(not view.render(bad) and view.get_child_count()==1,"invalid contribution locally rejected")
 	var card: Dictionary={"kind":"card","component_id":"card","title":"x","subtitle":"","collapsible":false,"visibility_key":"a".repeat(64),"children":[]}
@@ -227,7 +227,7 @@ func preference_contracts() -> void:
 	var file:=FileAccess.open(store.path,FileAccess.WRITE);file.store_string("corrupt");file.close()
 	check(Preferences.new("isolated",preference_root).keys_for("people").is_empty(),"corrupt preference defaults visible")
 	check(FileAccess.get_file_as_string(store.path)=="corrupt","corrupt read never rewrites")
-	var oversized: Dictionary={"schema":Preferences.SCHEMA,"hidden_by_surface":{"people":[],"important_experiences":[]}}
+	var oversized: Dictionary={"schema":Preferences.SCHEMA,"hidden_by_surface":{"people":[],"important_experiences":[],"threads":[]}}
 	oversized.hidden_by_surface.people.resize(Preferences.MAX_KEYS+1)
 	check(not Preferences.valid(oversized),"preference key count bounded")
 	oversized.hidden_by_surface.people=["a".repeat(64),"a".repeat(64)]

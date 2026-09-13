@@ -153,7 +153,7 @@ func _recommendation_terminal(result: Dictionary) -> void:
 	if not _current(token):
 		if token.epoch == _epoch: _put(_token(-1), "recommendations", "stale", "unknown", "stale")
 		return
-	_put(token, "recommendations", String(result.get("terminal", "failed")), "unknown", String(result.get("status", "")), {"total": 5 if result.get("terminal") == "ready" else 0}, int(result.get("elapsed_ms", -1)))
+	_put(token, "recommendations", String(result.get("terminal", "failed")), "unknown", String(result.get("status", "")), {"total": 5 if result.get("terminal") == "ready" else 0, "attempt": clampi(int(pending.context.get("attempt", 1)), 1, 2)}, int(result.get("elapsed_ms", -1)))
 
 func _restored(_result: Dictionary) -> void:
 	_epoch += 1

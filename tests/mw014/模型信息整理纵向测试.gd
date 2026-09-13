@@ -197,7 +197,9 @@ func accept(runtime: RefCounted, player: String, gm: String) -> void:
 
 func complete(stub: Node, value: Dictionary) -> void:
 	check(stub.busy, "production curator request active")
-	stub.simulate_delta(JSON.stringify(value))
+	var active: Dictionary=stub.get_parent()._active
+	var payload: Dictionary=load("res://tests/mw032/旧场景响应适配.gd").convert(value,active.get("subjects",{}),active.get("bindings",{}))
+	stub.simulate_delta(JSON.stringify(payload))
 	stub.simulate_completed()
 
 func frames() -> void:

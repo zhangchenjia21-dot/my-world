@@ -36,7 +36,7 @@ func _run() -> void:
 func _curated(item: String, title: String) -> Dictionary:
 	return {
 		"character": {"headline": "刘备", "summary": "汉室宗亲，正在乱世中建立自己的根基。", "groups": [{"title": "能力 / 专长说明", "items": [item]}]},
-		"experiences": [{"title": title, "description": "这是一次由模型判断的主角重要经历。"}],
+		"open_threads": [], "experiences": [{"title": title, "description": "这是一次由模型判断的主角重要经历。"}],
 	}
 
 
@@ -249,6 +249,10 @@ func _settle_lane(stub: Node, payload: String) -> void:
 	for _round: int in range(4):
 		if not stub.busy:
 			return
+		var value: Variant=JSON.parse_string(payload)
+		if value is Dictionary and stub.get_parent()!=null and stub.get_parent().get("_active") is Dictionary:
+			var active: Dictionary=stub.get_parent()._active
+			payload=JSON.stringify(load("res://tests/mw032/旧场景响应适配.gd").convert(value,active.get("subjects",{}),active.get("bindings",{})))
 		stub.simulate_delta(payload)
 		stub.simulate_completed()
 		await _frames()

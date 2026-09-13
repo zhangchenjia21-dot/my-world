@@ -113,6 +113,9 @@ func _run() -> void:
 		elif mode == "oversize":
 			recommendation.simulate_delta("x".repeat(RecommendationContract.RESPONSE_BYTES + 1))
 		await frames()
+		if recommendation.busy and mode in ["failure","timeout","sync","malformed"]:
+			check(recommender._attempt_count==2,"recoverable failure has one bounded retry")
+			recommendation.simulate_failed();await frames()
 		check(recommender.snapshot().status == "unavailable" and not recommendation.busy and runtime.active_head_id == accepted_head, mode + " fails soft without gameplay mutation")
 		recommender._timer.wait_time = 120.0
 	recommendation.synchronous_failure = false

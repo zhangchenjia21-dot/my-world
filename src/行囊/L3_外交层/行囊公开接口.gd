@@ -8,7 +8,7 @@ static func _versions(entries: Array) -> Array:
 	var versions: Array = []
 	for index: int in entries.size():
 		var entry: Dictionary = entries[index]
-		versions.append({"valid":Accepted.valid(entry) and Accepted.mode(entry) == "action" and not String(entry.player_text).is_empty(),"prefix":hashes[index],"gm_hash":String(entry.gm_text).sha256_text()})
+		versions.append({"valid":Accepted.valid(entry) and Accepted.mode(entry) in ["action", "opening"] and not String(entry.gm_text).is_empty(),"prefix":hashes[index],"gm_hash":String(entry.gm_text).sha256_text()})
 	return versions
 
 ## 纯 player-safe projection，仅 name/summary 的深复制，禁止把内部事件/refs 交给叶 UI。

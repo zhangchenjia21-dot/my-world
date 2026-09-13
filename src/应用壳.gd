@@ -1550,7 +1550,7 @@ func _render_people_surface() -> void:
 	_apply_world_surface_visibility()
 
 func _render_threads_surface() -> void:
-	_threads_panel_body = _render_shared_surface(_threads_panel_body,"threads",ThreadsProjection.project_session(session_runtime))
+	_threads_panel_body = _render_shared_surface(_threads_panel_body,"threads",ThreadsProjection.project_presented_threads(session_runtime))
 	_apply_world_surface_visibility()
 
 ## 六个第一方消费者共用 Host；组装前先过各自 L3，叶 renderer 从不接收 Runtime。
@@ -1570,6 +1570,7 @@ func _on_visibility_requested(surface: String, key: String, hidden: bool) -> voi
 		return
 	if surface=="people": _render_people_surface()
 	elif surface=="important_experiences": _render_experiences_surface()
+	elif surface=="threads": _render_threads_surface()
 
 
 ## Foreground 永远优先：新 Conversation attempt 使剩余 uncommitted agency 失效。

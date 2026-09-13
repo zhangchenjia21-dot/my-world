@@ -7,6 +7,7 @@ const Contract := preload("res://src/信息整理/L0_公理层/信息整理契�
 const Parser := preload("res://src/信息整理/L1_器件层/信息整理响应解析器.gd")
 const Device := preload("res://src/信息整理/L1_器件层/角色经历投影器.gd")
 
+const Subjects := preload("res://src/信息整理/L1_器件层/整理主体引用器.gd")
 const Threads := preload("res://src/信息整理/L1_器件层/事务快照投影器.gd")
 const People := preload("res://src/信息整理/L1_器件层/人物认知投影器.gd")
 const IdentityBridge := preload("res://src/世界回合/L3_外交层/人物身份桥公开接口.gd")
@@ -33,17 +34,17 @@ Character 与 Important Experiences 分别判断：Character 可以更新而 exp
 character=null 表示保持。否则是完整当前快照，保留仍有效的起始信息并删除过期旧值；最多7组且组名不重复，每组最多12项、每项600字符；headline最多160字符，summary最多1600字符。experiences只新增本轮重要经历，最多4条，每条标题160字符、描述1200字符。角色无需更新时 character=null；本轮没有值得长期保留的人生节点时 experiences=[]。人物按下述同一次 lived 响应协议返回 people_updates。不输出持久 ID、hash、出处元数据或虚构日历日期。"""
 
 const PEOPLE_INSTRUCTIONS := """
-本次 lived 响应在 character、experiences 之外增加 people_updates 数组（无变化为空）。同一次调用维护角色、经历、人物与事务，不增加额外调用。
-人物只使用 people_evidence 中当前绑定的 actor_ref、accepted quote 与 source_role/source_span（旧回执 gm_span 表示 GM 来源） 和该人的 current_snapshot，结合本轮已接受叙事理解玩家最新认知。引用不是姓名匹配，也不代表玩家知道该人的后台真相。无证据的其他人物保持，不猜身份。
-由你决定是否值得建卡、更新、保留或删除；不是每个提及的人都需要卡片。当前在场既不是建卡必要条件，也不是充分条件；已知但场外的人可以有持续记忆价值，偶然在场的士兵、守卫或路人可以不建卡。这不是固定人物类别规则，由你结合上下文判断。Player 来源引用可表达回忆或已有认知，但玩家的猜测和断言不自动成为世界真相；只整理实际有依据的玩家最新认知。不得根据幕后变化刷新认知。保留仍有效旧认知，修正已被玩家获知的错误。关系是玩家已知自然语言，不是数值好感或全知态度。
-people_updates 格式：[{"actor_ref":"输入中的引用","snapshot":null或{"display_name":"玩家已知称呼","headline":"很短的关键定位","summary":"最新已知摘要","relationship":"玩家已知关系","details":["有用的已知详情"]}}]。
-完整 snapshot 替换旧卡，null 删除；省略该人表示保持。不输出 canonical ID。最多8个不同人物更新，同一人只能一个操作（不同引用可能只是同一人的不同原文片段）。display_name最多64字符，headline160，summary400，relationship600，details最多8项每项600。未知字段用空字符串/空数组，不编造完整度。折叠卡只显示姓名和 headline，详细关系和摘要只在展开时展示。
+同一次响应维护 people_updates。People 是主角当前知道、记得、听说且值得持续记住的人，不要求见面、Character Card 或已验证 World actor。
+历史、社会、政治上重要的已知人物通常值得持续记忆，即使材料稀少；这只是语义倾向，不是固定分类或名人名单。偶然提及者可以不建卡。只据 accepted Player/GM 和当前安全快照整理，传闻/记忆保留不确定性，不补全全知传记。
+current_people 给出现有 person_ref 与 snapshot；people_evidence 给出可用的 exact actor_ref。引用不是名字，不按姓名相等合并。已有对象用 person_ref 更新/删除；新 referent 用 person_ref=null 和 exact accepted source_role/source_span。可用 actor_ref 精确关联现有 referent，不更换其身份；无 actor evidence 时 actor_ref=null，People 不成为 World truth。
+people_updates 最多8项，每项精确结构：{"person_ref":null或输入引用,"actor_ref":null或输入引用,"source_role":null或"player"或"gm","source_span":null或{"start":0,"length":2},"snapshot":null或{"display_name":"称呼","headline":"定位","summary":"最新已知摘要","relationship":"已知关系","details":["详情"]}}。
+新建必须提供非空 snapshot 与 source_role/source_span；span 是 accepted_player/accepted_narrative 原文零基 Unicode 字符坐标，长度1..600，不含标题。已有对象可用 null source 字段，snapshot=null 删除；省略表示保持。每个对象仅一次操作。display_name<=64，headline<=160，summary<=400，relationship<=600，details<=8项每项600。未知可留空。不输出 durable ID 或私密材料。
 """
 
 const THREADS_INSTRUCTIONS := """
-同一次 lived 响应增加 open_threads 字段，输入 current_open_threads 是玩家当前安全快照。事务回答“现在还有哪些值得我继续记住的未完事项”，不是 Quest 系统或剧情流水账。人物回答“我目前对值得持续记住的人最近最新知道什么”；不要重复角色的长期身份真相，事务只描述当前悬而未决的部分。
-你自由决定值得保留、更新或移除的事项；普通回合可无变化，已解决、失效或不再相关的事项可移除。当前在场既不是必要条件也不是充分条件，场外未完事项可以保持；不套类别、关键词、优先级、分数或回合阈值。只使用已接受行动/叙事与当前玩家安全投影，不根据未披露的幕后变化补全事项。
-open_threads=null 表示保持；数组是完整替换后的当前快照，[] 表示清空。精确结构：[{"title":"简洁标题","summary":"当前未完状态与玩家已知关键事实","details":["必要的已知详情"]}]。最多12条，title最多160字符，summary最多800字符，details最多4项且每项500字符；只允许这三个键。不输出任务类型、状态、优先级、ID、奖励或推理。
+每次 Opening/角色行动整理都必须主动重新审查 current_open_threads 的每条事务：仍未解决且值得关注则保留，已完成/失效/被替代/不再待处理/不值得持续关注则移除，有新证据则更新。由你按 accepted 玩家可知语义判断，不使用固定类别、回合阈值或分数。
+open_threads 必须为完整已审查数组，禁止 null 或省略。[] 代表当前没有值得持续记住的未完事项。已有项用输入 thread_ref 保持其身份；被省略的旧项即移除；新项用 thread_ref=null。
+精确结构：[{"thread_ref":null或输入引用,"title":"标题","summary":"当前未完状态","details":["玩家已知详情"]}]。最多12条，title<=160，summary<=800，details<=4项每项500。普通回合可以原样返回仍有效事项，不必制造变化；不得虚构事务填满界面，不输出 ID/任务状态/奖励/优先级。
 """
 
 # 初始 lane 只给模型冻结的玩家材料；无需 opening，也不把静态传记作为 lived event。
@@ -131,7 +132,7 @@ func _on_accepted(_turn: RefCounted) -> void:
 	_pending_lived = true
 	_pump.call_deferred(_epoch)
 
-# 终态只唤醒已有 lived 机会，绝不把 reopen 历史或 GM-only opening 加入处理集。
+# 终态只唤醒已接受的当前机会；不会把 reopen 历史加入处理集。
 func _on_semantic_terminal(_result: Dictionary) -> void:
 	if not _closed and _pending_lived:
 		_pump.call_deferred(_epoch)
@@ -168,7 +169,7 @@ func _pump(expected_epoch: int) -> void:
 	for record: Dictionary in records:
 		successful[record.index] = true
 	for index: int in range(entries.size()):
-		if successful.has(index) or Accepted.mode(entries[index]) != "action":
+		if successful.has(index) or Accepted.mode(entries[index]) not in ["action", "opening"]:
 			continue
 		if semantic_barrier != null:
 			if _lived_opportunities.get(index, "") != prefixes[index]:
@@ -198,6 +199,11 @@ func _pump(expected_epoch: int) -> void:
 		_active["identity_receipt_id"] = evidence.get("receipt_id", "")
 		_active["bindings"] = evidence.get("bindings", {})
 		var people := People.fold(session_runtime.world_state, String(session_runtime.game_id), earlier)
+		var subjects := Subjects.request(People.subjects(session_runtime.world_state, String(session_runtime.game_id), earlier), Threads.fold(session_runtime.world_state, earlier), String(session_runtime.game_id), prefixes[index], entries[index], _active.bindings)
+		_active["subjects"] = subjects
+		context["current_people"] = subjects.person_rows
+		context["current_open_threads"] = subjects.thread_rows
+		context["input_mode"] = Accepted.mode(entries[index])
 		var public_evidence: Array = evidence.get("evidence", [])
 		for item: Dictionary in public_evidence:
 			var local_id: String = _active.bindings[item.actor_ref]
@@ -210,7 +216,7 @@ func _pump(expected_epoch: int) -> void:
 			return
 		_response = ""
 		_timer.start()
-		var error: Error = provider_adapter.start_stream([{"role": "system", "content": INSTRUCTIONS + PEOPLE_INSTRUCTIONS + THREADS_INSTRUCTIONS}, {"role": "user", "content": content}])
+		var error: Error = provider_adapter.start_stream([{"role": "system", "content": INSTRUCTIONS + PEOPLE_INSTRUCTIONS + THREADS_INSTRUCTIONS + "\ninput_mode=opening 时没有 Player 行动；只整理已接受 Opening 明确建立的玩家可知事实，不虚构选择或经历。"}, {"role": "user", "content": content}])
 		if error != OK and not _active.is_empty():
 			_finish(false, "start_failed")
 		return
@@ -227,7 +233,7 @@ func _on_delta(text: String) -> void:
 func _on_completed() -> void:
 	if _active.is_empty():
 		return
-	var result := Parser.parse(_response, not _active.has("binding"), _active.get("bindings", {}))
+	var result := Parser.parse(_response, not _active.has("binding"), _active.get("bindings", {}), _active.get("subjects", {}))
 	if result.is_empty():
 		_finish(false, "malformed_response")
 		return
@@ -256,8 +262,8 @@ func _on_completed() -> void:
 		# 在途身份依赖已变化：保留本次角色/经历/事务结果，People 无写权限。
 		result.people_updates = []
 		dependency = ""
-	var identity := Contract.lived_record_id(_active.prefix, parent, result, dependency)
-	owner.turns[str(index)] = {"schema": Contract.LIVED_SCHEMA, "prefix": _active.prefix, "parent": parent,
+	var identity := Contract.lived_record_id(_active.prefix, parent, result, dependency, Contract.CURRENT_LIVED_SCHEMA)
+	owner.turns[str(index)] = {"schema": Contract.CURRENT_LIVED_SCHEMA, "prefix": _active.prefix, "parent": parent,
 		"id": identity, "result": result, "identity_receipt_id": dependency}
 	next["information_curation"] = owner
 	# 无变化也持久化成功回执，以保证 reopen 不重调/不重复；不产生伪角色或经历内容。

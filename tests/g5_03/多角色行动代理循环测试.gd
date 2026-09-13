@@ -245,6 +245,11 @@ func _test_r02_production_wake_ownership_proof() -> void:
 	_check(not shell.agency_scheduler.dirty, "R02 Opening completion does not dirty Agency through real Application wiring")
 	_check(selector_stub.requests.is_empty(), "R02 Opening completion starts no selector")
 	var semantic_stub: Node = shell.test_world_turn_adapter_override
+	# MW-032：先完成 Opening 的独立语义机会，再测后续 action 的既有 Agency/Evolution 顺序。
+	semantic_stub.simulate_delta('{"changes":[]}');semantic_stub.simulate_completed()
+	await _settle(3)
+	_check(selector_stub.requests.is_empty(),"Opening semantic terminal still has zero Agency selector")
+	semantic_stub.requests.clear()
 	var view_stub := _swap_view_stub(shell.narrative_view)
 
 	# Turn A ordinary（no-change semantic）：accepted 只 mark_dirty；semantic active 期间 selector=0；

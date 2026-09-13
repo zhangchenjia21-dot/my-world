@@ -522,6 +522,12 @@ func _test_production_ordering() -> void:
 	_check(not shell.agency_scheduler.dirty and selector_stub.requests.is_empty(), "5 Opening completion starts no Agency opportunity")
 	_check(evolution_stub.requests.is_empty(), "4 Opening completion wakes no World Evolution through real wiring")
 	var semantic_stub: Node = shell.test_world_turn_adapter_override
+	# MW-032：先完成 Opening 的独立语义机会，再测后续 action 的既有 Agency/Evolution 顺序。
+	semantic_stub.simulate_delta('{"changes":[]}');semantic_stub.simulate_completed()
+	await _settle(3)
+	_check(selector_stub.requests.is_empty(),"Opening semantic terminal still has zero Agency selector")
+	semantic_stub.requests.clear()
+	order_log.clear()
 	var view_stub := _swap_view_stub(shell.narrative_view)
 
 	# Turn A（no-actor Agency terminal）：evaluator 只在 selector terminal 后被唤醒一次。
@@ -821,6 +827,10 @@ func _boot_wired_shell(case_name: String, game_setup: Dictionary, with_d20: bool
 	opening_stub.simulate_delta("开场叙事。")
 	opening_stub.simulate_completed()
 	await _settle(4)
+	semantic_stub.simulate_delta('{"changes":[]}');semantic_stub.simulate_completed()
+	await _settle(3)
+	_check(selector_stub.requests.is_empty() and evolution_stub.requests.is_empty(),"Opening semantic terminal never starts Agency/Evolution")
+	semantic_stub.requests.clear()
 	return {"shell": shell, "opening_stub": opening_stub, "semantic_stub": semantic_stub, "evolution_stub": evolution_stub, "selector_stub": selector_stub, "adjudication_stub": adjudication_stub}
 
 

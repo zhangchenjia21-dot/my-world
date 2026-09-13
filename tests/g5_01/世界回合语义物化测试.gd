@@ -139,7 +139,7 @@ func _test_opening_skip() -> void:
 	runtime.conversation.append_delta("这是只由 GM 叙述的首次开场。")
 	runtime.conversation.complete_generation()
 	await process_frame
-	_check(worker.last_result.status == "opening_skipped" and stub.requests.is_empty(), "GM-only Opening is excluded")
+	_check(stub.requests.size()==1, "GM-only Opening uses existing semantic lane")
 	worker.shutdown()
 	worker.queue_free()
 

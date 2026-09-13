@@ -40,7 +40,9 @@ func _run() -> void:
 	runtime.conversation.append_delta("陈安在门外等候。")
 	check(runtime.complete_active_generation_durably().success, "opening accepted")
 	await frames()
-	check(semantic.requests.is_empty() and curation.requests.size() == 1, "GM-only opening skipped by both lived lanes")
+	check(semantic.busy and curation.requests.size()==1,"Opening semantic barrier")
+	complete(semantic,{"changes":[]});await frames()
+	complete(curation,NO_CHANGE);await frames()
 	var before: Dictionary = runtime.create_save_point("before people")
 	check(before.success, "save before learning")
 
@@ -285,7 +287,7 @@ func teardown() -> void:
 
 func request_refs(messages: Array) -> Array:
 	var content: String = messages[1].content
-	var block := content.split("People Actor References (identity only)\n")[1]
+	var block := content.split("People Actor References (identity only)\n")[1].split("\n\n")[0]
 	var refs: Array = []
 	for line: String in block.split("\n"):
 		var parsed: Variant = JSON.parse_string(line)
@@ -300,7 +302,12 @@ func accept(player: String, gm: String) -> void:
 
 func complete(stub: Node, result: Dictionary) -> void:
 	check(stub.busy, "expected request active")
-	stub.simulate_delta(JSON.stringify(result))
+	var payload := result
+	if stub.get_parent()!=null and stub.get_parent().get("_active") is Dictionary:
+		var active: Dictionary=stub.get_parent().get("_active")
+		if active.has("subjects") and not get_script().resource_path.contains("mw032"):
+			payload=load("res://tests/mw032/旧场景响应适配.gd").convert(result,active.subjects,active.get("bindings",{}))
+	stub.simulate_delta(JSON.stringify(payload))
 	stub.simulate_completed()
 
 func frames() -> void:

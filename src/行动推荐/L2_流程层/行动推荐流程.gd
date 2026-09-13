@@ -22,6 +22,8 @@ var _active := false
 var _closed := false
 var _foreground := false
 var _attempted_prefix := ""
+var _attempt_count := 0
+var _recovery_pending := false
 var _request_prefix := ""
 var _text := ""
 var _state := "empty"
@@ -73,8 +75,13 @@ func _consider(epoch: int) -> void:
 		return
 	var prefix := InputBuilder.prefix(entries)
 	if prefix == _attempted_prefix:
-		return
-	_attempted_prefix = prefix
+		if not _recovery_pending or _attempt_count >= 2:
+			return
+	else:
+		_attempted_prefix = prefix
+		_attempt_count = 0
+	_recovery_pending = false
+	_attempt_count += 1
 	_begin_diagnostic(entries, epoch)
 	var messages := InputBuilder.build(entries, _character_reader.call())
 	if messages.is_empty():
@@ -116,7 +123,7 @@ func _on_completed(epoch: int) -> void:
 
 func _on_failed(code: String, _message: String, epoch: int) -> void:
 	if _is_current(epoch):
-		_finish([], false, "timeout" if code == "timeout" else "provider_failure")
+		_finish([], false, "timeout" if code == "timeout" else ("configuration_failure" if code in ["missing_key", "missing_credential", "invalid_profile", "invalid_persisted_settings", "invalid_settings", "unknown_profile", "unknown_context_limit", "unknown_reasoning_request", "incompatible_context_limit"] else "provider_failure"))
 	else:
 		_note_stale(epoch)
 
@@ -133,10 +140,16 @@ func _on_timeout(epoch: int) -> void:
 		_note_stale(epoch)
 
 func _finish(actions: Array, cancel_transport: bool = false, reason: String = "malformed_response") -> void:
+	# 只允许同一 current prefix 的一次恢复；先冻结资格，再解除旧 transport。
+	var recover := actions.is_empty() and reason in ["malformed_response", "timeout", "provider_failure"] and _attempt_count < 2 and _is_current(_serial)
 	_emit_diagnostic("ready" if actions.size() == Contract.ACTION_COUNT else ("cancelled" if reason == "cancelled" else "failed"), "ready" if actions.size() == Contract.ACTION_COUNT else reason)
 	_disconnect_request(cancel_transport)
 	_actions = actions
 	_publish("ready" if actions.size() == Contract.ACTION_COUNT else "unavailable")
+	if recover:
+		_recovery_pending = true
+		_serial += 1
+		_consider.call_deferred(_serial)
 
 func _publish(state: String) -> void:
 	_state = state
@@ -147,7 +160,7 @@ func _invalidate() -> void:
 		_emit_diagnostic("stale", "stale")
 	_serial += 1
 	_disconnect_request(true)
-	_attempted_prefix = ""
+	_recovery_pending = false
 	_actions.clear()
 	_publish("empty")
 
@@ -184,7 +197,7 @@ func _exit_tree() -> void:
 	shutdown()
 
 func _begin_diagnostic(entries: Array, serial: int) -> void:
-	_diagnostic_context = {"request": serial, "source_turn_index": entries.size() - 1, "prefix": InputBuilder.prefix(entries)}
+	_diagnostic_context = {"request": serial, "attempt": _attempt_count, "source_turn_index": entries.size() - 1, "prefix": InputBuilder.prefix(entries)}
 	_diagnostic_started_ms = Time.get_ticks_msec()
 	_diagnostic_done = false
 	diagnostic_started.emit(_diagnostic_context.duplicate())

@@ -6,6 +6,7 @@ const Accepted := preload("res://src/domain/L3_外交层/已接受输入公开�
 # 仅定义机器结构边界；组的归属、是否改变和经历的重要性由模型决定。
 const SCHEMA := "information_curation.v0.1"
 const PREVIOUS_LIVED_SCHEMA := "information_curation_lived.v0.2"
+const CURRENT_LIVED_SCHEMA := "information_curation_lived.v0.4"
 const LIVED_SCHEMA := "information_curation_lived.v0.3"
 const MAX_RESPONSE_BYTES := 65536
 const GROUPS := ["基本资料", "出身 / 来历", "当前身份 / 社会角色", "性格 / 价值观 / 原则", "能力 / 专长说明", "局限 / 长期特征", "长期目标 / 自我方向"]
@@ -68,7 +69,7 @@ static func current_records(world: Dictionary, entries: Array) -> Array:
 	for index: int in range(entries.size()):
 		var record: Variant = owner.turns.get(str(index), {})
 		var legacy := keys_exact(record, ["prefix", "parent", "id", "result"])
-		var lived: bool = keys_exact(record, ["schema", "prefix", "parent", "id", "result", "identity_receipt_id"]) and record.schema in [PREVIOUS_LIVED_SCHEMA, LIVED_SCHEMA]
+		var lived: bool = keys_exact(record, ["schema", "prefix", "parent", "id", "result", "identity_receipt_id"]) and record.schema in [PREVIOUS_LIVED_SCHEMA, LIVED_SCHEMA, CURRENT_LIVED_SCHEMA]
 		if not legacy and not lived:
 			continue
 		if lived and not text_valid(record.identity_receipt_id, 64, true):
@@ -83,6 +84,7 @@ static func current_records(world: Dictionary, entries: Array) -> Array:
 		var validated := {"index": index, "id": record.id, "result": result}
 		if lived:
 			validated["identity_receipt_id"] = record.identity_receipt_id
+			validated["schema"] = record.schema
 		records.append(validated)
 		parent = record.id
 	return records
@@ -152,23 +154,26 @@ static func normalize_lived(value: Variant, schema: String = "") -> Dictionary:
 	if schema.is_empty():
 		schema = LIVED_SCHEMA if value is Dictionary and value.has("open_threads") else PREVIOUS_LIVED_SCHEMA
 	var fields := ["character", "experiences", "people_updates"]
-	if schema == LIVED_SCHEMA:
+	if schema in [LIVED_SCHEMA, CURRENT_LIVED_SCHEMA]:
 		fields.append("open_threads")
-	if schema not in [LIVED_SCHEMA, PREVIOUS_LIVED_SCHEMA] or not keys_exact(value, fields):
+	if schema not in [LIVED_SCHEMA, PREVIOUS_LIVED_SCHEMA, CURRENT_LIVED_SCHEMA] or not keys_exact(value, fields):
 		return {}
 	var base := normalize({"character": value.character, "experiences": value.experiences})
 	if base.is_empty() or not value.people_updates is Array or value.people_updates.size() > 8:
 		return {}
 	var seen := {}
 	for update: Variant in value.people_updates:
-		if not keys_exact(update, ["local_character_id", "snapshot"]) or not text_valid(update.local_character_id, 256):
-			return {}
-		if seen.has(update.local_character_id) or (update.snapshot != null and not person_valid(update.snapshot)):
-			return {}
-		seen[update.local_character_id] = true
+		var modern := schema == CURRENT_LIVED_SCHEMA
+		var keys := ["subject_id", "actor_id", "snapshot"] if modern else ["local_character_id", "snapshot"]
+		if not keys_exact(update, keys): return {}
+		var id: Variant = update.subject_id if modern else update.local_character_id
+		if not text_valid(id, 256) or seen.has(id): return {}
+		if modern and not text_valid(update.actor_id, 256, true): return {}
+		if update.snapshot != null and not person_valid(update.snapshot): return {}
+		seen[id] = true
 	base["people_updates"] = value.people_updates.duplicate(true)
-	if schema == LIVED_SCHEMA:
-		if not threads_valid(value.open_threads):
+	if schema in [LIVED_SCHEMA, CURRENT_LIVED_SCHEMA]:
+		if not (stable_threads_valid(value.open_threads) if schema == CURRENT_LIVED_SCHEMA else threads_valid(value.open_threads)):
 			return {}
 		base["open_threads"] = null if value.open_threads == null else value.open_threads.duplicate(true)
 	return base
@@ -218,4 +223,15 @@ static func threads_valid(value: Variant) -> bool:
 		for detail: Variant in thread.details:
 			if not text_valid(detail, 500):
 				return false
+	return true
+
+## 新记录显式保存完整已审查集合；旧 nullable schema 继续按原字节验证。
+static func stable_threads_valid(value: Variant) -> bool:
+	if not value is Array or value.size() > 12: return false
+	var seen := {}
+	for item: Variant in value:
+		if not keys_exact(item, ["thread_id", "title", "summary", "details"]): return false
+		if not text_valid(item.thread_id, 256) or seen.has(item.thread_id): return false
+		if not threads_valid([{"title": item.title, "summary": item.summary, "details": item.details}]): return false
+		seen[item.thread_id] = true
 	return true

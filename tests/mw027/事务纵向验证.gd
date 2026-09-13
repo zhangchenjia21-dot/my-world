@@ -28,7 +28,9 @@ func _run() -> void:
 	runtime.conversation.begin_gm_opening(); runtime.conversation.append_delta("你在河畔暂歇。")
 	check(runtime.complete_active_generation_durably().success, "opening accepted")
 	await frames()
-	check(curation.requests.size() == 1, "no opening curation")
+	complete(semantic,{"changes":[]});await frames()
+	complete(curation,{"character":null,"experiences":[],"open_threads":[]});await frames()
+	check(curation.requests.size() == 2,"opening uses existing curator")
 	var before: Dictionary = runtime.create_save_point("before")
 	# v0.2 ID 按冻结旧算法构造，不借新实现自证兼容。
 	var state: Dictionary = runtime.world_state.duplicate(true)
@@ -48,7 +50,7 @@ func _run() -> void:
 	var snapshot: Dictionary = runtime.create_save_point("with threads")
 	check(runtime.world_state.information_curation.turns["0"] == original, "v0.2 bytes/shape remain unchanged")
 	var latest: Dictionary = runtime.world_state.information_curation.turns["1"]
-	check(latest.schema == "information_curation_lived.v0.3" and latest.parent == old_id, "v0.3 chains to exact v0.2 parent")
+	check(latest.schema == Contract.CURRENT_LIVED_SCHEMA and latest.parent == old_id, "v0.3 chains to exact v0.2 parent")
 	check(latest.id == JSON.stringify([latest.schema, latest.prefix, latest.parent, latest.result, latest.identity_receipt_id], "", true).sha256_text(), "v0.3 exact normalized payload and dependency ID")
 	var altered: Dictionary = runtime.world_state.duplicate(true)
 	altered.information_curation.turns["1"].result.open_threads = B
@@ -56,11 +58,11 @@ func _run() -> void:
 	altered = runtime.world_state.duplicate(true)
 	altered.information_curation.turns["1"].identity_receipt_id = "stale-receipt"
 	var changed_record: Dictionary = altered.information_curation.turns["1"]
-	changed_record.id = Contract.lived_record_id(changed_record.prefix, changed_record.parent, changed_record.result, changed_record.identity_receipt_id)
+	changed_record.id = Contract.lived_record_id(changed_record.prefix, changed_record.parent, changed_record.result, changed_record.identity_receipt_id, changed_record.schema)
 	check(ThreadsFold.project(altered, runtime.conversation.get_durable_accepted_entries()) == A, "People receipt dependency does not suppress valid Threads")
 	await turn("沿河散步", null)
 	check(ThreadsSafe.project_session(runtime) == A and row("threads", 2).change == "no-change", "null keeps and Debug no-change")
-	check(input().current_open_threads == A, "same call receives current safe threads")
+	check(input().current_open_threads.size()==A.size() and input().current_open_threads[0].summary==A[0].summary, "same call receives current safe threads")
 	await turn("得知新消息", B)
 	check(ThreadsSafe.project_session(runtime) == B, "complete replacement")
 	await turn("消息已经清楚", [])

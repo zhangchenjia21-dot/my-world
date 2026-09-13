@@ -22,7 +22,7 @@ static func build(surface: String, value: Variant) -> Dictionary:
 				nodes.append(_card(person.display_name,body,true,person.headline,person.presentation_key))
 			if nodes.is_empty(): nodes.append(_text("人物信息将随你结识和了解他们而整理。","muted"))
 		"threads":
-			for item: Dictionary in value: nodes.append(_card(item.title,[_text(item.summary),_facts(item.details)]))
+			for item: Dictionary in value: nodes.append(_card(item.title,[_text(item.summary),_facts(item.details)],false,"",item.get("presentation_key","")))
 			if nodes.is_empty(): nodes.append(_text("目前没有需要持续跟进的事务。"))
 		"inventory":
 			nodes.append(_text("当前行囊","heading"))

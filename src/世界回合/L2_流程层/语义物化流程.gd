@@ -134,8 +134,6 @@ func _consider_entry(entry: Dictionary, newly_accepted: bool = false) -> Diction
 	var player_text := String(entry.get("player_text", ""))
 	var gm_text := String(entry.get("gm_text", ""))
 	var turn_index := int(entry.get("turn_index", -1))
-	if player_text.is_empty():
-		return _publish({"success": true, "status": "opening_skipped", "source_turn_index": turn_index})
 	if turn_index < 0 or gm_text.strip_edges().is_empty() or session_runtime == null or not session_runtime.is_ready():
 		return _publish({"success": false, "status": "invalid_accepted_turn", "source_turn_index": turn_index})
 	var entries: Array = session_runtime.conversation.get_durable_accepted_entries()
@@ -214,8 +212,10 @@ func _analysis_messages(turn: Dictionary) -> Array:
 	var roster_block := "Allowed Stable Actors\n" + "\n".join(roster_lines) if not roster_lines.is_empty() else "Allowed Stable Actors\n（无）"
 	# MW-006：既有 authoritative CHECK_REQUIRED durable resolution 只在此处只读进入语义
 	# request 一次；NO_CHECK / 普通路径 / marker 缺失或歧义时不存在该 block，不伪造 mechanics。
-	var grounding_block := _mechanical_grounding_block(turn)
+	var grounding_block := "" if String(turn.player_text).is_empty() else _mechanical_grounding_block(turn)
 	var user_content := "%s\n\nAccepted Player Action\n%s\n\nAccepted GM Narrative\n%s" % [roster_block, String(turn.player_text), String(turn.gm_text)]
+	if String(turn.player_text).is_empty():
+		user_content += "\n\nAccepted Opening: 没有 Player action，不制造 d20/Agency 行动。仅提取 Opening 实际确立的世界/持有事实；回忆、历史人物、传闻、假设不因被提及就成为真实 actor。"
 	user_content += "\n\nPeople Actor References (identity only)\n" + "\n".join(ref_lines)
 	user_content += "\n\nCurrent Inventory References\n" + JSON.stringify(inventory.rows)
 	if not grounding_block.is_empty():

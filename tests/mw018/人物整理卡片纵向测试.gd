@@ -29,7 +29,10 @@ func _run() -> void:
 	runtime.conversation.append_delta("陈安在门外等候。")
 	check(runtime.complete_active_generation_durably().success, "opening accepted")
 	await frames()
-	check(semantic.requests.is_empty() and curation.requests.size() == 1 and PeopleSafe.project_session(runtime).is_empty(), "opening no People processing")
+	check(semantic.busy and curation.requests.size() == 1, "opening semantic precedes curation")
+	complete(semantic,{"changes":[]});await frames()
+	complete(curation,answer([]));await frames()
+	check(PeopleSafe.project_session(runtime).is_empty(),"opening model chooses no People")
 	var before: Dictionary = runtime.create_save_point("before")
 	# 真正旧结构 + 原 ID；后续新变体必须接在该父链后，不迁移旧 ID。
 	var old: Dictionary = runtime.world_state.duplicate(true)
@@ -56,7 +59,7 @@ func _run() -> void:
 	var b := person("陈安", "守门人", "在城门值守。")
 	complete(curation, answer([{ "actor_ref": public_refs[0], "snapshot": a}, {"actor_ref": public_refs[1], "snapshot": b}]))
 	await frames()
-	check(semantic.requests.size() == 1 and curation.requests.size() == 2, "one World plus one lived curator, no third call")
+	check(semantic.requests.size() == 2 and curation.requests.size() == 3, "one World plus one lived curator, no third call")
 	var cards := PeopleSafe.project_session(runtime)
 	check(cards == [a, b], "same-name actors remain two distinct cards")
 	var records := Contract.current_records(runtime.world_state, runtime.conversation.get_durable_accepted_entries())
@@ -80,7 +83,7 @@ func _run() -> void:
 	await frames()
 	context = input()
 	check(context.people_evidence.size() == 1 and context.people_evidence[0].current_snapshot == a, "only involved actor previous safe snapshot sent")
-	check(not JSON.stringify(context).contains("守门人"), "uninvolved card not sent wholesale")
+	check(context.current_people.size()==2 and JSON.stringify(context.current_people).contains("守门人"),"current safe subjects included for exact ref updates")
 	var a2 := person("陈安", "明早去渡口的粮商", "他愿意明早与你在渡口碰面。")
 	a2.details = ["他说雨后小路泥泞，建议天亮后沿河堤步行。", "粮店就在南门内，平日由家人照看。", "这次去渡口是为接货，预计午前返回。", "他熟悉渡口附近的路，愿意带你同行。", "你问起粮价时，他耐心解释了最近的变动。", "他请你先准备好路上的饮水。", "你们约定在河边小亭相见。", "以上是这次交谈中他告诉你的情况。"]
 	complete(curation, answer([{ "actor_ref": context.people_evidence[0].actor_ref, "snapshot": a2}]))
@@ -219,7 +222,7 @@ func _run() -> void:
 	var tampered: Dictionary = runtime.world_state.duplicate(true)
 	var latest: Dictionary = tampered.information_curation.turns[str(current_entries.size() - 1)]
 	latest.identity_receipt_id = "wrong-receipt"
-	latest.id = Contract.lived_record_id(latest.prefix, latest.parent, latest.result, latest.identity_receipt_id)
+	latest.id = Contract.lived_record_id(latest.prefix, latest.parent, latest.result, latest.identity_receipt_id, latest.schema)
 	check(PeopleFold.fold(tampered, runtime.game_id, current_entries).size() == 2, "wrong receipt dependency cannot project new card")
 	var missing_actor: Dictionary = runtime.world_state.duplicate(true)
 	missing_actor.stable_npcs = missing_actor.stable_npcs.filter(func(actor: Dictionary) -> bool: return actor.local_character_id != "npc-a")

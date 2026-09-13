@@ -96,7 +96,7 @@ static func build(game: String, index: int, prefix: String, bindings: Array) -> 
 # 验证完整回执而非部分修补损坏存储；返回独立白名单副本。旧 owner 缺字段自然为空。
 static func current(world: Dictionary, game: String, entries: Array, index: int) -> Dictionary:
 	var prefix := prefix_at(entries, index)
-	if prefix.is_empty() or String(entries[index].get("player_text", "")).is_empty():
+	if prefix.is_empty() or String(entries[index].get("gm_text", "")).is_empty():
 		return {}
 	var living: Variant = world.get("living_world", {})
 	if not living is Dictionary or living.get("schema_version") != WorldRules.LIVING_WORLD_SCHEMA:

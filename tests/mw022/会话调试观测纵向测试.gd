@@ -98,7 +98,7 @@ func _run() -> void:
 			await create_timer(0.05).timeout
 		elif mode == "response_oversized": recommendation.simulate_delta("x".repeat(RecommendationContract.RESPONSE_BYTES + 1))
 		elif mode == "stale": recommender.interrupt_foreground()
-		check(row("recommendations", index).code == ("provider_failure" if mode == "sync" else mode), "distinct recommendation " + mode)
+		check(row("recommendations", index).code == ("configuration_failure" if mode == "sync" else mode), "distinct recommendation " + mode)
 		check(durable() == before and recommender.snapshot().actions.is_empty(), "fail-soft no durable write " + mode)
 		complete(semantic, {"changes": []})
 		await frames()
@@ -138,7 +138,7 @@ func _run() -> void:
 	check(runtime.restore_save_point(same_save.save_id).success, "same accepted history Restore")
 	check(observer.snapshot().size() == 1, "identical text does not bypass epoch boundary")
 	await frames()
-	complete(recommendation, {"actions": ACTIONS})
+	check(not recommendation.busy,"unchanged already-attempted prefix does not bypass bounded budget on Restore")
 	runtime.conversation.retry_or_regenerate_latest()
 	runtime.conversation.append_delta("替换后的当前叙事")
 	check(runtime.complete_active_generation_durably().success, "accepted Regenerate")

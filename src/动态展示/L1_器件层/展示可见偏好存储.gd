@@ -1,11 +1,12 @@
 extends RefCounted
 const Contract := preload("res://src/动态展示/L0_公理层/展示定义契约.gd")
-const SCHEMA := "ui_visibility.v0.1"
+const SCHEMA := "ui_visibility.v0.2"
+const LEGACY_SCHEMA := "ui_visibility.v0.1"
 const DEFAULT_ROOT := "user://my-world/presentation-preferences"
 const MAX_KEYS := 4096
-const MAX_BYTES := 600000
+const MAX_BYTES := 900000
 var path := ""
-var hidden_by_surface := {"people":[],"important_experiences":[]}
+var hidden_by_surface := {"people":[],"important_experiences":[],"threads":[]}
 
 ## 仅加载展示 sidecar；不存在/损坏时可见默认值，不创建目录、不写回、不触碰 Game。
 func _init(game_id: String, root: String = DEFAULT_ROOT) -> void:
@@ -17,12 +18,16 @@ func _init(game_id: String, root: String = DEFAULT_ROOT) -> void:
 	var parser:=JSON.new()
 	if parser.parse(file.get_as_text())!=OK: return
 	var value: Variant=parser.data
-	if valid(value): hidden_by_surface=value.hidden_by_surface.duplicate(true)
+	if valid(value):
+		if value.schema==LEGACY_SCHEMA and file.get_length()>600000: return
+		for surface: String in value.hidden_by_surface:
+			hidden_by_surface[surface]=value.hidden_by_surface[surface].duplicate()
 
 static func valid(value: Variant) -> bool:
-	if not Contract.exact(value,["schema","hidden_by_surface"]) or value.schema!=SCHEMA: return false
-	if not Contract.exact(value.hidden_by_surface,Contract.HIDEABLE): return false
-	for surface: String in Contract.HIDEABLE:
+	if not Contract.exact(value,["schema","hidden_by_surface"]) or value.schema not in [SCHEMA,LEGACY_SCHEMA]: return false
+	var surfaces: Array = ["people","important_experiences"] if value.schema==LEGACY_SCHEMA else Contract.HIDEABLE
+	if not Contract.exact(value.hidden_by_surface,surfaces): return false
+	for surface: String in surfaces:
 		var keys: Variant=value.hidden_by_surface[surface]
 		if not keys is Array or keys.size()>MAX_KEYS: return false
 		var seen: Dictionary={}

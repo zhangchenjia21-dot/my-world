@@ -1,7 +1,7 @@
 extends RefCounted
 
 const SURFACES := ["character","important_experiences","people","threads","inventory","system"]
-const HIDEABLE := ["people","important_experiences"]
+const HIDEABLE := ["people","important_experiences","threads"]
 const MAX_DEPTH := 8
 const MAX_COMPONENTS := 4096
 const MAX_LIST := 1024
