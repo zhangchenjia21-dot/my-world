@@ -1,0 +1,40 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-022 PASS exact thirteen allowed fields
+MW-022 PASS JSON round-trip integer semantics
+MW-022 PASS projection excludes private/internal canaries
+MW-022 PASS detached mutable array
+MW-022 PASS GM context exact old fields/values
+MW-022 PASS OOC absent
+MW-022 PASS replaced accepted action absent
+MW-022 PASS unaccepted absent
+MW-022 PASS conflicting CHECK/NO_CHECK fails soft
+MW-022 PASS quiet durable truth is context only
+MW-022 PASS isolated real SQLite
+MW-022 PASS fixture setup
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+[shell] application=game_active session=ready
+MW-022 PASS production empty state
+MW-022 PASS Debug defaults OFF
+MW-022 PASS expected request active
+ERROR: MW-022 FAIL Conversation completion really precedes acceptance marker
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/mw022/会话调试观测纵向测试.gd:233)
+       [1] _run (res://tests/mw028/系统机制纵向验证.gd:47)
+       [2] checked_action (res://tests/mw028/系统机制纵向验证.gd:117)
+       [3] frames (res://tests/mw017/人物身份桥屏障纵向测试.gd:315)
+ERROR: MW-022 FAIL terminal refresh shows new CHECK without tab/reopen/next turn
+   at: push_error (core/variant/variant_utility.cpp:1023)
+   GDScript backtrace (most recent call first):
+       [0] check (res://tests/mw022/会话调试观测纵向测试.gd:233)
+       [1] _run (res://tests/mw028/系统机制纵向验证.gd:49)
+       [2] checked_action (res://tests/mw028/系统机制纵向验证.gd:117)
+       [3] frames (res://tests/mw017/人物身份桥屏障纵向测试.gd:315)
+SCRIPT ERROR: Out of bounds get index '0' (on base: 'Array')
+   at: _run (res://tests/mw028/系统机制纵向验证.gd:50)
+   GDScript backtrace (most recent call first):
+       [0] _run (res://tests/mw028/系统机制纵向验证.gd:50)
+       [1] checked_action (res://tests/mw028/系统机制纵向验证.gd:117)
+       [2] frames (res://tests/mw017/人物身份桥屏障纵向测试.gd:315)

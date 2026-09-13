@@ -1,0 +1,209 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-022 PASS isolated validated 256k settings
+MW-022 PASS isolated Game
+MW-022 PASS exact frozen setup
+MW-022 PASS real first Opening path
+MW-022 PASS first Opening exact frozen full payload unchanged
+MW-022 PASS current curation fixture
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS current and stale World fixtures
+MW-022 PASS production session assembly
+MW-022 PASS 256k exact ceiling and floor 80 percent
+MW-022 PASS final serialized actual messages within budget
+MW-022 PASS current owner contribution survives transcript roll-off: CURRENT_PERSON
+MW-022 PASS current owner contribution survives transcript roll-off: CURRENT_THREAD
+MW-022 PASS current owner contribution survives transcript roll-off: CURRENT_CHARACTER
+MW-022 PASS current owner contribution survives transcript roll-off: CURRENT_WORLD_CONSEQUENCE
+MW-022 PASS current owner contribution survives transcript roll-off: CURRENT_EXPERIENCE
+MW-022 PASS stale World and raw unprojected canary excluded
+MW-022 PASS referent knowledge does not become World actor
+MW-022 PASS large P2 background cannot crowd P1
+MW-022 PASS old originating turn omitted under pressure
+MW-022 PASS selected whole turns chronological
+MW-022 PASS selected whole turns chronological
+MW-022 PASS selected whole turns chronological
+MW-022 PASS selected whole turns chronological
+MW-022 PASS selected whole turns chronological
+MW-022 PASS selected whole turns chronological
+MW-022 PASS selected whole turns chronological
+MW-022 PASS selected whole turns chronological
+MW-022 PASS selected whole turns chronological
+MW-022 PASS GM accepted text exact whole unit
+MW-022 PASS GM accepted text exact whole unit
+MW-022 PASS GM accepted text exact whole unit
+MW-022 PASS GM accepted text exact whole unit
+MW-022 PASS GM accepted text exact whole unit
+MW-022 PASS GM accepted text exact whole unit
+MW-022 PASS GM accepted text exact whole unit
+MW-022 PASS GM accepted text exact whole unit
+MW-022 PASS GM accepted text exact whole unit
+MW-022 PASS GM accepted text exact whole unit
+MW-022 PASS current attempt exactly once last
+MW-022 PASS hide people
+MW-022 PASS hide threads
+MW-022 PASS hide important_experiences
+MW-022 PASS hide all three changes zero Context bytes
+MW-022 PASS isolated validated 1m settings
+MW-022 PASS 1m exact ceiling and floor 80 percent
+MW-022 PASS 1m admits whole larger background
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS current curation fixture
+MW-022 PASS future semantic branch
+MW-022 PASS future canary truly entered current request before Restore
+MW-022 PASS Restore current working set
+MW-022 PASS Restore discards future transcript curation and World
+MW-022 PASS reopen durable Game
+MW-022 PASS reopen derives same messages without Context storage
+MW-022 PASS drop cancelled draft before accepted Regenerate
+MW-022 PASS Regenerate replacement accepted
+MW-022 PASS Regenerate invalidates prior GM-bound World
+MW-022 PASS reset isolated test capacity
+MW-022 PASS P0 overflow fails loud with no request payload
+MW-022 PASS production Narrative UI P0 failure starts Provider zero times
+MW-022 PASS exact serialized budget retains entire card including envelope
+MW-022 PASS one byte over omits whole card
+MW-022 PASS required World instructions cannot be silently omitted
+MW-022 PASS invalid frozen NPC projection fails safely
+MW-022 PASS mixed OOC guidance structurally marked with durable original untouched
+MW-022 PASS diagnostics contain only structural counts and bytes
+MW-022 PASS R1 isolated supplement
+MW-022 PASS R1 frozen supplement
+MW-022 PASS R1 full Opening character guard supplement
+MW-022 PASS R1 actual first Opening supplement
+MW-022 PASS R1 First Opening exact full payload supplement
+MW-022 PASS R1 First Opening both full bodies supplement
+MW-022 PASS current curation fixture
+MW-022 PASS R1 current World supplement
+MW-022 PASS R1 Entry identity P0 supplement
+MW-022 PASS R1 background never P0 supplement
+MW-022 PASS R1 two atomic source units supplement
+MW-022 PASS R1 validated capacity 256k
+MW-022 PASS R1 continuation success supplement 256k
+MW-022 PASS R1 required/current survives supplement 256k R1_ENTRY_ID
+MW-022 PASS R1 required/current survives supplement 256k R1_ENTRY_NAME
+MW-022 PASS R1 required/current survives supplement 256k CURRENT_WORLD_INSTRUCTION
+MW-022 PASS R1 required/current survives supplement 256k R1_CHARACTER
+MW-022 PASS R1 required/current survives supplement 256k R1_THREAD
+MW-022 PASS R1 required/current survives supplement 256k R1_WORLD
+MW-022 PASS R1 no partial prefix/suffix supplement
+MW-022 PASS R1 omission source counters supplement
+MW-022 PASS R1 actual final byte budget supplement 256k
+MW-022 PASS R1 validated capacity 1m
+MW-022 PASS R1 continuation success supplement 1m
+MW-022 PASS R1 required/current survives supplement 1m R1_ENTRY_ID
+MW-022 PASS R1 required/current survives supplement 1m R1_ENTRY_NAME
+MW-022 PASS R1 required/current survives supplement 1m CURRENT_WORLD_INSTRUCTION
+MW-022 PASS R1 required/current survives supplement 1m R1_CHARACTER
+MW-022 PASS R1 required/current survives supplement 1m R1_THREAD
+MW-022 PASS R1 required/current survives supplement 1m R1_WORLD
+MW-022 PASS R1 exact complete P2 bodies supplement 1m
+MW-022 PASS R1 inclusion source counters supplement 1m
+MW-022 PASS R1 actual final byte budget supplement 1m
+MW-022 PASS R1 isolated seed
+MW-022 PASS R1 frozen seed
+MW-022 PASS R1 full Opening character guard seed
+MW-022 PASS R1 actual first Opening seed
+MW-022 PASS R1 First Opening exact full payload seed
+MW-022 PASS R1 First Opening both full bodies seed
+MW-022 PASS current curation fixture
+MW-022 PASS R1 current World seed
+MW-022 PASS R1 Entry identity P0 seed
+MW-022 PASS R1 background never P0 seed
+MW-022 PASS R1 two atomic source units seed
+MW-022 PASS R1 validated capacity 256k
+MW-022 PASS R1 continuation success seed 256k
+MW-022 PASS R1 required/current survives seed 256k R1_ENTRY_ID
+MW-022 PASS R1 required/current survives seed 256k R1_ENTRY_NAME
+MW-022 PASS R1 required/current survives seed 256k CURRENT_WORLD_INSTRUCTION
+MW-022 PASS R1 required/current survives seed 256k R1_CHARACTER
+MW-022 PASS R1 required/current survives seed 256k R1_THREAD
+MW-022 PASS R1 required/current survives seed 256k R1_WORLD
+MW-022 PASS R1 no partial prefix/suffix seed
+MW-022 PASS R1 omission source counters seed
+MW-022 PASS R1 actual final byte budget seed 256k
+MW-022 PASS R1 validated capacity 1m
+MW-022 PASS R1 continuation success seed 1m
+MW-022 PASS R1 required/current survives seed 1m R1_ENTRY_ID
+MW-022 PASS R1 required/current survives seed 1m R1_ENTRY_NAME
+MW-022 PASS R1 required/current survives seed 1m CURRENT_WORLD_INSTRUCTION
+MW-022 PASS R1 required/current survives seed 1m R1_CHARACTER
+MW-022 PASS R1 required/current survives seed 1m R1_THREAD
+MW-022 PASS R1 required/current survives seed 1m R1_WORLD
+MW-022 PASS R1 exact complete P2 bodies seed 1m
+MW-022 PASS R1 inclusion source counters seed 1m
+MW-022 PASS R1 actual final byte budget seed 1m
+MW-022 PASS R1 isolated small
+MW-022 PASS R1 frozen small
+MW-022 PASS R1 full Opening character guard small
+MW-022 PASS R1 actual first Opening small
+MW-022 PASS R1 First Opening exact full payload small
+MW-022 PASS R1 First Opening both full bodies small
+MW-022 PASS current curation fixture
+MW-022 PASS R1 current World small
+MW-022 PASS R1 Entry identity P0 small
+MW-022 PASS R1 background never P0 small
+MW-022 PASS R1 two atomic source units small
+MW-022 PASS R1 validated capacity 256k
+MW-022 PASS R1 continuation success small 256k
+MW-022 PASS R1 required/current survives small 256k R1_ENTRY_ID
+MW-022 PASS R1 required/current survives small 256k R1_ENTRY_NAME
+MW-022 PASS R1 required/current survives small 256k CURRENT_WORLD_INSTRUCTION
+MW-022 PASS R1 required/current survives small 256k R1_CHARACTER
+MW-022 PASS R1 required/current survives small 256k R1_THREAD
+MW-022 PASS R1 required/current survives small 256k R1_WORLD
+MW-022 PASS R1 exact complete P2 bodies small 256k
+MW-022 PASS R1 inclusion source counters small 256k
+MW-022 PASS R1 actual final byte budget small 256k
+MW-022 PASS R1 validated capacity 1m
+MW-022 PASS R1 continuation success small 1m
+MW-022 PASS R1 required/current survives small 1m R1_ENTRY_ID
+MW-022 PASS R1 required/current survives small 1m R1_ENTRY_NAME
+MW-022 PASS R1 required/current survives small 1m CURRENT_WORLD_INSTRUCTION
+MW-022 PASS R1 required/current survives small 1m R1_CHARACTER
+MW-022 PASS R1 required/current survives small 1m R1_THREAD
+MW-022 PASS R1 required/current survives small 1m R1_WORLD
+MW-022 PASS R1 exact complete P2 bodies small 1m
+MW-022 PASS R1 inclusion source counters small 1m
+MW-022 PASS R1 actual final byte budget small 1m
+MW033 checks=206 failures=0 real_provider_calls=0

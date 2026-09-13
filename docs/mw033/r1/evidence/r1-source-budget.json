@@ -1,0 +1,746 @@
+[
+  {
+    "capacity": "256k",
+    "case": "supplement",
+    "first_opening_exact": true,
+    "seed_bytes": 42,
+    "stats": {
+      "assembly_usec": 3203,
+      "context_limit": "256k",
+      "families": {
+        "character": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 122,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "conversation": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 54,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "experiences": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 152,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "game": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 712,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "inventory": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 95,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "mechanics": {
+          "considered": 0,
+          "included": 0,
+          "included_bytes": 0,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": "empty_or_not_current"
+        },
+        "npc_source": {
+          "considered": 0,
+          "included": 0,
+          "included_bytes": 0,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": "empty_or_not_current"
+        },
+        "people": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 372,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "source": {
+          "considered": 2,
+          "included": 1,
+          "included_bytes": 126,
+          "omitted": 1,
+          "omitted_bytes": 240105,
+          "reason": "budget"
+        },
+        "style": {
+          "considered": 0,
+          "included": 0,
+          "included_bytes": 0,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": "empty_or_not_current"
+        },
+        "threads": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 129,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "world": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 146,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        }
+      },
+      "final_messages_bytes": 3382,
+      "materialized_world_turns": 1,
+      "profile_id": "deepseek_v4_pro",
+      "protocol_and_attempt_bytes": 1437,
+      "rejected_world_turns": 2,
+      "safe_input_bytes": 209715,
+      "selected_turn_count": 1,
+      "selected_turn_range": [
+        0,
+        0
+      ],
+      "selected_turns": [
+        0
+      ],
+      "token_ceiling": 262144
+    },
+    "supplement_bytes": 240030
+  },
+  {
+    "capacity": "1m",
+    "case": "supplement",
+    "first_opening_exact": true,
+    "seed_bytes": 42,
+    "stats": {
+      "assembly_usec": 3162,
+      "context_limit": "1m",
+      "families": {
+        "character": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 122,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "conversation": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 54,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "experiences": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 152,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "game": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 712,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "inventory": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 95,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "mechanics": {
+          "considered": 0,
+          "included": 0,
+          "included_bytes": 0,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": "empty_or_not_current"
+        },
+        "npc_source": {
+          "considered": 0,
+          "included": 0,
+          "included_bytes": 0,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": "empty_or_not_current"
+        },
+        "people": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 372,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "source": {
+          "considered": 2,
+          "included": 2,
+          "included_bytes": 240231,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "style": {
+          "considered": 0,
+          "included": 0,
+          "included_bytes": 0,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": "empty_or_not_current"
+        },
+        "threads": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 129,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "world": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 146,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        }
+      },
+      "final_messages_bytes": 243489,
+      "materialized_world_turns": 1,
+      "profile_id": "deepseek_v4_pro",
+      "protocol_and_attempt_bytes": 1437,
+      "rejected_world_turns": 2,
+      "safe_input_bytes": 838860,
+      "selected_turn_count": 1,
+      "selected_turn_range": [
+        0,
+        0
+      ],
+      "selected_turns": [
+        0
+      ],
+      "token_ceiling": 1048576
+    },
+    "supplement_bytes": 240030
+  },
+  {
+    "capacity": "256k",
+    "case": "seed",
+    "first_opening_exact": true,
+    "seed_bytes": 240018,
+    "stats": {
+      "assembly_usec": 2415,
+      "context_limit": "256k",
+      "families": {
+        "character": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 122,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "conversation": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 54,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "experiences": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 152,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "game": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 712,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "inventory": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 95,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "mechanics": {
+          "considered": 0,
+          "included": 0,
+          "included_bytes": 0,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": "empty_or_not_current"
+        },
+        "npc_source": {
+          "considered": 0,
+          "included": 0,
+          "included_bytes": 0,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": "empty_or_not_current"
+        },
+        "people": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 372,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "source": {
+          "considered": 2,
+          "included": 1,
+          "included_bytes": 129,
+          "omitted": 1,
+          "omitted_bytes": 240102,
+          "reason": "budget"
+        },
+        "style": {
+          "considered": 0,
+          "included": 0,
+          "included_bytes": 0,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": "empty_or_not_current"
+        },
+        "threads": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 129,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "world": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 146,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        }
+      },
+      "final_messages_bytes": 3385,
+      "materialized_world_turns": 1,
+      "profile_id": "deepseek_v4_pro",
+      "protocol_and_attempt_bytes": 1437,
+      "rejected_world_turns": 2,
+      "safe_input_bytes": 209715,
+      "selected_turn_count": 1,
+      "selected_turn_range": [
+        0,
+        0
+      ],
+      "selected_turns": [
+        0
+      ],
+      "token_ceiling": 262144
+    },
+    "supplement_bytes": 54
+  },
+  {
+    "capacity": "1m",
+    "case": "seed",
+    "first_opening_exact": true,
+    "seed_bytes": 240018,
+    "stats": {
+      "assembly_usec": 2557,
+      "context_limit": "1m",
+      "families": {
+        "character": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 122,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "conversation": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 54,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "experiences": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 152,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "game": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 712,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "inventory": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 95,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "mechanics": {
+          "considered": 0,
+          "included": 0,
+          "included_bytes": 0,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": "empty_or_not_current"
+        },
+        "npc_source": {
+          "considered": 0,
+          "included": 0,
+          "included_bytes": 0,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": "empty_or_not_current"
+        },
+        "people": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 372,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "source": {
+          "considered": 2,
+          "included": 2,
+          "included_bytes": 240231,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "style": {
+          "considered": 0,
+          "included": 0,
+          "included_bytes": 0,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": "empty_or_not_current"
+        },
+        "threads": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 129,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "world": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 146,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        }
+      },
+      "final_messages_bytes": 243489,
+      "materialized_world_turns": 1,
+      "profile_id": "deepseek_v4_pro",
+      "protocol_and_attempt_bytes": 1437,
+      "rejected_world_turns": 2,
+      "safe_input_bytes": 838860,
+      "selected_turn_count": 1,
+      "selected_turn_range": [
+        0,
+        0
+      ],
+      "selected_turns": [
+        0
+      ],
+      "token_ceiling": 1048576
+    },
+    "supplement_bytes": 54
+  },
+  {
+    "capacity": "256k",
+    "case": "small",
+    "first_opening_exact": true,
+    "seed_bytes": 42,
+    "stats": {
+      "assembly_usec": 468,
+      "context_limit": "256k",
+      "families": {
+        "character": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 122,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "conversation": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 54,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "experiences": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 152,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "game": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 712,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "inventory": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 95,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "mechanics": {
+          "considered": 0,
+          "included": 0,
+          "included_bytes": 0,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": "empty_or_not_current"
+        },
+        "npc_source": {
+          "considered": 0,
+          "included": 0,
+          "included_bytes": 0,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": "empty_or_not_current"
+        },
+        "people": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 372,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "source": {
+          "considered": 2,
+          "included": 2,
+          "included_bytes": 255,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "style": {
+          "considered": 0,
+          "included": 0,
+          "included_bytes": 0,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": "empty_or_not_current"
+        },
+        "threads": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 129,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "world": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 146,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        }
+      },
+      "final_messages_bytes": 3513,
+      "materialized_world_turns": 1,
+      "profile_id": "deepseek_v4_pro",
+      "protocol_and_attempt_bytes": 1437,
+      "rejected_world_turns": 2,
+      "safe_input_bytes": 209715,
+      "selected_turn_count": 1,
+      "selected_turn_range": [
+        0,
+        0
+      ],
+      "selected_turns": [
+        0
+      ],
+      "token_ceiling": 262144
+    },
+    "supplement_bytes": 54
+  },
+  {
+    "capacity": "1m",
+    "case": "small",
+    "first_opening_exact": true,
+    "seed_bytes": 42,
+    "stats": {
+      "assembly_usec": 494,
+      "context_limit": "1m",
+      "families": {
+        "character": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 122,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "conversation": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 54,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "experiences": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 152,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "game": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 712,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "inventory": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 95,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "mechanics": {
+          "considered": 0,
+          "included": 0,
+          "included_bytes": 0,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": "empty_or_not_current"
+        },
+        "npc_source": {
+          "considered": 0,
+          "included": 0,
+          "included_bytes": 0,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": "empty_or_not_current"
+        },
+        "people": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 372,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "source": {
+          "considered": 2,
+          "included": 2,
+          "included_bytes": 255,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "style": {
+          "considered": 0,
+          "included": 0,
+          "included_bytes": 0,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": "empty_or_not_current"
+        },
+        "threads": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 129,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        },
+        "world": {
+          "considered": 1,
+          "included": 1,
+          "included_bytes": 146,
+          "omitted": 0,
+          "omitted_bytes": 0,
+          "reason": ""
+        }
+      },
+      "final_messages_bytes": 3513,
+      "materialized_world_turns": 1,
+      "profile_id": "deepseek_v4_pro",
+      "protocol_and_attempt_bytes": 1437,
+      "rejected_world_turns": 2,
+      "safe_input_bytes": 838860,
+      "selected_turn_count": 1,
+      "selected_turn_range": [
+        0,
+        0
+      ],
+      "selected_turns": [
+        0
+      ],
+      "token_ceiling": 1048576
+    },
+    "supplement_bytes": 54
+  }
+]
