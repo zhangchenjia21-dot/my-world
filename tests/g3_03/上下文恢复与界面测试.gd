@@ -1,10 +1,10 @@
 extends SceneTree
 
-## G3-03 resume product focused test：从 durable Conversation 重建 recent-12 Context，
+## G3-03 resume product focused test：从 durable Conversation 重建预算内完整 Turn Context，
 ## 并验证 Narrative UI 只渲染 Domain projection，不持有第二套 history。
 
 const Runtime := preload("res://src/runtime/当前游戏会话运行时.gd")
-const ContextAssembler := preload("res://src/context/上下文组装器.gd")
+const ContextAssembler := preload("res://src/context/L3_外交层/上下文组装公开接口.gd")
 const StubAdapter := preload("res://tests/g2_03_桩适配器.gd")
 
 var _failures := 0
@@ -39,6 +39,7 @@ func _run() -> void:
 func _test_context_rebuild(database_path: String) -> void:
 	var seed := Runtime.new()
 	_check(seed.open_current_game(database_path).success, "14-Turn fixture first-run opens")
+	_check(seed.commit_world_mutation_durably("poison", "poison-node", {"provider_messages":"PERSISTED_REQUEST_CANARY", "accepted_turns_json":"STORAGE_CANARY", "materialization_json":"RAW_STATE_CANARY"}).success, "opaque persisted blobs seeded")
 	for index: int in range(14):
 		if not _accept(seed, "恢复行动%02d" % index, "恢复回应%02d" % index): break
 	seed.close()
@@ -47,16 +48,19 @@ func _test_context_rebuild(database_path: String) -> void:
 	_check(resumed.open_current_game(database_path).success, "14-Turn fixture reopens")
 	_check(resumed.conversation.get_accepted_entries().size() == 14, "14 accepted Turns rehydrate exactly")
 	resumed.conversation.begin_turn("恢复后的当前行动")
-	var messages: Array = ContextAssembler.new().assemble_messages(
-		resumed.conversation.get_context_projection(), ""
-	)
-	_check(messages.size() == 26, "recent-12 yields system + 24 history messages + current user")
-	_check(String(messages[1].content) == "恢复行动02" and String(messages[2].content) == "恢复回应02", "oldest retained pair is Turn 2")
+	var assembler := ContextAssembler.new()
+	var assembled := assembler.assemble_working_set(resumed.conversation.get_context_projection(), [{"family":"game","tier":0,"text":"Derived current Game identity: " + resumed.game_id}], assembler.runtime_budget_metadata().context_budget)
+	var messages: Array = assembled.messages
+	_check(assembled.success and messages.size() == 30, "budget retains 14 whole current Turns, not fixed recent-12")
+	_check(String(messages[1].content) == "恢复行动00" and String(messages[2].content) == "恢复回应00", "retained Turns chronological and exact")
 	_check(String(messages[-2].content) == "恢复回应13", "latest restored GM precedes current user")
 	_check(String(messages[-1].role) == "user" and String(messages[-1].content) == "恢复后的当前行动", "current player is last")
 	_check(_count_message(messages, "user", "恢复后的当前行动") == 1, "current player appears exactly once")
-	_check(not JSON.stringify(messages).contains("accepted_turns_json"), "no persisted Provider/Context blob is consumed")
-	_check(not String(messages[0].content).contains("Current Game Context"), "opaque World JSON is not injected as Game Context")
+	var serialized := JSON.stringify(messages)
+	for marker: String in ["accepted_turns_json","materialization_json","provider_messages","PERSISTED_REQUEST_CANARY","STORAGE_CANARY","RAW_STATE_CANARY"]:
+		_check(not serialized.contains(marker), "no raw persisted blob: " + marker)
+	_check(String(messages[0].content).contains("Derived current Game identity: " + resumed.game_id), "legitimate derived Current Game Context retained")
+	_check(assembler.assemble_working_set(resumed.conversation.get_context_projection(), [{"family":"game","tier":0,"text":"Derived current Game identity: " + resumed.game_id}], assembler.runtime_budget_metadata().context_budget).messages == messages, "fresh reconstruction without saved Provider request")
 	resumed.close()
 
 

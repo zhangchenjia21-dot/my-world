@@ -462,37 +462,28 @@ func _control_messages(expansion: Dictionary, recovery: bool) -> Array:
 	}, true), game_context)
 
 
+var _context_failure: Dictionary = {}
+
 func _resolution_messages(expansion: Dictionary) -> Array:
-	var projected := _projector.project(session_runtime.world_state)
 	var authority := "Program 已决定本次结果；不得重掷或改写：\n" + JSON.stringify(_resolution)
-	var game_context := String(projected.get("context_text", "")) + "\n\n" + _rules_text(expansion) + "\n\n" + authority + "\n只输出尊重既定 outcome 的 GM narrative，不输出 JSON。"
-	return _assembler.assemble_messages(session_runtime.conversation.get_context_projection().merged({
-		"active_attempt": {"turn_index": session_runtime.conversation.get_durable_accepted_entries().size(), "player_text": _player_text}
-	}, true), _append_style_anchor(game_context, projected))
+	return _narrative_working_messages(_rules_text(expansion) + "\n\n" + authority + "\n只输出尊重既定 outcome 的 GM narrative，不输出 JSON。")
 
-
-func _ordinary_narrative_messages(expansion: Dictionary, degraded: bool) -> Array:
-	var projected := _projector.project(session_runtime.world_state)
+func _ordinary_narrative_messages(_expansion: Dictionary, degraded: bool) -> Array:
 	var instruction := "判定控制已确定本行动不需要 d20。只输出自然、连贯的 GM narrative，不输出 JSON 或 mechanics control。"
 	if degraded:
 		instruction = "本次可选 d20 control 无法可靠解析；按未启用 Expansion 的普通自然语言续写处理。不要掷骰、虚构判定结果或输出 mechanics control，只输出自然、连贯的 GM narrative。"
-	var game_context := String(projected.get("context_text", "")) + "\n\n" + instruction
-	if not degraded:
-		game_context += "\nControl reason: " + String(_control_result.get("reason", ""))
-	return _assembler.assemble_messages(session_runtime.conversation.get_context_projection().merged({
-		"active_attempt": {"turn_index": session_runtime.conversation.get_durable_accepted_entries().size(), "player_text": _player_text}
-	}, true), _append_style_anchor(game_context, projected))
+	else:
+		instruction += "\nControl reason: " + String(_control_result.get("reason", ""))
+	return _narrative_working_messages(instruction)
 
-
-## MW-005 R3：narrative stage 的单一 late style anchor——位于全部事实材料与 mechanics
-## 指令之后。control/control_recovery 走 include_style=false 投影且不调用本方法。
-func _append_style_anchor(game_context: String, projected: Dictionary) -> String:
-	game_context += "\n\n" + Inventory.project_context(session_runtime)
-	var mechanics := MechanicsHistory.project(session_runtime.world_state, session_runtime.conversation.get_durable_accepted_entries())
-	if not mechanics.is_empty():
-		game_context += "\n\n" + mechanics
-	var style_anchor := String(projected.get("style_reference_text", ""))
-	return game_context + "\n\n" + style_anchor if not style_anchor.is_empty() else game_context
+## control 保留原协议；Narrative 阶段交给同一个 Context owner，并把已确定结果列为 P0。
+func _narrative_working_messages(instruction: String) -> Array:
+	var projection: Dictionary = session_runtime.conversation.get_context_projection().merged({
+		"active_attempt":{"turn_index":session_runtime.conversation.get_durable_accepted_entries().size(),"player_text":_player_text}
+	}, true)
+	var assembled := _assembler.assemble_session(session_runtime, projection, instruction)
+	_context_failure = {} if assembled.success else assembled
+	return assembled.get("messages", [])
 
 
 func _rules_text(expansion: Dictionary) -> String:
@@ -528,6 +519,8 @@ func _is_narrative_stage(stage: String) -> bool:
 
 
 func _start_provider(stage: String, messages: Array) -> Dictionary:
+	if _is_narrative_stage(stage) and not _context_failure.is_empty():
+		return _finish(_context_failure)
 	_stage = stage
 	_buffer = ""
 	_narrative_buffer = ""

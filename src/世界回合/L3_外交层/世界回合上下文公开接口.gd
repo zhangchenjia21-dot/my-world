@@ -10,3 +10,8 @@ var _projector := Projector.new()
 ## 不暴露内部可变 record，也不把投影反写 World/Conversation。
 func project(world_state: Dictionary, accepted_entries: Array) -> Dictionary:
 	return _projector.project(world_state, accepted_entries)
+
+
+## Narrative 消费者只接收域内 accepted-hash 验证后的文本，不接触 raw World。
+func project_session(runtime: Variant) -> Dictionary:
+	return project(runtime.world_state, runtime.conversation.get_durable_accepted_entries())

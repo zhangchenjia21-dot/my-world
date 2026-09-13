@@ -2,7 +2,7 @@ extends SceneTree
 
 const Persistence := preload("res://src/persistence/L3_外交层/世界持久化公开接口.gd")
 const Runtime := preload("res://src/runtime/当前游戏会话运行时.gd")
-const ContextAssembler := preload("res://src/context/上下文组装器.gd")
+const ContextAssembler := preload("res://src/context/L3_外交层/上下文组装公开接口.gd")
 
 const MARKER_A := "RECOVERED_FUTURE_MARKER_A"
 const MARKER_B := "DISPLACED_BRANCH_MARKER_B"
@@ -200,16 +200,20 @@ func _test_reciprocal_branch_context_and_order() -> bool:
 	var normalized_b: Dictionary = runtime.conversation.validate_accepted_entries(latest_b.accepted_entries)
 	if not normalized_b.ok or normalized_b.accepted_entries != branch_b_entries or latest_b.timeline_node_id != "head-h3": return _fail("reciprocal Recovery did not preserve B")
 	runtime.conversation.begin_turn("恢复后当前行动")
-	var messages: Array = ContextAssembler.new().assemble_messages(runtime.conversation.get_context_projection(), "")
+	var assembler := ContextAssembler.new()
+	var messages: Array = assembler.assemble_working_set(runtime.conversation.get_context_projection(), [{"family":"game","tier":0,"text":"Derived current Game identity: " + runtime.game_id}], assembler.runtime_budget_metadata().context_budget).messages
 	var serialized := JSON.stringify(messages)
-	if not serialized.contains(MARKER_A) or serialized.contains(MARKER_B) or messages.size() != 26 or _count_message(messages, "恢复后当前行动") != 1 or String(messages[-1].content) != "恢复后当前行动":
-		return _fail("symmetric Context isolation/recent-12 failed")
-	if serialized.contains("materialization_json") or String(messages[0].content).contains("Current Game Context"):
+	if not serialized.contains(MARKER_A) or serialized.contains(MARKER_B) or messages.size() != future_a_entries.size() * 2 + 2 or _count_message(messages, "恢复后当前行动") != 1 or String(messages[-1].content) != "恢复后当前行动":
+		return _fail("symmetric Context isolation/whole current Turns failed")
+	if serialized.contains("materialization_json") or serialized.contains("accepted_turns_json") or serialized.contains("provider_messages") or serialized.contains(JSON.stringify(runtime.world_state)) or not String(messages[0].content).contains("Derived current Game identity: " + runtime.game_id):
 		return _fail("raw World/Prompt truth leaked into Context")
 	runtime.conversation.cancel_generation()
 	var recovered_b: Dictionary = runtime.recover_previous_progress()
 	if not recovered_b.success or runtime.active_head_id != "head-h3" or runtime.conversation.get_durable_accepted_entries() != branch_b_entries:
 		return _fail("second Recover did not return to B")
+	var branch_messages: Array = assembler.assemble_working_set(runtime.conversation.get_context_projection(), [], assembler.runtime_budget_metadata().context_budget).messages
+	if JSON.stringify(branch_messages).contains(MARKER_A) or not JSON.stringify(branch_messages).contains(MARKER_B):
+		return _fail("rebuilding after second Recover retained displaced A request")
 	if runtime.list_save_points().save_points.size() != 1 or runtime.persistence.timeline_node_count(runtime.game_id).node_count != 3:
 		return _fail("Load/Recover changed named Save or historical Timeline count")
 	var order_proof := _recovery_order_proof(path)

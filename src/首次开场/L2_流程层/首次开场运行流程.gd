@@ -5,10 +5,7 @@ const Rules := preload("res://src/首次开场/L0_公理层/首次开场规则.g
 const Projector := preload("res://src/首次开场/L1_器件层/游戏本地开场上下文投影器.gd")
 const ContextAssembler := preload("res://src/context/L3_外交层/上下文组装公开接口.gd")
 const ProviderAdapter := preload("res://src/provider/L3_外交层/运行时模型流式适配公开接口.gd")
-const WorldTurnContext := preload("res://src/世界回合/L3_外交层/世界回合上下文公开接口.gd")
 
-const Inventory := preload("res://src/行囊/L3_外交层/行囊公开接口.gd")
-const MechanicsHistory := preload("res://src/行动判定/L3_外交层/公开机制历史公开接口.gd")
 
 signal request_assembled(messages, context_stats)
 signal text_delta(text)
@@ -22,7 +19,6 @@ var last_result: Dictionary = {"success": false, "status": "not_started", "messa
 
 var _projector := Projector.new()
 var _context_assembler := ContextAssembler.new()
-var _world_turn_context := WorldTurnContext.new()
 
 
 func _init(runtime: Variant = null, adapter_override: Node = null) -> void:
@@ -76,41 +72,11 @@ func cancel() -> void:
 		provider_adapter.cancel()
 
 
-## Reopen 后的普通续玩仍使用同一个 Game-local projector 与 G2 Context owner。
+## Reopen 后普通续玩进入同一个 Narrative working-set owner；首次 Opening 不走省略预算。
 ## 调用方先在 existing Conversation 上 begin_turn，再把 derived messages 交给既有 Provider；
 ## 本方法不发网、不持久化 messages，也不另建 continuation transcript。
 func assemble_continuation_messages() -> Dictionary:
-	if session_runtime == null or not session_runtime.has_method("is_ready") or not session_runtime.is_ready():
-		return Rules.failure("runtime_not_ready", "既有 Game session 尚未安全打开。")
-	var projected := _projector.project(session_runtime.world_state)
-	if not projected.success:
-		return projected
-	var materialized := _world_turn_context.project(
-		session_runtime.world_state,
-		session_runtime.conversation.get_durable_accepted_entries()
-	)
-	var game_context_text := String(projected.context_text)
-	if not String(materialized.context_text).is_empty():
-		game_context_text += "\n\n" + String(materialized.context_text)
-	game_context_text += "\n\n" + Inventory.project_context(session_runtime)
-	var mechanics := MechanicsHistory.project(session_runtime.world_state, session_runtime.conversation.get_durable_accepted_entries())
-	if not mechanics.is_empty():
-		game_context_text += "\n\n" + mechanics
-	# MW-005 R3：anchor 位于事实 World/Character 与 materialized World Turn 材料之后。
-	var style_anchor := String(projected.get("style_reference_text", ""))
-	if not style_anchor.is_empty():
-		game_context_text += "\n\n" + style_anchor
-	var messages := _context_assembler.assemble_messages(
-		session_runtime.conversation.get_context_projection(),
-		game_context_text
-	)
-	var stats := (projected.stats as Dictionary).duplicate(true)
-	stats["materialized_world_turns"] = int(materialized.record_count)
-	stats["rejected_world_turns"] = int(materialized.rejected_count)
-	return Rules.success({
-		"messages": messages,
-		"context_stats": stats,
-	})
+	return _context_assembler.assemble_session(session_runtime)
 
 
 func _on_text_delta(text: String) -> void:

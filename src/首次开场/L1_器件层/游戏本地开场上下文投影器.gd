@@ -176,3 +176,48 @@ func _append_sections(blocks: Array[String], style_parts: Array[String], section
 		else:
 			blocks.append(line)
 	return Rules.success({"section_count": sections.size()})
+
+
+## 续玩只拆分 frozen Game-local 材料，不读 Source current、不改首次 Opening 投影。
+## 每个背景 section 携带自己的来源 header，整块省略不会留下无主正文。
+func project_continuation(setup_value: Variant) -> Dictionary:
+	var validation := Rules.validate_setup(setup_value)
+	if not validation.success: return validation
+	var setup: Dictionary = setup_value
+	var required: Array[String] = []
+	_append_runtime_contract(required, setup)
+	_append_game(required, setup.game, setup.get("selected_entry_id"))
+	var world: Dictionary = setup.world.duplicate(true)
+	world.source_projection.semantic_sections = []
+	var checked := _append_world(required, [], world, false)
+	if not checked.success: return checked
+	var blocks: Array = [{"family":"game", "tier":0, "text":"\n\n".join(required)}]
+	var owners: Array = [{"family":"source", "heading":"World", "value":setup.world}]
+	owners.append({"family":"source", "heading":"Player Character", "value":setup.player_character})
+	for npc: Variant in setup.guaranteed_npcs:
+		if not npc is Dictionary: return Rules.failure("invalid_game_setup", "Guaranteed NPC definition 无效。")
+		owners.append({"family":"npc_source", "heading":"Guaranteed NPC", "value":npc})
+	for owner: Dictionary in owners:
+		var projection: Variant = owner.value.get("source_projection")
+		if not projection is Dictionary or not projection.get("semantic_sections") is Array:
+			return Rules.failure("invalid_game_setup", "续玩 source projection/semantic_sections 无效。")
+		var header: Array[String] = []
+		if owner.heading == "World":
+			header.append("T0 World background — starting reference, not a replacement for current lived truth.")
+		else:
+			var character: Dictionary = owner.value.duplicate(true)
+			character.source_projection.semantic_sections = []
+			checked = _append_character(header, [], owner.heading, character)
+			if not checked.success: return checked
+			if owner.heading == "Guaranteed NPC":
+				header.append("Canonical cast membership does not establish presence, familiarity, player disclosure or an existing relationship.")
+		for section: Variant in owner.value.source_projection.get("semantic_sections", []):
+			var body: Array[String] = []
+			var style: Array[String] = []
+			checked = _append_sections(body, style, [section], owner.heading)
+			if not checked.success: return checked
+			if not style.is_empty():
+				blocks.append({"family":"style", "tier":2, "text":STYLE_BOUNDARY_HEADER + "\n\n" + "\n\n".join(style) + "\n\n" + STYLE_NARRATIVE_ANCHOR_CUE})
+			else:
+				blocks.append({"family":owner.family, "tier":2, "text":"\n\n".join(header + body)})
+	return Rules.success({"blocks":blocks})
