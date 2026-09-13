@@ -1,0 +1,122 @@
+[
+  {
+    "path": "docs/mw015/r2/evidence/1280x720-bottom.png.import",
+    "kind": "untracked_import_sidecar_preserved",
+    "sha256": "c7d27bafb10faba4e5e36326814169720cbe2225f7fd7600d8262e4c59c977e7"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/1280x720-character.png.import",
+    "kind": "untracked_import_sidecar_preserved",
+    "sha256": "0a12220d0dcb618f120e8d99948c923adfb6cc26e6d93b8cf8b01f8976d21344"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/960x540-bottom.png.import",
+    "kind": "untracked_import_sidecar_preserved",
+    "sha256": "f361da5585cc7d32cf52a557a9fa693064ac07158b4de62ebb24f84bdceb37d2"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/960x540-character.png.import",
+    "kind": "untracked_import_sidecar_preserved",
+    "sha256": "3758e7b50c93608c404beb43fb71f4b9317b8f84c8cb6956a6fd5b3d4ab016dd"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/maximized-bottom.png.import",
+    "kind": "untracked_import_sidecar_preserved",
+    "sha256": "e6acd20ed04e7bbbfc2835697da5c0ec97b27d9b166bc49a4f2c7cac81b12257"
+  },
+  {
+    "path": "docs/mw015/r2/evidence/maximized-character.png.import",
+    "kind": "untracked_import_sidecar_preserved",
+    "sha256": "6bb2bd6da20e7aad6c9643fe9f4a7526583a8b7cd7d59865d2e265274adf685a"
+  },
+  {
+    "path": "docs/mw018/evidence/people-1280x720.png.import",
+    "kind": "untracked_import_sidecar_preserved",
+    "sha256": "50ad339cb7bf6eebb2d1ce3ee2770c823c1b8b5469d2732657c886fdd1b38d68"
+  },
+  {
+    "path": "docs/mw018/evidence/people-960x540.png.import",
+    "kind": "untracked_import_sidecar_preserved",
+    "sha256": "9cfc8dc5e1aee184c55284b5d7c33a0f03ad5989ce815ae8e0dcbc30be556e68"
+  },
+  {
+    "path": "docs/mw018/evidence/people-maximized-collapsed.png.import",
+    "kind": "untracked_import_sidecar_preserved",
+    "sha256": "fc26263e9e204b0913d2cec600640a1fd68acab98499f87c27c83c452b233aaa"
+  },
+  {
+    "path": "docs/mw018/evidence/people-maximized-expanded.png.import",
+    "kind": "untracked_import_sidecar_preserved",
+    "sha256": "dd12afd4cdcc26df375628805fd0c7997f5b3e4833f88f2d2ba6c316cc3fc3e1"
+  },
+  {
+    "path": "tests/mw004/最小玩家主权原则测试.gd.uid",
+    "kind": "untracked_import_sidecar_preserved",
+    "sha256": "bfc8f8311d6b7626c6dc46e7907595b906174e2adb7674cbd5a8983d79414fd0"
+  },
+  {
+    "path": "tests/fixtures/g4_02/世界包_星潮群岛/assets/star_harbor.svg.import",
+    "kind": "content_identical_fixture_import_preserved",
+    "git_normalized_sha": "397fe07f3c955854292cf09e353351596d6094ae"
+  },
+  {
+    "path": "tests/fixtures/g4_02/世界包_星潮群岛/assets/tide_routes.svg.import",
+    "kind": "content_identical_fixture_import_preserved",
+    "git_normalized_sha": "7a74b97d51801da383d4a941b8e640421513c09d"
+  },
+  {
+    "path": "tests/fixtures/g4_02/世界包_边境诸侯/assets/border_envoy.svg.import",
+    "kind": "content_identical_fixture_import_preserved",
+    "git_normalized_sha": "43545f0ddac925c3857a8d89be180d74efd7509e"
+  },
+  {
+    "path": "tests/fixtures/g4_02/世界包_边境诸侯/assets/river_gate.svg.import",
+    "kind": "content_identical_fixture_import_preserved",
+    "git_normalized_sha": "56b28d07ca36c6b4c9018648ff88ed049352400f"
+  },
+  {
+    "path": "tests/fixtures/g4_02/世界包_边境诸侯/assets/salt_road.svg.import",
+    "kind": "content_identical_fixture_import_preserved",
+    "git_normalized_sha": "a7327805e4ec52005899c41bac836eb9fb665066"
+  },
+  {
+    "path": "tests/fixtures/g4_02/角色卡_沈砚/assets/shen_yan.svg.import",
+    "kind": "content_identical_fixture_import_preserved",
+    "git_normalized_sha": "f98b20884fac7dfcc2d3602f457e20d6c7d8a762"
+  },
+  {
+    "path": "tests/fixtures/g4_02/角色卡_莱娅/assets/leya.svg.import",
+    "kind": "content_identical_fixture_import_preserved",
+    "git_normalized_sha": "a6ee0e1ca4d3a0121453cfecbb8e4273b0306da7"
+  },
+  {
+    "path": "tests/fixtures/g4_05/历史真实资产转换/汉末三国/刘备/portrait.svg.import",
+    "kind": "content_identical_fixture_import_preserved",
+    "git_normalized_sha": "011ab399507fbadbc28dade984f0e17c76425522"
+  },
+  {
+    "path": "tests/fixtures/g4_05/历史真实资产转换/汉末三国/孙权/portrait.svg.import",
+    "kind": "content_identical_fixture_import_preserved",
+    "git_normalized_sha": "ad269cf7b21bf4bbea3c809d1f7901494ea5f6a8"
+  },
+  {
+    "path": "tests/fixtures/g4_05/历史真实资产转换/汉末三国/曹操/portrait.svg.import",
+    "kind": "content_identical_fixture_import_preserved",
+    "git_normalized_sha": "e50eb6d3d751ed6c103bef52843ced68df3914cf"
+  },
+  {
+    "path": "tests/fixtures/g4_05/历史真实资产转换/诸界余辉/杜恩/portrait.svg.import",
+    "kind": "content_identical_fixture_import_preserved",
+    "git_normalized_sha": "cf02ec07161cd79643997a7f253fb1fd98c5b667"
+  },
+  {
+    "path": "tests/fixtures/g4_05/历史真实资产转换/诸界余辉/莉维娅/portrait.svg.import",
+    "kind": "content_identical_fixture_import_preserved",
+    "git_normalized_sha": "e1936bf6fd0216349df12ab22a526eeae3499920"
+  },
+  {
+    "path": "tests/fixtures/g4_05/历史真实资产转换/诸界余辉/阿德里安/portrait.svg.import",
+    "kind": "content_identical_fixture_import_preserved",
+    "git_normalized_sha": "e71c78567092612509e32f20538672447ced1909"
+  }
+]

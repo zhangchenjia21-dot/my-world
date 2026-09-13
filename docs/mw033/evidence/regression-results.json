@@ -1,0 +1,394 @@
+[
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw032\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw032.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw032"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw020\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw020.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw020"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g4_07a\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g4_07a.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "g4_07a"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g4_07b\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g4_07b.log",
+    "errors": 0,
+    "exit_warnings": 2,
+    "exit_code": 0,
+    "name": "g4_07b"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw030\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw030.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw030"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw029\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw029.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw029"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw028\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw028.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw028"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw027\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw027.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw027"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw026-focused\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw026-focused.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw026-focused"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw025-focused\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw025-focused.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw025-focused"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw024-contract\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw024-contract.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw024-contract"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw024-vertical\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw024-vertical.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw024-vertical"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g2_03\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g2_03.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "g2_03"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g2_04\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g2_04.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "g2_04"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g2_05\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g2_05.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "g2_05"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g3_03-contract\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g3_03-contract.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "g3_03-contract"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g3_03-persistence\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g3_03-persistence.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "g3_03-persistence"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g3_04-contract\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g3_04-contract.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "g3_04-contract"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g3_04-persistence\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g3_04-persistence.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "g3_04-persistence"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g3_05-persistence\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g3_05-persistence.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "g3_05-persistence"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g4_08m1\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g4_08m1.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "g4_08m1"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g4_08m1-no-check\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g4_08m1-no-check.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "g4_08m1-no-check"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g4_08b\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g4_08b.log",
+    "errors": 0,
+    "exit_warnings": 2,
+    "exit_code": 0,
+    "name": "g4_08b"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g5_01\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g5_01.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "g5_01"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g5_02\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g5_02.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "g5_02"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g5_03\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g5_03.log",
+    "errors": 0,
+    "exit_warnings": 2,
+    "exit_code": 0,
+    "name": "g5_03"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g5_03m2b\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g5_03m2b.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "g5_03m2b"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g5_04\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g5_04.log",
+    "errors": 0,
+    "exit_warnings": 2,
+    "exit_code": 0,
+    "name": "g5_04"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw023\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw023.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw023"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw003\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw003.log",
+    "errors": 0,
+    "exit_warnings": 2,
+    "exit_code": 0,
+    "name": "mw003"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw011\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw011.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw011"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw022\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw022.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw022"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw022-ui\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw022-ui.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw022-ui"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g5_01-timeline\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g5_01-timeline.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "g5_01-timeline"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw017\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw017.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw017"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw014\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw014.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw014"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw015r2\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw015r2.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw015r2"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw015r2-ui\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw015r2-ui.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw015r2-ui"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw015\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw015.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw015"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw015r1\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw015r1.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw015r1"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw018\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw018.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw018"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw018r1\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw018r1.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw018r1"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw019-lifecycle\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw019-lifecycle.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw019-lifecycle"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw019-pairs\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw019-pairs.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw019-pairs"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw019-routes\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw019-routes.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw019-routes"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g3_03\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g3_03.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "g3_03"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g3_04\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g3_04.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "g3_04"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\g3_05\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\g3_05.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "g3_05"
+  },
+  {
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw021\\mw033-175111-f",
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-033-g7-narrative-working-set\\build\\mw033\\mw033-175111\\mw021.log",
+    "errors": 0,
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "name": "mw021"
+  }
+]

@@ -147,4 +147,3 @@ func boundary33(assembler: RefCounted, budget: Dictionary) -> void:
 	var guided: Dictionary=assembler.assemble_working_set(ooc,[],budget)
 	check(guided.messages[1].content=="OOC / GM 指导\n原文指导" and guided.messages[2].content=="原文回应" and guided.messages[-1].content=="OOC / GM 指导\n当前指导" and ooc==copy,"mixed OOC guidance structurally marked with durable original untouched")
 	check(not JSON.stringify(measurements33).contains("CURRENT_PERSON") and not JSON.stringify(measurements33).contains("RAW_PRIVATE_CANARY"),"diagnostics contain only structural counts and bytes")
-
