@@ -7,11 +7,24 @@ Revision: R1
 Review trigger: `docs/mw033/MW-033_INDEPENDENT_REVIEW_IR1.md`  
 Formal implementation base: `e876e217f0220fdc6a577cd0b52143dc8d5b6b5c`  
 Submitted candidate under review: `32cb5325b251c81ac8d883d5921edababe0d4cbf`  
-R1 Starting HEAD: `73253db312c429a62bf610eed10f3a570b20b2d6`  
+IR1 review commit: `73253db312c429a62bf610eed10f3a570b20b2d6`  
 Required branch: `mw-033-g7-narrative-working-set`  
 Required worktree: `D:/AI/Projects/.worktrees/my-world/mw-033-g7-narrative-working-set`  
 Frozen architecture: `Vibe-Coding/my world/architecture/G7_NARRATIVE_WORKING_SET_ORCHESTRATOR_V0_1_DECISION.md@v1.0`  
 Return ceiling: **READY FOR INDEPENDENT REVIEW**
+
+## 0. R1 starting-lineage rule
+
+This Task Packet is itself committed after the IR1 review commit, so do **not** use the IR1 SHA as the editable R1 starting checkout.
+
+Before any R1 edit:
+
+1. fetch `origin/mw-033-g7-narrative-working-set`;
+2. verify the remote tip contains this Task Packet and `MW-033_INDEPENDENT_REVIEW_IR1.md`;
+3. record that exact fetched remote tip as **R1 Starting HEAD**;
+4. make every R1 implementation/evidence commit descend from that exact tip.
+
+Do not start R1 from the old submitted candidate `32cb5325...` or directly from review commit `73253db...` if the remote task branch has a newer Task-Packet commit.
 
 ## 1. Correction outcome
 
@@ -194,7 +207,7 @@ If a new unknown dirty product file appears, STOP rather than overwrite it.
 - no force push;
 - commit R1 implementation and evidence;
 - push remote branch;
-- final candidate must descend from R1 Starting HEAD `73253db312c429a62bf610eed10f3a570b20b2d6`;
+- final candidate must descend from the exact fetched R1 Starting HEAD that contains this packet;
 - refresh `my-world/main` + `Vibe-Coding/main` before final return and STOP on relevant governance/main drift.
 
 ## 9. Return requirements
@@ -203,7 +216,7 @@ Return highest status **READY FOR INDEPENDENT REVIEW** only after all required e
 
 Include:
 
-- R1 Starting HEAD;
+- exact fetched R1 Starting HEAD;
 - R1 Implementation HEAD;
 - R1 Final Candidate HEAD;
 - remote tip confirmation;
