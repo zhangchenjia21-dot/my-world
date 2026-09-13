@@ -186,20 +186,37 @@ func project_continuation(setup_value: Variant) -> Dictionary:
 	var setup: Dictionary = setup_value
 	var required: Array[String] = []
 	_append_runtime_contract(required, setup)
-	_append_game(required, setup.game, setup.get("selected_entry_id"))
-	var world: Dictionary = setup.world.duplicate(true)
-	world.source_projection.semantic_sections = []
-	var checked := _append_world(required, [], world, false)
-	if not checked.success: return checked
+	# 续玩 P0 只承载身份与指令；Opening 正文独立参与 P2 整块预算。
+	var game: Dictionary = setup.game
+	var world: Dictionary = setup.world
+	var projection: Dictionary = world.source_projection
+	var identity: Dictionary = projection.get("identity", {})
+	var provenance: Dictionary = world.get("provenance", {})
+	required.append("## Game Setup\nGame ID: %s\nDisplay name: %s\nControl mode: %s\nSelected Entry: %s" % [
+		String(game.get("game_id", "")), String(game.get("display_name", "")), String(game.get("control_mode", "")),
+		"none" if setup.get("selected_entry_id") == null else String(setup.selected_entry_id),
+	])
+	required.append("## World\nLocal World ID: %s\nName: %s\nSource provenance: %s @ %s\nWorld instructions: %s\nGM instructions: %s" % [
+		String(world.get("local_world_id", "")), String(projection.get("display_name", "")),
+		String(provenance.get("asset_id", identity.get("asset_id", ""))), String(provenance.get("generation_fingerprint", "")),
+		String(projection.get("world_instructions", "")), String(projection.get("gm_instructions", "")),
+	])
+	var entry: Dictionary = projection.get("selected_entry", {})
+	if not entry.is_empty():
+		required.append("### Exact Selected World Entry\nEntry ID: %s\nName: %s" % [String(entry.get("entry_id", "")), String(entry.get("display_name", ""))])
 	var blocks: Array = [{"family":"game", "tier":0, "text":"\n\n".join(required)}]
+	for background: Array in [["Opening supplement", String(game.get("opening_supplement", ""))], ["Selected Entry opening seed", String(entry.get("opening_seed", ""))]]:
+		if not background[1].is_empty():
+			blocks.append({"family":"source", "tier":2, "text":"## %s | T0 starting background, not current lived truth\n%s" % background})
+	var checked: Dictionary
 	var owners: Array = [{"family":"source", "heading":"World", "value":setup.world}]
 	owners.append({"family":"source", "heading":"Player Character", "value":setup.player_character})
 	for npc: Variant in setup.guaranteed_npcs:
 		if not npc is Dictionary: return Rules.failure("invalid_game_setup", "Guaranteed NPC definition 无效。")
 		owners.append({"family":"npc_source", "heading":"Guaranteed NPC", "value":npc})
 	for owner: Dictionary in owners:
-		var projection: Variant = owner.value.get("source_projection")
-		if not projection is Dictionary or not projection.get("semantic_sections") is Array:
+		var owner_projection: Variant = owner.value.get("source_projection")
+		if not owner_projection is Dictionary or not owner_projection.get("semantic_sections") is Array:
 			return Rules.failure("invalid_game_setup", "续玩 source projection/semantic_sections 无效。")
 		var header: Array[String] = []
 		if owner.heading == "World":

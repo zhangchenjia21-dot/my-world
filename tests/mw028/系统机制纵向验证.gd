@@ -21,6 +21,9 @@ func _run() -> void:
 	runtime = Runtime.new()
 	check(runtime.open_current_game(directory.path_join("system.sqlite")).success, "isolated real SQLite")
 	var state := setup()
+	# G7 续玩要求有效的 frozen source 结构；本 fixture 没有 authored sections。
+	state.player_character.source_projection["semantic_sections"] = []
+	state.world.source_projection["semantic_sections"] = []
 	state["expansions"] = [{"capability_slot":"action_resolution", "capability_id":"action_check.public_d20.v1", "semantic_sections":[]}]
 	check(runtime.commit_world_mutation_durably("setup", "setup", state).success, "fixture setup")
 	accept("", "你在城门外停步。")

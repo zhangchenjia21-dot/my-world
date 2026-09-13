@@ -105,6 +105,7 @@ func _run() -> void:
 	consumer.free();guarded_opening.provider_adapter.free();guarded_opening.free();transport.free()
 	boundary33(assembler,settings.context_budget_metadata().context_budget)
 	runtime.close()
+	await source_tiers_r1(assembler, settings)
 	FileAccess.open(directory.path_join("budget-evidence.json"),FileAccess.WRITE).store_string(JSON.stringify(measurements33,"  "))
 	print("MW033 checks=%d failures=%d real_provider_calls=0" % [checks,failures]);quit(0 if failures==0 else 1)
 
@@ -147,3 +148,60 @@ func boundary33(assembler: RefCounted, budget: Dictionary) -> void:
 	var guided: Dictionary=assembler.assemble_working_set(ooc,[],budget)
 	check(guided.messages[1].content=="OOC / GM 指导\n原文指导" and guided.messages[2].content=="原文回应" and guided.messages[-1].content=="OOC / GM 指导\n当前指导" and ooc==copy,"mixed OOC guidance structurally marked with durable original untouched")
 	check(not JSON.stringify(measurements33).contains("CURRENT_PERSON") and not JSON.stringify(measurements33).contains("RAW_PRIVATE_CANARY"),"diagnostics contain only structural counts and bytes")
+
+
+# 每例都通过真实 session/当前领域投影；大中文正文能通过 Opening 字符门禁，
+# 却超过 256k 字节预算，专门覆盖 IR1 的 P0 误归类盲点。
+func source_tiers_r1(assembler: RefCounted, settings: RefCounted) -> void:
+	var evidence: Array = []
+	for kind: String in ["supplement", "seed", "small"]:
+		runtime = Runtime.new()
+		check(runtime.open_current_game(directory.path_join("r1-" + kind + ".sqlite")).success, "R1 isolated " + kind)
+		var initial := setup33()
+		initial.world.source_projection.semantic_sections = []
+		initial.selected_entry_id = "R1_ENTRY_ID"
+		var supplement := "SUPPLEMENT_BEGIN" + "补".repeat(80000 if kind == "supplement" else 8) + "SUPPLEMENT_END"
+		var seed := "SEED_BEGIN" + "种".repeat(80000 if kind == "seed" else 8) + "SEED_END"
+		initial.game["opening_supplement"] = supplement
+		initial.world.source_projection["selected_entry"] = {"entry_id":"R1_ENTRY_ID", "display_name":"R1_ENTRY_NAME", "opening_seed":seed}
+		check(runtime.commit_world_mutation_durably("setup", "setup-node", initial).success, "R1 frozen " + kind)
+		var first := OpeningProjector33.new().project(initial)
+		check(first.success, "R1 full Opening character guard " + kind)
+		var stub: Node = load("res://tests/g4_07a/首次开场桩适配器.gd").new()
+		var opening := Opening33.new(runtime, stub)
+		root.add_child(opening)
+		check(opening.start_first_opening().success, "R1 actual first Opening " + kind)
+		check(stub.requests[0] == Assembly33.new().assemble_first_opening_messages(first.context_text), "R1 First Opening exact full payload " + kind)
+		check(first.context_text.contains(supplement) and first.context_text.contains(seed), "R1 First Opening both full bodies " + kind)
+		stub.simulate_delta("R1 accepted opening"); stub.simulate_completed()
+		opening.queue_free(); await frames()
+		curate33("R1_PERSON", "R1_THREAD", "R1_CHARACTER")
+		var entries: Array = runtime.conversation.get_durable_accepted_entries()
+		var world := Rules33.build_world_candidate(runtime.world_state, Rules33.build_record(runtime.game_id, 0, entries[0].gm_text, ["R1_WORLD"], "2026-09-13T00:00:00Z"))
+		check(runtime.commit_world_mutation_durably("world", "world-node", world).success, "R1 current World " + kind)
+		runtime.conversation.begin_turn("R1 current attempt")
+		var source := OpeningProjector33.new().project_continuation(initial)
+		check(source.success and source.blocks[0].text.contains("R1_ENTRY_ID") and source.blocks[0].text.contains("R1_ENTRY_NAME"), "R1 Entry identity P0 " + kind)
+		check(not source.blocks[0].text.contains("SUPPLEMENT_BEGIN") and not source.blocks[0].text.contains("SEED_BEGIN"), "R1 background never P0 " + kind)
+		check(source.blocks.filter(func(b: Dictionary) -> bool: return b.family == "source" and b.tier == 2).size() == 2, "R1 two atomic source units " + kind)
+		for capacity: String in ["256k", "1m"]:
+			check(settings.save_settings({"profile_id":"deepseek_v4_pro", "context_limit":capacity, "reasoning_request":"high"}).success, "R1 validated capacity " + capacity)
+			var result: Dictionary = assembler.assemble_session(runtime)
+			check(result.success, "R1 continuation success " + kind + " " + capacity)
+			if not result.success: continue
+			var content := ""
+			for message: Dictionary in result.messages: content += message.content + "\n"
+			for marker: String in ["R1_ENTRY_ID", "R1_ENTRY_NAME", "CURRENT_WORLD_INSTRUCTION", "R1_CHARACTER", "R1_THREAD", "R1_WORLD"]:
+				check(content.contains(marker), "R1 required/current survives " + kind + " " + capacity + " " + marker)
+			var omit := capacity == "256k" and kind != "small"
+			var omitted_body := supplement if kind == "supplement" else seed
+			if omit:
+				check(not content.contains(omitted_body.substr(0, 12)) and not content.contains(omitted_body.right(12)), "R1 no partial prefix/suffix " + kind)
+				check(result.context_stats.families.source.omitted == 1 and result.context_stats.families.source.included == 1, "R1 omission source counters " + kind)
+			else:
+				check(content.contains(supplement) and content.contains(seed), "R1 exact complete P2 bodies " + kind + " " + capacity)
+				check(result.context_stats.families.source.included == 2 and result.context_stats.families.source.omitted == 0, "R1 inclusion source counters " + kind + " " + capacity)
+			check(result.context_stats.final_messages_bytes == JSON.stringify(result.messages).to_utf8_buffer().size() and result.context_stats.final_messages_bytes <= result.context_stats.safe_input_bytes, "R1 actual final byte budget " + kind + " " + capacity)
+			evidence.append({"case":kind, "capacity":capacity, "supplement_bytes":supplement.to_utf8_buffer().size(), "seed_bytes":seed.to_utf8_buffer().size(), "first_opening_exact":true, "stats":result.context_stats})
+		runtime.conversation.cancel_generation(); runtime.close()
+	FileAccess.open(directory.path_join("r1-source-budget-evidence.json"), FileAccess.WRITE).store_string(JSON.stringify(evidence, "  "))
