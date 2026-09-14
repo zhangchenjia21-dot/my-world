@@ -1,0 +1,122 @@
+[
+  {
+    "status": " M",
+    "path": "tests/fixtures/g4_02/世界包_星潮群岛/assets/star_harbor.svg.import",
+    "sha256": "75723042f7aa0914a0a63f93f171cd75b258fc1c2d8a8bdd4f6628f757d1bfb5"
+  },
+  {
+    "status": " M",
+    "path": "tests/fixtures/g4_02/世界包_星潮群岛/assets/tide_routes.svg.import",
+    "sha256": "1be2e851b348caad3e60ab41fd4d513df7a4f4103996d3d68958c083dff3b616"
+  },
+  {
+    "status": " M",
+    "path": "tests/fixtures/g4_02/世界包_边境诸侯/assets/border_envoy.svg.import",
+    "sha256": "8ffde17919cf8b164ce250510b4632a762d3604cd5fedc3bfae82c8ff6c46b91"
+  },
+  {
+    "status": " M",
+    "path": "tests/fixtures/g4_02/世界包_边境诸侯/assets/river_gate.svg.import",
+    "sha256": "530ba7f98ec3915cc66f2fbde9301c4cd67e440a8eb32be480202f7dd66aa93b"
+  },
+  {
+    "status": " M",
+    "path": "tests/fixtures/g4_02/世界包_边境诸侯/assets/salt_road.svg.import",
+    "sha256": "7e476626f9318b6a9ab30b2c84cf32a2f4c0c044fb0c140d348e88d55115687e"
+  },
+  {
+    "status": " M",
+    "path": "tests/fixtures/g4_02/角色卡_沈砚/assets/shen_yan.svg.import",
+    "sha256": "08af9e781af9fc9532b09aaa1cc84938a6e6b85b644af9567c300c5de88e67c8"
+  },
+  {
+    "status": " M",
+    "path": "tests/fixtures/g4_02/角色卡_莱娅/assets/leya.svg.import",
+    "sha256": "7f047e1138ccae083bffbe188e8c50299513559020dbb9d091074e1f04cc8869"
+  },
+  {
+    "status": " M",
+    "path": "tests/fixtures/g4_05/历史真实资产转换/汉末三国/刘备/portrait.svg.import",
+    "sha256": "e594726f9e702be8e219b9cdd38059a242d7b8d6a8f9cd5da54af584f54c5885"
+  },
+  {
+    "status": " M",
+    "path": "tests/fixtures/g4_05/历史真实资产转换/汉末三国/孙权/portrait.svg.import",
+    "sha256": "18196d82663ef7cbe5ce3cb863adf706d3ce016aa723a332c0194c0e09fe8a06"
+  },
+  {
+    "status": " M",
+    "path": "tests/fixtures/g4_05/历史真实资产转换/汉末三国/曹操/portrait.svg.import",
+    "sha256": "24f897e40b7e6092942e5389663c0422f12501e5bf1ccb81e0058ac6ab92d664"
+  },
+  {
+    "status": " M",
+    "path": "tests/fixtures/g4_05/历史真实资产转换/诸界余辉/杜恩/portrait.svg.import",
+    "sha256": "9c6a2c32629fe66d9deeae2084df3ce82444acdd650ac4643cf2f3ad7264fcbc"
+  },
+  {
+    "status": " M",
+    "path": "tests/fixtures/g4_05/历史真实资产转换/诸界余辉/莉维娅/portrait.svg.import",
+    "sha256": "e836e7009f612d270d1ca166d07af19e48ab8df8fbcc9f00ad2bfb4dc3f40134"
+  },
+  {
+    "status": " M",
+    "path": "tests/fixtures/g4_05/历史真实资产转换/诸界余辉/阿德里安/portrait.svg.import",
+    "sha256": "6fd1312e1c5337990cd924cc976d4a8f3365770f494a18bb5a67cbf9d4d34336"
+  },
+  {
+    "status": "??",
+    "path": "docs/mw015/r2/evidence/1280x720-bottom.png.import",
+    "sha256": "c7d27bafb10faba4e5e36326814169720cbe2225f7fd7600d8262e4c59c977e7"
+  },
+  {
+    "status": "??",
+    "path": "docs/mw015/r2/evidence/1280x720-character.png.import",
+    "sha256": "0a12220d0dcb618f120e8d99948c923adfb6cc26e6d93b8cf8b01f8976d21344"
+  },
+  {
+    "status": "??",
+    "path": "docs/mw015/r2/evidence/960x540-bottom.png.import",
+    "sha256": "f361da5585cc7d32cf52a557a9fa693064ac07158b4de62ebb24f84bdceb37d2"
+  },
+  {
+    "status": "??",
+    "path": "docs/mw015/r2/evidence/960x540-character.png.import",
+    "sha256": "3758e7b50c93608c404beb43fb71f4b9317b8f84c8cb6956a6fd5b3d4ab016dd"
+  },
+  {
+    "status": "??",
+    "path": "docs/mw015/r2/evidence/maximized-bottom.png.import",
+    "sha256": "e6acd20ed04e7bbbfc2835697da5c0ec97b27d9b166bc49a4f2c7cac81b12257"
+  },
+  {
+    "status": "??",
+    "path": "docs/mw015/r2/evidence/maximized-character.png.import",
+    "sha256": "6bb2bd6da20e7aad6c9643fe9f4a7526583a8b7cd7d59865d2e265274adf685a"
+  },
+  {
+    "status": "??",
+    "path": "docs/mw018/evidence/people-1280x720.png.import",
+    "sha256": "50ad339cb7bf6eebb2d1ce3ee2770c823c1b8b5469d2732657c886fdd1b38d68"
+  },
+  {
+    "status": "??",
+    "path": "docs/mw018/evidence/people-960x540.png.import",
+    "sha256": "9cfc8dc5e1aee184c55284b5d7c33a0f03ad5989ce815ae8e0dcbc30be556e68"
+  },
+  {
+    "status": "??",
+    "path": "docs/mw018/evidence/people-maximized-collapsed.png.import",
+    "sha256": "fc26263e9e204b0913d2cec600640a1fd68acab98499f87c27c83c452b233aaa"
+  },
+  {
+    "status": "??",
+    "path": "docs/mw018/evidence/people-maximized-expanded.png.import",
+    "sha256": "dd12afd4cdcc26df375628805fd0c7997f5b3e4833f88f2d2ba6c316cc3fc3e1"
+  },
+  {
+    "status": "??",
+    "path": "tests/mw004/最小玩家主权原则测试.gd.uid",
+    "sha256": "bfc8f8311d6b7626c6dc46e7907595b906174e2adb7674cbd5a8983d79414fd0"
+  }
+]

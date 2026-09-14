@@ -1,0 +1,39 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-024 PASS legacy rehydration
+MW-024 PASS legacy normalized modes
+MW-024 PASS legacy chain byte identity 0
+MW-024 PASS legacy chain byte identity 1
+MW-024 PASS legacy recommendation identity
+MW-024 PASS legacy World identity
+MW-024 PASS pre-upgrade World record remains current
+MW-024 PASS pre-upgrade People receipt remains current
+MW-024 PASS pre-upgrade Curator record remains current
+MW-024 PASS same prose action/ooc distinct versions
+MW-024 PASS same prose OOC hides old World record
+MW-024 PASS mode replacement invalidates World/actor/Knowledge source
+MW-024 PASS mode replacement invalidates old People/Curator
+MW-024 PASS unknown mode rejected
+MW-024 PASS text never selects mode
+MW-024 PASS explicit OOC starts
+MW-024 PASS completion candidate typed
+MW-024 PASS raw Player bytes preserved
+MW-024 PASS regenerate retains mode
+MW-024 PASS correction retains mode
+MW-024 PASS failure preserves accepted mode
+MW-024 PASS mode replacement remains pending
+MW-024 PASS mode replacement atomically accepts
+MW-024 PASS isolated SQLite
+MW-024 PASS actual no-mode durable JSON
+MW-024 PASS legacy Game reopens without migration
+MW-024 PASS reopened normalized legacy matches
+MW-024 PASS Save preserves original missing-mode JSON
+MW-024 PASS active OOC request structural marker
+MW-024 PASS OOC durable completion
+MW-024 PASS mixed action/OOC Save
+MW-024 PASS subsequent action sees recent OOC as guidance
+MW-024 PASS subsequent action accepted
+MW-024 PASS Restore exact mixed modes
+MW-024 PASS mixed durable reopen
+MW-024 PASS pre-upgrade immutable Save restores without migration
+MW-024 CONTRACT checks=36 failures=0

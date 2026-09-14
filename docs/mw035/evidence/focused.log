@@ -1,0 +1,327 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-022 PASS validated 256k
+MW-022 PASS isolated SQLite
+MW-022 PASS frozen sources
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS current curation fixture
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS current owner records
+MW-022 PASS latest replaceable World
+MW-022 PASS validated 256k
+MW-022 PASS 256k assembled
+MW-022 PASS 256k actual serialized bound
+MW-022 PASS 256k current owner CURRENT_CHARACTER_CAPABILITY
+MW-022 PASS 256k current owner CURRENT_WORLD_OLD_ORIGIN
+MW-022 PASS 256k current owner CURRENT_KNOWLEDGE
+MW-022 PASS 256k current owner CURRENT_AGENCY
+MW-022 PASS 256k current owner CURRENT_EVOLUTION
+MW-022 PASS 256k current owner CURRENT_INVENTORY
+MW-022 PASS 256k current owner CURRENT_MECHANICS
+MW-022 PASS 256k current owner EXACT_EXPANSION_RULE
+MW-022 PASS 256k current owner ENTRY_ID
+MW-022 PASS exclude STYLE_ONLY_CANARY
+MW-022 PASS exclude STALE_WORLD_CANARY
+MW-022 PASS exclude RAW_PRIVATE_CANARY
+MW-022 PASS exclude EXCLUDED_PERSON
+MW-022 PASS exclude EXCLUDED_THREAD
+MW-022 PASS exclude CURRENT_EXPERIENCE
+MW-022 PASS exclude PRIVATE_RESOLUTION
+MW-022 PASS active once
+MW-022 PASS atomic BACKGROUND
+MW-022 PASS atomic SUPPLEMENT
+MW-022 PASS atomic SEED
+MW-022 PASS atomic NPC
+MW-022 PASS 256k omits P2 whole
+MW-022 PASS origin older than retained transcript
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS no fake opening user
+MW-022 PASS safe stats
+MW-022 PASS 256k assembled
+MW-022 PASS 256k actual serialized bound
+MW-022 PASS 256k current owner CURRENT_CHARACTER_CAPABILITY
+MW-022 PASS 256k current owner CURRENT_WORLD_OLD_ORIGIN
+MW-022 PASS 256k current owner CURRENT_KNOWLEDGE
+MW-022 PASS 256k current owner CURRENT_AGENCY
+MW-022 PASS 256k current owner CURRENT_EVOLUTION
+MW-022 PASS 256k current owner CURRENT_INVENTORY
+MW-022 PASS 256k current owner CURRENT_MECHANICS
+MW-022 PASS 256k current owner EXACT_EXPANSION_RULE
+MW-022 PASS 256k current owner ENTRY_ID
+MW-022 PASS exclude STYLE_ONLY_CANARY
+MW-022 PASS exclude STALE_WORLD_CANARY
+MW-022 PASS exclude RAW_PRIVATE_CANARY
+MW-022 PASS exclude EXCLUDED_PERSON
+MW-022 PASS exclude EXCLUDED_THREAD
+MW-022 PASS exclude CURRENT_EXPERIENCE
+MW-022 PASS exclude PRIVATE_RESOLUTION
+MW-022 PASS active once
+MW-022 PASS atomic BACKGROUND
+MW-022 PASS atomic SUPPLEMENT
+MW-022 PASS atomic SEED
+MW-022 PASS atomic NPC
+MW-022 PASS 256k omits P2 whole
+MW-022 PASS origin older than retained transcript
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS no fake opening user
+MW-022 PASS safe stats
+MW-022 PASS validated 1m
+MW-022 PASS 1m assembled
+MW-022 PASS 1m actual serialized bound
+MW-022 PASS 1m current owner CURRENT_CHARACTER_CAPABILITY
+MW-022 PASS 1m current owner CURRENT_WORLD_OLD_ORIGIN
+MW-022 PASS 1m current owner CURRENT_KNOWLEDGE
+MW-022 PASS 1m current owner CURRENT_AGENCY
+MW-022 PASS 1m current owner CURRENT_EVOLUTION
+MW-022 PASS 1m current owner CURRENT_INVENTORY
+MW-022 PASS 1m current owner CURRENT_MECHANICS
+MW-022 PASS 1m current owner EXACT_EXPANSION_RULE
+MW-022 PASS 1m current owner ENTRY_ID
+MW-022 PASS exclude STYLE_ONLY_CANARY
+MW-022 PASS exclude STALE_WORLD_CANARY
+MW-022 PASS exclude RAW_PRIVATE_CANARY
+MW-022 PASS exclude EXCLUDED_PERSON
+MW-022 PASS exclude EXCLUDED_THREAD
+MW-022 PASS exclude CURRENT_EXPERIENCE
+MW-022 PASS exclude PRIVATE_RESOLUTION
+MW-022 PASS active once
+MW-022 PASS atomic BACKGROUND
+MW-022 PASS atomic SUPPLEMENT
+MW-022 PASS atomic SEED
+MW-022 PASS atomic NPC
+MW-022 PASS 1m admits more complete P2
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS no fake opening user
+MW-022 PASS safe stats
+MW-022 PASS 1m assembled
+MW-022 PASS 1m actual serialized bound
+MW-022 PASS 1m current owner CURRENT_CHARACTER_CAPABILITY
+MW-022 PASS 1m current owner CURRENT_WORLD_OLD_ORIGIN
+MW-022 PASS 1m current owner CURRENT_KNOWLEDGE
+MW-022 PASS 1m current owner CURRENT_AGENCY
+MW-022 PASS 1m current owner CURRENT_EVOLUTION
+MW-022 PASS 1m current owner CURRENT_INVENTORY
+MW-022 PASS 1m current owner CURRENT_MECHANICS
+MW-022 PASS 1m current owner EXACT_EXPANSION_RULE
+MW-022 PASS 1m current owner ENTRY_ID
+MW-022 PASS exclude STYLE_ONLY_CANARY
+MW-022 PASS exclude STALE_WORLD_CANARY
+MW-022 PASS exclude RAW_PRIVATE_CANARY
+MW-022 PASS exclude EXCLUDED_PERSON
+MW-022 PASS exclude EXCLUDED_THREAD
+MW-022 PASS exclude CURRENT_EXPERIENCE
+MW-022 PASS exclude PRIVATE_RESOLUTION
+MW-022 PASS active once
+MW-022 PASS atomic BACKGROUND
+MW-022 PASS atomic SUPPLEMENT
+MW-022 PASS atomic SEED
+MW-022 PASS atomic NPC
+MW-022 PASS 1m admits more complete P2
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS chronological selected turns
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS whole accepted GM
+MW-022 PASS no fake opening user
+MW-022 PASS safe stats
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS future record
+MW-022 PASS future truly current before Restore
+MW-022 PASS Restore
+MW-022 PASS Restore excludes future
+MW-022 PASS reopen
+MW-022 PASS reopen same control without cache
+MW-022 PASS Regenerate
+MW-022 PASS Regenerate excludes old pair and hash-bound World
+MW-022 PASS validated 256k
+MW-022 PASS oversized P0 fixture
+MW-022 PASS P0 fail loud expansion
+MW-022 PASS overflow zero Provider RNG mutation
+MW-022 PASS restore P0 fixture
+MW-022 PASS oversized P0 fixture
+MW-022 PASS P0 fail loud instructions
+MW-022 PASS overflow zero Provider RNG mutation
+MW-022 PASS restore P0 fixture
+MW-022 PASS small whole background fixture
+MW-022 PASS small P2 preserved SUPPLEMENT
+MW-022 PASS small P2 preserved SEED
+MW-022 PASS small P2 preserved BACKGROUND
+MW-022 PASS small P2 preserved NPC
+MW-022 PASS restore large fixture
+MW-022 PASS start CHECK_REQUIRED
+MW-022 PASS no RNG before parsed control
+MW-022 PASS expected request active
+MW-022 PASS RNG after valid CHECK exactly once
+MW-022 PASS Narrative stage retains MW033 style family CHECK_REQUIRED
+MW-022 PASS accepted CHECK_REQUIRED
+MW-022 PASS durable replay no request or reroll
+MW-022 PASS start NO_CHECK
+MW-022 PASS no RNG before parsed control
+MW-022 PASS expected request active
+MW-022 PASS Narrative stage retains MW033 style family NO_CHECK
+MW-022 PASS accepted NO_CHECK
+MW-022 PASS durable replay no request or reroll
+MW-022 PASS start degraded
+MW-022 PASS no RNG before parsed control
+MW-022 PASS current curation fixture
+MW-022 PASS validated 1m
+MW-022 PASS recovery rebuilds current owners
+MW-022 PASS recovery revalidates changed capacity and actual bytes
+MW-022 PASS bounded style-free recovery
+MW-022 PASS second malformed degraded without RNG
+MW-022 PASS Narrative stage retains MW033 style family degraded
+MW-022 PASS accepted degraded
+MW035 checks=324 failures=0 real_provider_calls=0

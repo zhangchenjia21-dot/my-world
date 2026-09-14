@@ -1,0 +1,101 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-022 PASS legacy v0.2 actor-backed People retains exact subject and snapshot
+MW-022 PASS legacy People hash and Timeline bytes unchanged on read
+MW-022 PASS same-name referents are distinct without actor
+MW-022 PASS same accepted proposal replay has deterministic IDs
+MW-022 PASS out-of-range source evidence rejected
+MW-022 PASS fractional span rejected
+MW-022 PASS unknown actor ref never name-resolved
+MW-022 PASS ambiguous two-subject actor link rejected
+MW-022 PASS duplicate subject operations rejected
+MW-022 PASS later exact link preserves referent identity
+MW-022 PASS legacy v0.3 uses record+ordinal bridge without hide
+MW-022 PASS legacy transition uses exact ref not title
+MW-022 PASS legacy record not rewritten during transition
+MW-022 PASS new opportunity cannot skip Thread review
+MW-022 PASS unknown Thread ref rejected
+MW-022 PASS empty explicit reviewed set valid
+MW-022 PASS new normalized schema retains identities
+MW-022 PASS new IDs cannot masquerade as legacy schema
+MW-022 PASS old preference choices preserved
+MW-022 PASS no write-on-read migration
+MW-022 PASS explicit Thread hide upgrades preference schema
+MW-022 PASS v0.2 keeps exact v0.1 keys
+MW-022 PASS isolated database
+MW-022 PASS isolated initial state
+MW-022 PASS expected request active
+MW-022 PASS accepted GM-only Opening
+MW-022 PASS Opening waits same semantic lane
+MW-022 PASS Opening no synthetic d20
+MW-022 PASS expected request active
+MW-022 PASS Opening Inventory before Player turn
+MW-022 PASS Opening Curator no action evidence
+MW-022 PASS expected request active
+MW-022 PASS referent-only People accepted
+MW-022 PASS referent does not materialize actor
+MW-022 PASS Opening unresolved Thread
+MW-022 PASS Thread explicit hide
+MW-022 PASS expected request active
+MW-022 PASS malformed first response starts only recovery
+MW-022 PASS expected request active
+MW-022 PASS recovery exact five ready
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS exact actor link retains subject presentation identity
+MW-022 PASS Thread update retains stable identity
+MW-022 PASS semantic update does not unhide or write preference
+MW-022 PASS completed request private maps released
+MW-022 PASS request excludes npc-a
+MW-022 PASS request excludes subject_id
+MW-022 PASS request excludes thread_id
+MW-022 PASS request excludes SECRET_PROFILE
+MW-022 PASS request excludes PRIVATE_PLAN
+MW-022 PASS request excludes HIDDEN_EVOLUTION
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS second failure final no third start
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS explicit review omission removes Thread
+MW-022 PASS expected request active
+MW-022 PASS foreground before deferred retry cancels old retry
+MW-022 PASS Restore opening-current
+MW-022 PASS Restore recovers original semantic identity
+MW-022 PASS Restore removes future actor link snapshot
+MW-022 PASS Restore does not rewind preference bytes
+MW-022 PASS Restore before opening
+MW-022 PASS restored-away Opening material absent
+MW-022 PASS restore for reopen
+MW-022 PASS reopen
+MW-022 PASS reopen durable current no Provider replay
+MW-022 PASS reopen Thread hide retained
+MW-022 PASS recover current Thread
+MW-022 PASS authoritative surfaces not hideable
+MW-022 PASS extra isolated Game
+MW-022 PASS extra setup
+MW-022 PASS expected request active
+MW-022 PASS expected request active
+MW-022 PASS Opening actual continuing NPC materialized and bound
+MW-022 PASS environment sword creates no Inventory
+MW-022 PASS expected request active
+MW-022 PASS Opening without pending matter creates no fake Thread
+MW-022 PASS timeout one recovery
+MW-022 PASS old attempt callbacks cannot complete recovery
+MW-022 PASS expected request active
+MW-022 PASS Regenerate excludes Opening runtime actor immediately
+MW-022 PASS Restore cancels replacement requests
+MW-022 PASS pre-Restore callbacks cannot publish
+MW-022 PASS expected request active
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS transient Provider failure retries once
+MW-022 PASS second transport failure ends recovery
+MW-022 PASS begin player turn
+MW-022 PASS durable accepted Narrative
+MW-022 PASS missing credential never retries
+MW032 checks=98 failures=0

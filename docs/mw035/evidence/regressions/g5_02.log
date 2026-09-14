@@ -1,0 +1,43 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+G5-02M1 FOCUSED PASS | A knowledge-only result commits one atomic mutation
+G5-02M1 FOCUSED PASS | A one durable knowledge record committed
+G5-02M1 FOCUSED PASS | A only Player Character gains provenance
+G5-02M1 FOCUSED PASS | A event carries exact fact and basis
+G5-02M1 FOCUSED PASS | A Context shows Player Character knows F
+G5-02M1 FOCUSED PASS | A Context preserves asymmetry: NPC A has no provenance
+G5-02M1 FOCUSED PASS | B later disclosure commits second knowledge record
+G5-02M1 FOCUSED PASS | B Context now shows both actors
+G5-02M1 FOCUSED PASS | B NPC A gains provenance for F
+G5-02M1 FOCUSED PASS | C valid roster event still commits
+G5-02M1 FOCUSED PASS | C unknown actor ID is discarded and never becomes durable authority
+G5-02M1 FOCUSED PASS | C dropped unknown event is counted
+G5-02M1 FOCUSED PASS | D valid changes commit despite invalid knowledge_events
+G5-02M1 FOCUSED PASS | D G5-01 consequence record committed
+G5-02M1 FOCUSED PASS | D no invalid knowledge record created
+G5-02M1 FOCUSED PASS | D accepted Narrative unaffected
+G5-02M1 FOCUSED PASS | D all invalid knowledge events dropped
+G5-02M1 FOCUSED PASS | E knowledge-only result makes one atomic mutation
+G5-02M1 FOCUSED PASS | E no world consequence record when changes is empty
+G5-02M1 FOCUSED PASS | E knowledge record present in same snapshot
+G5-02M1 FOCUSED PASS | F first materialization commits
+G5-02M1 FOCUSED PASS | F same accepted version replay does not duplicate knowledge
+G5-02M1 FOCUSED PASS | F Save/reopen preserves knowledge record in Context
+G5-02M1 FOCUSED PASS | F stale knowledge record whose source GM hash no longer matches is excluded from Context
+G5-02M1 FOCUSED PASS | C01 one semantic request emitted
+G5-02M1 FOCUSED PASS | C01 request contains roster block
+G5-02M1 FOCUSED PASS | C01 request contains Player display name + exact local ID
+G5-02M1 FOCUSED PASS | C01 request contains Guaranteed NPC display name + exact local ID
+G5-02M1 FOCUSED PASS | C01 request never adds incidental/unknown actors
+G5-02M1 FOCUSED PASS | C01 latest knowledge event is projected
+G5-02M1 FOCUSED PASS | C01 cap boundary keeps recent event
+G5-02M1 FOCUSED PASS | C01 oldest events beyond cap are absent
+G5-02M1 FOCUSED PASS | C01 bounded to eight recent events
+G5-02M1 FOCUSED PASS | C01 rendered output preserves chronological order after selection
+G5-02M1 FOCUSED PASS | C01 harness requires non-empty committed knowledge record
+G5-02M1 FOCUSED PASS | C01 harness requires non-empty committed knowledge event
+G5-02M1 FOCUSED PASS | C01 harness requires Context contains Actor Knowledge Provenance section
+G5-02M1 FOCUSED PASS | C01 harness requires Context contains committed fact
+G5-02M1 FOCUSED PASS | C01 harness never accepts no_changes as feature proof
+G5-02M1 FOCUSED PASS | C01 harness labels knowledge requirements as real proof gates
+G5-02M1 FOCUSED | done failures=0
