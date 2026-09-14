@@ -6,7 +6,6 @@ const Inventory := preload("res://src/行囊/L3_外交层/行囊公开接口.gd"
 const MechanicsHistory := preload("res://src/行动判定/L1_器件层/公开机制历史投影器.gd")
 const Parser := preload("res://src/行动判定/L1_器件层/结构化判定响应解析器.gd")
 const RandomSource := preload("res://src/行动判定/L1_器件层/程序D20随机源.gd")
-const GameLocalContext := preload("res://src/首次开场/L3_外交层/游戏本地上下文公开接口.gd")
 const ContextAssembler := preload("res://src/context/L3_外交层/上下文组装公开接口.gd")
 const ProviderAdapter := preload("res://src/provider/L3_外交层/运行时模型流式适配公开接口.gd")
 
@@ -22,7 +21,6 @@ var last_result := {"success": false, "status": "not_started"}
 var last_timing: Dictionary = {}
 
 var _parser := Parser.new()
-var _projector := GameLocalContext.new()
 var _assembler := ContextAssembler.new()
 var _stage := ""
 var _buffer := ""
@@ -452,15 +450,17 @@ func _normalize_check(value: Dictionary) -> Dictionary:
 	return check
 
 
+## 每次 control/recovery 都重新读取当前 owners 与 validated capacity，不缓存旧请求。
 func _control_messages(expansion: Dictionary, recovery: bool) -> Array:
-	## MW-005 R2：control/control_recovery 是 mechanics adjudication——保留全部事实
-	## Game-local context，但整类排除 literary_style_reference（表达参考不得影响机制裁决）。
-	var projected := _projector.project(session_runtime.world_state, false)
-	var game_context := String(projected.get("context_text", "")) + "\n\n" + _rules_text(expansion) + "\n\n" + _control_contract(recovery) + "\n\n" + Inventory.project_context(session_runtime)
-	return _assembler.assemble_messages(session_runtime.conversation.get_context_projection().merged({
-		"active_attempt": {"turn_index": session_runtime.conversation.get_durable_accepted_entries().size(), "player_text": _player_text}
-	}, true), game_context)
+	var projection: Dictionary = session_runtime.conversation.get_context_projection().merged({"active_attempt": {"turn_index": session_runtime.conversation.get_durable_accepted_entries().size(), "player_text": _player_text}}, true)
+	var assembled := _assembler.assemble_mechanics_control(session_runtime, projection, _rules_text(expansion) + "\n\n" + _control_contract(recovery))
+	_context_failure = {} if assembled.success else assembled
+	control_context_stats = assembled.get("context_stats", {}).duplicate(true)
+	control_context_stats["stage"] = "control_recovery" if recovery else "control"
+	return assembled.get("messages", [])
 
+## 只含计数、容量与时间；不保留请求正文或领域身份。
+var control_context_stats: Dictionary = {}
 
 var _context_failure: Dictionary = {}
 
@@ -519,7 +519,7 @@ func _is_narrative_stage(stage: String) -> bool:
 
 
 func _start_provider(stage: String, messages: Array) -> Dictionary:
-	if _is_narrative_stage(stage) and not _context_failure.is_empty():
+	if not _context_failure.is_empty():
 		return _finish(_context_failure)
 	_stage = stage
 	_buffer = ""
@@ -561,6 +561,8 @@ func timing_snapshot() -> Dictionary:
 
 
 func _reset_action_state() -> void:
+	_context_failure = {}
+	control_context_stats = {}
 	_stage = ""
 	_buffer = ""
 	_narrative_buffer = ""

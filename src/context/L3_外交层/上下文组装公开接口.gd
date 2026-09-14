@@ -41,3 +41,33 @@ func assemble_session(runtime: Variant, projection: Dictionary = {}, required_in
 		result.context_stats["materialized_world_turns"] = int(world.record_count)
 		result.context_stats["rejected_world_turns"] = int(world.rejected_count)
 	return result
+
+
+const CharacterContext := preload("res://src/信息整理/L3_外交层/角色经历投影公开接口.gd")
+
+## Public d20 专用组成；预算与整块选择仍由同一个结构选择器负责。
+## Character 仅是当前定性连续性，不替代 World、Inventory 或 durable mechanics。
+func assemble_mechanics_control(runtime: Variant, projection: Dictionary, required_instruction: String) -> Dictionary:
+	if runtime == null or not runtime.is_ready() or runtime.conversation == null:
+		return {"success":false,"status":"runtime_not_ready","message":"当前 Game 尚未安全打开。"}
+	var budget := runtime_budget_metadata()
+	if not budget.success: return budget
+	var source := SourceContext.project_session(runtime)
+	if not source.success: return source
+	var blocks: Array = source.blocks.filter(func(b: Dictionary) -> bool: return b.tier == 0)
+	blocks.append({"family":"control_contract","tier":0,"text":required_instruction})
+	var character: Dictionary = CharacterContext.project_session(runtime).character
+	if not String(character.headline).is_empty() or not String(character.summary).is_empty() or not character.groups.is_empty():
+		blocks.append({"family":"character","tier":1,"text":"Current Character (derived qualitative continuity; cannot override durable Public mechanics, factual Inventory or accepted/current World facts)\n" + JSON.stringify(character)})
+	var world := WorldContext.new().project_session(runtime)
+	for pair: Array in [["world",String(world.context_text)],["inventory",InventoryContext.project_context(runtime)],["mechanics",MechanicsContext.project_context(runtime)]]:
+		if not String(pair[1]).is_empty(): blocks.append({"family":pair[0],"tier":1,"text":pair[1]})
+	blocks.append_array(source.blocks.filter(func(b: Dictionary) -> bool: return b.tier == 2 and b.family != "style"))
+	var result := assemble_working_set(projection, blocks, budget.context_budget)
+	if result.has("context_stats"):
+		for family: String in ["character","world","inventory","mechanics","source","npc_source","conversation"]:
+			if not result.context_stats.families.has(family):
+				result.context_stats.families[family] = {"considered":0,"included":0,"omitted":0,"included_bytes":0,"omitted_bytes":0,"reason":"empty_or_not_current"}
+		result.context_stats["materialized_world_turns"] = int(world.record_count)
+		result.context_stats["rejected_world_turns"] = int(world.rejected_count)
+	return result
