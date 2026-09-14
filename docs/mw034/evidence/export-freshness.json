@@ -1,0 +1,7 @@
+{
+  "schema": "my-world.owner-export-freshness.v1",
+  "input_hash": "a8a1f0e4f619ae0de82f3b6e486de62b377148a1415693d55a84a923ce1954be",
+  "preset": "Windows Desktop",
+  "target": "build/windows/my-world.exe",
+  "built_at_utc": "2026-09-14T01:29:17.3199110Z"
+}

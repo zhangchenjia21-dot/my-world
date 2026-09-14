@@ -246,11 +246,14 @@ func test_edges() -> void:
 	await frames()
 	worker._timer.timeout.emit()
 	await frames()
+	check(stub.busy, "first timeout starts bounded recovery")
+	worker._timer.timeout.emit()
+	await frames()
 	check(not stub.busy and worker.last_result.status == "timeout", "bounded timeout cancels transport without touching foreground")
 	stub.synchronous_failure = true
 	worker.retry_pending()
 	await frames()
-	check(worker.last_result.status == "provider_failure", "synchronous provider failure terminates cleanly")
+	check(worker.last_result.status == "configuration_failure", "synchronous provider failure terminates cleanly")
 	stub.synchronous_failure = false
 	worker.retry_pending()
 	await frames()

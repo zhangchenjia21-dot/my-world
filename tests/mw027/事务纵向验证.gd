@@ -84,7 +84,15 @@ func _run() -> void:
 		if terminal == "malformed": complete(curation, {"character":null,"experiences":[],"open_threads":[{"bad":true}]})
 		elif terminal == "failure": curation.simulate_failed("SECRET_KEY")
 		elif terminal == "cancelled": curation.cancel()
-		else: curator._on_timeout()
+		else: curator._timer.timeout.emit()
+		await frames()
+		# MW-034：可恢复错误耗尽两次机会后，仍须保留原来的无写入/Debug 终态断言。
+		if terminal == "malformed":
+			check(curation.busy, "Curator bounded recovery started")
+			complete(curation, {"character":null,"experiences":[],"open_threads":[{"bad":true}]})
+		elif terminal == "timeout":
+			check(curation.busy, "Curator timeout recovery started")
+			curator._timer.timeout.emit()
 		await frames()
 		check(ThreadsSafe.project_session(runtime) == A and runtime.conversation.get_durable_accepted_entries() == accepted, "failure preserves accepted Narrative and Threads " + terminal)
 		check(row("threads", accepted.size()-1).terminal == ("cancelled" if terminal == "cancelled" else "failed"), "Debug abnormal " + terminal)
@@ -100,8 +108,9 @@ func _run() -> void:
 	complete(curation, {"character":null,"experiences":[],"open_threads":B}); await frames()
 	check(ThreadsSafe.project_session(runtime) == A, "stale accepted-prefix callback rejected")
 	check(observer.snapshot().any(func(r: Dictionary) -> bool: return r.lane == "threads" and r.terminal == "stale"), "Debug stale lane")
+	var old_serial: int = curator._request_serial
 	check(runtime.restore_save_point(before.save_id).success, "Restore before")
-	curator._on_delta(JSON.stringify({"character":null,"experiences":[],"open_threads":B})); curator._on_completed()
+	curator._on_delta(JSON.stringify({"character":null,"experiences":[],"open_threads":B}), old_serial); curator._on_completed(old_serial)
 	check(ThreadsSafe.project_session(runtime).is_empty() and row("threads",1).is_empty(), "Restore clears old epoch and displaced future")
 	check(runtime.restore_save_point(snapshot.save_id).success, "Restore after")
 	await frames()

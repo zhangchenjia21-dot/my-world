@@ -1,0 +1,394 @@
+[
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw032\\mw033-092103-f",
+    "name": "mw032",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw032.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw020\\mw033-092103-f",
+    "name": "mw020",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw020.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g4_07a\\mw033-092103-f",
+    "name": "g4_07a",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g4_07a.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g4_07b\\mw033-092103-f",
+    "name": "g4_07b",
+    "exit_warnings": 2,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g4_07b.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw030\\mw033-092103-f",
+    "name": "mw030",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw030.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw029\\mw033-092103-f",
+    "name": "mw029",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw029.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw028\\mw033-092103-f",
+    "name": "mw028",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw028.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw027\\mw033-092103-f",
+    "name": "mw027",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw027.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw026-focused\\mw033-092103-f",
+    "name": "mw026-focused",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw026-focused.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw025-focused\\mw033-092103-f",
+    "name": "mw025-focused",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw025-focused.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw024-contract\\mw033-092103-f",
+    "name": "mw024-contract",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw024-contract.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw024-vertical\\mw033-092103-f",
+    "name": "mw024-vertical",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw024-vertical.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g2_03\\mw033-092103-f",
+    "name": "g2_03",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g2_03.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g2_04\\mw033-092103-f",
+    "name": "g2_04",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g2_04.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g2_05\\mw033-092103-f",
+    "name": "g2_05",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g2_05.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g3_03-contract\\mw033-092103-f",
+    "name": "g3_03-contract",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g3_03-contract.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g3_03-persistence\\mw033-092103-f",
+    "name": "g3_03-persistence",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g3_03-persistence.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g3_04-contract\\mw033-092103-f",
+    "name": "g3_04-contract",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g3_04-contract.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g3_04-persistence\\mw033-092103-f",
+    "name": "g3_04-persistence",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g3_04-persistence.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g3_05-persistence\\mw033-092103-f",
+    "name": "g3_05-persistence",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g3_05-persistence.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g4_08m1\\mw033-092103-f",
+    "name": "g4_08m1",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g4_08m1.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g4_08m1-no-check\\mw033-092103-f",
+    "name": "g4_08m1-no-check",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g4_08m1-no-check.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g4_08b\\mw033-092103-f",
+    "name": "g4_08b",
+    "exit_warnings": 2,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g4_08b.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g5_01\\mw033-092103-f",
+    "name": "g5_01",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g5_01.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g5_02\\mw033-092103-f",
+    "name": "g5_02",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g5_02.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g5_03\\mw033-092103-f",
+    "name": "g5_03",
+    "exit_warnings": 2,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g5_03.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g5_03m2b\\mw033-092103-f",
+    "name": "g5_03m2b",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g5_03m2b.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g5_04\\mw033-092103-f",
+    "name": "g5_04",
+    "exit_warnings": 2,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g5_04.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw023\\mw033-092103-f",
+    "name": "mw023",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw023.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw003\\mw033-092103-f",
+    "name": "mw003",
+    "exit_warnings": 2,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw003.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw011\\mw033-092103-f",
+    "name": "mw011",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw011.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw022\\mw033-092103-f",
+    "name": "mw022",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw022.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw022-ui\\mw033-092103-f",
+    "name": "mw022-ui",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw022-ui.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g5_01-timeline\\mw033-092103-f",
+    "name": "g5_01-timeline",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g5_01-timeline.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw017\\mw033-092103-f",
+    "name": "mw017",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw017.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw014\\mw033-092103-f",
+    "name": "mw014",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw014.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw015r2\\mw033-092103-f",
+    "name": "mw015r2",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw015r2.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw015r2-ui\\mw033-092103-f",
+    "name": "mw015r2-ui",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw015r2-ui.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw015\\mw033-092103-f",
+    "name": "mw015",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw015.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw015r1\\mw033-092103-f",
+    "name": "mw015r1",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw015r1.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw018\\mw033-092103-f",
+    "name": "mw018",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw018.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw018r1\\mw033-092103-f",
+    "name": "mw018r1",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw018r1.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw019-lifecycle\\mw033-092103-f",
+    "name": "mw019-lifecycle",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw019-lifecycle.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw019-pairs\\mw033-092103-f",
+    "name": "mw019-pairs",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw019-pairs.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw019-routes\\mw033-092103-f",
+    "name": "mw019-routes",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw019-routes.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g3_03\\mw033-092103-f",
+    "name": "g3_03",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g3_03.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g3_04\\mw033-092103-f",
+    "name": "g3_04",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g3_04.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\g3_05\\mw033-092103-f",
+    "name": "g3_05",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\g3_05.log"
+  },
+  {
+    "errors": 0,
+    "fixture": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw021\\mw033-092103-f",
+    "name": "mw021",
+    "exit_warnings": 0,
+    "exit_code": 0,
+    "log": "D:\\AI\\Projects\\.worktrees\\my-world\\mw-034-g7-information-curator-recovery\\build\\mw033\\mw033-092103\\mw021.log"
+  }
+]

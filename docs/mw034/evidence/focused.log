@@ -1,0 +1,444 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial malformed schedules once with zero write
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial recovery exactly second start
+MW-014 PASS all four old callbacks ignored on attempt2
+MW-014 PASS initial same frozen material plus bounded cue
+MW-014 PASS initial recovery never echoes raw response
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS recovered baseline exactly one durable node
+MW-014 PASS initial no milestone
+MW-014 PASS reopen recovered initial
+MW-014 PASS reopen recovered initial zero starts
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS lived malformed no partial durable write
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS lived exactly one recovery
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS one recovered lived record
+MW-014 PASS one recovered experience
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS attempt2 fresh People and Thread refs
+MW-014 PASS attempt2 excludes old refs/raw response
+MW-014 PASS attempt1 Thread ref rejected by unchanged parser
+MW-014 PASS attempt1 People ref has no write authority
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS fresh refs retain one stable Thread identity
+MW-014 PASS fresh refs retain one People subject
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS two failures no automatic third start
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS later lived turn runs after final failure
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS Narrative accepts independently through failure
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS explicit retry_pending repairs prior failed opportunity
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS reopen lived recovery
+MW-014 PASS reopen no duplicate lived curation
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS recognized transient retries transport
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS transient recovery commits transport
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS recognized transient retries http_408
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS transient recovery commits http_408
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS recognized transient retries http_429
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS transient recovery commits http_429
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS recognized transient retries http_500
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS transient recovery commits http_500
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS recognized transient retries http_502
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS transient recovery commits http_502
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS recognized transient retries http_503
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS transient recovery commits http_503
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS recognized transient retries http_504
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS transient recovery commits http_504
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS permanent/unknown no retry missing_key
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS permanent/unknown no retry missing_credential
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS permanent/unknown no retry invalid_profile
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS permanent/unknown no retry invalid_persisted_settings
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS permanent/unknown no retry invalid_settings
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS permanent/unknown no retry unknown_profile
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS permanent/unknown no retry unknown_context_limit
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS permanent/unknown no retry unknown_reasoning_request
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS permanent/unknown no retry incompatible_context_limit
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS permanent/unknown no retry http_401
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS permanent/unknown no retry http_403
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS permanent/unknown no retry unknown_error
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS permanent/unknown no retry http_400
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS timeout cancels old transport then retries
+MW-014 PASS timeout late delta/completed/failed/cancelled isolated
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS second timeout no third start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS explicit initial repair distinct from automatic budget
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS second transport failure no third start
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS response oversized no retry
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS lived input oversized zero new starts
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS persistence failure no retry
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS explicit cancel no retry or late callback
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS shutdown no retry or old callback
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS Restore attempt1
+MW-014 PASS Restore invalidates all old work attempt1
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS Restore pending
+MW-014 PASS Restore invalidates all old work pending
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS Restore attempt2
+MW-014 PASS Restore invalidates all old work attempt2
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS replace while recovery pending
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS stale prefix gets no recovery; new opportunity starts
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS current parent displaced while pending
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS stale parent cannot recover/commit; changed opportunity may start
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS advance initial Restore fixture
+MW-014 PASS initial Restore attempt1
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Restore invalidates old opportunity attempt1
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS advance initial Restore fixture
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Restore pending
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Restore invalidates old opportunity pending
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS advance initial Restore fixture
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Restore attempt2
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Restore invalidates old opportunity attempt2
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS pending recovery cancel no second start
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS pending recovery shutdown no second start
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS synchronous permanent start failure not overwritten
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial oversized input zero additional starts
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS invalid storage fixture
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS invalid storage prerequisite prevents recovery start
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS replace during attempt2
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS attempt2 stale completion zero commit
+MW-014 PASS isolated real Runtime
+MW-014 PASS frozen setup
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS initial Provider start
+MW-014 PASS production curator request active
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS begin ordinary turn
+MW-014 PASS accept narrative before curation
+MW-014 PASS fixture exact actor receipt
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS both attempts use current validated actor receipt
+MW-014 PASS actor request refs regenerated on recovery
+MW-014 PASS no private actor or old actor ref in retry prompt
+MW-014 PASS old actor ref has no write authority
+MW-014 PASS safe diagnostic has no raw malformed/private content
+MW-014 PASS fresh actor ref exact stable binding commits once
+MW034 checks=441 failures=0 real_provider_calls=0
