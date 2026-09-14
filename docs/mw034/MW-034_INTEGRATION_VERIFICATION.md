@@ -1,6 +1,6 @@
 # MW-034 Integration Verification
 
-Status: **REVIEWED INTEGRATION READY**
+Status: **REVIEWED INTEGRATION COMPLETE**
 
 ## Reviewed lineage
 
@@ -9,15 +9,25 @@ Status: **REVIEWED INTEGRATION READY**
 - Implementation HEAD: `e5a8464700592ed5c423ca48a8b95c9a53ea3757`
 - Codex Candidate: `2f94fd2a843173370e3d9de01fd804f063067014`
 - Independent Review IR1: `f0cd73d39c13f39e91d6582a8432a5a9637d2876`
+- Reviewed task integration-record tip: `839b740e9bbaa2f093c7b12d71a6c1ecf56dd30e`
+- Non-force integration merge: `85f57cb861d2e186c0436a7a7349414d1596c3f0`
 - Engineering verdict: **PASS_WITH_NOTES**
 
-## Integration rule
+## Integration verification
 
-The reviewed MW-034 lineage is integrated without force or history rewriting. The production tree is the independently reviewed task-tip tree plus this integration record only.
+The reviewed MW-034 lineage was integrated without force or history rewriting.
 
-A documentation-only pre-integration `main` lineage exists at `e64e548df66f0e5a0a3790e43dcdd026a14bca62`. It is preserved as history; its temporary integration-record content is replaced by this reviewed integration record. It introduced no production-code mutation.
+The integration merge has the then-current `main` as first parent and the reviewed MW-034 task lineage as second parent. Its tree was deliberately taken from the reviewed task integration-record tip.
 
-The final integration commit is intentionally a non-force merge whose first parent is the then-current `main` and whose second parent is the reviewed MW-034 task lineage. This preserves both histories while taking product content exclusively from the reviewed MW-034 tree.
+A direct Git comparison of:
+
+`839b740e9bbaa2f093c7b12d71a6c1ecf56dd30e` → `85f57cb861d2e186c0436a7a7349414d1596c3f0`
+
+reported **zero changed files**. Therefore the integration merge product/document tree is byte-for-byte the reviewed task-tip tree.
+
+Before that merge, `main` accumulated a short documentation-only preparation lineage (`e64e548d…`, `100d4f2c…`, `8c654f8e…`). Those commits are preserved in Git history because integration is non-force, but their temporary files/content are absent from the integration merge tree. They introduced no production-code mutation and do not survive in current repository content.
+
+This file is the only post-merge documentation refinement; no production input changed after the reviewed integration tree.
 
 ## Production scope verified
 
