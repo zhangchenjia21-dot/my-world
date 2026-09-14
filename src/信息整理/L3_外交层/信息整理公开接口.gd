@@ -2,7 +2,8 @@ extends "res://src/信息整理/L2_流程层/回合信息整理流程.gd"
 
 ## 后台整理生命周期入口。Bootstrap 注入 Runtime 与可选 adapter；不持有前台行动锁。
 ## Bootstrap 注入 World semantic L3 终态屏障；等待当前 lived 身份终态，同一次整理维护角色/经历/人物/事务。
-## activation 先初始化 Game/T0 基线；retry_pending 可重试初始或 lived 失败。
+## activation 先初始化 Game/T0 基线；每个仍 current 的机会最多 initial + 一次自动 recovery。
+## retry_pending 只在机会结束后显式修复初始或 lived 失败；cancel/shutdown 不自动恢复。
 ## finished 只发布状态，不含模型原文；渲染/有效基线的 reopen 不发起模型请求。
 
 

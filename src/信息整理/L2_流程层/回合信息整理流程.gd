@@ -70,6 +70,12 @@ var _response := ""
 var _epoch := 0
 var _closed := false
 var _timer: Timer
+var _request_serial := 0
+var _callbacks: Dictionary = {}
+var _recovery_pending := false
+var _attempt_started_ms := 0
+const RECOVERY_CUE := "此前 machine response 不可用。请严格只返回要求的 JSON schema，不要 Markdown 或解释。"
+
 
 func _init(runtime: Variant = null, adapter: Node = null, frozen_profile_reader: Callable = Callable(), node_reader: Callable = Callable()) -> void:
 	session_runtime = runtime
@@ -79,14 +85,9 @@ func _init(runtime: Variant = null, adapter: Node = null, frozen_profile_reader:
 
 func _ready() -> void:
 	add_child(provider_adapter)
-	provider_adapter.text_delta.connect(_on_delta)
-	provider_adapter.completed.connect(_on_completed)
-	provider_adapter.failed.connect(_on_failed)
-	provider_adapter.cancelled.connect(_on_cancelled)
 	_timer = Timer.new()
 	_timer.one_shot = true
 	_timer.wait_time = 120.0
-	_timer.timeout.connect(_on_timeout)
 	add_child(_timer)
 	session_runtime.conversation.generation_completed.connect(_on_accepted)
 	session_runtime.restore_completed.connect(_on_restore)
@@ -95,8 +96,9 @@ func _ready() -> void:
 	# activation 只唤醒初始基线；不要求 accepted opening，也不自动重做已恢复的 lived 历史。
 	_pump.call_deferred(_epoch)
 
-## 显式修复只清除失败尝试标记；成功记录仍由 durable currentness 去重。
+## 显式修复只在机会终结后清除失败标记；在途调用不能重置两次额度，成功仍由 durable currentness 去重。
 func retry_pending() -> void:
+	if _closed or not _active.is_empty(): return
 	_pending_lived = true
 	_attempted.clear()
 	_pump.call_deferred(_epoch)
@@ -110,9 +112,9 @@ func shutdown() -> void:
 		return
 	_closed = true
 	_epoch += 1
+	_disconnect_request()
+	_recovery_pending = false
 	_active = {}
-	if _timer != null:
-		_timer.stop()
 	if session_runtime.conversation.generation_completed.is_connected(_on_accepted):
 		session_runtime.conversation.generation_completed.disconnect(_on_accepted)
 	if session_runtime.restore_completed.is_connected(_on_restore):
@@ -140,9 +142,10 @@ func _on_semantic_terminal(_result: Dictionary) -> void:
 func _on_restore(_result: Dictionary) -> void:
 	# 即使 Restore 前后 accepted 原文相同，也不能让恢复前的在途请求穿越快照边界。
 	_epoch += 1
+	_disconnect_request()
+	_recovery_pending = false
 	_active = {}
 	_response = ""
-	_timer.stop()
 	_attempted.clear()
 	if provider_adapter.is_busy():
 		provider_adapter.cancel()
@@ -183,55 +186,58 @@ func _pump(expected_epoch: int) -> void:
 		if _attempted.has(key):
 			continue
 		_attempted[key] = true
-		_active = {"index": index, "prefix": prefixes[index], "parent": parent, "epoch": _epoch}
+		_active = {"index": index, "prefix": prefixes[index], "parent": parent, "epoch": _epoch, "game": session_runtime.game_id, "attempt": 1}
 		_begin_diagnostic(index, prefixes[index])
-		var projection := Device.project(session_runtime.world_state, earlier, _profile())
-		var experiences: Array = projection.important_experiences
-		var context := {
-			"accepted_player": entries[index].player_text,
-			"accepted_narrative": entries[index].gm_text,
-			"current_character": projection.character,
-			"current_open_threads": Threads.project(session_runtime.world_state, earlier),
-			"recent_experiences": experiences.slice(maxi(0, experiences.size() - 8)),
-			"frozen_starting_profile": _profile()
-		}
-		var evidence := IdentityBridge.request_evidence(session_runtime, index)
-		_active["identity_receipt_id"] = evidence.get("receipt_id", "")
-		_active["bindings"] = evidence.get("bindings", {})
-		var people := People.fold(session_runtime.world_state, String(session_runtime.game_id), earlier)
-		var subjects := Subjects.request(People.subjects(session_runtime.world_state, String(session_runtime.game_id), earlier), Threads.fold(session_runtime.world_state, earlier), String(session_runtime.game_id), prefixes[index], entries[index], _active.bindings)
-		_active["subjects"] = subjects
-		context["current_people"] = subjects.person_rows
-		context["current_open_threads"] = subjects.thread_rows
-		context["input_mode"] = Accepted.mode(entries[index])
-		var public_evidence: Array = evidence.get("evidence", [])
-		for item: Dictionary in public_evidence:
-			var local_id: String = _active.bindings[item.actor_ref]
-			if people.has(local_id):
-				item["current_snapshot"] = people[local_id].duplicate(true)
-		context["people_evidence"] = public_evidence
-		var content := JSON.stringify(context)
-		if content.to_utf8_buffer().size() > 131072:
-			_finish(false, "input_oversized")
-			return
-		_response = ""
-		_timer.start()
-		var error: Error = provider_adapter.start_stream([{"role": "system", "content": INSTRUCTIONS + PEOPLE_INSTRUCTIONS + THREADS_INSTRUCTIONS + "\ninput_mode=opening 时没有 Player 行动；只整理已接受 Opening 明确建立的玩家可知事实，不虚构选择或经历。"}, {"role": "user", "content": content}])
-		if error != OK and not _active.is_empty():
-			_finish(false, "start_failed")
+		_start_lived()
 		return
 
-func _on_delta(text: String) -> void:
-	if _active.is_empty():
+# recovery 重新向 current owners 取材、生成 request-local refs；不保留上一轮原文或映射。
+func _start_lived() -> void:
+	if not _storage_ready(): return
+	var entries: Array = session_runtime.conversation.get_durable_accepted_entries()
+	var index := int(_active.index)
+	var earlier := entries.slice(0, index)
+	var projection := Device.project(session_runtime.world_state, earlier, _profile())
+	var experiences: Array = projection.important_experiences
+	var context := {
+		"accepted_player": entries[index].player_text,
+		"accepted_narrative": entries[index].gm_text,
+		"current_character": projection.character,
+		"current_open_threads": Threads.project(session_runtime.world_state, earlier),
+		"recent_experiences": experiences.slice(maxi(0, experiences.size() - 8)),
+		"frozen_starting_profile": _profile()
+	}
+	var evidence := IdentityBridge.request_evidence(session_runtime, index)
+	_active["identity_receipt_id"] = evidence.get("receipt_id", "")
+	_active["bindings"] = evidence.get("bindings", {})
+	var people := People.fold(session_runtime.world_state, String(session_runtime.game_id), earlier)
+	var subjects := Subjects.request(People.subjects(session_runtime.world_state, String(session_runtime.game_id), earlier), Threads.fold(session_runtime.world_state, earlier), String(session_runtime.game_id), _active.prefix, entries[index], _active.bindings)
+	_active["subjects"] = subjects
+	context["current_people"] = subjects.person_rows
+	context["current_open_threads"] = subjects.thread_rows
+	context["input_mode"] = Accepted.mode(entries[index])
+	var public_evidence: Array = evidence.get("evidence", [])
+	for item: Dictionary in public_evidence:
+		var local_id: String = _active.bindings[item.actor_ref]
+		if people.has(local_id):
+			item["current_snapshot"] = people[local_id].duplicate(true)
+	context["people_evidence"] = public_evidence
+	var content := JSON.stringify(context)
+	if content.to_utf8_buffer().size() > 131072:
+		_finish(false, "input_oversized")
+		return
+	_send(INSTRUCTIONS + PEOPLE_INSTRUCTIONS + THREADS_INSTRUCTIONS + "\ninput_mode=opening 时没有 Player 行动；只整理已接受 Opening 明确建立的玩家可知事实，不虚构选择或经历。", content)
+
+func _on_delta(text: String, serial: int) -> void:
+	if not _accept_callback(serial):
 		return
 	if _response.to_utf8_buffer().size() + text.to_utf8_buffer().size() > Contract.MAX_RESPONSE_BYTES:
 		_finish(false, "response_oversized")
-		provider_adapter.cancel()
 		return
 	_response += text
 
-func _on_completed() -> void:
-	if _active.is_empty():
+func _on_completed(serial: int) -> void:
+	if not _accept_callback(serial):
 		return
 	var result := Parser.parse(_response, not _active.has("binding"), _active.get("bindings", {}), _active.get("subjects", {}))
 	if result.is_empty():
@@ -272,29 +278,119 @@ func _on_completed() -> void:
 	var committed: Dictionary = session_runtime.commit_world_mutation_durably(mutation, mutation + "-node", next)
 	_finish(bool(committed.success), "committed" if committed.success else "persistence_failure")
 
-func _on_failed(_code: String, _message: String) -> void:
-	if not _active.is_empty():
-		_finish(false, "provider_failure")
+# 只认已有 Provider 的确定状态码；未知错误不能被当作 transient。
+func _on_failed(code: String, _message: String, serial: int) -> void:
+	if not _accept_callback(serial): return
+	if code in ["missing_key", "missing_credential", "invalid_profile", "invalid_persisted_settings", "invalid_settings", "unknown_profile", "unknown_context_limit", "unknown_reasoning_request", "incompatible_context_limit", "http_401", "http_403"]:
+		_finish(false, "configuration_failure")
+	else:
+		_finish(false, "provider_failure", code in ["transport", "http_408", "http_429", "http_500", "http_502", "http_503", "http_504"])
 
-func _on_cancelled() -> void:
-	if not _active.is_empty():
-		_finish(false, "cancelled")
+func _on_cancelled(serial: int) -> void:
+	if _accept_callback(serial): _finish(false, "cancelled")
 
-func _on_timeout() -> void:
-	_finish(false, "timeout")
-	provider_adapter.cancel()
+func _on_timeout(serial: int) -> void:
+	if _accept_callback(serial): _finish(false, "timeout")
 
-func _finish(success: bool, status: String) -> void:
-	_timer.stop()
-	_active = {}
+## 显式取消整个机会；后续显式 retry_pending 才能重新修复。
+func cancel() -> void:
+	if not _active.is_empty(): _finish(false, "cancelled")
+
+# 先失效 serial/解绑，再取消同步 transport；已排队闭包不能误伤下一轮。
+# 当前 Provider.cancel() 同步关闭 HTTPClient 并结束 SSE 生命周期，再允许复用 adapter。
+func _disconnect_request() -> void:
+	_request_serial += 1
+	for name: String in _callbacks:
+		if provider_adapter.is_connected(name, _callbacks[name]): provider_adapter.disconnect(name, _callbacks[name])
+	_callbacks.clear()
+	if _timer != null:
+		_timer.stop()
+		for connection: Dictionary in _timer.timeout.get_connections(): _timer.timeout.disconnect(connection.callable)
+	if provider_adapter.is_busy(): provider_adapter.cancel()
+
+func _storage_ready() -> bool:
+	if not Contract.owner_valid(session_runtime.world_state.get("information_curation", {"schema":Contract.SCHEMA, "turns":{}})):
+		_finish(false, "invalid_storage")
+		return false
+	return true
+
+func _current_error() -> String:
+	if _closed or _active.is_empty() or _active.epoch != _epoch or not session_runtime.is_ready() or _active.game != session_runtime.game_id: return "stale_history"
+	if not Contract.owner_valid(session_runtime.world_state.get("information_curation", {"schema":Contract.SCHEMA, "turns":{}})): return "invalid_storage"
+	if _active.has("binding"):
+		if _active.binding != Contract.initial_binding(_profile()): return "stale_initial"
+	else:
+		var entries: Array = session_runtime.conversation.get_durable_accepted_entries()
+		var prefixes := Contract.prefix_hashes(entries)
+		var index := int(_active.index)
+		if index >= prefixes.size() or prefixes[index] != _active.prefix: return "stale_history"
+		var records := Contract.current_records(session_runtime.world_state, entries.slice(0, index))
+		var parent := "" if records.is_empty() else String(records[-1].id)
+		if parent != _active.parent: return "stale_parent"
+	return ""
+
+func _accept_callback(serial: int) -> bool:
+	if serial != _request_serial or _active.is_empty() or _recovery_pending or _closed: return false
+	var stale := _current_error()
+	if not stale.is_empty():
+		_finish(false, stale)
+		return false
+	return true
+
+func _send(instructions: String, content: String) -> void:
+	_response = ""
+	_request_serial += 1
+	var serial := _request_serial
+	_callbacks = {"text_delta": _on_delta.bind(serial), "completed": _on_completed.bind(serial), "failed": _on_failed.bind(serial), "cancelled": _on_cancelled.bind(serial)}
+	for name: String in _callbacks: provider_adapter.connect(name, _callbacks[name])
+	_timer.timeout.connect(_on_timeout.bind(serial), CONNECT_ONE_SHOT)
+	_timer.start()
+	_attempt_started_ms = Time.get_ticks_msec()
+	if int(_active.attempt) == 2: instructions += "\n" + RECOVERY_CUE
+	var error: Error = provider_adapter.start_stream([{"role":"system", "content":instructions}, {"role":"user", "content":content}])
+	# 同步 failed 可能已排好 recovery；不能再用返回 Error 覆盖它。
+	if error != OK and serial == _request_serial and not _active.is_empty(): _finish(false, "start_failed")
+
+func _finish(success: bool, status: String, transient: bool = false) -> void:
+	if _active.is_empty(): return
+	var recover := not success and int(_active.attempt) == 1 and (status in ["malformed_response", "timeout"] or transient)
+	if recover:
+		var stale := _current_error()
+		if not stale.is_empty():
+			status = stale
+			recover = false
+	_disconnect_request()
 	_response = ""
 	last_result = {"success": success, "status": status}
 	var diagnostic := _diagnostic_context.duplicate()
 	diagnostic.merge(last_result)
+	diagnostic["recovery_scheduled"] = recover
+	diagnostic["elapsed_ms"] = maxi(0, Time.get_ticks_msec() - _attempt_started_ms)
+	# recovery 等待期间保留逻辑机会，使其它 pump 无法抢占第二次额度。
+	_recovery_pending = recover
+	if not recover: _active = {}
 	diagnostic_terminal.emit(diagnostic)
-	finished.emit(last_result.duplicate(true))
-	if not _closed:
-		_pump.call_deferred(_epoch)
+	if recover:
+		_recover.call_deferred(_epoch, _request_serial)
+	else:
+		finished.emit(last_result.duplicate(true))
+		if not _closed: _pump.call_deferred(_epoch)
+
+func _recover(epoch: int, serial: int) -> void:
+	if epoch != _epoch or serial != _request_serial or not _recovery_pending or _closed: return
+	_recovery_pending = false
+	var stale := _current_error()
+	if not stale.is_empty():
+		_finish(false, stale)
+		return
+	_active.attempt = 2
+	_diagnostic_context["attempt"] = 2
+	_diagnostic_context["recovery_started"] = true
+	diagnostic_started.emit(_diagnostic_context.duplicate())
+	# 诊断订阅者也可能触发 Restore/shutdown。
+	if epoch != _epoch or serial != _request_serial or _active.is_empty(): return
+	if _active.has("binding"): _start_initial()
+	else: _start_lived()
 
 # true 表示启动了请求或已处理一个初始操作；失败后允许 lived lane 继续，Narrative 从不等候它。
 func _ensure_initial() -> bool:
@@ -306,7 +402,7 @@ func _ensure_initial() -> bool:
 	if _attempted.has(key):
 		return false
 	_attempted[key] = true
-	_active = {"binding": binding, "epoch": _epoch}
+	_active = {"binding": binding, "epoch": _epoch, "game": session_runtime.game_id, "attempt": 1}
 	_begin_diagnostic(-1, "")
 	if binding.is_empty():
 		_finish(false, "initial_profile_unavailable")
@@ -322,16 +418,16 @@ func _ensure_initial() -> bool:
 	if stored.status != "not_found":
 		_finish(false, "initial_read_failure")
 		return true
-	var content := JSON.stringify({"frozen_starting_profile": Contract.initial_input(profile)}, "", true)
+	_start_initial()
+	return true
+
+func _start_initial() -> void:
+	if not _storage_ready(): return
+	var content := JSON.stringify({"frozen_starting_profile": Contract.initial_input(_profile())}, "", true)
 	if content.to_utf8_buffer().size() > 131072:
 		_finish(false, "input_oversized")
-		return true
-	_response = ""
-	_timer.start()
-	var error: Error = provider_adapter.start_stream([{"role": "system", "content": INITIAL_INSTRUCTIONS}, {"role": "user", "content": content}])
-	if error != OK and not _active.is_empty():
-		_finish(false, "start_failed")
-	return true
+		return
+	_send(INITIAL_INSTRUCTIONS, content)
 
 func _complete_initial(result: Dictionary) -> void:
 	if _active.epoch != _epoch or _active.binding != Contract.initial_binding(_profile()):
@@ -359,6 +455,7 @@ func _commit_initial(initial: Dictionary, first_commit: bool) -> void:
 	_finish(bool(committed.success), "initial_committed" if committed.success else "persistence_failure")
 
 func _begin_diagnostic(index: int, prefix: String) -> void:
+	_attempt_started_ms = Time.get_ticks_msec()
 	_diagnostic_serial += 1
-	_diagnostic_context = {"request": _diagnostic_serial, "source_turn_index": index, "prefix": prefix, "epoch": _epoch}
+	_diagnostic_context = {"request": _diagnostic_serial, "source_turn_index": index, "prefix": prefix, "epoch": _epoch, "attempt": 1, "mode": "initial" if index < 0 else "lived", "recovery_started": false}
 	diagnostic_started.emit(_diagnostic_context.duplicate())
