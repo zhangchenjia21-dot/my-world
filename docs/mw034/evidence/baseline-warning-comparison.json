@@ -1,0 +1,30 @@
+{
+  "reviewed_base": "651362305a7d4a2872a2da9293b9a2a77e33b7f4",
+  "suites": [
+    {
+      "suite": "g4_07b",
+      "current_exit_warnings": 2,
+      "reviewed_base_exit_warnings": 2
+    },
+    {
+      "suite": "g4_08b",
+      "current_exit_warnings": 2,
+      "reviewed_base_exit_warnings": 2
+    },
+    {
+      "suite": "g5_03",
+      "current_exit_warnings": 2,
+      "reviewed_base_exit_warnings": 2
+    },
+    {
+      "suite": "g5_04",
+      "current_exit_warnings": 2,
+      "reviewed_base_exit_warnings": 2
+    },
+    {
+      "suite": "mw003",
+      "current_exit_warnings": 2,
+      "reviewed_base_exit_warnings": 2
+    }
+  ]
+}

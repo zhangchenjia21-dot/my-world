@@ -1,0 +1,44 @@
+Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org
+
+MW-019 PASS isolated runtime
+MW-019 PASS setup
+MW-019 PASS begin player turn
+MW-019 PASS durable accepted Narrative
+MW-019 PASS begin player turn
+MW-019 PASS durable accepted Narrative
+MW-019 PASS durable disclosed failed check
+MW-019 PASS action sees accepted failed check and stakes
+MW-019 PASS action excludes PRIVATE_ACTION
+MW-019 PASS action excludes PRIVATE_CHECK
+MW-019 PASS action excludes PRIVATE_CONTROL
+MW-019 PASS action excludes PRIVATE_WORLD
+MW-019 PASS action excludes input_mode=ooc
+MW-019 PASS action excludes [GM OOC response
+MW-019 PASS ooc sees accepted failed check and stakes
+MW-019 PASS ooc excludes PRIVATE_ACTION
+MW-019 PASS ooc excludes PRIVATE_CHECK
+MW-019 PASS ooc excludes PRIVATE_CONTROL
+MW-019 PASS ooc excludes PRIVATE_WORLD
+MW-019 PASS ooc excludes input_mode=ooc
+MW-019 PASS ooc excludes [GM OOC response
+MW-019 PASS mechanics-owned continuation also retains prior stakes
+MW-019 PASS assembly adds zero Provider calls
+MW-019 PASS Restore before check
+MW-019 PASS displaced future absent
+MW-019 PASS Restore after check
+MW-019 PASS restored current check present
+MW-019 PASS replaced Player slot excluded
+MW-019 PASS same prose OOC excluded
+MW-019 PASS unaccepted check excluded
+MW-019 PASS ambiguous checks excluded
+MW-019 PASS NO_CHECK safe reason
+MW-019 PASS durable NO_CHECK fixture
+MW-019 PASS NO_CHECK reaches production continuation
+MW-019 PASS return to CHECK snapshot
+MW-019 PASS NO_CHECK replaced narrative excluded
+MW-019 PASS bounded latest twelve
+MW-019 PASS accepted OOC
+MW-019 PASS readable history with exact assistant prose
+MW-019 PASS no implementation wrapper
+MW-019 PASS derived request leaves durable bytes unchanged
+MW026 focused checks=41 failures=0

@@ -1,0 +1,1573 @@
+[
+  {
+    "attempt": 1,
+    "case": 1,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 1,
+    "elapsed_ms": 1,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 1,
+    "status": "malformed_response"
+  },
+  {
+    "attempt": 2,
+    "case": 1,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": true,
+    "request": 1
+  },
+  {
+    "attempt": 2,
+    "case": 1,
+    "elapsed_ms": 13,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": true,
+    "request": 1,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 2,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 2,
+    "elapsed_ms": 4,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 2,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 2
+  },
+  {
+    "attempt": 1,
+    "case": 2,
+    "elapsed_ms": 11,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 2,
+    "status": "malformed_response"
+  },
+  {
+    "attempt": 2,
+    "case": 2,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": true,
+    "request": 2
+  },
+  {
+    "attempt": 2,
+    "case": 2,
+    "elapsed_ms": 17,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": true,
+    "request": 2,
+    "status": "committed"
+  },
+  {
+    "attempt": 1,
+    "case": 2,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 3
+  },
+  {
+    "attempt": 1,
+    "case": 2,
+    "elapsed_ms": 10,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 3,
+    "status": "malformed_response"
+  },
+  {
+    "attempt": 2,
+    "case": 2,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": true,
+    "request": 3
+  },
+  {
+    "attempt": 2,
+    "case": 2,
+    "elapsed_ms": 17,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": true,
+    "request": 3,
+    "status": "committed"
+  },
+  {
+    "attempt": 1,
+    "case": 2,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 4
+  },
+  {
+    "attempt": 1,
+    "case": 2,
+    "elapsed_ms": 9,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 4,
+    "status": "malformed_response"
+  },
+  {
+    "attempt": 2,
+    "case": 2,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": true,
+    "request": 4
+  },
+  {
+    "attempt": 2,
+    "case": 2,
+    "elapsed_ms": 12,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": true,
+    "request": 4,
+    "status": "malformed_response"
+  },
+  {
+    "attempt": 1,
+    "case": 2,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 5
+  },
+  {
+    "attempt": 1,
+    "case": 2,
+    "elapsed_ms": 13,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 5,
+    "status": "committed"
+  },
+  {
+    "attempt": 1,
+    "case": 2,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 6
+  },
+  {
+    "attempt": 1,
+    "case": 2,
+    "elapsed_ms": 16,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 6,
+    "status": "committed"
+  },
+  {
+    "attempt": 1,
+    "case": 2,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 7
+  },
+  {
+    "attempt": 1,
+    "case": 2,
+    "elapsed_ms": 12,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 7,
+    "status": "committed"
+  },
+  {
+    "attempt": 1,
+    "case": 3,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 3,
+    "elapsed_ms": 1,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 1,
+    "status": "provider_failure"
+  },
+  {
+    "attempt": 2,
+    "case": 3,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": true,
+    "request": 1
+  },
+  {
+    "attempt": 2,
+    "case": 3,
+    "elapsed_ms": 17,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": true,
+    "request": 1,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 4,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 4,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 1,
+    "status": "provider_failure"
+  },
+  {
+    "attempt": 2,
+    "case": 4,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": true,
+    "request": 1
+  },
+  {
+    "attempt": 2,
+    "case": 4,
+    "elapsed_ms": 17,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": true,
+    "request": 1,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 5,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 5,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 1,
+    "status": "provider_failure"
+  },
+  {
+    "attempt": 2,
+    "case": 5,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": true,
+    "request": 1
+  },
+  {
+    "attempt": 2,
+    "case": 5,
+    "elapsed_ms": 18,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": true,
+    "request": 1,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 6,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 6,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 1,
+    "status": "provider_failure"
+  },
+  {
+    "attempt": 2,
+    "case": 6,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": true,
+    "request": 1
+  },
+  {
+    "attempt": 2,
+    "case": 6,
+    "elapsed_ms": 18,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": true,
+    "request": 1,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 7,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 7,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 1,
+    "status": "provider_failure"
+  },
+  {
+    "attempt": 2,
+    "case": 7,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": true,
+    "request": 1
+  },
+  {
+    "attempt": 2,
+    "case": 7,
+    "elapsed_ms": 17,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": true,
+    "request": 1,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 8,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 8,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 1,
+    "status": "provider_failure"
+  },
+  {
+    "attempt": 2,
+    "case": 8,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": true,
+    "request": 1
+  },
+  {
+    "attempt": 2,
+    "case": 8,
+    "elapsed_ms": 17,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": true,
+    "request": 1,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 9,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 9,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 1,
+    "status": "provider_failure"
+  },
+  {
+    "attempt": 2,
+    "case": 9,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": true,
+    "request": 1
+  },
+  {
+    "attempt": 2,
+    "case": 9,
+    "elapsed_ms": 17,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": true,
+    "request": 1,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 10,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 10,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "configuration_failure"
+  },
+  {
+    "attempt": 1,
+    "case": 11,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 11,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "configuration_failure"
+  },
+  {
+    "attempt": 1,
+    "case": 12,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 12,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "configuration_failure"
+  },
+  {
+    "attempt": 1,
+    "case": 13,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 13,
+    "elapsed_ms": 1,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "configuration_failure"
+  },
+  {
+    "attempt": 1,
+    "case": 14,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 14,
+    "elapsed_ms": 1,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "configuration_failure"
+  },
+  {
+    "attempt": 1,
+    "case": 15,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 15,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "configuration_failure"
+  },
+  {
+    "attempt": 1,
+    "case": 16,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 16,
+    "elapsed_ms": 1,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "configuration_failure"
+  },
+  {
+    "attempt": 1,
+    "case": 17,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 17,
+    "elapsed_ms": 1,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "configuration_failure"
+  },
+  {
+    "attempt": 1,
+    "case": 18,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 18,
+    "elapsed_ms": 1,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "configuration_failure"
+  },
+  {
+    "attempt": 1,
+    "case": 19,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 19,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "configuration_failure"
+  },
+  {
+    "attempt": 1,
+    "case": 20,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 20,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "configuration_failure"
+  },
+  {
+    "attempt": 1,
+    "case": 21,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 21,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "provider_failure"
+  },
+  {
+    "attempt": 1,
+    "case": 22,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 22,
+    "elapsed_ms": 1,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "provider_failure"
+  },
+  {
+    "attempt": 1,
+    "case": 23,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 23,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 1,
+    "status": "timeout"
+  },
+  {
+    "attempt": 2,
+    "case": 23,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": true,
+    "request": 1
+  },
+  {
+    "attempt": 2,
+    "case": 23,
+    "elapsed_ms": 14,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": true,
+    "request": 1,
+    "status": "timeout"
+  },
+  {
+    "attempt": 1,
+    "case": 23,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 2
+  },
+  {
+    "attempt": 1,
+    "case": 23,
+    "elapsed_ms": 20,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 2,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 24,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 24,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 1,
+    "status": "provider_failure"
+  },
+  {
+    "attempt": 2,
+    "case": 24,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": true,
+    "request": 1
+  },
+  {
+    "attempt": 2,
+    "case": 24,
+    "elapsed_ms": 14,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": true,
+    "request": 1,
+    "status": "provider_failure"
+  },
+  {
+    "attempt": 1,
+    "case": 25,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 25,
+    "elapsed_ms": 1,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "response_oversized"
+  },
+  {
+    "attempt": 1,
+    "case": 26,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 26,
+    "elapsed_ms": 4,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 26,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 2
+  },
+  {
+    "attempt": 1,
+    "case": 26,
+    "elapsed_ms": 2,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 2,
+    "status": "input_oversized"
+  },
+  {
+    "attempt": 1,
+    "case": 27,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 27,
+    "elapsed_ms": 1,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "persistence_failure"
+  },
+  {
+    "attempt": 1,
+    "case": 28,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 28,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "cancelled"
+  },
+  {
+    "attempt": 1,
+    "case": 29,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 30,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 30,
+    "elapsed_ms": 4,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 30,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 2
+  },
+  {
+    "attempt": 1,
+    "case": 31,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 31,
+    "elapsed_ms": 4,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 31,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 2
+  },
+  {
+    "attempt": 1,
+    "case": 31,
+    "elapsed_ms": 1,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 2,
+    "status": "malformed_response"
+  },
+  {
+    "attempt": 1,
+    "case": 32,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 32,
+    "elapsed_ms": 4,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 32,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 2
+  },
+  {
+    "attempt": 1,
+    "case": 32,
+    "elapsed_ms": 1,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 2,
+    "status": "malformed_response"
+  },
+  {
+    "attempt": 2,
+    "case": 32,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": true,
+    "request": 2
+  },
+  {
+    "attempt": 1,
+    "case": 33,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 33,
+    "elapsed_ms": 4,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 33,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 2
+  },
+  {
+    "attempt": 1,
+    "case": 33,
+    "elapsed_ms": 12,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 2,
+    "status": "malformed_response"
+  },
+  {
+    "attempt": 1,
+    "case": 33,
+    "elapsed_ms": 15,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 2,
+    "status": "stale_history"
+  },
+  {
+    "attempt": 1,
+    "case": 33,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 3
+  },
+  {
+    "attempt": 1,
+    "case": 33,
+    "elapsed_ms": 16,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 3,
+    "status": "committed"
+  },
+  {
+    "attempt": 1,
+    "case": 34,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 34,
+    "elapsed_ms": 5,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 34,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 2
+  },
+  {
+    "attempt": 1,
+    "case": 34,
+    "elapsed_ms": 17,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 2,
+    "status": "committed"
+  },
+  {
+    "attempt": 1,
+    "case": 34,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 3
+  },
+  {
+    "attempt": 1,
+    "case": 34,
+    "elapsed_ms": 21,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 3,
+    "status": "malformed_response"
+  },
+  {
+    "attempt": 1,
+    "case": 34,
+    "elapsed_ms": 26,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 3,
+    "status": "stale_parent"
+  },
+  {
+    "attempt": 1,
+    "case": 34,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 4
+  },
+  {
+    "attempt": 1,
+    "case": 35,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 35,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 2
+  },
+  {
+    "attempt": 1,
+    "case": 35,
+    "elapsed_ms": 4,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 2,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 36,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 36,
+    "elapsed_ms": 37,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 1,
+    "status": "malformed_response"
+  },
+  {
+    "attempt": 1,
+    "case": 36,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 2
+  },
+  {
+    "attempt": 1,
+    "case": 36,
+    "elapsed_ms": 5,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 2,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 37,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 37,
+    "elapsed_ms": 35,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 1,
+    "status": "malformed_response"
+  },
+  {
+    "attempt": 2,
+    "case": 37,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": true,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 37,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 2
+  },
+  {
+    "attempt": 1,
+    "case": 37,
+    "elapsed_ms": 15,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 2,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 38,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 38,
+    "elapsed_ms": 1,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 1,
+    "status": "malformed_response"
+  },
+  {
+    "attempt": 1,
+    "case": 38,
+    "elapsed_ms": 1,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "cancelled"
+  },
+  {
+    "attempt": 1,
+    "case": 39,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 39,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 1,
+    "status": "malformed_response"
+  },
+  {
+    "attempt": 1,
+    "case": 40,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 40,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "cancelled"
+  },
+  {
+    "attempt": 1,
+    "case": 40,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 2
+  },
+  {
+    "attempt": 1,
+    "case": 40,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 2,
+    "status": "configuration_failure"
+  },
+  {
+    "attempt": 1,
+    "case": 41,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 41,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "cancelled"
+  },
+  {
+    "attempt": 1,
+    "case": 41,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 2
+  },
+  {
+    "attempt": 1,
+    "case": 41,
+    "elapsed_ms": 0,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 2,
+    "status": "input_oversized"
+  },
+  {
+    "attempt": 1,
+    "case": 42,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 42,
+    "elapsed_ms": 4,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "invalid_storage"
+  },
+  {
+    "attempt": 1,
+    "case": 43,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 43,
+    "elapsed_ms": 4,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 43,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 2
+  },
+  {
+    "attempt": 1,
+    "case": 43,
+    "elapsed_ms": 12,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 2,
+    "status": "malformed_response"
+  },
+  {
+    "attempt": 2,
+    "case": 43,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": true,
+    "request": 2
+  },
+  {
+    "attempt": 2,
+    "case": 43,
+    "elapsed_ms": 18,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": true,
+    "request": 2,
+    "status": "stale_history"
+  },
+  {
+    "attempt": 1,
+    "case": 43,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 3
+  },
+  {
+    "attempt": 1,
+    "case": 44,
+    "mode": "initial",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 1
+  },
+  {
+    "attempt": 1,
+    "case": 44,
+    "elapsed_ms": 5,
+    "mode": "initial",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": false,
+    "request": 1,
+    "status": "initial_committed"
+  },
+  {
+    "attempt": 1,
+    "case": 44,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": false,
+    "request": 2
+  },
+  {
+    "attempt": 1,
+    "case": 44,
+    "elapsed_ms": 8,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": true,
+    "recovery_started": false,
+    "request": 2,
+    "status": "malformed_response"
+  },
+  {
+    "attempt": 2,
+    "case": 44,
+    "mode": "lived",
+    "phase": "started",
+    "recovery_started": true,
+    "request": 2
+  },
+  {
+    "attempt": 2,
+    "case": 44,
+    "elapsed_ms": 19,
+    "mode": "lived",
+    "phase": "terminal",
+    "recovery_scheduled": false,
+    "recovery_started": true,
+    "request": 2,
+    "status": "committed"
+  }
+]
